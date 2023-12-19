@@ -57,7 +57,7 @@ public class InnerExceptionSpecs
         try
         {
             // Act
-            act.Should().Throw<BadImageFormatException>()
+            await await act.Should().ThrowAsyncAsync<BadImageFormatException>()
                 .WithInnerExceptionExactly<ArgumentException>();
 
             throw new XunitException("This point should not be reached.");
@@ -76,7 +76,7 @@ public class InnerExceptionSpecs
         Action act = () => throw new BadImageFormatException("", new ArgumentNullException());
 
         // Act / Assert
-        act.Should().Throw<BadImageFormatException>()
+        await await act.Should().ThrowAsyncAsync<BadImageFormatException>()
             .WithInnerExceptionExactly<ArgumentNullException>();
     }
 
@@ -92,7 +92,7 @@ public class InnerExceptionSpecs
         try
         {
             // Act
-            act.Should().Throw<BadImageFormatException>()
+            await await act.Should().ThrowAsyncAsync<BadImageFormatException>()
                 .WithInnerExceptionExactly<ArgumentException>("because {0} should do just that", "the action");
 
             throw new XunitException("This point should not be reached.");
@@ -113,7 +113,7 @@ public class InnerExceptionSpecs
         Action act = () => throw new BadImageFormatException("", new ArgumentNullException());
 
         // Act / Assert
-        act.Should().Throw<BadImageFormatException>()
+        await await act.Should().ThrowAsyncAsync<BadImageFormatException>()
             .WithInnerExceptionExactly(typeof(ArgumentNullException), "because {0} should do just that", "the action");
     }
 
@@ -125,7 +125,7 @@ public class InnerExceptionSpecs
         Action act = () => throw new BadImageFormatException("", new ArgumentNullException());
 
         // Act / Assert
-        act.Should().Throw<BadImageFormatException>()
+        await await act.Should().ThrowAsyncAsync<BadImageFormatException>()
             .WithInnerExceptionExactly(typeof(ArgumentNullException));
     }
 
@@ -141,7 +141,7 @@ public class InnerExceptionSpecs
         try
         {
             // Act
-            act.Should().Throw<BadImageFormatException>()
+            await await act.Should().ThrowAsyncAsync<BadImageFormatException>()
                 .WithInnerExceptionExactly(typeof(ArgumentException), "because {0} should do just that", "the action");
 
             throw new XunitException("This point should not be reached.");
@@ -161,7 +161,7 @@ public class InnerExceptionSpecs
         Action act = () => throw new BadImageFormatException("", new ArgumentNullException());
 
         // Act / Assert
-        act.Should().Throw<BadImageFormatException>()
+        await await act.Should().ThrowAsyncAsync<BadImageFormatException>()
             .WithInnerExceptionExactly<ArgumentNullException>("because {0} should do just that", "the action");
     }
 
@@ -176,7 +176,7 @@ public class InnerExceptionSpecs
             .WithInnerExceptionExactly<ArgumentNullException>("some {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("*some message*no inner exception*");
     }
 
@@ -261,7 +261,7 @@ public class InnerExceptionSpecs
         Action act = () => throw new Exception();
 
         // Act
-        Action act2 = () => act.Should().Throw<Exception>()
+        Action act2 = () => await await act.Should().ThrowAsyncAsync<Exception>()
             .Where(exceptionExpression: null);
 
         // Act

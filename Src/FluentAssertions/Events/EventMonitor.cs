@@ -5,9 +5,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Events;
+namespace FluentAssertionsAsync.Events;
 
 /// <summary>
 /// Tracks the events an object raises.

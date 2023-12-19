@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-namespace FluentAssertions.Execution;
+namespace FluentAssertionsAsync.Execution;
 
 /// <summary>
 /// Implements the XUnit (version 2) test framework adapter.

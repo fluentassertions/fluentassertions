@@ -41,7 +41,7 @@ public partial class StringAssertionSpecs
             Action act = () => str.Should().BeNullOrEmpty("it was not initialized {0}", "yet");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected str to be <null> or empty because it was not initialized yet, but found \"hello\".");
         }
     }
@@ -68,7 +68,7 @@ public partial class StringAssertionSpecs
             Action act = () => str.Should().NotBeNullOrEmpty("a valid string is expected for {0}", "str");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected str not to be <null> or empty because a valid string is expected for str, but found \"\".");
         }
 
@@ -82,7 +82,7 @@ public partial class StringAssertionSpecs
             Action act = () => str.Should().NotBeNullOrEmpty("a valid string is expected for {0}", "str");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected str not to be <null> or empty because a valid string is expected for str, but found <null>.");
         }
     }

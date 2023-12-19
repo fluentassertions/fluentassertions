@@ -1,7 +1,7 @@
 #if NET6_0_OR_GREATER
 using System;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 internal static class TimeOnlyExtensions
 {

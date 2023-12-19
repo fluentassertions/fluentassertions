@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Formatting;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 internal static class StringExtensions
 {

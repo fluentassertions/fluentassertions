@@ -127,7 +127,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => subject.Should().NotEqual(expected);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         public static IEnumerable<object[]> SingleDictionaryData() =>

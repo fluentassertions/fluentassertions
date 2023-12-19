@@ -20,17 +20,17 @@ public partial class StringAssertionSpecs
             string expectedEquivalent = "abc";
 
             // Act / Assert
-            actual.Should().BeEquivalentTo(expectedEquivalent);
+            await actual.Should().BeEquivalentToAsync(expectedEquivalent);
         }
 
         [Fact]
         public void When_strings_differ_other_than_by_case_it_should_throw()
         {
             // Act
-            Action act = () => "ADC".Should().BeEquivalentTo("abc", "we will test {0} + {1}", 1, 2);
+            Action act = () => "ADC".Should().BeEquivalentToAsync("abc", "we will test {0} + {1}", 1, 2);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc\" because we will test 1 + 2, but \"ADC\" differs near \"DC\" (index 1).");
         }
 
@@ -39,10 +39,10 @@ public partial class StringAssertionSpecs
         public void When_non_null_string_is_expected_to_be_equivalent_to_null_it_should_throw()
         {
             // Act
-            Action act = () => "ABCDEF".Should().BeEquivalentTo(null);
+            Action act = () => "ABCDEF".Should().BeEquivalentToAsync(null);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to be equivalent to <null>, but found \"ABCDEF\".");
         }
 
@@ -50,10 +50,10 @@ public partial class StringAssertionSpecs
         public void When_non_empty_string_is_expected_to_be_equivalent_to_empty_it_should_throw()
         {
             // Act
-            Action act = () => "ABC".Should().BeEquivalentTo("");
+            Action act = () => "ABC".Should().BeEquivalentToAsync("");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"\" with a length of 0, but \"ABC\" has a length of 3, differs near \"ABC\" (index 0).");
         }
 
@@ -62,10 +62,10 @@ public partial class StringAssertionSpecs
         public void When_string_is_equivalent_but_too_short_it_should_throw()
         {
             // Act
-            Action act = () => "AB".Should().BeEquivalentTo("ABCD");
+            Action act = () => "AB".Should().BeEquivalentToAsync("ABCD");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"ABCD\" with a length of 4, but \"AB\" has a length of 2*");
         }
 
@@ -74,10 +74,10 @@ public partial class StringAssertionSpecs
         {
             // Act
             string someString = null;
-            Action act = () => someString.Should().BeEquivalentTo("abc", "we will test {0} + {1}", 1, 2);
+            Action act = () => someString.Should().BeEquivalentToAsync("abc", "we will test {0} + {1}", 1, 2);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected someString to be equivalent to \"abc\" because we will test 1 + 2, but found <null>.");
         }
 
@@ -86,10 +86,10 @@ public partial class StringAssertionSpecs
             When_the_expected_string_is_equivalent_to_the_actual_string_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
         {
             // Act
-            Action act = () => "ABC".Should().BeEquivalentTo("abc ", "because I say {0}", "so");
+            Action act = () => "ABC".Should().BeEquivalentToAsync("abc ", "because I say {0}", "so");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc \" because I say so, but it misses some extra whitespace at the end.");
         }
 
@@ -98,10 +98,10 @@ public partial class StringAssertionSpecs
             When_the_actual_string_equivalent_to_the_expected_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
         {
             // Act
-            Action act = () => "ABC ".Should().BeEquivalentTo("abc", "because I say {0}", "so");
+            Action act = () => "ABC ".Should().BeEquivalentToAsync("abc", "because I say {0}", "so");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc\" because I say so, but it has unexpected whitespace at the end.");
         }
     }
@@ -116,7 +116,7 @@ public partial class StringAssertionSpecs
             string unexpected = "abc";
 
             // Act
-            Action action = () => actual.Should().NotBeEquivalentTo(unexpected, "because I say {0}", "so");
+            Action action = () => actual.Should().NotBeEquivalentToAsync(unexpected, "because I say {0}", "so");
 
             // Assert
             action.Should().Throw<XunitException>()
@@ -127,7 +127,7 @@ public partial class StringAssertionSpecs
         public void When_strings_differ_other_than_by_case_it_should_not_throw()
         {
             // Act
-            Action act = () => "ADC".Should().NotBeEquivalentTo("abc");
+            Action act = () => "ADC".Should().NotBeEquivalentToAsync("abc");
 
             // Assert
             act.Should().NotThrow();
@@ -137,7 +137,7 @@ public partial class StringAssertionSpecs
         public void When_non_null_string_is_expected_to_be_equivalent_to_null_it_should_not_throw()
         {
             // Act
-            Action act = () => "ABCDEF".Should().NotBeEquivalentTo(null);
+            Action act = () => "ABCDEF".Should().NotBeEquivalentToAsync(null);
 
             // Assert
             act.Should().NotThrow();
@@ -147,7 +147,7 @@ public partial class StringAssertionSpecs
         public void When_non_empty_string_is_expected_to_be_equivalent_to_empty_it_should_not_throw()
         {
             // Act
-            Action act = () => "ABC".Should().NotBeEquivalentTo("");
+            Action act = () => "ABC".Should().NotBeEquivalentToAsync("");
 
             // Assert
             act.Should().NotThrow();
@@ -157,7 +157,7 @@ public partial class StringAssertionSpecs
         public void When_string_is_equivalent_but_too_short_it_should_not_throw()
         {
             // Act
-            Action act = () => "AB".Should().NotBeEquivalentTo("ABCD");
+            Action act = () => "AB".Should().NotBeEquivalentToAsync("ABCD");
 
             // Assert
             act.Should().NotThrow();
@@ -170,7 +170,7 @@ public partial class StringAssertionSpecs
             string someString = null;
 
             // Act
-            Action act = () => someString.Should().NotBeEquivalentTo("abc");
+            Action act = () => someString.Should().NotBeEquivalentToAsync("abc");
 
             // Assert
             act.Should().NotThrow();
@@ -180,7 +180,7 @@ public partial class StringAssertionSpecs
         public void When_the_expected_string_is_equivalent_to_the_actual_string_but_with_trailing_spaces_it_should_not_throw()
         {
             // Act
-            Action act = () => "ABC".Should().NotBeEquivalentTo("abc ");
+            Action act = () => "ABC".Should().NotBeEquivalentToAsync("abc ");
 
             // Assert
             act.Should().NotThrow();
@@ -190,7 +190,7 @@ public partial class StringAssertionSpecs
         public void When_the_actual_string_equivalent_to_the_expected_but_with_trailing_spaces_it_should_not_throw()
         {
             // Act
-            Action act = () => "ABC ".Should().NotBeEquivalentTo("abc");
+            Action act = () => "ABC ".Should().NotBeEquivalentToAsync("abc");
 
             // Assert
             act.Should().NotThrow();

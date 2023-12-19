@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FluentAssertions.Extensions;
+using System.Threading.Tasks;
+using FluentAssertionsAsync;
+using FluentAssertionsAsync.Equivalency;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
@@ -173,7 +176,7 @@ public class CollectionSpecs
     }
 
     [Fact]
-    public void When_the_expectation_is_an_array_of_interface_type_it_should_respect_declared_types()
+    public async Task When_the_expectation_is_an_array_of_interface_type_it_should_respect_declared_types()
     {
         // Arrange
         var actual = new IInterface[]
@@ -187,14 +190,14 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().NotThrow<XunitException>("it should respect the declared types on IInterface");
+        await act.Should().NotThrowAsync<XunitException>("it should respect the declared types on IInterface");
     }
 
     [Fact]
-    public void When_the_expectation_has_fewer_dimensions_than_a_multi_dimensional_subject_it_should_fail()
+    public async Task When_the_expectation_has_fewer_dimensions_than_a_multi_dimensional_subject_it_should_fail()
     {
         // Arrange
         object objectA = new();
@@ -204,30 +207,30 @@ public class CollectionSpecs
         var expected = actual[0];
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("*be a collection with 2 item(s)*contains 1 item(s) less than*",
                 "adding a `params object[]` overload cannot distinguish 'an array of objects' from 'an element which is an array of objects'");
     }
 
     [Fact]
-    public void When_the_expectation_is_an_array_of_anonymous_types_it_should_respect_runtime_types()
+    public async Task When_the_expectation_is_an_array_of_anonymous_types_it_should_respect_runtime_types()
     {
         // Arrange
         var actual = new[] { new { A = 1, B = 2 }, new { A = 1, B = 2 } };
         var expected = new object[] { new { A = 1 }, new { B = 2 } };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_a_byte_array_does_not_match_strictly_it_should_throw()
+    public async Task When_a_byte_array_does_not_match_strictly_it_should_throw()
     {
         // Arrange
         var subject = new byte[] { 1, 2, 3, 4, 5, 6 };
@@ -235,15 +238,15 @@ public class CollectionSpecs
         var expectation = new byte[] { 6, 5, 4, 3, 2, 1 };
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation);
+        Func<Task> action = async () => await subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage("Expected*subject[0]*6*1*");
     }
 
     [Fact]
-    public void When_a_byte_array_does_not_match_strictly_and_order_is_not_strict_it_should_throw()
+    public async Task When_a_byte_array_does_not_match_strictly_and_order_is_not_strict_it_should_throw()
     {
         // Arrange
         var subject = new byte[] { 1, 2, 3, 4, 5, 6 };
@@ -251,15 +254,15 @@ public class CollectionSpecs
         var expectation = new byte[] { 6, 5, 4, 3, 2, 1 };
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation, options => options.WithoutStrictOrdering());
+        Func<Task> action = async () => await subject.Should().BeEquivalentToAsync(expectation, options => options.WithoutStrictOrdering());
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage("Expected*subject[0]*6*1*");
     }
 
     [Fact]
-    public void
+    public async Task
         When_a_collection_property_is_a_byte_array_which_does_not_match_strictly_and_order_is_not_strict_it_should_throw()
     {
         // Arrange
@@ -268,15 +271,15 @@ public class CollectionSpecs
         var expectation = new { bytes = new byte[] { 6, 5, 4, 3, 2, 1 } };
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation, options => options.WithoutStrictOrdering());
+        Func<Task> action = async () => await subject.Should().BeEquivalentToAsync(expectation, options => options.WithoutStrictOrdering());
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage("Expected *bytes[0]*6*1*");
     }
 
     [Fact]
-    public void When_a_collection_does_not_match_it_should_include_items_in_message()
+    public async Task When_a_collection_does_not_match_it_should_include_items_in_message()
     {
         // Arrange
         var subject = new[] { 1, 2 };
@@ -284,15 +287,15 @@ public class CollectionSpecs
         var expectation = new[] { 3, 2, 1 };
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation);
+        Func<Task> action = async () => await subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage("Expected*but*{1, 2}*1 item(s) less than*{3, 2, 1}*");
     }
 
     [Fact]
-    public void When_collection_of_same_count_does_not_match_it_should_include_at_most_10_items_in_message()
+    public async Task When_collection_of_same_count_does_not_match_it_should_include_at_most_10_items_in_message()
     {
         // Arrange
         const int commonLength = 11;
@@ -302,15 +305,15 @@ public class CollectionSpecs
         var expectation = Enumerable.Repeat(20, commonLength).ToArray();
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation);
+        Func<Task> action = async () => await subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        action.Should().Throw<XunitException>().Which
+        (await action.Should().ThrowAsync<XunitException>()).Which
             .Message.Should().Contain("[9]").And.NotContain("[10]");
     }
 
     [Fact]
-    public void When_a_nullable_collection_does_not_match_it_should_throw()
+    public async Task When_a_nullable_collection_does_not_match_it_should_throw()
     {
         // Arrange
         var subject = new
@@ -319,17 +322,50 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(new
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(new
         {
             Values = (ImmutableArray<int>?)ImmutableArray.Create(1, 2, 4)
         });
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("Expected*Values[2]*to be 4, but found 3*");
+        await act.Should().ThrowAsync<XunitException>().WithMessage("Expected*Values[2]*to be 4, but found 3*");
     }
 
     [Fact]
-    public void
+    public async Task When_object_with_async_enumerable_are_different_it_should_throw()
+    {
+        // Arrange
+        AsyncEnumerableDto dto = new()
+        {
+            Foo = AsyncEnumerable.Range(2, 1)
+        };
+
+        // Act
+        Func<Task> act = async () => await dto.Should().BeEquivalentToAsync(new AsyncEnumerableDto
+        {
+            Foo = Enumerable.Range(1, 2).ToAsyncEnumerable()
+        });
+
+        // Assert
+        await act.Should().ThrowAsync<XunitException>().WithMessage("Expected property dto.Foo to be a collection with 2 item(s)*contains 1 item(s) less than*");
+    }
+
+    [Fact]
+    public async Task When_subject_and_expectation_with_async_enumerable_are_different_it_should_throw()
+    {
+        // Arrange
+        IAsyncEnumerable<int> range = AsyncEnumerable.Range(1, 3);
+
+        // Act
+        Func<Task> act = async () => await range
+            .Should().BeEquivalentToAsync(AsyncEnumerable.Range(1, 5));
+
+        // Assert
+        await act.Should().ThrowAsync<XunitException>().WithMessage("Expected range to be a collection with 5 item(s)*contains 2 item(s) less than*");
+    }
+
+    [Fact]
+    public async Task
         When_a_collection_contains_a_reference_to_an_object_that_is_also_in_its_parent_it_should_not_be_treated_as_a_cyclic_reference()
     {
         // Arrange
@@ -348,16 +384,16 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act =
-            () =>
-                logbookEntry.Should().BeEquivalentTo(equivalentLogbookEntry);
+        Func<Task> act = async
+            () => await
+                logbookEntry.Should().BeEquivalentToAsync(equivalentLogbookEntry);
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_a_collection_contains_less_items_than_expected_it_should_throw()
+    public async Task When_a_collection_contains_less_items_than_expected_it_should_throw()
     {
         // Arrange
         var expected = new
@@ -375,16 +411,16 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage(
                 "*Customers*to be a collection with 2 item(s), but*contains 1 item(s) less than*");
     }
 
     [Fact]
-    public void When_a_collection_contains_more_items_than_expected_it_should_throw()
+    public async Task When_a_collection_contains_more_items_than_expected_it_should_throw()
     {
         // Arrange
         var expected = new { Customers = new[] { new Customer { Age = 38, Birthdate = 20.September(1973), Name = "John" } } };
@@ -399,16 +435,16 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage(
                 "*Customers*to be a collection with 1 item(s), but*contains 1 item(s) more than*");
     }
 
     [Fact]
-    public void When_a_collection_property_contains_objects_with_matching_properties_in_any_order_it_should_not_throw()
+    public async Task When_a_collection_property_contains_objects_with_matching_properties_in_any_order_it_should_not_throw()
     {
         // Arrange
         var expected = new
@@ -430,26 +466,26 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected, o => o.ExcludingMissingMembers());
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expected, o => o.ExcludingMissingMembers());
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_two_deeply_nested_collections_are_equivalent_while_ignoring_the_order_it_should_not_throw()
+    public async Task When_two_deeply_nested_collections_are_equivalent_while_ignoring_the_order_it_should_not_throw()
     {
         // Arrange
         var items = new[] { new int[0], new[] { 42 } };
 
         // Act / Assert
-        items.Should().BeEquivalentTo(
+        await items.Should().BeEquivalentToAsync(
             new[] { new[] { 42 }, new int[0] }
         );
     }
 
     [Fact]
-    public void When_a_collection_property_contains_objects_with_mismatching_properties_it_should_throw()
+    public async Task When_a_collection_property_contains_objects_with_mismatching_properties_it_should_throw()
     {
         // Arrange
         var expected = new { Customers = new[] { new Customer { Age = 38, Birthdate = 20.September(1973), Name = "John" } } };
@@ -460,15 +496,15 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("*Customers[0].Name*John*Jane*");
     }
 
     [Fact]
-    public void When_the_subject_is_a_non_generic_collection_it_should_still_work()
+    public async Task When_the_subject_is_a_non_generic_collection_it_should_still_work()
     {
         // Arrange
         object item = new();
@@ -476,11 +512,11 @@ public class CollectionSpecs
         IList readOnlyList = ArrayList.ReadOnly(array);
 
         // Act / Assert
-        readOnlyList.Should().BeEquivalentTo(array);
+        await readOnlyList.Should().BeEquivalentToAsync(array);
     }
 
     [Fact]
-    public void When_a_collection_property_was_expected_but_the_property_is_not_a_collection_it_should_throw()
+    public async Task When_a_collection_property_was_expected_but_the_property_is_not_a_collection_it_should_throw()
     {
         // Arrange
         var subject = new { Customers = "Jane, John" };
@@ -488,16 +524,16 @@ public class CollectionSpecs
         var expected = new { Customers = new[] { new Customer { Age = 38, Birthdate = 20.September(1973), Name = "John" } } };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage(
                 "Expected*Customers*collection*String*");
     }
 
     [Fact]
-    public void When_a_complex_object_graph_with_collections_matches_expectations_it_should_not_throw()
+    public async Task When_a_complex_object_graph_with_collections_matches_expectations_it_should_not_throw()
     {
         // Arrange
         var subject = new { Bytes = new byte[] { 1, 2, 3, 4 }, Object = new { A = 1, B = 2 } };
@@ -505,14 +541,14 @@ public class CollectionSpecs
         var expected = new { Bytes = new byte[] { 1, 2, 3, 4 }, Object = new { A = 1, B = 2 } };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_a_deeply_nested_property_of_a_collection_with_an_invalid_value_is_excluded_it_should_not_throw()
+    public async Task When_a_deeply_nested_property_of_a_collection_with_an_invalid_value_is_excluded_it_should_not_throw()
     {
         // Arrange
         var subject = new
@@ -538,17 +574,17 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected,
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expected,
             options => options.Excluding(x => x.Level.Collection[1].Number).Excluding(x => x.Level.Collection[1].Text));
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     public class For
     {
         [Fact]
-        public void When_property_in_collection_is_excluded_it_should_not_throw()
+        public async Task When_property_in_collection_is_excluded_it_should_not_throw()
         {
             // Arrange
             var subject = new
@@ -592,14 +628,14 @@ public class CollectionSpecs
             };
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expected,
+            await subject.Should().BeEquivalentToAsync(expected,
                 options => options
                     .For(x => x.Level.Collection)
                     .Exclude(x => x.Number));
         }
 
         [Fact]
-        public void When_property_in_collection_is_excluded_it_should_not_throw_if_root_is_a_collection()
+        public async Task When_property_in_collection_is_excluded_it_should_not_throw_if_root_is_a_collection()
         {
             // Arrange
             var subject = new
@@ -643,14 +679,38 @@ public class CollectionSpecs
             };
 
             // Act / Assert
-            new[] { subject }.Should().BeEquivalentTo(new[] { expected },
+            await new[] { subject }.Should().BeEquivalentToAsync(new[] { expected },
                 options => options
                     .For(x => x.Level.Collection)
                     .Exclude(x => x.Number));
         }
 
         [Fact]
-        public void When_collection_in_collection_is_excluded_it_should_not_throw()
+        public async Task When_object_with_async_enumerable_are_equivalent_it_should_not_throw()
+        {
+            // Arrange
+            AsyncEnumerableDto dto = new()
+            {
+                Foo = AsyncEnumerable.Range(1, 2)
+            };
+
+            // Act / Assert
+            await dto.Should().BeEquivalentToAsync(new AsyncEnumerableDto
+            {
+                Foo = Enumerable.Range(1, 2).ToAsyncEnumerable()
+            });
+        }
+
+        [Fact]
+        public async Task When_subject_and_expectation_of_async_enumerable_are_equivalent_it_should_not_throw()
+        {
+            // Arrange / Act / Assert
+            await AsyncEnumerable.Range(1, 5)
+                .Should().BeEquivalentToAsync(AsyncEnumerable.Range(1, 5));
+        }
+
+        [Fact]
+        public async Task When_collection_in_collection_is_excluded_it_should_not_throw()
         {
             // Arrange
             var subject = new
@@ -718,14 +778,14 @@ public class CollectionSpecs
             };
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expected,
+            await subject.Should().BeEquivalentToAsync(expected,
                 options => options
                     .For(x => x.Level.Collection)
                     .Exclude(x => x.NextCollection));
         }
 
         [Fact]
-        public void When_property_in_collection_in_collection_is_excluded_it_should_not_throw()
+        public async Task When_property_in_collection_in_collection_is_excluded_it_should_not_throw()
         {
             // Arrange
             var subject = new
@@ -795,7 +855,7 @@ public class CollectionSpecs
             };
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expected,
+            await subject.Should().BeEquivalentToAsync(expected,
                 options => options
                     .For(x => x.Level.Collection)
                     .For(x => x.NextCollection)
@@ -804,7 +864,7 @@ public class CollectionSpecs
         }
 
         [Fact]
-        public void When_property_in_object_in_collection_is_excluded_it_should_not_throw()
+        public async Task When_property_in_object_in_collection_is_excluded_it_should_not_throw()
         {
             // Arrange
             var subject = new
@@ -836,7 +896,7 @@ public class CollectionSpecs
             };
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expected,
+            await subject.Should().BeEquivalentToAsync(expected,
                 options => options
                     .For(x => x.Collection)
                     .Exclude(x => x.Level.Text)
@@ -844,7 +904,7 @@ public class CollectionSpecs
         }
 
         [Fact]
-        public void When_property_in_object_in_collection_in_object_in_collection_is_excluded_it_should_not_throw()
+        public async Task When_property_in_object_in_collection_in_object_in_collection_is_excluded_it_should_not_throw()
         {
             // Arrange
             var subject = new
@@ -894,7 +954,7 @@ public class CollectionSpecs
             };
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expected,
+            await subject.Should().BeEquivalentToAsync(expected,
                 options => options
                     .For(x => x.Collection)
                     .For(x => x.Level.Collection)
@@ -903,7 +963,7 @@ public class CollectionSpecs
         }
 
         [Fact]
-        public void A_nested_exclusion_can_be_followed_by_a_root_level_exclusion()
+        public async Task A_nested_exclusion_can_be_followed_by_a_root_level_exclusion()
         {
             // Arrange
             var subject = new
@@ -949,14 +1009,14 @@ public class CollectionSpecs
             };
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expected,
+            await subject.Should().BeEquivalentToAsync(expected,
                 options => options
                     .For(x => x.Level.Collection).Exclude(x => x.Text)
                     .Excluding(x => x.Text));
         }
 
         [Fact]
-        public void A_nested_exclusion_can_be_preceded_by_a_root_level_exclusion()
+        public async Task A_nested_exclusion_can_be_preceded_by_a_root_level_exclusion()
         {
             // Arrange
             var subject = new
@@ -1002,14 +1062,14 @@ public class CollectionSpecs
             };
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expected,
+            await subject.Should().BeEquivalentToAsync(expected,
                 options => options
                     .Excluding(x => x.Text)
                     .For(x => x.Level.Collection).Exclude(x => x.Text));
         }
 
         [Fact]
-        public void A_nested_exclusion_can_be_followed_by_a_nested_exclusion()
+        public async Task A_nested_exclusion_can_be_followed_by_a_nested_exclusion()
         {
             // Arrange
             var subject = new
@@ -1055,7 +1115,7 @@ public class CollectionSpecs
             };
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expected,
+            await subject.Should().BeEquivalentToAsync(expected,
                 options => options
                     .For(x => x.Level.Collection).Exclude(x => x.Text)
                     .For(x => x.Level.Collection).Exclude(x => x.Number));
@@ -1063,7 +1123,7 @@ public class CollectionSpecs
     }
 
     [Fact]
-    public void When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs()
+    public async Task When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs()
     {
         // Arrange
         var expected = new { Customers = new Dictionary<string, string> { ["Key2"] = "Value2", ["Key1"] = "Value1" } };
@@ -1071,29 +1131,29 @@ public class CollectionSpecs
         var subject = new { Customers = new Dictionary<string, string> { ["Key1"] = "Value1", ["Key2"] = "Value2" } };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_injecting_a_null_config_it_should_throw()
+    public async Task When_injecting_a_null_config_it_should_throw()
     {
         // Arrange
         IEnumerable<string> collection1 = new EnumerableOfStringAndObject();
         IEnumerable<string> collection2 = new EnumerableOfStringAndObject();
 
         // Act
-        Action act = () => collection1.Should().BeEquivalentTo(collection2, config: null);
+        Func<Task> act = async () => await collection1.Should().BeEquivalentToAsync(collection2, config: null);
 
         // Assert
-        act.Should().ThrowExactly<ArgumentNullException>()
+        await act.Should().ThrowExactlyAsync<ArgumentNullException>()
             .WithParameterName("config");
     }
 
     [Fact]
-    public void
+    public async Task
         When_a_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_and_runtime_checking_is_configured_it_should_fail()
     {
         // Arrange
@@ -1101,16 +1161,16 @@ public class CollectionSpecs
         IEnumerable<string> collection2 = new EnumerableOfStringAndObject();
 
         // Act
-        Action act =
-            () => collection1.Should().BeEquivalentTo(collection2, opts => opts.RespectingRuntimeTypes());
+        Func<Task> act = async
+            () => await collection1.Should().BeEquivalentToAsync(collection2, opts => opts.RespectingRuntimeTypes());
 
         // Assert
-        act.Should().Throw<XunitException>("the runtime type is assignable to two IEnumerable interfaces")
+        await act.Should().ThrowAsync<XunitException>("the runtime type is assignable to two IEnumerable interfaces")
             .WithMessage("*cannot determine which one*");
     }
 
     [Fact]
-    public void When_a_specific_property_is_included_it_should_ignore_the_rest_of_the_properties()
+    public async Task When_a_specific_property_is_included_it_should_ignore_the_rest_of_the_properties()
     {
         // Arrange
         var result = new[] { new { A = "aaa", B = "bbb" } };
@@ -1118,14 +1178,14 @@ public class CollectionSpecs
         var expected = new { A = "aaa", B = "ccc" };
 
         // Act
-        Action act = () => result.Should().BeEquivalentTo(new[] { expected }, options => options.Including(x => x.A));
+        Func<Task> act = () => result.Should().BeEquivalentToAsync(new[] { expected }, options => options.Including(x => x.A));
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void
+    public async Task
         When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_and_runtime_checking_is_configured_is_should_use_the_runtime_type()
     {
         // Arrange
@@ -1133,80 +1193,80 @@ public class CollectionSpecs
         ICollection collection2 = new List<Customer> { new() };
 
         // Act
-        Action act =
-            () => collection1.Should().BeEquivalentTo(collection2, opts => opts.RespectingRuntimeTypes());
+        Func<Task> act =
+            () => collection1.Should().BeEquivalentToAsync(collection2, opts => opts.RespectingRuntimeTypes());
 
         // Assert
-        act.Should().Throw<XunitException>("the items have different runtime types");
+        await act.Should().ThrowAsync<XunitException>("the items have different runtime types");
     }
 
     [Fact]
-    public void When_all_strings_in_the_collection_are_equal_to_the_expected_string_it_should_succeed()
+    public async Task When_all_strings_in_the_collection_are_equal_to_the_expected_string_it_should_succeed()
     {
         // Arrange
         var subject = new List<string> { "one", "one", "one" };
 
         // Act
-        Action action = () => subject.Should().AllBe("one");
+        Func<Task> action = () => subject.Should().AllBeAsync("one");
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_all_strings_in_the_collection_are_equal_to_the_expected_string_it_should_allow_chaining()
+    public async Task When_all_strings_in_the_collection_are_equal_to_the_expected_string_it_should_allow_chaining()
     {
         // Arrange
         var subject = new List<string> { "one", "one", "one" };
 
         // Act
-        Action action = () => subject.Should().AllBe("one").And.HaveCount(3);
+        Func<Task> action = async () => (await subject.Should().AllBeAsync("one")).And.HaveCount(3);
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_some_string_in_the_collection_is_not_equal_to_the_expected_string_it_should_throw()
+    public async Task When_some_string_in_the_collection_is_not_equal_to_the_expected_string_it_should_throw()
     {
         // Arrange
         var subject = new[] { "one", "two", "six" };
 
         // Act
-        Action action = () => subject.Should().AllBe("one");
+        Func<Task> action = () => subject.Should().AllBeAsync("one");
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage(
+        await action.Should().ThrowAsync<XunitException>().WithMessage(
             "Expected subject[1]*to be \"one\", but \"two\" differs near \"two\" (index 0).*" +
             "Expected subject[2]*to be \"one\", but \"six\" differs near \"six\" (index 0).*");
     }
 
     [Fact]
-    public void When_some_string_in_the_collection_is_in_different_case_than_expected_string_it_should_throw()
+    public async Task When_some_string_in_the_collection_is_in_different_case_than_expected_string_it_should_throw()
     {
         // Arrange
         var subject = new[] { "one", "One", "ONE" };
 
         // Act
-        Action action = () => subject.Should().AllBe("one");
+        Func<Task> action = () => subject.Should().AllBeAsync("one");
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage(
+        await action.Should().ThrowAsync<XunitException>().WithMessage(
             "Expected subject[1]*to be \"one\", but \"One\" differs near \"One\" (index 0).*" +
             "Expected subject[2]*to be \"one\", but \"ONE\" differs near \"ONE\" (index 0).*");
     }
 
     [Fact]
-    public void When_more_than_10_strings_in_the_collection_are_not_equal_to_expected_string_only_10_are_reported()
+    public async Task When_more_than_10_strings_in_the_collection_are_not_equal_to_expected_string_only_10_are_reported()
     {
         // Arrange
         var subject = Enumerable.Repeat("two", 11);
 
         // Act
-        Action action = () => subject.Should().AllBe("one");
+        Func<Task> action = () => subject.Should().AllBeAsync("one");
 
         // Assert
-        action.Should().Throw<XunitException>().Which
+        (await action.Should().ThrowAsync<XunitException>()).Which
             .Message.Should().Contain("subject[9] to be \"one\", but \"two\" differs near \"two\" (index 0)")
             .And.NotContain("subject[10]");
     }
@@ -1225,11 +1285,11 @@ public class CollectionSpecs
         }
 
         // Act
-        Action action = () =>
+        Func<Task> action = async () =>
         {
             try
             {
-                subject.Should().AllBe("one");
+                await subject.Should().AllBeAsync("one");
             }
             catch
             {
@@ -1242,7 +1302,7 @@ public class CollectionSpecs
     }
 
     [Fact]
-    public void When_all_subject_items_are_equivalent_to_expectation_object_it_should_succeed()
+    public async Task When_all_subject_items_are_equivalent_to_expectation_object_it_should_succeed()
     {
         // Arrange
         var subject = new List<SomeDto>
@@ -1253,7 +1313,7 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action = () => subject.Should().AllBeEquivalentTo(new
+        Func<Task> action = () => subject.Should().AllBeEquivalentToAsync(new
         {
             Name = "someDto",
             Age = 1,
@@ -1261,11 +1321,11 @@ public class CollectionSpecs
         });
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_all_subject_items_are_equivalent_to_expectation_object_it_should_allow_chaining()
+    public async Task When_all_subject_items_are_equivalent_to_expectation_object_it_should_allow_chaining()
     {
         // Arrange
         var subject = new List<SomeDto>
@@ -1276,7 +1336,7 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action = () =>
+        Func<Task> action = async () =>
         {
             var expectation = new
             {
@@ -1285,38 +1345,38 @@ public class CollectionSpecs
                 Birthdate = default(DateTime)
             };
 
-            subject.Should().AllBeEquivalentTo(expectation).And.HaveCount(3);
+            (await subject.Should().AllBeEquivalentToAsync(expectation)).And.HaveCount(3);
         };
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_some_subject_items_are_not_equivalent_to_expectation_object_it_should_throw()
+    public async Task When_some_subject_items_are_not_equivalent_to_expectation_object_it_should_throw()
     {
         // Arrange
         var subject = new[] { 1, 2, 3 };
 
         // Act
-        Action action = () => subject.Should().AllBeEquivalentTo(1);
+        Func<Task> action = () => subject.Should().AllBeEquivalentToAsync(1);
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage(
+        await action.Should().ThrowAsync<XunitException>().WithMessage(
             "Expected subject[1]*to be 1, but found 2.*Expected subject[2]*to be 1, but found 3*");
     }
 
     [Fact]
-    public void When_more_than_10_subjects_items_are_not_equivalent_to_expectation_only_10_are_reported()
+    public async Task When_more_than_10_subjects_items_are_not_equivalent_to_expectation_only_10_are_reported()
     {
         // Arrange
         var subject = Enumerable.Repeat(2, 11);
 
         // Act
-        Action action = () => subject.Should().AllBeEquivalentTo(1);
+        Func<Task> action = () => subject.Should().AllBeEquivalentToAsync(1);
 
         // Assert
-        action.Should().Throw<XunitException>().Which
+        (await action.Should().ThrowAsync<XunitException>()).Which
             .Message.Should().Contain("subject[9] to be 1, but found 2")
             .And.NotContain("item[10]");
     }
@@ -1335,11 +1395,11 @@ public class CollectionSpecs
         }
 
         // Act
-        Action action = () =>
+        Func<Task> action = async () =>
         {
             try
             {
-                subject.Should().AllBeEquivalentTo(1);
+                await subject.Should().AllBeEquivalentToAsync(1);
             }
             catch
             {
@@ -1352,7 +1412,7 @@ public class CollectionSpecs
     }
 
     [Fact]
-    public void
+    public async Task
         When_an_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_it_should_respect_the_declared_type()
     {
         // Arrange
@@ -1360,14 +1420,14 @@ public class CollectionSpecs
         IEnumerable<string> collection2 = new EnumerableOfStringAndObject();
 
         // Act
-        Action act = () => collection1.Should().BeEquivalentTo(collection2);
+        Func<Task> act = () => collection1.Should().BeEquivalentToAsync(collection2);
 
         // Assert
-        act.Should().NotThrow("the declared type is assignable to only one IEnumerable interface");
+        await act.Should().NotThrowAsync("the declared type is assignable to only one IEnumerable interface");
     }
 
     [Fact]
-    public void When_an_unordered_collection_must_be_strict_using_a_predicate_it_should_throw()
+    public async Task When_an_unordered_collection_must_be_strict_using_a_predicate_it_should_throw()
     {
         // Arrange
         var subject = new[]
@@ -1383,16 +1443,16 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation, options =>
+        Func<Task> action = async () => await subject.Should().BeEquivalentToAsync(expectation, options =>
             options.WithStrictOrderingFor(s => s.Path.Contains("UnorderedCollection")));
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage("*Expected*[0].UnorderedCollection*5 item(s)*empty collection*");
     }
 
     [Fact]
-    public void
+    public async Task
         When_an_unordered_collection_must_be_strict_using_a_predicate_and_order_was_reset_to_not_strict_it_should_not_throw()
     {
         // Arrange
@@ -1409,17 +1469,17 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation, options =>
+        Func<Task> action = async () => await subject.Should().BeEquivalentToAsync(expectation, options =>
             options
                 .WithStrictOrderingFor(s => s.Path.Contains("UnorderedCollection"))
                 .WithoutStrictOrdering());
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_an_unordered_collection_must_be_strict_using_an_expression_it_should_throw()
+    public async Task When_an_unordered_collection_must_be_strict_using_an_expression_it_should_throw()
     {
         // Arrange
         var subject = new[]
@@ -1435,21 +1495,20 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action =
-            () =>
-                subject.Should().BeEquivalentTo(expectation,
+        Func<Task> action = async () =>
+                await subject.Should().BeEquivalentToAsync(expectation,
                     options => options
                         .WithStrictOrderingFor(
                             s => s.UnorderedCollection));
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage(
                 "*Expected*[0].UnorderedCollection*5 item(s)*empty collection*");
     }
 
     [Fact]
-    public void Can_force_strict_ordering_based_on_the_parent_type_of_an_unordered_collection()
+    public async Task Can_force_strict_ordering_based_on_the_parent_type_of_an_unordered_collection()
     {
         // Arrange
         var subject = new[]
@@ -1465,17 +1524,17 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation, options => options
+        Func<Task> action = async () => await subject.Should().BeEquivalentToAsync(expectation, options => options
             .WithStrictOrderingFor(oi => oi.ParentType == expectation[0].GetType()));
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage(
                 "*Expected*[0].UnorderedCollection*5 item(s)*empty collection*");
     }
 
     [Fact]
-    public void
+    public async Task
         When_an_unordered_collection_must_be_strict_using_an_expression_and_order_is_reset_to_not_strict_it_should_not_throw()
     {
         // Arrange
@@ -1492,19 +1551,18 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action =
-            () =>
-                subject.Should().BeEquivalentTo(expectation,
+        Func<Task> action = async () =>
+                await subject.Should().BeEquivalentToAsync(expectation,
                     options => options
                         .WithStrictOrderingFor(s => s.UnorderedCollection)
                         .WithoutStrictOrdering());
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_an_unordered_collection_must_not_be_strict_using_a_predicate_it_should_not_throw()
+    public async Task When_an_unordered_collection_must_not_be_strict_using_a_predicate_it_should_not_throw()
     {
         // Arrange
         var subject = new[]
@@ -1520,16 +1578,16 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation, options => options
+        Func<Task> action = async () => await subject.Should().BeEquivalentToAsync(expectation, options => options
             .WithStrictOrdering()
             .WithoutStrictOrderingFor(s => s.Path.Contains("UnorderedCollection")));
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_an_unordered_collection_must_not_be_strict_using_an_expression_it_should_not_throw()
+    public async Task When_an_unordered_collection_must_not_be_strict_using_an_expression_it_should_not_throw()
     {
         // Arrange
         var subject = new[]
@@ -1545,16 +1603,16 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation, options => options
+        Func<Task> action = async () => await subject.Should().BeEquivalentToAsync(expectation, options => options
             .WithStrictOrdering()
             .WithoutStrictOrderingFor(x => x.UnorderedCollection));
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void
+    public async Task
         When_an_unordered_collection_must_not_be_strict_using_a_predicate_and_order_was_reset_to_strict_it_should_throw()
     {
         // Arrange
@@ -1571,19 +1629,19 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation, options => options
+        Func<Task> action = async () => await subject.Should().BeEquivalentToAsync(expectation, options => options
             .WithStrictOrdering()
             .WithoutStrictOrderingFor(s => s.Path.Contains("UnorderedCollection"))
             .WithStrictOrdering());
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage(
                 "*Expected*subject[0].UnorderedCollection[0]*to be 2, but found 1.*Expected subject[0].UnorderedCollection[1]*to be 1, but found 2*");
     }
 
     [Fact]
-    public void When_an_unordered_collection_must_not_be_strict_using_an_expression_and_collection_is_not_equal_it_should_throw()
+    public async Task When_an_unordered_collection_must_not_be_strict_using_an_expression_and_collection_is_not_equal_it_should_throw()
     {
         // Arrange
         var subject = new
@@ -1597,17 +1655,17 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation, options => options
+        Func<Task> action = async () => await subject.Should().BeEquivalentToAsync(expectation, options => options
             .WithStrictOrdering()
             .WithoutStrictOrderingFor(x => x.UnorderedCollection));
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage("*not strict*");
     }
 
     [Fact]
-    public void
+    public async Task
         When_asserting_equivalence_of_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
     {
         // Arrange
@@ -1615,46 +1673,46 @@ public class CollectionSpecs
         ICollection collection2 = new NonGenericCollection(new[] { new Car() });
 
         // Act
-        Action act =
+        Func<Task> act =
             () =>
-                collection1.Should().BeEquivalentTo(collection2,
+                collection1.Should().BeEquivalentToAsync(collection2,
                     opts => opts.RespectingRuntimeTypes());
 
         // Assert
-        act.Should().Throw<XunitException>("the types have different properties");
+        await act.Should().ThrowAsync<XunitException>("the types have different properties");
     }
 
     [Fact]
-    public void When_asserting_equivalence_of_generic_collections_it_should_respect_the_declared_type()
+    public async Task When_asserting_equivalence_of_generic_collections_it_should_respect_the_declared_type()
     {
         // Arrange
         var collection1 = new Collection<CustomerType> { new DerivedCustomerType("123") };
         var collection2 = new Collection<CustomerType> { new("123") };
 
         // Act
-        Action act = () => collection1.Should().BeEquivalentTo(collection2);
+        Func<Task> act = () => collection1.Should().BeEquivalentToAsync(collection2);
 
         // Assert
-        act.Should().NotThrow("the objects are equivalent according to the members on the declared type");
+        await act.Should().NotThrowAsync("the objects are equivalent according to the members on the declared type");
     }
 
     [Fact]
-    public void When_asserting_equivalence_of_non_generic_collections_it_should_respect_the_runtime_type()
+    public async Task When_asserting_equivalence_of_non_generic_collections_it_should_respect_the_runtime_type()
     {
         // Arrange
         ICollection subject = new NonGenericCollection(new[] { new Customer() });
         ICollection expectation = new NonGenericCollection(new[] { new Car() });
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation);
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("*Wheels*not have*VehicleId*not have*");
     }
 
     [Fact]
-    public void When_custom_assertion_rules_are_utilized_the_rules_should_be_respected()
+    public async Task When_custom_assertion_rules_are_utilized_the_rules_should_be_respected()
     {
         // Arrange
         var subject = new[]
@@ -1670,31 +1728,31 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation, opts => opts
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expectation, opts => opts
             .Using<int>(ctx => ctx.Subject.Should().BeInRange(ctx.Expectation - 1, ctx.Expectation + 1))
             .WhenTypeIs<int>()
         );
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_expectation_is_null_enumerable_it_should_throw()
+    public async Task When_expectation_is_null_enumerable_it_should_throw()
     {
         // Arrange
         var subject = Enumerable.Empty<object>();
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo((IEnumerable<object>)null);
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync((IEnumerable<object>)null);
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await act.Should().ThrowAsync<XunitException>().WithMessage(
             "Expected subject*to be <null>, but found*");
     }
 
     [Fact]
-    public void When_nested_objects_are_excluded_from_collections_it_should_use_simple_equality_semantics()
+    public async Task When_nested_objects_are_excluded_from_collections_it_should_use_simple_equality_semantics()
     {
         // Arrange
         var actual = new MyObject
@@ -1713,14 +1771,14 @@ public class CollectionSpecs
         IList<MyObject> expectationList = new List<MyObject> { expectation };
 
         // Act
-        Action act = () => actualList.Should().BeEquivalentTo(expectationList, opt => opt.ExcludingNestedObjects());
+        Func<Task> act = () => actualList.Should().BeEquivalentToAsync(expectationList, opt => opt.ExcludingNestedObjects());
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_no_collection_item_matches_it_should_report_the_closest_match()
+    public async Task When_no_collection_item_matches_it_should_report_the_closest_match()
     {
         // Arrange
         var subject = new List<Customer>
@@ -1736,16 +1794,16 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action =
-            () => subject.Should().BeEquivalentTo(expectation);
+        Func<Task> action = async
+            () => await subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage("Expected*[1].Age*28*27*");
     }
 
     [Fact]
-    public void When_only_a_deeply_nested_property_is_included_it_should_exclude_the_other_properties()
+    public async Task When_only_a_deeply_nested_property_is_included_it_should_exclude_the_other_properties()
     {
         // Arrange
         var actualObjects = new[]
@@ -1761,22 +1819,22 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => actualObjects.Should().BeEquivalentTo(expectedObjects, options =>
+        Func<Task> act = () => actualObjects.Should().BeEquivalentToAsync(expectedObjects, options =>
             options.Including(order => order.SubObject.Property1));
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_selection_rules_are_configured_they_should_be_evaluated_from_last_to_first()
+    public async Task When_selection_rules_are_configured_they_should_be_evaluated_from_last_to_first()
     {
         // Arrange
         var list1 = new[] { new { Value = 3 } };
         var list2 = new[] { new { Value = 2 } };
 
         // Act
-        Action act = () => list1.Should().BeEquivalentTo(list2, config =>
+        Func<Task> act = () => list1.Should().BeEquivalentToAsync(list2, config =>
         {
             config.WithoutSelectionRules();
             config.Using(new SelectNoMembersSelectionRule());
@@ -1785,190 +1843,190 @@ public class CollectionSpecs
         });
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("*to be 2, but found 3*");
+        await act.Should().ThrowAsync<XunitException>().WithMessage("*to be 2, but found 3*");
     }
 
     [Fact]
-    public void When_injecting_a_null_config_to_generic_overload_it_should_throw()
+    public async Task When_injecting_a_null_config_to_generic_overload_it_should_throw()
     {
         // Arrange
         var list1 = new[] { new { Value = 3 } };
         var list2 = new[] { new { Value = 2 } };
 
         // Act
-        Action act = () => list1.Should().BeEquivalentTo(list2, config: null);
+        Func<Task> act = () => list1.Should().BeEquivalentToAsync(list2, config: null);
 
         // Assert
-        act.Should().Throw<ArgumentNullException>()
+        await act.Should().ThrowAsync<ArgumentNullException>()
             .WithParameterName("config");
     }
 
     [Fact]
-    public void When_subject_and_expectation_are_null_enumerable_it_should_succeed()
+    public async Task When_subject_and_expectation_are_null_enumerable_it_should_succeed()
     {
         // Arrange
         IEnumerable<object> subject = null;
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo((IEnumerable<int>)null);
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync((IEnumerable<int>)null);
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_string_collection_subject_is_empty_and_expectation_is_object_succeed()
+    public async Task When_string_collection_subject_is_empty_and_expectation_is_object_succeed()
     {
         // Arrange
         var subject = new List<string>();
 
         // Act
-        Action action = () => subject.Should().AllBe("one");
+        Func<Task> action = () => subject.Should().AllBeAsync("one");
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_injecting_a_null_config_to_AllBe_for_string_collection_it_should_throw()
+    public async Task When_injecting_a_null_config_to_AllBe_for_string_collection_it_should_throw()
     {
         // Arrange
         var subject = new List<string>();
 
         // Act
-        Action action = () => subject.Should().AllBe("one", config: null);
+        Func<Task> action = () => subject.Should().AllBeAsync("one", config: null);
 
         // Assert
-        action.Should().ThrowExactly<ArgumentNullException>()
+        await action.Should().ThrowExactlyAsync<ArgumentNullException>()
             .WithParameterName("config");
     }
 
     [Fact]
-    public void When_all_string_subject_items_are_equal_to_expectation_object_with_a_config_it_should_succeed()
+    public async Task When_all_string_subject_items_are_equal_to_expectation_object_with_a_config_it_should_succeed()
     {
         // Arrange
         var subject = new List<string> { "one", "one" };
 
         // Act
-        Action action = () => subject.Should().AllBe("one", opt => opt);
+        Func<Task> action = () => subject.Should().AllBeAsync("one", opt => opt);
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_not_all_string_subject_items_are_equal_to_expectation_object_with_a_config_it_should_fail()
+    public async Task When_not_all_string_subject_items_are_equal_to_expectation_object_with_a_config_it_should_fail()
     {
         // Arrange
         var subject = new List<string> { "one", "two" };
 
         // Act
-        Action action = () => subject.Should().AllBe("one", opt => opt, "we want to test the failure {0}", "message");
+        Func<Task> action = () => subject.Should().AllBeAsync("one", opt => opt, "we want to test the failure {0}", "message");
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage("*we want to test the failure message*");
     }
 
     [Fact]
-    public void When_all_string_subject_items_are_equal_to_expectation_object_with_a_config_it_should_allow_chaining()
+    public async Task When_all_string_subject_items_are_equal_to_expectation_object_with_a_config_it_should_allow_chaining()
     {
         // Arrange
         var subject = new List<string> { "one", "one" };
 
         // Act
-        Action action = () => subject.Should().AllBe("one", opt => opt)
+        Func<Task> action = async () => (await subject.Should().AllBeAsync("one", opt => opt))
             .And.HaveCount(2);
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_subject_is_empty_and_expectation_is_object_succeed()
+    public async Task When_subject_is_empty_and_expectation_is_object_succeed()
     {
         // Arrange
         var subject = new List<char>();
 
         // Act
-        Action action = () => subject.Should().AllBeEquivalentTo('g');
+        Func<Task> action = () => subject.Should().AllBeEquivalentToAsync('g');
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_injecting_a_null_config_to_AllBeEquivalentTo_it_should_throw()
+    public async Task When_injecting_a_null_config_to_AllBeEquivalentTo_it_should_throw()
     {
         // Arrange
         var subject = new List<char>();
 
         // Act
-        Action action = () => subject.Should().AllBeEquivalentTo('g', config: null);
+        Func<Task> action = () => subject.Should().AllBeEquivalentToAsync('g', config: null);
 
         // Assert
-        action.Should().ThrowExactly<ArgumentNullException>()
+        await action.Should().ThrowExactlyAsync<ArgumentNullException>()
             .WithParameterName("config");
     }
 
     [Fact]
-    public void When_all_subject_items_are_equivalent_to_expectation_object_with_a_config_it_should_succeed()
+    public async Task When_all_subject_items_are_equivalent_to_expectation_object_with_a_config_it_should_succeed()
     {
         // Arrange
         var subject = new List<char> { 'g', 'g' };
 
         // Act
-        Action action = () => subject.Should().AllBeEquivalentTo('g', opt => opt);
+        Func<Task> action = () => subject.Should().AllBeEquivalentToAsync('g', opt => opt);
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_not_all_subject_items_are_equivalent_to_expectation_object_with_a_config_it_should_fail()
+    public async Task When_not_all_subject_items_are_equivalent_to_expectation_object_with_a_config_it_should_fail()
     {
         // Arrange
         var subject = new List<char> { 'g', 'a' };
 
         // Act
-        Action action = () =>
-            subject.Should().AllBeEquivalentTo('g', opt => opt, "we want to test the failure {0}", "message");
+        Func<Task> action = () =>
+            subject.Should().AllBeEquivalentToAsync('g', opt => opt, "we want to test the failure {0}", "message");
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage("*we want to test the failure message*");
     }
 
     [Fact]
-    public void When_all_subject_items_are_equivalent_to_expectation_object_with_a_config_it_should_allow_chaining()
+    public async Task When_all_subject_items_are_equivalent_to_expectation_object_with_a_config_it_should_allow_chaining()
     {
         // Arrange
         var subject = new List<char> { 'g', 'g' };
 
         // Act
-        Action action = () => subject.Should().AllBeEquivalentTo('g', opt => opt)
+        Func<Task> action = async () => (await subject.Should().AllBeEquivalentToAsync('g', opt => opt))
             .And.HaveCount(2);
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_subject_is_null_and_expectation_is_enumerable_it_should_throw()
+    public async Task When_subject_is_null_and_expectation_is_enumerable_it_should_throw()
     {
         // Arrange
         IEnumerable<object> subject = null;
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(Enumerable.Empty<object>());
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(Enumerable.Empty<object>());
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await act.Should().ThrowAsync<XunitException>().WithMessage(
             "Expected subject*not to be <null>*");
     }
 
     [Fact]
-    public void When_the_expectation_is_null_it_should_throw()
+    public async Task When_the_expectation_is_null_it_should_throw()
     {
         // Arrange
         var actual = new[,]
@@ -1978,15 +2036,15 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo<object>(null);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync<object>(null);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("Expected actual*to be <null>*{{1, 2, 3}, {4, 5, 6}}*");
     }
 
     [Fact]
-    public void When_a_multi_dimensional_array_is_compared_to_null_it_should_throw()
+    public async Task When_a_multi_dimensional_array_is_compared_to_null_it_should_throw()
     {
         // Arrange
         Array actual = null;
@@ -1998,15 +2056,15 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expectation);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("Cannot compare a multi-dimensional array to <null>*");
     }
 
     [Fact]
-    public void When_a_multi_dimensional_array_is_compared_to_a_non_array_it_should_throw()
+    public async Task When_a_multi_dimensional_array_is_compared_to_a_non_array_it_should_throw()
     {
         // Arrange
         var actual = new object();
@@ -2018,15 +2076,15 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expectation);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("Cannot compare a multi-dimensional array to something else*");
     }
 
     [Fact]
-    public void When_the_length_of_the_2nd_dimension_differs_between_the_arrays_it_should_throw()
+    public async Task When_the_length_of_the_2nd_dimension_differs_between_the_arrays_it_should_throw()
     {
         // Arrange
         var actual = new[,]
@@ -2038,15 +2096,15 @@ public class CollectionSpecs
         var expectation = new[,] { { 1, 2, 3 } };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expectation);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("Expected dimension 0 to contain 1 item(s), but found 2*");
     }
 
     [Fact]
-    public void When_the_length_of_the_first_dimension_differs_between_the_arrays_it_should_throw()
+    public async Task When_the_length_of_the_first_dimension_differs_between_the_arrays_it_should_throw()
     {
         // Arrange
         var actual = new[,]
@@ -2062,15 +2120,15 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expectation);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("Expected dimension 1 to contain 2 item(s), but found 3*");
     }
 
     [Fact]
-    public void When_the_number_of_dimensions_of_the_arrays_are_not_the_same_it_should_throw()
+    public async Task When_the_number_of_dimensions_of_the_arrays_are_not_the_same_it_should_throw()
     {
         // Arrange
 #pragma warning disable format // VS and Rider disagree on how to format a multidimensional array initializer
@@ -2096,15 +2154,15 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expectation);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("Expected actual*2 dimension(s)*but it has 3*");
     }
 
     [Fact]
-    public void When_the_other_dictionary_does_not_contain_enough_items_it_should_throw()
+    public async Task When_the_other_dictionary_does_not_contain_enough_items_it_should_throw()
     {
         // Arrange
         var expected = new { Customers = new Dictionary<string, string> { ["Key1"] = "Value1", ["Key2"] = "Value2" } };
@@ -2112,15 +2170,15 @@ public class CollectionSpecs
         var subject = new { Customers = new Dictionary<string, string> { ["Key1"] = "Value1" } };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await act.Should().ThrowAsync<XunitException>().WithMessage(
             "Expected*Customers*dictionary*2 item(s)*but*misses*Key2*");
     }
 
     [Fact]
-    public void When_the_other_property_is_not_a_dictionary_it_should_throw()
+    public async Task When_the_other_property_is_not_a_dictionary_it_should_throw()
     {
         // Arrange
         var expected = new { Customers = "I am a string" };
@@ -2128,15 +2186,15 @@ public class CollectionSpecs
         var subject = new { Customers = new Dictionary<string, string> { ["Key2"] = "Value2", ["Key1"] = "Value1" } };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("*property*Customers*String*found*Dictionary*");
     }
 
     [Fact]
-    public void
+    public async Task
         When_the_root_object_is_referenced_from_an_object_in_a_nested_collection_it_should_treat_it_as_a_cyclic_reference()
     {
         // Arrange
@@ -2153,14 +2211,14 @@ public class CollectionSpecs
         company2.Logo = logo2;
 
         // Act
-        Action action = () => company1.Should().BeEquivalentTo(company2, o => o.IgnoringCyclicReferences());
+        Func<Task> action = () => company1.Should().BeEquivalentToAsync(company2, o => o.IgnoringCyclicReferences());
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_the_subject_contains_less_items_than_expected_it_should_throw()
+    public async Task When_the_subject_contains_less_items_than_expected_it_should_throw()
     {
         // Arrange
         var subject = new List<Customer>
@@ -2175,17 +2233,17 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action =
-            () => subject.Should().BeEquivalentTo(expectation);
+        Func<Task> action = async
+            () => await subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage(
                 "*subject*to be a collection with 2 item(s), but*contains 1 item(s) less than*");
     }
 
     [Fact]
-    public void When_the_subject_contains_more_items_than_expected_it_should_throw()
+    public async Task When_the_subject_contains_more_items_than_expected_it_should_throw()
     {
         // Arrange
         var subject = new List<Customer>
@@ -2200,17 +2258,17 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action =
-            () => subject.Should().BeEquivalentTo(expectation);
+        Func<Task> action = async
+            () => await subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage(
                 "Expected subject*to be a collection with 1 item(s), but*contains 1 item(s) more than*");
     }
 
     [Fact]
-    public void When_the_subject_contains_same_number_of_items_and_both_contain_duplicates_it_should_succeed()
+    public async Task When_the_subject_contains_same_number_of_items_and_both_contain_duplicates_it_should_succeed()
     {
         // Arrange
         var subject = new List<Customer>
@@ -2228,15 +2286,15 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action =
-            () => subject.Should().BeEquivalentTo(expectation);
+        Func<Task> action = async
+            () => await subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_the_subject_contains_same_number_of_items_but_expectation_contains_duplicates_it_should_throw()
+    public async Task When_the_subject_contains_same_number_of_items_but_expectation_contains_duplicates_it_should_throw()
     {
         // Arrange
         var subject = new List<Customer>
@@ -2252,17 +2310,17 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action =
-            () => subject.Should().BeEquivalentTo(expectation);
+        Func<Task> action = async
+            () => await subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage(
                 "Expected property subject[1].Name*to be \"John\", but \"Jane\" differs near*");
     }
 
     [Fact]
-    public void When_the_subject_contains_same_number_of_items_but_subject_contains_duplicates_it_should_throw()
+    public async Task When_the_subject_contains_same_number_of_items_but_subject_contains_duplicates_it_should_throw()
     {
         // Arrange
         var subject = new List<Customer>
@@ -2278,17 +2336,17 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action =
-            () => subject.Should().BeEquivalentTo(expectation);
+        Func<Task> action = async
+            () => await subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage(
                 "Expected property subject[1].Name*to be \"Jane\", but \"John\" differs near*");
     }
 
     [Fact]
-    public void
+    public async Task
         When_two_collections_have_nested_members_of_the_contained_equivalent_but_not_equal_it_should_not_throw()
     {
         // Arrange
@@ -2297,14 +2355,14 @@ public class CollectionSpecs
         var list2 = new[] { new { Nested = new { Value = 1 } } };
 
         // Act
-        Action act = () => list1.Should().BeEquivalentTo(list2, opts => opts);
+        Func<Task> act = () => list1.Should().BeEquivalentToAsync(list2, opts => opts);
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void
+    public async Task
         When_two_collections_have_properties_of_the_contained_items_excluded_but_still_differ_it_should_throw()
     {
         // Arrange
@@ -2312,23 +2370,23 @@ public class CollectionSpecs
         var list2 = new[] { new KeyValuePair<int, int>(2, 321) };
 
         // Act
-        Action act = () => list1.Should().BeEquivalentTo(list2, config => config
+        Func<Task> act = () => list1.Should().BeEquivalentToAsync(list2, config => config
             .Excluding(ctx => ctx.Key)
             .ComparingByMembers<KeyValuePair<int, int>>());
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("Expected property list1[0].Value*to be 321, but found 123.*");
+        await act.Should().ThrowAsync<XunitException>().WithMessage("Expected property list1[0].Value*to be 321, but found 123.*");
     }
 
     [Fact]
-    public void
+    public async Task
         When_two_equivalent_dictionaries_are_compared_directly_as_if_it_is_a_collection_it_should_succeed()
     {
         // Arrange
         var result = new Dictionary<string, int?> { ["C"] = null, ["B"] = 0, ["A"] = 0 };
 
         // Act
-        Action act = () => result.Should().BeEquivalentTo(new Dictionary<string, int?>
+        Func<Task> act = () => result.Should().BeEquivalentToAsync(new Dictionary<string, int?>
         {
             ["A"] = 0,
             ["B"] = 0,
@@ -2336,24 +2394,24 @@ public class CollectionSpecs
         });
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_two_equivalent_dictionaries_are_compared_directly_it_should_succeed()
+    public async Task When_two_equivalent_dictionaries_are_compared_directly_it_should_succeed()
     {
         // Arrange
         var result = new Dictionary<string, int> { ["C"] = 0, ["B"] = 0, ["A"] = 0 };
 
         // Act
-        Action act = () => result.Should().BeEquivalentTo(new Dictionary<string, int> { ["A"] = 0, ["B"] = 0, ["C"] = 0 });
+        Func<Task> act = () => result.Should().BeEquivalentToAsync(new Dictionary<string, int> { ["A"] = 0, ["B"] = 0, ["C"] = 0 });
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_two_lists_dont_contain_the_same_structural_equal_objects_it_should_throw()
+    public async Task When_two_lists_dont_contain_the_same_structural_equal_objects_it_should_throw()
     {
         // Arrange
         var subject = new List<Customer>
@@ -2369,16 +2427,16 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action =
-            () => subject.Should().BeEquivalentTo(expectation);
+        Func<Task> action = async
+            () => await subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage("Expected*subject[1].Age*30*24*");
     }
 
     [Fact]
-    public void When_two_lists_only_differ_in_excluded_properties_it_should_not_throw()
+    public async Task When_two_lists_only_differ_in_excluded_properties_it_should_not_throw()
     {
         // Arrange
         var subject = new List<Customer>
@@ -2394,19 +2452,18 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action =
-            () =>
-                subject.Should().BeEquivalentTo(expectation,
+        Func<Task> action = async () =>
+                await subject.Should().BeEquivalentToAsync(expectation,
                     options => options
                         .ExcludingMissingMembers()
                         .Excluding(c => c.Age));
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_two_multi_dimensional_arrays_are_equivalent_it_should_not_throw()
+    public async Task When_two_multi_dimensional_arrays_are_equivalent_it_should_not_throw()
     {
         // Arrange
         var subject = new[,]
@@ -2422,14 +2479,14 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation);
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_two_multi_dimensional_arrays_are_not_equivalent_it_should_throw()
+    public async Task When_two_multi_dimensional_arrays_are_not_equivalent_it_should_throw()
     {
         // Arrange
         var actual = new[,]
@@ -2445,15 +2502,15 @@ public class CollectionSpecs
         };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expectation);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("*actual[0,2]*4*3*actual[1,1]*-5*5*");
     }
 
     [Fact]
-    public void When_two_multi_dimensional_arrays_have_empty_dimensions_they_should_be_equivalent()
+    public async Task When_two_multi_dimensional_arrays_have_empty_dimensions_they_should_be_equivalent()
     {
         // Arrange
         Array actual = new long[,] { { } };
@@ -2461,14 +2518,14 @@ public class CollectionSpecs
         Array expectation = new long[,] { { } };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expectation);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_two_multi_dimensional_arrays_are_empty_they_should_be_equivalent()
+    public async Task When_two_multi_dimensional_arrays_are_empty_they_should_be_equivalent()
     {
         // Arrange
         Array actual = new long[0, 1] { };
@@ -2476,14 +2533,14 @@ public class CollectionSpecs
         Array expectation = new long[0, 1] { };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expectation);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_two_nested_dictionaries_contain_null_values_it_should_not_crash()
+    public async Task When_two_nested_dictionaries_contain_null_values_it_should_not_crash()
     {
         // Arrange
         var projection = new { ReferencedEquipment = new Dictionary<int, string> { [1] = null } };
@@ -2491,14 +2548,14 @@ public class CollectionSpecs
         var persistedProjection = new { ReferencedEquipment = new Dictionary<int, string> { [1] = null } };
 
         // Act
-        Action act = () => persistedProjection.Should().BeEquivalentTo(projection);
+        Func<Task> act = () => persistedProjection.Should().BeEquivalentToAsync(projection);
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_two_nested_dictionaries_contain_null_values_it_should_not_crash2()
+    public async Task When_two_nested_dictionaries_contain_null_values_it_should_not_crash2()
     {
         // Arrange
         var userId = Guid.NewGuid();
@@ -2510,15 +2567,15 @@ public class CollectionSpecs
         expected.Add(userId, "Admin", "Other");
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("Expected*Roles[*][1]*Other*Special*");
     }
 
     [Fact]
-    public void When_two_nested_dictionaries_do_not_match_it_should_throw()
+    public async Task When_two_nested_dictionaries_do_not_match_it_should_throw()
     {
         // Arrange
         var projection = new { ReferencedEquipment = new Dictionary<int, string> { [1] = "Bla1" } };
@@ -2526,15 +2583,15 @@ public class CollectionSpecs
         var persistedProjection = new { ReferencedEquipment = new Dictionary<int, string> { [1] = "Bla2" } };
 
         // Act
-        Action act = () => persistedProjection.Should().BeEquivalentTo(projection);
+        Func<Task> act = () => persistedProjection.Should().BeEquivalentToAsync(projection);
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await act.Should().ThrowAsync<XunitException>().WithMessage(
             "Expected*ReferencedEquipment[1]*Bla1*Bla2*2*index 3*");
     }
 
     [Fact]
-    public void When_two_ordered_lists_are_structurally_equivalent_it_should_succeed()
+    public async Task When_two_ordered_lists_are_structurally_equivalent_it_should_succeed()
     {
         // Arrange
         var subject = new List<Customer>
@@ -2550,15 +2607,15 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action =
-            () => subject.Should().BeEquivalentTo(expectation);
+        Func<Task> action = async
+            () => await subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_two_unordered_lists_are_structurally_equivalent_and_order_is_strict_it_should_fail()
+    public async Task When_two_unordered_lists_are_structurally_equivalent_and_order_is_strict_it_should_fail()
     {
         // Arrange
         var subject = new[]
@@ -2573,16 +2630,16 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation, options => options.WithStrictOrdering());
+        Func<Task> action = async () => await subject.Should().BeEquivalentToAsync(expectation, options => options.WithStrictOrdering());
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage(
                 "Expected property subject[0].Name*Jane*John*subject[1].Name*John*Jane*");
     }
 
     [Fact]
-    public void When_two_unordered_lists_are_structurally_equivalent_and_order_was_reset_to_strict_it_should_fail()
+    public async Task When_two_unordered_lists_are_structurally_equivalent_and_order_was_reset_to_strict_it_should_fail()
     {
         // Arrange
         var subject = new[]
@@ -2597,7 +2654,7 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(
+        Func<Task> action = async () => await subject.Should().BeEquivalentToAsync(
             expectation,
             options => options
                 .WithStrictOrdering()
@@ -2605,13 +2662,13 @@ public class CollectionSpecs
                 .WithStrictOrdering());
 
         // Assert
-        action.Should().Throw<XunitException>()
+        await action.Should().ThrowAsync<XunitException>()
             .WithMessage(
                 "Expected property subject[0].Name*Jane*John*subject[1].Name*John*Jane*");
     }
 
     [Fact]
-    public void When_two_unordered_lists_are_structurally_equivalent_and_order_was_reset_to_not_strict_it_should_succeed()
+    public async Task When_two_unordered_lists_are_structurally_equivalent_and_order_was_reset_to_not_strict_it_should_succeed()
     {
         // Arrange
         var subject = new[]
@@ -2626,15 +2683,15 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action =
-            () => subject.Should().BeEquivalentTo(expectation, x => x.WithStrictOrdering().WithoutStrictOrdering());
+        Func<Task> action = async
+            () => await subject.Should().BeEquivalentToAsync(expectation, x => x.WithStrictOrdering().WithoutStrictOrdering());
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_two_unordered_lists_are_structurally_equivalent_it_should_succeed()
+    public async Task When_two_unordered_lists_are_structurally_equivalent_it_should_succeed()
     {
         // Arrange
         var subject = new[]
@@ -2649,69 +2706,69 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action =
-            () => subject.Should().BeEquivalentTo(expectation);
+        Func<Task> action = async
+            () => await subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_two_unordered_lists_contain_empty_different_objects_it_should_throw()
+    public async Task When_two_unordered_lists_contain_empty_different_objects_it_should_throw()
     {
         // Arrange
         var actual = new object[] { new() };
         var expected = new object[] { new() };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().Throw<InvalidOperationException>();
+        await act.Should().ThrowAsync<InvalidOperationException>();
     }
 
     [Fact]
-    public void When_two_unordered_lists_contain_null_in_subject_it_should_throw()
+    public async Task When_two_unordered_lists_contain_null_in_subject_it_should_throw()
     {
         // Arrange
         var actual = new object[] { null };
         var expected = new object[] { new() };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await act.Should().ThrowAsync<XunitException>();
     }
 
     [Fact]
-    public void When_two_unordered_lists_contain_null_in_expectation_it_should_throw()
+    public async Task When_two_unordered_lists_contain_null_in_expectation_it_should_throw()
     {
         // Arrange
         var actual = new object[] { new() };
         var expected = new object[] { null };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await act.Should().ThrowAsync<XunitException>();
     }
 
     [Theory]
     [MemberData(nameof(ArrayTestData))]
-    public void When_two_unordered_lists_contain_empty_objects_they_should_still_be_structurally_equivalent<TActual,
+    public async Task When_two_unordered_lists_contain_empty_objects_they_should_still_be_structurally_equivalent<TActual,
         TExpected>(TActual[] actual, TExpected[] expected)
     {
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_an_exception_is_thrown_during_data_access_the_stack_trace_contains_the_original_site()
+    public async Task When_an_exception_is_thrown_during_data_access_the_stack_trace_contains_the_original_site()
     {
         // Arrange
         var genericCollectionA = new List<ExceptionThrowingClass> { new() };
@@ -2722,10 +2779,10 @@ public class CollectionSpecs
             .GetProperty(nameof(ExceptionThrowingClass.ExceptionThrowingProperty)).GetMethod;
 
         // Act
-        Action act = () => genericCollectionA.Should().BeEquivalentTo(genericCollectionB);
+        Func<Task> act = () => genericCollectionA.Should().BeEquivalentToAsync(genericCollectionB);
 
         // Assert
-        act.Should().Throw<NotImplementedException>().And.TargetSite.Should().Be(expectedTargetSite);
+        (await act.Should().ThrowAsync<NotImplementedException>()).And.TargetSite.Should().Be(expectedTargetSite);
     }
 
     public static IEnumerable<object[]> ArrayTestData()
@@ -2779,7 +2836,7 @@ public class CollectionSpecs
         }
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expectation);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expectation);
 
         // Assert
         act.ExecutionTime().Should().BeLessThan(20.Seconds());
@@ -2834,5 +2891,10 @@ public class CollectionSpecs
         }
 
         public string Key { get; }
+    }
+
+    private class AsyncEnumerableDto
+    {
+        public IAsyncEnumerable<int> Foo { get; init; }
     }
 }

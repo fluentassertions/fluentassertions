@@ -79,7 +79,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveDefaultConstructor("we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected constructor *ClassWithCctorAndNonDefaultConstructor() to exist *failure message*" +
                     ", but it does not.");
@@ -96,7 +96,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveDefaultConstructor("we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected constructor type() to exist *failure message*, but type is <null>.");
         }
     }
@@ -130,7 +130,7 @@ public partial class TypeAssertionSpecs
                     .NotHaveDefaultConstructor("we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected constructor *.ClassWithMembers() not to exist *failure message*, but it does.");
         }
 
@@ -145,7 +145,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveDefaultConstructor("we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected constructor *ClassWithCctor*() not to exist *failure message*, but it does.");
         }
 
@@ -174,7 +174,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveDefaultConstructor("we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected constructor type() not to exist *failure message*, but type is <null>.");
         }
     }

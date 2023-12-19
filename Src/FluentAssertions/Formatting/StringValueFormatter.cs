@@ -1,4 +1,4 @@
-﻿namespace FluentAssertions.Formatting;
+﻿namespace FluentAssertionsAsync.Formatting;
 
 public class StringValueFormatter : IValueFormatter
 {

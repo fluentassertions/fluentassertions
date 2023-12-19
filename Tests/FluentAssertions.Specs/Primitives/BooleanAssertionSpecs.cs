@@ -189,7 +189,7 @@ public class BooleanAssertionSpecs
             Action act = () => antecedent.Should().Imply(consequent, "because we want to test the {0}", "failure");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected antecedent*to imply consequent*test the failure*but*");
         }
     }

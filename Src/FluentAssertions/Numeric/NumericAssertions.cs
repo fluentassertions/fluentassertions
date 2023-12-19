@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Numeric;
+namespace FluentAssertionsAsync.Numeric;
 
 /// <summary>
 /// Contains a number of methods to assert that an <see cref="IComparable{T}"/> is in the expected state.

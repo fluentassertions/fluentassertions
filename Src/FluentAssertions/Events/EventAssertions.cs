@@ -2,11 +2,11 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Primitives;
 
-namespace FluentAssertions.Events;
+namespace FluentAssertionsAsync.Events;
 
 /// <summary>
 /// Provides convenient assertion methods on a <see cref="IMonitor{T}"/> that can be

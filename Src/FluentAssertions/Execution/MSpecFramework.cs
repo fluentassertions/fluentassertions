@@ -1,4 +1,4 @@
-﻿namespace FluentAssertions.Execution;
+﻿namespace FluentAssertionsAsync.Execution;
 
 internal class MSpecFramework : LateBoundTestFramework
 {

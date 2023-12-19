@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Runtime.ExceptionServices;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 internal static class ExceptionExtensions
 {

@@ -19,7 +19,7 @@ public class TestFrameworkProviderTests
         Action act = () => testFrameworkProvider.Throw("MyMessage");
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -37,7 +37,7 @@ public class TestFrameworkProviderTests
         Action act = () => testFrameworkProvider.Throw("MyMessage");
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public class TestFrameworkProviderTests
         Action act = () => testFrameworkProvider.Throw("MyMessage");
 
         // Assert
-        act.Should().Throw<InvalidOperationException>()
+        await await act.Should().ThrowAsyncAsync<InvalidOperationException>()
             .WithMessage("*the test framework 'foo' but this is not supported*");
     }
 
@@ -73,7 +73,7 @@ public class TestFrameworkProviderTests
         // Act
         Action act = () => testFrameworkProvider.Throw("MyMessage");
 
-        act.Should().Throw<InvalidOperationException>()
+        await await act.Should().ThrowAsyncAsync<InvalidOperationException>()
             .WithMessage("*test framework 'nunit' but the required assembly 'nunit.framework' could not be found*");
     }
 

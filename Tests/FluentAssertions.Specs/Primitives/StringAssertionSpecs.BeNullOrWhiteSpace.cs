@@ -39,7 +39,7 @@ public partial class StringAssertionSpecs
                 " abc  ".Should().BeNullOrWhiteSpace();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected string to be <null> or whitespace, but found \" abc  \".");
         }
     }
@@ -57,7 +57,7 @@ public partial class StringAssertionSpecs
                 nullString.Should().NotBeNullOrWhiteSpace();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected nullString not to be <null> or whitespace, but found <null>.");
         }
 
@@ -69,7 +69,7 @@ public partial class StringAssertionSpecs
                 "".Should().NotBeNullOrWhiteSpace();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected string not to be <null> or whitespace, but found \"\".");
         }
 
@@ -81,7 +81,7 @@ public partial class StringAssertionSpecs
                 "   ".Should().NotBeNullOrWhiteSpace();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected string not to be <null> or whitespace, but found \"   \".");
         }
     }

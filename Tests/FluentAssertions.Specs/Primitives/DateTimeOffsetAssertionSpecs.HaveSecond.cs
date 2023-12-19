@@ -33,7 +33,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().HaveSecond(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected the seconds part of subject to be 1, but it was 0.");
         }
 
@@ -48,7 +48,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().HaveSecond(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected the seconds part of subject to be 22, but found a <null> DateTimeOffset.");
         }
     }
@@ -66,7 +66,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().NotHaveSecond(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect the seconds part of subject to be 0, but it was.");
         }
 
@@ -95,7 +95,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().NotHaveSecond(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect the seconds part of subject to be 22, but found a <null> DateTimeOffset.");
         }
     }

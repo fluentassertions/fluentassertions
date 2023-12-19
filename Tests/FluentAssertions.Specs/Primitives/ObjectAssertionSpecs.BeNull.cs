@@ -28,7 +28,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -71,7 +71,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().NotBeNull();
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -84,7 +84,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().NotBeNull("because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someObject not to be <null> because we want to test the failure message.");
         }
     }

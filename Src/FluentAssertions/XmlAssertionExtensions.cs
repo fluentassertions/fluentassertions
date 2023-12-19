@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Xml;
-using FluentAssertions.Xml;
+using FluentAssertionsAsync.Xml;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 [DebuggerNonUserCode]
 public static class XmlAssertionExtensions

@@ -51,7 +51,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to contain at least one element assignable to type \"System.String\" because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -65,7 +65,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().ContainItemsAssignableTo<int>();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected collection to contain at least one element assignable to type \"System.Int32\", but found {empty}.");
         }
@@ -77,7 +77,7 @@ public partial class CollectionAssertionSpecs
 
             Action act = () => collection.Should().ContainItemsAssignableTo<int>();
 
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected collection to contain at least one element assignable to type \"System.Int32\", but found {System.String, System.Decimal}.");
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace FluentAssertions.Events;
+namespace FluentAssertionsAsync.Events;
 
 /// <summary>
 /// This class is used to store data about an intercepted event

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 internal sealed class Disposable : IDisposable
 {

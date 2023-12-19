@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Types;
+namespace FluentAssertionsAsync.Types;
 
 /// <summary>
 /// Allows for fluent filtering a list of types.

@@ -1,10 +1,10 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Types;
+namespace FluentAssertionsAsync.Types;
 
 /// <summary>
 /// Contains a number of methods to assert that a <see cref="MethodInfo"/> is in the expected state.

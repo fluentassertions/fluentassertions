@@ -12,6 +12,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <FluentAssertionsPublicKey>00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f</FluentAssertionsPublicKey>
+    <RootNamespace>FluentAssertionsAsync</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Label="Package info">
@@ -46,8 +47,10 @@
   <ItemGroup Label="Analyzers">
     <AdditionalFiles Include="BannedSymbols.txt" />
     <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
     <PackageReference Include="PolySharp" Version="1.14.1" PrivateAssets="all" />
+    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
   </ItemGroup>
 
   <!-- Target framework dependent configuration -->
@@ -74,7 +77,7 @@
         <Compile Remove="EventRaisingExtensions.cs" />
       </ItemGroup>
       <ItemGroup>
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
       </ItemGroup>
     </When>
     <When Condition="'$(TargetFramework)' == 'net47'">
@@ -82,7 +85,7 @@
         <Compile Remove="Common/NullConfigurationStore.cs" />
       </ItemGroup>
       <ItemGroup>
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
         <TfmSpecificFrameworkAssemblyReferences Include="System.Net.Http">
           <TargetFramework>$(TargetFramework)</TargetFramework>
         </TfmSpecificFrameworkAssemblyReferences>

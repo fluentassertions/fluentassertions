@@ -1,4 +1,4 @@
-﻿namespace FluentAssertions.Collections.MaximumMatching;
+﻿namespace FluentAssertionsAsync.Collections.MaximumMatching;
 
 /// <summary>
 /// Stores an element's value and index in the maximum matching problem.

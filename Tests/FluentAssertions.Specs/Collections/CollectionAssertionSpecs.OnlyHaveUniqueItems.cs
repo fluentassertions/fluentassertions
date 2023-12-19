@@ -33,7 +33,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().OnlyHaveUniqueItems("{0} don't like {1}", "we", "duplicates");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to only have unique items because we don't like duplicates, but item 3 is not unique.");
         }
 
@@ -51,7 +51,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*but item 3 is not unique.");
         }
 
@@ -65,7 +65,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().OnlyHaveUniqueItems("{0} don't like {1}", "we", "duplicates");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to only have unique items because we don't like duplicates, but items {2, 3} are not unique.");
         }
 
@@ -83,7 +83,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*but items {2, 3} are not unique.");
         }
 
@@ -101,7 +101,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to only have unique items because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -115,7 +115,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().OnlyHaveUniqueItems<string>(predicate: null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("predicate");
         }
 
@@ -151,7 +151,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().OnlyHaveUniqueItems(e => e.Text, "{0} don't like {1}", "we", "duplicates");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to only have unique items*on e.Text*because we don't like duplicates, but item*three*is not unique.");
         }
 
@@ -172,7 +172,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().OnlyHaveUniqueItems(e => e.Text, "{0} don't like {1}", "we", "duplicates");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to only have unique items*on e.Text*because we don't like duplicates, but items*two*two*three*three*are not unique.");
         }
 
@@ -197,7 +197,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*have unique items on e.Text*have unique items on e.Number*");
         }
 
@@ -216,7 +216,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to only have unique items because we want to test the behaviour with a null subject, but found <null>.");
         }
     }

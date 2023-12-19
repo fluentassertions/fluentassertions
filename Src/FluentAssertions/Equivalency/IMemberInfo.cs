@@ -1,7 +1,7 @@
 using System;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Represents a field or property in an object graph.

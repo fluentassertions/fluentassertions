@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 /// <summary>
 /// Contains static methods to help with exception assertions on actions.

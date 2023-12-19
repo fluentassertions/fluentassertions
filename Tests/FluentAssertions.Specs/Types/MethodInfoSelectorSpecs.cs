@@ -20,7 +20,7 @@ public class MethodInfoSelectorSpecs
         Action act = () => methodInfoSelector = new MethodInfoSelector((Type)null);
 
         // Assert
-        act.Should().ThrowExactly<ArgumentNullException>()
+        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
             .WithParameterName("types");
     }
 
@@ -34,7 +34,7 @@ public class MethodInfoSelectorSpecs
         Action act = () => methodInfoSelector = new MethodInfoSelector((Type[])null);
 
         // Assert
-        act.Should().ThrowExactly<ArgumentNullException>()
+        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
             .WithParameterName("types");
     }
 
@@ -48,7 +48,7 @@ public class MethodInfoSelectorSpecs
         var act = () => methodInfoSelector.Should();
 
         // Assert
-        act.Should().ThrowExactly<ArgumentNullException>()
+        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
             .WithParameterName("methodSelector");
     }
 

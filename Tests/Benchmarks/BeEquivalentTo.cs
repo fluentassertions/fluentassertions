@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
-using FluentAssertions;
-using FluentAssertions.Collections;
+using FluentAssertionsAsync;
+using FluentAssertionsAsync.Collections;
 
 namespace Benchmarks;
 
@@ -29,5 +30,5 @@ public class BeEquivalentToBenchmarks
     }
 
     [Benchmark]
-    public AndConstraint<GenericCollectionAssertions<Nested>> BeEquivalentTo() => list.Should().BeEquivalentTo(list2);
+    public async Task<AndConstraint<GenericCollectionAssertions<Nested>>> BeEquivalentTo() => await list.Should().BeEquivalentToAsync(list2);
 }

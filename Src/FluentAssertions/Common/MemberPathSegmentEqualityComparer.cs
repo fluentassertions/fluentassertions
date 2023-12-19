@@ -1,10 +1,8 @@
-﻿#if NET6_0_OR_GREATER || NETSTANDARD2_1
-using System;
-#endif
+﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 /// <summary>
 /// Compares two segments of a <see cref="MemberPath"/>.

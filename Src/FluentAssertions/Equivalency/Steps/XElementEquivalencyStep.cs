@@ -1,10 +1,11 @@
-﻿using System.Xml.Linq;
+﻿using System.Threading.Tasks;
+using System.Xml.Linq;
 
-namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 public class XElementEquivalencyStep : EquivalencyStep<XElement>
 {
-    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+    protected override Task<EquivalencyResult> OnHandleAsync(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
         var subject = (XElement)comparands.Subject;
@@ -12,6 +13,6 @@ public class XElementEquivalencyStep : EquivalencyStep<XElement>
 
         subject.Should().BeEquivalentTo(expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
 
-        return EquivalencyResult.AssertionCompleted;
+        return Task.FromResult(EquivalencyResult.AssertionCompleted);
     }
 }

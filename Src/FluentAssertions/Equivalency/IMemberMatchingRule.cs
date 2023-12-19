@@ -1,4 +1,4 @@
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Represents a rule that defines how to map the selected members of the expectation object to the properties

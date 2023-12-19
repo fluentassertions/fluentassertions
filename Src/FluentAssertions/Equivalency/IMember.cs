@@ -1,8 +1,8 @@
 using System;
 using System.ComponentModel;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Exposes information about an object's member

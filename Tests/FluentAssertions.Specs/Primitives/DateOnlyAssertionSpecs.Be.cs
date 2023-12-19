@@ -64,7 +64,7 @@ public partial class DateOnlyAssertionSpecs
             Action act = () => dateOnly.Should().Be(otherDateOnly, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected dateOnly to be <2012-03-11>*failure message, but found <2012-03-10>.");
         }
 
@@ -170,7 +170,7 @@ public partial class DateOnlyAssertionSpecs
                 () => date.Should().NotBe(sameDate, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected date not to be <2020-06-04> because we want to test the failure message, but it is.");
         }
@@ -187,7 +187,7 @@ public partial class DateOnlyAssertionSpecs
                 () => date.Should().NotBe(sameDate, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected date not to be <2020-06-04> because we want to test the failure message, but it is.");
         }

@@ -1,4 +1,4 @@
-﻿namespace FluentAssertions.Execution;
+﻿namespace FluentAssertionsAsync.Execution;
 
 /// <summary>
 /// Represents assertion fail reason. Contains the message and arguments for message's numbered placeholders.

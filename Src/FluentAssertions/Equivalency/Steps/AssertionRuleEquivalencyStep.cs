@@ -1,10 +1,11 @@
 using System;
 using System.Linq.Expressions;
-using FluentAssertions.Common;
-using FluentAssertions.Equivalency.Execution;
-using FluentAssertions.Execution;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Equivalency.Execution;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
 {
@@ -22,7 +23,7 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
         description = predicate.ToString();
     }
 
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+    public async Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
         bool success = false;
@@ -41,7 +42,7 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
             {
                 // Convert into a child context
                 context = context.Clone();
-                converter.Handle(comparands, context, nestedValidator);
+                await converter.HandleAsync(comparands, context, nestedValidator);
                 converted = true;
             }
 

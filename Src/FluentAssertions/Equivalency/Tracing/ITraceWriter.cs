@@ -1,6 +1,6 @@
 using System;
 
-namespace FluentAssertions.Equivalency.Tracing;
+namespace FluentAssertionsAsync.Equivalency.Tracing;
 
 /// <summary>
 /// Represents an object that is used by the <see cref="Tracer"/> class to receive tracing statements on what is

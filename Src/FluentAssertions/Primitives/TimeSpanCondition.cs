@@ -1,4 +1,4 @@
-namespace FluentAssertions.Primitives;
+namespace FluentAssertionsAsync.Primitives;
 
 public enum TimeSpanCondition
 {

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using FluentAssertionsAsync;
 using Xunit;
 using Xunit.Sdk;
 
@@ -9,7 +11,7 @@ public partial class SelectionRulesSpecs
     public class Accessibility
     {
         [Fact]
-        public void When_a_property_is_write_only_it_should_be_ignored()
+        public async Task When_a_property_is_write_only_it_should_be_ignored()
         {
             // Arrange
             var subject = new ClassWithWriteOnlyProperty
@@ -24,14 +26,14 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expected);
+            Func<Task> action = () => subject.Should().BeEquivalentToAsync(expected);
 
             // Assert
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_a_property_is_private_it_should_be_ignored()
+        public async Task When_a_property_is_private_it_should_be_ignored()
         {
             // Arrange
             var subject = new Customer("MyPassword")
@@ -49,14 +51,14 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(other);
+            Func<Task> act = () => subject.Should().BeEquivalentToAsync(other);
 
             // Assert
-            act.Should().NotThrow();
+            await act.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_a_field_is_private_it_should_be_ignored()
+        public async Task When_a_field_is_private_it_should_be_ignored()
         {
             // Arrange
             var subject = new ClassWithAPrivateField(1234)
@@ -70,14 +72,14 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(other);
+            Func<Task> act = () => subject.Should().BeEquivalentToAsync(other);
 
             // Assert
-            act.Should().NotThrow();
+            await act.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_a_property_is_protected_it_should_be_ignored()
+        public async Task When_a_property_is_protected_it_should_be_ignored()
         {
             // Arrange
             var subject = new Customer
@@ -99,14 +101,14 @@ public partial class SelectionRulesSpecs
             expected.SetProtected("ExpectedValue");
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(expected);
+            Func<Task> act = () => subject.Should().BeEquivalentToAsync(expected);
 
             // Assert
-            act.Should().NotThrow();
+            await act.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_a_property_is_internal_and_it_should_be_included_it_should_fail_the_assertion()
+        public async Task When_a_property_is_internal_and_it_should_be_included_it_should_fail_the_assertion()
         {
             // Arrange
             var actual = new ClassWithInternalProperty
@@ -124,10 +126,10 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action act = () => actual.Should().BeEquivalentTo(expected, options => options.IncludingInternalProperties());
+            Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected, options => options.IncludingInternalProperties());
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await act.Should().ThrowAsync<XunitException>()
                 .WithMessage("*InternalProperty*internal*also internal*ProtectedInternalProperty*");
         }
 
@@ -141,7 +143,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_a_field_is_internal_it_should_be_excluded_from_the_comparison()
+        public async Task When_a_field_is_internal_it_should_be_excluded_from_the_comparison()
         {
             // Arrange
             var actual = new ClassWithInternalField
@@ -159,11 +161,11 @@ public partial class SelectionRulesSpecs
             };
 
             // Act / Assert
-            actual.Should().BeEquivalentTo(expected);
+            await actual.Should().BeEquivalentToAsync(expected);
         }
 
         [Fact]
-        public void When_a_field_is_internal_and_it_should_be_included_it_should_fail_the_assertion()
+        public async Task When_a_field_is_internal_and_it_should_be_included_it_should_fail_the_assertion()
         {
             // Arrange
             var actual = new ClassWithInternalField
@@ -181,10 +183,10 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action act = () => actual.Should().BeEquivalentTo(expected, options => options.IncludingInternalFields());
+            Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected, options => options.IncludingInternalFields());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*InternalField*internal*also internal*ProtectedInternalField*");
+            await act.Should().ThrowAsync<XunitException>().WithMessage("*InternalField*internal*also internal*ProtectedInternalField*");
         }
 
         private class ClassWithInternalField
@@ -197,7 +199,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_a_property_is_internal_it_should_be_excluded_from_the_comparison()
+        public async Task When_a_property_is_internal_it_should_be_excluded_from_the_comparison()
         {
             // Arrange
             var actual = new ClassWithInternalProperty
@@ -215,18 +217,18 @@ public partial class SelectionRulesSpecs
             };
 
             // Act / Assert
-            actual.Should().BeEquivalentTo(expected);
+            await actual.Should().BeEquivalentToAsync(expected);
         }
 
         [Fact]
-        public void Private_protected_properties_are_ignored()
+        public async Task Private_protected_properties_are_ignored()
         {
             // Arrange
             var subject = new ClassWithPrivateProtectedProperty("Name", 13);
             var other = new ClassWithPrivateProtectedProperty("Name", 37);
 
             // Act/Assert
-            subject.Should().BeEquivalentTo(other);
+            await subject.Should().BeEquivalentToAsync(other);
         }
 
         private class ClassWithPrivateProtectedProperty
@@ -243,14 +245,14 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void Private_protected_fields_are_ignored()
+        public async Task Private_protected_fields_are_ignored()
         {
             // Arrange
             var subject = new ClassWithPrivateProtectedField("Name", 13);
             var other = new ClassWithPrivateProtectedField("Name", 37);
 
             // Act/Assert
-            subject.Should().BeEquivalentTo(other);
+            await subject.Should().BeEquivalentToAsync(other);
         }
 
         private class ClassWithPrivateProtectedField

@@ -39,7 +39,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveElementPreceding("john", "cris", "because of some reason");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*cris*precede*john*because*reason*found*mick*");
         }
 
@@ -54,7 +54,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveElementPreceding("cris", "jane");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*jane*precede*cris*found*nothing*");
         }
 
@@ -69,7 +69,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveElementPreceding("mick", "cris");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*cris*precede*mick*collection*empty*");
         }
 
@@ -97,7 +97,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveElementPreceding("mick", null);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*null*precede*mick*but found*cris*");
         }
 
@@ -124,7 +124,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveElementPreceding(null, "cris");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*cris*precede*null*but found*mick*");
         }
 
@@ -142,7 +142,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected collection to have \"cris\" precede \"mick\" *failure message*, but the collection is <null>.");
         }

@@ -1,6 +1,6 @@
-﻿using FluentAssertions.Common;
+﻿using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 public static class SubjectInfoExtensions
 {

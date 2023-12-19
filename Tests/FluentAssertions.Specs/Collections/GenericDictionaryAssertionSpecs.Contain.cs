@@ -88,7 +88,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"Three\" at key 2 because we do, but found \"Two\".");
         }
 
@@ -113,7 +113,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to contain {[1, Two], [2, Three]} because we do, but dictionary differs at keys {1, 2}.");
         }
 
@@ -136,7 +136,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key 3 because we do.");
         }
 
@@ -161,7 +161,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key(s) {1, 3, 4} because we do, but could not find keys {3, 4}.");
         }
 
@@ -185,7 +185,7 @@ public partial class GenericDictionaryAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to contain key/value pairs {[1, One], [1, Two]} because we want to test the behaviour with a null subject, but dictionary is <null>.");
         }
 
@@ -206,7 +206,7 @@ public partial class GenericDictionaryAssertionSpecs
                 "because we want to test the behaviour with an empty set of key/value pairs");
 
             // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentException>().WithMessage(
                 "Cannot verify key containment against an empty collection of key/value pairs*");
         }
 
@@ -227,7 +227,7 @@ public partial class GenericDictionaryAssertionSpecs
                 dictionary1.Should().Contain(keyValuePairs, "because we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithMessage("Cannot compare dictionary with <null>.*")
                 .WithParameterName("expected");
         }
@@ -309,7 +309,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().Contain(item, "we put it {0}", "there");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"Two\" at key 1 because we put it there, but found \"One\".");
         }
 
@@ -333,7 +333,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().Contain(items, "we put them {0}", "there");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to contain {[1, Two], [2, Three]} because we put them there, but dictionary differs at keys {1, 2}.");
         }
 
@@ -351,7 +351,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().Contain(1, "Two", "we put it {0}", "there");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"Two\" at key 1 because we put it there, but found \"One\".");
         }
 
@@ -369,7 +369,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().Contain(3, "Two", "we put it {0}", "there");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"Two\" at key 3 because we put it there, but the key was not found.");
         }
 
@@ -387,7 +387,7 @@ public partial class GenericDictionaryAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"One\" at key 1 because we want to test the behaviour with a null subject, but dictionary is <null>.");
         }
 
@@ -524,7 +524,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotContain(keyValuePairs, "because {0}", "we do");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to not contain value \"One\" at key 1 because we do, but found it anyhow.");
         }
 
@@ -548,7 +548,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotContain(keyValuePairs, "because {0}", "we do");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to not contain key/value pairs {[1, One], [2, Two]} because we do, but found them anyhow.");
         }
 
@@ -572,7 +572,7 @@ public partial class GenericDictionaryAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to not contain key/value pairs {[1, One], [1, Two]} because we want to test the behaviour with a null subject, but dictionary is <null>.");
         }
 
@@ -594,7 +594,7 @@ public partial class GenericDictionaryAssertionSpecs
                 "because we want to test the behaviour with an empty set of key/value pairs");
 
             // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentException>().WithMessage(
                 "Cannot verify key containment against an empty collection of key/value pairs*");
         }
 
@@ -616,7 +616,7 @@ public partial class GenericDictionaryAssertionSpecs
                 dictionary1.Should().NotContain(keyValuePairs, "because we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithMessage("Cannot compare dictionary with <null>.*")
                 .WithParameterName("items");
         }
@@ -715,7 +715,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotContain(item, "we put it {0}", "there");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" at key 1 because we put it there, but found it anyhow.");
         }
 
@@ -739,7 +739,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotContain(items, "we did not put them {0}", "there");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to not contain key/value pairs {[1, One], [2, Two]} because we did not put them there, but found them anyhow.");
         }
 
@@ -757,7 +757,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotContain(1, "One", "we did not put it {0}", "there");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" at key 1 because we did not put it there, but found it anyhow.");
         }
 
@@ -775,7 +775,7 @@ public partial class GenericDictionaryAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" at key 1 because we want to test the behaviour with a null subject, but dictionary is <null>.");
         }
     }

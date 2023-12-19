@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
 
-namespace FluentAssertions.Numeric;
+namespace FluentAssertionsAsync.Numeric;
 
 /// <summary>
 /// Contains a number of methods to assert that an <see cref="sbyte"/> is in the expected state.

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace FluentAssertions.Collections;
+namespace FluentAssertionsAsync.Collections;
 
 [DebuggerNonUserCode]
 public class SubsequentOrderingAssertions<T>

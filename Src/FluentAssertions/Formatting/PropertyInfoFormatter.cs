@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace FluentAssertions.Formatting;
+namespace FluentAssertionsAsync.Formatting;
 
 public class PropertyInfoFormatter : IValueFormatter
 {

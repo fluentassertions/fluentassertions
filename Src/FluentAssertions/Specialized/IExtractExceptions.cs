@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FluentAssertions.Specialized;
+namespace FluentAssertionsAsync.Specialized;
 
 public interface IExtractExceptions
 {

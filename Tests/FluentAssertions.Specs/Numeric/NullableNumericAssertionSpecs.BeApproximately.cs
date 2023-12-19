@@ -19,7 +19,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeApproximately(3.14, -0.1);
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -35,7 +35,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeApproximately(expected, -0.1);
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -92,7 +92,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeApproximately(expected, 0.1);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*12.0*0.1*13.0*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected*12.0*0.1*13.0*");
         }
 
         [Fact]
@@ -106,7 +106,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeApproximately(expected, 0.1);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected value to approximate 12.0 +/- 0.1, but it was <null>.");
         }
 
@@ -121,7 +121,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeApproximately(expected, 0.1);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected value to approximate <null> +/- 0.1, but it was 12.0.");
         }
 
@@ -139,7 +139,7 @@ public partial class NullableNumericAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected value to approximate 3.14 +/- 0.001, but it was <null>.");
         }
 
@@ -183,7 +183,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeApproximately(3.14F, -0.1F);
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -199,7 +199,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeApproximately(expected, -0.1F);
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -256,7 +256,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeApproximately(expected, 0.1f);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*12*0.1*13*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected*12*0.1*13*");
         }
 
         [Fact]
@@ -270,7 +270,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeApproximately(expected, 0.1f);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected value to approximate 12F +/- 0.1F, but it was <null>.");
         }
 
@@ -285,7 +285,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeApproximately(expected, 0.1f);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected value to approximate <null> +/- 0.1F, but it was 12F.");
         }
 
@@ -303,7 +303,7 @@ public partial class NullableNumericAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected value to approximate 3.14F +/- 0.001F, but it was <null>.");
         }
 
@@ -348,7 +348,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeApproximately(3.14m, -0.1m);
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -364,7 +364,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeApproximately(expected, -0.1m);
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -421,7 +421,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeApproximately(expected, 0.1m);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*12*0.1*13*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected*12*0.1*13*");
         }
 
         [Fact]
@@ -435,7 +435,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeApproximately(expected, 0.1m);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected value to approximate 12M +/- 0.1M, but it was <null>.");
         }
 
@@ -450,7 +450,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeApproximately(expected, 0.1m);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected value to approximate <null> +/- 0.1M, but it was 12M.");
         }
 
@@ -468,7 +468,7 @@ public partial class NullableNumericAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected value to approximate*3.14* +/-*0.001*, but it was <null>.");
         }
 
@@ -500,7 +500,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().NotBeApproximately(3.14, -0.1);
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -516,7 +516,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().NotBeApproximately(expected, -0.1);
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -617,7 +617,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().NotBeApproximately(expected, 0.1);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*null*0.1*but*null*");
         }
 
@@ -632,7 +632,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().NotBeApproximately(expected, 0.1F);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -660,7 +660,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().NotBeApproximately(3.14F, -0.1F);
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -676,7 +676,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().NotBeApproximately(expected, -0.1F);
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -777,7 +777,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().NotBeApproximately(expected, 0.1F);
 
             // Assert
-            act.Should().Throw<XunitException>("Expected*<null>*+/-*0.1F*<null>*");
+            await await act.Should().ThrowAsyncAsync<XunitException>("Expected*<null>*+/-*0.1F*<null>*");
         }
 
         [Fact]
@@ -791,7 +791,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().NotBeApproximately(expected, 0.1F);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -819,7 +819,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().NotBeApproximately(3.14m, -0.1m);
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -835,7 +835,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().NotBeApproximately(expected, -0.1m);
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -936,7 +936,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().NotBeApproximately(expected, 0.1m);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*<null>*0.1M*<null>*");
         }
 
@@ -951,7 +951,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().NotBeApproximately(expected, 0.1m);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
     }
 }

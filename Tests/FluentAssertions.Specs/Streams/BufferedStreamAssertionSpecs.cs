@@ -36,7 +36,7 @@ public class BufferedStreamAssertionSpecs
                 stream.Should().HaveBufferSize(10, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected the buffer size of stream to be 10 *failure message*, but it was 1.");
         }
 
@@ -54,7 +54,7 @@ public class BufferedStreamAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected the buffer size of stream to be 10 *failure message*, but found a <null> reference.");
         }
     }
@@ -86,7 +86,7 @@ public class BufferedStreamAssertionSpecs
                 stream.Should().NotHaveBufferSize(10, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected the buffer size of stream not to be 10 *failure message*, but it was.");
         }
 
@@ -104,7 +104,7 @@ public class BufferedStreamAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected the buffer size of stream not to be 10 *failure message*, but found a <null> reference.");
         }
     }

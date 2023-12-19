@@ -1,9 +1,9 @@
-using FluentAssertions.Equivalency.Execution;
-using FluentAssertions.Equivalency.Tracing;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Equivalency.Execution;
+using FluentAssertionsAsync.Equivalency.Tracing;
+using FluentAssertionsAsync.Execution;
 using static System.FormattableString;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Provides information on a particular property during an assertion for structural equality of two object graphs.

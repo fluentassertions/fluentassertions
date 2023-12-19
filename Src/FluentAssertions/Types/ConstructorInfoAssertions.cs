@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Reflection;
 
-namespace FluentAssertions.Types;
+namespace FluentAssertionsAsync.Types;
 
 /// <summary>
 /// Contains a number of methods to assert that a <see cref="ConstructorInfo"/> is in the expected state.

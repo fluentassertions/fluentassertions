@@ -83,7 +83,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().ContainInConsecutiveOrder(1, 2, 3);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, 2, 2, 3} to contain items {1, 2, 3} in order, but 3 (index 2) did not appear (in the right consecutive order).");
         }
 
@@ -97,7 +97,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().ContainInConsecutiveOrder(4);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, 2, 2, 3} to contain items {4} in order, but 4 (index 0) did not appear (in the right consecutive order).");
         }
 
@@ -111,7 +111,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().ContainInConsecutiveOrder(1, 2, 3);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, 3, 1, 2} to contain items {1, 2, 3} in order, but 3 (index 2) did not appear (in the right consecutive order).");
         }
 
@@ -125,7 +125,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().ContainInConsecutiveOrder(1, 2, 1, 1, 2);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, 2, 1, 2, 3, 12, 2, 2} to contain items {1, 2, 1, 1, 2} in order, but 1 (index 3) did not appear (in the right consecutive order).");
         }
 
@@ -136,7 +136,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => new[] { 1, 2, 3 }.Should().ContainInConsecutiveOrder(new[] { 3, 1 }, "because we said so");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, 2, 3} to contain items {3, 1} in order because we said so, but 1 (index 1) did not appear (in the right consecutive order).");
         }
 
@@ -147,7 +147,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => new[] { 1, 2, 3 }.Should().ContainInConsecutiveOrder(new[] { 4, 1 }, "we failed");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, 2, 3} to contain items {4, 1} in order because we failed, " +
                 "but 4 (index 0) did not appear (in the right consecutive order).");
         }
@@ -159,7 +159,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => new[] { 1, 2, 3 }.Should().ContainInConsecutiveOrder(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot verify ordered containment against a <null> collection.*");
         }
 
@@ -179,7 +179,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to contain {4} in order because we're checking how it reacts to a null subject, but found <null>.");
         }
     }
@@ -266,7 +266,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainInConsecutiveOrder(4);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Cannot verify absence of ordered containment in a <null> collection.");
         }
 
@@ -284,7 +284,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Cannot verify absence of ordered containment in a <null> collection.");
         }
 
@@ -298,7 +298,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainInConsecutiveOrder(1, null, 2, "string");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, <null>, 2, \"string\"} to not contain items {1, <null>, 2, \"string\"} in consecutive order, " +
                 "but items appeared in order ending at index 3.");
         }
@@ -313,7 +313,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainInConsecutiveOrder(2);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, <null>, 2, \"string\"} to not contain items {2} in consecutive order, " +
                 "but items appeared in order ending at index 2.");
         }
@@ -328,7 +328,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainInConsecutiveOrder(1, 2, 3);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, 2, 3, 2} to not contain items {1, 2, 3} in consecutive order, " +
                 "but items appeared in order ending at index 2.");
         }
@@ -343,7 +343,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainInConsecutiveOrder(1, 2, 3);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, 2, 1, 2, 3, 4, 5, 1, 2} to not contain items {1, 2, 3} in consecutive order, " +
                 "but items appeared in order ending at index 4.");
         }
@@ -358,7 +358,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainInConsecutiveOrder(1, 2, 1, 2, 12, 2, 2);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, 2, 1, 2, 12, 2, 2} to not contain items {1, 2, 1, 2, 12, 2, 2} in consecutive order, " +
                 "but items appeared in order ending at index 6.");
         }
@@ -373,7 +373,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainInConsecutiveOrder(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot verify absence of ordered containment against a <null> collection.*");
         }
     }

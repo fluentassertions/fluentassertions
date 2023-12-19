@@ -60,7 +60,7 @@ public partial class TimeOnlyAssertionSpecs
         var act = () => someTimeOnly.Should().Equals(null);
 
         // Assert
-        act.Should().Throw<NotSupportedException>()
+        await await act.Should().ThrowAsyncAsync<NotSupportedException>()
             .WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
     }
 }

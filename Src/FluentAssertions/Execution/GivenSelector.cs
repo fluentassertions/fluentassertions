@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Execution;
+namespace FluentAssertionsAsync.Execution;
 
 /// <summary>
 /// Represents a chaining object returned from <see cref="AssertionScope.Given{T}"/> to continue the assertion using

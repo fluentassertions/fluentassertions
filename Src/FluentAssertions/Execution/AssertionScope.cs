@@ -4,10 +4,10 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using FluentAssertions.Common;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Formatting;
 
-namespace FluentAssertions.Execution;
+namespace FluentAssertionsAsync.Execution;
 
 /// <summary>
 /// Represents an implicit or explicit scope within which multiple assertions can be collected.

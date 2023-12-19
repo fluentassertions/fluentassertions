@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Common;
-using FluentAssertions.Equivalency;
-using FluentAssertions.Execution;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Equivalency;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Primitives;
+namespace FluentAssertionsAsync.Primitives;
 
 /// <summary>
 /// Contains a number of methods to assert that an <see cref="object"/> is in the expected state.
@@ -242,10 +243,10 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
+    public async Task<AndConstraint<TAssertions>> BeEquivalentToAsync<TExpectation>(TExpectation expectation, string because = "",
         params object[] becauseArgs)
     {
-        return BeEquivalentTo(expectation, config => config, because, becauseArgs);
+        return await BeEquivalentToAsync(expectation, config => config, because, becauseArgs);
     }
 
     /// <summary>
@@ -272,7 +273,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
+    public async Task<AndConstraint<TAssertions>> BeEquivalentToAsync<TExpectation>(TExpectation expectation,
         Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
     {
@@ -294,7 +295,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
             CompileTimeType = typeof(TExpectation),
         };
 
-        new EquivalencyValidator().AssertEquality(comparands, context);
+        await new EquivalencyValidator().AssertEqualityAsync(comparands, context);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -317,12 +318,12 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(
+    public async Task<AndConstraint<TAssertions>> NotBeEquivalentToAsync<TExpectation>(
         TExpectation unexpected,
         string because = "",
         params object[] becauseArgs)
     {
-        return NotBeEquivalentTo(unexpected, config => config, because, becauseArgs);
+        return await NotBeEquivalentToAsync(unexpected, config => config, because, becauseArgs);
     }
 
     /// <summary>
@@ -349,7 +350,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(
+    public async Task<AndConstraint<TAssertions>> NotBeEquivalentToAsync<TExpectation>(
         TExpectation unexpected,
         Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config,
         string because = "",
@@ -361,7 +362,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
 
         using (var scope = new AssertionScope())
         {
-            BeEquivalentTo(unexpected, config);
+            await BeEquivalentToAsync(unexpected, config);
             hasMismatches = scope.Discard().Length > 0;
         }
 

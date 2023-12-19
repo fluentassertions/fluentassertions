@@ -263,7 +263,7 @@ public class OuterExceptionSpecs
         Action act = testSubject.Do;
 
         // Assert
-        act.Should().Throw<AggregateException>()
+        await await act.Should().ThrowAsyncAsync<AggregateException>()
             .WithMessage("Outer Message*")
             .WithInnerException<Exception>()
             .WithMessage("Inner Message");
@@ -280,7 +280,7 @@ public class OuterExceptionSpecs
         Action act = testSubject.Do;
 
         // Assert
-        act.Should().Throw<AggregateException>()
+        await await act.Should().ThrowAsyncAsync<AggregateException>()
             .WithMessage("Outer Message*")
             .WithInnerException(typeof(Exception))
             .WithMessage("Inner Message");

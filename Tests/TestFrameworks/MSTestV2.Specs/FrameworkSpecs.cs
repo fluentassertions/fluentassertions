@@ -1,5 +1,5 @@
 ﻿using System;
-using FluentAssertions;
+using FluentAssertionsAsync;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MSTestV2.Specs;

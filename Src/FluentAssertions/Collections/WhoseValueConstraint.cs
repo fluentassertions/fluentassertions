@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace FluentAssertions.Collections;
+namespace FluentAssertionsAsync.Collections;
 
 public class WhoseValueConstraint<TCollection, TKey, TValue, TAssertions> : AndConstraint<TAssertions>
     where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>

@@ -23,7 +23,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => SystemNamespaceClass.DetermineCallerIdentityInNamespace();
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected function to be*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected function to be*");
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => System.Data.NestedSystemNamespaceClass.DetermineCallerIdentityInNamespace();
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected function to be*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected function to be*");
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => SystemPrefixed.SystemPrefixedNamespaceClass.DetermineCallerIdentityInNamespace();
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected actualCaller to be*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected actualCaller to be*");
         }
 
         [Fact]
@@ -56,7 +56,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => fooShould.Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected fooShould to be <null>*");
         }
 
@@ -87,7 +87,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => foo.Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo to be <null>*");
         }
 
@@ -102,7 +102,7 @@ namespace FluentAssertions.Specs.Execution
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.Field to be <null>*");
         }
 
@@ -116,7 +116,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => foo.Bar.Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.Bar to be <null>*");
         }
 
@@ -130,7 +130,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => foo.BarMethod().Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.BarMethod() to be <null>*");
         }
 
@@ -144,7 +144,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => foo.BarMethod("test").Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.BarMethod(\"test\") to be <null>*");
         }
 
@@ -162,7 +162,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => foo.GetFoo(test1).GetFooStatic("test" + 2).GetFoo(foo.Field).Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.GetFoo(test1).GetFooStatic(\"test\" + 2).GetFoo(foo.Field) to be <null>*");
         }
 
@@ -185,7 +185,7 @@ namespace FluentAssertions.Specs.Execution
                 .BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.GetFoo(test1).GetFooStatic(\"test\" + 2).GetFoo(foo.Field) to be <null>*");
         }
 
@@ -199,7 +199,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => foo.BarMethod(".Should()").Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.BarMethod(\".Should()\") to be <null>*");
         }
 
@@ -213,7 +213,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => foo.BarMethod("test;").Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.BarMethod(\"test;\") to be <null>*");
         }
 
@@ -234,7 +234,7 @@ namespace FluentAssertions.Specs.Execution
 #pragma warning restore format
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo2 to be <null>*");
         }
 
@@ -248,7 +248,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => foo.BarMethod("test\";").Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.BarMethod(\"test\\\";\") to be <null>*");
         }
 
@@ -262,7 +262,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => foo.BarMethod(@"test", argument2: $@"test2", argument3: @$"test3").Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.BarMethod(@\"test\", argument2: $@\"test2\", argument3: @$\"test3\") to be <null>*");
         }
 
@@ -280,7 +280,7 @@ namespace FluentAssertions.Specs.Execution
                 .Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.BarMethod(@\"            bob dole            \") to be <null>*");
         }
 
@@ -294,7 +294,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => foo.BarMethod(@$"test"";").Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.BarMethod(@$\"test\"\";\") to be <null>*");
         }
 
@@ -308,7 +308,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => foo.BarMethod("1" + 2).Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.BarMethod(\"1\" + 2) to be <null>*");
         }
 
@@ -325,7 +325,7 @@ namespace FluentAssertions.Specs.Execution
                 .Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.BarMethod(\"abc\"+ \"def\") to be <null>*");
         }
 
@@ -339,7 +339,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => foo.BarMethod("test//test2/*test3*/").Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.BarMethod(\"test//test2/*test3*/\") to be <null>*");
         }
 
@@ -353,7 +353,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => foo.BarMethod(@"test @"" @$"" bob").Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.BarMethod(@\"test @\"\" @$\"\" bob\") to be <null>*");
         }
 
@@ -374,7 +374,7 @@ namespace FluentAssertions.Specs.Execution
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo to be <null>*");
         }
 
@@ -397,7 +397,7 @@ namespace FluentAssertions.Specs.Execution
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo to be <null>*");
         }
 
@@ -418,7 +418,7 @@ namespace FluentAssertions.Specs.Execution
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo to be <null>*");
         }
 
@@ -442,7 +442,7 @@ namespace FluentAssertions.Specs.Execution
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.GetFoo(\"bob\").BarMethod() to be <null>*");
         }
 
@@ -456,7 +456,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => foo.ShouldReturnSomeBool().Should().BeFalse();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.ShouldReturnSomeBool() to be false*");
         }
 
@@ -475,7 +475,7 @@ namespace FluentAssertions.Specs.Execution
                 Action act = () => someText.Should().Be("Hi");
 
                 // Assert
-                act.Should().Throw<XunitException>()
+                await await act.Should().ThrowAsyncAsync<XunitException>()
                     .WithMessage("*someText*", "it should capture the variable name");
             }
         }
@@ -492,7 +492,7 @@ namespace FluentAssertions.Specs.Execution
                 .BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.GetFoo(new[] { 1, 2, 3 }.Sum() + \"\") to be <null>*");
         }
 
@@ -508,7 +508,7 @@ namespace FluentAssertions.Specs.Execution
                 .BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.GetFoo(new('a', 10)) to be <null>*");
         }
 
@@ -524,7 +524,7 @@ namespace FluentAssertions.Specs.Execution
                 .BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected foo.GetFoo(new List<int> { 1, 2, 3 }*");
         }
 
@@ -535,7 +535,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => new[] { 1, 2, 3 }.Should().BeEmpty();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected collection to be empty*");
         }
 
@@ -546,7 +546,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => new { Property = "blah" }.Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected object to be*");
         }
 

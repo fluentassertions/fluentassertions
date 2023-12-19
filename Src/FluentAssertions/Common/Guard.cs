@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 internal static class Guard
 {

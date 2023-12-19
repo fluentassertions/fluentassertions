@@ -1,4 +1,4 @@
-namespace FluentAssertions.Execution;
+namespace FluentAssertionsAsync.Execution;
 
 /// <summary>
 /// Custom version of ICloneable that works on all frameworks.

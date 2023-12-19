@@ -32,7 +32,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveCountLessThanOrEqualTo(2);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -66,7 +66,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("*at most*1*we want to test the behaviour with a null subject*found <null>*");
         }
 

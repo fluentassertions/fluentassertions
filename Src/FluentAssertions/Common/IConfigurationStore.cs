@@ -1,4 +1,4 @@
-﻿namespace FluentAssertions.Common;
+﻿namespace FluentAssertionsAsync.Common;
 
 public interface IConfigurationStore
 {

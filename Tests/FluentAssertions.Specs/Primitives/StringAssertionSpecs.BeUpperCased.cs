@@ -31,7 +31,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().BeUpperCased();
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -44,7 +44,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().BeUpperCased();
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -57,7 +57,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().BeUpperCased("because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 @"Expected all characters in actual to be upper cased because we want to test the failure message, but found ""abc"".");
         }
 
@@ -71,7 +71,7 @@ public partial class StringAssertionSpecs
             Action act = () => nullString.Should().BeUpperCased("because strings should never be {0}", "null");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected all characters in nullString to be upper cased because strings should never be null, but found <null>.");
         }
     }
@@ -108,7 +108,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().NotBeUpperCased();
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -131,7 +131,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().NotBeUpperCased("because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect any characters in actual to be upper cased because we want to test the failure message.");
         }
     }

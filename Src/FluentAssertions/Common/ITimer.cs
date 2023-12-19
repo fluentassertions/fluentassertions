@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 /// <summary>
 /// Abstracts a stopwatch so we can control time in unit tests.

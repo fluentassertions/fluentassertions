@@ -24,7 +24,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().SatisfyRespectively(null);
 
             // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentException>().WithMessage(
                 "Cannot verify against a <null> collection of inspectors*");
         }
 
@@ -38,7 +38,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().SatisfyRespectively();
 
             // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentException>().WithMessage(
                 "Cannot verify against an empty collection of inspectors*");
         }
 
@@ -58,7 +58,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to satisfy all inspectors because we want to test the failure message, but collection is <null>.");
         }
 
@@ -73,7 +73,7 @@ public partial class CollectionAssertionSpecs
                 "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to satisfy all inspectors because we want to test the failure message, but collection is empty.");
         }
 
@@ -127,7 +127,7 @@ public partial class CollectionAssertionSpecs
                 }, "because we want to test {0}", "nested assertions");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 @"Expected customers to satisfy all inspectors because we want to test nested assertions, but some inspectors are not satisfied:
 *At index 0:
 *Expected customer.Age to be less than 21, but found 21
@@ -151,7 +151,7 @@ public partial class CollectionAssertionSpecs
             byte[][] subject = { new byte[] { 1 } };
 
             // Act
-            Action act = () => subject.Should().SatisfyRespectively(e => e.Should().BeEquivalentTo(new byte[] { 2, 3, 4 }));
+            Action act = () => subject.Should().SatisfyRespectively(e => e.Should().BeEquivalentToAsync(new byte[] { 2, 3, 4 }));
 
             // Assert
             act.Should().NotThrow<FormatException>();
@@ -169,7 +169,7 @@ public partial class CollectionAssertionSpecs
                 "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to contain exactly 2 items*we want to test the failure message*, but it contains 3 items");
         }
 
@@ -184,7 +184,7 @@ public partial class CollectionAssertionSpecs
                 new Action<int>[] { value => value.Should().Be(1), }, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*because we want to test the failure*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*because we want to test the failure*");
         }
     }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentAssertions.Execution;
+namespace FluentAssertionsAsync.Execution;
 
 public interface IAssertionScope : IDisposable
 {

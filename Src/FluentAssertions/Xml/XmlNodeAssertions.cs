@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Xml;
-using FluentAssertions.Primitives;
-using FluentAssertions.Xml.Equivalency;
+using FluentAssertionsAsync.Primitives;
+using FluentAssertionsAsync.Xml.Equivalency;
 
-namespace FluentAssertions.Xml;
+namespace FluentAssertionsAsync.Xml;
 
 /// <summary>
 /// Contains a number of methods to assert that an <see cref="XmlNode"/> is in the expected state.

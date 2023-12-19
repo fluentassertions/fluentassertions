@@ -1,7 +1,7 @@
 using System;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Primitives;
+namespace FluentAssertionsAsync.Primitives;
 
 internal class NegatedStringStartStrategy : IStringComparisonStrategy
 {

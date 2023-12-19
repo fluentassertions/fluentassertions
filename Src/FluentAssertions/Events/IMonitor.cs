@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentAssertions.Events;
+namespace FluentAssertionsAsync.Events;
 
 /// <summary>
 /// Monitors events on a given source

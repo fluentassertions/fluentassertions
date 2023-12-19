@@ -5,14 +5,15 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using FluentAssertions.Collections.MaximumMatching;
-using FluentAssertions.Common;
-using FluentAssertions.Equivalency;
-using FluentAssertions.Execution;
-using FluentAssertions.Formatting;
-using FluentAssertions.Primitives;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Collections.MaximumMatching;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Equivalency;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Formatting;
+using FluentAssertionsAsync.Primitives;
 
-namespace FluentAssertions.Collections;
+namespace FluentAssertionsAsync.Collections;
 
 [DebuggerNonUserCode]
 public class GenericCollectionAssertions<T> : GenericCollectionAssertions<IEnumerable<T>, T, GenericCollectionAssertions<T>>
@@ -145,10 +146,10 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> AllBeEquivalentTo<TExpectation>(TExpectation expectation,
+    public async Task<AndConstraint<TAssertions>> AllBeEquivalentToAsync<TExpectation>(TExpectation expectation,
         string because = "", params object[] becauseArgs)
     {
-        return AllBeEquivalentTo(expectation, options => options, because, becauseArgs);
+        return await AllBeEquivalentToAsync(expectation, options => options, because, becauseArgs);
     }
 
     /// <summary>
@@ -177,7 +178,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> AllBeEquivalentTo<TExpectation>(TExpectation expectation,
+    public async Task<AndConstraint<TAssertions>> AllBeEquivalentToAsync<TExpectation>(TExpectation expectation,
         Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config,
         string because = "",
         params object[] becauseArgs)
@@ -195,7 +196,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> forceStrictOrderingConfig =
             x => config(x).WithStrictOrderingFor(s => string.IsNullOrEmpty(s.Path));
 
-        return BeEquivalentTo(repeatedExpectation, forceStrictOrderingConfig, because, becauseArgs);
+        return await BeEquivalentToAsync(repeatedExpectation, forceStrictOrderingConfig, because, becauseArgs);
     }
 
     /// <summary>
@@ -319,10 +320,10 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(IEnumerable<TExpectation> expectation,
+    public async Task<AndConstraint<TAssertions>> BeEquivalentToAsync<TExpectation>(IEnumerable<TExpectation> expectation,
         string because = "", params object[] becauseArgs)
     {
-        return BeEquivalentTo(expectation, config => config, because, becauseArgs);
+        return await BeEquivalentToAsync(expectation, config => config, because, becauseArgs);
     }
 
     /// <summary>
@@ -351,7 +352,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(IEnumerable<TExpectation> expectation,
+    public async Task<AndConstraint<TAssertions>> BeEquivalentToAsync<TExpectation>(IEnumerable<TExpectation> expectation,
         Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
     {
@@ -375,7 +376,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             CompileTimeType = typeof(IEnumerable<TExpectation>),
         };
 
-        new EquivalencyValidator().AssertEquality(comparands, context);
+        await new EquivalencyValidator().AssertEqualityAsync(comparands, context);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -831,10 +832,10 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndWhichConstraint<TAssertions, T> ContainEquivalentOf<TExpectation>(TExpectation expectation, string because = "",
+    public async Task<AndWhichConstraint<TAssertions, T>> ContainEquivalentOfAsync<TExpectation>(TExpectation expectation, string because = "",
         params object[] becauseArgs)
     {
-        return ContainEquivalentOf(expectation, config => config, because, becauseArgs);
+        return await ContainEquivalentOfAsync(expectation, config => config, because, becauseArgs);
     }
 
     /// <summary>
@@ -866,7 +867,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
-    public AndWhichConstraint<TAssertions, T> ContainEquivalentOf<TExpectation>(TExpectation expectation,
+    public async Task<AndWhichConstraint<TAssertions, T>> ContainEquivalentOfAsync<TExpectation>(TExpectation expectation,
         Func<EquivalencyOptions<TExpectation>,
             EquivalencyOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
     {
@@ -901,7 +902,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                     CompileTimeType = typeof(TExpectation),
                 };
 
-                new EquivalencyValidator().AssertEquality(comparands, context);
+                await new EquivalencyValidator().AssertEqualityAsync(comparands, context);
 
                 string[] failures = scope.Discard();
 
@@ -1785,7 +1786,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(IEnumerable<TExpectation> unexpected, string because = "",
+    public async Task<AndConstraint<TAssertions>> NotBeEquivalentToAsync<TExpectation>(IEnumerable<TExpectation> unexpected, string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify inequivalence against a <null> collection.");
@@ -1807,7 +1808,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                     unexpected);
         }
 
-        return NotBeEquivalentTo(unexpected.ConvertOrCastToList(), config => config, because, becauseArgs);
+        return await NotBeEquivalentToAsync(unexpected.ConvertOrCastToList(), config => config, because, becauseArgs);
     }
 
     /// <summary>
@@ -1828,7 +1829,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(IEnumerable<TExpectation> unexpected,
+    public async Task<AndConstraint<TAssertions>> NotBeEquivalentToAsync<TExpectation>(IEnumerable<TExpectation> unexpected,
         Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config,
         string because = "", params object[] becauseArgs)
     {
@@ -1845,7 +1846,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         using (var scope = new AssertionScope())
         {
-            BeEquivalentTo(unexpected, config);
+            await BeEquivalentToAsync(unexpected, config);
 
             failures = scope.Discard();
         }
@@ -2314,10 +2315,10 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> NotContainEquivalentOf<TExpectation>(TExpectation unexpected, string because = "",
+    public async Task<AndConstraint<TAssertions>> NotContainEquivalentOfAsync<TExpectation>(TExpectation unexpected, string because = "",
         params object[] becauseArgs)
     {
-        return NotContainEquivalentOf(unexpected, config => config, because, becauseArgs);
+        return await NotContainEquivalentOfAsync(unexpected, config => config, because, becauseArgs);
     }
 
     /// <summary>
@@ -2350,7 +2351,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     [SuppressMessage("Design", "MA0051:Method is too long", Justification = "Needs refactoring")]
-    public AndConstraint<TAssertions> NotContainEquivalentOf<TExpectation>(TExpectation unexpected,
+    public async Task<AndConstraint<TAssertions>> NotContainEquivalentOfAsync<TExpectation>(TExpectation unexpected,
         Func<EquivalencyOptions<TExpectation>,
             EquivalencyOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
     {
@@ -2389,7 +2390,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                         CompileTimeType = typeof(TExpectation),
                     };
 
-                    new EquivalencyValidator().AssertEquality(comparands, context);
+                    await new EquivalencyValidator().AssertEqualityAsync(comparands, context);
 
                     string[] failures = scope.Discard();
 
@@ -2970,7 +2971,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> AllSatisfy(Action<T> expected, string because = "", params object[] becauseArgs)
+    public async Task<AndConstraint<TAssertions>> AllSatisfyAsync(Func<T, Task> expected, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> inspector");
 
@@ -2990,7 +2991,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
             {
                 var elementInspectors = Subject.Select(_ => expected);
-                failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
+                failuresFromInspectors = await CollectFailuresFromInspectorsAsync(elementInspectors);
             }
 
             if (failuresFromInspectors.Length > 0)
@@ -3022,9 +3023,9 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="elementInspectors"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="elementInspectors"/> is empty.</exception>
-    public AndConstraint<TAssertions> SatisfyRespectively(params Action<T>[] elementInspectors)
+    public async Task<AndConstraint<TAssertions>> SatisfyRespectivelyAsync(params Func<T, Task>[] elementInspectors)
     {
-        return SatisfyRespectively(elementInspectors, string.Empty);
+        return await SatisfyRespectivelyAsync(elementInspectors, string.Empty);
     }
 
     /// <summary>
@@ -3044,12 +3045,12 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
-    public AndConstraint<TAssertions> SatisfyRespectively(IEnumerable<Action<T>> expected, string because = "",
+    public async Task<AndConstraint<TAssertions>> SatisfyRespectivelyAsync(IEnumerable<Func<T, Task>> expected, string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> collection of inspectors");
 
-        ICollection<Action<T>> elementInspectors = expected.ConvertOrCastToCollection();
+        ICollection<Func<T, Task>> elementInspectors = expected.ConvertOrCastToCollection();
 
         Guard.ThrowIfArgumentIsEmpty(elementInspectors, nameof(expected),
             "Cannot verify against an empty collection of inspectors");
@@ -3078,7 +3079,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
             using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
             {
-                failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
+                failuresFromInspectors = await CollectFailuresFromInspectorsAsync(elementInspectors);
             }
 
             if (failuresFromInspectors.Length > 0)
@@ -3441,7 +3442,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return index < (collection.Count - 1) ? collection[index + 1] : default;
     }
 
-    private string[] CollectFailuresFromInspectors(IEnumerable<Action<T>> elementInspectors)
+    private async Task<string[]> CollectFailuresFromInspectorsAsync(IEnumerable<Func<T, Task>> elementInspectors)
     {
         string[] collectionFailures;
 
@@ -3449,14 +3450,14 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         {
             int index = 0;
 
-            foreach ((T element, Action<T> inspector) in Subject.Zip(elementInspectors,
+            foreach ((T element, Func<T, Task> inspector) in Subject.Zip(elementInspectors,
                          (element, inspector) => (element, inspector)))
             {
                 string[] inspectorFailures;
 
                 using (var itemScope = new AssertionScope())
                 {
-                    inspector(element);
+                    await inspector(element);
                     inspectorFailures = itemScope.Discard();
                 }
 

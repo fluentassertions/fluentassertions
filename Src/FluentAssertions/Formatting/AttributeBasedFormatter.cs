@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Formatting;
+namespace FluentAssertionsAsync.Formatting;
 
 /// <summary>
 /// Specialized value formatter that looks for static methods in the caller's assembly marked with the

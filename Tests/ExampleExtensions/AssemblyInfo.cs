@@ -1,3 +1,3 @@
-﻿using FluentAssertions;
+﻿using FluentAssertionsAsync;
 
 [assembly: CustomAssertionsAssembly]

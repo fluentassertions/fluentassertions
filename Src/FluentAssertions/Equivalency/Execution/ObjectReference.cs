@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 using static System.FormattableString;
 
-namespace FluentAssertions.Equivalency.Execution;
+namespace FluentAssertionsAsync.Equivalency.Execution;
 
 /// <summary>
 /// Represents  an object tracked by the <see cref="CyclicReferenceDetector"/> including it's location within an object graph.

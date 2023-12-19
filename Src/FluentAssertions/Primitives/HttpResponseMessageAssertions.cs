@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Primitives;
+namespace FluentAssertionsAsync.Primitives;
 
 /// <summary>
 /// Contains a number of methods to assert that a <see cref="HttpResponseMessage"/> is in the expected state.

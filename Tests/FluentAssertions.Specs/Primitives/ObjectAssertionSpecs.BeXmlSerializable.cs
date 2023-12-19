@@ -24,7 +24,7 @@ public partial class ObjectAssertionSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeXmlSerializable();
+            Action act = () => subject.Should().BeXmlSerializableAsync();
 
             // Assert
             act.Should().NotThrow();
@@ -40,10 +40,10 @@ public partial class ObjectAssertionSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeXmlSerializable("we need to store it on {0}", "disk");
+            Action act = () => subject.Should().BeXmlSerializableAsync("we need to store it on {0}", "disk");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "*to be serializable because we need to store it on disk, but serialization failed with:*NonPublicClass*");
         }
@@ -59,10 +59,10 @@ public partial class ObjectAssertionSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeXmlSerializable();
+            Action act = () => subject.Should().BeXmlSerializableAsync();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("*to be serializable, but serialization failed with:*Name*to be*");
         }
     }

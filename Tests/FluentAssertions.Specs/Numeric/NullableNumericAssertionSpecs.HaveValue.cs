@@ -28,7 +28,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => nullableInteger.Should().HaveValue();
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -42,7 +42,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => nullableInteger.Should().HaveValue("because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
     }
@@ -69,7 +69,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => nullableInteger.Should().NotHaveValue();
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]

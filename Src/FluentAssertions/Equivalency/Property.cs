@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// A specialized type of <see cref="INode  "/> that represents a property of an object in a structural equivalency assertion.

@@ -20,7 +20,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
                 "because we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to have element at index 1 because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -34,7 +34,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => collection.Should().HaveElementAt(4, "three", "we put it {0}", "there");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected \"three\" at index 4 because we put it there, but found no element.");
         }
 
@@ -48,7 +48,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => collection.Should().HaveElementAt(1, "three", "we put it {0}", "there");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected \"three\" at index 1 because we put it there, but found \"two\".");
         }
 

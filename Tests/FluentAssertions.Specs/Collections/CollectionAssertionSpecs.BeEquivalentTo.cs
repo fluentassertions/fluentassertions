@@ -22,7 +22,7 @@ public partial class CollectionAssertionSpecs
             var collection2 = new[] { 3, 1, 2 };
 
             // Act / Assert
-            collection1.Should().BeEquivalentTo(collection2);
+            collection1.Should().BeEquivalentToAsync(collection2);
         }
 
         [Fact]
@@ -32,7 +32,7 @@ public partial class CollectionAssertionSpecs
             var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
-            collection.Should().BeEquivalentTo(new[] { 3, 1, 2 });
+            collection.Should().BeEquivalentToAsync(new[] { 3, 1, 2 });
         }
 
         [Fact]
@@ -43,7 +43,7 @@ public partial class CollectionAssertionSpecs
             char[] list2 = "abc123ab".ToCharArray();
 
             // Act / Assert
-            list1.Should().BeEquivalentTo(list2);
+            list1.Should().BeEquivalentToAsync(list2);
         }
 
         [Fact]
@@ -54,10 +54,10 @@ public partial class CollectionAssertionSpecs
             var collection2 = new[] { 1, 2 };
 
             // Act
-            Action act = () => collection1.Should().BeEquivalentTo(collection2, "we treat {0} alike", "all");
+            Action act = () => collection1.Should().BeEquivalentToAsync(collection2, "we treat {0} alike", "all");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected*collection*2 item(s)*we treat all alike, but *1 item(s) more than*");
         }
 
@@ -69,10 +69,10 @@ public partial class CollectionAssertionSpecs
             var collection2 = new[] { 1, 2, 3, 3 };
 
             // Act
-            Action act = () => collection1.Should().BeEquivalentTo(collection2);
+            Action act = () => collection1.Should().BeEquivalentToAsync(collection2);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection1[3]*to be 3, but found 1*");
         }
 
@@ -84,10 +84,10 @@ public partial class CollectionAssertionSpecs
             var otherCollection = new int[0];
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(otherCollection);
+            Action act = () => subject.Should().BeEquivalentToAsync(otherCollection);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected subject to be a collection with 0 item(s), but*contains 3 item(s)*");
         }
 
@@ -99,7 +99,7 @@ public partial class CollectionAssertionSpecs
             var otherCollection = new int[0];
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(otherCollection);
+            Action act = () => subject.Should().BeEquivalentToAsync(otherCollection);
 
             // Assert
             act.Should().NotThrow();
@@ -113,10 +113,10 @@ public partial class CollectionAssertionSpecs
             int[] collection2 = null;
 
             // Act
-            Action act = () => collection1.Should().BeEquivalentTo(collection2);
+            Action act = () => collection1.Should().BeEquivalentToAsync(collection2);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected*<null>*but found {1, 2, 3}*");
         }
 
@@ -130,10 +130,10 @@ public partial class CollectionAssertionSpecs
             // Act
             Action act =
                 () => collection.Should()
-                    .BeEquivalentTo(collection1, "because we want to test the behaviour with a null subject");
+                    .BeEquivalentToAsync(collection1, "because we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection not to be <null>*");
         }
 
@@ -145,7 +145,7 @@ public partial class CollectionAssertionSpecs
             ImmutableArray<string> collection1 = default;
 
             // Act / Assert
-            collection.Should().BeEquivalentTo(collection1);
+            collection.Should().BeEquivalentToAsync(collection1);
         }
 
         [Fact]
@@ -156,7 +156,7 @@ public partial class CollectionAssertionSpecs
             ImmutableList<string> collection1 = default;
 
             // Act / Assert
-            collection.Should().BeEquivalentTo(collection1);
+            collection.Should().BeEquivalentToAsync(collection1);
         }
     }
 
@@ -170,7 +170,7 @@ public partial class CollectionAssertionSpecs
             var collection2 = new[] { 3, 1 };
 
             // Act / Assert
-            collection1.Should().NotBeEquivalentTo(collection2);
+            collection1.Should().NotBeEquivalentToAsync(collection2);
         }
 
         [Fact]
@@ -181,10 +181,10 @@ public partial class CollectionAssertionSpecs
             var collection2 = Enumerable.Repeat(1, 10000);
 
             // Act
-            Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
+            Action act = () => collection1.Should().NotBeEquivalentToAsync(collection2);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -195,7 +195,7 @@ public partial class CollectionAssertionSpecs
             var collection2 = new[] { 3, 1, 4 };
 
             // Act / Assert
-            collection1.Should().NotBeEquivalentTo(collection2);
+            collection1.Should().NotBeEquivalentToAsync(collection2);
         }
 
         [Fact]
@@ -206,10 +206,10 @@ public partial class CollectionAssertionSpecs
             var collection2 = new[] { 3, 1, 2 };
 
             // Act
-            Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
+            Action act = () => collection1.Should().NotBeEquivalentToAsync(collection2);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection1 {1, 2, 3} not*equivalent*{3, 1, 2}.");
         }
 
@@ -224,11 +224,11 @@ public partial class CollectionAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                actual.Should().NotBeEquivalentTo(expectation, "because we want to test the behaviour with a null subject");
+                actual.Should().NotBeEquivalentToAsync(expectation, "because we want to test the behaviour with a null subject");
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*be equivalent because we want to test the behaviour with a null subject, but found <null>*");
         }
 
@@ -240,7 +240,7 @@ public partial class CollectionAssertionSpecs
             var collection2 = new int[0];
 
             // Act
-            Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
+            Action act = () => collection1.Should().NotBeEquivalentToAsync(collection2);
 
             // Assert
             act.Should().NotThrow();
@@ -254,10 +254,10 @@ public partial class CollectionAssertionSpecs
             int[] collection2 = null;
 
             // Act
-            Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
+            Action act = () => collection1.Should().NotBeEquivalentToAsync(collection2);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithMessage("Cannot verify inequivalence against a <null> collection.*")
                 .WithParameterName("unexpected");
         }
@@ -270,11 +270,11 @@ public partial class CollectionAssertionSpecs
             var collection1 = collection;
 
             // Act
-            Action act = () => collection.Should().NotBeEquivalentTo(collection1,
+            Action act = () => collection.Should().NotBeEquivalentToAsync(collection1,
                 "because we want to test the behaviour with same objects");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*not to be equivalent*because we want to test the behaviour with same objects*but they both reference the same object.");
         }
 
@@ -286,13 +286,13 @@ public partial class CollectionAssertionSpecs
             var collection1 = new[] { 1.5, 2.5, 3.5 };
 
             // Act
-            Action act = () => collection.Should().NotBeEquivalentTo(collection1, opt => opt
+            Action act = () => collection.Should().NotBeEquivalentToAsync(collection1, opt => opt
                     .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.5))
                     .WhenTypeIs<double>(),
                 "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*not to be equivalent*because we want to test the failure message*");
         }
 
@@ -307,11 +307,11 @@ public partial class CollectionAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                actual.Should().NotBeEquivalentTo(expectation, opt => opt, "we want to test the failure {0}", "message");
+                actual.Should().NotBeEquivalentToAsync(expectation, opt => opt, "we want to test the failure {0}", "message");
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected actual not to be equivalent *failure message*, but found <null>.*");
         }
 
@@ -323,7 +323,7 @@ public partial class CollectionAssertionSpecs
             ImmutableArray<string> collection1 = ImmutableArray.Create("a", "b", "c");
 
             // Act / Assert
-            collection.Should().NotBeEquivalentTo(collection1);
+            collection.Should().NotBeEquivalentToAsync(collection1);
         }
 
         [Fact]
@@ -334,7 +334,7 @@ public partial class CollectionAssertionSpecs
             ImmutableArray<string> collection1 = default;
 
             // Act / Assert
-            collection.Should().NotBeEquivalentTo(collection1);
+            collection.Should().NotBeEquivalentToAsync(collection1);
         }
     }
 }

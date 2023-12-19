@@ -29,7 +29,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => someCollection.Should().BeNull("because {0} is valid", "null");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someCollection to be <null> because null is valid, but found {empty}.");
         }
     }
@@ -46,7 +46,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => someCollection.Should().NotBeNull("because {0} should not", "someCollection");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someCollection not to be <null> because someCollection should not.");
         }
 

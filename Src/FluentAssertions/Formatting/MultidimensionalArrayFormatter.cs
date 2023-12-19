@@ -3,7 +3,7 @@ using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace FluentAssertions.Formatting;
+namespace FluentAssertionsAsync.Formatting;
 
 public class MultidimensionalArrayFormatter : IValueFormatter
 {

@@ -18,7 +18,7 @@ public partial class StringAssertionSpecs
             Action act = () => "a".Should().ContainAll(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
                 .WithParameterName("values");
         }
@@ -30,7 +30,7 @@ public partial class StringAssertionSpecs
             Action act = () => "a".Should().ContainAll();
 
             // Assert
-            act.Should().Throw<ArgumentException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
                 .WithParameterName("values");
         }
@@ -141,7 +141,7 @@ public partial class StringAssertionSpecs
             Action act = () => "a".Should().NotContainAll(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
                 .WithParameterName("values");
         }
@@ -153,7 +153,7 @@ public partial class StringAssertionSpecs
             Action act = () => "a".Should().NotContainAll();
 
             // Assert
-            act.Should().Throw<ArgumentException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
                 .WithParameterName("values");
         }

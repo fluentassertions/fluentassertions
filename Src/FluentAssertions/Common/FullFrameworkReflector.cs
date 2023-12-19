@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 internal class FullFrameworkReflector : IReflector
 {

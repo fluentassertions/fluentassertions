@@ -77,7 +77,7 @@ public class GivenSelectorSpecs
             .FailWith("Second selector");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Second selector");
     }
 
@@ -94,7 +94,7 @@ public class GivenSelectorSpecs
             .FailWith("{0} selector", "Second");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("\"Second\" selector");
     }
 
@@ -111,7 +111,7 @@ public class GivenSelectorSpecs
             .FailWith("{0} selector", _ => "Second");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("\"Second\" selector");
     }
 
@@ -131,7 +131,7 @@ public class GivenSelectorSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("First selector");
     }
 
@@ -151,7 +151,7 @@ public class GivenSelectorSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("\"First\" selector");
     }
 
@@ -171,7 +171,7 @@ public class GivenSelectorSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("\"First\" selector");
     }
 
@@ -185,7 +185,7 @@ public class GivenSelectorSpecs
             .FailWith("Failure");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expectation Failure");
     }
 
@@ -202,7 +202,7 @@ public class GivenSelectorSpecs
             .FailWith("Failure");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Failure");
     }
 

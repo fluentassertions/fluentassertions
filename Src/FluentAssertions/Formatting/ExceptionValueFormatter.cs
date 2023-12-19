@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentAssertions.Formatting;
+namespace FluentAssertionsAsync.Formatting;
 
 public class ExceptionValueFormatter : IValueFormatter
 {

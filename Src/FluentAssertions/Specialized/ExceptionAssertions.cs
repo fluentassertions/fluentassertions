@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using FluentAssertions.Common;
-using FluentAssertions.Equivalency.Steps;
-using FluentAssertions.Execution;
-using FluentAssertions.Formatting;
-using FluentAssertions.Primitives;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Equivalency.Steps;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Formatting;
+using FluentAssertionsAsync.Primitives;
 
-namespace FluentAssertions.Specialized;
+namespace FluentAssertionsAsync.Specialized;
 
 /// <summary>
 /// Contains a number of methods to assert that an <see cref="Exception" /> is in the correct state.

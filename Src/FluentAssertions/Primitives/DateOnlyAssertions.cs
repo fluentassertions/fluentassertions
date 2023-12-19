@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Primitives;
+namespace FluentAssertionsAsync.Primitives;
 
 /// <summary>
 /// Contains a number of methods to assert that a <see cref="DateOnly"/> is in the expected state.

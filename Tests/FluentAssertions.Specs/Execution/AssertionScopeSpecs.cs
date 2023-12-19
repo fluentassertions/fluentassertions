@@ -202,7 +202,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () => scope.FailWith("Failure 1");
 
             // Assert
-            act.Should().ThrowExactly<XunitException>()
+            await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
                 .WithMessage("Good luck with understanding what's going on!");
         }
 
@@ -216,7 +216,7 @@ namespace FluentAssertions.Specs.Execution
             Func<AssertionScope> act = () => new AssertionScope(strategy);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("assertionStrategy");
         }
 
@@ -232,7 +232,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = scope.Dispose;
 
             // Assert
-            act.Should().ThrowExactly<XunitException>()
+            await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
                 .WithMessage("*but found false*but found true*");
         }
 
@@ -279,7 +279,7 @@ namespace FluentAssertions.Specs.Execution
             // Act
             using var scope = new AssertionScope();
             scope.FormattingOptions.MaxDepth = 1;
-            subject.Should().BeEquivalentTo(expected);
+            subject.Should().BeEquivalentToAsync(expected);
 
             // Assert
             scope.Discard().Should().ContainSingle()
@@ -362,7 +362,7 @@ public class AssertionScopeSpecsWithoutNamespace
         Action act = () => 1.Should().Be(2, "we don't want a NullReferenceException");
 
         // Assert
-        act.Should().ThrowExactly<XunitException>()
+        await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
             .WithMessage("*we don't want a NullReferenceException*");
     }
 }

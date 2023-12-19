@@ -1,5 +1,5 @@
-﻿using FluentAssertions;
-using FluentAssertions.Primitives;
+﻿using FluentAssertionsAsync;
+using FluentAssertionsAsync.Primitives;
 
 namespace ExampleExtensions;
 

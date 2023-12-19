@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Equivalency;
+using FluentAssertionsAsync.Equivalency;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 /// <summary>
 /// Encapsulates a dotted candidate to a (nested) member of a type as well as the

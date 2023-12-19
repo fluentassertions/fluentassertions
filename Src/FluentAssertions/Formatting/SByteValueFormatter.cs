@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace FluentAssertions.Formatting;
+namespace FluentAssertionsAsync.Formatting;
 
 public class SByteValueFormatter : IValueFormatter
 {

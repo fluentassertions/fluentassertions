@@ -29,7 +29,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("*but found <null>*");
         }
 
@@ -205,7 +205,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().BeInAscendingOrder(o => o.Number > 1);
 
             // Assert
-            act.Should().Throw<ArgumentException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentException>()
                 .WithMessage("*Expression <*> cannot be used to select a member.*");
         }
 
@@ -225,7 +225,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().BeInAscendingOrder(o => o.Text, "it should be sorted");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected collection*b*c*a*ordered*Text*should be sorted*a*b*c*");
         }
 
@@ -246,7 +246,7 @@ public partial class CollectionAssertionSpecs
                 collection.Should().BeInAscendingOrder(o => o.Text, StringComparer.OrdinalIgnoreCase, "it should be sorted");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected collection*b*c*a*ordered*Text*should be sorted*a*b*c*");
         }
 
@@ -383,7 +383,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().BeInAscendingOrder(o => o.Text);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("*Text*found*null*");
         }
 
@@ -397,7 +397,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().BeInAscendingOrder(Comparer<SomeClass>.Default);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*found*null*");
         }
 
@@ -412,7 +412,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().BeInAscendingOrder(o => o.Text, StringComparer.OrdinalIgnoreCase);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*Text*found*null*");
         }
 
@@ -426,7 +426,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().BeInAscendingOrder((Expression<Func<SomeClass, string>>)null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithMessage("Cannot assert collection ordering without specifying a property*")
                 .WithParameterName("propertyExpression");
         }
@@ -441,7 +441,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().BeInAscendingOrder(comparer: null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithMessage("Cannot assert collection ordering without specifying a comparer*")
                 .WithParameterName("comparer");
         }
@@ -456,7 +456,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().BeInAscendingOrder(o => o.GetHashCode());
 
             // Assert
-            act.Should().Throw<ArgumentException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentException>()
                 .WithMessage("Expression*o.GetHashCode()*cannot be used to select a member*");
         }
     }
@@ -473,7 +473,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => result.Should().NotBeInAscendingOrder();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("*but found <null>*");
         }
 
@@ -540,7 +540,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotBeInAscendingOrder(o => o.Number);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected collection {empty} to not be ordered \"by Number\" and not result in {empty}.");
         }
 
@@ -554,7 +554,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotBeInAscendingOrder("because I say {0}", "so");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect collection to be in ascending order because I say so, but found {empty}.");
         }
 
@@ -568,7 +568,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotBeInAscendingOrder();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect collection to be in ascending order, but found {42}.");
         }
 
@@ -586,7 +586,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotBeInAscendingOrder(o => o.Number);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -600,7 +600,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotBeInAscendingOrder(Comparer<int>.Default, "it should not be sorted");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect collection to be in ascending order*should not be sorted*1*2*3*");
         }
 
@@ -634,7 +634,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotBeInAscendingOrder(o => o.Text, "it should not be sorted");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected collection*a*b*c*not be ordered*Text*should not be sorted*a*b*c*");
         }
 
@@ -656,7 +656,7 @@ public partial class CollectionAssertionSpecs
                     .NotBeInAscendingOrder(o => o.Text, StringComparer.OrdinalIgnoreCase, "it should not be sorted");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected collection*A*b*C*not be ordered*Text*should not be sorted*A*b*C*");
         }
 
@@ -797,7 +797,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("*Text*found*null*");
         }
 
@@ -815,7 +815,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("*found*null*");
         }
 
@@ -830,7 +830,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotBeInAscendingOrder(o => o.Text, StringComparer.OrdinalIgnoreCase);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("*Text*found*null*");
         }
 
@@ -844,7 +844,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotBeInAscendingOrder((Expression<Func<SomeClass, string>>)null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithMessage("Cannot assert collection ordering without specifying a property*propertyExpression*");
         }
 
@@ -858,7 +858,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotBeInAscendingOrder(comparer: null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithMessage("Cannot assert collection ordering without specifying a comparer*comparer*");
         }
 
@@ -873,7 +873,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotBeInAscendingOrder(o => o.GetHashCode());
 
             // Assert
-            act.Should().Throw<ArgumentException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentException>()
                 .WithMessage("Expression*o.GetHashCode()*cannot be used to select a member*");
         }
     }

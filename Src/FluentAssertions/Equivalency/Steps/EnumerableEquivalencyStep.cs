@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Linq;
-using FluentAssertions.Execution;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 public class EnumerableEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+    public async Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
         if (!IsCollection(comparands.GetExpectedType(context.Options)))
@@ -23,7 +24,7 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
                 OrderingRules = context.Options.OrderingRules
             };
 
-            validator.Execute(ToArray(comparands.Subject), ToArray(comparands.Expectation));
+            await validator.ExecuteAsync(ToArray(comparands.Subject), ToArray(comparands.Expectation));
         }
 
         return EquivalencyResult.AssertionCompleted;

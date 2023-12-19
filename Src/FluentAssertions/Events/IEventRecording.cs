@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FluentAssertions.Events;
+namespace FluentAssertionsAsync.Events;
 
 /// <summary>
 /// Represents an (active) recording of all events that happen(ed) while monitoring an object.

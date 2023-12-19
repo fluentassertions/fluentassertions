@@ -31,7 +31,7 @@ namespace FluentAssertions.Specs.Types
             Action act = () => propertyInfoSelector = new TypeSelector((Type)null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("types");
         }
 
@@ -45,7 +45,7 @@ namespace FluentAssertions.Specs.Types
             Action act = () => propertyInfoSelector = new TypeSelector((Type[])null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("types");
         }
 
@@ -59,7 +59,7 @@ namespace FluentAssertions.Specs.Types
             var act = () => propertyInfoSelector.Should();
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("typeSelector");
         }
 
@@ -667,7 +667,7 @@ namespace FluentAssertions.Specs.Types
                 .UnwrapTaskTypes();
 
             types.Should()
-                .BeEquivalentTo(new[] { typeof(int), typeof(void), typeof(void), typeof(string), typeof(bool) });
+                .BeEquivalentToAsync(new[] { typeof(int), typeof(void), typeof(void), typeof(string), typeof(bool) });
         }
 
         [Fact]

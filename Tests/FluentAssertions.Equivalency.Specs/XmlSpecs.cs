@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Xml.Linq;
+using FluentAssertionsAsync;
 using Xunit;
 using Xunit.Sdk;
 
@@ -8,7 +10,7 @@ namespace FluentAssertions.Equivalency.Specs;
 public class XmlSpecs
 {
     [Fact]
-    public void
+    public async Task
         When_asserting_a_xml_selfclosing_document_is_equivalent_to_a_different_xml_document_with_same_structure_it_should_succeed()
     {
         // Arrange
@@ -23,11 +25,11 @@ public class XmlSpecs
         };
 
         // Act / Assert
-        subject.Should().BeEquivalentTo(expectation);
+        await subject.Should().BeEquivalentToAsync(expectation);
     }
 
     [Fact]
-    public void When_asserting_a_xml_document_is_equivalent_to_a_xml_document_with_elements_missing_it_should_fail()
+    public async Task When_asserting_a_xml_document_is_equivalent_to_a_xml_document_with_elements_missing_it_should_fail()
     {
         var subject = new
         {
@@ -40,16 +42,16 @@ public class XmlSpecs
         };
 
         // Act
-        Action act = () =>
-            subject.Should().BeEquivalentTo(expectation);
+        Func<Task> act = () =>
+            subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await act.Should().ThrowAsync<XunitException>().WithMessage(
             "Expected EndElement \"parent\" in property subject.Document at \"/parent\", but found Element \"child2\".*");
     }
 
     [Fact]
-    public void When_xml_elements_are_equivalent_it_should_not_throw()
+    public async Task When_xml_elements_are_equivalent_it_should_not_throw()
     {
         // Arrange
         var subject = new
@@ -63,11 +65,11 @@ public class XmlSpecs
         };
 
         // Act / Assert
-        subject.Should().BeEquivalentTo(expectation);
+        await subject.Should().BeEquivalentToAsync(expectation);
     }
 
     [Fact]
-    public void When_an_xml_element_property_is_equivalent_to_an_xml_element_with_elements_missing_it_should_fail()
+    public async Task When_an_xml_element_property_is_equivalent_to_an_xml_element_with_elements_missing_it_should_fail()
     {
         // Arrange
         var subject = new
@@ -81,16 +83,16 @@ public class XmlSpecs
         };
 
         // Act
-        Action act = () =>
-            subject.Should().BeEquivalentTo(expectation);
+        Func<Task> act = () =>
+            subject.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await act.Should().ThrowAsync<XunitException>().WithMessage(
             "Expected EndElement \"parent\" in property subject.Element at \"/parent\", but found Element \"child2\"*");
     }
 
     [Fact]
-    public void When_asserting_an_xml_attribute_is_equal_to_the_same_xml_attribute_it_should_succeed()
+    public async Task When_asserting_an_xml_attribute_is_equal_to_the_same_xml_attribute_it_should_succeed()
     {
         var subject = new
         {
@@ -103,11 +105,11 @@ public class XmlSpecs
         };
 
         // Act / Assert
-        subject.Should().BeEquivalentTo(expectation);
+        await subject.Should().BeEquivalentToAsync(expectation);
     }
 
     [Fact]
-    public void When_asserting_an_xml_attribute_is_equal_to_a_different_xml_attribute_it_should_fail_with_descriptive_message()
+    public async Task When_asserting_an_xml_attribute_is_equal_to_a_different_xml_attribute_it_should_fail_with_descriptive_message()
     {
         // Arrange
         var subject = new
@@ -121,11 +123,11 @@ public class XmlSpecs
         };
 
         // Act
-        Action act = () =>
-            subject.Should().BeEquivalentTo(expectation, "because we want to test the failure {0}", "message");
+        Func<Task> act = () =>
+            subject.Should().BeEquivalentToAsync(expectation, "because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await act.Should().ThrowAsync<XunitException>().WithMessage(
             "Expected property subject.Attribute to be name2=\"value\" because we want to test the failure message, but found name=\"value\"*");
     }
 }

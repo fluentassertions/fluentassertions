@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using FluentAssertions.Common;
-using FluentAssertions.Equivalency.Selection;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Equivalency.Selection;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 public class NestedExclusionOptionBuilder<TExpectation, TCurrent>
 {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Types;
+namespace FluentAssertionsAsync.Types;
 
 /// <summary>
 /// Contains a number of methods to assert that a <see cref="MethodBase"/> is in the expected state.

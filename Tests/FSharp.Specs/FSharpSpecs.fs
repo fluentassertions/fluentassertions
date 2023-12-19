@@ -5,7 +5,7 @@ open FluentAssertions
 open Xunit
 open Xunit.Sdk
 
-module FSharpSpecs = 
+module FSharpSpecs =
 
     [<Fact>]
     let ``Caller identification works in F#`` () =
@@ -16,4 +16,4 @@ module FSharpSpecs =
         let act = Action(fun () -> subject.Should().BeTrue("") |> ignore)
 
         // Assert
-        act.Should().Throw<XunitException>("").WithMessage("Expected subject to be true, but found false.", "")
+        await act.Should().ThrowAsync<XunitException>("").WithMessage("Expected subject to be true, but found false.", "")

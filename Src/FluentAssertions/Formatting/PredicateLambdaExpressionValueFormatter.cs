@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace FluentAssertions.Formatting;
+namespace FluentAssertionsAsync.Formatting;
 
 /// <summary>
 /// The <see cref="PredicateLambdaExpressionValueFormatter" /> is responsible for formatting

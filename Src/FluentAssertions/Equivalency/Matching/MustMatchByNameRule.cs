@@ -1,8 +1,8 @@
 using System.Reflection;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Equivalency.Matching;
+namespace FluentAssertionsAsync.Equivalency.Matching;
 
 /// <summary>
 /// Requires the subject to have a member with the exact same name as the expectation has.

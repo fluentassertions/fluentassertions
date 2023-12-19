@@ -39,7 +39,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveElementSucceeding("mick", "cris", "because of some reason");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*cris*succeed*mick*because*reason*found*john*");
         }
 
@@ -54,7 +54,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveElementSucceeding("john", "jane");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*jane*succeed*john*found*nothing*");
         }
 
@@ -68,7 +68,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveElementSucceeding("mick", "cris");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*cris*succeed*mick*collection*empty*");
         }
 
@@ -95,7 +95,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveElementSucceeding("mick", null);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*null*succeed*mick*but found*john*");
         }
 
@@ -122,7 +122,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveElementSucceeding(null, "cris");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*cris*succeed*null*but found*john*");
         }
 
@@ -140,7 +140,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected collection to have \"cris\" succeed \"mick\" *failure message*, but the collection is <null>.");
         }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using FluentAssertionsAsync;
 using Xunit;
 using Xunit.Sdk;
 
@@ -9,32 +11,32 @@ namespace FluentAssertions.Equivalency.Specs;
 public class CyclicReferencesSpecs
 {
     [Fact]
-    public void Graphs_up_to_the_maximum_depth_are_supported()
+    public async Task Graphs_up_to_the_maximum_depth_are_supported()
     {
         // Arrange
         var actual = new ClassWithFiniteRecursiveProperty(recursiveDepth: 10);
         var expectation = new ClassWithFiniteRecursiveProperty(recursiveDepth: 10);
 
         // Act/Assert
-        actual.Should().BeEquivalentTo(expectation);
+        await actual.Should().BeEquivalentToAsync(expectation);
     }
 
     [Fact]
-    public void Graphs_deeper_than_the_maximum_depth_are_not_supported()
+    public async Task Graphs_deeper_than_the_maximum_depth_are_not_supported()
     {
         // Arrange
         var actual = new ClassWithFiniteRecursiveProperty(recursiveDepth: 11);
         var expectation = new ClassWithFiniteRecursiveProperty(recursiveDepth: 11);
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expectation);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expectation);
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("*maximum*depth*10*");
+        await act.Should().ThrowAsync<XunitException>().WithMessage("*maximum*depth*10*");
     }
 
     [Fact]
-    public void By_default_cyclic_references_are_not_valid()
+    public async Task By_default_cyclic_references_are_not_valid()
     {
         // Arrange
         var cyclicRoot = new CyclicRoot
@@ -60,16 +62,16 @@ public class CyclicReferencesSpecs
         };
 
         // Act
-        Action act = () => cyclicRoot.Should().BeEquivalentTo(cyclicRootDto);
+        Func<Task> act = () => cyclicRoot.Should().BeEquivalentToAsync(cyclicRootDto);
 
         // Assert
-        act
-            .Should().Throw<XunitException>()
+        await act
+            .Should().ThrowAsync<XunitException>()
             .WithMessage("Expected property cyclicRoot.Level.Root to be*but it contains a cyclic reference*");
     }
 
     [Fact]
-    public void Two_graphs_with_ignored_cyclic_references_can_be_compared()
+    public async Task Two_graphs_with_ignored_cyclic_references_can_be_compared()
     {
         // Arrange
         var actual = new Parent();
@@ -81,12 +83,12 @@ public class CyclicReferencesSpecs
         expected.Child2 = new Child(expected);
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected, x => x
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected, x => x
             .Excluding(y => y.Child1)
             .IgnoringCyclicReferences());
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     private class Parent
@@ -110,7 +112,7 @@ public class CyclicReferencesSpecs
     }
 
     [Fact]
-    public void Nested_properties_that_are_null_are_not_treated_as_cyclic_references()
+    public async Task Nested_properties_that_are_null_are_not_treated_as_cyclic_references()
     {
         // Arrange
         var actual = new CyclicRoot
@@ -134,11 +136,11 @@ public class CyclicReferencesSpecs
         };
 
         // Act / Assert
-        actual.Should().BeEquivalentTo(expectation);
+        await actual.Should().BeEquivalentToAsync(expectation);
     }
 
     [Fact]
-    public void Equivalent_value_objects_are_not_treated_as_cyclic_references()
+    public async Task Equivalent_value_objects_are_not_treated_as_cyclic_references()
     {
         // Arrange
         var actual = new CyclicRootWithValueObject
@@ -162,65 +164,65 @@ public class CyclicReferencesSpecs
         };
 
         // Act  / Assert
-        actual.Should().BeEquivalentTo(expectation);
+        await actual.Should().BeEquivalentToAsync(expectation);
     }
 
     [Fact]
-    public void Cyclic_references_do_not_trigger_stack_overflows()
+    public async Task Cyclic_references_do_not_trigger_stack_overflows()
     {
         // Arrange
         var recursiveClass1 = new ClassWithInfinitelyRecursiveProperty();
         var recursiveClass2 = new ClassWithInfinitelyRecursiveProperty();
 
         // Act
-        Action act =
-            () => recursiveClass1.Should().BeEquivalentTo(recursiveClass2);
+        Func<Task> act =
+            () => recursiveClass1.Should().BeEquivalentToAsync(recursiveClass2);
 
         // Assert
-        act.Should().NotThrow<StackOverflowException>();
+        await act.Should().NotThrowAsync<StackOverflowException>();
     }
 
     [Fact]
-    public void Cyclic_references_can_be_ignored_in_equivalency_assertions()
+    public async Task Cyclic_references_can_be_ignored_in_equivalency_assertions()
     {
         // Arrange
         var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
         var recursiveClass2 = new ClassWithFiniteRecursiveProperty(15);
 
         // Act / Assert
-        recursiveClass1.Should().BeEquivalentTo(recursiveClass2, options => options.AllowingInfiniteRecursion());
+        await recursiveClass1.Should().BeEquivalentToAsync(recursiveClass2, options => options.AllowingInfiniteRecursion());
     }
 
     [Fact]
-    public void Allowing_infinite_recursion_is_reported_in_the_failure_message()
+    public async Task Allowing_infinite_recursion_is_reported_in_the_failure_message()
     {
         // Arrange
         var recursiveClass1 = new ClassWithFiniteRecursiveProperty(1);
         var recursiveClass2 = new ClassWithFiniteRecursiveProperty(2);
 
         // Act
-        Action act = () => recursiveClass1.Should().BeEquivalentTo(recursiveClass2,
+        Func<Task> act = () => recursiveClass1.Should().BeEquivalentToAsync(recursiveClass2,
             options => options.AllowingInfiniteRecursion());
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("*Recurse indefinitely*");
     }
 
     [Fact]
-    public void Can_ignore_cyclic_references_for_inequivalency_assertions()
+    public async Task Can_ignore_cyclic_references_for_inequivalency_assertions()
     {
         // Arrange
         var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
         var recursiveClass2 = new ClassWithFiniteRecursiveProperty(16);
 
         // Act / Assert
-        recursiveClass1.Should().NotBeEquivalentTo(recursiveClass2,
+        await recursiveClass1.Should().NotBeEquivalentToAsync(recursiveClass2,
                 options => options.AllowingInfiniteRecursion());
     }
 
     [Fact]
-    public void Can_detect_cyclic_references_in_enumerables()
+    public async Task Can_detect_cyclic_references_in_enumerables()
     {
         // Act
         var instance1 = new SelfReturningEnumerable();
@@ -233,12 +235,12 @@ public class CyclicReferencesSpecs
         };
 
         // Assert
-        Action act = () => actual.Should().BeEquivalentTo(
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(
             new[] { new SelfReturningEnumerable(), new SelfReturningEnumerable() },
             "we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("*we want to test the failure message*cyclic reference*");
+        await act.Should().ThrowAsync<XunitException>().WithMessage("*we want to test the failure message*cyclic reference*");
     }
 
     public class SelfReturningEnumerable : IEnumerable<SelfReturningEnumerable>
@@ -255,7 +257,7 @@ public class CyclicReferencesSpecs
     }
 
     [Fact]
-    public void Can_detect_cyclic_references_in_nested_objects_referring_to_the_root()
+    public async Task Can_detect_cyclic_references_in_nested_objects_referring_to_the_root()
     {
         // Arrange
         var company1 = new MyCompany
@@ -299,11 +301,11 @@ public class CyclicReferencesSpecs
         company2.Logo = logo2;
 
         // Act / Assert
-        company1.Should().BeEquivalentTo(company2, o => o.IgnoringCyclicReferences());
+        await company1.Should().BeEquivalentToAsync(company2, o => o.IgnoringCyclicReferences());
     }
 
     [Fact]
-    public void Allow_ignoring_cyclic_references_in_value_types_compared_by_members()
+    public async Task Allow_ignoring_cyclic_references_in_value_types_compared_by_members()
     {
         // Arrange
         var expectation = new ValueTypeCircularDependency
@@ -333,13 +335,13 @@ public class CyclicReferencesSpecs
         subject.Next = secondCopy;
 
         // Act
-        Action act = () => subject.Should()
-            .BeEquivalentTo(expectation, opt => opt
+        Func<Task> act = () => subject.Should()
+            .BeEquivalentToAsync(expectation, opt => opt
                 .ComparingByMembers<ValueTypeCircularDependency>()
                 .IgnoringCyclicReferences());
 
         // Assert
-        act.Should().Throw<XunitException>()
+        (await act.Should().ThrowAsync<XunitException>())
             .WithMessage("*subject.Next.Title*SecondDifferent*Second*")
             .Which.Message.Should().NotContain("maximum recursion depth was reached");
     }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Represents a rule that defines which members of the expectation to include while comparing

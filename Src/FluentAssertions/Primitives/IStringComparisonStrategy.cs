@@ -1,6 +1,6 @@
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Primitives;
+namespace FluentAssertionsAsync.Primitives;
 
 /// <summary>
 /// The strategy used for comparing two <see langword="string" />s.

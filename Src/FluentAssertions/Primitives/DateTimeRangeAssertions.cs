@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Extensions;
 
-namespace FluentAssertions.Primitives;
+namespace FluentAssertionsAsync.Primitives;
 
 #pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
@@ -11,8 +12,8 @@ namespace FluentAssertions.Primitives;
 /// Contains a number of methods to assert that two <see cref="DateTime"/> objects differ in the expected way.
 /// </summary>
 /// <remarks>
-/// You can use the <see cref="FluentAssertions.Extensions.FluentDateTimeExtensions"/> and
-/// <see cref="FluentAssertions.Extensions.FluentTimeSpanExtensions"/> for a more fluent
+/// You can use the <see cref="FluentDateTimeExtensions"/> and
+/// <see cref="FluentTimeSpanExtensions"/> for a more fluent
 /// way of specifying a <see cref="DateTime"/> or a <see cref="TimeSpan"/>.
 /// </remarks>
 [DebuggerNonUserCode]

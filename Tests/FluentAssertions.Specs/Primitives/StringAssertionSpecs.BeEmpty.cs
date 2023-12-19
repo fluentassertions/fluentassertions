@@ -31,7 +31,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().BeEmpty();
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -44,7 +44,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().BeEmpty("because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected actual to be empty because we want to test the failure message, but found \"ABC\".");
         }
 
@@ -58,7 +58,7 @@ public partial class StringAssertionSpecs
             Action act = () => nullString.Should().BeEmpty("because strings should never be {0}", "null");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected nullString to be empty because strings should never be null, but found <null>.");
         }
     }
@@ -95,7 +95,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().NotBeEmpty();
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -108,7 +108,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().NotBeEmpty("because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect actual to be empty because we want to test the failure message.");
         }
     }

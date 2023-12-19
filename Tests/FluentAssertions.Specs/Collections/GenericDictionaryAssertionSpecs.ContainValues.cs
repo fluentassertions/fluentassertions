@@ -41,7 +41,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().ContainValues(new[] { "Two", "Three" }, "because {0}", "we do");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain value {\"Two\", \"Three\"} because we do, but could not find {\"Three\"}.");
         }
 
@@ -60,7 +60,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().ContainValues();
 
             // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentException>().WithMessage(
                 "Cannot verify value containment against an empty sequence*");
         }
     }
@@ -98,7 +98,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotContainValues(new[] { "Two" }, "because {0}", "we do");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain value \"Two\" because we do.");
         }
 
@@ -116,7 +116,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotContainValues(new[] { "Two", "Three" }, "because {0}", "we do");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain value {\"Two\", \"Three\"} because we do, but found {\"Two\"}.");
         }
 
@@ -135,7 +135,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotContainValues();
 
             // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentException>().WithMessage(
                 "Cannot verify value containment with an empty sequence*");
         }
 
@@ -153,7 +153,7 @@ public partial class GenericDictionaryAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to not contain values {\"Two\", \"Three\"} because we do, but found <null>.");
         }
     }

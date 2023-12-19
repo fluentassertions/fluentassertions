@@ -2,10 +2,10 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Specialized;
+namespace FluentAssertionsAsync.Specialized;
 
 /// <summary>
 /// Contains a number of methods to assert that a synchronous method yields the expected result.

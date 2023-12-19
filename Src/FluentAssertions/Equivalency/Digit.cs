@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 internal class Digit
 {

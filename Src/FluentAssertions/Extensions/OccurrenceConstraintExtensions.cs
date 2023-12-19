@@ -1,6 +1,6 @@
 using System;
 
-namespace FluentAssertions.Extensions;
+namespace FluentAssertionsAsync.Extensions;
 
 /// <summary>
 /// Provides extensions to write <see cref="OccurrenceConstraint" />s with fluent syntax

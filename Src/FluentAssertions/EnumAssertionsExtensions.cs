@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using FluentAssertions.Primitives;
+using FluentAssertionsAsync.Primitives;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 /// <summary>
 /// Contains an extension method for custom assertions in unit tests related to Enum objects.

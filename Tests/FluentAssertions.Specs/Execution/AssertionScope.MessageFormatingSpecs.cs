@@ -30,7 +30,7 @@ public partial class AssertionScopeSpecs
         Action act = scope.Dispose;
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .Which.Message.Should().Contain("Failure", Exactly.Times(4));
     }
 
@@ -47,7 +47,7 @@ public partial class AssertionScopeSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage($"Expected {context} to be equal to*");
     }
 
@@ -62,7 +62,7 @@ public partial class AssertionScopeSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected lazy foo to be equal to*");
     }
 
@@ -79,7 +79,7 @@ public partial class AssertionScopeSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage(
                 "Expected * to contain key 0.\n" +
                 "Expected * to contain key 1.\n");
@@ -98,7 +98,7 @@ public partial class AssertionScopeSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage(
                 "Expected * to contain a single item, but the collection is empty.\n" +
                 "Expected * to contain a single item, but the collection is empty.\n");
@@ -111,7 +111,7 @@ public partial class AssertionScopeSpecs
         Action act = () => 1.Should().Be(2, "can't use these in becauseArgs: {0} {1}", "{", "}");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("*because can't use these in becauseArgs: { }*");
     }
 
@@ -123,7 +123,7 @@ public partial class AssertionScopeSpecs
         Action act = () => 1.Should().Be(2, "it should still work", becauseArgs);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("*because it should still work*");
     }
 
@@ -134,7 +134,7 @@ public partial class AssertionScopeSpecs
         Action act = () => 1.Should().Be(2, "use of {} is okay if there are no because arguments");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("*because use of {} is okay if there are no because arguments*");
     }
 
@@ -146,7 +146,7 @@ public partial class AssertionScopeSpecs
             "additional becauseArgs argument");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage(
                 "*because message 'use of {} is considered invalid in because parameter with becauseArgs' could not be formatted with string.Format*");
     }
@@ -158,7 +158,7 @@ public partial class AssertionScopeSpecs
         Action act = () => "{foo}".Should().Be("{bar}");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected string to be \"{bar}\", but \"{foo}\" differs near*");
     }
 
@@ -174,7 +174,7 @@ public partial class AssertionScopeSpecs
         Action act = scope.Dispose;
 
         // Assert
-        act.Should().ThrowExactly<XunitException>()
+        await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
             .WithMessage("{empty}*");
     }
 
@@ -200,7 +200,7 @@ public partial class AssertionScopeSpecs
         Action act = scope.Dispose;
 
         // Assert
-        act.Should().ThrowExactly<XunitException>()
+        await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
             .WithMessage(str);
     }
 
@@ -226,7 +226,7 @@ public partial class AssertionScopeSpecs
         Action act = scope.Dispose;
 
         // Assert
-        act.Should().ThrowExactly<XunitException>()
+        await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
             .WithMessage("\\\"" + str + "\"\\A*");
     }
 
@@ -237,7 +237,7 @@ public partial class AssertionScopeSpecs
         Action act = () => "A\\".Should().Be("A");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("""* near "\" *""");
     }
 
@@ -248,7 +248,7 @@ public partial class AssertionScopeSpecs
         Action act = () => "A".Should().Be("A\\");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("""* to be "A\" *""");
     }
 
@@ -265,7 +265,7 @@ public partial class AssertionScopeSpecs
         Action act = scope.Dispose;
 
         // Assert
-        act.Should().ThrowExactly<XunitException>()
+        await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
             .WithMessage("MyValue*");
     }
 
@@ -283,7 +283,7 @@ public partial class AssertionScopeSpecs
         Action act = scope.Dispose;
 
         // Assert
-        act.Should().ThrowExactly<XunitException>()
+        await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
             .WithMessage("SomeValueAnotherValue*");
     }
 
@@ -301,7 +301,7 @@ public partial class AssertionScopeSpecs
         Action act = scope.Dispose;
 
         // Assert
-        act.Should().ThrowExactly<XunitException>()
+        await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
             .WithMessage("*With SomeKey:\nSomeValue\nWith AnotherKey:\nAnotherValue");
     }
 
@@ -318,7 +318,7 @@ public partial class AssertionScopeSpecs
         Action act = scope.Dispose;
 
         // Assert
-        act.Should().ThrowExactly<XunitException>()
+        await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
             .Which.Message.Should().NotContain("With SomeKey:\nSomeValue");
     }
 
@@ -335,7 +335,7 @@ public partial class AssertionScopeSpecs
         Action act = scope.Dispose;
 
         // Assert
-        act.Should().ThrowExactly<XunitException>()
+        await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
             .WithMessage("SomeValue");
     }
 
@@ -380,7 +380,7 @@ public partial class AssertionScopeSpecs
         Action act = scope.Dispose;
 
         // Assert
-        act.Should().ThrowExactly<XunitException>()
+        await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
             .WithMessage("MyValue*\n\nWith MyKey:\nMyValue\n");
 
         deferredValueInvoked.Should().BeTrue();
@@ -396,7 +396,7 @@ public partial class AssertionScopeSpecs
             .FailWith("of disappointment");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expectations are the root of disappointment");
     }
 
@@ -410,7 +410,7 @@ public partial class AssertionScopeSpecs
             .FailWith("of disappointment");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expectations are the \"root\" of disappointment");
     }
 
@@ -423,7 +423,7 @@ public partial class AssertionScopeSpecs
             .FailWith("Expected {context}");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected object");
     }
 
@@ -436,7 +436,7 @@ public partial class AssertionScopeSpecs
             .FailWith("Expected {context:fallback}");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected fallback");
     }
 
@@ -450,7 +450,7 @@ public partial class AssertionScopeSpecs
             .FailWith("Expected {context}");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected identifier");
     }
 
@@ -463,7 +463,7 @@ public partial class AssertionScopeSpecs
             .FailWith("Expected{reason}");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected because reasons");
     }
 
@@ -476,7 +476,7 @@ public partial class AssertionScopeSpecs
             .FailWith("Expected{reason}");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected because reasons");
     }
 }

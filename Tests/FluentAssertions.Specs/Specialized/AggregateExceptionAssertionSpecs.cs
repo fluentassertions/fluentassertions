@@ -18,7 +18,7 @@ public class AggregateExceptionAssertionSpecs
         Action act = () => throw exception;
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("Background");
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Background");
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class AggregateExceptionAssertionSpecs
             .WithMessage("Something I expected");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("*InvalidOperation*You can't do this*")
             .WithMessage("*NullReferenceException*Found a null*");
     }
@@ -58,7 +58,7 @@ public class AggregateExceptionAssertionSpecs
         Action act = () => throwingOperation.Should().NotThrow();
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("*InvalidOperation*You can't do this*")
             .WithMessage("*NullReferenceException*Found a null*");
     }

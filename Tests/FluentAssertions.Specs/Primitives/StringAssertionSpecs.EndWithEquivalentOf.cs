@@ -41,7 +41,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC".Should().EndWithEquivalentOf("ab", "because it should end");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string that ends with equivalent of \"ab\" because it should end, but found \"ABC\".");
         }
 
@@ -52,7 +52,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC".Should().EndWithEquivalentOf(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot compare string end equivalence with <null>.*");
         }
 
@@ -73,7 +73,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC".Should().EndWithEquivalentOf("00abc");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to end with equivalent of " +
                 "\"00abc\", but " +
                 "\"ABC\" is too short.");
@@ -93,7 +93,7 @@ public partial class StringAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someString that ends with equivalent of \"abC\", but found <null>.");
         }
     }
@@ -174,7 +174,7 @@ public partial class StringAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someString that does not end with equivalent of \"Abc\"*some reason*, but found <null>.");
         }
     }

@@ -40,7 +40,7 @@ public partial class TypeAssertionSpecs
                 type.Should().Be(differentType, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected type to be *.ClassWithoutAttribute *failure message*, but found *.ClassWithAttribute.");
         }
 
@@ -70,7 +70,7 @@ public partial class TypeAssertionSpecs
                 nullType.Should().Be(someType, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected type to be *.ClassWithAttribute *failure message*, but found <null>.");
         }
 
@@ -86,7 +86,7 @@ public partial class TypeAssertionSpecs
                 someType.Should().Be(nullType, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected type to be <null> *failure message*, but found *.ClassWithAttribute.");
         }
 
@@ -108,7 +108,7 @@ public partial class TypeAssertionSpecs
                 typeFromThisAssembly.Should().Be(typeFromOtherAssembly, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected type to be [AssemblyB.ClassC, AssemblyB*] *failure message*, but found [AssemblyB.ClassC, FluentAssertions.Specs*].");
         }
@@ -138,7 +138,7 @@ public partial class TypeAssertionSpecs
                 type.Should().Be<ClassWithoutAttribute>("we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected type to be *.ClassWithoutAttribute *failure message*, but found *.ClassWithAttribute.");
         }
     }
@@ -172,7 +172,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotBe(sameType, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected type not to be [*.ClassWithAttribute*] *failure message*, but it is.");
         }
 
@@ -188,7 +188,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotBe(sameType);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -216,7 +216,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotBe<ClassWithAttribute>("we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected type not to be [*.ClassWithAttribute*] *failure message*, but it is.");
         }
     }

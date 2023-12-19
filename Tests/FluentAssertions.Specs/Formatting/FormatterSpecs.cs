@@ -47,7 +47,7 @@ public class FormatterSpecs
         Action act = () => b.Should().BeNull();
 
         // Assert
-        var exception = act.Should().Throw<XunitException>().Which;
+        var exception = await await act.Should().ThrowAsyncAsync<XunitException>().Which;
         exception.Message.Should().NotContainEquivalentOf("cyclic");
     }
 
@@ -74,7 +74,7 @@ public class FormatterSpecs
         Action act = () => result.Should().Be(expectedJson);
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("*at*index 37*");
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*at*index 37*");
     }
 
     [Fact]
@@ -210,35 +210,35 @@ public class FormatterSpecs
             .And.Equal(expectedStuff, (t1, t2) => t1.StuffId == t2.StuffId && t1.Description == t2.Description);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage(
             """
-            Expected stuff to be equal to 
+            Expected stuff to be equal to
             {
                 FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
                 {
-                    Children = {1, 2, 3, 4}, 
-                    Description = "Stuff_1", 
+                    Children = {1, 2, 3, 4},
+                    Description = "Stuff_1",
                     StuffId = 1
-                }, 
+                },
                 FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
                 {
-                    Children = {1, 2, 3, 4}, 
-                    Description = "WRONG_DESCRIPTION", 
+                    Children = {1, 2, 3, 4},
+                    Description = "WRONG_DESCRIPTION",
                     StuffId = 2
                 }
-            }, but 
+            }, but
             {
                 FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
                 {
-                    Children = {1, 2, 3, 4}, 
-                    Description = "Stuff_1", 
+                    Children = {1, 2, 3, 4},
+                    Description = "Stuff_1",
                     StuffId = 1
-                }, 
+                },
                 FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
                 {
-                    Children = {1, 2, 3, 4}, 
-                    Description = "Stuff_2", 
+                    Children = {1, 2, 3, 4},
+                    Description = "Stuff_2",
                     StuffId = 2
                 }
             } differs at index 1.
@@ -255,14 +255,14 @@ public class FormatterSpecs
         Action act = () => stuff.Should().BeNull();
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .Which.Message.Should().Be(
             """
             Expected stuff to be <null>, but found FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord
             {
-                RecordChildren = {10, 20, 30, 40}, 
-                RecordDescription = "description", 
-                RecordId = 42, 
+                RecordChildren = {10, 20, 30, 40},
+                RecordDescription = "description",
+                RecordId = 42,
                 SingleChild = FluentAssertions.Specs.Formatting.FormatterSpecs+ChildRecord
                 {
                     ChildRecordId = 24
@@ -292,21 +292,21 @@ public class FormatterSpecs
         Action act = () => stuff.Should().Be(expectedStuff);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .Which.Message.Should().Be(
             """
-            Expected stuff to be 
+            Expected stuff to be
             {
-                Children = {10, 20, 30, 40}, 
-                SingleChild = 
+                Children = {10, 20, 30, 40},
+                SingleChild =
                 {
                     ChildId = 4
                 }
-            }, but found 
+            }, but found
             {
-                Children = {1, 2, 3, 4}, 
-                Description = "absent", 
-                SingleChild = 
+                Children = {1, 2, 3, 4},
+                Description = "absent",
+                SingleChild =
                 {
                     ChildId = 8
                 }
@@ -343,17 +343,17 @@ public class FormatterSpecs
         };
 
         // Act
-        Action act = () => stuff.Should().BeEquivalentTo(expectedStuff);
+        Action act = () => stuff.Should().BeEquivalentToAsync(expectedStuff);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .Which.Message.Should().StartWith(
             """
-            Expected stuff to be a collection with 1 item(s), but 
+            Expected stuff to be a collection with 1 item(s), but
             {
                 {
                     Description = "absent"
-                }, 
+                },
                 {
                     Description = "absent"
                 }
@@ -362,11 +362,11 @@ public class FormatterSpecs
 
             {
                 {
-                    ComplexChildren = 
+                    ComplexChildren =
                     {
                         {
                             Property = "hello"
-                        }, 
+                        },
                         {
                             Property = "goodbye"
                         }
@@ -388,7 +388,7 @@ public class FormatterSpecs
         Action act = () => stuff.Should().BeNull();
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .Which.Message.Should().Match("*but found { }*");
     }
 
@@ -404,18 +404,18 @@ public class FormatterSpecs
         Action act = () => stuff.Should().Be(expectedStuff);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .Which.Message.Should().Be(
             """
-            Expected stuff to be equal to 
+            Expected stuff to be equal to
             {
-                Item1 = 2, 
-                Item2 = "WRONG_DESCRIPTION", 
+                Item1 = 2,
+                Item2 = "WRONG_DESCRIPTION",
                 Item3 = {4, 5, 6, 7}
-            }, but found 
+            }, but found
             {
-                Item1 = 1, 
-                Item2 = "description", 
+                Item1 = 1,
+                Item2 = "description",
                 Item3 = {1, 2, 3, 4}
             }.
             """);
@@ -440,17 +440,17 @@ public class FormatterSpecs
         Action act = () => stuff.Should().Be(expectedStuff);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .Which.Message.Should().Be(
             """
-            Expected stuff to be 
+            Expected stuff to be
             {
                 RecordDescription = "WRONG_DESCRIPTION"
             }, but found FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord
             {
-                RecordChildren = {4, 5, 6, 7}, 
-                RecordDescription = "descriptive", 
-                RecordId = 9, 
+                RecordChildren = {4, 5, 6, 7},
+                RecordDescription = "descriptive",
+                RecordId = 9,
                 SingleChild = FluentAssertions.Specs.Formatting.FormatterSpecs+ChildRecord
                 {
                     ChildRecordId = 80

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 /// <summary>
 /// Represents an abstract timer that is used to make some of this library's timing dependent functionality better testable.

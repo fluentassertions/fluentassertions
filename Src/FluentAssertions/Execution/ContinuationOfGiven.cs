@@ -1,4 +1,4 @@
-namespace FluentAssertions.Execution;
+namespace FluentAssertionsAsync.Execution;
 
 /// <summary>
 /// Enables chaining multiple assertions from a <see cref="AssertionScope.Given{T}"/> call.

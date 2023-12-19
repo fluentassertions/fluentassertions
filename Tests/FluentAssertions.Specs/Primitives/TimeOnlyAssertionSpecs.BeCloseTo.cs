@@ -22,7 +22,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(time, -1.Ticks());
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -82,7 +82,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected time to be within 20ms from <12:15:31.000>, but <12:15:30.979> was off by 21ms.");
         }
@@ -98,7 +98,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected time to be within 20ms from <12:15:31.000>, but <12:15:31.021> was off by 21ms.");
         }
@@ -147,7 +147,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => time.Should().BeCloseTo(nearbyTime, 2.Minutes());
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected * to be within 2m from <00:01:00.000>*, but <23:58:59.000> was off by 2m and 1s*");
         }
 
@@ -162,7 +162,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => time.Should().BeCloseTo(nearbyTime, 2.Minutes());
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected * to be within 2m from <23:58:59.000>*, but <00:01:00.000> was off by 2m and 1s*");
         }
 
@@ -177,7 +177,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => time.Should().BeCloseTo(nearbyTime, 35.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*, but found <null>.");
         }
 
@@ -196,7 +196,7 @@ public partial class TimeOnlyAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*, but found <null>.");
         }
     }
@@ -214,7 +214,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect*, but found <null>.");
         }
 
@@ -233,7 +233,7 @@ public partial class TimeOnlyAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect*, but found <null>.");
         }
 
@@ -248,7 +248,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(time, -1.Ticks());
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -264,7 +264,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(time, TimeSpan.FromTicks(1));
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -278,7 +278,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(time, TimeSpan.FromTicks(1));
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -292,7 +292,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(time, TimeSpan.FromTicks(1));
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -306,7 +306,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(time, TimeSpan.FromTicks(1));
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -320,7 +320,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect time to be within 20ms from <12:15:31.000>, but it was <12:15:31.020>.");
         }
 
@@ -335,7 +335,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(20));
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect time to be within 20ms from <12:15:31.000>, but it was <12:15:31.020>.");
         }
 
@@ -373,7 +373,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect time to be within 35ms from <12:15:31.000>, but it was <12:15:31.035>.");
         }
 
@@ -388,7 +388,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 100.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect time to be within 100ms from <00:00:00.000>, but it was <00:00:00.050>.");
         }
 
@@ -403,7 +403,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 100.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect time to be within 100ms from <23:59:59.999>, but it was <23:59:59.949>.");
         }
 
@@ -440,7 +440,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 2.Minutes());
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect * to be within 2m from <00:01:00.000>*, but it was <23:59:00.000>*");
         }
 
@@ -455,7 +455,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 2.Minutes());
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect * to be within 2m from <23:59:00.000>*, but it was <00:01:00.000>*");
         }
     }

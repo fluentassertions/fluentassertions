@@ -61,7 +61,7 @@ public partial class TypeAssertionSpecs
                     .HaveExplicitProperty(interfaceType, "ImplicitStringProperty");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected *.ClassExplicitlyImplementingInterface to explicitly implement " +
                     "*.IExplicitInterface.ImplicitStringProperty, but it does not.");
@@ -81,7 +81,7 @@ public partial class TypeAssertionSpecs
                     .HaveExplicitProperty(interfaceType, "NonExistentProperty");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected *.ClassExplicitlyImplementingInterface to explicitly implement " +
                     "*.IExplicitInterface.NonExistentProperty, but it does not.");
@@ -101,7 +101,7 @@ public partial class TypeAssertionSpecs
                     .HaveExplicitProperty(interfaceType, "NonExistentProperty");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected type *.ClassExplicitlyImplementingInterface to implement interface *.IDummyInterface" +
                     ", but it does not.");
@@ -119,7 +119,7 @@ public partial class TypeAssertionSpecs
                     typeof(IExplicitInterface), "ExplicitStringProperty", "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected type to explicitly implement *.IExplicitInterface.ExplicitStringProperty *failure message*" +
                     ", but type is <null>.");
@@ -136,7 +136,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitProperty(null, "ExplicitStringProperty");
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("interfaceType");
         }
 
@@ -151,7 +151,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitProperty(typeof(IExplicitInterface), null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("name");
         }
 
@@ -166,7 +166,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitProperty(typeof(IExplicitInterface), string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
                 .WithParameterName("name");
         }
 
@@ -179,7 +179,7 @@ public partial class TypeAssertionSpecs
                 typeof(int).Should().HaveExplicitProperty(typeof(IExplicitInterface), "Foo");
             };
 
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected type System.Int32 to*implement *IExplicitInterface, but it does not.");
         }
     }
@@ -212,7 +212,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitProperty<IExplicitInterface>(null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("name");
         }
 
@@ -227,7 +227,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitProperty<IExplicitInterface>(string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
                 .WithParameterName("name");
         }
 
@@ -243,7 +243,7 @@ public partial class TypeAssertionSpecs
                     "ExplicitStringProperty", "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected type to explicitly implement *.IExplicitInterface.ExplicitStringProperty *failure message*" +
                     ", but type is <null>.");
@@ -266,7 +266,7 @@ public partial class TypeAssertionSpecs
                     .NotHaveExplicitProperty(interfaceType, "ExplicitStringProperty");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected *.ClassExplicitlyImplementingInterface to not explicitly implement " +
                     "*.IExplicitInterface.ExplicitStringProperty, but it does.");
@@ -287,7 +287,7 @@ public partial class TypeAssertionSpecs
                     .NotHaveExplicitProperty(interfaceType, "ExplicitImplicitStringProperty");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected *.ClassExplicitlyImplementingInterface to not explicitly implement " +
                     "*.IExplicitInterface.ExplicitImplicitStringProperty, but it does.");
@@ -341,7 +341,7 @@ public partial class TypeAssertionSpecs
                     .NotHaveExplicitProperty(interfaceType, "NonExistentProperty");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected type *.ClassExplicitlyImplementingInterface to implement interface *.IDummyInterface" +
                     ", but it does not.");
@@ -359,7 +359,7 @@ public partial class TypeAssertionSpecs
                     typeof(IExplicitInterface), "ExplicitStringProperty", "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected type to not explicitly implement *IExplicitInterface.ExplicitStringProperty *failure message*" +
                     ", but type is <null>.");
@@ -376,7 +376,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitProperty(null, "ExplicitStringProperty");
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("interfaceType");
         }
 
@@ -391,7 +391,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitProperty(typeof(IExplicitInterface), null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("name");
         }
 
@@ -406,7 +406,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitProperty(typeof(IExplicitInterface), string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
                 .WithParameterName("name");
         }
 
@@ -420,7 +420,7 @@ public partial class TypeAssertionSpecs
                     .Should().NotHaveExplicitProperty(typeof(IExplicitInterface), "ExplicitStringProperty");
             };
 
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected *ClassExplicitlyImplementingInterface* to*implement " +
                     "*IExplicitInterface.ExplicitStringProperty, but it does.");
         }
@@ -440,7 +440,7 @@ public partial class TypeAssertionSpecs
                     .NotHaveExplicitProperty<IExplicitInterface>("ExplicitStringProperty");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected *.ClassExplicitlyImplementingInterface to not explicitly implement " +
                     "*.IExplicitInterface.ExplicitStringProperty, but it does.");
@@ -458,7 +458,7 @@ public partial class TypeAssertionSpecs
                     "ExplicitStringProperty", "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected type to not explicitly implement *.IExplicitInterface.ExplicitStringProperty *failure message*" +
                     ", but type is <null>.");
@@ -475,7 +475,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitProperty<IExplicitInterface>(null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("name");
         }
 
@@ -490,7 +490,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitProperty<IExplicitInterface>(string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }

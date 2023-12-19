@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Execution;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 public class StructuralEqualityEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+    public async Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
         if (!context.CurrentNode.IsRoot && !context.Options.IsRecursive)
@@ -45,14 +46,14 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
 
             foreach (IMember selectedMember in selectedMembers)
             {
-                AssertMemberEquality(comparands, context, nestedValidator, selectedMember, context.Options);
+                await AssertMemberEqualityAsync(comparands, context, nestedValidator, selectedMember, context.Options);
             }
         }
 
         return EquivalencyResult.AssertionCompleted;
     }
 
-    private static void AssertMemberEquality(Comparands comparands, IEquivalencyValidationContext context,
+    private static async Task AssertMemberEqualityAsync(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator parent, IMember selectedMember, IEquivalencyOptions options)
     {
         IMember matchingMember = FindMatchFor(selectedMember, context.CurrentNode, comparands.Subject, options);
@@ -73,7 +74,7 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
                 selectedMember.Name = matchingMember.Name;
             }
 
-            parent.RecursivelyAssertEquality(nestedComparands, context.AsNestedMember(selectedMember));
+            await parent.RecursivelyAssertEqualityAsync(nestedComparands, context.AsNestedMember(selectedMember));
         }
     }
 

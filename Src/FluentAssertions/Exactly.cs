@@ -1,4 +1,4 @@
-﻿namespace FluentAssertions;
+﻿namespace FluentAssertionsAsync;
 
 public static class Exactly
 {

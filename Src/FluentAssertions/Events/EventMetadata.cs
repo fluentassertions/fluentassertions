@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentAssertions.Events;
+namespace FluentAssertionsAsync.Events;
 
 /// <summary>
 /// Provides the metadata of a monitored event.

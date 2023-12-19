@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 /// <summary>
 /// Marks a method as an extension to Fluent Assertions that either uses the built-in assertions

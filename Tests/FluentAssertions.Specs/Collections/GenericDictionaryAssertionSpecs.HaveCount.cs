@@ -39,7 +39,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().HaveCount(4);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -93,7 +93,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().HaveCount(c => c >= 4, "a minimum of 4 is required");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to have a count (c >= 4) because a minimum of 4 is required, but count is 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
         }
 
@@ -112,7 +112,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().HaveCount(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot compare collection count against a <null> predicate.*");
         }
 
@@ -126,7 +126,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().HaveCount(1, "we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to contain 1 item(s) because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -140,7 +140,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().HaveCount(c => c < 3, "we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to contain (c < 3) items because we want to test the behaviour with a null subject, but found <null>.");
         }
     }
@@ -177,7 +177,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotHaveCount(3);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -209,7 +209,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotHaveCount(1, "we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("*not contain*1*we want to test the behaviour with a null subject*found <null>*");
         }
     }

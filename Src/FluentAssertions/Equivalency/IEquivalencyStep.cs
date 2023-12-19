@@ -1,4 +1,6 @@
-namespace FluentAssertions.Equivalency;
+using System.Threading.Tasks;
+
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Defines a step in the process of comparing two object graphs for structural equivalency.
@@ -15,5 +17,5 @@ public interface IEquivalencyStep
     /// <remarks>
     /// May throw when preconditions are not met or if it detects mismatching data.
     /// </remarks>
-    EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator);
+    Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator);
 }

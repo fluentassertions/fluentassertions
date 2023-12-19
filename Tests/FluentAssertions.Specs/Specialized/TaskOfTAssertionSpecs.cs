@@ -364,7 +364,7 @@ public static class TaskOfTAssertionSpecs
             Func<Task> act = () => someFunc.Should().NotThrowAfterAsync(waitTime, pollInterval);
 
             // Assert
-            await act.Should().ThrowAsync<ArgumentOutOfRangeException>()
+            await await await act.Should().ThrowAsyncAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("waitTime")
                 .WithMessage("*must be non-negative*");
         }
@@ -383,7 +383,7 @@ public static class TaskOfTAssertionSpecs
             Func<Task> act = () => someFunc.Should().NotThrowAfterAsync(waitTime, pollInterval);
 
             // Assert
-            await act.Should().ThrowAsync<ArgumentOutOfRangeException>()
+            await await await act.Should().ThrowAsyncAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("pollInterval")
                 .WithMessage("*must be non-negative*");
         }

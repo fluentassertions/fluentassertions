@@ -34,7 +34,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => subset.Should().BeSubsetOf(superset, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected subset to be a subset of {1, 2, 4, 5} because we want to test the failure message, " +
                 "but items {3, 6} are not part of the superset.");
         }
@@ -64,7 +64,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => subset.Should().BeSubsetOf(superset);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot verify a subset against a <null> collection.*");
         }
 
@@ -93,7 +93,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => subject.Should().NotBeSubsetOf(otherSet);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect subject {empty} to be a subset of {1, 2, 3}.");
         }
 
@@ -108,7 +108,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => subject.Should().NotBeSubsetOf(otherSet, "because I'm {0}", "mistaken");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect subject {1, 2} to be a subset of {1, 2, 3} because I'm mistaken.");
         }
 
@@ -127,7 +127,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to be a subset of {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -143,7 +143,7 @@ public partial class CollectionAssertionSpecs
                 "because we want to test the behaviour with same objects");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect*to be a subset of*because we want to test the behaviour with same objects*but they both reference the same object.");
         }
 
@@ -161,7 +161,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Cannot assert a <null> collection against a subset.");
         }
     }

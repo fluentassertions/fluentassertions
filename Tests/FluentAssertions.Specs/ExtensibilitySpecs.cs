@@ -20,7 +20,7 @@ public class ExtensibilitySpecs
         Action act = () => myClient.Should().BeActive("because we don't work with old clients");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected myClient to be true because we don't work with old clients, but found False.");
     }
 
@@ -34,7 +34,7 @@ public class ExtensibilitySpecs
         Action act = () => palindrome.Should().BePalindromic();
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected palindrome to be*tneulf*");
     }
 }

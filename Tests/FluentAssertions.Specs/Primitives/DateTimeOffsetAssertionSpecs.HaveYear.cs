@@ -33,7 +33,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().HaveYear(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected the year part of subject to be 2008, but it was 2009.");
         }
 
@@ -48,7 +48,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().HaveYear(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected the year part of subject to be 2008, but found a <null> DateTimeOffset.");
         }
     }
@@ -66,7 +66,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().NotHaveYear(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect the year part of subject to be 2009, but it was.");
         }
 
@@ -95,7 +95,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().NotHaveYear(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect the year part of subject to be 2008, but found a <null> DateTimeOffset.");
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace FluentAssertions.Collections.MaximumMatching;
+namespace FluentAssertionsAsync.Collections.MaximumMatching;
 
 /// <summary>
 /// The <see cref="MaximumMatchingProblem{TElement}"/> class defines input for the maximum matching problem.

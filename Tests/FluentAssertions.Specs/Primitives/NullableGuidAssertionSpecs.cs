@@ -36,7 +36,7 @@ public class NullableGuidAssertionSpecs
         Action act = () => nullableGuid.Should().HaveValue();
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -49,7 +49,7 @@ public class NullableGuidAssertionSpecs
         Action act = () => nullableGuid.Should().NotBeNull();
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -62,7 +62,7 @@ public class NullableGuidAssertionSpecs
         Action act = () => nullableGuid.Should().HaveValue("because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected a value because we want to test the failure message.");
     }
 
@@ -76,7 +76,7 @@ public class NullableGuidAssertionSpecs
         Action act = () => nullableGuid.Should().NotBeNull("because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected a value because we want to test the failure message.");
     }
 
@@ -110,7 +110,7 @@ public class NullableGuidAssertionSpecs
         Action act = () => nullableGuid.Should().NotHaveValue();
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -123,7 +123,7 @@ public class NullableGuidAssertionSpecs
         Action act = () => nullableGuid.Should().BeNull();
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -138,7 +138,7 @@ public class NullableGuidAssertionSpecs
             guid.Should().Be(someGuid, "because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected Guid to be {55555555-ffff-eeee-dddd-444444444444} because we want to test the failure message, but found <null>.");
     }
 
@@ -167,7 +167,7 @@ public class NullableGuidAssertionSpecs
         Action act = () => nullableGuid.Should().NotHaveValue("because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage(
                 "Did not expect a value because we want to test the failure message, but found {11111111-aaaa-bbbb-cccc-999999999999}.");
     }
@@ -182,7 +182,7 @@ public class NullableGuidAssertionSpecs
         Action act = () => nullableGuid.Should().BeNull("because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage(
                 "Did not expect a value because we want to test the failure message, but found {11111111-aaaa-bbbb-cccc-999999999999}.");
     }
@@ -199,7 +199,7 @@ public class NullableGuidAssertionSpecs
             nullableGuid.Should().Be(someGuid, "because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected nullableGuid to be {11111111-aaaa-bbbb-cccc-999999999999} because we want to test the failure message, but found <null>.");
     }
 

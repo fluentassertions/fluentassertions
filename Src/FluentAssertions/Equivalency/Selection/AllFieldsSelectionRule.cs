@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Equivalency.Selection;
+namespace FluentAssertionsAsync.Equivalency.Selection;
 
 /// <summary>
 /// Selection rule that adds all public fields of the expectation

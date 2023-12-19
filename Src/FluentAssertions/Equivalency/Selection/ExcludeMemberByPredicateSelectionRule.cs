@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace FluentAssertions.Equivalency.Selection;
+namespace FluentAssertionsAsync.Equivalency.Selection;
 
 /// <summary>
 /// Selection rule that removes a particular member from the structural comparison based on a predicate.

@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Equivalency.Execution;
-using FluentAssertions.Equivalency.Tracing;
-using FluentAssertions.Execution;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Equivalency.Execution;
+using FluentAssertionsAsync.Equivalency.Tracing;
+using FluentAssertionsAsync.Execution;
 using static System.FormattableString;
 
-namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 /// <summary>
 /// Executes a single equivalency assertion on two collections, optionally recursive and with or without strict ordering.
@@ -32,7 +33,7 @@ internal class EnumerableEquivalencyValidator
 
     public OrderingRuleCollection OrderingRules { get; init; }
 
-    public void Execute<T>(object[] subject, T[] expectation)
+    public async Task ExecuteAsync<T>(object[] subject, T[] expectation)
     {
         if (AssertIsNotNull(expectation, subject) && AssertCollectionsHaveSameCount(subject, expectation))
         {
@@ -41,7 +42,7 @@ internal class EnumerableEquivalencyValidator
                 using var _ = context.Tracer.WriteBlock(member =>
                     Invariant($"Structurally comparing {subject} and expectation {expectation} at {member.Description}"));
 
-                AssertElementGraphEquivalency(subject, expectation, context.CurrentNode);
+                await AssertElementGraphEquivalencyAsync(subject, expectation, context.CurrentNode);
             }
             else
             {
@@ -49,7 +50,7 @@ internal class EnumerableEquivalencyValidator
                     Invariant(
                         $"Comparing subject {subject} and expectation {expectation} at {member.Description} using simple value equality"));
 
-                subject.Should().BeEquivalentTo(expectation);
+                await subject.Should().BeEquivalentToAsync(expectation);
             }
         }
     }
@@ -74,22 +75,22 @@ internal class EnumerableEquivalencyValidator
             .ClearExpectation();
     }
 
-    private void AssertElementGraphEquivalency<T>(object[] subjects, T[] expectations, INode currentNode)
+    private async Task AssertElementGraphEquivalencyAsync<T>(object[] subjects, T[] expectations, INode currentNode)
     {
         unmatchedSubjectIndexes = new List<int>(subjects.Length);
         unmatchedSubjectIndexes.AddRange(Enumerable.Range(0, subjects.Length));
 
         if (OrderingRules.IsOrderingStrictFor(new ObjectInfo(new Comparands(subjects, expectations, typeof(T[])), currentNode)))
         {
-            AssertElementGraphEquivalencyWithStrictOrdering(subjects, expectations);
+            await AssertElementGraphEquivalencyWithStrictOrderingAsync(subjects, expectations);
         }
         else
         {
-            AssertElementGraphEquivalencyWithLooseOrdering(subjects, expectations);
+            await AssertElementGraphEquivalencyWithLooseOrderingAsync(subjects, expectations);
         }
     }
 
-    private void AssertElementGraphEquivalencyWithStrictOrdering<T>(object[] subjects, T[] expectations)
+    private async Task AssertElementGraphEquivalencyWithStrictOrderingAsync<T>(object[] subjects, T[] expectations)
     {
         int failedCount = 0;
 
@@ -97,11 +98,13 @@ internal class EnumerableEquivalencyValidator
         {
             T expectation = expectations[index];
 
+#pragma warning disable CA2000
             using var _ = context.Tracer.WriteBlock(member =>
                 Invariant(
                     $"Strictly comparing expectation {expectation} at {member.Description} to item with index {index} in {subjects}"));
+#pragma warning restore CA2000
 
-            bool succeeded = StrictlyMatchAgainst(subjects, expectation, index);
+            bool succeeded = await StrictlyMatchAgainstAsync(subjects, expectation, index);
 
             if (!succeeded)
             {
@@ -118,7 +121,7 @@ internal class EnumerableEquivalencyValidator
         }
     }
 
-    private void AssertElementGraphEquivalencyWithLooseOrdering<T>(object[] subjects, T[] expectations)
+    private async Task AssertElementGraphEquivalencyWithLooseOrderingAsync<T>(object[] subjects, T[] expectations)
     {
         int failedCount = 0;
 
@@ -126,11 +129,13 @@ internal class EnumerableEquivalencyValidator
         {
             T expectation = expectations[index];
 
+#pragma warning disable CA2000
             using var _ = context.Tracer.WriteBlock(member =>
                 Invariant(
                     $"Finding the best match of {expectation} within all items in {subjects} at {member.Description}[{index}]"));
+#pragma warning restore CA2000
 
-            bool succeeded = LooselyMatchAgainst(subjects, expectation, index);
+            bool succeeded = await LooselyMatchAgainstAsync(subjects, expectation, index);
 
             if (!succeeded)
             {
@@ -149,7 +154,7 @@ internal class EnumerableEquivalencyValidator
 
     private List<int> unmatchedSubjectIndexes;
 
-    private bool LooselyMatchAgainst<T>(IList<object> subjects, T expectation, int expectationIndex)
+    private async Task<bool> LooselyMatchAgainstAsync<T>(IList<object> subjects, T expectation, int expectationIndex)
     {
         var results = new AssertionResultSet();
         int index = 0;
@@ -165,7 +170,7 @@ internal class EnumerableEquivalencyValidator
             object subject = subjects[index];
 
             using var _ = context.Tracer.WriteBlock(getMessage);
-            string[] failures = TryToMatch(subject, expectation, expectationIndex);
+            string[] failures = await TryToMatchAsync(subject, expectation, expectationIndex);
 
             results.AddSet(index, failures);
 
@@ -192,23 +197,23 @@ internal class EnumerableEquivalencyValidator
         return indexToBeRemoved != -1;
     }
 
-    private string[] TryToMatch<T>(object subject, T expectation, int expectationIndex)
+    private async Task<string[]> TryToMatchAsync<T>(object subject, T expectation, int expectationIndex)
     {
         using var scope = new AssertionScope();
 
-        parent.RecursivelyAssertEquality(new Comparands(subject, expectation, typeof(T)),
+        await parent.RecursivelyAssertEqualityAsync(new Comparands(subject, expectation, typeof(T)),
             context.AsCollectionItem<T>(expectationIndex));
 
         return scope.Discard();
     }
 
-    private bool StrictlyMatchAgainst<T>(object[] subjects, T expectation, int expectationIndex)
+    private async Task<bool> StrictlyMatchAgainstAsync<T>(object[] subjects, T expectation, int expectationIndex)
     {
         using var scope = new AssertionScope();
         object subject = subjects[expectationIndex];
         IEquivalencyValidationContext equivalencyValidationContext = context.AsCollectionItem<T>(expectationIndex);
 
-        parent.RecursivelyAssertEquality(new Comparands(subject, expectation, typeof(T)), equivalencyValidationContext);
+        await parent.RecursivelyAssertEqualityAsync(new Comparands(subject, expectation, typeof(T)), equivalencyValidationContext);
 
         bool failed = scope.HasFailures();
         return !failed;

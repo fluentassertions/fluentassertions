@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace FluentAssertions.Events;
+namespace FluentAssertionsAsync.Events;
 
 /// <summary>
 /// Static methods that aid in generic event subscription

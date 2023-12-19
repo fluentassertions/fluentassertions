@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace FluentAssertions.Extensibility;
+namespace FluentAssertionsAsync.Extensibility;
 
 /// <summary>
 /// Can be added to an assembly so it gets a change to initialize Fluent Assertions before the first assertion happens.

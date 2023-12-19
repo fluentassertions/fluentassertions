@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace FluentAssertions.Formatting;
+namespace FluentAssertionsAsync.Formatting;
 
 public class DoubleValueFormatter : IValueFormatter
 {

@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
-using FluentAssertions.Common;
-using static FluentAssertions.Equivalency.MemberVisibility;
+using FluentAssertionsAsync.Common;
+using static FluentAssertionsAsync.Equivalency.MemberVisibility;
 
 namespace Benchmarks;
 

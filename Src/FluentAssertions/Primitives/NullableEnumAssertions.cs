@@ -1,7 +1,7 @@
 ﻿using System;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Primitives;
+namespace FluentAssertionsAsync.Primitives;
 
 /// <summary>
 /// Contains a number of methods to assert that a nullable <typeparamref name="TEnum"/> is in the expected state.

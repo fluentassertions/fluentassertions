@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Equivalency;
+using FluentAssertionsAsync.Equivalency;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 /// <summary>
 /// Helper class to get all the public and internal fields and properties from a type.

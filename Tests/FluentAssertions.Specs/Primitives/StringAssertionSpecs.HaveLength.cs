@@ -36,7 +36,7 @@ public partial class StringAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected actual with length 0 *failure message*, but found <null>.");
         }
 
@@ -54,7 +54,7 @@ public partial class StringAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected actual with length 1 *failure message*, but found string \"ABC\" with length 3.");
         }
     }

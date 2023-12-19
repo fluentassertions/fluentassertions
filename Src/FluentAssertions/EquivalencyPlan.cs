@@ -4,12 +4,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Equivalency;
-using FluentAssertions.Equivalency.Steps;
+using FluentAssertionsAsync.Equivalency;
+using FluentAssertionsAsync.Equivalency.Steps;
 
 #endregion
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 /// <summary>
 /// Represents a mutable collection of equivalency steps that can be reordered and/or amended with additional
@@ -152,6 +152,7 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
             new MultiDimensionalArrayEquivalencyStep(),
             new GenericEnumerableEquivalencyStep(),
             new EnumerableEquivalencyStep(),
+            new AsyncEnumerableEquivalencyStep(),
             new StringEqualityEquivalencyStep(),
             new EnumEqualityStep(),
             new ValueTypeEquivalencyStep(),

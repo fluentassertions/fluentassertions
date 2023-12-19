@@ -47,7 +47,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().BeOnOrAfter(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be on or after <2016-06-05 +0h>, but it was <2016-06-04 +0h>.");
         }
     }
@@ -65,7 +65,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().NotBeOnOrAfter(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be before <2016-06-03 +0h>, but it was <2016-06-04 +0h>.");
         }
 
@@ -80,7 +80,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().NotBeOnOrAfter(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be before <2016-06-04 +0h>, but it was <2016-06-04 +0h>.");
         }
 

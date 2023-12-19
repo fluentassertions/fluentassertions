@@ -20,7 +20,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().BeAtLeast(TimeSpan.FromDays(1)).Before(target, "we like {0}", "that");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected subject <2009-10-01 01:00:00 +0h> to be at least 1d before <2009-10-02 +0h> because we like that, but it is behind by 23h.");
         }
 

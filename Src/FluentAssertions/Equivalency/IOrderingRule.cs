@@ -1,4 +1,4 @@
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Defines a rule that is used to determine whether the order of items in collections is relevant or not.

@@ -30,7 +30,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().Be(nonEqualObject);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someObject to be ClassWithCustomEqualMethod(2), but found ClassWithCustomEqualMethod(1).");
         }
 
@@ -56,7 +56,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().Be(nonEqualObject);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected someObject to be ClassWithCustomEqualMethod(2), but found <null>.");
         }
 
@@ -71,7 +71,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().Be(nonEqualObject, "because it should use the {0}", "reason");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected someObject to be ClassWithCustomEqualMethod(2) because it should use the reason, but found ClassWithCustomEqualMethod(1).");
         }
@@ -87,7 +87,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => subject.Should().Be(expected);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -120,7 +120,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => value.Should().Be(new SomeClass(4), new SomeClassEqualityComparer(), "I said so");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected value to be SomeClass(4)*I said so*found SomeClass(3).");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected value to be SomeClass(4)*I said so*found SomeClass(3).");
         }
 
         [Fact]
@@ -133,7 +133,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => value.Should().Be(new SomeClass(4), new SomeClassEqualityComparer(), "I said so");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected value to be SomeClass(4)*I said so*found SomeClass(3).");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected value to be SomeClass(4)*I said so*found SomeClass(3).");
         }
 
         [Fact]
@@ -146,7 +146,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => value.Should().Be(new SomeClass(3), new SomeClassEqualityComparer(), "I said so");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected value to be SomeClass(3)*I said so*found ClassWithCustomEqualMethod(3).");
         }
 
@@ -160,7 +160,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => value.Should().Be(new SomeClass(3), comparer: null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithParameterName("comparer");
         }
 
         [Fact]
@@ -173,7 +173,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => value.Should().Be(new SomeClass(3), comparer: null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithParameterName("comparer");
         }
 
         [Fact]
@@ -222,7 +222,7 @@ public partial class ObjectAssertionSpecs
                 someObject.Should().NotBe(equalObject);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect someObject to be equal to ClassWithCustomEqualMethod(1).");
         }
 
@@ -238,7 +238,7 @@ public partial class ObjectAssertionSpecs
                 someObject.Should().NotBe(equalObject, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect someObject to be equal to ClassWithCustomEqualMethod(1) " +
                 "because we want to test the failure message.");
         }
@@ -273,7 +273,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => value.Should().NotBe(new SomeClass(3), new SomeClassEqualityComparer(), "I said so");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Did not expect value to be equal to SomeClass(3)*I said so*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Did not expect value to be equal to SomeClass(3)*I said so*");
         }
 
         [Fact]
@@ -286,7 +286,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => value.Should().NotBe(new SomeClass(3), new SomeClassEqualityComparer(), "I said so");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Did not expect value to be equal to SomeClass(3)*I said so*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Did not expect value to be equal to SomeClass(3)*I said so*");
         }
 
         [Fact]
@@ -309,7 +309,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => value.Should().NotBe(new SomeClass(3), comparer: null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithParameterName("comparer");
         }
 
         [Fact]
@@ -322,7 +322,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => value.Should().NotBe(new SomeClass(3), comparer: null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithParameterName("comparer");
         }
 
         [Fact]

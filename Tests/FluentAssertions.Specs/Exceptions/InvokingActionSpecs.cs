@@ -15,7 +15,7 @@ public class InvokingActionSpecs
         Action act = () => someClass.Invoking(d => d.Do());
 
         // Assert
-        act.Should().ThrowExactly<ArgumentNullException>()
+        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
             .WithParameterName("subject");
     }
 
@@ -29,7 +29,7 @@ public class InvokingActionSpecs
         Action act = () => someClass.Invoking(null);
 
         // Assert
-        act.Should().ThrowExactly<ArgumentNullException>()
+        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
             .WithParameterName("action");
     }
 }

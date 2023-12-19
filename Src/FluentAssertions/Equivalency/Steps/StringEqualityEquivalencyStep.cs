@@ -1,23 +1,24 @@
 using System;
-using FluentAssertions.Execution;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 public class StringEqualityEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+    public Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
         Type expectationType = comparands.GetExpectedType(context.Options);
 
         if (expectationType is null || expectationType != typeof(string))
         {
-            return EquivalencyResult.ContinueWithNext;
+            return Task.FromResult(EquivalencyResult.ContinueWithNext);
         }
 
         if (!ValidateAgainstNulls(comparands, context.CurrentNode))
         {
-            return EquivalencyResult.AssertionCompleted;
+            return Task.FromResult(EquivalencyResult.AssertionCompleted);
         }
 
         bool subjectIsString = ValidateSubjectIsString(comparands, context.CurrentNode);
@@ -31,7 +32,7 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
                 .Be(expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
         }
 
-        return EquivalencyResult.AssertionCompleted;
+        return Task.FromResult(EquivalencyResult.AssertionCompleted);
     }
 
     private static bool ValidateAgainstNulls(Comparands comparands, INode currentNode)

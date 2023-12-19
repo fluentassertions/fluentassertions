@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
-using FluentAssertions.Execution;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Execution;
 using static System.FormattableString;
 
-namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
 {
     [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
-    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+    protected override async Task<EquivalencyResult> OnHandleAsync(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
         var subject = comparands.Subject as IDictionary;
@@ -23,7 +24,7 @@ public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
                     context.Tracer.WriteLine(member =>
                         Invariant($"Recursing into dictionary item {key} at {member.Description}"));
 
-                    nestedValidator.RecursivelyAssertEquality(new Comparands(subject[key], expectation[key], typeof(object)),
+                    await nestedValidator.RecursivelyAssertEqualityAsync(new Comparands(subject[key], expectation[key], typeof(object)),
                         context.AsDictionaryItem<object, IDictionary>(key));
                 }
                 else

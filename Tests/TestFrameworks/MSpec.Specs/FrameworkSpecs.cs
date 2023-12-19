@@ -1,5 +1,5 @@
 ﻿using System;
-using FluentAssertions;
+using FluentAssertionsAsync;
 using Machine.Specifications;
 
 namespace MSpec.Specs;

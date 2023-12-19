@@ -1,4 +1,4 @@
-namespace FluentAssertions.Equivalency.Ordering;
+namespace FluentAssertionsAsync.Equivalency.Ordering;
 
 /// <summary>
 /// An ordering rule that basically states that the order of items in all collections is important.

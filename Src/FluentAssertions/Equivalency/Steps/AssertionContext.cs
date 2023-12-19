@@ -1,4 +1,4 @@
-namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 internal sealed class AssertionContext<TSubject> : IAssertionContext<TSubject>
 {

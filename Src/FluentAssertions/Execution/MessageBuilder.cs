@@ -4,12 +4,12 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using FluentAssertions.Common;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Formatting;
 
 #endregion
 
-namespace FluentAssertions.Execution;
+namespace FluentAssertionsAsync.Execution;
 
 /// <summary>
 /// Encapsulates expanding the various placeholders supported in a failure message.

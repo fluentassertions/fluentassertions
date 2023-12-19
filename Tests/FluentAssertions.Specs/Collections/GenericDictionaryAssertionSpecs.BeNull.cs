@@ -29,7 +29,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => someDictionary.Should().BeNull("because {0} is valid", "null");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someDictionary to be <null> because null is valid, but found {empty}.");
         }
     }
@@ -66,7 +66,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => someDictionary.Should().NotBeNull("because {0} should not", "someDictionary");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someDictionary not to be <null> because someDictionary should not.");
         }
     }

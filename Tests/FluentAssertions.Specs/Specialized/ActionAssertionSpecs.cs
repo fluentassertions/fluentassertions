@@ -15,7 +15,7 @@ public class ActionAssertionSpecs
         var act = void () => subject.Should(clock: null).NotThrow();
 
         // Assert
-        act.Should().ThrowExactly<ArgumentNullException>()
+        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
             .WithParameterName("clock");
     }
 

@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using FluentAssertions.Common;
-using FluentAssertions.Equivalency;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Equivalency;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Primitives;
 
-namespace FluentAssertions.Numeric;
+namespace FluentAssertionsAsync.Numeric;
 
 /// <summary>
 /// Contains a number of methods to assert that an <see cref="IComparable{T}"/> is in the expected state.
@@ -74,10 +75,10 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
+    public async Task<AndConstraint<TAssertions>> BeEquivalentToAsync<TExpectation>(TExpectation expectation, string because = "",
         params object[] becauseArgs)
     {
-        return BeEquivalentTo(expectation, config => config, because, becauseArgs);
+        return await BeEquivalentToAsync(expectation, config => config, because, becauseArgs);
     }
 
     /// <summary>
@@ -102,7 +103,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
+    public async Task<AndConstraint<TAssertions>> BeEquivalentToAsync<TExpectation>(TExpectation expectation,
         Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
     {
@@ -124,7 +125,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
             CompileTimeType = typeof(TExpectation),
         };
 
-        new EquivalencyValidator().AssertEquality(comparands, context);
+        await new EquivalencyValidator().AssertEqualityAsync(comparands, context);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Primitives;
+namespace FluentAssertionsAsync.Primitives;
 
 /// <summary>
 /// Contains a number of methods to assert that a nullable <see cref="TimeSpan"/> is in the expected state.

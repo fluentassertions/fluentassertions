@@ -111,7 +111,7 @@ public class PredicateLambdaExpressionValueFormatterSpecs
         Action act = () => subject.Should().Match<ClassWithNullables>(e => e.Number > 43);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("*e.Number > *43*");
     }
 

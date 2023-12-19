@@ -31,7 +31,7 @@ public partial class DateOnlyAssertionSpecs
             Action act = () => subject.Should().BeBefore(expected);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be before <2016-06-04>, but found <2016-06-04>.");
         }
 
@@ -68,7 +68,7 @@ public partial class DateOnlyAssertionSpecs
             Action act = () => subject.Should().NotBeOnOrBefore(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be after <2016-06-05>, but found <2016-06-04>.");
         }
 
@@ -95,7 +95,7 @@ public partial class DateOnlyAssertionSpecs
             Action act = () => subject.Should().NotBeOnOrBefore(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be after <2016-06-04>, but found <2016-06-04>.");
         }
 
@@ -110,7 +110,7 @@ public partial class DateOnlyAssertionSpecs
             Action act = () => subject.Should().BeOnOrBefore(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be on or before <2016-06-03>, but found <2016-06-04>.");
         }
 

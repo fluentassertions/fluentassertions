@@ -38,7 +38,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().BeVirtual("we want to test the error {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected property String FluentAssertions*ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
                     " to be virtual because we want to test the error message," +
@@ -56,7 +56,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().BeVirtual("we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected property to be virtual *failure message*, but propertyInfo is <null>.");
         }
     }
@@ -89,7 +89,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().NotBeVirtual("we want to test the error {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected property *ClassWithAllPropertiesVirtual.PublicVirtualProperty" +
                     " not to be virtual because we want to test the error message," +
@@ -107,7 +107,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().NotBeVirtual("we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected property not to be virtual *failure message*, but propertyInfo is <null>.");
         }
     }
@@ -141,7 +141,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>().Which.Value.Should().Be("OtherValue");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*Value*OtherValue*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected*Value*OtherValue*");
         }
 
         [Fact]
@@ -157,7 +157,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>().Which.Value.Should().Be("OtherValue");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -172,7 +172,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>("because we want to test the error message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected property String " +
                     "FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
                     "FluentAssertions*DummyPropertyAttribute because we want to test the error message, but that attribute was not found.");
@@ -192,7 +192,7 @@ public class PropertyInfoAssertionSpecs
                     "because we want to test the error {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected property String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
                     "FluentAssertions*DummyPropertyAttribute because we want to test the error message," +
@@ -224,7 +224,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>("we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected property to be decorated with *.DummyPropertyAttribute *failure message*, but propertyInfo is <null>.");
         }
@@ -241,7 +241,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().BeDecoratedWith((Expression<Func<DummyPropertyAttribute, bool>>)null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("isMatchingAttributePredicate");
         }
     }
@@ -259,7 +259,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().NotBeDecoratedWith<DummyPropertyAttribute>("we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected property to not be decorated with *.DummyPropertyAttribute *failure message*, but propertyInfo is <null>.");
         }
@@ -275,7 +275,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().NotBeDecoratedWith((Expression<Func<DummyPropertyAttribute, bool>>)null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("isMatchingAttributePredicate");
         }
     }
@@ -335,7 +335,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().BeWritable("we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected property to have a setter *failure message*, but propertyInfo is <null>.");
         }
     }
@@ -395,7 +395,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().BeReadable("we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected property to have a getter *failure message*, but propertyInfo is <null>.");
         }
     }
@@ -458,7 +458,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().NotBeWritable("we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected property not to have a setter *failure message*, but propertyInfo is <null>.");
         }
     }
@@ -521,7 +521,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().NotBeReadable("we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected property not to have a getter *failure message*, but propertyInfo is <null>.");
         }
     }
@@ -586,7 +586,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().BeReadable(CSharpAccessModifier.Public, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected property to be Public *failure message*, but propertyInfo is <null>.");
         }
 
@@ -601,7 +601,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().BeReadable((CSharpAccessModifier)int.MaxValue);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentOutOfRangeException>()
                 .WithParameterName("accessModifier");
         }
     }
@@ -666,7 +666,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().BeWritable(CSharpAccessModifier.Public, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected property to be Public *failure message*, but propertyInfo is <null>.");
         }
 
@@ -681,7 +681,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().BeWritable((CSharpAccessModifier)int.MaxValue);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentOutOfRangeException>()
                 .WithParameterName("accessModifier");
         }
     }
@@ -727,7 +727,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().Return(typeof(int), "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected type of property to be *.Int32 *failure message*, but propertyInfo is <null>.");
         }
 
@@ -742,7 +742,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().Return(null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("propertyType");
         }
     }
@@ -819,7 +819,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().NotReturn(typeof(int), "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected type of property not to be *.Int32 *failure message*, but propertyInfo is <null>.");
         }
 
@@ -834,7 +834,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().NotReturn(null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("propertyType");
         }
     }

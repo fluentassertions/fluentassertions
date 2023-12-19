@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using System.Xml.Linq;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Primitives;
 
-namespace FluentAssertions.Xml;
+namespace FluentAssertionsAsync.Xml;
 
 /// <summary>
 /// Contains a number of methods to assert that an <see cref="XAttribute"/> is in the expected state.

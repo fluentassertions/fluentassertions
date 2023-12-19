@@ -47,7 +47,7 @@ public partial class NumericAssertionSpecs
             Action act = () => value.Should().BeLessThanOrEqualTo(smallerValue);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]

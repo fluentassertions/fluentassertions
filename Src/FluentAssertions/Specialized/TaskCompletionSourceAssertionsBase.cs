@@ -2,9 +2,9 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Specialized;
+namespace FluentAssertionsAsync.Specialized;
 
 #pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 /// <summary>

@@ -4,12 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
-using FluentAssertions.Xml.Equivalency;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Primitives;
+using FluentAssertionsAsync.Xml.Equivalency;
 
-namespace FluentAssertions.Xml;
+namespace FluentAssertionsAsync.Xml;
 
 /// <summary>
 /// Contains a number of methods to assert that an <see cref="XDocument"/> is in the expected state.

@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Equivalency.Selection;
+namespace FluentAssertionsAsync.Equivalency.Selection;
 
 /// <summary>
 /// Selection rule that includes a particular member in the structural comparison.

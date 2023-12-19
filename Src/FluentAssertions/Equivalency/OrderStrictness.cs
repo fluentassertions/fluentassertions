@@ -1,4 +1,4 @@
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 public enum OrderStrictness
 {

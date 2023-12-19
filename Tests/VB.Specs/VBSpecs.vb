@@ -12,7 +12,7 @@ Public Class VBSpecs
         Dim act As Action = Sub() subject.Should().BeTrue()
 
         ' Assert
-        act.Should().Throw(Of XunitException).WithMessage("Expected subject to be true, but found false.")
+        await act.Should().ThrowAsync(Of XunitException).WithMessage("Expected subject to be true, but found false.")
     End Sub
 
     <Fact>
@@ -24,6 +24,6 @@ Public Class VBSpecs
         Dim act As Action = Sub() subject.Should.BeTrue()
 
         ' Assert
-        act.Should().Throw(Of XunitException).WithMessage("Expected subject to be true, but found false.")
+        await act.Should().ThrowAsync(Of XunitException).WithMessage("Expected subject to be true, but found false.")
     End Sub
 End Class

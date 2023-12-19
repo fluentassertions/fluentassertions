@@ -1,7 +1,8 @@
 ﻿using System.Threading;
+using FluentAssertionsAsync.Extensibility;
 
 // With specific initialization code to invoke before the first assertion happens
-[assembly: FluentAssertions.Extensibility.AssertionEngineInitializer(
+[assembly: AssertionEngineInitializer(
     typeof(FluentAssertions.Extensibility.Specs.AssertionEngineInitializer),
     nameof(FluentAssertions.Extensibility.Specs.AssertionEngineInitializer.InitializeBeforeFirstAssertion))]
 

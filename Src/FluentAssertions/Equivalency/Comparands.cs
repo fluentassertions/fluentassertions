@@ -1,8 +1,8 @@
 ﻿using System;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 using static System.FormattableString;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 public class Comparands
 {

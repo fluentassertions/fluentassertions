@@ -54,7 +54,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected collection to intersect with {4, 5} *failure message*, but found <null>.");
         }
     }
@@ -100,7 +100,7 @@ public partial class CollectionAssertionSpecs
                 "because we want to test the behaviour with same objects");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect*to intersect with*because we want to test the behaviour with same objects*but they both reference the same object.");
         }
 
@@ -118,7 +118,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect collection to intersect with {4, 5} *failure message*, but found <null>.");
         }
     }

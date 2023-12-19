@@ -32,7 +32,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABCDEF".Should().Contain("XYZ", "that is {0}", "required");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string \"ABCDEF\" to contain \"XYZ\" because that is required.");
         }
 
@@ -70,7 +70,7 @@ public partial class StringAssertionSpecs
             Action act = () => someString.Should().Contain("XYZ", "that is {0}", "required");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someString <null> to contain \"XYZ\" because that is required.");
         }
 
@@ -88,7 +88,7 @@ public partial class StringAssertionSpecs
                 Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once(), "that is {0}", "required");
 
                 // Assert
-                act.Should().Throw<XunitException>()
+                await await act.Should().ThrowAsyncAsync<XunitException>()
                     .WithMessage(
                         "Expected * \"ABCDEF\" to contain \"XYS\" exactly 1 time because that is required, but found it 0 times.");
             }
@@ -120,7 +120,7 @@ public partial class StringAssertionSpecs
                 Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Once());
 
                 // Assert
-                act.Should().Throw<XunitException>()
+                await await act.Should().ThrowAsyncAsync<XunitException>()
                     .WithMessage("Expected * <null> to contain \"XYZ\" exactly 1 time, but found it 0 times.");
             }
 
@@ -135,7 +135,7 @@ public partial class StringAssertionSpecs
                 Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Times(-1));
 
                 // Assert
-                act.Should().Throw<ArgumentOutOfRangeException>()
+                await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                     .WithMessage("Expected count cannot be negative.*");
             }
 
@@ -166,7 +166,7 @@ public partial class StringAssertionSpecs
                 Action act = () => actual.Should().Contain(expectedSubstring, Exactly.Times(3));
 
                 // Assert
-                act.Should().Throw<XunitException>()
+                await await act.Should().ThrowAsyncAsync<XunitException>()
                     .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" exactly 3 times, but found it 2 times.");
             }
         }
@@ -200,7 +200,7 @@ public partial class StringAssertionSpecs
                 Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Times(3));
 
                 // Assert
-                act.Should().Throw<XunitException>()
+                await await act.Should().ThrowAsyncAsync<XunitException>()
                     .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" at least 3 times, but found it 2 times.");
             }
 
@@ -216,7 +216,7 @@ public partial class StringAssertionSpecs
                 Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once());
 
                 // Assert
-                act.Should().Throw<XunitException>()
+                await await act.Should().ThrowAsyncAsync<XunitException>()
                     .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" at least 1 time, but found it 0 times.");
             }
 
@@ -231,7 +231,7 @@ public partial class StringAssertionSpecs
                 Action act = () => actual.Should().Contain(expectedSubstring, AtLeast.Once());
 
                 // Assert
-                act.Should().Throw<XunitException>()
+                await await act.Should().ThrowAsyncAsync<XunitException>()
                     .WithMessage("Expected * <null> to contain \"XYZ\" at least 1 time, but found it 0 times.");
             }
         }
@@ -265,7 +265,7 @@ public partial class StringAssertionSpecs
                 Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Times(2));
 
                 // Assert
-                act.Should().Throw<XunitException>()
+                await await act.Should().ThrowAsyncAsync<XunitException>()
                     .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" more than 2 times, but found it 2 times.");
             }
 
@@ -281,7 +281,7 @@ public partial class StringAssertionSpecs
                 Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once());
 
                 // Assert
-                act.Should().Throw<XunitException>()
+                await await act.Should().ThrowAsyncAsync<XunitException>()
                     .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" more than 1 time, but found it 0 times.");
             }
 
@@ -296,7 +296,7 @@ public partial class StringAssertionSpecs
                 Action act = () => actual.Should().Contain(expectedSubstring, MoreThan.Once());
 
                 // Assert
-                act.Should().Throw<XunitException>()
+                await await act.Should().ThrowAsyncAsync<XunitException>()
                     .WithMessage("Expected * <null> to contain \"XYZ\" more than 1 time, but found it 0 times.");
             }
         }
@@ -330,7 +330,7 @@ public partial class StringAssertionSpecs
                 Action act = () => actual.Should().Contain(expectedSubstring, AtMost.Times(1));
 
                 // Assert
-                act.Should().Throw<XunitException>()
+                await await act.Should().ThrowAsyncAsync<XunitException>()
                     .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" at most 1 time, but found it 2 times.");
             }
 
@@ -393,7 +393,7 @@ public partial class StringAssertionSpecs
                 Action act = () => actual.Should().Contain(expectedSubstring, LessThan.Times(2));
 
                 // Assert
-                act.Should().Throw<XunitException>()
+                await await act.Should().ThrowAsyncAsync<XunitException>()
                     .WithMessage("Expected * \"ABCDEBCDF\" to contain \"BCD\" less than 2 times, but found it 2 times.");
             }
 
@@ -448,7 +448,7 @@ public partial class StringAssertionSpecs
             Action act = () => "abcd".Should().NotContain("bc", "it was not expected {0}", "today");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect string \"abcd\" to contain \"bc\" because it was not expected today.");
         }
 
@@ -459,7 +459,7 @@ public partial class StringAssertionSpecs
             Action act = () => "a".Should().NotContain(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*")
                 .WithParameterName("unexpected");
         }
@@ -471,7 +471,7 @@ public partial class StringAssertionSpecs
             Action act = () => "a".Should().NotContain("");
 
             // Assert
-            act.Should().Throw<ArgumentException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*")
                 .WithParameterName("unexpected");
         }

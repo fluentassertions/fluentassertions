@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Extensions;
 
-namespace FluentAssertions.Primitives;
+namespace FluentAssertionsAsync.Primitives;
 
 /// <summary>
 /// Contains a number of methods to assert that a nullable <see cref="DateTimeOffset"/> is in the expected state.
 /// </summary>
 /// <remarks>
-/// You can use the <see cref="FluentAssertions.Extensions.FluentDateTimeExtensions"/>
+/// You can use the <see cref="FluentDateTimeExtensions"/>
 /// for a more fluent way of specifying a <see cref="DateTime"/>.
 /// </remarks>
 [DebuggerNonUserCode]
@@ -24,7 +25,7 @@ public class NullableDateTimeOffsetAssertions : NullableDateTimeOffsetAssertions
 /// Contains a number of methods to assert that a nullable <see cref="DateTimeOffset"/> is in the expected state.
 /// </summary>
 /// <remarks>
-/// You can use the <see cref="FluentAssertions.Extensions.FluentDateTimeExtensions"/>
+/// You can use the <see cref="FluentDateTimeExtensions"/>
 /// for a more fluent way of specifying a <see cref="DateTime"/>.
 /// </remarks>
 [DebuggerNonUserCode]

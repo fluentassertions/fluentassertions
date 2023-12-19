@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FluentAssertions.Formatting;
+namespace FluentAssertionsAsync.Formatting;
 
 /// <summary>
 /// Provides a human readable version of a generic or non-generic <see cref="Task"/>

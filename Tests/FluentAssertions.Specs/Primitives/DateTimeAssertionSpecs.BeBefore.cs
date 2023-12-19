@@ -33,7 +33,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().BeBefore(expected);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be before <2016-06-03>, but found <2016-06-04>.");
         }
 
@@ -48,7 +48,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().BeBefore(expected);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be before <2016-06-04>, but found <2016-06-04>.");
         }
     }
@@ -66,7 +66,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => earlierDate.Should().NotBeBefore(laterDate);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected earlierDate to be on or after <2016-06-04 00:05:00>, but found <2016-06-04>.");
         }
 

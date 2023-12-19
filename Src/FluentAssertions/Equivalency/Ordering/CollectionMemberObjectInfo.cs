@@ -1,6 +1,6 @@
 using System;
 
-namespace FluentAssertions.Equivalency.Ordering;
+namespace FluentAssertionsAsync.Equivalency.Ordering;
 
 internal class CollectionMemberObjectInfo : IObjectInfo
 {

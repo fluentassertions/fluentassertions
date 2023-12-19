@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using FluentAssertions.Equivalency.Tracing;
+using FluentAssertionsAsync.Equivalency.Tracing;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Provides the run-time details of the <see cref="EquivalencyOptions{TExpectation}" /> class.

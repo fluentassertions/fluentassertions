@@ -39,7 +39,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().HaveCountLessThan(3);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -72,7 +72,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().HaveCountLessThan(1, "we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("*fewer than*1*we want to test the behaviour with a null subject*found <null>*");
         }
     }

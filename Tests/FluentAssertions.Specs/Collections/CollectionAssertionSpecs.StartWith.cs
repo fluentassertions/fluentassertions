@@ -23,7 +23,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().StartWith("ryan", "of some reason");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected*start*ryan*because of some reason*but*john*");
         }
 
@@ -37,7 +37,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().StartWith((IEnumerable<string>)null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .Which.ParamName.Should().Be("expectation");
         }
 
@@ -51,7 +51,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().StartWith((IEnumerable<string>)null, (_, _) => true);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .Which.ParamName.Should().Be("expectation");
         }
 
@@ -65,7 +65,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().StartWith(new[] { "john", "ryan", "jane" }, "of some reason");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected*start*ryan*because of some reason*but*differs at index 1*");
         }
 
@@ -81,7 +81,7 @@ public partial class CollectionAssertionSpecs
                 (s1, s2) => string.Equals(s1, s2, StringComparison.Ordinal), "of some reason");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected*start*ryan*because of some reason*but*differs at index 1*");
         }
 
@@ -203,7 +203,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().StartWith("john");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected*start*john*but*null*");
         }
 
@@ -221,7 +221,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected*start*john*but*collection*null*");
         }
     }

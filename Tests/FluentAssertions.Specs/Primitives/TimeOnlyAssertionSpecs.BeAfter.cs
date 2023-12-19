@@ -31,7 +31,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().NotBeAfter(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be on or before <15:06:03.000>, but found <15:06:04.000>.");
         }
 
@@ -46,7 +46,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().BeAfter(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be after <15:06:05.000>, but found <15:06:04.000>.");
         }
 
@@ -72,7 +72,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().BeAfter(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be after <15:06:04.145>, but found <15:06:04.145>.");
         }
 
@@ -109,7 +109,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().NotBeOnOrAfter(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be before <15:06:03.000>, but found <15:06:04.000>.");
         }
 
@@ -135,7 +135,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().NotBeOnOrAfter(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be before <15:06:00.000>, but found <15:06:00.000>.");
         }
 
@@ -150,7 +150,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().BeOnOrAfter(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be on or after <15:06:05.000>, but found <15:06:04.000>.");
         }
 

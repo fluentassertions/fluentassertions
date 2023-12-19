@@ -32,7 +32,7 @@ public class EventAssertionSpecs
             Action act = () => monitoredSubject.Should().Raise("NonExistingEvent");
 
             // Assert
-            act.Should().Throw<InvalidOperationException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<InvalidOperationException>().WithMessage(
                 "Not monitoring any events named \"NonExistingEvent\".");
         }
 
@@ -47,7 +47,7 @@ public class EventAssertionSpecs
             Action act = () => monitor.Should().NotRaise("NonExistingEvent");
 
             // Assert
-            act.Should().Throw<InvalidOperationException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<InvalidOperationException>().WithMessage(
                 "Not monitoring any events named \"NonExistingEvent\".");
         }
 
@@ -62,7 +62,7 @@ public class EventAssertionSpecs
             Action act = () => monitor.Should().Raise("PropertyChanged", "{0} should cause the event to get raised", "Foo()");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected object " + Formatter.ToString(subject) +
                 " to raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did not.");
         }
@@ -95,7 +95,7 @@ public class EventAssertionSpecs
                 monitor.Should().NotRaise("PropertyChanged", "{0} should cause the event to get raised", "Foo()");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected object " + Formatter.ToString(subject) +
                     " to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
         }
@@ -126,7 +126,7 @@ public class EventAssertionSpecs
             Action act = () => monitor.Should().Raise("PropertyChanged").WithSender(subject);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage($"Expected sender {Formatter.ToString(subject)}, but found {{<null>}}.");
         }
 
@@ -159,7 +159,7 @@ public class EventAssertionSpecs
                 .WithArgs<string>(predicate: null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("predicate");
         }
 
@@ -303,7 +303,7 @@ public class EventAssertionSpecs
                 .WithArgs<string>(null, null, null, args => args == "fourth argument");
 
             // Assert
-            act.Should().Throw<ArgumentException>().WithMessage("*4 parameters*String*, but*2*");
+            await await act.Should().ThrowAsyncAsync<ArgumentException>().WithMessage("*4 parameters*String*, but*2*");
         }
 
         [Fact]
@@ -321,7 +321,7 @@ public class EventAssertionSpecs
                 .WithArgs<int>(args => args == wrongArgument);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected at least one event with some argument*type*Int32*matches*(args == " + wrongArgument +
                 "), but found none.");
         }
@@ -341,7 +341,7 @@ public class EventAssertionSpecs
                 .WithArgs<string>(null, args => args == wrongArgument);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected at least one event with some arguments*match*\"(args == \"" + wrongArgument +
                 "\")\", but found none.");
         }
@@ -496,7 +496,7 @@ public class EventAssertionSpecs
             Action act = () => monitor.Should().RaisePropertyChangeFor(x => x.SomeProperty, "the property was changed");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected object " + Formatter.ToString(subject) +
                 " to raise event \"PropertyChanged\" for property \"SomeProperty\" because the property was changed, but it did not*");
         }
@@ -516,7 +516,7 @@ public class EventAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected object " + Formatter.ToString(subject) +
                 " to raise event \"PropertyChanged\" for property <null>, but it did not*");
         }
@@ -536,7 +536,7 @@ public class EventAssertionSpecs
             Action act = () => monitor.Should().RaisePropertyChangeFor(b => b.SomeProperty);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*property*SomeProperty*but*OtherProperty1*OtherProperty2*");
         }
     }
@@ -570,7 +570,7 @@ public class EventAssertionSpecs
             Action act = () => monitor.Should().NotRaisePropertyChangeFor(x => x.SomeProperty, "nothing happened");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect object " + Formatter.ToString(subject) +
                 " to raise the \"PropertyChanged\" event for property \"SomeProperty\" because nothing happened, but it did.");
         }
@@ -603,7 +603,7 @@ public class EventAssertionSpecs
             Action act = () => subject.Monitor();
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithMessage("Cannot monitor the events of a <null> object*");
         }
 
@@ -633,7 +633,7 @@ public class EventAssertionSpecs
             Action act = () => monitor.Should().RaisePropertyChangeFor(e => func(e));
 
             // Assert
-            act.Should().Throw<ArgumentException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentException>()
                 .WithParameterName("expression");
         }
 
@@ -665,7 +665,7 @@ public class EventAssertionSpecs
             EventMetadata[] metadata = eventMonitor.MonitoredEvents;
 
             // Assert
-            metadata.Should().BeEquivalentTo(new[]
+            metadata.Should().BeEquivalentToAsync(new[]
             {
                 new
                 {
@@ -691,7 +691,7 @@ public class EventAssertionSpecs
             EventMetadata[] metadata = monitor.MonitoredEvents;
 
             // Assert
-            metadata.Should().BeEquivalentTo(new[]
+            metadata.Should().BeEquivalentToAsync(new[]
             {
                 new
                 {
@@ -712,7 +712,7 @@ public class EventAssertionSpecs
             Action act = () => eventSource.Monitor();
 
             // Assert
-            act.Should().Throw<InvalidOperationException>().WithMessage("*not expose any events*");
+            await await act.Should().ThrowAsyncAsync<InvalidOperationException>().WithMessage("*not expose any events*");
         }
 
         [Fact]
@@ -804,7 +804,7 @@ public class EventAssertionSpecs
             eventSource.RaiseNonConventionalEvent("first", 123, "third");
 
             // Assert
-            monitor.OccurredEvents.Should().BeEquivalentTo(new[]
+            monitor.OccurredEvents.Should().BeEquivalentToAsync(new[]
             {
                 new
                 {
@@ -881,7 +881,7 @@ public class EventAssertionSpecs
             Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*event*argument*");
         }
 
@@ -931,7 +931,7 @@ public class EventAssertionSpecs
             Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(_ => true);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected*event*argument*type*B*none*");
         }
 
@@ -949,7 +949,7 @@ public class EventAssertionSpecs
             Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(_ => true, _ => false);
 
             // Assert
-            act.Should().Throw<ArgumentException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentException>()
                 .WithMessage("Expected*event*parameters*type*B*found*");
         }
 
@@ -967,7 +967,7 @@ public class EventAssertionSpecs
             Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(_ => true, _ => false);
 
             // Assert
-            act.Should().Throw<ArgumentException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentException>()
                 .WithMessage("Expected*event*parameters*type*B*found*");
         }
     }

@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using FluentAssertions.Common;
-using FluentAssertions.Equivalency.Execution;
-using FluentAssertions.Equivalency.Matching;
-using FluentAssertions.Equivalency.Ordering;
-using FluentAssertions.Equivalency.Selection;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Equivalency.Execution;
+using FluentAssertionsAsync.Equivalency.Matching;
+using FluentAssertionsAsync.Equivalency.Ordering;
+using FluentAssertionsAsync.Equivalency.Selection;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Represents the run-time type-specific behavior of a structural equivalency assertion.

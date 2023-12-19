@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Specialized;
+namespace FluentAssertionsAsync.Specialized;
 
 public class MemberExecutionTime<T> : ExecutionTime
 {

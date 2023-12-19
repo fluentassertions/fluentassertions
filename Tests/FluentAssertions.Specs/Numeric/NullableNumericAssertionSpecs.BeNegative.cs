@@ -18,7 +18,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeNegative();
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*but found NaN*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*but found NaN*");
         }
 
         [Fact]
@@ -31,7 +31,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BeNegative();
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*but found NaN*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*but found NaN*");
         }
     }
 }

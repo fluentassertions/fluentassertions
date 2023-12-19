@@ -6,9 +6,9 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using FluentAssertions.Equivalency;
+using FluentAssertionsAsync.Equivalency;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 internal static class TypeExtensions
 {

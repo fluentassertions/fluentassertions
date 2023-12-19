@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Formatting;
 
-namespace FluentAssertions.Collections.MaximumMatching;
+namespace FluentAssertionsAsync.Collections.MaximumMatching;
 
 /// <summary>
 /// Stores a predicate's expression and index in the maximum matching problem.

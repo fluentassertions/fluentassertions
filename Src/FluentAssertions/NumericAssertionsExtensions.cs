@@ -1,9 +1,9 @@
 using System;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
-using FluentAssertions.Numeric;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Numeric;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 /// <summary>
 /// Contains a number of extension methods for floating point <see cref="NumericAssertions{T}"/>.

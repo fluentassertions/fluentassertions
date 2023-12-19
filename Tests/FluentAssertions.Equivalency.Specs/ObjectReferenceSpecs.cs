@@ -1,4 +1,5 @@
-﻿using FluentAssertions.Equivalency.Execution;
+﻿using FluentAssertionsAsync;
+using FluentAssertionsAsync.Equivalency.Execution;
 using Xunit;
 
 namespace FluentAssertions.Equivalency.Specs;

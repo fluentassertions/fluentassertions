@@ -1,8 +1,8 @@
 using System;
 using System.Text.RegularExpressions;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Equivalency.Matching;
+namespace FluentAssertionsAsync.Equivalency.Matching;
 
 /// <summary>
 /// Allows mapping a member (property or field) of the expectation to a differently named member

@@ -30,7 +30,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC".Should().StartWithEquivalentOf("bc", "because it should start");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to start with equivalent of \"bc\" because it should start, but \"ABC\" differs near \"ABC\" (index 0).");
         }
 
@@ -43,7 +43,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABCDEFGHI".Should().StartWithEquivalentOf("abcddfghi", "it should {0}", "start");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to start with equivalent of " +
                 "*\"abcddfghi\" because it should start, but " +
                 "*\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
@@ -56,7 +56,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC".Should().StartWithEquivalentOf(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot compare string start equivalence with <null>.*");
         }
 
@@ -78,7 +78,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC".Should().StartWithEquivalentOf("abcdef");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to start with equivalent of " +
                 "\"abcdef\", but " +
                 "\"ABC\" is too short.");
@@ -92,7 +92,7 @@ public partial class StringAssertionSpecs
             Action act = () => someString.Should().StartWithEquivalentOf("AbC");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected someString to start with equivalent of \"AbC\", but found <null>.");
         }
     }
@@ -169,7 +169,7 @@ public partial class StringAssertionSpecs
             Action act = () => someString.Should().NotStartWithEquivalentOf("ABC");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someString that does not start with equivalent of \"ABC\", but found <null>.");
         }
     }

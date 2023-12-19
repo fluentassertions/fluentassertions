@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 
-namespace FluentAssertions.Numeric;
+namespace FluentAssertionsAsync.Numeric;
 
 /// <summary>
 /// Contains a number of methods to assert that a nullable <see cref="decimal"/> is in the expected state.

@@ -144,7 +144,7 @@ public class FunctionExceptionAssertionSpecs
         Action action = () =>
         {
             using var _ = new AssertionScope();
-            act.Should().Throw<ArgumentNullException>("because we want to test the failure {0}", "message");
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>("because we want to test the failure {0}", "message");
         };
 
         // Assert
@@ -270,7 +270,7 @@ public class FunctionExceptionAssertionSpecs
         Action action = () =>
         {
             using var _ = new AssertionScope();
-            act.Should().ThrowExactly<ArgumentNullException>("because we want to test the failure {0}", "message");
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>("because we want to test the failure {0}", "message");
         };
 
         // Assert
@@ -451,7 +451,7 @@ public class FunctionExceptionAssertionSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage(
                 "*Did not expect any exception*" +
                 "*to be <null>*"
@@ -618,7 +618,7 @@ public class FunctionExceptionAssertionSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage(
                 "*Did not expect any exceptions after*" +
                 "*to be <null>*"

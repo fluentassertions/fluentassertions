@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Xml;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Xml;
+namespace FluentAssertionsAsync.Xml;
 
 /// <summary>
 /// Contains a number of methods to assert that an <see cref="XmlElement"/>

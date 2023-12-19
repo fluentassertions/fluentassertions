@@ -39,7 +39,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ADC".Should().Be("ABC", "because we {0}", "do");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to be \"ABC\" because we do, but \"ADC\" differs near \"DC\" (index 1).");
         }
 
@@ -52,7 +52,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().Be(expect);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*to be \"}}\" with a length of 2, but \"}}}}\" has a length of 4*");
         }
 
@@ -65,7 +65,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().Be(expect);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*to be \"{{\" with a length of 2, but \"{{{{\" has a length of 4*");
         }
 
@@ -76,7 +76,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC".Should().Be("AB");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*index 2*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*index 2*");
         }
 
         [Fact]
@@ -86,7 +86,7 @@ public partial class StringAssertionSpecs
             Action act = () => "AB".Should().Be("ABC");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*index 1*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*index 1*");
         }
 
         [Fact]
@@ -96,7 +96,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC".Should().Be("");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*index 0*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*index 0*");
         }
 
         [Fact]
@@ -106,7 +106,7 @@ public partial class StringAssertionSpecs
             Action act = () => "".Should().Be("ABC");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*index 0*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*index 0*");
         }
 
         [Fact]
@@ -116,7 +116,7 @@ public partial class StringAssertionSpecs
             Action act = () => "AB".Should().Be(null);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to be <null>, but found \"AB\".");
         }
 
@@ -127,7 +127,7 @@ public partial class StringAssertionSpecs
             Action act = () => "AB".Should().BeNull("we like {0}", "null");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to be <null> because we like null, but found \"AB\".");
         }
 
@@ -139,7 +139,7 @@ public partial class StringAssertionSpecs
             Action act = () => someString.Should().Be("ABC");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someString to be \"ABC\", but found <null>.");
         }
 
@@ -150,7 +150,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC".Should().Be("ABC ", "because I say {0}", "so");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to be \"ABC \" because I say so, but it misses some extra whitespace at the end.");
         }
 
@@ -162,7 +162,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC ".Should().Be("ABC", "because I say {0}", "so");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to be \"ABC\" because I say so, but it has unexpected whitespace at the end.");
         }
 
@@ -173,7 +173,7 @@ public partial class StringAssertionSpecs
             Action act = () => "1234567890".Should().Be("0987654321");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("""
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("""
                 Expected string to be the same string, but they differ at index 0:
                    ↓ (actual)
                   "1234567890"
@@ -189,7 +189,7 @@ public partial class StringAssertionSpecs
             Action act = () => "A\r\nB".Should().Be("A\r\nC");
 
             // Assert
-            act.Should().Throw<XunitException>().Which.Message.Should().Be("""
+            await await act.Should().ThrowAsyncAsync<XunitException>().Which.Message.Should().Be("""
                 Expected string to be the same string, but they differ on line 2 and column 1 (index 3):
                         ↓ (actual)
                   "A\r\nB"
@@ -208,7 +208,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Be(expected, "because we use arrows now");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("""
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("""
                 Expected subject to be the same string because we use arrows now, but they differ at index 20:
                                    ↓ (actual)
                   "…is a long text that…"
@@ -227,7 +227,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Be(expected, "because we use arrows now");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("""
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("""
                 Expected subject to be the same string because we use arrows now, but they differ at index 5:
                         ↓ (actual)
                   "this is a long text that…"
@@ -247,7 +247,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Be(expected);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*\"…CheckADifferenceInThe*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*\"…CheckADifferenceInThe*");
         }
 
         [Theory]
@@ -262,7 +262,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Be(expected);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage($"*{expectedMessagePart}*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage($"*{expectedMessagePart}*");
         }
 
         [Theory]
@@ -276,7 +276,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Be(expected);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*AtTheEndOfThe…\"*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*AtTheEndOfThe…\"*");
         }
 
         [Fact]
@@ -286,7 +286,7 @@ public partial class StringAssertionSpecs
             Action act = () => "".Should().Be("ThisIsALongText");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*length*15*differs*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*length*15*differs*");
         }
 
         [Fact]
@@ -296,7 +296,7 @@ public partial class StringAssertionSpecs
             Action act = () => "This is a long text".Should().Be("This is a text that differs at index 10");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*\"This is a long*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*\"This is a long*");
         }
 
         [Theory]
@@ -311,7 +311,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Be(expected);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage($"*{expectedMessagePart}*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage($"*{expectedMessagePart}*");
         }
 
         [Fact]
@@ -343,7 +343,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Be(expected);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage($"""
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage($"""
                 Expected subject to be the same string, but they differ on line 5 and column 16 (index {expectedIndex}):
                              ↓ (actual)
                   "…-> Bob : Another…"
@@ -373,7 +373,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC".Should().NotBe("ABC", "because we don't like {0}", "ABC");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string not to be \"ABC\" because we don't like ABC.");
         }
 
@@ -399,7 +399,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().NotBe(unexpected);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected actual not to be \"\".");
         }
 
@@ -422,7 +422,7 @@ public partial class StringAssertionSpecs
             Action act = () => someString.Should().NotBe(null);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someString not to be <null>.");
         }
 
@@ -434,7 +434,7 @@ public partial class StringAssertionSpecs
             Action act = () => someString.Should().NotBeNull("we don't like {0}", "null");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someString not to be <null> because we don't like null.");
         }
     }

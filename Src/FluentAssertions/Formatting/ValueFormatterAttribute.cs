@@ -1,6 +1,6 @@
 using System;
 
-namespace FluentAssertions.Formatting;
+namespace FluentAssertionsAsync.Formatting;
 
 /// <summary>
 /// Marks a static method as a kind of <see cref="IValueFormatter"/> for a particular type.

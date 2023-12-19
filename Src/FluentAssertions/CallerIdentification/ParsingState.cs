@@ -1,4 +1,4 @@
-﻿namespace FluentAssertions.CallerIdentification;
+﻿namespace FluentAssertionsAsync.CallerIdentification;
 
 internal enum ParsingState
 {

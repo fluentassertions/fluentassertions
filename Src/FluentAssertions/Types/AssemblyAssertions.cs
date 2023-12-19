@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Primitives;
 
-namespace FluentAssertions.Types;
+namespace FluentAssertionsAsync.Types;
 
 /// <summary>
 /// Contains a number of methods to assert that an <see cref="Assembly"/> is in the expected state.

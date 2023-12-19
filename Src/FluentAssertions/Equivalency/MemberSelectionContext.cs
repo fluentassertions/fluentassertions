@@ -1,7 +1,7 @@
 using System;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Provides contextual information to an <see cref="IMemberSelectionRule"/>.

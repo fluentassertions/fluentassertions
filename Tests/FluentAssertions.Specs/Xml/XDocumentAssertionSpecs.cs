@@ -38,7 +38,7 @@ public class XDocumentAssertionSpecs
                 theDocument.Should().Be(otherXDocument);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected theDocument to be [XML document without root element], but found [XML document without root element].");
         }
 
@@ -52,7 +52,7 @@ public class XDocumentAssertionSpecs
             Action act = () => theDocument.Should().Be(new XDocument(), "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected theDocument to be [XML document without root element] *failure message*, but found <null>.");
         }
 
@@ -79,7 +79,7 @@ public class XDocumentAssertionSpecs
             Action act = () => theDocument.Should().Be(null, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected theDocument to be <null> *failure message*, but found [XML document without root element].");
         }
 
@@ -95,7 +95,7 @@ public class XDocumentAssertionSpecs
                 theDocument.Should().Be(otherXDocument, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected theDocument to be <data*> because we want to test the failure message, but found <configuration*>.");
         }
     }
@@ -129,7 +129,7 @@ public class XDocumentAssertionSpecs
                 theDocument.Should().NotBe(sameXDocument);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect theDocument to be [XML document without root element].");
         }
 
@@ -169,7 +169,7 @@ public class XDocumentAssertionSpecs
             Action act = () => theDocument.Should().NotBe(null, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect theDocument to be <null> *failure message*.");
         }
 
@@ -185,7 +185,7 @@ public class XDocumentAssertionSpecs
                 theDocument.Should().NotBe(sameXDocument, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect theDocument to be <configuration*> because we want to test the failure message.");
         }
     }
@@ -201,7 +201,7 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                document.Should().BeEquivalentTo(sameXDocument);
+                document.Should().BeEquivalentToAsync(sameXDocument);
 
             // Assert
             act.Should().NotThrow();
@@ -217,7 +217,7 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                document.Should().BeEquivalentTo(otherXDocument);
+                document.Should().BeEquivalentToAsync(otherXDocument);
 
             // Assert
             act.Should().NotThrow();
@@ -233,7 +233,7 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                document.Should().BeEquivalentTo(otherXDocument);
+                document.Should().BeEquivalentToAsync(otherXDocument);
 
             // Assert
             act.Should().NotThrow();
@@ -248,10 +248,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().BeEquivalentTo(otherXDocument);
+                theDocument.Should().BeEquivalentToAsync(otherXDocument);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected EndElement \"parent\" in theDocument at \"/parent\", but found Element \"child2\".");
         }
 
@@ -264,10 +264,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().BeEquivalentTo(expected);
+                theDocument.Should().BeEquivalentToAsync(expected);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected Element \"child2\" in theDocument at \"/parent\", but found EndElement \"parent\".");
         }
 
@@ -281,10 +281,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().BeEquivalentTo(otherXDocument);
+                theDocument.Should().BeEquivalentToAsync(otherXDocument);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected Element \"child\" in theDocument at \"/parent/child\", but found EndElement \"parent\".");
         }
 
@@ -298,10 +298,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+                theDocument.Should().BeEquivalentToAsync(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected EndElement \"parent\" in theDocument at \"/parent\" because we want to test the failure message,"
                 + " but found Element \"child2\".");
         }
@@ -316,10 +316,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+                theDocument.Should().BeEquivalentToAsync(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected Element \"child2\" in theDocument at \"/parent\" because we want to test the failure message,"
                 + " but found EndElement \"parent\".");
         }
@@ -330,7 +330,7 @@ public class XDocumentAssertionSpecs
             XDocument theDocument = null;
 
             // Act
-            Action act = () => theDocument.Should().BeEquivalentTo(null);
+            Action act = () => theDocument.Should().BeEquivalentToAsync(null);
 
             // Assert
             act.Should().NotThrow();
@@ -343,11 +343,11 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().BeEquivalentTo(
+                theDocument.Should().BeEquivalentToAsync(
                     XDocument.Parse("<parent><child /></parent>"), "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected theDocument to be equivalent to <null> *failure message*" +
                     ", but found \"<parent><child /></parent>\".");
@@ -360,10 +360,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().BeEquivalentTo(null, "we want to test the failure {0}", "message");
+                theDocument.Should().BeEquivalentToAsync(null, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected theDocument to be equivalent to \"<parent><child /></parent>\" *failure message*" +
                     ", but found <null>.");
@@ -379,7 +379,7 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                subject.Should().BeEquivalentTo(expected);
+                subject.Should().BeEquivalentToAsync(expected);
 
             // Assert
             act.Should().NotThrow();
@@ -395,7 +395,7 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                subject.Should().BeEquivalentTo(expected);
+                subject.Should().BeEquivalentToAsync(expected);
 
             // Assert
             act.Should().NotThrow();
@@ -411,10 +411,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+                theDocument.Should().BeEquivalentToAsync(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected attribute \"a\" in theDocument at \"/xml/element\" because we want to test the failure message, but found none.");
         }
 
@@ -428,10 +428,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+                theDocument.Should().BeEquivalentToAsync(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect to find attribute \"a\" in theDocument at \"/xml/element\" because we want to test the failure message.");
         }
 
@@ -445,10 +445,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+                theDocument.Should().BeEquivalentToAsync(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected attribute \"a\" in theDocument at \"/xml/element\" to have value \"c\" because we want to test the failure message, but found \"b\".");
         }
 
@@ -462,10 +462,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+                theDocument.Should().BeEquivalentToAsync(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect to find attribute \"ns:a\" in theDocument at \"/xml/element\" because we want to test the failure message.");
         }
 
@@ -479,10 +479,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+                theDocument.Should().BeEquivalentToAsync(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected content to be \"b\" in theDocument at \"/xml\" because we want to test the failure message, but found \"a\".");
         }
 
@@ -495,7 +495,7 @@ public class XDocumentAssertionSpecs
             var expected = XDocument.Parse("<xml><a/><!--Comment--></xml>");
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentToAsync(expected);
 
             // Assert
             act.Should().NotThrow();
@@ -510,10 +510,10 @@ public class XDocumentAssertionSpecs
             XDocument expected = XDocument.Parse("<xml><a attr=\"x\"/><b id=\"bar\"/></xml>");
 
             // Act
-            Action act = () => actual.Should().BeEquivalentTo(expected);
+            Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*\"/xml/b\"*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*\"/xml/b\"*");
         }
 
         [Fact]
@@ -528,10 +528,10 @@ public class XDocumentAssertionSpecs
                 "<xml><xml2 /><xml2 /><xml2><a x=\"y\"/><b><sub /></b><a x=\"z\"/></xml2></xml>");
 
             // Act
-            Action act = () => actual.Should().BeEquivalentTo(expected);
+            Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*\"/xml/xml2[3]/a[2]\"*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*\"/xml/xml2[3]/a[2]\"*");
         }
 
         [Fact]
@@ -546,10 +546,10 @@ public class XDocumentAssertionSpecs
                 "<xml><xml /><xml /><xml><xml x=\"y\"/><xml2><xml /></xml2><xml x=\"z\"/></xml></xml>");
 
             // Act
-            Action act = () => actual.Should().BeEquivalentTo(expected);
+            Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*\"/xml/xml[3]/xml[2]\"*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*\"/xml/xml[3]/xml[2]\"*");
         }
 
         [Fact]
@@ -564,10 +564,10 @@ public class XDocumentAssertionSpecs
                 "<root><xml1 /><xml1><xml2 /><xml2 a=\"x\" /></xml1><xml1><xml2 /><xml2 a=\"y\" /></xml1></root>");
 
             // Act
-            Action act = () => actual.Should().BeEquivalentTo(expected);
+            Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*\"/root/xml1[3]/xml2[2]\"*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*\"/root/xml1[3]/xml2[2]\"*");
         }
     }
 
@@ -583,7 +583,7 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                document.Should().NotBeEquivalentTo(otherXDocument);
+                document.Should().NotBeEquivalentToAsync(otherXDocument);
 
             // Assert
             act.Should().NotThrow();
@@ -599,7 +599,7 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                document.Should().NotBeEquivalentTo(otherXDocument);
+                document.Should().NotBeEquivalentToAsync(otherXDocument);
 
             // Assert
             act.Should().NotThrow();
@@ -615,10 +615,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().NotBeEquivalentTo(otherXDocument);
+                theDocument.Should().NotBeEquivalentToAsync(otherXDocument);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect theDocument to be equivalent, but it is.");
         }
 
@@ -631,10 +631,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().NotBeEquivalentTo(sameXDocument);
+                theDocument.Should().NotBeEquivalentToAsync(sameXDocument);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect theDocument to be equivalent, but it is.");
         }
 
@@ -648,10 +648,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().NotBeEquivalentTo(otherDocument, "we want to test the failure {0}", "message");
+                theDocument.Should().NotBeEquivalentToAsync(otherDocument, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect theDocument to be equivalent because we want to test the failure message, but it is.");
         }
 
@@ -665,10 +665,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().NotBeEquivalentTo(otherXDocument, "because we want to test the failure {0}", "message");
+                theDocument.Should().NotBeEquivalentToAsync(otherXDocument, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect theDocument to be equivalent because we want to test the failure message, but it is.");
         }
 
@@ -682,10 +682,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().NotBeEquivalentTo(otherDocument);
+                theDocument.Should().NotBeEquivalentToAsync(otherDocument);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect theDocument to be equivalent, but it is.");
         }
 
@@ -699,10 +699,10 @@ public class XDocumentAssertionSpecs
 
             // Act
             Action act = () =>
-                theDocument.Should().NotBeEquivalentTo(sameXDocument, "we want to test the failure {0}", "message");
+                theDocument.Should().NotBeEquivalentToAsync(sameXDocument, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect theDocument to be equivalent because we want to test the failure message, but it is.");
         }
 
@@ -712,10 +712,10 @@ public class XDocumentAssertionSpecs
             XDocument theDocument = null;
 
             // Act
-            Action act = () => theDocument.Should().NotBeEquivalentTo(null, "we want to test the failure {0}", "message");
+            Action act = () => theDocument.Should().NotBeEquivalentToAsync(null, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect theDocument to be equivalent *failure message*, but it is.");
         }
 
@@ -725,7 +725,7 @@ public class XDocumentAssertionSpecs
             XDocument theDocument = null;
 
             // Act
-            Action act = () => theDocument.Should().NotBeEquivalentTo(XDocument.Parse("<parent><child /></parent>"));
+            Action act = () => theDocument.Should().NotBeEquivalentToAsync(XDocument.Parse("<parent><child /></parent>"));
 
             // Assert
             act.Should().NotThrow();
@@ -737,7 +737,7 @@ public class XDocumentAssertionSpecs
             XDocument theDocument = XDocument.Parse("<parent><child /></parent>");
 
             // Act
-            Action act = () => theDocument.Should().NotBeEquivalentTo(null);
+            Action act = () => theDocument.Should().NotBeEquivalentToAsync(null);
 
             // Assert
             act.Should().NotThrow();
@@ -771,7 +771,7 @@ public class XDocumentAssertionSpecs
                 theDocument.Should().BeNull();
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected theDocument to be <null>, but found [XML document without root element].");
         }
 
@@ -786,7 +786,7 @@ public class XDocumentAssertionSpecs
                 theDocument.Should().BeNull("because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected theDocument to be <null> because we want to test the failure message, but found <configuration*>.");
         }
     }
@@ -818,7 +818,7 @@ public class XDocumentAssertionSpecs
                 theDocument.Should().NotBeNull();
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected theDocument not to be <null>.");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected theDocument not to be <null>.");
         }
 
         [Fact]
@@ -832,7 +832,7 @@ public class XDocumentAssertionSpecs
                 theDocument.Should().NotBeNull("because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected theDocument not to be <null> because we want to test the failure message.");
         }
     }
@@ -872,7 +872,7 @@ public class XDocumentAssertionSpecs
             Action act = () => theDocument.Should().HaveRoot("unknown");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected theDocument to have root element \"unknown\", but found <parent>…</parent>.");
         }
 
@@ -896,7 +896,7 @@ public class XDocumentAssertionSpecs
                 " because we want to test the failure message" +
                 $", but found {Formatter.ToString(theDocument)}.";
 
-            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(expectedMessage);
         }
 
         [Fact]
@@ -909,7 +909,7 @@ public class XDocumentAssertionSpecs
             Action act = () => theDocument.Should().HaveRoot("unknown");
 
             // Assert
-            act.Should().Throw<InvalidOperationException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<InvalidOperationException>().WithMessage(
                 "Cannot assert the document has a root element if the document itself is <null>.");
         }
 
@@ -928,7 +928,7 @@ public class XDocumentAssertionSpecs
             Action act = () => theDocument.Should().HaveRoot(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot assert the document has a root element if the expected name is <null>*");
         }
 
@@ -947,7 +947,7 @@ public class XDocumentAssertionSpecs
             Action act = () => theDocument.Should().HaveRoot((XName)null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot assert the document has a root element if the expected name is <null>*");
         }
 
@@ -986,7 +986,7 @@ public class XDocumentAssertionSpecs
                 theDocument.Should().HaveRoot(XName.Get("unknown", "http://www.example.com/2012/test"));
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected theDocument to have root element \"{http://www.example.com/2012/test}unknown\", but found <parent>…</parent>.");
         }
 
@@ -1012,7 +1012,7 @@ public class XDocumentAssertionSpecs
                 " because we want to test the failure message" +
                 $", but found {Formatter.ToString(theDocument)}.";
 
-            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(expectedMessage);
         }
     }
 
@@ -1052,7 +1052,7 @@ public class XDocumentAssertionSpecs
                 theDocument.Should().HaveElement("unknown");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected theDocument to have root element with child \"unknown\", but no such child element was found.");
         }
 
@@ -1072,7 +1072,7 @@ public class XDocumentAssertionSpecs
                 theDocument.Should().HaveElement("unknown", "because we want to test the failure message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected theDocument to have root element with child \"unknown\" because we want to test the failure message,"
                 + " but no such child element was found.");
         }
@@ -1112,7 +1112,7 @@ public class XDocumentAssertionSpecs
                 document.Should().HaveElement(XName.Get("unknown", "http://www.example.org/2012/test"));
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected document to have root element with child \"{http://www.example.org/2012/test}unknown\","
                 + " but no such child element was found.");
         }
@@ -1135,7 +1135,7 @@ public class XDocumentAssertionSpecs
                     "because we want to test the failure message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected theDocument to have root element with child \"{http://www.example.org/2012/test}unknown\""
                 + " because we want to test the failure message, but no such child element was found.");
         }
@@ -1170,7 +1170,7 @@ public class XDocumentAssertionSpecs
             Action act = () => document.Should().HaveElement("unknown");
 
             // Assert
-            act.Should().Throw<InvalidOperationException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<InvalidOperationException>().WithMessage(
                 "Cannot assert the document has an element if the document itself is <null>.");
         }
 
@@ -1188,7 +1188,7 @@ public class XDocumentAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected document to have root element with child \"unknown\", but it has no root element.");
         }
 
@@ -1207,7 +1207,7 @@ public class XDocumentAssertionSpecs
             Action act = () => document.Should().HaveElement(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot assert the document has an element if the expected name is <null>*");
         }
 
@@ -1226,7 +1226,7 @@ public class XDocumentAssertionSpecs
             Action act = () => document.Should().HaveElement((XName)null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>().WithMessage(
                 "Cannot assert the document has an element if the expected name is <null>*");
         }
     }
@@ -1307,7 +1307,7 @@ public class XDocumentAssertionSpecs
             Action act = () => document.Should().HaveElement("child", Exactly.Twice());
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected document to have a root element containing a child \"child\"*exactly*2 times, but found it 3 times*");
         }
@@ -1329,7 +1329,7 @@ public class XDocumentAssertionSpecs
             Action act = () => document.Should().HaveElement(null, Exactly.Twice());
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot assert the document has an element if the expected name is <null>.*");
         }
 
@@ -1350,7 +1350,7 @@ public class XDocumentAssertionSpecs
             Action act = () => document.Should().HaveElement((XName)null, Exactly.Twice());
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot assert the document has an element count if the element name is <null>.*");
         }
 
@@ -1390,7 +1390,7 @@ public class XDocumentAssertionSpecs
                 .Which.Should().NotBeNull();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected document to have a root element containing a child \"child\"*exactly*1 time, but found it 3 times.");
         }
@@ -1405,7 +1405,7 @@ public class XDocumentAssertionSpecs
             Action act = () => xDocument.Should().HaveElement("child", AtLeast.Once());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Cannot assert the count if the document itself is <null>.");
         }
     }

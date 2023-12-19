@@ -2,20 +2,21 @@
 
 using System;
 using System.Globalization;
-using FluentAssertions.Execution;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Execution;
 
 #endregion
 
-namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 public class EnumEqualityStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+    public Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
         if (!comparands.GetExpectedType(context.Options).IsEnum)
         {
-            return EquivalencyResult.ContinueWithNext;
+            return Task.FromResult(EquivalencyResult.ContinueWithNext);
         }
 
         bool succeeded = Execute.Assertion
@@ -48,7 +49,7 @@ public class EnumEqualityStep : IEquivalencyStep
             }
         }
 
-        return EquivalencyResult.AssertionCompleted;
+        return Task.FromResult(EquivalencyResult.AssertionCompleted);
     }
 
     private static void HandleByValue(Comparands comparands, Reason reason)

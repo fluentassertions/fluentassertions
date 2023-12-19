@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
-using FluentAssertions.Execution;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Supports recursively comparing two multi-dimensional arrays for equivalency using strict order for the array items
@@ -10,7 +11,7 @@ namespace FluentAssertions.Equivalency;
 /// </summary>
 internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+    public async Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
         if (comparands.Expectation is not Array expectationAsArray || expectationAsArray.Rank == 1)
@@ -36,7 +37,7 @@ internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
 
                 IEquivalencyValidationContext itemContext = context.AsCollectionItem<object>(listOfIndices);
 
-                nestedValidator.RecursivelyAssertEquality(new Comparands(subject, expectation, typeof(object)), itemContext);
+                await nestedValidator.RecursivelyAssertEqualityAsync(new Comparands(subject, expectation, typeof(object)), itemContext);
             }
             while (digit.Increment());
         }

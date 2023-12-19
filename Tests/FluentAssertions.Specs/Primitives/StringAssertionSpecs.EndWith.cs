@@ -45,7 +45,7 @@ public partial class StringAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string \"ABC\" to end with \"AB\" because it should.");
         }
 
@@ -56,7 +56,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC".Should().EndWith(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot compare string end with <null>.*");
         }
 
@@ -77,7 +77,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC".Should().EndWith("00ABC");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to end with " +
                 "\"00ABC\", but " +
                 "\"ABC\" is too short.");
@@ -97,7 +97,7 @@ public partial class StringAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someString <null> to end with \"ABC\".");
         }
     }
@@ -177,7 +177,7 @@ public partial class StringAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someString that does not end with \"ABC\"*some reason*, but found <null>.");
         }
     }

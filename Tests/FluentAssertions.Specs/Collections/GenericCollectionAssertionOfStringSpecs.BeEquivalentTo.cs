@@ -19,10 +19,10 @@ public partial class GenericCollectionAssertionOfStringSpecs
             // Act
             Action act =
                 () => collection.Should()
-                    .BeEquivalentTo(collection1, "because we want to test the behaviour with a null subject");
+                    .BeEquivalentToAsync(collection1, "because we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected collection*not to be <null>*");
         }
 
@@ -34,10 +34,10 @@ public partial class GenericCollectionAssertionOfStringSpecs
             IEnumerable<string> collection2 = new[] { "one", "two", "three", "three" };
 
             // Act
-            Action act = () => collection1.Should().BeEquivalentTo(collection2);
+            Action act = () => collection1.Should().BeEquivalentToAsync(collection2);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection1[3]*to be \"three\" with a length of 5, but \"one\" has a length of 3*");
         }
 
@@ -49,10 +49,10 @@ public partial class GenericCollectionAssertionOfStringSpecs
             IEnumerable<string> otherCollection = new string[0];
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(otherCollection);
+            Action act = () => subject.Should().BeEquivalentToAsync(otherCollection);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected subject*to be a collection with 0 item(s), but*contains 3 item(s)*");
         }
 
@@ -64,10 +64,10 @@ public partial class GenericCollectionAssertionOfStringSpecs
             IEnumerable<string> collection2 = null;
 
             // Act
-            Action act = () => collection1.Should().BeEquivalentTo(collection2);
+            Action act = () => collection1.Should().BeEquivalentToAsync(collection2);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection1*to be <null>, but found {\"one\", \"two\", \"three\"}*");
         }
 
@@ -79,7 +79,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             IEnumerable<string> otherCollection = new string[0];
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(otherCollection);
+            Action act = () => subject.Should().BeEquivalentToAsync(otherCollection);
 
             // Assert
             act.Should().NotThrow();
@@ -93,7 +93,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             IEnumerable<string> collection2 = new[] { "three", "two", "one" };
 
             // Act / Assert
-            collection1.Should().BeEquivalentTo(collection2);
+            collection1.Should().BeEquivalentToAsync(collection2);
         }
 
         [Fact]
@@ -104,7 +104,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             string[] array2 = { "three", "two", "one" };
 
             // Act / Assert
-            array1.Should().BeEquivalentTo(array2);
+            array1.Should().BeEquivalentToAsync(array2);
         }
     }
 
@@ -118,7 +118,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             IEnumerable<string> collection2 = new[] { "three", "one" };
 
             // Act / Assert
-            collection1.Should().NotBeEquivalentTo(collection2);
+            collection1.Should().NotBeEquivalentToAsync(collection2);
         }
 
         [Fact]
@@ -129,11 +129,11 @@ public partial class GenericCollectionAssertionOfStringSpecs
             IEnumerable<string> expectation = new[] { "one", "two", "three" };
 
             // Act
-            Action act = () => actual.Should().NotBeEquivalentTo(expectation,
+            Action act = () => actual.Should().NotBeEquivalentToAsync(expectation,
                 "because we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected actual not to be equivalent because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -145,10 +145,10 @@ public partial class GenericCollectionAssertionOfStringSpecs
             IEnumerable<string> collection2 = new[] { "three", "one", "two" };
 
             // Act
-            Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
+            Action act = () => collection1.Should().NotBeEquivalentToAsync(collection2);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection1 {\"one\", \"two\", \"three\"} not*equivalent*{\"three\", \"one\", \"two\"}.");
         }
 
@@ -160,7 +160,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             IEnumerable<string> collection2 = new string[0];
 
             // Act
-            Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
+            Action act = () => collection1.Should().NotBeEquivalentToAsync(collection2);
 
             // Assert
             act.Should().NotThrow();
@@ -174,10 +174,10 @@ public partial class GenericCollectionAssertionOfStringSpecs
             IEnumerable<string> collection2 = null;
 
             // Act
-            Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
+            Action act = () => collection1.Should().NotBeEquivalentToAsync(collection2);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot verify inequivalence against a <null> collection.*");
         }
 
@@ -189,11 +189,11 @@ public partial class GenericCollectionAssertionOfStringSpecs
             IEnumerable<string> collection1 = collection;
 
             // Act
-            Action act = () => collection.Should().NotBeEquivalentTo(collection1,
+            Action act = () => collection.Should().NotBeEquivalentToAsync(collection1,
                 "because we want to test the behaviour with same objects");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*not to be equivalent*because we want to test the behaviour with same objects*but they both reference the same object.");
         }
     }

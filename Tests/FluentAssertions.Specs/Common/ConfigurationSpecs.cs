@@ -63,7 +63,7 @@ public class ConfigurationSpecs
         var act = () => sut.ValueFormatterDetectionMode;
 
         // Assert
-        act.Should().Throw<InvalidOperationException>();
+        await await act.Should().ThrowAsyncAsync<InvalidOperationException>();
     }
 
     private class DummyConfigurationStore : IConfigurationStore

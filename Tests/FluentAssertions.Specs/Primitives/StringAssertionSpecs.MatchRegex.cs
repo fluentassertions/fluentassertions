@@ -39,7 +39,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().MatchRegex("h.*\\sworld?$", "that's the universal greeting");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected subject to match regex*\"h.*\\sworld?$\" because that's the universal greeting, but*\"hello world!\" does not match.");
         }
@@ -54,7 +54,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().MatchRegex(".*", "because it should be a string");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to match regex*\".*\" because it should be a string, but it was <null>.");
         }
 
@@ -68,7 +68,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().MatchRegex((string)null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the BeNull method.*")
                 .WithParameterName("regularExpression");
         }
@@ -84,7 +84,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().MatchRegex(invalidRegex);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Cannot match subject against \".**\" because it is not a valid regular expression.*");
         }
 
@@ -103,7 +103,7 @@ public partial class StringAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .Which.Message.Should().Contain("is not a valid regular expression")
                 .And.NotContain("does not match");
         }
@@ -118,7 +118,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().MatchRegex(string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.*")
                 .WithParameterName("regularExpression");
         }
@@ -148,7 +148,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().MatchRegex(new Regex("h.*\\sworld?$"), "that's the universal greeting");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected subject to match regex*\"h.*\\sworld?$\" because that's the universal greeting, but*\"hello world!\" does not match.");
         }
@@ -167,7 +167,7 @@ public partial class StringAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to match regex*\".*\" because it should be a string, but it was <null>.");
         }
 
@@ -181,7 +181,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().MatchRegex((Regex)null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the BeNull method.*")
                 .WithParameterName("regularExpression");
         }
@@ -196,7 +196,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().MatchRegex(new Regex(string.Empty));
 
             // Assert
-            act.Should().ThrowExactly<ArgumentException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.*")
                 .WithParameterName("regularExpression");
         }
@@ -226,7 +226,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().MatchRegex("Lorem.*", Exactly.Twice());
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject*Lorem*to match regex*\"Lorem.*\" exactly 2 times, but found it 1 time*");
         }
 
@@ -253,7 +253,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().MatchRegex("a", Exactly.Times(0));
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject*a*to match regex*\"a\" exactly 0 times, but found it 1 time*");
         }
 
@@ -271,7 +271,7 @@ public partial class StringAssertionSpecs
             };
 
             // Assert
-            act.Should().ThrowExactly<XunitException>()
+            await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
                 .WithMessage("Expected subject to match regex*\".*\" because it should be a string, but it was <null>.");
         }
 
@@ -306,7 +306,7 @@ public partial class StringAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject*to match regex* at least 1 time, but found it 0 times*");
         }
 
@@ -320,7 +320,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().MatchRegex((Regex)null, Exactly.Times(0));
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the BeNull method.*")
                 .WithParameterName("regularExpression");
         }
@@ -335,7 +335,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().MatchRegex(string.Empty, Exactly.Times(0));
 
             // Assert
-            act.Should().ThrowExactly<ArgumentException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.*")
                 .WithParameterName("regularExpression");
         }
@@ -352,7 +352,7 @@ public partial class StringAssertionSpecs
 #pragma warning restore RE0001 // Invalid regex pattern
 
             // Assert
-            act.Should().ThrowExactly<XunitException>()
+            await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
                 .WithMessage("Cannot match subject against \".**\" because it is not a valid regular expression.*");
         }
     }
@@ -382,7 +382,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().NotMatchRegex(".*world.*", "because that's illegal");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Did not expect subject to match regex*\".*world.*\" because that's illegal, but*\"hello world!\" matches.");
         }
@@ -397,7 +397,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().NotMatchRegex(".*", "because it should not be a string");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to not match regex*\".*\" because it should not be a string, but it was <null>.");
         }
 
@@ -411,7 +411,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().NotMatchRegex((string)null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.*")
                 .WithParameterName("regularExpression");
         }
@@ -427,7 +427,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().NotMatchRegex(invalidRegex);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Cannot match subject against \".**\" because it is not a valid regular expression.*");
         }
 
@@ -446,7 +446,7 @@ public partial class StringAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .Which.Message.Should().Contain("is not a valid regular expression")
                 .And.NotContain("matches");
         }
@@ -461,7 +461,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().NotMatchRegex(string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
                 .WithMessage(
                     "Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.*")
                 .WithParameterName("regularExpression");
@@ -490,7 +490,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().NotMatchRegex(new Regex(".*world.*"), "because that's illegal");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Did not expect subject to match regex*\".*world.*\" because that's illegal, but*\"hello world!\" matches.");
         }
@@ -509,7 +509,7 @@ public partial class StringAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to not match regex*\".*\" because it should not be a string, but it was <null>.");
         }
 
@@ -523,7 +523,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().NotMatchRegex((Regex)null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.*")
                 .WithParameterName("regularExpression");
         }
@@ -538,7 +538,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().NotMatchRegex(new Regex(string.Empty));
 
             // Assert
-            act.Should().ThrowExactly<ArgumentException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
                 .WithMessage(
                     "Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.*")
                 .WithParameterName("regularExpression");

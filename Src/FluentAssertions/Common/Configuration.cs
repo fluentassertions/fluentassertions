@@ -1,7 +1,7 @@
 ﻿using System;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Formatting;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 public class Configuration
 {

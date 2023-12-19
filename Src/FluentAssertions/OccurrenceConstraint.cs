@@ -1,8 +1,8 @@
 ﻿using System;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 public abstract class OccurrenceConstraint
 {

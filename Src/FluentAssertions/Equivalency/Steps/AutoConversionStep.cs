@@ -1,9 +1,10 @@
 using System;
 using System.Globalization;
-using FluentAssertions.Common;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Common;
 using static System.FormattableString;
 
-namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 /// <summary>
 /// Attempts to convert the subject's property value to the expected type.
@@ -13,17 +14,17 @@ namespace FluentAssertions.Equivalency.Steps;
 /// </remarks>
 public class AutoConversionStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+    public Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
         if (!context.Options.ConversionSelector.RequiresConversion(comparands, context.CurrentNode))
         {
-            return EquivalencyResult.ContinueWithNext;
+            return Task.FromResult(EquivalencyResult.ContinueWithNext);
         }
 
         if (comparands.Expectation is null || comparands.Subject is null)
         {
-            return EquivalencyResult.ContinueWithNext;
+            return Task.FromResult(EquivalencyResult.ContinueWithNext);
         }
 
         Type subjectType = comparands.Subject.GetType();
@@ -31,7 +32,7 @@ public class AutoConversionStep : IEquivalencyStep
 
         if (subjectType.IsSameOrInherits(expectationType))
         {
-            return EquivalencyResult.ContinueWithNext;
+            return Task.FromResult(EquivalencyResult.ContinueWithNext);
         }
 
         if (TryChangeType(comparands.Subject, expectationType, out object convertedSubject))
@@ -47,7 +48,7 @@ public class AutoConversionStep : IEquivalencyStep
                 Invariant($"Subject {comparands.Subject} at {member.Description} could not be converted to {expectationType}"));
         }
 
-        return EquivalencyResult.ContinueWithNext;
+        return Task.FromResult(EquivalencyResult.ContinueWithNext);
     }
 
     private static bool TryChangeType(object subject, Type expectationType, out object conversionResult)

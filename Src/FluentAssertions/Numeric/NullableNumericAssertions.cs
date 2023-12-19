@@ -1,10 +1,10 @@
 using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Numeric;
+namespace FluentAssertionsAsync.Numeric;
 
 [DebuggerNonUserCode]
 public class NullableNumericAssertions<T> : NullableNumericAssertions<T, NullableNumericAssertions<T>>

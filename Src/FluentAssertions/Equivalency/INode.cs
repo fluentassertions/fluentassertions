@@ -1,7 +1,7 @@
 using System;
 using JetBrains.Annotations;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Represents a node in the object graph that is being compared as part of a structural equivalency check.

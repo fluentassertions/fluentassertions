@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Execution;
+namespace FluentAssertionsAsync.Execution;
 
 internal class DefaultAssertionStrategy : IAssertionStrategy
 {

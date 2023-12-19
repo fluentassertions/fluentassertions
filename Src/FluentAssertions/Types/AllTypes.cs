@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace FluentAssertions.Types;
+namespace FluentAssertionsAsync.Types;
 
 /// <summary>
 /// Static class that allows for a 'fluent' selection of the types from an <see cref="Assembly"/>.

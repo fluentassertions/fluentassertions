@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using FluentAssertions.Equivalency.Ordering;
+using FluentAssertionsAsync.Equivalency.Ordering;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Collection of <see cref="PathBasedOrderingRule"/>s.

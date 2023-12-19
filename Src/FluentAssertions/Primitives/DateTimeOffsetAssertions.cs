@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Extensions;
 
-namespace FluentAssertions.Primitives;
+namespace FluentAssertionsAsync.Primitives;
 
 /// <summary>
 /// Contains a number of methods to assert that a <see cref="DateTimeOffset"/> is in the expected state.
 /// </summary>
 /// <remarks>
-/// You can use the <see cref="FluentAssertions.Extensions.FluentDateTimeExtensions"/>
+/// You can use the <see cref="FluentDateTimeExtensions"/>
 /// for a more fluent way of specifying a <see cref="DateTimeOffset"/>.
 /// </remarks>
 [DebuggerNonUserCode]
@@ -30,7 +31,7 @@ public class DateTimeOffsetAssertions
 /// Contains a number of methods to assert that a <see cref="DateTimeOffset"/> is in the expected state.
 /// </summary>
 /// <remarks>
-/// You can use the <see cref="FluentAssertions.Extensions.FluentDateTimeExtensions"/>
+/// You can use the <see cref="FluentDateTimeExtensions"/>
 /// for a more fluent way of specifying a <see cref="DateTimeOffset"/>.
 /// </remarks>
 [DebuggerNonUserCode]

@@ -116,7 +116,7 @@ public partial class CollectionAssertionSpecs
             byte[][] subject = { new byte[] { 1 } };
 
             // Act
-            Action act = () => subject.Should().AllSatisfy(e => e.Should().BeEquivalentTo(new byte[] { 2, 3, 4 }));
+            Action act = () => subject.Should().AllSatisfy(e => e.Should().BeEquivalentToAsync(new byte[] { 2, 3, 4 }));
 
             // Assert
             act.Should().NotThrow<FormatException>();

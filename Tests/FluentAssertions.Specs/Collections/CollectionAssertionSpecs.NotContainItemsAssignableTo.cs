@@ -59,7 +59,7 @@ public partial class CollectionAssertionSpecs
             var act = () => collection.Should().NotContainItemsAssignableTo(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>();
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>();
         }
 
         [Fact]

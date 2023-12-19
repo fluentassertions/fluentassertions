@@ -5,10 +5,10 @@ using System.Linq;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 using Bogus;
-using FluentAssertions.Equivalency;
-using FluentAssertions.Equivalency.Steps;
-using FluentAssertions.Equivalency.Tracing;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Equivalency;
+using FluentAssertionsAsync.Equivalency.Steps;
+using FluentAssertionsAsync.Equivalency.Tracing;
+using FluentAssertionsAsync.Execution;
 
 namespace Benchmarks;
 
@@ -152,7 +152,7 @@ public class UsersOfGetClosedGenericInterfaces
     {
         for (int i = 0; i < values.Length; i++)
         {
-            dictionaryStep.Handle(new Comparands(values[i], values[0], typeof(object)), context, null);
+            dictionaryStep.HandleAsync(new Comparands(values[i], values[0], typeof(object)), context, null);
         }
     }
 
@@ -161,7 +161,7 @@ public class UsersOfGetClosedGenericInterfaces
     {
         for (int i = 0; i < values.Length; i++)
         {
-            enumerableStep.Handle(new Comparands(values[i], values[0], typeof(object)), context, null);
+            enumerableStep.HandleAsync(new Comparands(values[i], values[0], typeof(object)), context, null);
         }
     }
 }

@@ -62,7 +62,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().ContainInOrder(1, 2, 1, 1, 2);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, 2, 1, 3, 12, 2, 2} to contain items {1, 2, 1, 1, 2} in order, but 1 (index 3) did not appear (in the right order).");
         }
 
@@ -73,7 +73,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => new[] { 1, 2, 3 }.Should().ContainInOrder(new[] { 3, 1 }, "because we said so");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, 2, 3} to contain items {3, 1} in order because we said so, but 1 (index 1) did not appear (in the right order).");
         }
 
@@ -84,7 +84,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => new[] { 1, 2, 3 }.Should().ContainInOrder(new[] { 4, 1 }, "we failed");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, 2, 3} to contain items {4, 1} in order because we failed, " +
                 "but 4 (index 0) did not appear (in the right order).");
         }
@@ -100,7 +100,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*but 4 (index 0)*but 5 (index 0)*");
         }
 
@@ -111,7 +111,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => new[] { 1, 2, 3 }.Should().ContainInOrder(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot verify ordered containment against a <null> collection.*");
         }
 
@@ -143,7 +143,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected ints to contain {4} in order because we're checking how it reacts to a null subject, but found <null>.");
         }
     }
@@ -200,7 +200,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainInOrder(4);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Cannot verify absence of ordered containment in a <null> collection.");
         }
 
@@ -214,7 +214,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainInOrder(new[] { 1, 2, 3 }, "that's what we expect");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, 2, 2, 3} to not contain items {1, 2, 3} in order because that's what we expect, " +
                 "but items appeared in order ending at index 3.");
         }
@@ -233,7 +233,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Cannot verify absence of ordered containment in a <null> collection.");
         }
 
@@ -247,7 +247,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainInOrder(1, null, "string");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, <null>, 2, \"string\"} to not contain items {1, <null>, \"string\"} in order, " +
                 "but items appeared in order ending at index 3.");
         }
@@ -262,7 +262,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainInOrder(1, 2, 3);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, 2, 3, 2} to not contain items {1, 2, 3} in order, " +
                 "but items appeared in order ending at index 2.");
         }
@@ -277,7 +277,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainInOrder(1, 2, 1, 2, 12, 2, 2);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection {1, 2, 1, 2, 12, 2, 2} to not contain items {1, 2, 1, 2, 12, 2, 2} in order, " +
                 "but items appeared in order ending at index 6.");
         }
@@ -292,7 +292,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainInOrder(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot verify absence of ordered containment against a <null> collection.*");
         }
     }

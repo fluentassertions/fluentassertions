@@ -33,7 +33,7 @@ public partial class NumericAssertionSpecs
             Action act = () => value.Should().BeGreaterThan(greaterValue);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -47,7 +47,7 @@ public partial class NumericAssertionSpecs
             Action act = () => value.Should().BeGreaterThan(sameValue);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]

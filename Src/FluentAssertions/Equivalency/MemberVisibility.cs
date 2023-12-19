@@ -1,7 +1,7 @@
 ﻿using System;
 
 #pragma warning disable CA1714
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Determines which members are included in the equivalency assertion

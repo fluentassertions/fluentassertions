@@ -31,7 +31,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().NotHaveMilliseconds(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect the milliseconds part of subject to be 445, but it was.");
         }
 
@@ -46,7 +46,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().HaveMilliseconds(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected the milliseconds part of subject to be 12, but found 555.");
         }
 
@@ -72,7 +72,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().HaveMilliseconds(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected the milliseconds part of subject to be 22, but found a <null> TimeOnly.");
         }
 
@@ -87,7 +87,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().NotHaveMilliseconds(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect the milliseconds part of subject to be 22, but found a <null> TimeOnly.");
         }
     }

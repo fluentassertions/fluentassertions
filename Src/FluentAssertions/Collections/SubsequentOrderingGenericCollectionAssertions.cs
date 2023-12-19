@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Collections;
+namespace FluentAssertionsAsync.Collections;
 
 [DebuggerNonUserCode]
 public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAssertions>

@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Common;
-using FluentAssertions.Equivalency;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Equivalency;
 
-namespace FluentAssertions.Formatting;
+namespace FluentAssertionsAsync.Formatting;
 
 public class DefaultValueFormatter : IValueFormatter
 {

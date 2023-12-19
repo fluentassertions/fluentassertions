@@ -1,6 +1,6 @@
-﻿using FluentAssertions.Common;
+﻿using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Execution;
+namespace FluentAssertionsAsync.Execution;
 
 /// <summary>
 /// Helper class for verifying a condition and/or throwing a test harness specific exception representing an assertion failure.

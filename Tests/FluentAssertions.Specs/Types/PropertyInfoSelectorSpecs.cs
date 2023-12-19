@@ -19,7 +19,7 @@ public class PropertyInfoSelectorSpecs
         Action act = () => propertyInfoSelector = new PropertyInfoSelector((Type)null);
 
         // Assert
-        act.Should().ThrowExactly<ArgumentNullException>()
+        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
             .WithParameterName("types");
     }
 
@@ -33,7 +33,7 @@ public class PropertyInfoSelectorSpecs
         Action act = () => propertyInfoSelector = new PropertyInfoSelector((Type[])null);
 
         // Assert
-        act.Should().ThrowExactly<ArgumentNullException>()
+        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
             .WithParameterName("types");
     }
 
@@ -47,7 +47,7 @@ public class PropertyInfoSelectorSpecs
         Action act = () => propertyInfoSelector.Should();
 
         // Assert
-        act.Should().ThrowExactly<ArgumentNullException>()
+        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
             .WithParameterName("propertyInfoSelector");
     }
 
@@ -344,7 +344,7 @@ public class PropertyInfoSelectorSpecs
 
         // Assert
         returnTypes.Should()
-            .BeEquivalentTo(new[]
+            .BeEquivalentToAsync(new[]
             {
                 typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string),
                 typeof(string), typeof(int), typeof(int), typeof(int), typeof(int)

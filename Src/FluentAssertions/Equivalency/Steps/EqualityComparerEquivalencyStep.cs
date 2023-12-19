@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using FluentAssertions.Execution;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
 {
@@ -13,12 +14,12 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
         this.comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
     }
 
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+    public Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
         if (comparands.GetExpectedType(context.Options) != typeof(T))
         {
-            return EquivalencyResult.ContinueWithNext;
+            return Task.FromResult(EquivalencyResult.ContinueWithNext);
         }
 
         Execute.Assertion
@@ -31,7 +32,7 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
             .FailWith("Expected {context:object} to be equal to {1} according to {0}{because}, but {2} was not.",
                 comparer.ToString(), comparands.Expectation, comparands.Subject);
 
-        return EquivalencyResult.AssertionCompleted;
+        return Task.FromResult(EquivalencyResult.AssertionCompleted);
     }
 
     public override string ToString()

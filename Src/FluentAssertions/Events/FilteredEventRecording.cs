@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FluentAssertions.Events;
+namespace FluentAssertionsAsync.Events;
 
 internal class FilteredEventRecording : IEventRecording
 {

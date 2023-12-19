@@ -1,6 +1,6 @@
 using System.Xml.Linq;
 
-namespace FluentAssertions.Formatting;
+namespace FluentAssertionsAsync.Formatting;
 
 public class XAttributeValueFormatter : IValueFormatter
 {

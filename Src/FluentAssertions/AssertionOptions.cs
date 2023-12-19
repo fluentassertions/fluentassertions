@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Common;
-using FluentAssertions.Equivalency;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Equivalency;
+using FluentAssertionsAsync.Formatting;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 /// <summary>
 /// Holds any global options that control the behavior of FluentAssertions.

@@ -34,7 +34,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => firstCollection.Should().HaveSameCount(secondCollection);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected firstCollection to have 2 item(s), but found 3.");
         }
 
@@ -49,7 +49,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => firstCollection.Should().HaveSameCount(secondCollection, "we want to test the {0}", "reason");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected firstCollection to have 2 item(s) because we want to test the reason, but found 3.");
         }
 
@@ -68,7 +68,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to have the same count as {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -83,7 +83,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveSameCount(otherCollection);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot verify count against a <null> collection.*");
         }
     }
@@ -112,7 +112,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => firstCollection.Should().NotHaveSameCount(secondCollection);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected firstCollection to not have 3 item(s), but found 3.");
         }
 
@@ -127,7 +127,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => firstCollection.Should().NotHaveSameCount(secondCollection, "we want to test the {0}", "reason");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected firstCollection to not have 3 item(s) because we want to test the reason, but found 3.");
         }
 
@@ -146,7 +146,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to not have the same count as {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -161,7 +161,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotHaveSameCount(otherCollection);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot verify count against a <null> collection.*");
         }
 
@@ -178,7 +178,7 @@ public partial class CollectionAssertionSpecs
                 "because we want to test the behaviour with same objects");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*not have the same count*because we want to test the behaviour with same objects*but they both reference the same object.");
         }
     }

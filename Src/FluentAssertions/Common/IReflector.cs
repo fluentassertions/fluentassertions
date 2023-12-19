@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 public interface IReflector
 {

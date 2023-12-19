@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
-using FluentAssertions;
+using FluentAssertionsAsync;
 
 namespace Benchmarks;
 
@@ -48,8 +49,8 @@ public class BeEquivalentToWithDeeplyNestedStructures
     private List<ComplexType> expectation;
 
     [Benchmark]
-    public void BeEquivalentTo()
+    public async Task BeEquivalentTo()
     {
-        subject.Should().BeEquivalentTo(expectation);
+        await subject.Should().BeEquivalentToAsync(expectation);
     }
 }

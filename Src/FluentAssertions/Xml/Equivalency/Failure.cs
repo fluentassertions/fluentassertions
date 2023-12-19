@@ -1,4 +1,4 @@
-namespace FluentAssertions.Xml.Equivalency;
+namespace FluentAssertionsAsync.Xml.Equivalency;
 
 internal class Failure
 {

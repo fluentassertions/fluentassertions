@@ -1,5 +1,5 @@
 ﻿using System;
-using FluentAssertions;
+using FluentAssertionsAsync;
 using Xunit;
 
 namespace XUnit2.Specs;

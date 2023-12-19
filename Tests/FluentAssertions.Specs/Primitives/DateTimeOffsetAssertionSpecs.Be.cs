@@ -77,7 +77,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => dateTime.Should().Be(otherDateTime, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dateTime to represent the same point in time as <2012-03-11 +1h>*failure message, but <2012-03-10 +1h> does not.");
         }
 
@@ -92,7 +92,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => dateTime.Should().Be(otherDateTime, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dateTime to represent the same point in time as <2012-03-11 +1h>*failure message, but <2012-03-10 +1h> does not.");
         }
 
@@ -229,7 +229,7 @@ public partial class DateTimeOffsetAssertionSpecs
                 () => dateTime.Should().NotBe(sameDateTime, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect dateTime to represent the same point in time as <2012-03-10 +1h> because we want to test the failure message, but it did.");
         }
 
@@ -245,7 +245,7 @@ public partial class DateTimeOffsetAssertionSpecs
                 () => dateTime.Should().NotBe(sameDateTime, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Did not expect dateTime to represent the same point in time as <2012-03-10 +1h> because we want to test the failure message, but it did.");
         }
 

@@ -1,4 +1,4 @@
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Indication of how cyclic references should be handled when validating equality of nested properties.

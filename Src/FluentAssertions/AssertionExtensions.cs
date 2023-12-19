@@ -9,20 +9,20 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using FluentAssertions.Collections;
-using FluentAssertions.Common;
-using FluentAssertions.Numeric;
-using FluentAssertions.Primitives;
-using FluentAssertions.Specialized;
-using FluentAssertions.Streams;
-using FluentAssertions.Types;
-using FluentAssertions.Xml;
-using JetBrains.Annotations;
+using FluentAssertionsAsync.Collections;
+using FluentAssertionsAsync.Common;
 #if !NETSTANDARD2_0
-using FluentAssertions.Events;
+using FluentAssertionsAsync.Events;
 #endif
+using FluentAssertionsAsync.Numeric;
+using FluentAssertionsAsync.Primitives;
+using FluentAssertionsAsync.Specialized;
+using FluentAssertionsAsync.Streams;
+using FluentAssertionsAsync.Types;
+using FluentAssertionsAsync.Xml;
+using JetBrains.Annotations;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 /// <summary>
 /// Contains extension methods for custom assertions in unit tests.
@@ -161,7 +161,7 @@ public static class AssertionExtensions
 
     /// <summary>
     /// Returns an <see cref="ExecutionTimeAssertions"/> object that can be used to assert the
-    /// current <see cref="FluentAssertions.Specialized.ExecutionTime"/>.
+    /// current <see cref="Specialized.ExecutionTime"/>.
     /// </summary>
     [Pure]
     public static ExecutionTimeAssertions Should(this ExecutionTime executionTime)
@@ -757,7 +757,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns a <see cref="FluentAssertions.Types.MethodBaseAssertions{TSubject, TAssertions}"/> object
+    /// Returns a <see cref="MethodBaseAssertions{TSubject,TAssertions}"/> object
     /// that can be used to assert the current <see cref="MethodInfo"/>.
     /// </summary>
     /// <seealso cref="TypeAssertions"/>

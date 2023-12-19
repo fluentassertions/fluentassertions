@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 [DebuggerNonUserCode]
 public class AndConstraint<T>

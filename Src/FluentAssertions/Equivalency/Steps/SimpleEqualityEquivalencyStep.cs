@@ -1,17 +1,19 @@
-namespace FluentAssertions.Equivalency.Steps;
+using System.Threading.Tasks;
+
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 public class SimpleEqualityEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+    public Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
         if (!context.Options.IsRecursive && !context.CurrentNode.IsRoot)
         {
             comparands.Subject.Should().Be(comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
 
-            return EquivalencyResult.AssertionCompleted;
+            return Task.FromResult(EquivalencyResult.AssertionCompleted);
         }
 
-        return EquivalencyResult.ContinueWithNext;
+        return Task.FromResult(EquivalencyResult.ContinueWithNext);
     }
 }

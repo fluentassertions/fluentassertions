@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 internal static class CSharpAccessModifierExtensions
 {

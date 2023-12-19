@@ -1,10 +1,8 @@
 ﻿using System.Diagnostics;
 using System.IO;
-#if NET6_0_OR_GREATER || NETSTANDARD2_1
-using FluentAssertions.Execution;
-#endif
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Streams;
+namespace FluentAssertionsAsync.Streams;
 
 /// <summary>
 /// Contains a number of methods to assert that an <see cref="Stream"/> is in the expected state.

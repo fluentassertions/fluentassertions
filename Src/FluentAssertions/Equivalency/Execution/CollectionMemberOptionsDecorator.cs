@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Equivalency.Ordering;
-using FluentAssertions.Equivalency.Selection;
-using FluentAssertions.Equivalency.Tracing;
+using FluentAssertionsAsync.Equivalency.Ordering;
+using FluentAssertionsAsync.Equivalency.Selection;
+using FluentAssertionsAsync.Equivalency.Tracing;
 
-namespace FluentAssertions.Equivalency.Execution;
+namespace FluentAssertionsAsync.Equivalency.Execution;
 
 /// <summary>
 /// Ensures that all the rules remove the collection index from the path before processing it further.

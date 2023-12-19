@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace FluentAssertions.CallerIdentification;
+namespace FluentAssertionsAsync.CallerIdentification;
 
 /// <summary>
 /// Represents a stateful parsing strategy that is used to help identify the "caller" to use in an assertion message.

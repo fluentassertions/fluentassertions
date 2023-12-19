@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 internal static class EnumerableEquivalencyValidatorExtensions
 {

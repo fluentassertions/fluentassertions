@@ -96,7 +96,7 @@ public partial class NumericAssertionSpecs
             Action act = () => subject.Should().Be(expected);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -110,7 +110,7 @@ public partial class NumericAssertionSpecs
             Action act = () => subject.Should().Be(expected);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -211,7 +211,7 @@ public partial class NumericAssertionSpecs
             Action act = () => value.Should().Be(3.4m, "we want to test the error message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected value to be*3.4* because we want to test the error message, but found*3.5*");
         }
@@ -333,7 +333,7 @@ public partial class NumericAssertionSpecs
             Action act = () => subject.Should().NotBe(unexpected);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [InlineData(0, 1)]

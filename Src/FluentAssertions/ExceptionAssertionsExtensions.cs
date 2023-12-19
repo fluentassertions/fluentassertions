@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using FluentAssertions.Execution;
-using FluentAssertions.Specialized;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Specialized;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 public static class ExceptionAssertionsExtensions
 {

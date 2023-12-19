@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Primitives;
 
-namespace FluentAssertions.Streams;
+namespace FluentAssertionsAsync.Streams;
 
 /// <summary>
 /// Contains a number of methods to assert that an <see cref="Stream"/> is in the expected state.

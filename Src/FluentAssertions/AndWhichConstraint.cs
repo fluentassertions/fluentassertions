@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Common;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Formatting;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 /// <summary>
 /// Constraint which can be returned from an assertion which matches a condition and which will allow

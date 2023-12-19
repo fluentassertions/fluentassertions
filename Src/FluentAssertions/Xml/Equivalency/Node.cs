@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace FluentAssertions.Xml.Equivalency;
+namespace FluentAssertionsAsync.Xml.Equivalency;
 
 internal sealed class Node
 {

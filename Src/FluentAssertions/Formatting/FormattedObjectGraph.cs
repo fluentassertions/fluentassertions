@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Formatting;
+namespace FluentAssertionsAsync.Formatting;
 
 /// <summary>
 /// This class is used by the <see cref="Formatter"/> class to collect all the output of the (nested calls of an) <see cref="IValueFormatter"/> into

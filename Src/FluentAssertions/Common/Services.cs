@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Execution;
-using FluentAssertions.Extensibility;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Extensibility;
 using JetBrains.Annotations;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 /// <summary>
 /// Maintains the framework-specific services.

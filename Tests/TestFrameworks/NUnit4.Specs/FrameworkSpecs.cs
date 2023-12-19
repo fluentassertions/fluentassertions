@@ -1,5 +1,5 @@
 ﻿using System;
-using FluentAssertions;
+using FluentAssertionsAsync;
 using NUnit.Framework;
 
 namespace NUnit4.Specs;

@@ -1,6 +1,6 @@
 using System;
 
-namespace FluentAssertions.Execution;
+namespace FluentAssertionsAsync.Execution;
 
 /// <summary>
 /// Allows chaining multiple assertion scopes together using <see cref="Continuation.Then"/>.

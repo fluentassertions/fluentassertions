@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace FluentAssertions.Execution;
+namespace FluentAssertionsAsync.Execution;
 
 /// <summary>
 /// Represents the default exception in case no test framework is configured.

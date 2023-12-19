@@ -31,7 +31,7 @@ public partial class DateOnlyAssertionSpecs
             Action act = () => subject.Should().NotHaveYear(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect the year part of subject to be 2009, but it was.");
         }
 
@@ -46,7 +46,7 @@ public partial class DateOnlyAssertionSpecs
             Action act = () => subject.Should().HaveYear(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected the year part of subject to be 2008, but found 2009.");
         }
 
@@ -72,7 +72,7 @@ public partial class DateOnlyAssertionSpecs
             Action act = () => subject.Should().HaveYear(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected the year part of subject to be 2008, but found <null>.");
         }
 
@@ -87,7 +87,7 @@ public partial class DateOnlyAssertionSpecs
             Action act = () => subject.Should().NotHaveYear(expectation);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Did not expect the year part of subject to be 2008, but found a <null> DateOnly.");
         }
     }

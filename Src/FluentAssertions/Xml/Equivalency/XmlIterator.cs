@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Xml;
 
-namespace FluentAssertions.Xml.Equivalency;
+namespace FluentAssertionsAsync.Xml.Equivalency;
 
 internal class XmlIterator
 {

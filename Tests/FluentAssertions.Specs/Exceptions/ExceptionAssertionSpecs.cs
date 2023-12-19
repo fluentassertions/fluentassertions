@@ -105,7 +105,7 @@ public class ExceptionAssertionSpecs
         try
         {
             // Act
-            act.Should().ThrowExactly<ArgumentException>("because {0} should do that", "Does.Do");
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>("because {0} should do that", "Does.Do");
 
             throw new XunitException("This point should not be reached.");
         }
@@ -127,7 +127,7 @@ public class ExceptionAssertionSpecs
         try
         {
             // Act
-            act.Should().ThrowExactly<ArgumentException>("because {0} should do that", "Does.Do");
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>("because {0} should do that", "Does.Do");
 
             throw new XunitException("This point should not be reached.");
         }
@@ -147,7 +147,7 @@ public class ExceptionAssertionSpecs
         Action act = () => throw new ArgumentNullException();
 
         // Act / Assert
-        act.Should().ThrowExactly<ArgumentNullException>();
+        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>();
     }
 }
 

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using FluentAssertions.Common;
-using FluentAssertions.Equivalency;
-using FluentAssertions.Execution;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Equivalency;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Collections;
+namespace FluentAssertionsAsync.Collections;
 
 /// <summary>
 /// Contains a number of methods to assert that a <typeparamref name="TCollection"/> is in the expected state.
@@ -179,10 +180,10 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
+    public async Task<AndConstraint<TAssertions>> BeEquivalentToAsync<TExpectation>(TExpectation expectation,
         string because = "", params object[] becauseArgs)
     {
-        return BeEquivalentTo(expectation, options => options, because, becauseArgs);
+        return await BeEquivalentToAsync(expectation, options => options, because, becauseArgs);
     }
 
     /// <summary>
@@ -211,7 +212,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
+    public async Task<AndConstraint<TAssertions>> BeEquivalentToAsync<TExpectation>(TExpectation expectation,
         Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
     {
@@ -233,7 +234,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
             CompileTimeType = typeof(TExpectation),
         };
 
-        new EquivalencyValidator().AssertEquality(comparands, context);
+        await new EquivalencyValidator().AssertEqualityAsync(comparands, context);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }

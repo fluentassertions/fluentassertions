@@ -79,7 +79,7 @@ public class AssertionOptionsSpecs
             Given(() =>
             {
                 // Trigger a first equivalency check using the default global settings
-                new MyValueType { Value = 1 }.Should().BeEquivalentTo(new MyValueType { Value = 2 });
+                new MyValueType { Value = 1 }.Should().BeEquivalentToAsync(new MyValueType { Value = 2 });
             });
 
             When(() => AssertionOptions.AssertEquivalencyUsing(o => o.ComparingByMembers<MyValueType>()));
@@ -88,9 +88,9 @@ public class AssertionOptionsSpecs
         [Fact]
         public void It_should_try_to_compare_the_classes_by_member_semantics_and_thus_throw()
         {
-            Action act = () => new MyValueType { Value = 1 }.Should().BeEquivalentTo(new MyValueType { Value = 2 });
+            Action act = () => new MyValueType { Value = 1 }.Should().BeEquivalentToAsync(new MyValueType { Value = 2 });
 
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         internal class MyValueType
@@ -112,7 +112,7 @@ public class AssertionOptionsSpecs
             Given(() =>
             {
                 // Trigger a first equivalency check using the default global settings
-                new MyClass { Value = 1 }.Should().BeEquivalentTo(new MyClass { Value = 1 });
+                new MyClass { Value = 1 }.Should().BeEquivalentToAsync(new MyClass { Value = 1 });
             });
 
             When(() => AssertionOptions.AssertEquivalencyUsing(o => o.ComparingByValue<MyClass>()));
@@ -123,9 +123,9 @@ public class AssertionOptionsSpecs
         {
             MyClass myClass = new() { Value = 1 };
 
-            Action act = () => myClass.Should().BeEquivalentTo(new MyClass { Value = 1 });
+            Action act = () => myClass.Should().BeEquivalentToAsync(new MyClass { Value = 1 });
 
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         internal class MyClass
@@ -148,7 +148,7 @@ public class AssertionOptionsSpecs
         [Fact]
         public void It_should_use_the_global_settings_for_comparing_records()
         {
-            new Position(123).Should().BeEquivalentTo(new Position(123));
+            new Position(123).Should().BeEquivalentToAsync(new Position(123));
         }
 
         private record Position
@@ -188,7 +188,7 @@ public class AssertionOptionsSpecs
                 Value = 0.33D
             };
 
-            Action act = () => actual.Should().BeEquivalentTo(expected);
+            Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
 
             act.Should().NotThrow();
         }
@@ -220,11 +220,11 @@ public class AssertionOptionsSpecs
                 Value = 0.33D
             };
 
-            Action act = () => actual.Should().BeEquivalentTo(expected, options => options
+            Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected, options => options
                 .Using<double>(ctx => ctx.Subject.Should().Be(ctx.Expectation))
                 .WhenTypeIs<double>());
 
-            act.Should().Throw<XunitException>().WithMessage("Expected*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected*");
         }
 
         [Fact]
@@ -240,7 +240,7 @@ public class AssertionOptionsSpecs
                 Value = 0.33D
             };
 
-            Action act = () => actual.Should().BeEquivalentTo(expected);
+            Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
 
             act.Should().NotThrow();
         }
@@ -420,12 +420,12 @@ public class AssertionOptionsSpecs
 
     internal class MyEquivalencyStep : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        public Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
             IEquivalencyValidator nestedValidator)
         {
             Execute.Assertion.FailWith(GetType().FullName);
 
-            return EquivalencyResult.AssertionCompleted;
+            return Task.FromResult(EquivalencyResult.AssertionCompleted);
         }
     }
 }

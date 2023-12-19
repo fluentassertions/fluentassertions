@@ -1,10 +1,10 @@
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Primitives;
+namespace FluentAssertionsAsync.Primitives;
 
 internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
 {

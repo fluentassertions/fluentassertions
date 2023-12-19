@@ -86,7 +86,7 @@ public partial class ObjectAssertionSpecs
                 new SomeClassEqualityComparer(), "I said so");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                .WithMessage("Expected value to be one of {SomeClass(4), SomeClass(5)}*I said so*SomeClass(3).");
         }
 
@@ -100,7 +100,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => value.Should().BeOneOf(Array.Empty<SomeClass>(), new SomeClassEqualityComparer());
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -114,7 +114,7 @@ public partial class ObjectAssertionSpecs
                 new SomeClassEqualityComparer(), "I said so");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                .WithMessage("Expected value to be one of {SomeClass(4), SomeClass(5)}*I said so*SomeClass(3).");
         }
 
@@ -128,7 +128,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => value.Should().BeOneOf(Array.Empty<SomeClass>(), new SomeClassEqualityComparer());
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -142,7 +142,7 @@ public partial class ObjectAssertionSpecs
                 new SomeClassEqualityComparer(), "I said so");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                .WithMessage("Expected value to be one of {SomeClass(4), SomeClass(5)}*I said so*ClassWithCustomEqualMethod(3).");
         }
 
@@ -156,7 +156,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => value.Should().BeOneOf(null, new SomeClassEqualityComparer());
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithParameterName("validValues");
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithParameterName("validValues");
         }
 
         [Fact]
@@ -169,7 +169,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => value.Should().BeOneOf(null, new SomeClassEqualityComparer());
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithParameterName("validValues");
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithParameterName("validValues");
         }
 
         [Fact]
@@ -182,7 +182,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => value.Should().BeOneOf(Array.Empty<SomeClass>(), comparer: null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithParameterName("comparer");
         }
 
         [Fact]
@@ -195,7 +195,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => value.Should().BeOneOf(Array.Empty<SomeClass>(), comparer: null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithParameterName("comparer");
         }
 
         [Fact]

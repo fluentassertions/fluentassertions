@@ -6,14 +6,15 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Text;
-using FluentAssertions.Common;
-using FluentAssertions.Equivalency.Matching;
-using FluentAssertions.Equivalency.Ordering;
-using FluentAssertions.Equivalency.Selection;
-using FluentAssertions.Equivalency.Steps;
-using FluentAssertions.Equivalency.Tracing;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Equivalency.Matching;
+using FluentAssertionsAsync.Equivalency.Ordering;
+using FluentAssertionsAsync.Equivalency.Selection;
+using FluentAssertionsAsync.Equivalency.Steps;
+using FluentAssertionsAsync.Equivalency.Tracing;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 #pragma warning disable CA1033 //An unsealed externally visible type provides an explicit method implementation of a public interface and does not provide an alternative externally visible method that has the same name.
 
@@ -375,6 +376,18 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     public Restriction<TProperty> Using<TProperty>(Action<IAssertionContext<TProperty>> action)
     {
         return new Restriction<TProperty>((TSelf)this, action);
+    }
+
+    /// <summary>
+    /// Overrides the comparison of subject and expectation to use provided <paramref name="action"/>
+    /// when the predicate is met.
+    /// </summary>
+    /// <param name="action">
+    /// The assertion to execute when the predicate is met.
+    /// </param>
+    public RestrictionAsync<TProperty> Using<TProperty>(Func<IAssertionContext<TProperty>, Task> action)
+    {
+        return new RestrictionAsync<TProperty>((TSelf)this, action);
     }
 
     /// <summary>
@@ -790,6 +803,48 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         {
             options.userEquivalencySteps.Insert(0,
                 new AssertionRuleEquivalencyStep<TMember>(predicate, action));
+
+            return options;
+        }
+    }
+
+    /// <summary>
+    /// Defines additional overrides when used with <see cref="SelfReferenceEquivalencyOptions{TSelf}" />
+    /// </summary>
+    public class RestrictionAsync<TMember>
+    {
+        private readonly Func<IAssertionContext<TMember>, Task> action;
+        private readonly TSelf options;
+
+        public RestrictionAsync(TSelf options, Func<IAssertionContext<TMember>, Task> action)
+        {
+            this.options = options;
+            this.action = action;
+        }
+
+        /// <summary>
+        /// Allows overriding the way structural equality is applied to (nested) objects of type
+        /// <typeparamref name="TMemberType" />
+        /// </summary>
+        public TSelf WhenTypeIs<TMemberType>()
+            where TMemberType : TMember
+        {
+            When(info => info.RuntimeType.IsSameOrInherits(typeof(TMemberType)));
+            return options;
+        }
+
+        /// <summary>
+        /// Allows overriding the way structural equality is applied to particular members.
+        /// </summary>
+        /// <param name="predicate">
+        /// A predicate based on the <see cref="IMemberInfo" /> of the subject that is used to identify the property for which
+        /// the
+        /// override applies.
+        /// </param>
+        public TSelf When(Expression<Func<IObjectInfo, bool>> predicate)
+        {
+            options.userEquivalencySteps.Insert(0,
+                new AssertionRuleEquivalencyStepAsync<TMember>(predicate, action));
 
             return options;
         }

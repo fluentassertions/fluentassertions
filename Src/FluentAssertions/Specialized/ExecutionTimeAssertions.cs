@@ -1,8 +1,8 @@
 ﻿using System;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Specialized;
+namespace FluentAssertionsAsync.Specialized;
 
 #pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals

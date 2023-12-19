@@ -24,7 +24,7 @@ public class ExecutionTimeAssertionsSpecs
                 "we like speed");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*(s.Sleep(610)) should be less than or equal to 500ms because we like speed, but it required*");
         }
 
@@ -51,7 +51,7 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => someAction.ExecutionTime().Should().BeLessThanOrEqualTo(100.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*action should be less than or equal to 100ms, but it required*");
         }
 
@@ -83,7 +83,7 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => someAction.ExecutionTime().Should().BeLessThanOrEqualTo(100.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*action should be less than or equal to 100ms, but it required more than*");
         }
 
@@ -98,7 +98,7 @@ public class ExecutionTimeAssertionsSpecs
                 subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeLessThanOrEqualTo(1.Nanoseconds());
 
             // Assert
-            act.Should().ThrowExactly<XunitException>()
+            await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
                 .Which.Message.Should().Contain("{}").And.NotContain("{0}");
         }
 
@@ -128,7 +128,7 @@ public class ExecutionTimeAssertionsSpecs
                 "we like speed");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*(s.Sleep(610)) should be less than 500ms because we like speed, but it required*");
         }
 
@@ -155,7 +155,7 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => someAction.ExecutionTime().Should().BeLessThan(100.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*action should be less than 100ms, but it required*");
         }
 
@@ -169,7 +169,7 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => someAction.ExecutionTime().Should().BeLessThan(100.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*action should be less than 100ms, but it required*");
         }
 
@@ -214,7 +214,7 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => someAction.ExecutionTime().Should().BeLessThan(100.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*action should be less than 100ms, but it required more than*");
         }
 
@@ -228,7 +228,7 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeLessThan(1.Nanoseconds());
 
             // Assert
-            act.Should().ThrowExactly<XunitException>()
+            await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
                 .Which.Message.Should().Contain("{}").And.NotContain("{0}");
         }
     }
@@ -246,7 +246,7 @@ public class ExecutionTimeAssertionsSpecs
                 "we like speed");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*(s.Sleep(100)) should be greater than or equal to 1s because we like speed, but it required*");
         }
 
@@ -273,7 +273,7 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => someAction.ExecutionTime().Should().BeGreaterThanOrEqualTo(1.Seconds());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*action should be greater than or equal to 1s, but it required*");
         }
 
@@ -319,7 +319,7 @@ public class ExecutionTimeAssertionsSpecs
                 subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeGreaterThanOrEqualTo(1.Days());
 
             // Assert
-            act.Should().ThrowExactly<XunitException>()
+            await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
                 .Which.Message.Should().Contain("{}").And.NotContain("{0}");
         }
 
@@ -349,7 +349,7 @@ public class ExecutionTimeAssertionsSpecs
                 "we like speed");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*(s.Sleep(100)) should be greater than 1s because we like speed, but it required*");
         }
 
@@ -376,7 +376,7 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => someAction.ExecutionTime().Should().BeGreaterThan(1.Seconds());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*action should be greater than 1s, but it required*");
         }
 
@@ -421,7 +421,7 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeGreaterThan(1.Days());
 
             // Assert
-            act.Should().ThrowExactly<XunitException>()
+            await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
                 .Which.Message.Should().Contain("{}").And.NotContain("{0}");
         }
     }
@@ -439,7 +439,7 @@ public class ExecutionTimeAssertionsSpecs
                 -1.Ticks());
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -456,7 +456,7 @@ public class ExecutionTimeAssertionsSpecs
                 "we like speed");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*(s.Sleep(200)) should be within 50ms from 100ms because we like speed, but it required*");
         }
 
@@ -485,7 +485,7 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => someAction.ExecutionTime().Should().BeCloseTo(100.Milliseconds(), 50.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*action should be within 50ms from 100ms, but it required*");
         }
 
@@ -518,7 +518,7 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => someAction.ExecutionTime().Should().BeCloseTo(100.Milliseconds(), 50.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*action should be within 50ms from 100ms, but it required*");
         }
 
@@ -533,7 +533,7 @@ public class ExecutionTimeAssertionsSpecs
                 .Should().BeCloseTo(1.Days(), 50.Milliseconds());
 
             // Assert
-            act.Should().ThrowExactly<XunitException>()
+            await await act.Should().ThrowAsyncAsyncExactly<XunitException>()
                 .Which.Message.Should().Contain("{}").And.NotContain("{0}");
         }
     }
@@ -550,7 +550,7 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => someAction.ExecutionTime().Should().BeLessThan(200.Milliseconds());
 
             // Assert
-            act.Should().Throw<ArgumentException>().WithMessage("Let's say somebody called the wrong method.");
+            await await act.Should().ThrowAsyncAsync<ArgumentException>().WithMessage("Let's say somebody called the wrong method.");
         }
 
         [Fact]
@@ -583,7 +583,7 @@ public class ExecutionTimeAssertionsSpecs
             Func<ExecutionTimeAssertions> act = () => new ExecutionTimeAssertions(executionTime);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithParameterName("executionTime");
         }
 
@@ -597,7 +597,7 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => someAction.ExecutionTime().Should().BeLessThan(1.Days());
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("action");
         }
 
@@ -611,7 +611,7 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => someFunc.ExecutionTime().Should().BeLessThan(1.Days());
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("action");
         }
 
@@ -625,7 +625,7 @@ public class ExecutionTimeAssertionsSpecs
             var act = () => subject.ExecutionTimeOf(s => s.ToString()).Should().BeLessThan(1.Days());
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("subject");
         }
 
@@ -639,7 +639,7 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => subject.ExecutionTimeOf(null).Should().BeLessThan(1.Days());
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("action");
         }
 
@@ -653,7 +653,7 @@ public class ExecutionTimeAssertionsSpecs
             var act = () => subject.ExecutionTimeOf(s => s.ToString()).Should().Equals(1.Seconds());
 
             // Assert
-            act.Should().Throw<NotSupportedException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<NotSupportedException>().WithMessage(
                 "Equals is not part of Fluent Assertions. Did you mean BeLessThanOrEqualTo() or BeGreaterThanOrEqualTo() instead?");
         }
     }

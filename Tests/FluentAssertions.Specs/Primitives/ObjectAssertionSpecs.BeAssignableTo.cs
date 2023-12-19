@@ -20,7 +20,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().BeAssignableTo(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithParameterName("type");
         }
 
@@ -62,7 +62,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().BeAssignableTo<DateTime>("because we want to test the failure {0}", "message");
 
             // Act / Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage($"*assignable to {typeof(DateTime)}*failure message*{typeof(DummyImplementingClass)} is not*");
         }
 
@@ -76,7 +76,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().BeAssignableTo<Exception>().Which.Message.Should().Be("Other Message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*Expected*Actual*Other*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*Expected*Actual*Other*");
         }
 
         [Fact]
@@ -93,7 +93,7 @@ public partial class ObjectAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage($"*assignable to {typeof(DateTime)}*failure message*found <null>*");
         }
 
@@ -151,7 +151,7 @@ public partial class ObjectAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage($"*assignable to {typeof(DateTime)}*failure message*found <null>*");
         }
 
@@ -165,7 +165,7 @@ public partial class ObjectAssertionSpecs
                 someObject.Should().BeAssignableTo(typeof(DateTime), "because we want to test the failure {0}", "message");
 
             // Act / Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage($"*assignable to {typeof(DateTime)}*failure message*{typeof(DummyImplementingClass)} is not*");
         }
 
@@ -179,7 +179,7 @@ public partial class ObjectAssertionSpecs
                 someObject.Should().BeAssignableTo(typeof(IList<>), "because we want to test the failure {0}", "message");
 
             // Act / Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage($"*assignable to {typeof(IList<>)}*failure message*{typeof(DummyImplementingClass)} is not*");
         }
 
@@ -196,7 +196,7 @@ public partial class ObjectAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected * to be assignable to System.Int32, but System.String is not.*" +
                     "Expected * to be assignable to System.Int64, but System.String is not.");
@@ -215,7 +215,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().NotBeAssignableTo(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithParameterName("type");
         }
 
@@ -230,7 +230,7 @@ public partial class ObjectAssertionSpecs
                     .NotBeAssignableTo<DummyImplementingClass>("because we want to test the failure {0}", "message");
 
             // Act / Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     $"*not be assignable to {typeof(DummyImplementingClass)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
@@ -245,7 +245,7 @@ public partial class ObjectAssertionSpecs
                 someObject.Should().NotBeAssignableTo<DummyBaseClass>("because we want to test the failure {0}", "message");
 
             // Act / Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     $"*not be assignable to {typeof(DummyBaseClass)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
@@ -260,7 +260,7 @@ public partial class ObjectAssertionSpecs
                 someObject.Should().NotBeAssignableTo<IDisposable>("because we want to test the failure {0}", "message");
 
             // Act / Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage($"*not be assignable to {typeof(IDisposable)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
 
@@ -287,7 +287,7 @@ public partial class ObjectAssertionSpecs
                 .Which.Message.Should().Be("Other Message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*Expected*Actual*Other*");
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*Expected*Actual*Other*");
         }
 
         [Fact]
@@ -301,7 +301,7 @@ public partial class ObjectAssertionSpecs
                     "message");
 
             // Act / Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     $"*not be assignable to {typeof(DummyImplementingClass)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
@@ -317,7 +317,7 @@ public partial class ObjectAssertionSpecs
                     .NotBeAssignableTo(typeof(DummyBaseClass), "because we want to test the failure {0}", "message");
 
             // Act / Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     $"*not be assignable to {typeof(DummyBaseClass)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
@@ -333,7 +333,7 @@ public partial class ObjectAssertionSpecs
                 someObject.Should().NotBeAssignableTo(typeof(IDisposable), "because we want to test the failure {0}", "message");
 
             // Act / Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage($"*not be assignable to {typeof(IDisposable)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
 
@@ -348,7 +348,7 @@ public partial class ObjectAssertionSpecs
                 someObject.Should().NotBeAssignableTo(typeof(IList<>), "because we want to test the failure {0}", "message");
 
             // Act / Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage($"*not be assignable to {typeof(IList<>)}*failure message*{typeof(List<string>)} is*");
         }
 
@@ -366,7 +366,7 @@ public partial class ObjectAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage($"*not be assignable to {typeof(DateTime)}*failure message*found <null>*");
         }
 

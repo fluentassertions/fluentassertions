@@ -1,6 +1,6 @@
 using System.Threading;
 
-namespace FluentAssertions.Events;
+namespace FluentAssertionsAsync.Events;
 
 /// <summary>
 /// Generates a sequence in a thread-safe manner.

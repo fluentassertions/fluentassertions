@@ -1,11 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
+using System.Threading.Tasks;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 internal static class ObjectExtensions
 {
+    public static async Task InvokeAsync(this MethodInfo self, object obj, params object[] parameters)
+    {
+        dynamic awaitable = self.Invoke(obj, parameters);
+        await awaitable;
+    }
+
+    public static async Task<T> InvokeAsync<T>(this MethodInfo self, object obj, params object[] parameters)
+    {
+        dynamic awaitable = self.Invoke(obj, parameters);
+        return await awaitable;
+    }
+
     public static Func<T, T, bool> GetComparer<T>()
     {
         if (typeof(T).IsValueType)

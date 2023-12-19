@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Common;
-using FluentAssertions.Types;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Types;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 /// <summary>
 /// Extension methods for getting method and property selectors for a type.

@@ -1,4 +1,4 @@
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Allows deferred fetching of the subject ID.

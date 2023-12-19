@@ -31,7 +31,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().BeIn(DateTimeKind.Utc);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be in Utc, but found Local.");
         }
 
@@ -45,7 +45,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().BeIn(DateTimeKind.Utc);
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected subject to be in Utc, but found a <null> DateTime.");
         }
     }

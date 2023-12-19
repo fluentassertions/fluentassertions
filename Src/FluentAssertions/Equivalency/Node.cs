@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Text.RegularExpressions;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 public class Node : INode
 {

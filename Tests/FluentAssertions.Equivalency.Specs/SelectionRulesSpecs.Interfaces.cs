@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using FluentAssertionsAsync;
 using Xunit;
 using Xunit.Sdk;
 
@@ -9,7 +11,7 @@ public partial class SelectionRulesSpecs
     public class Interfaces
     {
         [Fact]
-        public void When_an_interface_hierarchy_is_used_it_should_include_all_inherited_properties()
+        public async Task When_an_interface_hierarchy_is_used_it_should_include_all_inherited_properties()
         {
             // Arrange
             ICar subject = new Car
@@ -25,16 +27,16 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expected);
+            Func<Task> action = () => subject.Should().BeEquivalentToAsync(expected);
 
             // Assert
-            action
-                .Should().Throw<XunitException>()
+            await action
+                .Should().ThrowAsync<XunitException>()
                 .WithMessage("Expected*VehicleId*99999*but*1*");
         }
 
         [Fact]
-        public void When_a_reference_to_an_interface_is_provided_it_should_only_include_those_properties()
+        public async Task When_a_reference_to_an_interface_is_provided_it_should_only_include_those_properties()
         {
             // Arrange
             IVehicle expected = new Car
@@ -50,14 +52,14 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expected);
+            Func<Task> action = () => subject.Should().BeEquivalentToAsync(expected);
 
             // Assert
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_a_reference_to_an_explicit_interface_impl_is_provided_it_should_only_include_those_properties()
+        public async Task When_a_reference_to_an_explicit_interface_impl_is_provided_it_should_only_include_those_properties()
         {
             // Arrange
             IVehicle expected = new ExplicitCar
@@ -71,14 +73,14 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expected);
+            Func<Task> action = () => subject.Should().BeEquivalentToAsync(expected);
 
             // Assert
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void Explicitly_implemented_subject_properties_are_ignored_if_a_normal_property_exists_with_the_same_name()
+        public async Task Explicitly_implemented_subject_properties_are_ignored_if_a_normal_property_exists_with_the_same_name()
         {
             // Arrange
             IVehicle expected = new Vehicle
@@ -94,14 +96,14 @@ public partial class SelectionRulesSpecs
             subject.VehicleId = 1; // explicitly implemented property
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expected);
+            Func<Task> action = () => subject.Should().BeEquivalentToAsync(expected);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            await action.Should().ThrowAsync<XunitException>();
         }
 
         [Fact]
-        public void Explicitly_implemented_read_only_subject_properties_are_ignored_if_a_normal_property_exists_with_the_same_name()
+        public async Task Explicitly_implemented_read_only_subject_properties_are_ignored_if_a_normal_property_exists_with_the_same_name()
         {
             // Arrange
             IReadOnlyVehicle subject = new ExplicitReadOnlyVehicle(explicitValue: 1)
@@ -115,14 +117,14 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expected);
+            Func<Task> action = () => subject.Should().BeEquivalentToAsync(expected);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            await action.Should().ThrowAsync<XunitException>();
         }
 
         [Fact]
-        public void Explicitly_implemented_subject_properties_are_ignored_if_only_fields_are_included()
+        public async Task Explicitly_implemented_subject_properties_are_ignored_if_only_fields_are_included()
         {
             // Arrange
             var expected = new VehicleWithField
@@ -136,16 +138,16 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt
+            Func<Task> action = () => subject.Should().BeEquivalentToAsync(expected, opt => opt
                 .IncludingFields()
                 .ExcludingProperties());
 
             // Assert
-            action.Should().Throw<XunitException>().WithMessage("*field*VehicleId*other*");
+            await action.Should().ThrowAsync<XunitException>().WithMessage("*field*VehicleId*other*");
         }
 
         [Fact]
-        public void Explicitly_implemented_subject_properties_are_ignored_if_only_fields_are_included_and_they_may_be_missing()
+        public async Task Explicitly_implemented_subject_properties_are_ignored_if_only_fields_are_included_and_they_may_be_missing()
         {
             // Arrange
             var expected = new VehicleWithField
@@ -159,14 +161,14 @@ public partial class SelectionRulesSpecs
             };
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expected, opt => opt
+            await subject.Should().BeEquivalentToAsync(expected, opt => opt
                 .IncludingFields()
                 .ExcludingProperties()
                 .ExcludingMissingMembers());
         }
 
         [Fact]
-        public void Excluding_missing_members_does_not_affect_how_explicitly_implemented_subject_properties_are_dealt_with()
+        public async Task Excluding_missing_members_does_not_affect_how_explicitly_implemented_subject_properties_are_dealt_with()
         {
             // Arrange
             IVehicle expected = new Vehicle
@@ -182,14 +184,14 @@ public partial class SelectionRulesSpecs
             subject.VehicleId = 1; // interface member
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.ExcludingMissingMembers());
+            Func<Task> action = () => subject.Should().BeEquivalentToAsync(expected, opt => opt.ExcludingMissingMembers());
 
             // Assert
-            action.Should().Throw<XunitException>();
+            await action.Should().ThrowAsync<XunitException>();
         }
 
         [Fact]
-        public void When_respecting_declared_types_explicit_interface_member_on_interfaced_expectation_should_be_used()
+        public async Task When_respecting_declared_types_explicit_interface_member_on_interfaced_expectation_should_be_used()
         {
             // Arrange
             IVehicle expected = new ExplicitVehicle
@@ -205,14 +207,14 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingDeclaredTypes());
+            Func<Task> action = () => subject.Should().BeEquivalentToAsync(expected, opt => opt.RespectingDeclaredTypes());
 
             // Assert
-            action.Should().NotThrow();
+            await action.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_respecting_runtime_types_explicit_interface_member_on_interfaced_subject_should_not_be_used()
+        public async Task When_respecting_runtime_types_explicit_interface_member_on_interfaced_subject_should_not_be_used()
         {
             // Arrange
             IVehicle expected = new Vehicle
@@ -228,14 +230,14 @@ public partial class SelectionRulesSpecs
             subject.VehicleId = 1; // interface member
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingRuntimeTypes());
+            Func<Task> action = () => subject.Should().BeEquivalentToAsync(expected, opt => opt.RespectingRuntimeTypes());
 
             // Assert
-            action.Should().Throw<XunitException>();
+            await action.Should().ThrowAsync<XunitException>();
         }
 
         [Fact]
-        public void When_respecting_runtime_types_explicit_interface_member_on_interfaced_expectation_should_not_be_used()
+        public async Task When_respecting_runtime_types_explicit_interface_member_on_interfaced_expectation_should_not_be_used()
         {
             // Arrange
             IVehicle expected = new ExplicitVehicle
@@ -251,14 +253,14 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingRuntimeTypes());
+            Func<Task> action = () => subject.Should().BeEquivalentToAsync(expected, opt => opt.RespectingRuntimeTypes());
 
             // Assert
-            action.Should().Throw<XunitException>();
+            await action.Should().ThrowAsync<XunitException>();
         }
 
         [Fact]
-        public void When_respecting_declared_types_explicit_interface_member_on_expectation_should_not_be_used()
+        public async Task When_respecting_declared_types_explicit_interface_member_on_expectation_should_not_be_used()
         {
             // Arrange
             var expected = new ExplicitVehicle
@@ -274,21 +276,21 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expected);
+            Func<Task> action = () => subject.Should().BeEquivalentToAsync(expected);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            await action.Should().ThrowAsync<XunitException>();
         }
 
         [Fact]
-        public void Can_find_explicitly_implemented_property_on_the_subject()
+        public async Task Can_find_explicitly_implemented_property_on_the_subject()
         {
             // Arrange
             IPerson person = new Person();
             person.Name = "Bob";
 
             // Act / Assert
-            person.Should().BeEquivalentTo(new { Name = "Bob" });
+            await person.Should().BeEquivalentToAsync(new { Name = "Bob" });
         }
 
         private interface IPerson
@@ -302,7 +304,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void Excluding_an_interface_property_through_inheritance_should_work()
+        public async Task Excluding_an_interface_property_through_inheritance_should_work()
         {
             // Arrange
             IInterfaceWithTwoProperties[] actual =
@@ -324,13 +326,13 @@ public partial class SelectionRulesSpecs
             };
 
             // Act / Assert
-            actual.Should().BeEquivalentTo(expected, options => options
+            await actual.Should().BeEquivalentToAsync(expected, options => options
                 .Excluding(a => a.Value1)
                 .RespectingRuntimeTypes());
         }
 
         [Fact]
-        public void Including_an_interface_property_through_inheritance_should_work()
+        public async Task Including_an_interface_property_through_inheritance_should_work()
         {
             // Arrange
             IInterfaceWithTwoProperties[] actual =
@@ -352,7 +354,7 @@ public partial class SelectionRulesSpecs
             };
 
             // Act / Assert
-            actual.Should().BeEquivalentTo(expected, options => options
+            await actual.Should().BeEquivalentToAsync(expected, options => options
                 .Including(a => a.Value2)
                 .RespectingRuntimeTypes());
         }

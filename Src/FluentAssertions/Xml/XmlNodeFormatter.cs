@@ -1,8 +1,8 @@
 ﻿using System.Xml;
-using FluentAssertions.Common;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Formatting;
 
-namespace FluentAssertions.Xml;
+namespace FluentAssertionsAsync.Xml;
 
 public class XmlNodeFormatter : IValueFormatter
 {

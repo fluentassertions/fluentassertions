@@ -3,21 +3,24 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Extensions;
+using System.Threading.Tasks;
+using FluentAssertionsAsync;
+using FluentAssertionsAsync.Equivalency;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
 namespace FluentAssertions.Equivalency.Specs;
 
 /// <summary>
-/// Test Class containing specs over the extensibility points of Should().BeEquivalentTo
+/// Test Class containing specs over the extensibility points of Should().BeEquivalentToAsync
 /// </summary>
 public class ExtensibilitySpecs
 {
     #region Selection Rules
 
     [Fact]
-    public void When_a_selection_rule_is_added_it_should_be_evaluated_after_all_existing_rules()
+    public async Task When_a_selection_rule_is_added_it_should_be_evaluated_after_all_existing_rules()
     {
         // Arrange
         var subject = new
@@ -32,16 +35,16 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(
             expected,
             options => options.Using(new ExcludeForeignKeysSelectionRule()));
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_a_selection_rule_is_added_it_should_appear_in_the_exception_message()
+    public async Task When_a_selection_rule_is_added_it_should_appear_in_the_exception_message()
     {
         // Arrange
         var subject = new
@@ -55,12 +58,12 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(
             expected,
             options => options.Using(new ExcludeForeignKeysSelectionRule()));
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage($"*{nameof(ExcludeForeignKeysSelectionRule)}*");
     }
 
@@ -88,7 +91,7 @@ public class ExtensibilitySpecs
     #region Matching Rules
 
     [Fact]
-    public void When_a_matching_rule_is_added_it_should_precede_all_existing_rules()
+    public async Task When_a_matching_rule_is_added_it_should_precede_all_existing_rules()
     {
         // Arrange
         var subject = new
@@ -104,16 +107,16 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(
             expected,
             options => options.Using(new ForeignKeyMatchingRule()));
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_a_matching_rule_is_added_it_should_appear_in_the_exception_message()
+    public async Task When_a_matching_rule_is_added_it_should_appear_in_the_exception_message()
     {
         // Arrange
         var subject = new
@@ -129,12 +132,12 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(
             expected,
             options => options.Using(new ForeignKeyMatchingRule()));
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage($"*{nameof(ForeignKeyMatchingRule)}*");
     }
 
@@ -159,34 +162,34 @@ public class ExtensibilitySpecs
     #region Ordering Rules
 
     [Fact]
-    public void When_an_ordering_rule_is_added_it_should_be_evaluated_after_all_existing_rules()
+    public async Task When_an_ordering_rule_is_added_it_should_be_evaluated_after_all_existing_rules()
     {
         // Arrange
         var subject = new[] { "First", "Second" };
         var expected = new[] { "First", "Second" };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(
             expected,
             options => options.Using(new StrictOrderingRule()));
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_an_ordering_rule_is_added_it_should_appear_in_the_exception_message()
+    public async Task When_an_ordering_rule_is_added_it_should_appear_in_the_exception_message()
     {
         // Arrange
         var subject = new[] { "First", "Second" };
         var expected = new[] { "Second", "First" };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(
             expected,
             options => options.Using(new StrictOrderingRule()));
 
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage($"*{nameof(StrictOrderingRule)}*");
     }
 
@@ -203,7 +206,7 @@ public class ExtensibilitySpecs
     #region Assertion Rules
 
     [Fact]
-    public void When_property_of_other_is_incompatible_with_generic_type_the_message_should_include_generic_type()
+    public async Task When_property_of_other_is_incompatible_with_generic_type_the_message_should_include_generic_type()
     {
         // Arrange
         var subject = new
@@ -217,18 +220,18 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(other,
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(other,
             o => o
                 .Using<string>(c => c.Subject.Should().Be(c.Expectation))
                 .When(si => si.Path == "Id"));
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("*Id*from expectation*System.String*System.Double*");
     }
 
     [Fact]
-    public void Can_exclude_all_properties_of_the_parent_type()
+    public async Task Can_exclude_all_properties_of_the_parent_type()
     {
         // Arrange
         var subject = new
@@ -242,14 +245,14 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        subject.Should().BeEquivalentTo(expectation,
+        await subject.Should().BeEquivalentToAsync(expectation,
             o => o
                 .Using<string>(c => c.Subject.Should().HaveLength(c.Expectation.Length))
                 .When(si => si.ParentType == expectation.GetType() && si.Path.EndsWith("Id", StringComparison.Ordinal)));
     }
 
     [Fact]
-    public void When_property_of_subject_is_incompatible_with_generic_type_the_message_should_include_generic_type()
+    public async Task When_property_of_subject_is_incompatible_with_generic_type_the_message_should_include_generic_type()
     {
         // Arrange
         var subject = new
@@ -263,18 +266,18 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(other,
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(other,
             o => o
                 .Using<string>(c => c.Subject.Should().Be(c.Expectation))
                 .When(si => si.Path == "Id"));
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("*Id*from subject*System.String*System.Double*");
     }
 
     [Fact]
-    public void When_equally_named_properties_are_both_incompatible_with_generic_type_the_message_should_include_generic_type()
+    public async Task When_equally_named_properties_are_both_incompatible_with_generic_type_the_message_should_include_generic_type()
     {
         // Arrange
         var subject = new
@@ -288,18 +291,18 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(other,
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(other,
             o => o
                 .Using<string>(c => c.Subject.Should().Be(c.Expectation))
                 .When(si => si.Path == "Id"));
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("*Id*from subject*System.String*System.Double*Id*from expectation*System.String*System.Double*");
     }
 
     [Fact]
-    public void When_property_of_other_is_null_the_failure_message_should_not_complain_about_its_type()
+    public async Task When_property_of_other_is_null_the_failure_message_should_not_complain_about_its_type()
     {
         // Arrange
         var subject = new
@@ -313,20 +316,20 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(other,
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(other,
             o => o
                 .Using<string>(c => c.Subject.Should().Be(c.Expectation))
                 .When(si => si.Path == "Id"));
 
         // Assert
-        act.Should().Throw<XunitException>()
+        (await act.Should().ThrowAsync<XunitException>())
             .Which.Message.Should()
             .Contain("Expected property subject.Id to be <null>, but found \"foo\"")
             .And.NotContain("from expectation");
     }
 
     [Fact]
-    public void When_property_of_subject_is_null_the_failure_message_should_not_complain_about_its_type()
+    public async Task When_property_of_subject_is_null_the_failure_message_should_not_complain_about_its_type()
     {
         // Arrange
         var subject = new
@@ -340,20 +343,20 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(other,
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(other,
             o => o
                 .Using<string>(c => c.Subject.Should().Be(c.Expectation))
                 .When(si => si.Path == "Id"));
 
         // Assert
-        act.Should().Throw<XunitException>()
+        (await act.Should().ThrowAsync<XunitException>())
             .Which.Message.Should()
             .Contain("Expected property subject.Id to be \"bar\", but found <null>")
             .And.NotContain("from subject");
     }
 
     [Fact]
-    public void When_equally_named_properties_are_both_null_it_should_succeed()
+    public async Task When_equally_named_properties_are_both_null_it_should_succeed()
     {
         // Arrange
         var subject = new
@@ -367,14 +370,14 @@ public class ExtensibilitySpecs
         };
 
         // Act / Assert
-        subject.Should().BeEquivalentTo(other,
+        await subject.Should().BeEquivalentToAsync(other,
             o => o
                 .Using<string>(c => c.Subject.Should().Be(c.Expectation))
                 .When(si => si.Path == "Id"));
     }
 
     [Fact]
-    public void When_equally_named_properties_are_type_incompatible_and_assertion_rule_exists_it_should_not_throw()
+    public async Task When_equally_named_properties_are_type_incompatible_and_assertion_rule_exists_it_should_not_throw()
     {
         // Arrange
         var subject = new
@@ -388,17 +391,17 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(other,
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(other,
             o => o
                 .Using<object>(c => ((Type)c.Subject).AssemblyQualifiedName.Should().Be((string)c.Expectation))
                 .When(si => si.Path == "Type"));
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_an_assertion_is_overridden_for_a_predicate_it_should_use_the_provided_action()
+    public async Task When_an_assertion_is_overridden_for_a_predicate_it_should_use_the_provided_action()
     {
         // Arrange
         var subject = new
@@ -412,16 +415,16 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation, options => options
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expectation, options => options
             .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
             .When(info => info.Path.EndsWith("Date", StringComparison.Ordinal)));
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_an_assertion_is_overridden_for_all_types_it_should_use_the_provided_action_for_all_properties()
+    public async Task When_an_assertion_is_overridden_for_all_types_it_should_use_the_provided_action_for_all_properties()
     {
         // Arrange
         var subject = new
@@ -443,89 +446,89 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation, options =>
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expectation, options =>
             options
                 .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
                 .WhenTypeIs<DateTime>());
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [InlineData(null, 0)]
     [InlineData(0, null)]
     [Theory]
-    public void When_subject_or_expectation_is_null_it_should_not_match_a_non_nullable_type(int? subjectValue, int? expectedValue)
+    public async Task When_subject_or_expectation_is_null_it_should_not_match_a_non_nullable_type(int? subjectValue, int? expectedValue)
     {
         // Arrange
         var actual = new { Value = subjectValue };
         var expected = new { Value = expectedValue };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected, opt => opt
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected, opt => opt
             .Using<int>(c => c.Subject.Should().NotBe(c.Expectation))
             .WhenTypeIs<int>());
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await act.Should().ThrowAsync<XunitException>();
     }
 
     [InlineData(null, 0)]
     [InlineData(0, null)]
     [Theory]
-    public void When_subject_or_expectation_is_null_it_should_match_a_nullable_type(int? subjectValue, int? expectedValue)
+    public async Task When_subject_or_expectation_is_null_it_should_match_a_nullable_type(int? subjectValue, int? expectedValue)
     {
         // Arrange
         var actual = new { Value = subjectValue };
         var expected = new { Value = expectedValue };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected, opt => opt
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected, opt => opt
             .Using<int?>(c => c.Subject.Should().NotBe(c.Expectation))
             .WhenTypeIs<int?>());
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [InlineData(null, null)]
     [InlineData(0, 0)]
     [Theory]
-    public void When_types_are_nullable_it_should_match_a_nullable_type(int? subjectValue, int? expectedValue)
+    public async Task When_types_are_nullable_it_should_match_a_nullable_type(int? subjectValue, int? expectedValue)
     {
         // Arrange
         var actual = new { Value = subjectValue };
         var expected = new { Value = expectedValue };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected, opt => opt
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected, opt => opt
             .Using<int?>(c => c.Subject.Should().NotBe(c.Expectation))
             .WhenTypeIs<int?>());
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await act.Should().ThrowAsync<XunitException>();
     }
 
     [Fact]
-    public void When_overriding_with_custom_assertion_it_should_be_chainable()
+    public async Task When_overriding_with_custom_assertion_it_should_be_chainable()
     {
         // Arrange
         var actual = new { Nullable = (int?)1, NonNullable = 2 };
         var expected = new { Nullable = (int?)3, NonNullable = 3 };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected, opt => opt
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected, opt => opt
             .Using<int>(c => c.Subject.Should().BeCloseTo(c.Expectation, 1))
             .WhenTypeIs<int>()
             .Using<int?>(c => c.Subject.Should().NotBe(c.Expectation))
             .WhenTypeIs<int?>());
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_a_nullable_property_is_overridden_with_a_custom_assertion_it_should_use_it()
+    public async Task When_a_nullable_property_is_overridden_with_a_custom_assertion_it_should_use_it()
     {
         // Arrange
         var actual = new SimpleWithNullable
@@ -540,7 +543,7 @@ public class ExtensibilitySpecs
         };
 
         // Act / Assert
-        actual.Should().BeEquivalentTo(expected, opt => opt
+        await actual.Should().BeEquivalentToAsync(expected, opt => opt
             .Using<long?>(c => c.Subject.Should().BeInRange(0, 10))
             .WhenTypeIs<long?>());
     }
@@ -553,7 +556,7 @@ public class ExtensibilitySpecs
     }
 
     [Fact]
-    public void When_an_assertion_rule_is_added_it_should_precede_all_existing_rules()
+    public async Task When_an_assertion_rule_is_added_it_should_precede_all_existing_rules()
     {
         // Arrange
         var subject = new
@@ -567,16 +570,16 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(
             expected,
             options => options.Using(new RelaxingDateTimeEquivalencyStep()));
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_an_assertion_rule_is_added_it_appear_in_the_exception_message()
+    public async Task When_an_assertion_rule_is_added_it_appear_in_the_exception_message()
     {
         // Arrange
         var subject = new
@@ -590,17 +593,17 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(
             expected,
             options => options.Using(new RelaxingDateTimeEquivalencyStep()));
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage($"*{nameof(RelaxingDateTimeEquivalencyStep)}*");
     }
 
     [Fact]
-    public void When_multiple_steps_are_added_they_should_be_evaluated_first_to_last()
+    public async Task When_multiple_steps_are_added_they_should_be_evaluated_first_to_last()
     {
         // Arrange
         var subject = new
@@ -614,18 +617,18 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected, opts => opts
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expected, opts => opts
             .Using(new RelaxingDateTimeEquivalencyStep())
             .Using(new AlwaysFailOnDateTimesEquivalencyStep()));
 
         // Assert
-        act.Should().NotThrow(
+        await act.Should().NotThrowAsync(
             "a different assertion rule should handle the comparison before the exception throwing assertion rule is hit");
     }
 
     private class AlwaysFailOnDateTimesEquivalencyStep : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        public Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
             IEquivalencyValidator nestedValidator)
         {
             if (comparands.Expectation is DateTime)
@@ -633,37 +636,37 @@ public class ExtensibilitySpecs
                 throw new Exception("Failed");
             }
 
-            return EquivalencyResult.ContinueWithNext;
+            return Task.FromResult(EquivalencyResult.ContinueWithNext);
         }
     }
 
     private class RelaxingDateTimeEquivalencyStep : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        public Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
             IEquivalencyValidator nestedValidator)
         {
             if (comparands.Expectation is DateTime time)
             {
                 ((DateTime)comparands.Subject).Should().BeCloseTo(time, 1.Minutes());
 
-                return EquivalencyResult.AssertionCompleted;
+                return Task.FromResult(EquivalencyResult.AssertionCompleted);
             }
 
-            return EquivalencyResult.ContinueWithNext;
+            return Task.FromResult(EquivalencyResult.ContinueWithNext);
         }
     }
 
     [Fact]
-    public void When_multiple_assertion_rules_are_added_with_the_fluent_api_they_should_be_executed_from_right_to_left()
+    public async Task When_multiple_assertion_rules_are_added_with_the_fluent_api_they_should_be_executed_from_right_to_left()
     {
         // Arrange
         var subject = new ClassWithOnlyAProperty();
         var expected = new ClassWithOnlyAProperty();
 
         // Act
-        Action act =
-            () =>
-                subject.Should().BeEquivalentTo(expected,
+        Func<Task> act =
+            async () =>
+                await subject.Should().BeEquivalentToAsync(expected,
                     opts =>
                         opts.Using<object>(_ => throw new Exception())
                             .When(_ => true)
@@ -671,12 +674,12 @@ public class ExtensibilitySpecs
                             .When(_ => true));
 
         // Assert
-        act.Should().NotThrow(
+        await act.Should().NotThrowAsync(
             "a different assertion rule should handle the comparison before the exception throwing assertion rule is hit");
     }
 
     [Fact]
-    public void When_using_a_nested_equivalency_api_in_a_custom_assertion_rule_it_should_honor_the_rule()
+    public async Task When_using_a_nested_equivalency_api_in_a_custom_assertion_rule_it_should_honor_the_rule()
     {
         // Arrange
         var subject = new ClassWithSomeFieldsAndProperties
@@ -692,17 +695,17 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation, options => options
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expectation, options => options
             .Using<ClassWithSomeFieldsAndProperties>(ctx =>
-                ctx.Subject.Should().BeEquivalentTo(ctx.Expectation, nestedOptions => nestedOptions.Excluding(x => x.Property2)))
+                ctx.Subject.Should().BeEquivalentToAsync(ctx.Expectation, nestedOptions => nestedOptions.Excluding(x => x.Property2)))
             .WhenTypeIs<ClassWithSomeFieldsAndProperties>());
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_a_predicate_matches_after_auto_conversion_it_should_execute_the_assertion()
+    public async Task When_a_predicate_matches_after_auto_conversion_it_should_execute_the_assertion()
     {
         // Arrange
         var expectation = new
@@ -716,7 +719,7 @@ public class ExtensibilitySpecs
         };
 
         // Assert
-        actual.Should().BeEquivalentTo(expectation,
+        await actual.Should().BeEquivalentToAsync(expectation,
             options => options
                 .WithAutoConversion()
                 .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
@@ -728,26 +731,26 @@ public class ExtensibilitySpecs
     #region Equivalency Steps
 
     [Fact]
-    public void When_an_equivalency_step_handles_the_comparison_later_equivalency_steps_should_not_be_ran()
+    public async Task When_an_equivalency_step_handles_the_comparison_later_equivalency_steps_should_not_be_ran()
     {
         // Arrange
         var subject = new ClassWithOnlyAProperty();
         var expected = new ClassWithOnlyAProperty();
 
         // Act
-        Action act =
+        Func<Task> act =
             () =>
-                subject.Should().BeEquivalentTo(expected,
+                subject.Should().BeEquivalentToAsync(expected,
                     opts =>
                         opts.Using(new AlwaysHandleEquivalencyStep())
                             .Using(new ThrowExceptionEquivalencyStep<InvalidOperationException>()));
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_a_user_equivalency_step_is_registered_it_should_run_before_the_built_in_steps()
+    public async Task When_a_user_equivalency_step_is_registered_it_should_run_before_the_built_in_steps()
     {
         // Arrange
         var actual = new
@@ -761,56 +764,56 @@ public class ExtensibilitySpecs
         };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected, options => options
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected, options => options
             .Using(new EqualityEquivalencyStep()));
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("Expected*123*123*");
     }
 
     [Fact]
-    public void When_an_equivalency_does_not_handle_the_comparison_later_equivalency_steps_should_still_be_ran()
+    public async Task When_an_equivalency_does_not_handle_the_comparison_later_equivalency_steps_should_still_be_ran()
     {
         // Arrange
         var subject = new ClassWithOnlyAProperty();
         var expected = new ClassWithOnlyAProperty();
 
         // Act
-        Action act =
+        Func<Task> act =
             () =>
-                subject.Should().BeEquivalentTo(expected,
+                subject.Should().BeEquivalentToAsync(expected,
                     opts =>
                         opts.Using(new NeverHandleEquivalencyStep())
                             .Using(new ThrowExceptionEquivalencyStep<InvalidOperationException>()));
 
         // Assert
-        act.Should().Throw<InvalidOperationException>();
+        await act.Should().ThrowAsync<InvalidOperationException>();
     }
 
     [Fact]
-    public void When_multiple_equivalency_steps_are_added_they_should_be_executed_in_registration_order()
+    public async Task When_multiple_equivalency_steps_are_added_they_should_be_executed_in_registration_order()
     {
         // Arrange
         var subject = new ClassWithOnlyAProperty();
         var expected = new ClassWithOnlyAProperty();
 
         // Act
-        Action act =
+        Func<Task> act =
             () =>
-                subject.Should().BeEquivalentTo(expected,
+                subject.Should().BeEquivalentToAsync(expected,
                     opts =>
                         opts.Using(new ThrowExceptionEquivalencyStep<NotSupportedException>())
                             .Using(new ThrowExceptionEquivalencyStep<InvalidOperationException>()));
 
         // Assert
-        act.Should().Throw<NotSupportedException>();
+        await act.Should().ThrowAsync<NotSupportedException>();
     }
 
     private class ThrowExceptionEquivalencyStep<TException> : IEquivalencyStep
         where TException : Exception, new()
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        public Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
             IEquivalencyValidator nestedValidator)
         {
             throw new TException();
@@ -819,29 +822,29 @@ public class ExtensibilitySpecs
 
     private class AlwaysHandleEquivalencyStep : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        public Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
             IEquivalencyValidator nestedValidator)
         {
-            return EquivalencyResult.AssertionCompleted;
+            return Task.FromResult(EquivalencyResult.AssertionCompleted);
         }
     }
 
     private class NeverHandleEquivalencyStep : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        public Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
             IEquivalencyValidator nestedValidator)
         {
-            return EquivalencyResult.ContinueWithNext;
+            return Task.FromResult(EquivalencyResult.ContinueWithNext);
         }
     }
 
     private class EqualityEquivalencyStep : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        public Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
             IEquivalencyValidator nestedValidator)
         {
             comparands.Subject.Should().Be(comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
-            return EquivalencyResult.AssertionCompleted;
+            return Task.FromResult(EquivalencyResult.AssertionCompleted);
         }
     }
 
@@ -854,11 +857,11 @@ public class ExtensibilitySpecs
             this.doAction = doAction;
         }
 
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        public Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
             IEquivalencyValidator nestedValidator)
         {
             doAction();
-            return EquivalencyResult.AssertionCompleted;
+            return Task.FromResult(EquivalencyResult.AssertionCompleted);
         }
     }
 

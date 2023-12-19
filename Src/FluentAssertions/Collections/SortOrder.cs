@@ -1,4 +1,4 @@
-namespace FluentAssertions.Collections;
+namespace FluentAssertionsAsync.Collections;
 
 internal enum SortOrder
 {

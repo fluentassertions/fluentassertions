@@ -1,13 +1,14 @@
 using System;
+using System.Threading.Tasks;
 
-namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 /// <summary>
 /// Ensures that types that are marked as value types are treated as such.
 /// </summary>
 public class ValueTypeEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+    public Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
         Type expectationType = comparands.GetExpectedType(context.Options);
@@ -28,9 +29,9 @@ public class ValueTypeEquivalencyStep : IEquivalencyStep
 
             comparands.Subject.Should().Be(comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
 
-            return EquivalencyResult.AssertionCompleted;
+            return Task.FromResult(EquivalencyResult.AssertionCompleted);
         }
 
-        return EquivalencyResult.ContinueWithNext;
+        return Task.FromResult(EquivalencyResult.ContinueWithNext);
     }
 }

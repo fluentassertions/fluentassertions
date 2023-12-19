@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Reflection;
 using JetBrains.Annotations;
 
-namespace FluentAssertions.Events;
+namespace FluentAssertionsAsync.Events;
 
 /// <summary>
 /// Records activity for a single event.

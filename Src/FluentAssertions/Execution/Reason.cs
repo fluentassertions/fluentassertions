@@ -1,4 +1,4 @@
-namespace FluentAssertions.Execution;
+namespace FluentAssertionsAsync.Execution;
 
 /// <summary>
 /// Represents the reason for a structural equivalency assertion.

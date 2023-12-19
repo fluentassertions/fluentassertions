@@ -1,4 +1,4 @@
-﻿namespace FluentAssertions.Common;
+﻿namespace FluentAssertionsAsync.Common;
 
 /// <summary>
 /// Factory for starting a timer on demand.

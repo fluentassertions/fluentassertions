@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace FluentAssertions.CallerIdentification;
+namespace FluentAssertionsAsync.CallerIdentification;
 
 internal class CallerStatementBuilder
 {

@@ -1,7 +1,7 @@
 using System.Reflection;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Equivalency.Matching;
+namespace FluentAssertionsAsync.Equivalency.Matching;
 
 /// <summary>
 /// Finds a member of the expectation with the exact same name, but doesn't require it.

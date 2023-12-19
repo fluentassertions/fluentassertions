@@ -1,6 +1,6 @@
 using System;
 
-namespace FluentAssertions.Equivalency.Tracing;
+namespace FluentAssertionsAsync.Equivalency.Tracing;
 
 /// <summary>
 /// Exposes tracing capabilities that can be used by the implementation of the equivalency algorithm

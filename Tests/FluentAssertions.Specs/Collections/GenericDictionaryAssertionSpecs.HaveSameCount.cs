@@ -43,7 +43,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().HaveSameCount(collection);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to have 2 item(s), but found 3.");
         }
 
@@ -64,7 +64,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().HaveSameCount(collection, "we want to test the {0}", "reason");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to have 2 item(s) because we want to test the reason, but found 3.");
         }
 
@@ -80,7 +80,7 @@ public partial class GenericDictionaryAssertionSpecs
                 "because we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to have the same count as {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -101,7 +101,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().HaveSameCount(collection);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot verify count against a <null> collection.*");
         }
     }
@@ -142,7 +142,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotHaveSameCount(collection);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to not have 3 item(s), but found 3.");
         }
 
@@ -163,7 +163,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotHaveSameCount(collection, "we want to test the {0}", "reason");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to not have 3 item(s) because we want to test the reason, but found 3.");
         }
 
@@ -179,7 +179,7 @@ public partial class GenericDictionaryAssertionSpecs
                 "because we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected dictionary to not have the same count as {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -200,7 +200,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotHaveSameCount(collection);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot verify count against a <null> collection.*");
         }
 
@@ -223,7 +223,7 @@ public partial class GenericDictionaryAssertionSpecs
                 "because we want to test the behaviour with same objects");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*not have the same count*because we want to test the behaviour with same objects*but they both reference the same object.");
         }
     }

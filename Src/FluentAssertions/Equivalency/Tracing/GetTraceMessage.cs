@@ -1,4 +1,4 @@
-namespace FluentAssertions.Equivalency.Tracing;
+namespace FluentAssertionsAsync.Equivalency.Tracing;
 
 /// <summary>
 /// Defines a function that takes the full path from the root object until the current object

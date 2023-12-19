@@ -33,7 +33,7 @@ public class ThrowAssertionsSpecs
         var act = new Action(() => throw new InvalidOperationException("Some exception"));
 
         // Act / Assert
-        act.Should().Throw<InvalidOperationException>();
+        await await act.Should().ThrowAsyncAsync<InvalidOperationException>();
     }
 
     [Fact]
@@ -90,7 +90,7 @@ public class ThrowAssertionsSpecs
         {
             var act = new Action(() => { });
 
-            act.Should().Throw<Exception>();
+            await await act.Should().ThrowAsyncAsync<Exception>();
 
             throw new XunitException("Should().Throw() did not throw");
         }

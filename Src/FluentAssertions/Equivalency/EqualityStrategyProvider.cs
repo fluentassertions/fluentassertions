@@ -3,10 +3,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 using JetBrains.Annotations;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 internal sealed class EqualityStrategyProvider
 {

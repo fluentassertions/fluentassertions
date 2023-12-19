@@ -23,7 +23,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().AllBeAssignableTo(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
                 .WithParameterName("expectedType");
         }
 
@@ -51,7 +51,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected type to be \"*.Object\" *failure message*, but found collection is <null>.");
         }
 
@@ -116,7 +116,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().AllBeAssignableTo(typeof(int), "because they are of different type");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected type to be \"System.Int32\" because they are of different type, but found \"[System.Int32, System.String, System.Int32]\".");
         }
 
@@ -130,7 +130,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().AllBeAssignableTo<int>("because they are of different type");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected type to be \"System.Int32\" because they are of different type, but found \"[System.Int32, System.String, System.Int32]\".");
         }
 
@@ -144,7 +144,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().AllBeAssignableTo<int>("because they are of different type");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected type to be \"System.Int32\" because they are of different type, but found a null element.");
         }
 
@@ -168,7 +168,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().AllBeAssignableTo<int>("because they are of different type");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected type to be \"System.Int32\" because they are of different type, but found \"[System.Int32, System.String, System.Int32]\".");
         }
 
@@ -206,7 +206,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected type to be \"*.Object\" *failure message*, but found collection is <null>.");
         }
     }

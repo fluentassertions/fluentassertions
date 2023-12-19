@@ -29,7 +29,7 @@ public partial class NullableNumericAssertionSpecs
                 nullableInteger.Should().Match(o => !o.HasValue, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected value to match Not(o.HasValue) because we want to test the failure message, but found 1.");
         }
@@ -44,7 +44,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => nullableInteger.Should().Match(null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("predicate");
         }
     }

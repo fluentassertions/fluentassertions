@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Equivalency.Selection;
+namespace FluentAssertionsAsync.Equivalency.Selection;
 
 /// <summary>
 /// Selection rule that removes a particular property from the structural comparison.

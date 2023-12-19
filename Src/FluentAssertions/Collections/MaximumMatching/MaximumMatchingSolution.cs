@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace FluentAssertions.Collections.MaximumMatching;
+namespace FluentAssertionsAsync.Collections.MaximumMatching;
 
 /// <summary>
 /// The <see cref="MaximumMatchingSolution{TElement}"/> class defines the solution (output) for the maximum matching problem.

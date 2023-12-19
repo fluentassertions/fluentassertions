@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Common;
-using FluentAssertions.Equivalency;
-using FluentAssertions.Execution;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Equivalency;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Collections;
+namespace FluentAssertionsAsync.Collections;
 
 public class StringCollectionAssertions : StringCollectionAssertions<IEnumerable<string>>
 {
@@ -46,7 +47,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// <summary>
     /// Expects the current collection to contain all the same elements in the same order as the collection identified by
     /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.  To ignore
-    /// the element order, use <see cref="BeEquivalentTo(string[])"/> instead.
+    /// the element order, use <see cref="BeEquivalentToAsync(string[])"/> instead.
     /// </summary>
     /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
     public new AndConstraint<TAssertions> Equal(params string[] expected)
@@ -57,7 +58,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// <summary>
     /// Expects the current collection to contain all the same elements in the same order as the collection identified by
     /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.  To ignore
-    /// the element order, use <see cref="BeEquivalentTo(IEnumerable{string}, string, object[])"/> instead.
+    /// the element order, use <see cref="BeEquivalentToAsync(System.Collections.Generic.IEnumerable{string},string,object[])"/> instead.
     /// </summary>
     /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
     public AndConstraint<TAssertions> Equal(IEnumerable<string> expected)
@@ -72,9 +73,9 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// The two collections are equivalent when they both contain the same strings in any order. To assert that the elements
     /// are in the same order, use <see cref="Equal(string[])"/> instead.
     /// </remarks>
-    public AndConstraint<TAssertions> BeEquivalentTo(params string[] expectation)
+    public async Task<AndConstraint<TAssertions>> BeEquivalentToAsync(params string[] expectation)
     {
-        return BeEquivalentTo(expectation, config => config);
+        return await BeEquivalentToAsync(expectation, config => config);
     }
 
     /// <summary>
@@ -92,10 +93,10 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation, string because = "",
+    public async Task<AndConstraint<TAssertions>> BeEquivalentToAsync(IEnumerable<string> expectation, string because = "",
         params object[] becauseArgs)
     {
-        return BeEquivalentTo(expectation, config => config, because, becauseArgs);
+        return await BeEquivalentToAsync(expectation, config => config, because, becauseArgs);
     }
 
     /// <summary>
@@ -120,7 +121,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation,
+    public async Task<AndConstraint<TAssertions>> BeEquivalentToAsync(IEnumerable<string> expectation,
         Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config, string because = "",
         params object[] becauseArgs)
     {
@@ -143,7 +144,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
             CompileTimeType = typeof(IEnumerable<string>),
         };
 
-        new EquivalencyValidator().AssertEquality(comparands, context);
+        await new EquivalencyValidator().AssertEqualityAsync(comparands, context);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -159,10 +160,10 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> AllBe(string expectation,
+    public async Task<AndConstraint<TAssertions>> AllBeAsync(string expectation,
         string because = "", params object[] becauseArgs)
     {
-        return AllBe(expectation, options => options, because, becauseArgs);
+        return await AllBeAsync(expectation, options => options, because, becauseArgs);
     }
 
     /// <summary>
@@ -183,7 +184,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> AllBe(string expectation,
+    public async Task<AndConstraint<TAssertions>> AllBeAsync(string expectation,
         Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         string because = "",
         params object[] becauseArgs)
@@ -201,7 +202,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
         Func<EquivalencyOptions<string>, EquivalencyOptions<string>> forceStringOrderingConfig =
             x => config(x).WithStrictOrderingFor(s => string.IsNullOrEmpty(s.Path));
 
-        return BeEquivalentTo(repeatedExpectation, forceStringOrderingConfig, because, becauseArgs);
+        return await BeEquivalentToAsync(repeatedExpectation, forceStringOrderingConfig, because, becauseArgs);
     }
 
     /// <summary>

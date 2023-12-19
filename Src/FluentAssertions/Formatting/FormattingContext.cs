@@ -1,4 +1,4 @@
-﻿namespace FluentAssertions.Formatting;
+﻿namespace FluentAssertionsAsync.Formatting;
 
 /// <summary>
 /// Provides information about the current formatting action.

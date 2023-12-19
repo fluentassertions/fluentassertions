@@ -18,7 +18,7 @@ public class MiscellaneousExceptionSpecs
         Action act = target.Do;
 
         // Assert
-        act.Should().Throw<ExceptionWithProperties>().And.Property.Should().Be(SomeParamNameValue);
+        await await act.Should().ThrowAsyncAsync<ExceptionWithProperties>().And.Property.Should().Be(SomeParamNameValue);
     }
 
     [Fact]
@@ -147,7 +147,7 @@ public class MiscellaneousExceptionSpecs
             () => throwException.Should().Throw<ArgumentNullException>();
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage($"*System.ArgumentNullException*{typeof(ExceptionWithEmptyToString)}*");
     }
 
@@ -178,7 +178,7 @@ public class MiscellaneousExceptionSpecs
                 .WithParameterName("someParameter", "we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("*with parameter name \"someParameter\"*we want to test the failure message*\"someOtherParameter\"*");
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
-using FluentAssertions;
-using FluentAssertions.Primitives;
+using FluentAssertionsAsync;
+using FluentAssertionsAsync.Primitives;
 
 namespace Benchmarks;
 
@@ -29,6 +30,6 @@ public class LargeObjectGraphBenchmarks
     }
 
     [Benchmark]
-    public AndConstraint<ObjectAssertions> BeEquivalentTo() =>
-        copy1.Should().BeEquivalentTo(copy2, config => config.AllowingInfiniteRecursion());
+    public async Task<AndConstraint<ObjectAssertions>> BeEquivalentTo() =>
+        await copy1.Should().BeEquivalentToAsync(copy2, config => config.AllowingInfiniteRecursion());
 }

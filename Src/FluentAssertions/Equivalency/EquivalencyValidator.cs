@@ -1,8 +1,9 @@
 using System;
-using FluentAssertions.Equivalency.Tracing;
-using FluentAssertions.Execution;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Equivalency.Tracing;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Is responsible for validating the equivalency of a subject with another object.
@@ -11,7 +12,7 @@ public class EquivalencyValidator : IEquivalencyValidator
 {
     private const int MaxDepth = 10;
 
-    public void AssertEquality(Comparands comparands, EquivalencyValidationContext context)
+    public async Task AssertEqualityAsync(Comparands comparands, EquivalencyValidationContext context)
     {
         using var scope = new AssertionScope();
 
@@ -19,7 +20,7 @@ public class EquivalencyValidator : IEquivalencyValidator
         scope.AddReportable("configuration", () => context.Options.ToString());
         scope.BecauseOf(context.Reason);
 
-        RecursivelyAssertEquality(comparands, context);
+        await RecursivelyAssertEqualityAsync(comparands, context);
 
         if (context.TraceWriter is not null)
         {
@@ -27,7 +28,7 @@ public class EquivalencyValidator : IEquivalencyValidator
         }
     }
 
-    public void RecursivelyAssertEquality(Comparands comparands, IEquivalencyValidationContext context)
+    public async Task RecursivelyAssertEqualityAsync(Comparands comparands, IEquivalencyValidationContext context)
     {
         var scope = AssertionScope.Current;
 
@@ -37,7 +38,7 @@ public class EquivalencyValidator : IEquivalencyValidator
 
             if (!context.IsCyclicReference(comparands.Expectation))
             {
-                TryToProveNodesAreEquivalent(comparands, context);
+                await TryToProveNodesAreEquivalentAsync(comparands, context);
             }
         }
     }
@@ -62,7 +63,7 @@ public class EquivalencyValidator : IEquivalencyValidator
         scope.TrackComparands(comparands.Subject, comparands.Expectation);
     }
 
-    private void TryToProveNodesAreEquivalent(Comparands comparands, IEquivalencyValidationContext context)
+    private async Task TryToProveNodesAreEquivalentAsync(Comparands comparands, IEquivalencyValidationContext context)
     {
         using var _ = context.Tracer.WriteBlock(node => node.Description);
 
@@ -70,7 +71,7 @@ public class EquivalencyValidator : IEquivalencyValidator
 
         foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
         {
-            var result = step.Handle(comparands, context, this);
+            var result = await step.HandleAsync(comparands, context, this);
             if (result == EquivalencyResult.AssertionCompleted)
             {
                 context.Tracer.WriteLine(getMessage(step));

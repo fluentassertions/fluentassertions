@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FluentAssertions.Collections.MaximumMatching;
+namespace FluentAssertionsAsync.Collections.MaximumMatching;
 
 /// <summary>
 /// The <see cref="MaximumMatchingSolver{TElement}"/> class encapsulates the algorithm

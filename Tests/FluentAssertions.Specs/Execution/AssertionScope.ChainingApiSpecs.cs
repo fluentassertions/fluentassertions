@@ -47,7 +47,7 @@ public partial class AssertionScopeSpecs
             .FailWith("Second {0}", "assertion");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Second \"assertion\"");
     }
 
@@ -62,7 +62,7 @@ public partial class AssertionScopeSpecs
             .FailWith("Second {0}", () => "assertion");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Second \"assertion\"");
     }
 
@@ -77,7 +77,7 @@ public partial class AssertionScopeSpecs
             .FailWith(() => new FailReason("Second {0}", "assertion"));
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Second \"assertion\"");
     }
 
@@ -93,7 +93,7 @@ public partial class AssertionScopeSpecs
             .FailWith("Expected{reason}");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected because reasons");
     }
 
@@ -109,7 +109,7 @@ public partial class AssertionScopeSpecs
             .FailWith("Expected{reason}");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected because reasons");
     }
 
@@ -123,7 +123,7 @@ public partial class AssertionScopeSpecs
             .FailWith("First assertion");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("First assertion");
     }
 
@@ -219,7 +219,7 @@ public partial class AssertionScopeSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("First assertion");
     }
 
@@ -239,7 +239,7 @@ public partial class AssertionScopeSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("First assertion");
     }
 
@@ -259,7 +259,7 @@ public partial class AssertionScopeSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("First assertion");
     }
 
@@ -281,7 +281,7 @@ public partial class AssertionScopeSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expectations are the root of disappointment");
     }
 
@@ -303,7 +303,7 @@ public partial class AssertionScopeSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expectations are the \"root\" of disappointment");
     }
 
@@ -325,7 +325,7 @@ public partial class AssertionScopeSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected identifier");
     }
 
@@ -347,7 +347,7 @@ public partial class AssertionScopeSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected because whatever");
     }
 
@@ -369,7 +369,7 @@ public partial class AssertionScopeSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected because whatever");
     }
 
@@ -400,7 +400,7 @@ public partial class AssertionScopeSpecs
             .FailWith("of all evil");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Assumptions are the root of all evil");
     }
 
@@ -417,7 +417,7 @@ public partial class AssertionScopeSpecs
             .FailWith("of all evil");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Assumptions are the \"root\" of all evil");
     }
 
@@ -437,7 +437,7 @@ public partial class AssertionScopeSpecs
         };
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected other");
     }
 
@@ -454,7 +454,7 @@ public partial class AssertionScopeSpecs
             .FailWith("Second {0}", "assertion");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Exactly 1 time Second \"assertion\"*");
     }
 
@@ -471,7 +471,7 @@ public partial class AssertionScopeSpecs
             .FailWith("Second {0}", "assertion");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("First assertion");
     }
 
@@ -489,7 +489,7 @@ public partial class AssertionScopeSpecs
             .FailWith("Second {0}", "assertion");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Exactly 1 time Second \"assertion\"*");
     }
 
@@ -507,7 +507,7 @@ public partial class AssertionScopeSpecs
             .FailWith("Second {0}", "assertion");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Second expectation Second \"assertion\"*");
     }
 
@@ -524,7 +524,7 @@ public partial class AssertionScopeSpecs
             .FailWith("Second {0}", "assertion");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Second expectation Second \"assertion\"*");
     }
 

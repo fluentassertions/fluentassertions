@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 internal static class EquivalencyValidationContextExtensions
 {

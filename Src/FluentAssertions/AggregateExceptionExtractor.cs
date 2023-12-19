@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Common;
-using FluentAssertions.Specialized;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Specialized;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 public class AggregateExceptionExtractor : IExtractExceptions
 {

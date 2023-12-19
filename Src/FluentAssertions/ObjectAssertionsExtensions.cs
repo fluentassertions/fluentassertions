@@ -1,13 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
-using FluentAssertions.Common;
-using FluentAssertions.Equivalency;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Equivalency;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Primitives;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 public static class ObjectAssertionsExtensions
 {
@@ -23,10 +24,10 @@ public static class ObjectAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public static AndConstraint<ObjectAssertions> BeDataContractSerializable(this ObjectAssertions assertions,
+    public static async Task<AndConstraint<ObjectAssertions>> BeDataContractSerializableAsync(this ObjectAssertions assertions,
         string because = "", params object[] becauseArgs)
     {
-        return BeDataContractSerializable<object>(assertions, options => options, because, becauseArgs);
+        return await BeDataContractSerializableAsync<object>(assertions, options => options, because, becauseArgs);
     }
 
     /// <summary>
@@ -48,7 +49,7 @@ public static class ObjectAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="options"/> is <see langword="null"/>.</exception>
-    public static AndConstraint<ObjectAssertions> BeDataContractSerializable<T>(this ObjectAssertions assertions,
+    public static async Task<AndConstraint<ObjectAssertions>> BeDataContractSerializableAsync<T>(this ObjectAssertions assertions,
         Func<EquivalencyOptions<T>, EquivalencyOptions<T>> options, string because = "",
         params object[] becauseArgs)
     {
@@ -61,7 +62,7 @@ public static class ObjectAssertionsExtensions
             EquivalencyOptions<T> defaultOptions = AssertionOptions.CloneDefaults<T>()
                 .RespectingRuntimeTypes().IncludingFields().IncludingProperties();
 
-            ((T)deserializedObject).Should().BeEquivalentTo((T)assertions.Subject, _ => options(defaultOptions));
+            await ((T)deserializedObject).Should().BeEquivalentToAsync((T)assertions.Subject, _ => options(defaultOptions));
         }
         catch (Exception exc)
         {
@@ -97,14 +98,14 @@ public static class ObjectAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public static AndConstraint<ObjectAssertions> BeXmlSerializable(this ObjectAssertions assertions, string because = "",
+    public static async Task<AndConstraint<ObjectAssertions>> BeXmlSerializableAsync(this ObjectAssertions assertions, string because = "",
         params object[] becauseArgs)
     {
         try
         {
             object deserializedObject = CreateCloneUsingXmlSerializer(assertions.Subject);
 
-            deserializedObject.Should().BeEquivalentTo(assertions.Subject,
+            await deserializedObject.Should().BeEquivalentToAsync(assertions.Subject,
                 options => options.RespectingRuntimeTypes().IncludingFields().IncludingProperties());
         }
         catch (Exception exc)

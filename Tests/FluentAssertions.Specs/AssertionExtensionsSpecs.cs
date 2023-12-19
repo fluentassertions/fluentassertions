@@ -68,7 +68,7 @@ public class AssertionExtensionsSpecs
         Action act = () => obj.Equals(null);
 
         // Assert
-        act.Should().ThrowExactly<NotSupportedException>();
+        await await act.Should().ThrowAsyncAsyncExactly<NotSupportedException>();
     }
 
     [Theory]
@@ -151,7 +151,7 @@ public class AssertionExtensionsSpecs
             .ToList();
 
         // Assert
-        fakeOverloads.Should().BeEquivalentTo(realOverloads, opt => opt
+        fakeOverloads.Should().BeEquivalentToAsync(realOverloads, opt => opt
                 .Using<Type>(ctx => ctx.Subject.Name.Should().Be(ctx.Expectation.Name))
                 .WhenTypeIs<Type>(),
             "AssertionExtensions.cs should have a guard overload of Should calling InvalidShouldCall()");

@@ -6,10 +6,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
-using FluentAssertions.CallerIdentification;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.CallerIdentification;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions;
+namespace FluentAssertionsAsync;
 
 /// <summary>
 /// Tries to extract the name of the variable or invocation on which the assertion is executed.

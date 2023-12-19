@@ -28,7 +28,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => negatedTimeSpan.Should().BePositive();
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => negatedTimeSpan.Should().BePositive();
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => nullTimeSpan.Should().BePositive("because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected nullTimeSpan to be positive because we want to test the failure message, but found <null>.");
     }
 
@@ -68,7 +68,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => timeSpan.Should().BePositive("because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected timeSpan to be positive because we want to test the failure message, but found -1s.");
     }
 
@@ -92,7 +92,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => actual.Should().BeNegative();
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -105,7 +105,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => actual.Should().BeNegative();
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -118,7 +118,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => nullTimeSpan.Should().BeNegative("because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected nullTimeSpan to be negative because we want to test the failure message, but found <null>.");
     }
 
@@ -132,7 +132,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => timeSpan.Should().BeNegative("because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected timeSpan to be negative because we want to test the failure message, but found 1s.");
     }
 
@@ -158,7 +158,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => actual.Should().Be(expected);
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -172,7 +172,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => subject.Be(expected);
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -186,7 +186,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => nullTimeSpan.Should().Be(expected, "because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected 1s because we want to test the failure message, but found <null>.");
     }
 
@@ -200,7 +200,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => timeSpan.Should().Be(2.Seconds(), "because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected 2s because we want to test the failure message, but found 1s.");
     }
 
@@ -236,7 +236,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => oneSecond.Should().NotBe(oneSecond);
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -249,7 +249,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => oneSecond.Should().NotBe(oneSecond, "because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Did not expect 1s because we want to test the failure message.");
     }
 
@@ -275,7 +275,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => actual.Should().BeGreaterThan(expected);
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -289,7 +289,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => nullTimeSpan.Should().BeGreaterThan(expected, "because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected nullTimeSpan to be greater than 1s because we want to test the failure message, but found <null>.");
     }
 
@@ -303,7 +303,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => twoSeconds.Should().BeGreaterThan(twoSeconds);
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -316,7 +316,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => actual.Should().BeGreaterThan(2.Seconds(), "because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected actual to be greater than 2s because we want to test the failure message, but found 1s.");
     }
 
@@ -343,7 +343,7 @@ public class SimpleTimeSpanAssertionSpecs
             nullTimeSpan.Should().BeGreaterThanOrEqualTo(expected, "because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected nullTimeSpan to be greater than or equal to 1s because we want to test the failure message, but found <null>.");
     }
 
@@ -378,7 +378,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => actual.Should().BeGreaterThanOrEqualTo(expected);
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -392,7 +392,7 @@ public class SimpleTimeSpanAssertionSpecs
             actual.Should().BeGreaterThanOrEqualTo(2.Seconds(), "because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected actual to be greater than or equal to 2s because we want to test the failure message, but found 1s.");
     }
 
@@ -418,7 +418,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => actual.Should().BeLessThan(expected);
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -432,7 +432,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => nullTimeSpan.Should().BeLessThan(expected, "because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected nullTimeSpan to be less than 1s because we want to test the failure message, but found <null>.");
     }
 
@@ -446,7 +446,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => twoSeconds.Should().BeLessThan(twoSeconds);
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -459,7 +459,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => actual.Should().BeLessThan(1.Seconds(), "because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected actual to be less than 1s because we want to test the failure message, but found 2s.");
     }
 
@@ -497,7 +497,7 @@ public class SimpleTimeSpanAssertionSpecs
             nullTimeSpan.Should().BeLessThanOrEqualTo(expected, "because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected nullTimeSpan to be less than or equal to 1s because we want to test the failure message, but found <null>.");
     }
 
@@ -522,7 +522,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => actual.Should().BeLessThanOrEqualTo(expected);
 
         // Assert
-        act.Should().Throw<XunitException>();
+        await await act.Should().ThrowAsyncAsync<XunitException>();
     }
 
     [Fact]
@@ -535,7 +535,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => actual.Should().BeLessThanOrEqualTo(1.Seconds(), "because we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
             "Expected actual to be less than or equal to 1s because we want to test the failure message, but found 2s.");
     }
 
@@ -549,7 +549,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => someTimeSpan.Should().Equals(someTimeSpan);
 
         // Assert
-        act.Should().Throw<NotSupportedException>()
+        await await act.Should().ThrowAsyncAsync<NotSupportedException>()
             .WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
     }
 
@@ -566,7 +566,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => time.Should().BeCloseTo(nearbyTime, -1.Ticks());
 
         // Assert
-        act.Should().Throw<ArgumentOutOfRangeException>()
+        await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
             .WithParameterName("precision")
             .WithMessage("*must be non-negative*");
     }
@@ -610,7 +610,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds(), "we want to test the error message");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage(
                 "Expected time to be within 20ms from 1d, 12h, 15m and 31s because we want to test the error message, but found 1d, 12h, 15m, 30s and 979ms.");
     }
@@ -626,7 +626,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds(), "we want to test the error message");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage(
                 "Expected time to be within 20ms from 1d, 12h, 15m and 31s because we want to test the error message, but found 1d, 12h, 15m, 31s and 21ms.");
     }
@@ -656,7 +656,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => time.Should().BeCloseTo(nearbyTime, 35.Milliseconds());
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected*, but found <null>.");
     }
 
@@ -672,7 +672,7 @@ public class SimpleTimeSpanAssertionSpecs
             time.Should().BeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(20), "we want to test the error message");
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage(
                 "Expected time to be within 20ms from 1d, 12h, 15m and 31s because we want to test the error message, but found 1d, 12h, 15m, 30s and 979ms.");
     }
@@ -692,7 +692,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => time.Should().NotBeCloseTo(nearbyTime, -1.Ticks());
 
         // Assert
-        act.Should().Throw<ArgumentOutOfRangeException>()
+        await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
             .WithParameterName("precision")
             .WithMessage("*must be non-negative*");
     }
@@ -708,7 +708,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected time to not be within 20ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 30s and 980ms.");
     }
 
@@ -723,7 +723,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected time to not be within 20ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 31s and 20ms.");
     }
 
@@ -738,7 +738,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => time.Should().NotBeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(20));
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected time to not be within 20ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 31s and 20ms.");
     }
 
@@ -781,7 +781,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected time to not be within 35ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 31s and 35ms.");
     }
 
@@ -796,7 +796,7 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage("Expected*, but found <null>.");
     }
 

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
-using FluentAssertions;
-using FluentAssertions.Collections;
+using FluentAssertionsAsync;
+using FluentAssertionsAsync.Collections;
 
 namespace Benchmarks;
 
@@ -26,8 +27,8 @@ public class Issue1657
     }
 
     [Benchmark]
-    public AndConstraint<GenericCollectionAssertions<ExampleObject>> BeEquivalentTo() =>
-        list.Should().BeEquivalentTo(list2);
+    public async Task<AndConstraint<GenericCollectionAssertions<ExampleObject>>> BeEquivalentTo() =>
+        await list.Should().BeEquivalentToAsync(list2);
 
     private static ExampleObject GetObject(int i)
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace FluentAssertions.Primitives;
+namespace FluentAssertionsAsync.Primitives;
 
 /// <summary>
 /// Provides the logic and the display text for a <see cref="TimeSpanCondition"/>.

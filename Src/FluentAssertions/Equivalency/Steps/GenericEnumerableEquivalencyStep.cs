@@ -3,19 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
+using System.Threading.Tasks;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertionsAsync.Equivalency.Steps;
 
 public class GenericEnumerableEquivalencyStep : IEquivalencyStep
 {
 #pragma warning disable SA1110 // Allow opening parenthesis on new line to reduce line length
-    private static readonly MethodInfo HandleMethod = new Action<EnumerableEquivalencyValidator, object[], IEnumerable<object>>
-        (HandleImpl).GetMethodInfo().GetGenericMethodDefinition();
+    private static readonly MethodInfo HandleMethod = new Func<EnumerableEquivalencyValidator, object[], IEnumerable<object>, Task>
+        (HandleImplAsync).GetMethodInfo().GetGenericMethodDefinition();
 #pragma warning restore SA1110
 
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+    public async Task<EquivalencyResult> HandleAsync(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
         Type expectedType = comparands.GetExpectedType(context.Options);
@@ -47,8 +48,8 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
 
             try
             {
-                HandleMethod.MakeGenericMethod(typeOfEnumeration)
-                    .Invoke(null, new[] { validator, subjectAsArray, comparands.Expectation });
+                await HandleMethod.MakeGenericMethod(typeOfEnumeration)
+                    .InvokeAsync(null, new[] { validator, subjectAsArray, comparands.Expectation });
             }
             catch (TargetInvocationException e)
             {
@@ -59,8 +60,8 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
         return EquivalencyResult.AssertionCompleted;
     }
 
-    private static void HandleImpl<T>(EnumerableEquivalencyValidator validator, object[] subject, IEnumerable<T> expectation) =>
-        validator.Execute(subject, ToArray(expectation));
+    private static async Task HandleImplAsync<T>(EnumerableEquivalencyValidator validator, object[] subject, IEnumerable<T> expectation) =>
+        await validator.ExecuteAsync(subject, ToArray(expectation));
 
     private static bool AssertSubjectIsCollection(object subject)
     {

@@ -1,7 +1,7 @@
 using System;
 using JetBrains.Annotations;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Represents an object, dictionary key pair, collection item or member in an object graph.

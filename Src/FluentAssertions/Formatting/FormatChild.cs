@@ -1,4 +1,4 @@
-﻿namespace FluentAssertions.Formatting;
+﻿namespace FluentAssertionsAsync.Formatting;
 
 /// <summary>
 /// Represents a method that can be used to format child values from inside an <see cref="IValueFormatter"/>.

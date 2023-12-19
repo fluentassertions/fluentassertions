@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertionsAsync.Common;
 
 public static class DateTimeExtensions
 {

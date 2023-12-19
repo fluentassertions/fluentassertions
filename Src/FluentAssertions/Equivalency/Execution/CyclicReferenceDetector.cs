@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Equivalency.Execution;
+namespace FluentAssertionsAsync.Equivalency.Execution;
 
 /// <summary>
 /// Keeps track of objects and their location within an object graph so that cyclic references can be detected

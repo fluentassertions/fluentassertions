@@ -64,7 +64,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => timeOnly.Should().Be(otherTimeOnly, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected timeOnly to be <15:03:11.000>*failure message, but found <15:03:10.000>.");
         }
 
@@ -79,7 +79,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => timeOnly.Should().Be(otherTimeOnly, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected timeOnly to be <15:03:10.175>*failure message, but found <15:03:10.556>.");
         }
 
@@ -185,7 +185,7 @@ public partial class TimeOnlyAssertionSpecs
                 () => time.Should().NotBe(sameTime, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected time not to be <19:06:04.000> because we want to test the failure message, but it is.");
         }
@@ -202,7 +202,7 @@ public partial class TimeOnlyAssertionSpecs
                 () => time.Should().NotBe(sameTime, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected time not to be <19:06:04.000> because we want to test the failure message, but it is.");
         }

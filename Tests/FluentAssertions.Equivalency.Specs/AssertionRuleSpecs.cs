@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using FluentAssertions.Extensions;
+using System.Threading.Tasks;
+using FluentAssertionsAsync;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
@@ -10,7 +12,7 @@ namespace FluentAssertions.Equivalency.Specs;
 public class AssertionRuleSpecs
 {
     [Fact]
-    public void When_two_objects_have_the_same_property_values_it_should_succeed()
+    public async Task When_two_objects_have_the_same_property_values_it_should_succeed()
     {
         // Arrange
         var subject = new { Age = 36, Birthdate = new DateTime(1973, 9, 20), Name = "Dennis" };
@@ -18,11 +20,11 @@ public class AssertionRuleSpecs
         var other = new { Age = 36, Birthdate = new DateTime(1973, 9, 20), Name = "Dennis" };
 
         // Act / Assert
-        subject.Should().BeEquivalentTo(other);
+        await subject.Should().BeEquivalentToAsync(other);
     }
 
     [Fact]
-    public void When_two_objects_have_the_same_nullable_property_values_it_should_succeed()
+    public async Task When_two_objects_have_the_same_nullable_property_values_it_should_succeed()
     {
         // Arrange
         var subject = new { Age = 36, Birthdate = (DateTime?)new DateTime(1973, 9, 20), Name = "Dennis" };
@@ -30,11 +32,11 @@ public class AssertionRuleSpecs
         var other = new { Age = 36, Birthdate = (DateTime?)new DateTime(1973, 9, 20), Name = "Dennis" };
 
         // Act / Assert
-        subject.Should().BeEquivalentTo(other);
+        await subject.Should().BeEquivalentToAsync(other);
     }
 
     [Fact]
-    public void When_two_objects_have_the_same_properties_but_a_different_value_it_should_throw()
+    public async Task When_two_objects_have_the_same_properties_but_a_different_value_it_should_throw()
     {
         // Arrange
         var subject = new { Age = 36 };
@@ -42,15 +44,15 @@ public class AssertionRuleSpecs
         var expectation = new { Age = 37 };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation, "because {0} are the same", "they");
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expectation, "because {0} are the same", "they");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await act.Should().ThrowAsync<XunitException>().WithMessage(
             "Expected*Age*to be 37 because they are the same, but found 36*");
     }
 
     [Fact]
-    public void
+    public async Task
         When_subject_has_a_valid_property_that_is_compared_with_a_null_property_it_should_throw_with_descriptive_message()
     {
         // Arrange
@@ -59,15 +61,15 @@ public class AssertionRuleSpecs
         var other = new { Name = (string)null };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(other, "we want to test the failure {0}", "message");
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(other, "we want to test the failure {0}", "message");
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await act.Should().ThrowAsync<XunitException>().WithMessage(
             "Expected property subject.Name to be <null>*we want to test the failure message*, but found \"Dennis\"*");
     }
 
     [Fact]
-    public void When_two_collection_properties_dont_match_it_should_throw_and_specify_the_difference()
+    public async Task When_two_collection_properties_dont_match_it_should_throw_and_specify_the_difference()
     {
         // Arrange
         var subject = new { Values = new[] { 1, 2, 3 } };
@@ -75,16 +77,16 @@ public class AssertionRuleSpecs
         var other = new { Values = new[] { 1, 4, 3 } };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(other);
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(other);
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await act.Should().ThrowAsync<XunitException>().WithMessage(
             "Expected*Values[1]*to be 4, but found 2*");
     }
 
     [Fact]
     [SuppressMessage("ReSharper", "StringLiteralTypo")]
-    public void When_two_string_properties_do_not_match_it_should_throw_and_state_the_difference()
+    public async Task When_two_string_properties_do_not_match_it_should_throw_and_state_the_difference()
     {
         // Arrange
         var subject = new { Name = "Dennes" };
@@ -92,15 +94,15 @@ public class AssertionRuleSpecs
         var other = new { Name = "Dennis" };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(other, options => options.Including(d => d.Name));
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(other, options => options.Including(d => d.Name));
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage(
+        await act.Should().ThrowAsync<XunitException>().WithMessage(
             "Expected*Name to be \"Dennis\", but \"Dennes\" differs near \"es\" (index 4)*");
     }
 
     [Fact]
-    public void When_two_properties_are_of_derived_types_but_are_equal_it_should_succeed()
+    public async Task When_two_properties_are_of_derived_types_but_are_equal_it_should_succeed()
     {
         // Arrange
         var subject = new { Type = new DerivedCustomerType("123") };
@@ -108,14 +110,14 @@ public class AssertionRuleSpecs
         var other = new { Type = new CustomerType("123") };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(other);
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(other);
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void
+    public async Task
         When_two_properties_have_the_same_declared_type_but_different_runtime_types_and_are_equivalent_according_to_the_declared_type_it_should_succeed()
     {
         // Arrange
@@ -124,14 +126,14 @@ public class AssertionRuleSpecs
         var other = new { Type = new CustomerType("123") };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(other);
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(other);
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_a_nested_property_is_equal_based_on_equality_comparer_it_should_not_throw()
+    public async Task When_a_nested_property_is_equal_based_on_equality_comparer_it_should_not_throw()
     {
         // Arrange
         var subject = new { Timestamp = 22.March(2020).At(19, 30) };
@@ -139,15 +141,15 @@ public class AssertionRuleSpecs
         var expectation = new { Timestamp = 1.January(2020).At(7, 31) };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation,
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expectation,
             opt => opt.Using<DateTime, DateTimeByYearComparer>());
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_a_nested_property_is_unequal_based_on_equality_comparer_it_should_throw()
+    public async Task When_a_nested_property_is_unequal_based_on_equality_comparer_it_should_throw()
     {
         // Arrange
         var subject = new { Timestamp = 22.March(2020) };
@@ -155,17 +157,17 @@ public class AssertionRuleSpecs
         var expectation = new { Timestamp = 1.January(2021) };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation,
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expectation,
             opt => opt.Using(new DateTimeByYearComparer()));
 
         // Assert
-        act.Should()
-            .Throw<XunitException>()
+        await act.Should()
+            .ThrowAsync<XunitException>()
             .WithMessage("Expected*equal*2021*DateTimeByYearComparer*2020*");
     }
 
     [Fact]
-    public void When_the_subjects_property_type_is_different_from_the_equality_comparer_it_should_throw()
+    public async Task When_the_subjects_property_type_is_different_from_the_equality_comparer_it_should_throw()
     {
         // Arrange
         var subject = new { Timestamp = 1L };
@@ -173,12 +175,12 @@ public class AssertionRuleSpecs
         var expectation = new { Timestamp = 1.January(2021) };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation,
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expectation,
             opt => opt.Using(new DateTimeByYearComparer()));
 
         // Assert
-        act.Should()
-            .Throw<XunitException>()
+        await act.Should()
+            .ThrowAsync<XunitException>()
             .WithMessage("Expected*Timestamp*1L*");
     }
 
@@ -193,7 +195,7 @@ public class AssertionRuleSpecs
     }
 
     [Fact]
-    public void When_an_invalid_equality_comparer_is_provided_it_should_throw()
+    public async Task When_an_invalid_equality_comparer_is_provided_it_should_throw()
     {
         // Arrange
         var subject = new { Timestamp = 22.March(2020) };
@@ -203,17 +205,17 @@ public class AssertionRuleSpecs
         IEqualityComparer<DateTime> equalityComparer = null;
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation,
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expectation,
             opt => opt.Using(equalityComparer));
 
         // Assert
-        act.Should()
-            .Throw<ArgumentNullException>()
+        await act.Should()
+            .ThrowAsync<ArgumentNullException>()
             .WithMessage("*comparer*");
     }
 
     [Fact]
-    public void When_the_compile_time_type_does_not_match_the_equality_comparer_type_it_should_use_the_default_mechanics()
+    public async Task When_the_compile_time_type_does_not_match_the_equality_comparer_type_it_should_use_the_default_mechanics()
     {
         // Arrange
         var subject = new { Property = (IInterface)new ConcreteClass("SomeString") };
@@ -221,15 +223,15 @@ public class AssertionRuleSpecs
         var expectation = new { Property = (IInterface)new ConcreteClass("SomeOtherString") };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation, opt =>
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expectation, opt =>
             opt.Using<ConcreteClass, ConcreteClassEqualityComparer>());
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_the_runtime_type_does_match_the_equality_comparer_type_it_should_use_the_default_mechanics()
+    public async Task When_the_runtime_type_does_match_the_equality_comparer_type_it_should_use_the_default_mechanics()
     {
         // Arrange
         var subject = new { Property = (IInterface)new ConcreteClass("SomeString") };
@@ -237,12 +239,12 @@ public class AssertionRuleSpecs
         var expectation = new { Property = (IInterface)new ConcreteClass("SomeOtherString") };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt
+        Func<Task> act = async () => await subject.Should().BeEquivalentToAsync(expectation, opt => opt
             .RespectingRuntimeTypes()
             .Using<ConcreteClass, ConcreteClassEqualityComparer>());
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("*ConcreteClassEqualityComparer*");
+        await act.Should().ThrowAsync<XunitException>().WithMessage("*ConcreteClassEqualityComparer*");
     }
 
     private interface IInterface

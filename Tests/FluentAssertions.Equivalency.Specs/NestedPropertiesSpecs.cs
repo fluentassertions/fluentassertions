@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using FluentAssertionsAsync;
 using Xunit;
 using Xunit.Sdk;
 
@@ -8,7 +10,7 @@ namespace FluentAssertions.Equivalency.Specs;
 public class NestedPropertiesSpecs
 {
     [Fact]
-    public void When_all_the_properties_of_the_nested_objects_are_equal_it_should_succeed()
+    public async Task When_all_the_properties_of_the_nested_objects_are_equal_it_should_succeed()
     {
         // Arrange
         var subject = new Root
@@ -24,14 +26,14 @@ public class NestedPropertiesSpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected);
+        Func<Task> act = () => subject.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_the_expectation_contains_a_nested_null_it_should_properly_report_the_difference()
+    public async Task When_the_expectation_contains_a_nested_null_it_should_properly_report_the_difference()
     {
         // Arrange
         var subject = new Root { Text = "Root", Level = new Level1 { Text = "Level1", Level = new Level2() } };
@@ -39,15 +41,15 @@ public class NestedPropertiesSpecs
         var expected = new RootDto { Text = "Root", Level = new Level1Dto { Text = "Level1", Level = null } };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected);
+        Func<Task> act = () => subject.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("*Expected*Level.Level*to be <null>, but found*Level2*Without automatic conversion*");
     }
 
     [Fact]
-    public void
+    public async Task
         When_not_all_the_properties_of_the_nested_objects_are_equal_but_nested_objects_are_excluded_it_should_succeed()
     {
         // Arrange
@@ -70,24 +72,24 @@ public class NestedPropertiesSpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected,
+        Func<Task> act = () => subject.Should().BeEquivalentToAsync(expected,
             options => options.ExcludingNestedObjects());
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_nested_objects_should_be_excluded_it_should_do_a_simple_equality_check_instead()
+    public async Task When_nested_objects_should_be_excluded_it_should_do_a_simple_equality_check_instead()
     {
         // Arrange
         var item = new Item { Child = new Item() };
 
         // Act
-        Action act = () => item.Should().BeEquivalentTo(new Item(), options => options.ExcludingNestedObjects());
+        Func<Task> act = () => item.Should().BeEquivalentToAsync(new Item(), options => options.ExcludingNestedObjects());
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("Expected*Item*null*");
     }
 
@@ -97,7 +99,7 @@ public class NestedPropertiesSpecs
     }
 
     [Fact]
-    public void When_not_all_the_properties_of_the_nested_objects_are_equal_it_should_throw()
+    public async Task When_not_all_the_properties_of_the_nested_objects_are_equal_it_should_throw()
     {
         // Arrange
         var subject = new Root { Text = "Root", Level = new Level1 { Text = "Level1" } };
@@ -105,11 +107,11 @@ public class NestedPropertiesSpecs
         var expected = new RootDto { Text = "Root", Level = new Level1Dto { Text = "Level2" } };
 
         // Act
-        Action act = () =>
-            subject.Should().BeEquivalentTo(expected);
+        Func<Task> act = () =>
+            subject.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().Throw<XunitException>().Which.Message
+        (await act.Should().ThrowAsync<XunitException>()).Which.Message
 
             // Checking exception message exactly is against general guidelines
             // but in that case it was done on purpose, so that we have at least have a single
@@ -129,7 +131,7 @@ public class NestedPropertiesSpecs
     }
 
     [Fact]
-    public void When_the_actual_nested_object_is_null_it_should_throw()
+    public async Task When_the_actual_nested_object_is_null_it_should_throw()
     {
         // Arrange
         var subject = new Root { Text = "Root", Level = new Level1 { Text = "Level2" } };
@@ -137,11 +139,11 @@ public class NestedPropertiesSpecs
         var expected = new RootDto { Text = "Root", Level = null };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected);
+        Func<Task> act = () => subject.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act
-            .Should().Throw<XunitException>()
+        await act
+            .Should().ThrowAsync<XunitException>()
             .WithMessage("Expected*Level*to be <null>*, but found*Level1*Level2*");
     }
 
@@ -171,7 +173,7 @@ public class NestedPropertiesSpecs
     }
 
     [Fact]
-    public void When_deeply_nested_strings_dont_match_it_should_properly_report_the_mismatches()
+    public async Task When_deeply_nested_strings_dont_match_it_should_properly_report_the_mismatches()
     {
         // Arrange
         var expected = new[]
@@ -190,15 +192,15 @@ public class NestedPropertiesSpecs
         };
 
         // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected);
+        Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("*EXPECTED*INCORRECT*EXPECTED*INCORRECT*");
     }
 
     [Fact]
-    public void When_the_nested_object_property_is_null_it_should_throw()
+    public async Task When_the_nested_object_property_is_null_it_should_throw()
     {
         // Arrange
         var subject = new Root { Text = "Root", Level = null };
@@ -206,17 +208,17 @@ public class NestedPropertiesSpecs
         var expected = new RootDto { Text = "Root", Level = new Level1Dto { Text = "Level2" } };
 
         // Act
-        Action act = () =>
-            subject.Should().BeEquivalentTo(expected);
+        Func<Task> act = () =>
+            subject.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act
-            .Should().Throw<XunitException>()
+        await act
+            .Should().ThrowAsync<XunitException>()
             .WithMessage("Expected property subject.Level*to be*Level1Dto*Level2*, but found <null>*");
     }
 
     [Fact]
-    public void When_not_all_the_properties_of_the_nested_object_exist_on_the_expected_object_it_should_throw()
+    public async Task When_not_all_the_properties_of_the_nested_object_exist_on_the_expected_object_it_should_throw()
     {
         // Arrange
         var subject = new { Level = new { Text = "Level1", } };
@@ -224,16 +226,16 @@ public class NestedPropertiesSpecs
         var expected = new { Level = new { Text = "Level1", OtherProperty = "OtherProperty" } };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected);
+        Func<Task> act = () => subject.Should().BeEquivalentToAsync(expected);
 
         // Assert
-        act
-            .Should().Throw<XunitException>()
+        await act
+            .Should().ThrowAsync<XunitException>()
             .WithMessage("Expectation has property subject.Level.OtherProperty that the other object does not have*");
     }
 
     [Fact]
-    public void When_all_the_shared_properties_of_the_nested_objects_are_equal_it_should_succeed()
+    public async Task When_all_the_shared_properties_of_the_nested_objects_are_equal_it_should_succeed()
     {
         // Arrange
         var subject = new { Level = new { Text = "Level1", Property = "Property" } };
@@ -241,14 +243,14 @@ public class NestedPropertiesSpecs
         var expected = new { Level = new { Text = "Level1", OtherProperty = "OtherProperty" } };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected, options => options.ExcludingMissingMembers());
+        Func<Task> act = () => subject.Should().BeEquivalentToAsync(expected, options => options.ExcludingMissingMembers());
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_deeply_nested_properties_do_not_have_all_equal_values_it_should_throw()
+    public async Task When_deeply_nested_properties_do_not_have_all_equal_values_it_should_throw()
     {
         // Arrange
         var root = new Root
@@ -264,31 +266,31 @@ public class NestedPropertiesSpecs
         };
 
         // Act
-        Action act = () => root.Should().BeEquivalentTo(rootDto);
+        Func<Task> act = () => root.Should().BeEquivalentToAsync(rootDto);
 
         // Assert
-        act
-            .Should().Throw<XunitException>()
+        await act
+            .Should().ThrowAsync<XunitException>()
             .WithMessage(
                 "Expected*Level.Level.Text*to be *\"Level2\"*A wrong text value*");
     }
 
     [Fact]
-    public void When_two_objects_have_the_same_nested_objects_it_should_not_throw()
+    public async Task When_two_objects_have_the_same_nested_objects_it_should_not_throw()
     {
         // Arrange
         var c1 = new ClassOne();
         var c2 = new ClassOne();
 
         // Act
-        Action act = () => c1.Should().BeEquivalentTo(c2);
+        Func<Task> act = () => c1.Should().BeEquivalentToAsync(c2);
 
         // Assert
-        act.Should().NotThrow();
+        await act.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void When_a_property_of_a_nested_object_doesnt_match_it_should_clearly_indicate_the_path()
+    public async Task When_a_property_of_a_nested_object_doesnt_match_it_should_clearly_indicate_the_path()
     {
         // Arrange
         var c1 = new ClassOne();
@@ -296,15 +298,15 @@ public class NestedPropertiesSpecs
         c2.RefOne.ValTwo = 2;
 
         // Act
-        Action act = () => c1.Should().BeEquivalentTo(c2);
+        Func<Task> act = () => c1.Should().BeEquivalentToAsync(c2);
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("Expected property c1.RefOne.ValTwo to be 2, but found 3*");
     }
 
     [Fact]
-    public void Should_support_nested_collections_containing_empty_objects()
+    public async Task Should_support_nested_collections_containing_empty_objects()
     {
         // Arrange
         var orig = new[] { new OuterWithObject { MyProperty = new[] { new Inner() } } };
@@ -312,7 +314,7 @@ public class NestedPropertiesSpecs
         var expectation = new[] { new OuterWithObject { MyProperty = new[] { new Inner() } } };
 
         // Act / Assert
-        orig.Should().BeEquivalentTo(expectation);
+        await orig.Should().BeEquivalentToAsync(expectation);
     }
 
     public class Inner

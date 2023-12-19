@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FluentAssertions.Execution;
+namespace FluentAssertionsAsync.Execution;
 
 /// <summary>
 /// Defines a strategy for handling failures in a <see cref="AssertionScope"/>.

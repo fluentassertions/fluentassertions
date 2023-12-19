@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Xml.Linq;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Formatting;
+namespace FluentAssertionsAsync.Formatting;
 
 public class XElementValueFormatter : IValueFormatter
 {

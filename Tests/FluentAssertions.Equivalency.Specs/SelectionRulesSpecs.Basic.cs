@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Threading.Tasks;
+using FluentAssertionsAsync;
 using Xunit;
 using Xunit.Sdk;
 
@@ -12,7 +14,7 @@ public partial class SelectionRulesSpecs
     public class Basic
     {
         [Fact]
-        public void Property_names_are_case_sensitive()
+        public async Task Property_names_are_case_sensitive()
         {
             // Arrange
             var subject = new
@@ -26,15 +28,15 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(other);
+            Func<Task> act = () => subject.Should().BeEquivalentToAsync(other);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await act.Should().ThrowAsync<XunitException>().WithMessage(
                 "Expectation*subject.name**other*not have*");
         }
 
         [Fact]
-        public void Field_names_are_case_sensitive()
+        public async Task Field_names_are_case_sensitive()
         {
             // Arrange
             var subject = new ClassWithFieldInUpperCase
@@ -48,10 +50,10 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(other);
+            Func<Task> act = () => subject.Should().BeEquivalentToAsync(other);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await act.Should().ThrowAsync<XunitException>().WithMessage(
                 "Expectation*subject.name**other*not have*");
         }
 
@@ -70,7 +72,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_a_property_is_an_indexer_it_should_be_ignored()
+        public async Task When_a_property_is_an_indexer_it_should_be_ignored()
         {
             // Arrange
             var expected = new ClassWithIndexer
@@ -84,10 +86,10 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action act = () => result.Should().BeEquivalentTo(expected);
+            Func<Task> act = () => result.Should().BeEquivalentToAsync(expected);
 
             // Assert
-            act.Should().NotThrow();
+            await act.Should().NotThrowAsync();
         }
 
         public class ClassWithIndexer
@@ -100,7 +102,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_the_expected_object_has_a_property_not_available_on_the_subject_it_should_throw()
+        public async Task When_the_expected_object_has_a_property_not_available_on_the_subject_it_should_throw()
         {
             // Arrange
             var subject = new
@@ -114,15 +116,15 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(other);
+            Func<Task> act = () => subject.Should().BeEquivalentToAsync(other);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await act.Should().ThrowAsync<XunitException>().WithMessage(
                 "Expectation has property subject.City that the other object does not have*");
         }
 
         [Fact]
-        public void When_equally_named_properties_are_type_incompatible_it_should_throw()
+        public async Task When_equally_named_properties_are_type_incompatible_it_should_throw()
         {
             // Arrange
             var subject = new
@@ -136,16 +138,16 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(other);
+            Func<Task> act = () => subject.Should().BeEquivalentToAsync(other);
 
             // Assert
-            act
-                .Should().Throw<XunitException>()
+            await act
+                .Should().ThrowAsync<XunitException>()
                 .WithMessage("Expected property subject.Type to be 36, but found*\"A\"*");
         }
 
         [Fact]
-        public void When_multiple_properties_mismatch_it_should_report_all_of_them()
+        public async Task When_multiple_properties_mismatch_it_should_report_all_of_them()
         {
             // Arrange
             var subject = new
@@ -171,11 +173,11 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(other);
+            Func<Task> act = () => subject.Should().BeEquivalentToAsync(other);
 
             // Assert
-            act
-                .Should().Throw<XunitException>()
+            await act
+                .Should().ThrowAsync<XunitException>()
                 .WithMessage("*property subject.Property1*to be \"1\", but \"A\" differs near \"A\"*")
                 .WithMessage("*property subject.Property2*to be \"2\", but \"B\" differs near \"B\"*")
                 .WithMessage("*property subject.SubType1.SubProperty1*to be \"3\", but \"C\" differs near \"C\"*");
@@ -183,7 +185,7 @@ public partial class SelectionRulesSpecs
 
         [Fact]
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
-        public void Including_all_declared_properties_excludes_all_fields()
+        public async Task Including_all_declared_properties_excludes_all_fields()
         {
             // Arrange
             var class1 = new ClassWithSomeFieldsAndProperties
@@ -205,16 +207,16 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action act =
-                () => class1.Should().BeEquivalentTo(class2, opts => opts.IncludingAllDeclaredProperties());
+            Func<Task> act =
+                () => class1.Should().BeEquivalentToAsync(class2, opts => opts.IncludingAllDeclaredProperties());
 
             // Assert
-            act.Should().NotThrow();
+            await act.Should().NotThrowAsync();
         }
 
         [Fact]
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
-        public void Including_all_runtime_properties_excludes_all_fields()
+        public async Task Including_all_runtime_properties_excludes_all_fields()
         {
             // Arrange
             object class1 = new ClassWithSomeFieldsAndProperties
@@ -235,16 +237,16 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action act =
-                () => class1.Should().BeEquivalentTo(class2, opts => opts.IncludingAllRuntimeProperties());
+            Func<Task> act =
+                () => class1.Should().BeEquivalentToAsync(class2, opts => opts.IncludingAllRuntimeProperties());
 
             // Assert
-            act.Should().NotThrow();
+            await act.Should().NotThrowAsync();
         }
 
         [Fact]
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
-        public void Respecting_the_runtime_type_includes_both_properties_and_fields_included()
+        public async Task Respecting_the_runtime_type_includes_both_properties_and_fields_included()
         {
             // Arrange
             object class1 = new ClassWithSomeFieldsAndProperties
@@ -256,15 +258,15 @@ public partial class SelectionRulesSpecs
             object class2 = new ClassWithSomeFieldsAndProperties();
 
             // Act
-            Action act =
-                () => class1.Should().BeEquivalentTo(class2, opts => opts.RespectingRuntimeTypes());
+            Func<Task> act =
+                () => class1.Should().BeEquivalentToAsync(class2, opts => opts.RespectingRuntimeTypes());
 
             // Assert
-            act.Should().Throw<XunitException>().Which.Message.Should().Contain("Field1").And.Contain("Property1");
+            (await act.Should().ThrowAsync<XunitException>()).Which.Message.Should().Contain("Field1").And.Contain("Property1");
         }
 
         [Fact]
-        public void A_nested_class_without_properties_inside_a_collection_is_fine()
+        public async Task A_nested_class_without_properties_inside_a_collection_is_fine()
         {
             // Arrange
             var sut = new List<BaseClassPointingToClassWithoutProperties>
@@ -276,7 +278,7 @@ public partial class SelectionRulesSpecs
             };
 
             // Act / Assert
-            sut.Should().BeEquivalentTo(new[]
+            await sut.Should().BeEquivalentToAsync(new[]
             {
                 new BaseClassPointingToClassWithoutProperties
                 {

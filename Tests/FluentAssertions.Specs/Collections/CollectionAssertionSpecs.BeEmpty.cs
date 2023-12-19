@@ -34,7 +34,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().BeEmpty("that's what we expect");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("*to be empty because that's what we expect, but found*1*2*3*");
         }
 
@@ -71,7 +71,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotBeEmpty();
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -84,7 +84,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotBeEmpty("because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected collection not to be empty because we want to test the failure message.");
         }
 
@@ -102,7 +102,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected collection to be empty *failure message*, but found <null>.");
         }
 
@@ -133,7 +133,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected collection not to be empty *failure message*, but found <null>.");
         }
 
@@ -147,7 +147,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().BeEmpty();
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
     }
 
@@ -163,7 +163,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotBeEmpty("because we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection not to be empty because we want to test the behaviour with a null subject, but found <null>.");
         }
 

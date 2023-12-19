@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
-using FluentAssertions.Common;
-using FluentAssertions.Equivalency.Execution;
-using FluentAssertions.Equivalency.Steps;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Equivalency.Execution;
+using FluentAssertionsAsync.Equivalency.Steps;
 
-namespace FluentAssertions.Equivalency;
+namespace FluentAssertionsAsync.Equivalency;
 
 /// <summary>
 /// Collects the members that need to be converted by the <see cref="AutoConversionStep"/>.

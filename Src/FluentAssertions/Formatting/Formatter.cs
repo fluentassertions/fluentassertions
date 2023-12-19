@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Common;
-using FluentAssertions.Equivalency;
-using FluentAssertions.Equivalency.Execution;
-using FluentAssertions.Execution;
-using FluentAssertions.Xml;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Equivalency;
+using FluentAssertionsAsync.Equivalency.Execution;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Xml;
 
-namespace FluentAssertions.Formatting;
+namespace FluentAssertionsAsync.Formatting;
 
 /// <summary>
 /// Provides services for formatting an object being used in an assertion in a human readable format.

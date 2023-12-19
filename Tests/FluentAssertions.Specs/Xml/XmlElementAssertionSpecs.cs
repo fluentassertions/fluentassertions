@@ -27,7 +27,7 @@ public class XmlElementAssertionSpecs
 
             // Act
             Action act = () =>
-                element.Should().BeEquivalentTo(expected);
+                element.Should().BeEquivalentToAsync(expected);
 
             // Assert
             act.Should().NotThrow();
@@ -65,7 +65,7 @@ public class XmlElementAssertionSpecs
                 element.Should().HaveInnerText("stamac");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -82,7 +82,7 @@ public class XmlElementAssertionSpecs
                 theElement.Should().HaveInnerText("stamac", "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected theElement to have value \"stamac\" because we want to test the failure message, but found \"grega\".");
         }
     }
@@ -118,7 +118,7 @@ public class XmlElementAssertionSpecs
                 element.Should().HaveAttribute("age", "36");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -135,7 +135,7 @@ public class XmlElementAssertionSpecs
                 theElement.Should().HaveAttribute("age", "36", "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected theElement to have attribute \"age\" with value \"36\"" +
                     " because we want to test the failure message" +
                     ", but found no such attribute in <user name=\"martin\"*");
@@ -155,7 +155,7 @@ public class XmlElementAssertionSpecs
                 element.Should().HaveAttribute("name", "dennis");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -172,7 +172,7 @@ public class XmlElementAssertionSpecs
                 theElement.Should().HaveAttribute("name", "dennis", "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected attribute \"name\" in theElement to have value \"dennis\"" +
                     " because we want to test the failure message" +
                     ", but found \"martin\".");
@@ -211,7 +211,7 @@ public class XmlElementAssertionSpecs
                 element.Should().HaveAttributeWithNamespace("age", "http://www.example.com/2012/test", "36");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -232,7 +232,7 @@ public class XmlElementAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected theElement to have attribute \"{http://www.example.com/2012/test}age\" with value \"36\"" +
                     " because we want to test the failure message" +
@@ -253,7 +253,7 @@ public class XmlElementAssertionSpecs
                 element.Should().HaveAttributeWithNamespace("name", "http://www.example.com/2012/test", "dennis");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -271,7 +271,7 @@ public class XmlElementAssertionSpecs
                     "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected attribute \"{http://www.example.com/2012/test}name\" in theElement to have value \"dennis\"" +
                     " because we want to test the failure message" +
@@ -324,7 +324,7 @@ public class XmlElementAssertionSpecs
                 element.Should().HaveElement("unknown");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -347,7 +347,7 @@ public class XmlElementAssertionSpecs
                 theElement.Should().HaveElement("unknown", "because we want to test the failure message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected theElement to have child element \"unknown\""
                 + " because we want to test the failure message"
                 + ", but no such child element was found.");
@@ -470,7 +470,7 @@ public class XmlElementAssertionSpecs
                 element.Should().HaveElementWithNamespace("unknown", "http://www.example.com/2012/test");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            await await act.Should().ThrowAsyncAsync<XunitException>();
         }
 
         [Fact]
@@ -494,7 +494,7 @@ public class XmlElementAssertionSpecs
                     "because we want to test the failure message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected theElement to have child element \"{{http://www.example.com/2012/test}}unknown\""
                 + " because we want to test the failure message"
                 + ", but no such child element was found.");

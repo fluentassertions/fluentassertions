@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentAssertions.Events;
+namespace FluentAssertionsAsync.Events;
 
 /// <summary>
 /// Represents an occurrence of a particular event.

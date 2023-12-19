@@ -24,7 +24,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().OnlyContain(i => i > 3);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to contain only items matching*");
         }
 
@@ -38,7 +38,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().OnlyContain(predicate: null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("predicate");
         }
 
@@ -52,7 +52,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().OnlyContain(i => i <= 10, "10 is the maximum");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected collection to contain only items matching (i <= 10) because 10 is the maximum, but {12, 11} do(es) not match.");
         }
 
@@ -93,7 +93,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage(
                     "Expected collection to contain only items matching (i <= 10) *failure message*," +
                     " but the collection is <null>.");

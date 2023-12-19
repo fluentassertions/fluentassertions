@@ -51,7 +51,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
                 "because we want to test the behaviour with same objects");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "*to intersect with*because we want to test the behaviour with same objects*but they both reference the same object.");
         }
 

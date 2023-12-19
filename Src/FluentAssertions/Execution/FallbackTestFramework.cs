@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace FluentAssertions.Execution;
+namespace FluentAssertionsAsync.Execution;
 
 /// <summary>
 /// Throws a generic exception in case no other test harness is detected.

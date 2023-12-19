@@ -17,7 +17,7 @@ public class AndWhichConstraintSpecs
         Action act = () => _ = continuation.Which;
 
         // Assert
-        act.Should().Throw<XunitException>()
+        await await act.Should().ThrowAsyncAsync<XunitException>()
             .WithMessage(
                 "More than one object found.  FluentAssertions cannot determine which object is meant.*")
             .WithMessage("*Found objects:*\"hello\"*\"world\"");

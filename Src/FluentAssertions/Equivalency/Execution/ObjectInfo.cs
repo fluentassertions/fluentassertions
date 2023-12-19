@@ -1,6 +1,6 @@
 using System;
 
-namespace FluentAssertions.Equivalency.Execution;
+namespace FluentAssertionsAsync.Equivalency.Execution;
 
 internal class ObjectInfo : IObjectInfo
 {

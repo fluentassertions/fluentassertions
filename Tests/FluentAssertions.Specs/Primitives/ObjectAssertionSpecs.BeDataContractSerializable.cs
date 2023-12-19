@@ -21,7 +21,7 @@ public partial class ObjectAssertionSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeDataContractSerializable();
+            Action act = () => subject.Should().BeDataContractSerializableAsync();
 
             // Assert
             act.Should().NotThrow();
@@ -34,7 +34,7 @@ public partial class ObjectAssertionSpecs
             var subject = new NonDataContractSerializableClass();
 
             // Act
-            Action act = () => subject.Should().BeDataContractSerializable("we need to store it on {0}", "disk");
+            Action act = () => subject.Should().BeDataContractSerializableAsync("we need to store it on {0}", "disk");
 
             // Assert
             act
@@ -53,10 +53,10 @@ public partial class ObjectAssertionSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeDataContractSerializable();
+            Action act = () => subject.Should().BeDataContractSerializableAsync();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("*to be serializable, but serialization failed with:*property subject.Name*to be*");
         }
 
@@ -72,7 +72,7 @@ public partial class ObjectAssertionSpecs
 
             // Act
             Action act = () => subject.Should()
-                .BeDataContractSerializable<DataContractSerializableClassNotRestoringAllProperties>(
+                .BeDataContractSerializableAsync<DataContractSerializableClassNotRestoringAllProperties>(
                     options => options.Excluding(x => x.Name));
 
             // Assert
@@ -87,11 +87,11 @@ public partial class ObjectAssertionSpecs
 
             // Act
             Action act = () => subject.Should()
-                .BeDataContractSerializable<DataContractSerializableClassNotRestoringAllProperties>(
+                .BeDataContractSerializableAsync<DataContractSerializableClassNotRestoringAllProperties>(
                     options: null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
                 .WithParameterName("options");
         }
     }

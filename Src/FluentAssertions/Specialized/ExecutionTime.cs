@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Specialized;
+namespace FluentAssertionsAsync.Specialized;
 
 public class ExecutionTime
 {

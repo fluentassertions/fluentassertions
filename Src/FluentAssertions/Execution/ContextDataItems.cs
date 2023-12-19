@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Formatting;
 
-namespace FluentAssertions.Execution;
+namespace FluentAssertionsAsync.Execution;
 
 /// <summary>
 /// Represents a collection of data items that are associated with an <see cref="AssertionScope"/>.

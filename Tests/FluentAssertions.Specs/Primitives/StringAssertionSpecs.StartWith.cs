@@ -33,7 +33,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC".Should().StartWith("ABB", "it should {0}", "start");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to start with \"ABB\" because it should start," +
                 " but \"ABC\" differs near \"C\" (index 2).");
         }
@@ -47,7 +47,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABCDEFGHI".Should().StartWith("ABCDDFGHI", "it should {0}", "start");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to start with " +
                 "*\"ABCDDFGHI\" because it should start, but " +
                 "*\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
@@ -60,7 +60,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC".Should().StartWith(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
                 "Cannot compare start of string with <null>.*");
         }
 
@@ -82,7 +82,7 @@ public partial class StringAssertionSpecs
             Action act = () => "ABC".Should().StartWith("ABCDEF");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected string to start with \"ABCDEF\", but \"ABC\" is too short.");
         }
 
@@ -94,7 +94,7 @@ public partial class StringAssertionSpecs
             Action act = () => someString.Should().StartWith("ABC");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await await act.Should().ThrowAsyncAsync<XunitException>()
                 .WithMessage("Expected someString to start with \"ABC\", but found <null>.");
         }
     }
@@ -168,7 +168,7 @@ public partial class StringAssertionSpecs
             Action act = () => someString.Should().NotStartWith("ABC");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
+            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
                 "Expected someString that does not start with \"ABC\", but found <null>.");
         }
     }

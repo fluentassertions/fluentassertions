@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Xml.Equivalency;
+namespace FluentAssertionsAsync.Xml.Equivalency;
 
 internal class XmlReaderValidator
 {
