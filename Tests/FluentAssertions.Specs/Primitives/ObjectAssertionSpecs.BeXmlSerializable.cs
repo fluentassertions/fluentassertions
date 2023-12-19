@@ -3,11 +3,11 @@ using System.Globalization;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using FluentAssertions.Extensions;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class ObjectAssertionSpecs
 {
@@ -24,7 +24,7 @@ public partial class ObjectAssertionSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeXmlSerializableAsync();
+            Action act = () => subject.Should().BeXmlSerializable();
 
             // Assert
             act.Should().NotThrow();
@@ -40,10 +40,10 @@ public partial class ObjectAssertionSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeXmlSerializableAsync("we need to store it on {0}", "disk");
+            Action act = () => subject.Should().BeXmlSerializable("we need to store it on {0}", "disk");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "*to be serializable because we need to store it on disk, but serialization failed with:*NonPublicClass*");
         }
@@ -59,10 +59,10 @@ public partial class ObjectAssertionSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeXmlSerializableAsync();
+            Action act = () => subject.Should().BeXmlSerializable();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*to be serializable, but serialization failed with:*Name*to be*");
         }
     }

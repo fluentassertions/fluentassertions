@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 public partial class GenericDictionaryAssertionSpecs
 {
@@ -29,7 +29,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => someDictionary.Should().BeNull("because {0} is valid", "null");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected someDictionary to be <null> because null is valid, but found {empty}.");
         }
     }
@@ -66,7 +66,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => someDictionary.Should().NotBeNull("because {0} should not", "someDictionary");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected someDictionary not to be <null> because someDictionary should not.");
         }
     }

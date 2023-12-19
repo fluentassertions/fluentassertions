@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Extensions;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public class NullableSimpleTimeSpanAssertionSpecs
 {
@@ -37,7 +37,7 @@ public class NullableSimpleTimeSpanAssertionSpecs
         Action act = () => nullableTimeSpan.Should().NotBeNull();
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [Fact]
@@ -50,7 +50,7 @@ public class NullableSimpleTimeSpanAssertionSpecs
         Action act = () => nullableTimeSpan.Should().HaveValue("because we want to test the failure {0}", "message");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Expected a value because we want to test the failure message.");
     }
 
@@ -64,7 +64,7 @@ public class NullableSimpleTimeSpanAssertionSpecs
         Action act = () => nullableTimeSpan.Should().NotBeNull("because we want to test the failure {0}", "message");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Expected a value because we want to test the failure message.");
     }
 
@@ -98,7 +98,7 @@ public class NullableSimpleTimeSpanAssertionSpecs
         Action act = () => nullableTimeSpan.Should().NotHaveValue();
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [Fact]
@@ -111,7 +111,7 @@ public class NullableSimpleTimeSpanAssertionSpecs
         Action act = () => nullableTimeSpan.Should().BeNull();
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [Fact]
@@ -124,7 +124,7 @@ public class NullableSimpleTimeSpanAssertionSpecs
         Action act = () => nullableTimeSpan.Should().NotHaveValue("because we want to test the failure {0}", "message");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Did not expect a value because we want to test the failure message, but found 1s.");
     }
 
@@ -138,7 +138,7 @@ public class NullableSimpleTimeSpanAssertionSpecs
         Action act = () => nullableTimeSpan.Should().BeNull("because we want to test the failure {0}", "message");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Did not expect a value because we want to test the failure message, but found 1s.");
     }
 

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Globalization;
-using FluentAssertions.Extensions;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Extensions;
+using FluentAssertionsAsync.Formatting;
 using Xunit;
 
-namespace FluentAssertions.Specs.Formatting;
+namespace FluentAssertionsAsync.Specs.Formatting;
 
 public class DateTimeOffsetValueFormatterSpecs
 {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluentAssertions.Primitives;
+using FluentAssertionsAsync.Primitives;
 using Xunit;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class ObjectAssertionSpecs
 {

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using FluentAssertionsAsync;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Equivalency.Specs;
+namespace FluentAssertionsAsync.Equivalency.Specs;
 
 public partial class SelectionRulesSpecs
 {

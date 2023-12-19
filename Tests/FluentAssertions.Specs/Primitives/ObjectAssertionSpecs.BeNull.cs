@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class ObjectAssertionSpecs
 {
@@ -28,7 +28,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().BeNull();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -71,7 +71,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().NotBeNull();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -84,7 +84,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().NotBeNull("because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected someObject not to be <null> because we want to test the failure message.");
         }
     }

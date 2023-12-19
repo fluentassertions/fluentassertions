@@ -3,7 +3,7 @@ using System.Linq;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.CultureAwareTesting;
+namespace FluentAssertionsAsync.Specs.CultureAwareTesting;
 
 public class CulturedTheoryAttributeDiscoverer : TheoryDiscoverer
 {

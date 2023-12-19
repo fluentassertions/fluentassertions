@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 public partial class GenericCollectionAssertionOfStringSpecs
 {
@@ -29,7 +29,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => collection.Should().OnlyHaveUniqueItems("{0} don't like {1}", "we", "duplicates");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to only have unique items because we don't like duplicates, but item \"three\" is not unique.");
         }
 
@@ -43,7 +43,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => collection.Should().OnlyHaveUniqueItems("{0} don't like {1}", "we", "duplicates");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to only have unique items because we don't like duplicates, but items {\"two\", \"three\"} are not unique.");
         }
 
@@ -58,7 +58,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
                 () => collection.Should().OnlyHaveUniqueItems("because we want to test the behaviour with a null subject");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to only have unique items because we want to test the behaviour with a null subject, but found <null>.");
         }
     }

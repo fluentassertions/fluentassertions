@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public class BooleanAssertionSpecs
 {
@@ -189,7 +189,7 @@ public class BooleanAssertionSpecs
             Action act = () => antecedent.Should().Imply(consequent, "because we want to test the {0}", "failure");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected antecedent*to imply consequent*test the failure*but*");
         }
     }

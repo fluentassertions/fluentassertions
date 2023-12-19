@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public class GuidAssertionSpecs
 {
@@ -28,7 +28,7 @@ public class GuidAssertionSpecs
             Action act = () => guid.Should().BeEmpty("because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected Guid to be empty because we want to test the failure message, but found {12345678-1234-1234-1234-123456789012}.");
         }
     }
@@ -55,7 +55,7 @@ public class GuidAssertionSpecs
             Action act = () => Guid.Empty.Should().NotBeEmpty("because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect Guid.Empty to be empty because we want to test the failure message.");
         }
     }
@@ -100,7 +100,7 @@ public class GuidAssertionSpecs
             Action act = () => guid.Should().Be(differentGuid, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected Guid to be {55555555-ffff-eeee-dddd-444444444444} because we want to test the failure message, but found {11111111-aaaa-bbbb-cccc-999999999999}.");
         }
 
@@ -114,7 +114,7 @@ public class GuidAssertionSpecs
             Action act = () => guid.Should().Be(string.Empty, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentException>()
+            act.Should().Throw<ArgumentException>()
                 .WithParameterName("expected");
         }
     }
@@ -147,7 +147,7 @@ public class GuidAssertionSpecs
             Action act = () => guid.Should().NotBe(sameGuid, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect Guid to be {11111111-aaaa-bbbb-cccc-999999999999} because we want to test the failure message.");
         }
 
@@ -161,7 +161,7 @@ public class GuidAssertionSpecs
             Action act = () => guid.Should().NotBe(string.Empty, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentException>()
+            act.Should().Throw<ArgumentException>()
                 .WithParameterName("unexpected");
         }
 
@@ -190,7 +190,7 @@ public class GuidAssertionSpecs
                 guid.Should().NotBe("11111111-aaaa-bbbb-cccc-999999999999", "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect Guid to be {11111111-aaaa-bbbb-cccc-999999999999} *failure message*.");
         }
     }

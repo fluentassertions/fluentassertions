@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace FluentAssertions.Specs.Exceptions;
+namespace FluentAssertionsAsync.Specs.Exceptions;
 
 public class InvokingFunctionSpecs
 {
@@ -15,7 +15,7 @@ public class InvokingFunctionSpecs
         Action act = () => someClass.Invoking(d => d.Return());
 
         // Assert
-        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+        act.Should().ThrowExactly<ArgumentNullException>()
             .WithParameterName("subject");
     }
 
@@ -29,7 +29,7 @@ public class InvokingFunctionSpecs
         Action act = () => someClass.Invoking((Func<Does, object>)null);
 
         // Assert
-        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+        act.Should().ThrowExactly<ArgumentNullException>()
             .WithParameterName("action");
     }
 }

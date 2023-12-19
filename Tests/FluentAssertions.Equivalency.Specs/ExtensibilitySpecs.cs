@@ -4,13 +4,11 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using FluentAssertionsAsync;
-using FluentAssertionsAsync.Equivalency;
 using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Equivalency.Specs;
+namespace FluentAssertionsAsync.Equivalency.Specs;
 
 /// <summary>
 /// Test Class containing specs over the extensibility points of Should().BeEquivalentToAsync

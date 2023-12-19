@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 /// <content>
 /// The EndWith specs.
@@ -23,7 +23,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().EndWith("ryan", "of some reason");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected*end*ryan*because of some reason*but*mike*");
         }
 
@@ -50,7 +50,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().EndWith(new[] { "bill", "ryan", "mike" }, "of some reason");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected*end*ryan*because of some reason*but*differs at index 2*");
         }
 
@@ -64,7 +64,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().EndWith((IEnumerable<string>)null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
+            act.Should().Throw<ArgumentNullException>()
                 .Which.ParamName.Should().Be("expectation");
         }
 
@@ -78,7 +78,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().EndWith((IEnumerable<string>)null, (_, _) => true);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
+            act.Should().Throw<ArgumentNullException>()
                 .Which.ParamName.Should().Be("expectation");
         }
 
@@ -94,7 +94,7 @@ public partial class CollectionAssertionSpecs
                 (s1, s2) => string.Equals(s1, s2, StringComparison.Ordinal), "of some reason");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected*end*ryan*because of some reason*but*differs at index 2*");
         }
 
@@ -190,7 +190,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().EndWith("john");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected*end*john*but*null*");
         }
 
@@ -208,7 +208,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected*end*john*but*collection*null*");
         }
 

@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 public partial class CollectionAssertionSpecs
 {
@@ -59,7 +59,7 @@ public partial class CollectionAssertionSpecs
             var act = () => collection.Should().NotContainItemsAssignableTo(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]

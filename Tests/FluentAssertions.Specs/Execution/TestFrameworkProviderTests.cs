@@ -1,10 +1,10 @@
 using System;
-using FluentAssertions.Common;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Execution;
+namespace FluentAssertionsAsync.Specs.Execution;
 
 public class TestFrameworkProviderTests
 {
@@ -19,7 +19,7 @@ public class TestFrameworkProviderTests
         Action act = () => testFrameworkProvider.Throw("MyMessage");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [Fact]
@@ -37,7 +37,7 @@ public class TestFrameworkProviderTests
         Action act = () => testFrameworkProvider.Throw("MyMessage");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public class TestFrameworkProviderTests
         Action act = () => testFrameworkProvider.Throw("MyMessage");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<InvalidOperationException>()
+        act.Should().Throw<InvalidOperationException>()
             .WithMessage("*the test framework 'foo' but this is not supported*");
     }
 
@@ -73,7 +73,7 @@ public class TestFrameworkProviderTests
         // Act
         Action act = () => testFrameworkProvider.Throw("MyMessage");
 
-        await await act.Should().ThrowAsyncAsync<InvalidOperationException>()
+        act.Should().Throw<InvalidOperationException>()
             .WithMessage("*test framework 'nunit' but the required assembly 'nunit.framework' could not be found*");
     }
 

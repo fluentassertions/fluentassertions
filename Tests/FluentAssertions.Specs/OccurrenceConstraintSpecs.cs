@@ -1,10 +1,10 @@
 ﻿using System;
-using FluentAssertions.Execution;
-using FluentAssertions.Extensions;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs;
+namespace FluentAssertionsAsync.Specs;
 
 public class OccurrenceConstraintSpecs
 {
@@ -101,7 +101,7 @@ public class OccurrenceConstraintSpecs
             .FailWith($"Expected occurrence to be {constraint.Mode} {constraint.ExpectedCount}, but it was {occurrences}");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Expected occurrence to be *, but it was *");
     }
 }

@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Numeric;
+namespace FluentAssertionsAsync.Specs.Numeric;
 
 public partial class NumericAssertionSpecs
 {
@@ -73,7 +73,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -88,7 +88,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*4*but found*1*");
         }
 
@@ -171,7 +171,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -186,7 +186,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*4*but found*1*");
         }
 
@@ -267,7 +267,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -282,7 +282,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*4*but found*1*");
         }
 
@@ -418,7 +418,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -433,7 +433,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*4*but found*1*");
         }
 
@@ -489,7 +489,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -504,7 +504,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*4*but found*1*");
         }
 
@@ -562,7 +562,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -577,7 +577,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*4*but found*1*");
         }
 
@@ -634,7 +634,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -649,7 +649,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*4*but found*1*");
         }
 
@@ -707,7 +707,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -722,7 +722,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*4*but found*1*");
         }
 
@@ -807,7 +807,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(distantValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -822,7 +822,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*3*but found*1*");
         }
 
@@ -905,7 +905,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(distantValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -920,7 +920,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*3*but found*1*");
         }
 
@@ -1002,7 +1002,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(distantValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -1017,7 +1017,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*3*but found*1*");
         }
 
@@ -1153,7 +1153,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(distantValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -1168,7 +1168,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*3*but found*1*");
         }
 
@@ -1225,7 +1225,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(distantValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -1240,7 +1240,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*3*but found*1*");
         }
 
@@ -1298,7 +1298,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(distantValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -1313,7 +1313,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*3*but found*1*");
         }
 
@@ -1370,7 +1370,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(distantValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -1385,7 +1385,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*3*but found*1*");
         }
 
@@ -1443,7 +1443,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(distantValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -1458,7 +1458,7 @@ public partial class NumericAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(nearbyValue, delta);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*be within*2*from*3*but found*1*");
         }
 

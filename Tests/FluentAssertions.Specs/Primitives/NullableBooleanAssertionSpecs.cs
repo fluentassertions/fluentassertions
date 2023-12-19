@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public class NullableBooleanAssertionSpecs
 {
@@ -36,7 +36,7 @@ public class NullableBooleanAssertionSpecs
         Action act = () => nullableBoolean.Should().HaveValue();
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [Fact]
@@ -49,7 +49,7 @@ public class NullableBooleanAssertionSpecs
         Action act = () => nullableBoolean.Should().NotBeNull();
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [Fact]
@@ -62,7 +62,7 @@ public class NullableBooleanAssertionSpecs
         Action act = () => nullableBoolean.Should().HaveValue("because we want to test the failure {0}", "message");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Expected a value because we want to test the failure message.");
     }
 
@@ -76,7 +76,7 @@ public class NullableBooleanAssertionSpecs
         Action act = () => nullableBoolean.Should().NotBeNull("because we want to test the failure {0}", "message");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Expected a value because we want to test the failure message.");
     }
 
@@ -110,7 +110,7 @@ public class NullableBooleanAssertionSpecs
         Action act = () => nullableBoolean.Should().NotHaveValue();
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [Fact]
@@ -123,7 +123,7 @@ public class NullableBooleanAssertionSpecs
         Action act = () => nullableBoolean.Should().BeNull();
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [Fact]
@@ -137,7 +137,7 @@ public class NullableBooleanAssertionSpecs
         Action act = () => nullableBoolean.Should().NotHaveValue("because we want to test the failure {0}", "message");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Did not expect a value because we want to test the failure message, but found True.");
     }
 
@@ -151,7 +151,7 @@ public class NullableBooleanAssertionSpecs
         Action act = () => nullableBoolean.Should().BeNull("because we want to test the failure {0}", "message");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Did not expect a value because we want to test the failure message, but found True.");
     }
 

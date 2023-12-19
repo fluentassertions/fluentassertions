@@ -2,11 +2,11 @@
 using System.Reflection;
 using AssemblyA;
 using AssemblyB;
-using FluentAssertions.Specs.Types;
+using FluentAssertionsAsync.Specs.Types;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Specialized;
+namespace FluentAssertionsAsync.Specs.Specialized;
 
 public class AssemblyAssertionSpecs
 {
@@ -52,7 +52,7 @@ public class AssemblyAssertionSpecs
             Action act = () => assemblyA.Should().NotReference(assemblyB);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -66,7 +66,7 @@ public class AssemblyAssertionSpecs
             Action act = () => assemblyA.Should().NotReference(assemblyB, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected assembly not to reference assembly \"AssemblyB\" *failure message*, but assemblyA is <null>.");
         }
@@ -81,7 +81,7 @@ public class AssemblyAssertionSpecs
             Action act = () => assemblyA.Should().NotReference(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("assembly");
         }
     }
@@ -128,7 +128,7 @@ public class AssemblyAssertionSpecs
             Action act = () => assemblyB.Should().Reference(assemblyA);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -142,7 +142,7 @@ public class AssemblyAssertionSpecs
             Action act = () => assemblyA.Should().Reference(assemblyB, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected assembly to reference assembly \"AssemblyB\" *failure message*, but assemblyA is <null>.");
         }
@@ -157,7 +157,7 @@ public class AssemblyAssertionSpecs
             Action act = () => assemblyA.Should().Reference(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("assembly");
         }
     }
@@ -191,7 +191,7 @@ public class AssemblyAssertionSpecs
                 "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage($"Expected assembly \"{thisAssembly.FullName}\" " +
                     "to define type \"FakeNamespace\".\"FakeName\" " +
                     "because we want to test the failure message, but it does not.");
@@ -209,7 +209,7 @@ public class AssemblyAssertionSpecs
                     "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected assembly to define type *.\"WellKnownClassWithAttribute\" *failure message*" +
                     ", but thisAssembly is <null>.");
@@ -225,7 +225,7 @@ public class AssemblyAssertionSpecs
             Action act = () => thisAssembly.Should().DefineType(GetType().Namespace, null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("name");
         }
 
@@ -239,7 +239,7 @@ public class AssemblyAssertionSpecs
             Action act = () => thisAssembly.Should().DefineType(GetType().Namespace, string.Empty);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }
@@ -285,7 +285,7 @@ public class AssemblyAssertionSpecs
             Action act = () => signedAssembly.Should().BeUnsigned("this assembly is never shipped");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect the assembly * to be signed because this assembly is never shipped, but it is.");
         }
 
@@ -299,7 +299,7 @@ public class AssemblyAssertionSpecs
             Action act = () => nullAssembly.Should().BeUnsigned();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Can't check for assembly signing if nullAssembly reference is <null>.");
         }
 
@@ -341,7 +341,7 @@ public class AssemblyAssertionSpecs
             Action act = () => unsignedAssembly.Should().BeSignedWithPublicKey("1234", "signing is part of the contract");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected assembly * to have public key \"1234\" because signing is part of the contract, but it is unsigned.");
         }
 
@@ -355,7 +355,7 @@ public class AssemblyAssertionSpecs
             Action act = () => signedAssembly.Should().BeSignedWithPublicKey("1234", "signing is part of the contract");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected assembly * to have public key \"1234\" because signing is part of the contract, but it has * instead.");
         }
 
@@ -369,7 +369,7 @@ public class AssemblyAssertionSpecs
             Action act = () => nullAssembly.Should().BeSignedWithPublicKey("1234");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Can't check for assembly signing if nullAssembly reference is <null>.");
         }
 

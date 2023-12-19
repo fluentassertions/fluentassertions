@@ -3,7 +3,7 @@ using System.Globalization;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Numeric;
+namespace FluentAssertionsAsync.Specs.Numeric;
 
 public class ComparableSpecs
 {
@@ -66,7 +66,7 @@ public class ComparableSpecs
             Action act = () => subject.Should().NotBe(other);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>(
+            act.Should().Throw<XunitException>(
                 "This is inconsistent with the behavior ObjectAssertions.Be but is how ComparableTypeAssertions.Be has always worked.");
         }
 
@@ -159,7 +159,7 @@ public class ComparableSpecs
             var expected = new CustomerDto(42);
 
             // Act / Assert
-            subject.Should().BeEquivalentToAsync(expected);
+            subject.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -170,7 +170,7 @@ public class ComparableSpecs
             var expected = new CustomerDto(42);
 
             // Act / Assert
-            subject.Should().BeEquivalentToAsync(expected)
+            subject.Should().BeEquivalentTo(expected)
                 .And.NotBeNull();
         }
 
@@ -182,7 +182,7 @@ public class ComparableSpecs
             var expected = new CustomerDto(42);
 
             // Act / Assert
-            subject.Should().BeEquivalentToAsync(expected, opt => opt)
+            subject.Should().BeEquivalentTo(expected, opt => opt)
                 .And.NotBeNull();
         }
 
@@ -198,7 +198,7 @@ public class ComparableSpecs
             };
 
             // Act / Assert
-            subject.Should().BeEquivalentToAsync(expected,
+            subject.Should().BeEquivalentTo(expected,
                 options => options.Excluding(x => x.SomeOtherProperty),
                 "they have the same property values");
         }
@@ -211,10 +211,10 @@ public class ComparableSpecs
             var expected = new AnotherCustomerDto(42);
 
             // Act
-            Action act = () => subject.Should().BeEquivalentToAsync(expected, config: null);
+            Action act = () => subject.Should().BeEquivalentTo(expected, config: null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("config");
         }
 
@@ -230,7 +230,7 @@ public class ComparableSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeEquivalentToAsync(expected, "they have the same property values");
+            Action act = () => subject.Should().BeEquivalentTo(expected, "they have the same property values");
 
             // Assert
             act
@@ -507,7 +507,7 @@ public class ComparableSpecs
             Action act = () => subject.Should().BeLessThan(other);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
     }
 
@@ -596,7 +596,7 @@ public class ComparableSpecs
             Action act = () => subject.Should().BeGreaterThan(other);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]

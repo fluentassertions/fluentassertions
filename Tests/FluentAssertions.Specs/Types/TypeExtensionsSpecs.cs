@@ -4,10 +4,10 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 using Xunit;
 
-namespace FluentAssertions.Specs.Types;
+namespace FluentAssertionsAsync.Specs.Types;
 
 public class TypeExtensionsSpecs
 {

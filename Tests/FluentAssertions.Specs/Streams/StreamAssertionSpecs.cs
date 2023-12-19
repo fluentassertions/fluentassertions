@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Streams;
+namespace FluentAssertionsAsync.Specs.Streams;
 
 public class StreamAssertionSpecs
 {
@@ -35,7 +35,7 @@ public class StreamAssertionSpecs
                 stream.Should().BeWritable("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream to be writable *failure message*, but it was not.");
         }
 
@@ -53,7 +53,7 @@ public class StreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream to be writable *failure message*, but found a <null> reference.");
         }
     }
@@ -85,7 +85,7 @@ public class StreamAssertionSpecs
                 stream.Should().NotBeWritable("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream not to be writable *failure message*, but it was.");
         }
 
@@ -103,7 +103,7 @@ public class StreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream not to be writable *failure message*, but found a <null> reference.");
         }
     }
@@ -135,7 +135,7 @@ public class StreamAssertionSpecs
                 stream.Should().BeSeekable("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream to be seekable *failure message*, but it was not.");
         }
 
@@ -153,7 +153,7 @@ public class StreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream to be seekable *failure message*, but found a <null> reference.");
         }
     }
@@ -185,7 +185,7 @@ public class StreamAssertionSpecs
                 stream.Should().NotBeSeekable("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream not to be seekable *failure message*, but it was.");
         }
 
@@ -203,7 +203,7 @@ public class StreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream not to be seekable *failure message*, but found a <null> reference.");
         }
     }
@@ -235,7 +235,7 @@ public class StreamAssertionSpecs
                 stream.Should().BeReadable("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream to be readable *failure message*, but it was not.");
         }
 
@@ -253,7 +253,7 @@ public class StreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream to be readable *failure message*, but found a <null> reference.");
         }
     }
@@ -285,7 +285,7 @@ public class StreamAssertionSpecs
                 stream.Should().NotBeReadable("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream not to be readable *failure message*, but it was.");
         }
 
@@ -303,7 +303,7 @@ public class StreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream not to be readable *failure message*, but found a <null> reference.");
         }
     }
@@ -335,7 +335,7 @@ public class StreamAssertionSpecs
                 stream.Should().HavePosition(10, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the position of stream to be 10* *failure message*, but it was 1*.");
         }
 
@@ -353,7 +353,7 @@ public class StreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the position of stream to be 10* *failure message*, but found a <null> reference.");
         }
 
@@ -369,7 +369,7 @@ public class StreamAssertionSpecs
                 stream.Should().HavePosition(10, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the position of stream to be 10* *failure message*, " +
                     "but it failed with*GetPositionExceptionMessage*");
         }
@@ -402,7 +402,7 @@ public class StreamAssertionSpecs
                 stream.Should().NotHavePosition(10, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the position of stream not to be 10* *failure message*, but it was.");
         }
 
@@ -420,7 +420,7 @@ public class StreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the position of stream not to be 10* *failure message*, but found a <null> reference.");
         }
 
@@ -436,7 +436,7 @@ public class StreamAssertionSpecs
                 stream.Should().NotHavePosition(10, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the position of stream not to be 10* *failure message*, " +
                     "but it failed with*GetPositionExceptionMessage*");
         }
@@ -477,7 +477,7 @@ public class StreamAssertionSpecs
                 stream.Should().HaveLength(10, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the length of stream to be 10* *failure message*, but it was 1*.");
         }
 
@@ -495,7 +495,7 @@ public class StreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the length of stream to be 10* *failure message*, but found a <null> reference.");
         }
 
@@ -511,7 +511,7 @@ public class StreamAssertionSpecs
                 stream.Should().HaveLength(10, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the length of stream to be 10* *failure message*, " +
                     "but it failed with*GetLengthExceptionMessage*");
         }
@@ -544,7 +544,7 @@ public class StreamAssertionSpecs
                 stream.Should().NotHaveLength(10, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the length of stream not to be 10* *failure message*, but it was.");
         }
 
@@ -562,7 +562,7 @@ public class StreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the length of stream not to be 10* *failure message*, but found a <null> reference.");
         }
 
@@ -578,7 +578,7 @@ public class StreamAssertionSpecs
                 stream.Should().NotHaveLength(10, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the length of stream not to be 10* *failure message*, " +
                     "but it failed with*GetLengthExceptionMessage*");
         }
@@ -619,7 +619,7 @@ public class StreamAssertionSpecs
                 stream.Should().BeReadOnly("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream to be read-only *failure message*, but it was writable or not readable.");
         }
 
@@ -634,7 +634,7 @@ public class StreamAssertionSpecs
                 stream.Should().BeReadOnly("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream to be read-only *failure message*, but it was writable or not readable.");
         }
 
@@ -652,7 +652,7 @@ public class StreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream to be read-only *failure message*, but found a <null> reference.");
         }
     }
@@ -698,7 +698,7 @@ public class StreamAssertionSpecs
                 stream.Should().NotBeReadOnly("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream not to be read-only *failure message*, but it was.");
         }
 
@@ -716,7 +716,7 @@ public class StreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream not to be read-only *failure message*, but found a <null> reference.");
         }
     }
@@ -748,7 +748,7 @@ public class StreamAssertionSpecs
                 stream.Should().BeWriteOnly("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream to be write-only *failure message*, but it was readable or not writable.");
         }
 
@@ -763,7 +763,7 @@ public class StreamAssertionSpecs
                 stream.Should().BeWriteOnly("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream to be write-only *failure message*, but it was readable or not writable.");
         }
 
@@ -781,7 +781,7 @@ public class StreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream to be write-only *failure message*, but found a <null> reference.");
         }
     }
@@ -827,7 +827,7 @@ public class StreamAssertionSpecs
                 stream.Should().NotBeWriteOnly("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream not to be write-only *failure message*, but it was.");
         }
 
@@ -845,7 +845,7 @@ public class StreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected stream not to be write-only *failure message*, but found a <null> reference.");
         }
     }

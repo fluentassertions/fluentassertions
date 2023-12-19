@@ -3,7 +3,7 @@ using System;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class TimeOnlyAssertionSpecs
 {
@@ -31,7 +31,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().NotHaveHours(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect the hours part of subject to be 15, but it was.");
         }
 
@@ -46,7 +46,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().HaveHours(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the hours part of subject to be 14, but found 15.");
         }
 
@@ -72,7 +72,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().HaveHours(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the hours part of subject to be 21, but found <null>.");
         }
 
@@ -87,7 +87,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().NotHaveHours(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect the hours part of subject to be 19, but found a <null> TimeOnly.");
         }
     }

@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 /// <content>
 /// The [Not]BeNullOrEmpty specs.
@@ -44,7 +44,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().BeNullOrEmpty("because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected collection to be null or empty because we want to test the failure message, but found {1, 2, 3}.");
         }
@@ -87,7 +87,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotBeNullOrEmpty();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -101,7 +101,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotBeNullOrEmpty();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]

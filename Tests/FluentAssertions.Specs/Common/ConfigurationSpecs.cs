@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 using Xunit;
 
-namespace FluentAssertions.Specs.Common;
+namespace FluentAssertionsAsync.Specs.Common;
 
 public class ConfigurationSpecs
 {
@@ -63,7 +63,7 @@ public class ConfigurationSpecs
         var act = () => sut.ValueFormatterDetectionMode;
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<InvalidOperationException>();
+        act.Should().Throw<InvalidOperationException>();
     }
 
     private class DummyConfigurationStore : IConfigurationStore

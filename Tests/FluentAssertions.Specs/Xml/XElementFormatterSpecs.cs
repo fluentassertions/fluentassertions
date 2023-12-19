@@ -1,8 +1,8 @@
 ﻿using System.Xml.Linq;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Formatting;
 using Xunit;
 
-namespace FluentAssertions.Specs.Xml;
+namespace FluentAssertionsAsync.Specs.Xml;
 
 public class XElementFormatterSpecs
 {

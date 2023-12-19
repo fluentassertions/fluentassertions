@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentAssertions.Common;
-using FluentAssertions.Specialized;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Specialized;
 
-namespace FluentAssertions.Specs;
+namespace FluentAssertionsAsync.Specs;
 
 internal static class AssertionExtensions
 {

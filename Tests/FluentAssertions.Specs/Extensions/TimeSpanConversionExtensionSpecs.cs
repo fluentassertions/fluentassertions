@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
-using FluentAssertions.Extensions;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 
-namespace FluentAssertions.Specs.Extensions;
+namespace FluentAssertionsAsync.Specs.Extensions;
 
 public class TimeSpanConversionExtensionSpecs
 {

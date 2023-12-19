@@ -1,8 +1,8 @@
 ﻿using System;
-using FluentAssertions.Extensions;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class DateTimeAssertionSpecs
 {

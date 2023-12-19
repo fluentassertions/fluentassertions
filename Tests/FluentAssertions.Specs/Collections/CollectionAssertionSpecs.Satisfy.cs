@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 /// <content>
 /// The Satisfy specs.
@@ -60,7 +60,7 @@ public partial class CollectionAssertionSpecs
                 element => element == 2);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 @"Expected collection to satisfy all predicates, but:
 *The following predicates did not have matching elements:
 *(element == 3)");
@@ -142,7 +142,7 @@ public partial class CollectionAssertionSpecs
                 becauseArgs: "args");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 @"Expected collection to satisfy all predicates because we want to test formatting (args), but:
 *The following predicates did not have matching elements:
 *(element.Text == ""two"") AndAlso (element.Number == 2)
@@ -162,7 +162,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().Satisfy(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentException>().WithMessage(
+            act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot verify against a <null> collection of predicates*");
         }
 
@@ -176,7 +176,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().Satisfy();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentException>().WithMessage(
+            act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot verify against an empty collection of predicates*");
         }
 
@@ -202,7 +202,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to satisfy all predicates because we want to test the failure message (args), but collection is <null>.");
         }
 
@@ -223,7 +223,7 @@ public partial class CollectionAssertionSpecs
                 becauseArgs: "args");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to satisfy all predicates because we want to test the failure message (args), but collection is empty.");
         }
 
@@ -238,7 +238,7 @@ public partial class CollectionAssertionSpecs
                 element => element == 2);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 @"Expected collection to satisfy all predicates, but:
 *The following elements did not match any predicate:
 *Index: 0, Element: 1

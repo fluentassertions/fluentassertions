@@ -3,7 +3,7 @@ using ExampleExtensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs;
+namespace FluentAssertionsAsync.Specs;
 
 public class ExtensibilitySpecs
 {
@@ -20,7 +20,7 @@ public class ExtensibilitySpecs
         Action act = () => myClient.Should().BeActive("because we don't work with old clients");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+        act.Should().Throw<XunitException>().WithMessage(
             "Expected myClient to be true because we don't work with old clients, but found False.");
     }
 
@@ -34,7 +34,7 @@ public class ExtensibilitySpecs
         Action act = () => palindrome.Should().BePalindromic();
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+        act.Should().Throw<XunitException>().WithMessage(
             "Expected palindrome to be*tneulf*");
     }
 }

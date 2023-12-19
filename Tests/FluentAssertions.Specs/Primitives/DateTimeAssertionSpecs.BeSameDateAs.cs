@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class DateTimeAssertionSpecs
 {
@@ -45,7 +45,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().BeSameDateAs(new DateTime(2009, 12, 31));
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected the date part of subject to be <2009-12-31>, but found a <null> DateTime.");
         }
 
@@ -59,7 +59,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().BeSameDateAs(new DateTime(2009, 12, 30));
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected the date part of subject to be <2009-12-30>, but found <2009-12-31>.");
         }
     }
@@ -76,7 +76,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().NotBeSameDateAs(new DateTime(2009, 12, 31));
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect the date part of subject to be <2009-12-31>, but it was.");
         }
 
@@ -91,7 +91,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().NotBeSameDateAs(new DateTime(2009, 12, 31, 11, 15, 11));
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect the date part of subject to be <2009-12-31>, but it was.");
         }
 
@@ -105,7 +105,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().NotBeSameDateAs(new DateTime(2009, 12, 31));
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect the date part of subject to be <2009-12-31>, but found a <null> DateTime.");
         }
 

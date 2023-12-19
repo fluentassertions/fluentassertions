@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 /// <content>
 /// The [Not]ContainAll specs.
@@ -18,7 +18,7 @@ public partial class StringAssertionSpecs
             Action act = () => "a".Should().ContainAll(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
+            act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
                 .WithParameterName("values");
         }
@@ -30,7 +30,7 @@ public partial class StringAssertionSpecs
             Action act = () => "a".Should().ContainAll();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentException>()
+            act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
                 .WithParameterName("values");
         }
@@ -141,7 +141,7 @@ public partial class StringAssertionSpecs
             Action act = () => "a".Should().NotContainAll(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
+            act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
                 .WithParameterName("values");
         }
@@ -153,7 +153,7 @@ public partial class StringAssertionSpecs
             Action act = () => "a".Should().NotContainAll();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentException>()
+            act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
                 .WithParameterName("values");
         }

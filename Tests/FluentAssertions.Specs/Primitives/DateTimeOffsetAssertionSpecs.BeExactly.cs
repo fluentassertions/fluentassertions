@@ -1,10 +1,10 @@
 ﻿using System;
-using FluentAssertions.Common;
-using FluentAssertions.Extensions;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class DateTimeOffsetAssertionSpecs
 {
@@ -43,7 +43,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => dateTime.Should().BeExactly(otherDateTime, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dateTime to be exactly <2012-03-09 23:00:00 +0h>*failure message, but it was <2012-03-10 +1h>.");
         }
 
@@ -58,7 +58,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => dateTime.Should().BeExactly(otherDateTime, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dateTime to be exactly <2012-03-09 23:00:00 +0h>*failure message, but it was <2012-03-10 +1h>.");
         }
 
@@ -153,7 +153,7 @@ public partial class DateTimeOffsetAssertionSpecs
                 () => dateTime.Should().NotBeExactly(sameDateTime, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect dateTime to be exactly <2012-03-10 +1h> because we want to test the failure message, but it was.");
         }
 
@@ -169,7 +169,7 @@ public partial class DateTimeOffsetAssertionSpecs
                 () => dateTime.Should().NotBeExactly(sameDateTime, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect dateTime to be exactly <2012-03-10 +1h> because we want to test the failure message, but it was.");
         }
 
@@ -185,7 +185,7 @@ public partial class DateTimeOffsetAssertionSpecs
                 () => subject.Should().BeExactly(TimeSpan.FromMinutes(20)).Before(target, "{0} minutes is enough", 20);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected subject <12:36:00 +0h> to be exactly 20m before <12:55:00 +0h> because 20 minutes is enough, but it is behind by 19m.");
         }
 

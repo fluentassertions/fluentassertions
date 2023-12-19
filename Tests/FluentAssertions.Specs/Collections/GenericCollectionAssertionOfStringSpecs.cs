@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Collections;
+using FluentAssertionsAsync.Collections;
 using Xunit;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 /// <summary>
 /// This part of the class contains assertions of general generic string collections
@@ -50,6 +50,6 @@ public partial class GenericCollectionAssertionOfStringSpecs
         // Assert
         action.Should().Throw<NotSupportedException>()
             .WithMessage(
-                "Equals is not part of Fluent Assertions. Did you mean BeSameAs(), Equal(), or BeEquivalentToAsync() instead?");
+                "Equals is not part of Fluent Assertions. Did you mean BeSameAs(), Equal(), or BeEquivalentTo() instead?");
     }
 }

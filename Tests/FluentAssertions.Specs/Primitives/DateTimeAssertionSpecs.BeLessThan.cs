@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Extensions;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class DateTimeAssertionSpecs
 {
@@ -21,7 +21,7 @@ public partial class DateTimeAssertionSpecs
                 () => subject.Should().BeLessThan(TimeSpan.FromSeconds(30)).After(target, "{0}s is the max", 30);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected subject <12:01:00> to be less than 30s after <12:00:30> because 30s is the max, but it is ahead by 30s.");
         }
 

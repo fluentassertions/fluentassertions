@@ -3,7 +3,7 @@ using System;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class TimeOnlyAssertionSpecs
 {

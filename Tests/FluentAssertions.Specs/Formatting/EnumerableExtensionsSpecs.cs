@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Formatting;
 using Xunit;
 
-namespace FluentAssertions.Specs.Formatting;
+namespace FluentAssertionsAsync.Specs.Formatting;
 
 public class EnumerableExtensionsSpecs
 {

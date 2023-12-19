@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 using Xunit;
 
-namespace FluentAssertions.Specs.Extensions;
+namespace FluentAssertionsAsync.Specs.Extensions;
 
 public class ObjectExtensionsSpecs
 {

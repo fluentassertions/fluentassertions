@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Types;
+namespace FluentAssertionsAsync.Specs.Types;
 
 /// <content>
 /// The [Not]HaveMethod specs.
@@ -42,7 +42,7 @@ public partial class TypeAssertionSpecs
                     "NonExistentMethod", new[] { typeof(int), typeof(Type) }, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected method *ClassWithNoMembers.NonExistentMethod(*.Int32, *.Type) to exist *failure message*" +
                     ", but it does not.");
@@ -60,7 +60,7 @@ public partial class TypeAssertionSpecs
                     "VoidMethod", new[] { typeof(int), typeof(Type) }, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected method *.ClassWithMembers.VoidMethod(*.Int32, *.Type) to exist *failure message*" +
                     ", but it does not.");
@@ -77,7 +77,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveMethod("Name", new[] { typeof(string) }, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected method type.Name(System.String) to exist *failure message*, but type is <null>.");
         }
 
@@ -92,7 +92,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveMethod(null, new[] { typeof(string) });
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("name");
         }
 
@@ -107,7 +107,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveMethod(string.Empty, new[] { typeof(string) });
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
 
@@ -122,7 +122,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveMethod("Name", null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("parameterTypes");
         }
     }
@@ -168,7 +168,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveMethod("VoidMethod", new Type[] { }, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected method Void *.ClassWithMembers.VoidMethod() to not exist *failure message*, but it does.");
         }
 
@@ -183,7 +183,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveMethod("Name", new[] { typeof(string) }, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected method type.Name(System.String) to not exist *failure message*, but type is <null>.");
         }
 
@@ -198,7 +198,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveMethod(null, new[] { typeof(string) });
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("name");
         }
 
@@ -213,7 +213,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveMethod(string.Empty, new[] { typeof(string) });
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
 
@@ -228,7 +228,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveMethod("Name", null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("parameterTypes");
         }
     }

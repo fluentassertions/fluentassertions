@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Common;
-using FluentAssertions.Numeric;
-using FluentAssertions.Primitives;
-using FluentAssertions.Specialized;
-using FluentAssertions.Types;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Numeric;
+using FluentAssertionsAsync.Primitives;
+using FluentAssertionsAsync.Specialized;
+using FluentAssertionsAsync.Types;
 using Xunit;
 
-namespace FluentAssertions.Specs;
+namespace FluentAssertionsAsync.Specs;
 
 public class AssertionExtensionsSpecs
 {
@@ -17,7 +17,7 @@ public class AssertionExtensionsSpecs
     public void Assertions_classes_override_equals()
     {
         // Arrange / Act
-        var equalsOverloads = AllTypes.From(typeof(FluentAssertions.AssertionExtensions).Assembly)
+        var equalsOverloads = AllTypes.From(typeof(FluentAssertionsAsync.AssertionExtensions).Assembly)
             .ThatAreClasses()
             .Where(t => t.IsPublic && t.Name.TrimEnd('`', '1', '2', '3').EndsWith("Assertions", StringComparison.Ordinal))
             .Select(e => GetMostParentType(e))
@@ -68,7 +68,7 @@ public class AssertionExtensionsSpecs
         Action act = () => obj.Equals(null);
 
         // Assert
-        await await act.Should().ThrowAsyncAsyncExactly<NotSupportedException>();
+        act.Should().ThrowExactly<NotSupportedException>();
     }
 
     [Theory]
@@ -94,7 +94,7 @@ public class AssertionExtensionsSpecs
     public void Fake_should_method_throws(Type type)
     {
         // Arrange
-        MethodInfo fakeOverload = AllTypes.From(typeof(FluentAssertions.AssertionExtensions).Assembly)
+        MethodInfo fakeOverload = AllTypes.From(typeof(FluentAssertionsAsync.AssertionExtensions).Assembly)
             .ThatAreClasses()
             .ThatAreStatic()
             .Where(t => t.IsPublic)
@@ -121,7 +121,7 @@ public class AssertionExtensionsSpecs
     public void Should_methods_have_a_matching_overload_to_guard_against_chaining_and_constraints()
     {
         // Arrange / Act
-        List<MethodInfo> shouldOverloads = AllTypes.From(typeof(FluentAssertions.AssertionExtensions).Assembly)
+        List<MethodInfo> shouldOverloads = AllTypes.From(typeof(FluentAssertionsAsync.AssertionExtensions).Assembly)
             .ThatAreClasses()
             .ThatAreStatic()
             .Where(t => t.IsPublic)
@@ -151,7 +151,7 @@ public class AssertionExtensionsSpecs
             .ToList();
 
         // Assert
-        fakeOverloads.Should().BeEquivalentToAsync(realOverloads, opt => opt
+        fakeOverloads.Should().BeEquivalentTo(realOverloads, opt => opt
                 .Using<Type>(ctx => ctx.Subject.Name.Should().Be(ctx.Expectation.Name))
                 .WhenTypeIs<Type>(),
             "AssertionExtensions.cs should have a guard overload of Should calling InvalidShouldCall()");

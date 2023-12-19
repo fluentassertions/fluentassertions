@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentAssertions.Specs.Common;
+namespace FluentAssertionsAsync.Specs.Common;
 
 /// <summary>
 /// Implements extensions to <see cref="TimeSpan"/>

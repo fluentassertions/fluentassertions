@@ -4,14 +4,14 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using FluentAssertions.Common;
-using FluentAssertions.Extensions;
-using FluentAssertions.Formatting;
-using FluentAssertions.Specs.Common;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Extensions;
+using FluentAssertionsAsync.Formatting;
+using FluentAssertionsAsync.Specs.Common;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Formatting;
+namespace FluentAssertionsAsync.Specs.Formatting;
 
 [Collection("FormatterSpecs")]
 public class FormatterSpecs
@@ -47,7 +47,7 @@ public class FormatterSpecs
         Action act = () => b.Should().BeNull();
 
         // Assert
-        var exception = await await act.Should().ThrowAsyncAsync<XunitException>().Which;
+        var exception = act.Should().Throw<XunitException>().Which;
         exception.Message.Should().NotContainEquivalentOf("cyclic");
     }
 
@@ -74,7 +74,7 @@ public class FormatterSpecs
         Action act = () => result.Should().Be(expectedJson);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*at*index 37*");
+        act.Should().Throw<XunitException>().WithMessage("*at*index 37*");
     }
 
     [Fact]
@@ -210,7 +210,7 @@ public class FormatterSpecs
             .And.Equal(expectedStuff, (t1, t2) => t1.StuffId == t2.StuffId && t1.Description == t2.Description);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage(
             """
             Expected stuff to be equal to
@@ -255,7 +255,7 @@ public class FormatterSpecs
         Action act = () => stuff.Should().BeNull();
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .Which.Message.Should().Be(
             """
             Expected stuff to be <null>, but found FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord
@@ -292,7 +292,7 @@ public class FormatterSpecs
         Action act = () => stuff.Should().Be(expectedStuff);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .Which.Message.Should().Be(
             """
             Expected stuff to be
@@ -343,10 +343,10 @@ public class FormatterSpecs
         };
 
         // Act
-        Action act = () => stuff.Should().BeEquivalentToAsync(expectedStuff);
+        Action act = () => stuff.Should().BeEquivalentTo(expectedStuff);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .Which.Message.Should().StartWith(
             """
             Expected stuff to be a collection with 1 item(s), but
@@ -388,7 +388,7 @@ public class FormatterSpecs
         Action act = () => stuff.Should().BeNull();
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .Which.Message.Should().Match("*but found { }*");
     }
 
@@ -404,7 +404,7 @@ public class FormatterSpecs
         Action act = () => stuff.Should().Be(expectedStuff);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .Which.Message.Should().Be(
             """
             Expected stuff to be equal to
@@ -440,7 +440,7 @@ public class FormatterSpecs
         Action act = () => stuff.Should().Be(expectedStuff);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .Which.Message.Should().Be(
             """
             Expected stuff to be

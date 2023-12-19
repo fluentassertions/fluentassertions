@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentAssertions.Extensions;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Specialized;
+namespace FluentAssertionsAsync.Specs.Specialized;
 
 public class TaskCompletionSourceAssertionSpecs
 {

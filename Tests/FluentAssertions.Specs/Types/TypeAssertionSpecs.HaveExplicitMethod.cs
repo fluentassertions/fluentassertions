@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Types;
+namespace FluentAssertionsAsync.Specs.Types;
 
 /// <content>
 /// The [Not]HaveExplicitMethod specs.
@@ -61,7 +61,7 @@ public partial class TypeAssertionSpecs
                     .HaveExplicitMethod(interfaceType, "ImplicitMethod", new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected *.ClassExplicitlyImplementingInterface to explicitly implement " +
                     "*.IExplicitInterface.ImplicitMethod(), but it does not.");
@@ -81,7 +81,7 @@ public partial class TypeAssertionSpecs
                     .HaveExplicitMethod(interfaceType, "NonExistentMethod", new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected *.ClassExplicitlyImplementingInterface to explicitly implement " +
                     "*.IExplicitInterface.NonExistentMethod(), but it does not.");
@@ -101,7 +101,7 @@ public partial class TypeAssertionSpecs
                     .HaveExplicitMethod(interfaceType, "NonExistentProperty", new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type *.ClassExplicitlyImplementingInterface to implement interface " +
                     "*.IDummyInterface, but it does not.");
@@ -119,7 +119,7 @@ public partial class TypeAssertionSpecs
                     typeof(IExplicitInterface), "ExplicitMethod", new Type[0], "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type to explicitly implement *.IExplicitInterface.ExplicitMethod() *failure message*" +
                     ", but type is <null>.");
@@ -136,7 +136,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitMethod(null, "ExplicitMethod", new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("interfaceType");
         }
 
@@ -151,7 +151,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitMethod(typeof(IExplicitInterface), "ExplicitMethod", null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("parameterTypes");
         }
 
@@ -166,7 +166,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitMethod(typeof(IExplicitInterface), null, new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("name");
         }
 
@@ -181,7 +181,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitMethod(typeof(IExplicitInterface), string.Empty, new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
 
@@ -194,7 +194,7 @@ public partial class TypeAssertionSpecs
                 typeof(ClassWithMembers).Should().HaveExplicitMethod(typeof(IExplicitInterface), "Foo", new Type[0]);
             };
 
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected type *ClassWithMembers* to*implement *IExplicitInterface, but it does not.");
         }
     }
@@ -228,7 +228,7 @@ public partial class TypeAssertionSpecs
                     "ExplicitMethod", new Type[0], "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type to explicitly implement *.IExplicitInterface.ExplicitMethod() *failure message*" +
                     ", but type is <null>.");
@@ -245,7 +245,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitMethod<IExplicitInterface>("ExplicitMethod", null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("parameterTypes");
         }
 
@@ -260,7 +260,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitMethod<IExplicitInterface>(null, new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("name");
         }
 
@@ -275,7 +275,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitMethod<IExplicitInterface>(string.Empty, new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }
@@ -296,7 +296,7 @@ public partial class TypeAssertionSpecs
                     .NotHaveExplicitMethod(interfaceType, "ExplicitMethod", new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected *.ClassExplicitlyImplementingInterface to not explicitly implement " +
                     "*.IExplicitInterface.ExplicitMethod(), but it does.");
@@ -317,7 +317,7 @@ public partial class TypeAssertionSpecs
                     .NotHaveExplicitMethod(interfaceType, "ExplicitImplicitMethod", new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected *.ClassExplicitlyImplementingInterface to not explicitly implement " +
                     "*.IExplicitInterface.ExplicitImplicitMethod(), but it does.");
@@ -371,7 +371,7 @@ public partial class TypeAssertionSpecs
                     .NotHaveExplicitMethod(interfaceType, "NonExistentMethod", new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type *.ClassExplicitlyImplementingInterface to implement interface *.IDummyInterface" +
                     ", but it does not.");
@@ -389,7 +389,7 @@ public partial class TypeAssertionSpecs
                     typeof(IExplicitInterface), "ExplicitMethod", new Type[0], "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type to not explicitly implement *.IExplicitInterface.ExplicitMethod() *failure message*" +
                     ", but type is <null>.");
@@ -406,7 +406,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitMethod(null, "ExplicitMethod", new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("interfaceType");
         }
 
@@ -421,7 +421,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitMethod(typeof(IExplicitInterface), "ExplicitMethod", null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("parameterTypes");
         }
 
@@ -436,7 +436,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitMethod(typeof(IExplicitInterface), null, new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("name");
         }
 
@@ -451,7 +451,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitMethod(typeof(IExplicitInterface), string.Empty, new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
 
@@ -465,7 +465,7 @@ public partial class TypeAssertionSpecs
                     .Should().NotHaveExplicitMethod(typeof(IExplicitInterface), "ExplicitMethod", new Type[0]);
             };
 
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected *ClassExplicitlyImplementingInterface* to not*implement " +
                     "*IExplicitInterface.ExplicitMethod(), but it does.");
         }
@@ -485,7 +485,7 @@ public partial class TypeAssertionSpecs
                     .NotHaveExplicitMethod<IExplicitInterface>("ExplicitMethod", new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected *.ClassExplicitlyImplementingInterface to not explicitly implement " +
                     "*.IExplicitInterface.ExplicitMethod(), but it does.");
@@ -503,7 +503,7 @@ public partial class TypeAssertionSpecs
                     "ExplicitMethod", new Type[0], "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type to not explicitly implement *.IExplicitInterface.ExplicitMethod() *failure message*" +
                     ", but type is <null>.");
@@ -520,7 +520,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitMethod<IExplicitInterface>("ExplicitMethod", null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("parameterTypes");
         }
 
@@ -535,7 +535,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitMethod<IExplicitInterface>(null, new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("name");
         }
 
@@ -550,7 +550,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitMethod<IExplicitInterface>(string.Empty, new Type[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }

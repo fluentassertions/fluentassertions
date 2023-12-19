@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace FluentAssertions.Specs;
+namespace FluentAssertionsAsync.Specs;
 
 public static class FindAssembly
 {

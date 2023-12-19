@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 /// <content>
 /// The [Not]BeNull specs.
@@ -32,7 +32,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => someCollection.Should().BeNull("because {0} is valid", "null");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected someCollection to be <null> because null is valid, but found {empty}.");
         }
     }
@@ -59,7 +59,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => someCollection.Should().NotBeNull("because {0} should not", "someCollection");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected someCollection not to be <null> because someCollection should not.");
         }
     }

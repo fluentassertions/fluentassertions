@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Extensions;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class DateTimeOffsetAssertionSpecs
 {
@@ -20,7 +20,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().BeMoreThan(TimeSpan.FromDays(1)).Before(target, "we like {0}", "that");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected subject <2009-10-01 +0h> to be more than 1d before <2009-10-02 +0h> because we like that, but it is behind by 1d.");
         }
 

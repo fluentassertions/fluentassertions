@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 public partial class GenericCollectionAssertionOfStringSpecs
 {
@@ -20,7 +20,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => subset.Should().BeSubsetOf(superset);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
+            act.Should().Throw<ArgumentNullException>().WithMessage(
                 "Cannot verify a subset against a <null> collection.*");
         }
 
@@ -50,7 +50,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
                 () => collection.Should().BeSubsetOf(collection1, "because we want to test the behaviour with a null subject");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to be a subset of {\"one\", \"two\", \"three\"} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -65,7 +65,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => subset.Should().BeSubsetOf(superset, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected subset to be a subset of {\"one\", \"two\", \"four\", \"five\"} because we want to test the failure message, " +
                 "but items {\"three\", \"six\"} are not part of the superset.");
         }
@@ -95,7 +95,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => subject.Should().NotBeSubsetOf(otherSet, "because I'm {0}", "mistaken");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect subject {\"one\", \"two\"} to be a subset of {\"one\", \"two\", \"three\"} because I'm mistaken.");
         }
 
@@ -121,7 +121,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => subject.Should().NotBeSubsetOf(otherSet);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect subject {empty} to be a subset of {\"one\", \"two\", \"three\"}.");
         }
 
@@ -137,7 +137,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
                 "because we want to test the behaviour with same objects");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect*to be a subset of*because we want to test the behaviour with same objects*but they both reference the same object.");
         }
     }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 public partial class GenericDictionaryAssertionSpecs
 {
@@ -38,7 +38,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().ContainKeys(new[] { 2, 3 }, "because {0}", "we do");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain keys {2, 3} because we do, but could not find {3}.");
         }
 
@@ -56,7 +56,7 @@ public partial class GenericDictionaryAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to contain keys {2, 3} because we do, but found <null>.");
         }
 
@@ -75,7 +75,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().ContainKeys();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentException>().WithMessage(
+            act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot verify key containment against an empty sequence*");
         }
     }
@@ -113,7 +113,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotContainKeys(new[] { 2, 3 }, "because {0}", "we do");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain keys {2, 3} because we do, but found {2}.");
         }
 
@@ -131,7 +131,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotContainKeys(new[] { 2 }, "because {0}", "we do");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain key 2 because we do.");
         }
 
@@ -149,7 +149,7 @@ public partial class GenericDictionaryAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to not contain keys {2} because we do, but found <null>.");
         }
 
@@ -168,7 +168,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotContainKeys();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentException>().WithMessage(
+            act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot verify key containment against an empty sequence*");
         }
 
@@ -205,7 +205,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotContainKeys("One", "Two");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
     }
 }

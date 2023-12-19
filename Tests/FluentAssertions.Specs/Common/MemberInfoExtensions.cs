@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace FluentAssertions.Specs.Common;
+namespace FluentAssertionsAsync.Specs.Common;
 
 internal static class MemberInfoExtensions
 {

@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 /// <content>
 /// The [Not]Match specs.
@@ -21,7 +21,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Match("h*earth!", "that's the universal greeting");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected subject to match*\"h*earth!\" because that's the universal greeting, but*\"hello world!\" does not.");
         }
@@ -49,7 +49,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Match(@"What\? Are you deaf\?");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to match*\"What\\? Are you deaf\\?\", but*\"What! Are you deaf!\" does not.");
         }
 
@@ -63,7 +63,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Match("*World*");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to match*\"*World*\", but*\"hello world\" does not.");
         }
 
@@ -77,7 +77,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Match(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithMessage("Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.*")
                 .WithParameterName("wildcardPattern");
         }
@@ -92,7 +92,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Match("*");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to match *, but found <null>.");
         }
 
@@ -106,7 +106,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Match(string.Empty);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage(
                     "Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.*")
                 .WithParameterName("wildcardPattern");
@@ -153,7 +153,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().NotMatch(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithMessage("Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.*")
                 .WithParameterName("wildcardPattern");
         }
@@ -168,7 +168,7 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().NotMatch(string.Empty);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage(
                     "Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.*")
                 .WithParameterName("wildcardPattern");

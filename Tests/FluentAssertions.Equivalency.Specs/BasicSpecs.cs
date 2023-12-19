@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using FluentAssertionsAsync;
 using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Equivalency.Specs;
+namespace FluentAssertionsAsync.Equivalency.Specs;
 
 public class BasicSpecs
 {

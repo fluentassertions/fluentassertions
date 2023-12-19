@@ -2,7 +2,7 @@
 using System;
 using Xunit;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class TimeOnlyAssertionSpecs
 {
@@ -60,7 +60,7 @@ public partial class TimeOnlyAssertionSpecs
         var act = () => someTimeOnly.Should().Equals(null);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<NotSupportedException>()
+        act.Should().Throw<NotSupportedException>()
             .WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
     }
 }

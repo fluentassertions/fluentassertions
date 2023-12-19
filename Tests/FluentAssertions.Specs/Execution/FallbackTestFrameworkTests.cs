@@ -1,7 +1,7 @@
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 
-namespace FluentAssertions.Specs.Execution;
+namespace FluentAssertionsAsync.Specs.Execution;
 
 public class FallbackTestFrameworkTests
 {

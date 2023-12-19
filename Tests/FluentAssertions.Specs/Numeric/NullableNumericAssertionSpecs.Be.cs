@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Numeric;
+namespace FluentAssertionsAsync.Specs.Numeric;
 
 public partial class NullableNumericAssertionSpecs
 {
@@ -41,7 +41,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => nullableIntegerA.Should().Be(nullableIntegerB);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -56,7 +56,7 @@ public partial class NullableNumericAssertionSpecs
                 nullableIntegerA.Should().Be(nullableIntegerB, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected*2 because we want to test the failure message, but found 1.");
         }
 

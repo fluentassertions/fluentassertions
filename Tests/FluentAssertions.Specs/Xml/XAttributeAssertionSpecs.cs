@@ -3,7 +3,7 @@ using System.Xml.Linq;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Xml;
+namespace FluentAssertionsAsync.Specs.Xml;
 
 public class XAttributeAssertionSpecs
 {
@@ -37,7 +37,7 @@ public class XAttributeAssertionSpecs
                 theAttribute.Should().Be(otherAttribute, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 $"Expected theAttribute to be {otherAttribute} because we want to test the failure message, but found {theAttribute}.");
         }
 
@@ -63,7 +63,7 @@ public class XAttributeAssertionSpecs
                 theAttribute.Should().Be(new XAttribute("name", "value"), "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected theAttribute to be name=\"value\" *failure message*, but found <null>.");
         }
 
@@ -76,7 +76,7 @@ public class XAttributeAssertionSpecs
             Action act = () => theAttribute.Should().Be(null, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected theAttribute to be <null> *failure message*, but found name=\"value\".");
         }
     }
@@ -110,7 +110,7 @@ public class XAttributeAssertionSpecs
                 theAttribute.Should().NotBe(sameXAttribute);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect theAttribute to be name=\"value\".");
         }
 
@@ -127,7 +127,7 @@ public class XAttributeAssertionSpecs
                 theAttribute.Should().NotBe(sameAttribute, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 $"Did not expect theAttribute to be {sameAttribute} because we want to test the failure message.");
         }
 
@@ -167,7 +167,7 @@ public class XAttributeAssertionSpecs
             Action act = () => theAttribute.Should().NotBe(null, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect theAttribute to be <null> *failure message*.");
         }
     }
@@ -199,7 +199,7 @@ public class XAttributeAssertionSpecs
                 theAttribute.Should().BeNull();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected theAttribute to be <null>, but found name=\"value\".");
         }
 
@@ -214,7 +214,7 @@ public class XAttributeAssertionSpecs
                 theAttribute.Should().BeNull("because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 $"Expected theAttribute to be <null> because we want to test the failure message, but found {theAttribute}.");
         }
     }
@@ -246,7 +246,7 @@ public class XAttributeAssertionSpecs
                 theAttribute.Should().NotBeNull();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected theAttribute not to be <null>.");
         }
 
@@ -261,7 +261,7 @@ public class XAttributeAssertionSpecs
                 theAttribute.Should().NotBeNull("because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected theAttribute not to be <null> because we want to test the failure message.");
         }
     }
@@ -293,7 +293,7 @@ public class XAttributeAssertionSpecs
                 theAttribute.Should().HaveValue("16");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected theAttribute \"age\" to have value \"16\", but found \"36\".");
         }
 
@@ -309,7 +309,7 @@ public class XAttributeAssertionSpecs
                 theAttribute.Should().HaveValue("16", "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected theAttribute \"age\" to have value \"16\" because we want to test the failure message, but found \"36\".");
         }
 
@@ -323,7 +323,7 @@ public class XAttributeAssertionSpecs
                 theAttribute.Should().HaveValue("value", "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the attribute to have value \"value\" *failure message*, but theAttribute is <null>.");
         }
     }

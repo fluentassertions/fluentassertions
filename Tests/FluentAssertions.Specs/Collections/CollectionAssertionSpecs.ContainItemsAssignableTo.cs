@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 /// <content>
 /// The ContainItemsAssignableTo specs.
@@ -51,7 +51,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to contain at least one element assignable to type \"System.String\" because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -65,7 +65,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().ContainItemsAssignableTo<int>();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected collection to contain at least one element assignable to type \"System.Int32\", but found {empty}.");
         }
@@ -77,7 +77,7 @@ public partial class CollectionAssertionSpecs
 
             Action act = () => collection.Should().ContainItemsAssignableTo<int>();
 
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected collection to contain at least one element assignable to type \"System.Int32\", but found {System.String, System.Decimal}.");
         }

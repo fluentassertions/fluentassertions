@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 /// <content>
 /// The [Not]Equal specs.
@@ -72,7 +72,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection1.Should().Equal(collection2, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection1 to be equal to {1, 2, 5} because we want to test the failure message, but {1, 2, 3} differs at index 2.");
         }
 
@@ -88,7 +88,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection1.Should().Equal(collection2, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection1 to be equal to {1, 2} because we want to test the failure message, but {1, 2, 3} contains 1 item(s) too many.");
         }
 
@@ -104,7 +104,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection1.Should().Equal(collection2, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection1 to be equal to {1, 2, 3, 4} because we want to test the failure message, but {1, 2, 3} contains 1 item(s) less.");
         }
 
@@ -119,7 +119,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection1.Should().Equal(collection2);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection1 to be equal to {{5, 6}, {7, 8}}, but {{1, 2}, {3, 4}} differs at index 0.");
         }
 
@@ -135,7 +135,7 @@ public partial class CollectionAssertionSpecs
                 collection.Should().Equal(collection1, "because we want to test the behaviour with a null subject");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to be equal to {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -151,7 +151,7 @@ public partial class CollectionAssertionSpecs
                 collection.Should().Equal(collection1, "because we want to test the behaviour with a null subject");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
+            act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare collection with <null>.*")
                 .WithParameterName("expectation");
         }
@@ -167,7 +167,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection1.Should().Equal(collection2);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection1 to be equal to {1, 2, 3}, but found empty collection.");
         }
 
@@ -182,7 +182,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection1.Should().Equal(collection2);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection1 to be equal to {empty}, but found {1, 2, 3}.");
         }
 
@@ -356,7 +356,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection1.Should().NotEqual(collection2);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect collections {1, 2, 3} and {1, 2, 3} to be equal.");
         }
 
@@ -371,7 +371,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection1.Should().NotEqual(collection2, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect collections {1, 2, 3} and {1, 2, 3} to be equal because we want to test the failure message.");
         }
 
@@ -390,7 +390,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collections not to be equal because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -406,7 +406,7 @@ public partial class CollectionAssertionSpecs
                 () => collection.Should().NotEqual(collection1, "because we want to test the behaviour with a null subject");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
+            act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare collection with <null>.*")
                 .WithParameterName("unexpected");
         }
@@ -422,7 +422,7 @@ public partial class CollectionAssertionSpecs
                 collection1.Should().NotEqual(collection2, "because we want to test the behaviour with same objects");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collections not to be equal because we want to test the behaviour with same objects, but they both reference the same object.");
         }
     }

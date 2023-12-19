@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentAssertions.Execution;
-using FluentAssertions.Extensions;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Extensions;
 #if NET47
-using FluentAssertions.Specs.Common;
+using FluentAssertionsAsync.Specs.Common;
 #endif
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Exceptions;
+namespace FluentAssertionsAsync.Specs.Exceptions;
 
 public class AsyncFunctionExceptionAssertionSpecs
 {
@@ -119,7 +119,7 @@ public class AsyncFunctionExceptionAssertionSpecs
         Func<Task> act = () => throw new AggregateException(new ArgumentException("That was wrong."));
 
         // Act & Assert
-        await await await act.Should().ThrowAsyncAsyncAsync<ArgumentException>().WithMessage("That was wrong.");
+        await act.Should().ThrowAsync<ArgumentException>().WithMessage("That was wrong.");
     }
 
     public partial class UIFacts
@@ -131,7 +131,7 @@ public class AsyncFunctionExceptionAssertionSpecs
             Func<Task> act = () => throw new AggregateException(new ArgumentException("That was wrong."));
 
             // Act & Assert
-            await await await act.Should().ThrowAsyncAsyncAsync<ArgumentException>().WithMessage("That was wrong.");
+            await act.Should().ThrowAsync<ArgumentException>().WithMessage("That was wrong.");
         }
     }
 
@@ -142,7 +142,7 @@ public class AsyncFunctionExceptionAssertionSpecs
         Func<Task> act = () => throw new AggregateException("That was wrong as well.");
 
         // Act & Assert
-        await await await act.Should().ThrowAsyncAsyncAsync<AggregateException>().WithMessage("That was wrong as well.");
+        await act.Should().ThrowAsync<AggregateException>().WithMessage("That was wrong as well.");
     }
 
     [Fact]
@@ -152,7 +152,7 @@ public class AsyncFunctionExceptionAssertionSpecs
         Func<Task> act = () => throw new AggregateException(new ArgumentException("That was wrong."));
 
         // Act & Assert
-        await await await act.Should().ThrowAsyncAsyncAsync<ArgumentException>()
+        await act.Should().ThrowAsync<ArgumentException>()
             .Where(i => i.Message == "That was wrong.");
     }
 
@@ -163,7 +163,7 @@ public class AsyncFunctionExceptionAssertionSpecs
         Func<Task> act = () => throw new AggregateException("That was wrong as well.");
 
         // Act & Assert
-        await await await act.Should().ThrowAsyncAsyncAsync<AggregateException>()
+        await act.Should().ThrowAsync<AggregateException>()
             .Where(i => i.Message == "That was wrong as well.");
     }
 
@@ -1105,7 +1105,7 @@ public class AsyncFunctionExceptionAssertionSpecs
                 .WithParameterName("someParameter", "we want to test the failure {0}", "message");
 
         // Assert
-        await await await act.Should().ThrowAsyncAsyncAsync<XunitException>()
+        await act.Should().ThrowAsync<XunitException>()
             .WithMessage("*with parameter name \"someParameter\"*we want to test the failure message*\"someOtherParameter\"*");
     }
 
@@ -1184,7 +1184,7 @@ public class AsyncFunctionExceptionAssertionSpecs
         Func<Task> act = () => someFunc.Should().NotThrowAfterAsync(waitTime, pollInterval);
 
         // Assert
-        await await await act.Should().ThrowAsyncAsyncAsync<ArgumentOutOfRangeException>()
+        await act.Should().ThrowAsync<ArgumentOutOfRangeException>()
             .WithParameterName("waitTime")
             .WithMessage("*must be non-negative*");
     }
@@ -1203,7 +1203,7 @@ public class AsyncFunctionExceptionAssertionSpecs
         Func<Task> act = () => someFunc.Should().NotThrowAfterAsync(waitTime, pollInterval);
 
         // Assert
-        await await await act.Should().ThrowAsyncAsyncAsync<ArgumentOutOfRangeException>()
+        await act.Should().ThrowAsync<ArgumentOutOfRangeException>()
             .WithParameterName("pollInterval")
             .WithMessage("*must be non-negative*");
     }

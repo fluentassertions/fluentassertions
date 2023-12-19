@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class DateTimeAssertionSpecs
 {
@@ -47,7 +47,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().BeOnOrBefore(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to be on or before <2016-06-03>, but found <2016-06-04>.");
         }
     }
@@ -65,7 +65,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().NotBeOnOrBefore(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to be after <2016-06-05>, but found <2016-06-04>.");
         }
 
@@ -80,7 +80,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().NotBeOnOrBefore(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to be after <2016-06-04>, but found <2016-06-04>.");
         }
 

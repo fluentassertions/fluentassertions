@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 public partial class GenericCollectionAssertionOfStringSpecs
 {
@@ -19,7 +19,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => collection.Should().Contain(new[] { "three", "four", "five" }, "because {0}", "we do");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {\"one\", \"two\", \"three\"} to contain {\"three\", \"four\", \"five\"} because we do, but could not find {\"four\", \"five\"}.");
         }
 
@@ -33,7 +33,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => collection.Should().Contain("four", "because {0}", "we do");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {\"one\", \"two\", \"three\"} to contain \"four\" because we do.");
         }
 
@@ -88,7 +88,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => collection.Should().Contain(new string[0]);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentException>().WithMessage(
+            act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot verify containment against an empty collection*");
         }
 
@@ -102,7 +102,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => collection.Should().Contain("one").Which.Should().HaveLength(4);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected*length*4*3*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*length*4*3*");
         }
     }
 
@@ -119,7 +119,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
                 .NotContain("one", "because we want to test the behaviour with a null subject");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to not contain \"one\" because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -133,7 +133,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => collection.Should().NotContain("one", "because we {0} like it, but found it anyhow", "don't");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {\"one\", \"two\", \"three\"} to not contain \"one\" because we don't like it, but found it anyhow.");
         }
 
@@ -147,7 +147,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => collection.Should().NotContain(item => item == "two", "because {0}s are evil", "two");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {\"one\", \"two\", \"three\"} to not have any items matching (item == \"two\") because twos are evil,*{\"two\"}*");
         }
 

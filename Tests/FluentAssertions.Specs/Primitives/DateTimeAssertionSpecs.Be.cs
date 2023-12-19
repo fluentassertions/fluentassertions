@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Extensions;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class DateTimeAssertionSpecs
 {
@@ -76,7 +76,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => dateTime.Should().Be(otherDateTime, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected dateTime to be <2012-03-11>*failure message, but found <2012-03-10>.");
         }
 
@@ -91,7 +91,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => dateTime.Should().Be(otherDateTime, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected dateTime to be <2012-03-11>*failure message, but found <2012-03-10>.");
         }
 
@@ -229,7 +229,7 @@ public partial class DateTimeAssertionSpecs
                 () => dateTime.Should().NotBe(sameDateTime, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected dateTime not to be <2012-03-10 10:00:00> because we want to test the failure message, but it is.");
         }
@@ -246,7 +246,7 @@ public partial class DateTimeAssertionSpecs
                 () => dateTime.Should().NotBe(sameDateTime, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected dateTime not to be <2012-03-10 10:00:00> because we want to test the failure message, but it is.");
         }

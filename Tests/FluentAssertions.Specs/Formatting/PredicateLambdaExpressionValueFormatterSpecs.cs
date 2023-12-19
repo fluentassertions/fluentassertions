@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Formatting;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Formatting;
+namespace FluentAssertionsAsync.Specs.Formatting;
 
 public class PredicateLambdaExpressionValueFormatterSpecs
 {
@@ -111,7 +111,7 @@ public class PredicateLambdaExpressionValueFormatterSpecs
         Action act = () => subject.Should().Match<ClassWithNullables>(e => e.Number > 43);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("*e.Number > *43*");
     }
 

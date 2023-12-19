@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 /// <content>
 /// The ContainSingle specs.
@@ -23,7 +23,7 @@ public partial class CollectionAssertionSpecs
         Action act = () => collection.Should().ContainSingle(predicate: null);
 
         // Assert
-        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+        act.Should().ThrowExactly<ArgumentNullException>()
             .WithParameterName("predicate");
     }
 
@@ -55,7 +55,7 @@ public partial class CollectionAssertionSpecs
         string expectedMessage =
             "Expected collection to contain a single item matching (item == 2), but the collection is empty.";
 
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(expectedMessage);
+        act.Should().Throw<XunitException>().WithMessage(expectedMessage);
     }
 
     [Fact]
@@ -76,7 +76,7 @@ public partial class CollectionAssertionSpecs
         string expectedMessage =
             "Expected collection to contain a single item matching (item == 2), but found <null>.";
 
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(expectedMessage);
+        act.Should().Throw<XunitException>().WithMessage(expectedMessage);
     }
 
     [Fact]
@@ -93,7 +93,7 @@ public partial class CollectionAssertionSpecs
         string expectedMessage =
             "Expected collection to contain a single item matching (item == 2), but no such item was found.";
 
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(expectedMessage);
+        act.Should().Throw<XunitException>().WithMessage(expectedMessage);
     }
 
     [Fact]
@@ -110,7 +110,7 @@ public partial class CollectionAssertionSpecs
         string expectedMessage =
             "Expected collection to contain a single item matching (item == 2), but 3 such items were found.";
 
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(expectedMessage);
+        act.Should().Throw<XunitException>().WithMessage(expectedMessage);
     }
 
     [Fact]
@@ -123,7 +123,7 @@ public partial class CollectionAssertionSpecs
         Action act = () => collection.Should().ContainSingle(item => item == 2).Which.Should().BeGreaterThan(4);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected*greater*4*2*");
+        act.Should().Throw<XunitException>().WithMessage("Expected*greater*4*2*");
     }
 
     [Fact]
@@ -136,7 +136,7 @@ public partial class CollectionAssertionSpecs
         Action act = () => collection.Should().ContainSingle(item => item == "{123}");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+        act.Should().Throw<XunitException>().WithMessage(
             "Expected collection to contain a single item matching (item == \"{123}\"), but no such item was found.");
     }
 
@@ -150,7 +150,7 @@ public partial class CollectionAssertionSpecs
         Action act = () => collection.Should().ContainSingle(item => item == $"{123}");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+        act.Should().Throw<XunitException>().WithMessage(
             "Expected collection to contain a single item matching (item == \"123\"), but no such item was found.");
     }
 
@@ -177,7 +177,7 @@ public partial class CollectionAssertionSpecs
         Action act = () => collection.Should().ContainSingle("more is not allowed");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage(
                 "Expected collection to contain a single item because more is not allowed, but the collection is empty.");
     }
@@ -196,7 +196,7 @@ public partial class CollectionAssertionSpecs
         };
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Expected collection to contain a single item because more is not allowed, but found <null>.");
     }
 
@@ -212,7 +212,7 @@ public partial class CollectionAssertionSpecs
         // Assert
         const string expectedMessage = "Expected collection to contain a single item, but found {1, 3}.";
 
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(expectedMessage);
+        act.Should().Throw<XunitException>().WithMessage(expectedMessage);
     }
 
     [Fact]
@@ -227,7 +227,7 @@ public partial class CollectionAssertionSpecs
         // Assert
         const string expectedMessage = "Expected collection to contain a single item, but found {1, 2}.";
 
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(expectedMessage);
+        act.Should().Throw<XunitException>().WithMessage(expectedMessage);
     }
 
     [Fact]
@@ -242,7 +242,7 @@ public partial class CollectionAssertionSpecs
         // Assert
         const string expectedMessage = "Expected collection to be greater than 4, but found 3.";
 
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(expectedMessage);
+        act.Should().Throw<XunitException>().WithMessage(expectedMessage);
     }
 
     [Fact]
@@ -284,7 +284,7 @@ public partial class CollectionAssertionSpecs
         };
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Expected*to contain a single item, but the collection is empty*" +
                 "Expected*to contain a single item, but the collection is empty*");
     }

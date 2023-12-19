@@ -3,7 +3,7 @@ using System.Reflection;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public enum EnumULong : ulong
 {
@@ -42,7 +42,7 @@ public class EnumAssertionSpecs
             Action act = () => someObject.Should().HaveFlag(TestEnum.Three);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -55,7 +55,7 @@ public class EnumAssertionSpecs
             Action act = () => someObject.Should().HaveFlag(TestEnum.Three, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected*have flag TestEnum.Three {value: 4}*because we want to test the failure message*but found TestEnum.One|Two {value: 3}.");
         }
@@ -83,7 +83,7 @@ public class EnumAssertionSpecs
             Action act = () => someObject.Should().NotHaveFlag(TestEnum.Two, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected*someObject*to not have flag TestEnum.Two {value: 2}*because we want to test the failure message*");
         }
@@ -158,7 +158,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().Be(expected);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -172,7 +172,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().Be(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*subject*because we want to test the failure message*");
         }
 
@@ -186,7 +186,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().Be(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
     }
@@ -245,7 +245,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().NotBe(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
 
@@ -258,7 +258,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().NotBe(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
     }
@@ -291,7 +291,7 @@ public class EnumAssertionSpecs
             Action act = () => someObject.Should().HaveValue(3);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -304,7 +304,7 @@ public class EnumAssertionSpecs
             Action act = () => someObject.Should().HaveValue(3, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected*have value 3*because we want to test the failure message*but found*");
         }
 
@@ -332,7 +332,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().HaveValue("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
     }
@@ -359,7 +359,7 @@ public class EnumAssertionSpecs
             Action act = () => someObject.Should().NotHaveValue(1, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected*someObject*to not have value 1*because we want to test the failure message*");
         }
 
@@ -399,7 +399,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().NotHaveValue("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
     }
@@ -445,7 +445,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().HaveSameValueAs(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
 
@@ -458,7 +458,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().HaveSameValueAs(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
     }
@@ -502,7 +502,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().NotHaveSameValueAs(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
 
@@ -517,7 +517,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().NotHaveSameValueAs(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
     }
@@ -569,7 +569,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().HaveSameNameAs(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
 
@@ -582,7 +582,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().HaveSameNameAs(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
     }
@@ -626,7 +626,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().NotHaveSameNameAs(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
 
@@ -641,7 +641,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().NotHaveSameNameAs(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
     }
@@ -677,7 +677,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().BeNull("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
     }
@@ -708,7 +708,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().NotBeNull("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
     }
@@ -735,7 +735,7 @@ public class EnumAssertionSpecs
             Action act = () => flags.Should().Match(x => x == BindingFlags.Static, "that's what we need");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected*Static*because that's what we need*found*Public*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*Static*because that's what we need*found*Public*");
         }
 
         [Fact]
@@ -745,7 +745,7 @@ public class EnumAssertionSpecs
             Action act = () => BindingFlags.Public.Should().Match(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage("*null*predicate*");
+            act.Should().Throw<ArgumentNullException>().WithMessage("*null*predicate*");
         }
     }
 
@@ -827,7 +827,7 @@ public class EnumAssertionSpecs
             Action act = () => dayOfWeek.Should().BeDefined("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected *to be defined in*failure message*, but it is not*");
         }
 
@@ -841,7 +841,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().BeDefined();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected *to be defined in*, but found <null>.");
         }
     }
@@ -868,7 +868,7 @@ public class EnumAssertionSpecs
             Action act = () => dayOfWeek.Should().NotBeDefined();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect*to be defined in*, but it is.");
         }
 
@@ -882,7 +882,7 @@ public class EnumAssertionSpecs
             Action act = () => subject.Should().NotBeDefined();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect *to be defined in*, but found <null>.");
         }
     }

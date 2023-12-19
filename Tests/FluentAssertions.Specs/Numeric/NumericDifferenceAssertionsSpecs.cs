@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Numeric;
+namespace FluentAssertionsAsync.Specs.Numeric;
 
 public class NumericDifferenceAssertionsSpecs
 {

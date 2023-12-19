@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 /// <content>
 /// The AllBeOfType specs.
@@ -23,7 +23,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().AllBeOfType(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
+            act.Should().Throw<ArgumentNullException>()
                 .WithParameterName("expectedType");
         }
 
@@ -61,7 +61,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected type to be \"*.Object\" *failure message*, but found collection is <null>.");
         }
 
@@ -106,7 +106,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().AllBeOfType(typeof(Exception), "because they are of different type");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected type to be \"System.Exception\" because they are of different type, but found \"[System.Exception, System.ArgumentException]\".");
         }
 
@@ -120,7 +120,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().AllBeOfType<Exception>("because they are of different type");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected type to be \"System.Exception\" because they are of different type, but found \"[System.Exception, System.ArgumentException]\".");
         }
 
@@ -134,7 +134,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().AllBeOfType<int>("because they are of different type");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected type to be \"System.Int32\" because they are of different type, but found a null element.");
         }
 
@@ -168,7 +168,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().AllBeOfType<ArgumentException>();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected type to be \"System.ArgumentException\", but found \"[System.Exception, System.ArgumentException]\".");
         }
 
@@ -186,7 +186,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected type to be \"*.Object\" *failure message*, but found collection is <null>.");
         }
     }

@@ -1,11 +1,11 @@
 ﻿#if NET6_0_OR_GREATER
 using System;
 using System.IO;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Streams;
+namespace FluentAssertionsAsync.Specs.Streams;
 
 public class BufferedStreamAssertionSpecs
 {
@@ -36,7 +36,7 @@ public class BufferedStreamAssertionSpecs
                 stream.Should().HaveBufferSize(10, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the buffer size of stream to be 10 *failure message*, but it was 1.");
         }
 
@@ -54,7 +54,7 @@ public class BufferedStreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the buffer size of stream to be 10 *failure message*, but found a <null> reference.");
         }
     }
@@ -86,7 +86,7 @@ public class BufferedStreamAssertionSpecs
                 stream.Should().NotHaveBufferSize(10, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the buffer size of stream not to be 10 *failure message*, but it was.");
         }
 
@@ -104,7 +104,7 @@ public class BufferedStreamAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the buffer size of stream not to be 10 *failure message*, but found a <null> reference.");
         }
     }

@@ -1,10 +1,10 @@
 ﻿using System;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Primitives;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs;
+namespace FluentAssertionsAsync.Specs;
 
 public class AssertionFailureSpecs
 {

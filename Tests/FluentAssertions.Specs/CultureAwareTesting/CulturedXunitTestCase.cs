@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.CultureAwareTesting;
+namespace FluentAssertionsAsync.Specs.CultureAwareTesting;
 
 public class CulturedXunitTestCase : XunitTestCase
 {

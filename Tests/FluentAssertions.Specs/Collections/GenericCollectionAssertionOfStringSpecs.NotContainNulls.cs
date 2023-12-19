@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 public partial class GenericCollectionAssertionOfStringSpecs
 {
@@ -19,7 +19,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => collection.Should().NotContainNulls("because we want to test the behaviour with a null subject");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to contain <null>s because we want to test the behaviour with a null subject, but collection is <null>.");
         }
 
@@ -33,7 +33,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => collection.Should().NotContainNulls("because they are {0}", "evil");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to contain <null>s*because they are evil*{1, 3}*");
         }
 
@@ -47,7 +47,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => collection.Should().NotContainNulls("because they are {0}", "evil");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to contain <null>s because they are evil, but found one at index 1.");
         }
 

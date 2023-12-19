@@ -1,12 +1,13 @@
 ﻿using System.Threading;
 using FluentAssertionsAsync.Extensibility;
+using FluentAssertionsAsync.Extensibility.Specs;
 
 // With specific initialization code to invoke before the first assertion happens
 [assembly: AssertionEngineInitializer(
-    typeof(FluentAssertions.Extensibility.Specs.AssertionEngineInitializer),
-    nameof(FluentAssertions.Extensibility.Specs.AssertionEngineInitializer.InitializeBeforeFirstAssertion))]
+    typeof(AssertionEngineInitializer),
+    nameof(AssertionEngineInitializer.InitializeBeforeFirstAssertion))]
 
-namespace FluentAssertions.Extensibility.Specs;
+namespace FluentAssertionsAsync.Extensibility.Specs;
 
 public static class AssertionEngineInitializer
 {

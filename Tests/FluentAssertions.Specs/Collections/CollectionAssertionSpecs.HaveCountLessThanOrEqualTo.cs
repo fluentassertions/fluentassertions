@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 /// <content>
 /// The HaveCountLessOrEqualTo specs.
@@ -32,7 +32,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveCountLessThanOrEqualTo(2);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -66,7 +66,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*at most*1*we want to test the behaviour with a null subject*found <null>*");
         }
 

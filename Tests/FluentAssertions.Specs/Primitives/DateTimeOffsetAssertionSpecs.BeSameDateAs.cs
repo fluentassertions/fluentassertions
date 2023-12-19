@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class DateTimeOffsetAssertionSpecs
 {
@@ -48,7 +48,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().BeSameDateAs(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected the date part of subject to be <2009-12-31>, but found a <null> DateTimeOffset.");
         }
 
@@ -63,7 +63,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().BeSameDateAs(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected the date part of subject to be <2009-12-30>, but it was <2009-12-31>.");
         }
 
@@ -92,7 +92,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().NotBeSameDateAs(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect the date part of subject to be <2009-12-31>, but it was.");
         }
 
@@ -107,7 +107,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().NotBeSameDateAs(expectation).And.Be(subject);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect the date part of subject to be <2009-12-31>, but it was.");
         }
 
@@ -123,7 +123,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().NotBeSameDateAs(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect the date part of subject to be <2009-12-31>, but it was.");
         }
 
@@ -138,7 +138,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => subject.Should().NotBeSameDateAs(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect the date part of subject to be <2009-12-31>, but found a <null> DateTimeOffset.");
         }
 

@@ -6,7 +6,7 @@ using TypeEnumerableExtensionsSpecs.BaseNamespace.Nested;
 using TypeEnumerableExtensionsSpecs.Internal;
 using Xunit;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertionsAsync.Specs
 {
     public class TypeEnumerableExtensionsSpecs
     {

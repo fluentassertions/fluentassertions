@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 #if NET8_0_OR_GREATER
-using ITimer = FluentAssertions.Common.ITimer;
+using ITimer = FluentAssertionsAsync.Common.ITimer;
 #endif
 
-namespace FluentAssertions.Specs;
+namespace FluentAssertionsAsync.Specs;
 
 /// <summary>
 /// Implementation of <see cref="IClock"/> for testing purposes only.

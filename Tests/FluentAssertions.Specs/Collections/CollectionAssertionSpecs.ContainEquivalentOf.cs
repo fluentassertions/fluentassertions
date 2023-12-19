@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 /// <content>
 /// The [Not]ContainEquivalentOf specs.
@@ -20,7 +20,7 @@ public partial class CollectionAssertionSpecs
             var collection = new[] { new Customer { Name = "Jane" }, item };
 
             // Act / Assert
-            collection.Should().ContainEquivalentOfAsync(item);
+            collection.Should().ContainEquivalentOf(item);
         }
 
         [Fact]
@@ -31,7 +31,7 @@ public partial class CollectionAssertionSpecs
             var item = new Customer { Name = "John" };
 
             // Act / Assert
-            collection.Should().ContainEquivalentOfAsync(item);
+            collection.Should().ContainEquivalentOf(item);
         }
 
         [Fact]
@@ -42,7 +42,7 @@ public partial class CollectionAssertionSpecs
             char item = 'c';
 
             // Act / Assert
-            collection.Should().ContainEquivalentOfAsync(item);
+            collection.Should().ContainEquivalentOf(item);
         }
 
         [Fact]
@@ -53,10 +53,10 @@ public partial class CollectionAssertionSpecs
             string item = "C";
 
             // Act
-            Action act = () => collection.Should().ContainEquivalentOfAsync(item);
+            Action act = () => collection.Should().ContainEquivalentOf(item);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected collection {\"a\", \"b\", \"c\"} to contain equivalent of \"C\".*");
         }
 
@@ -69,10 +69,10 @@ public partial class CollectionAssertionSpecs
 
             // Act
             Action act = () =>
-                collection.Should().ContainEquivalentOfAsync(item, "because we want to test the failure {0}", "message");
+                collection.Should().ContainEquivalentOf(item, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
         }
 
@@ -84,10 +84,10 @@ public partial class CollectionAssertionSpecs
             int item = 4;
 
             // Act
-            Action act = () => collection.Should().ContainEquivalentOfAsync(item);
+            Action act = () => collection.Should().ContainEquivalentOf(item);
 
             // Act / Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected collection {1, 2, 3} to contain equivalent of 4.*");
+            act.Should().Throw<XunitException>().WithMessage("Expected collection {1, 2, 3} to contain equivalent of 4.*");
         }
 
         [Fact]
@@ -101,11 +101,11 @@ public partial class CollectionAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                collection.Should().ContainEquivalentOfAsync(expectation, "because we want to test the behaviour with a null subject");
+                collection.Should().ContainEquivalentOf(expectation, "because we want to test the behaviour with a null subject");
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to contain equivalent of 1 because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -117,7 +117,7 @@ public partial class CollectionAssertionSpecs
             int? item = null;
 
             // Act
-            Action act = () => collection.Should().ContainEquivalentOfAsync(item);
+            Action act = () => collection.Should().ContainEquivalentOf(item);
 
             // Assert
             act.Should().NotThrow();
@@ -131,10 +131,10 @@ public partial class CollectionAssertionSpecs
             int? item = null;
 
             // Act
-            Action act = () => collection.Should().ContainEquivalentOfAsync(item);
+            Action act = () => collection.Should().ContainEquivalentOf(item);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected collection {1, 2, 3} to contain equivalent of <null>.*");
+            act.Should().Throw<XunitException>().WithMessage("Expected collection {1, 2, 3} to contain equivalent of <null>.*");
         }
 
         [Fact]
@@ -145,10 +145,10 @@ public partial class CollectionAssertionSpecs
             int item = 1;
 
             // Act
-            Action act = () => collection.Should().ContainEquivalentOfAsync(item);
+            Action act = () => collection.Should().ContainEquivalentOf(item);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected collection {empty} to contain equivalent of 1.*");
+            act.Should().Throw<XunitException>().WithMessage("Expected collection {empty} to contain equivalent of 1.*");
         }
 
         [Fact]
@@ -172,10 +172,10 @@ public partial class CollectionAssertionSpecs
             var item = new Customer { Name = "John", Age = 20 };
 
             // Act
-            Action act = () => subject.Should().ContainEquivalentOfAsync(item);
+            Action act = () => subject.Should().ContainEquivalentOf(item);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -199,7 +199,7 @@ public partial class CollectionAssertionSpecs
             var item = new Customer { Name = "John", Age = 20 };
 
             // Act / Assert
-            collection.Should().ContainEquivalentOfAsync(item, options => options.Including(x => x.Name));
+            collection.Should().ContainEquivalentOf(item, options => options.Including(x => x.Name));
         }
 
         [Fact]
@@ -223,10 +223,10 @@ public partial class CollectionAssertionSpecs
             var item = new Customer { Name = "John", Age = 21 };
 
             // Act
-            Action act = () => collection.Should().ContainEquivalentOfAsync(item, options => options.WithTracing());
+            Action act = () => collection.Should().ContainEquivalentOf(item, options => options.WithTracing());
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*Equivalency was proven*");
+            act.Should().Throw<XunitException>().WithMessage("*Equivalency was proven*");
         }
 
         [Fact]
@@ -237,10 +237,10 @@ public partial class CollectionAssertionSpecs
             object item = null;
 
             // Act
-            Action act = () => collection.Should().ContainEquivalentOfAsync(item, config: null);
+            Action act = () => collection.Should().ContainEquivalentOf(item, config: null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("config");
         }
 
@@ -252,7 +252,7 @@ public partial class CollectionAssertionSpecs
             object boxedValue = 2;
 
             // Act / Assert
-            collection.Should().ContainEquivalentOfAsync(boxedValue);
+            collection.Should().ContainEquivalentOf(boxedValue);
         }
     }
 
@@ -267,10 +267,10 @@ public partial class CollectionAssertionSpecs
 
             // Act
             Action act = () =>
-                collection.Should().NotContainEquivalentOfAsync(item, "because we want to test the failure {0}", "message");
+                collection.Should().NotContainEquivalentOf(item, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {0, 1} not to contain*because we want to test the failure message, " +
                 "but found one at index 1.*With configuration*");
         }
@@ -284,10 +284,10 @@ public partial class CollectionAssertionSpecs
 
             // Act
             Action act = () =>
-                collection.Should().NotContainEquivalentOfAsync(item, "because we want to test the failure {0}", "message");
+                collection.Should().NotContainEquivalentOf(item, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {0, 1, 1} not to contain*because we want to test the failure message, " +
                 "but found several at indices {1, 2}.*With configuration*");
         }
@@ -300,10 +300,10 @@ public partial class CollectionAssertionSpecs
             int[] collection = null;
 
             // Act
-            Action act = () => collection.Should().NotContainEquivalentOfAsync(item);
+            Action act = () => collection.Should().NotContainEquivalentOf(item);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected collection*not to contain*but collection is <null>.");
+            act.Should().Throw<XunitException>().WithMessage("Expected collection*not to contain*but collection is <null>.");
         }
 
         [Fact]
@@ -314,10 +314,10 @@ public partial class CollectionAssertionSpecs
             object item = null;
 
             // Act
-            Action act = () => collection.Should().NotContainEquivalentOfAsync(item, config: null);
+            Action act = () => collection.Should().NotContainEquivalentOf(item, config: null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("config");
         }
 
@@ -329,7 +329,7 @@ public partial class CollectionAssertionSpecs
             int item = 4;
 
             // Act / Assert
-            collection.Should().NotContainEquivalentOfAsync(item);
+            collection.Should().NotContainEquivalentOf(item);
         }
 
         [Fact]
@@ -342,11 +342,11 @@ public partial class CollectionAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                collection.Should().NotContainEquivalentOfAsync(1, config => config, "we want to test the failure {0}", "message");
+                collection.Should().NotContainEquivalentOf(1, config => config, "we want to test the failure {0}", "message");
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected collection not to contain *failure message*, but collection is <null>.");
         }
 
@@ -358,7 +358,7 @@ public partial class CollectionAssertionSpecs
             int item = 4;
 
             // Act / Assert
-            collection.Should().NotContainEquivalentOfAsync(item);
+            collection.Should().NotContainEquivalentOf(item);
         }
 
         [Fact]
@@ -382,10 +382,10 @@ public partial class CollectionAssertionSpecs
             var item = new Customer { Name = "John", Age = 20 };
 
             // Act
-            Action act = () => collection.Should().NotContainEquivalentOfAsync(item, options => options.Excluding(x => x.Age));
+            Action act = () => collection.Should().NotContainEquivalentOf(item, options => options.Excluding(x => x.Age));
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*Exclude*Age*");
+            act.Should().Throw<XunitException>().WithMessage("*Exclude*Age*");
         }
 
         [Fact]
@@ -400,14 +400,14 @@ public partial class CollectionAssertionSpecs
             {
                 using (new AssertionScope())
                 {
-                    collection.Should().NotContainEquivalentOfAsync(another, "because we want to test {0}", "first message")
+                    collection.Should().NotContainEquivalentOf(another, "because we want to test {0}", "first message")
                         .And
                         .HaveCount(4, "because we want to test {0}", "second message");
                 }
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected collection*not to contain*first message*but*.\n" +
+            act.Should().Throw<XunitException>().WithMessage("Expected collection*not to contain*first message*but*.\n" +
                 "Expected*4 item(s)*because*second message*but*.");
         }
     }

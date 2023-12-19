@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentAssertionsAsync;
 using FluentAssertionsAsync.Equivalency.Matching;
 using FluentAssertionsAsync.Equivalency.Ordering;
 using FluentAssertionsAsync.Equivalency.Selection;
 using Xunit;
 
-namespace FluentAssertions.Equivalency.Specs;
+namespace FluentAssertionsAsync.Equivalency.Specs;
 
 public partial class SelectionRulesSpecs
 {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using FluentAssertions.Extensions;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class ObjectAssertionSpecs
 {
@@ -21,7 +21,7 @@ public partial class ObjectAssertionSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeDataContractSerializableAsync();
+            Action act = () => subject.Should().BeDataContractSerializable();
 
             // Assert
             act.Should().NotThrow();
@@ -34,7 +34,7 @@ public partial class ObjectAssertionSpecs
             var subject = new NonDataContractSerializableClass();
 
             // Act
-            Action act = () => subject.Should().BeDataContractSerializableAsync("we need to store it on {0}", "disk");
+            Action act = () => subject.Should().BeDataContractSerializable("we need to store it on {0}", "disk");
 
             // Assert
             act
@@ -53,10 +53,10 @@ public partial class ObjectAssertionSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeDataContractSerializableAsync();
+            Action act = () => subject.Should().BeDataContractSerializable();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*to be serializable, but serialization failed with:*property subject.Name*to be*");
         }
 
@@ -72,7 +72,7 @@ public partial class ObjectAssertionSpecs
 
             // Act
             Action act = () => subject.Should()
-                .BeDataContractSerializableAsync<DataContractSerializableClassNotRestoringAllProperties>(
+                .BeDataContractSerializable<DataContractSerializableClassNotRestoringAllProperties>(
                     options => options.Excluding(x => x.Name));
 
             // Assert
@@ -87,11 +87,11 @@ public partial class ObjectAssertionSpecs
 
             // Act
             Action act = () => subject.Should()
-                .BeDataContractSerializableAsync<DataContractSerializableClassNotRestoringAllProperties>(
+                .BeDataContractSerializable<DataContractSerializableClassNotRestoringAllProperties>(
                     options: null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("options");
         }
     }

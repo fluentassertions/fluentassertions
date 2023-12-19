@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 public partial class GenericCollectionAssertionOfStringSpecs
 {
@@ -35,7 +35,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             }, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to satisfy all inspectors because we want to test the failure message, but some inspectors are not satisfied"
                 + "*John*Jack"
                 + "*Jane*Jessica*");

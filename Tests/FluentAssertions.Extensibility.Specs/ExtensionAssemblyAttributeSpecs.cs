@@ -1,6 +1,4 @@
-﻿using FluentAssertionsAsync;
-
-namespace FluentAssertions.Extensibility.Specs;
+﻿namespace FluentAssertionsAsync.Extensibility.Specs;
 
 public class ExtensionAssemblyAttributeSpecs
 {

@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace FluentAssertions.Specs.Types
+namespace FluentAssertionsAsync.Specs.Types
 {
     /// <summary>
     /// Type assertion specs.

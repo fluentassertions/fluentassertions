@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Numeric;
+namespace FluentAssertionsAsync.Specs.Numeric;
 
 public partial class NumericAssertionSpecs
 {
@@ -28,7 +28,7 @@ public partial class NumericAssertionSpecs
             Action act = () => value.Should().Match(o => o == 0, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected value to match (o == 0) because we want to test the failure message, but found 1.");
         }
 
@@ -42,7 +42,7 @@ public partial class NumericAssertionSpecs
             Action act = () => value.Should().Match(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("predicate");
         }
     }

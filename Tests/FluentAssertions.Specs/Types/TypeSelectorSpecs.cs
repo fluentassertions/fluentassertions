@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using FluentAssertions.Types;
+using FluentAssertionsAsync.Types;
 using Internal.AbstractAndNotAbstractClasses.Test;
 using Internal.InterfaceAndClasses.Test;
 using Internal.Main.Test;
@@ -17,7 +17,7 @@ using Internal.UnwrapSelectorTestTypes.Test;
 using Internal.ValueTypesAndNotValueTypes.Test;
 using Xunit;
 
-namespace FluentAssertions.Specs.Types
+namespace FluentAssertionsAsync.Specs.Types
 {
     public class TypeSelectorSpecs
     {
@@ -31,7 +31,7 @@ namespace FluentAssertions.Specs.Types
             Action act = () => propertyInfoSelector = new TypeSelector((Type)null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("types");
         }
 
@@ -45,7 +45,7 @@ namespace FluentAssertions.Specs.Types
             Action act = () => propertyInfoSelector = new TypeSelector((Type[])null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("types");
         }
 
@@ -59,7 +59,7 @@ namespace FluentAssertions.Specs.Types
             var act = () => propertyInfoSelector.Should();
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("typeSelector");
         }
 
@@ -667,7 +667,7 @@ namespace FluentAssertions.Specs.Types
                 .UnwrapTaskTypes();
 
             types.Should()
-                .BeEquivalentToAsync(new[] { typeof(int), typeof(void), typeof(void), typeof(string), typeof(bool) });
+                .BeEquivalentTo(new[] { typeof(int), typeof(void), typeof(void), typeof(string), typeof(bool) });
         }
 
         [Fact]

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Xml;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Formatting;
 using Xunit;
 
-namespace FluentAssertions.Specs.Xml;
+namespace FluentAssertionsAsync.Specs.Xml;
 
 public class XmlNodeFormatterSpecs
 {

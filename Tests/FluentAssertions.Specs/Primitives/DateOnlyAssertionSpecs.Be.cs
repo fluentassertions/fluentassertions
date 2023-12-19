@@ -3,7 +3,7 @@ using System;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class DateOnlyAssertionSpecs
 {
@@ -64,7 +64,7 @@ public partial class DateOnlyAssertionSpecs
             Action act = () => dateOnly.Should().Be(otherDateOnly, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected dateOnly to be <2012-03-11>*failure message, but found <2012-03-10>.");
         }
 
@@ -170,7 +170,7 @@ public partial class DateOnlyAssertionSpecs
                 () => date.Should().NotBe(sameDate, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected date not to be <2020-06-04> because we want to test the failure message, but it is.");
         }
@@ -187,7 +187,7 @@ public partial class DateOnlyAssertionSpecs
                 () => date.Should().NotBe(sameDate, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected date not to be <2020-06-04> because we want to test the failure message, but it is.");
         }

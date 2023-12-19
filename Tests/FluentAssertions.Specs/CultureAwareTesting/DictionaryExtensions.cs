@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FluentAssertions.Specs.CultureAwareTesting;
+namespace FluentAssertionsAsync.Specs.CultureAwareTesting;
 
 internal static class DictionaryExtensions
 {

@@ -4,7 +4,7 @@ using System.Net.Http;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public class HttpResponseMessageAssertionSpecs
 {

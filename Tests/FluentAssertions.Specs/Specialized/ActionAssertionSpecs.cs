@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace FluentAssertions.Specs.Specialized;
+namespace FluentAssertionsAsync.Specs.Specialized;
 
 public class ActionAssertionSpecs
 {
@@ -15,7 +15,7 @@ public class ActionAssertionSpecs
         var act = void () => subject.Should(clock: null).NotThrow();
 
         // Assert
-        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+        act.Should().ThrowExactly<ArgumentNullException>()
             .WithParameterName("clock");
     }
 

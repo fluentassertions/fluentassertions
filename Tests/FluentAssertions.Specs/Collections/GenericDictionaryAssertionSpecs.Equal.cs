@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 public partial class GenericDictionaryAssertionSpecs
 {
@@ -70,7 +70,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary1 to be equal to {[1] = \"One\", [22] = \"Two\"} because we want to test the failure message, but could not find keys {22}.");
         }
 
@@ -95,7 +95,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Two\"} because we want to test the failure message, but found additional keys {3}.");
         }
 
@@ -119,7 +119,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Three\"} because we want to test the failure message, but {[1] = \"One\", [2] = \"Two\"} differs at key 2.");
         }
 
@@ -143,7 +143,7 @@ public partial class GenericDictionaryAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Two\"} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -164,7 +164,7 @@ public partial class GenericDictionaryAssertionSpecs
                 dictionary1.Should().Equal(dictionary2, "because we want to test the behaviour with a null subject");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
+            act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare dictionary with <null>.*")
                 .WithParameterName("expected");
         }
@@ -185,7 +185,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary1.Should().Equal(dictionary2);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Two\"}, but could not find keys {1, 2}.");
         }
     }
@@ -252,7 +252,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary1.Should().NotEqual(dictionary2);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect dictionaries {[1] = \"One\", [2] = \"Two\"} and {[1] = \"One\", [2] = \"Two\"} to be equal.");
         }
 
@@ -276,7 +276,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect dictionaries {[1] = \"One\", [2] = \"Two\"} and {[1] = \"One\", [2] = \"Two\"} to be equal because we want to test the failure message.");
         }
 
@@ -300,7 +300,7 @@ public partial class GenericDictionaryAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionaries not to be equal because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -321,7 +321,7 @@ public partial class GenericDictionaryAssertionSpecs
                 () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the behaviour with a null subject");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
+            act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare dictionary with <null>.*")
                 .WithParameterName("unexpected");
         }
@@ -344,7 +344,7 @@ public partial class GenericDictionaryAssertionSpecs
                 () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the behaviour with same objects");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionaries not to be equal because we want to test the behaviour with same objects, but they both reference the same object.");
         }
     }

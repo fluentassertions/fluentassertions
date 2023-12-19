@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Numeric;
+namespace FluentAssertionsAsync.Specs.Numeric;
 
 public partial class NumericAssertionSpecs
 {
@@ -31,7 +31,7 @@ public partial class NumericAssertionSpecs
             Action act = () => value.Should().BePositive();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -44,7 +44,7 @@ public partial class NumericAssertionSpecs
             Action act = () => value.Should().BePositive();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -57,7 +57,7 @@ public partial class NumericAssertionSpecs
             Action act = () => value.Should().BePositive();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*but found NaN*");
+            act.Should().Throw<XunitException>().WithMessage("*but found NaN*");
         }
 
         [Fact]
@@ -70,7 +70,7 @@ public partial class NumericAssertionSpecs
             Action act = () => value.Should().BePositive();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*but found NaN*");
+            act.Should().Throw<XunitException>().WithMessage("*but found NaN*");
         }
 
         [Fact]

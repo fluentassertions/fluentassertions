@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class DateTimeAssertionSpecs
 {
@@ -33,7 +33,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().HaveYear(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the year part of subject to be 2008, but found 2009.");
         }
 
@@ -48,7 +48,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().HaveYear(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the year part of subject to be 2008, but found <null>.");
         }
     }
@@ -66,7 +66,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().NotHaveYear(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect the year part of subject to be 2009, but it was.");
         }
 
@@ -95,7 +95,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().NotHaveYear(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect the year part of subject to be 2008, but found a <null> DateTime.");
         }
     }

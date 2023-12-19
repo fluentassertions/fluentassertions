@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using FluentAssertions.Execution;
-using FluentAssertions.Extensions;
-using FluentAssertions.Primitives;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Extensions;
+using FluentAssertionsAsync.Primitives;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public class ReferenceTypeAssertionsSpecs
 {
@@ -58,7 +58,7 @@ public class ReferenceTypeAssertionsSpecs
     {
         var subject = new SimpleComplexBase[] { new Simple(), new Complex("goodbye") };
         Action act = () => subject.Should().BeEmpty();
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage(
             """
             Expected subject to be empty, but found
@@ -94,7 +94,7 @@ public class ReferenceTypeAssertionsSpecs
         Action act = () => someObject.Should().NotBeSameAs(sameObject, "they are {0} {1}", "the", "same");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Did not expect someObject to refer to*ClassWithCustomEqualMethod(1) because they are the same.");
     }
 
@@ -183,7 +183,7 @@ public class ReferenceTypeAssertionsSpecs
         };
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage(
                 "Expected type to be System.Int32, but found System.String.*" +
                 "Expected type to be System.Int64, but found System.String.");
@@ -336,7 +336,7 @@ public class ReferenceTypeAssertionsSpecs
         Action act = () => someObject.Should().Match(o => o == null, "it is not initialized yet");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Expected someObject to match (o == null) because it is not initialized yet*");
     }
 
@@ -355,7 +355,7 @@ public class ReferenceTypeAssertionsSpecs
         Action act = () => someObject.Should().Match((SomeDto d) => d.Name.Length == 0, "it is not initialized yet");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+        act.Should().Throw<XunitException>().WithMessage(
             "Expected someObject to match (d.Name.Length == 0) because it is not initialized yet*");
     }
 
@@ -369,7 +369,7 @@ public class ReferenceTypeAssertionsSpecs
         Action act = () => someObject.Should().Match(null);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
+        act.Should().Throw<ArgumentNullException>().WithMessage(
             "Cannot match an object against a <null> predicate.*");
     }
 
@@ -397,7 +397,7 @@ public class ReferenceTypeAssertionsSpecs
         Action act = () => subject.Should().Be(other);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+        act.Should().Throw<XunitException>().WithMessage(
             "Expected subject to be*FluentAssertions*SomeDto*{*Age = 2*Birthdate = <2009-02-22>*" +
             "  Name = \"Teddie\"*}, but found*FluentAssertions*SomeDto*{*Age = 37*" +
             "  Birthdate = <1973-09-20>*Name = \"Dennis\"*}.");
@@ -414,7 +414,7 @@ public class ReferenceTypeAssertionsSpecs
         Action act = () => subject.Should().Be(other);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+        act.Should().Throw<XunitException>().WithMessage(
             "Expected subject to be 4, but found 3.");
     }
 
@@ -429,7 +429,7 @@ public class ReferenceTypeAssertionsSpecs
         Action act = () => subject.Should().Be(other);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage($"Expected subject to be System.Object (HashCode={other.GetHashCode()}), " +
                 $"but found System.Object (HashCode={subject.GetHashCode()}).");
     }

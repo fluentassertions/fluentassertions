@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 public partial class GenericCollectionAssertionOfStringSpecs
 {
@@ -20,7 +20,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => collection.Should().HaveSameCount(otherCollection);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
+            act.Should().Throw<ArgumentNullException>().WithMessage(
                 "Cannot verify count against a <null> collection.*");
         }
 
@@ -36,7 +36,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
                 "because we want to test the behaviour with a null subject");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to have the same count as {\"one\", \"two\", \"three\"} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -51,7 +51,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => firstCollection.Should().HaveSameCount(secondCollection);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected firstCollection to have 2 item(s), but found 3.");
         }
 
@@ -77,7 +77,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => firstCollection.Should().HaveSameCount(secondCollection, "we want to test the {0}", "reason");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected firstCollection to have 2 item(s) because we want to test the reason, but found 3.");
         }
     }
@@ -95,7 +95,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => collection.Should().NotHaveSameCount(otherCollection);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
+            act.Should().Throw<ArgumentNullException>().WithMessage(
                 "Cannot verify count against a <null> collection.*");
         }
 
@@ -111,7 +111,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
                 "because we want to test the behaviour with a null subject");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to not have the same count as {\"one\", \"two\", \"three\"} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -128,7 +128,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
                 "because we want to test the behaviour with same objects");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "*not have the same count*because we want to test the behaviour with same objects*but they both reference the same object.");
         }
 
@@ -143,7 +143,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => firstCollection.Should().NotHaveSameCount(secondCollection);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected firstCollection to not have 3 item(s), but found 3.");
         }
 
@@ -169,7 +169,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             Action act = () => firstCollection.Should().NotHaveSameCount(secondCollection, "we want to test the {0}", "reason");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected firstCollection to not have 3 item(s) because we want to test the reason, but found 3.");
         }
     }

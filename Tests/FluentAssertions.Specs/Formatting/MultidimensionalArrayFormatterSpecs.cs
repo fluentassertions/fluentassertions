@@ -1,8 +1,8 @@
 ﻿using System;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Formatting;
 using Xunit;
 
-namespace FluentAssertions.Specs.Formatting;
+namespace FluentAssertionsAsync.Specs.Formatting;
 
 [Collection("FormatterSpecs")]
 public class MultidimensionalArrayFormatterSpecs

@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Numeric;
+namespace FluentAssertionsAsync.Specs.Numeric;
 
 public partial class NumericAssertionSpecs
 {
@@ -47,7 +47,7 @@ public partial class NumericAssertionSpecs
             Action act = () => value.Should().BeLessThanOrEqualTo(smallerValue);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]

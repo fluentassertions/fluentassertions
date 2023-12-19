@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Types;
+namespace FluentAssertionsAsync.Specs.Types;
 
 /// <content>
 /// The [Not]BeSealed specs.
@@ -28,7 +28,7 @@ public partial class TypeAssertionSpecs
             Action act = () => type.Should().BeSealed();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(exceptionMessage);
         }
 
@@ -42,7 +42,7 @@ public partial class TypeAssertionSpecs
             Action act = () => type.Should().BeSealed("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected type *.ClassWithoutMembers to be sealed *failure message*.");
         }
 
@@ -56,7 +56,7 @@ public partial class TypeAssertionSpecs
             Action act = () => type.Should().BeSealed();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<InvalidOperationException>()
+            act.Should().Throw<InvalidOperationException>()
                 .WithMessage(exceptionMessage);
         }
 
@@ -71,7 +71,7 @@ public partial class TypeAssertionSpecs
                 type.Should().BeSealed("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected type to be sealed *failure message*, but type is <null>.");
         }
     }
@@ -98,7 +98,7 @@ public partial class TypeAssertionSpecs
             Action act = () => type.Should().NotBeSealed();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected type *.Sealed not to be sealed.");
         }
 
@@ -112,7 +112,7 @@ public partial class TypeAssertionSpecs
             Action act = () => type.Should().NotBeSealed("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected type *.Sealed not to be sealed *failure message*.");
         }
 
@@ -126,7 +126,7 @@ public partial class TypeAssertionSpecs
             Action act = () => type.Should().NotBeSealed();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<InvalidOperationException>()
+            act.Should().Throw<InvalidOperationException>()
                 .WithMessage(exceptionMessage);
         }
 
@@ -141,7 +141,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotBeSealed("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected type not to be sealed *failure message*, but type is <null>.");
         }
     }

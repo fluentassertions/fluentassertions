@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Numeric;
+namespace FluentAssertionsAsync.Specs.Numeric;
 
 public partial class NullableNumericAssertionSpecs
 {
@@ -18,7 +18,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BePositive();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*but found NaN*");
+            act.Should().Throw<XunitException>().WithMessage("*but found NaN*");
         }
 
         [Fact]
@@ -31,7 +31,7 @@ public partial class NullableNumericAssertionSpecs
             Action act = () => value.Should().BePositive();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*but found NaN*");
+            act.Should().Throw<XunitException>().WithMessage("*but found NaN*");
         }
     }
 }

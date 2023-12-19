@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 using Xunit;
 
-namespace FluentAssertions.Specs;
+namespace FluentAssertionsAsync.Specs;
 
 [Collection("ConfigurationSpecs")]
 public class ConfigurationSpecs

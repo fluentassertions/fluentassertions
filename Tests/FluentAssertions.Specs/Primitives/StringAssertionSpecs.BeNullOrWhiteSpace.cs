@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 /// <content>
 /// The [Not]BeNullOrWhiteSpace specs.
@@ -39,7 +39,7 @@ public partial class StringAssertionSpecs
                 " abc  ".Should().BeNullOrWhiteSpace();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected string to be <null> or whitespace, but found \" abc  \".");
         }
     }
@@ -57,7 +57,7 @@ public partial class StringAssertionSpecs
                 nullString.Should().NotBeNullOrWhiteSpace();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected nullString not to be <null> or whitespace, but found <null>.");
         }
 
@@ -69,7 +69,7 @@ public partial class StringAssertionSpecs
                 "".Should().NotBeNullOrWhiteSpace();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected string not to be <null> or whitespace, but found \"\".");
         }
 
@@ -81,7 +81,7 @@ public partial class StringAssertionSpecs
                 "   ".Should().NotBeNullOrWhiteSpace();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected string not to be <null> or whitespace, but found \"   \".");
         }
     }

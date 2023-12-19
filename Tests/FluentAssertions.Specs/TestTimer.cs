@@ -1,7 +1,7 @@
 ﻿using System;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 
-namespace FluentAssertions.Specs;
+namespace FluentAssertionsAsync.Specs;
 
 internal sealed class TestTimer : ITimer
 {

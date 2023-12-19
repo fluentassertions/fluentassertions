@@ -3,7 +3,7 @@ using System;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class TimeOnlyAssertionSpecs
 {
@@ -31,7 +31,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().BeBefore(expected);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to be before <15:06:04.000>, but found <15:06:04.000>.");
         }
 
@@ -68,7 +68,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().NotBeOnOrBefore(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to be after <15:06:05.340>, but found <15:06:04.150>.");
         }
 
@@ -95,7 +95,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().NotBeOnOrBefore(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to be after <15:06:04.123>, but found <15:06:04.123>.");
         }
 
@@ -110,7 +110,7 @@ public partial class TimeOnlyAssertionSpecs
             Action act = () => subject.Should().BeOnOrBefore(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to be on or before <15:06:00.000>, but found <15:07:00.000>.");
         }
 

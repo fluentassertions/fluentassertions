@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Specialized;
+namespace FluentAssertionsAsync.Specs.Specialized;
 
 public class AggregateExceptionAssertionSpecs
 {
@@ -18,7 +18,7 @@ public class AggregateExceptionAssertionSpecs
         Action act = () => throw exception;
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Background");
+        act.Should().Throw<XunitException>().WithMessage("Background");
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class AggregateExceptionAssertionSpecs
             .WithMessage("Something I expected");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("*InvalidOperation*You can't do this*")
             .WithMessage("*NullReferenceException*Found a null*");
     }
@@ -58,7 +58,7 @@ public class AggregateExceptionAssertionSpecs
         Action act = () => throwingOperation.Should().NotThrow();
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("*InvalidOperation*You can't do this*")
             .WithMessage("*NullReferenceException*Found a null*");
     }

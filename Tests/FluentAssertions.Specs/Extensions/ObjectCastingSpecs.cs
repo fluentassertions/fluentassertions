@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace FluentAssertions.Specs.Extensions;
+namespace FluentAssertionsAsync.Specs.Extensions;
 
 public class ObjectCastingSpecs
 {

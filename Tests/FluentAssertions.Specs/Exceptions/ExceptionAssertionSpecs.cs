@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Exceptions;
+namespace FluentAssertionsAsync.Specs.Exceptions;
 
 public class ExceptionAssertionSpecs
 {
@@ -105,7 +105,7 @@ public class ExceptionAssertionSpecs
         try
         {
             // Act
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>("because {0} should do that", "Does.Do");
+            act.Should().ThrowExactly<ArgumentException>("because {0} should do that", "Does.Do");
 
             throw new XunitException("This point should not be reached.");
         }
@@ -127,7 +127,7 @@ public class ExceptionAssertionSpecs
         try
         {
             // Act
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>("because {0} should do that", "Does.Do");
+            act.Should().ThrowExactly<ArgumentException>("because {0} should do that", "Does.Do");
 
             throw new XunitException("This point should not be reached.");
         }
@@ -147,7 +147,7 @@ public class ExceptionAssertionSpecs
         Action act = () => throw new ArgumentNullException();
 
         // Act / Assert
-        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>();
+        act.Should().ThrowExactly<ArgumentNullException>();
     }
 }
 

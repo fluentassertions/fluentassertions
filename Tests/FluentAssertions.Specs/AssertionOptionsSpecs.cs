@@ -3,14 +3,14 @@ using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using Chill;
-using FluentAssertions.Equivalency;
-using FluentAssertions.Equivalency.Steps;
-using FluentAssertions.Execution;
-using FluentAssertions.Formatting;
+using FluentAssertionsAsync.Equivalency;
+using FluentAssertionsAsync.Equivalency.Steps;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Formatting;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs;
+namespace FluentAssertionsAsync.Specs;
 
 public class AssertionOptionsSpecs
 {
@@ -79,7 +79,7 @@ public class AssertionOptionsSpecs
             Given(() =>
             {
                 // Trigger a first equivalency check using the default global settings
-                new MyValueType { Value = 1 }.Should().BeEquivalentToAsync(new MyValueType { Value = 2 });
+                new MyValueType { Value = 1 }.Should().BeEquivalentTo(new MyValueType { Value = 2 });
             });
 
             When(() => AssertionOptions.AssertEquivalencyUsing(o => o.ComparingByMembers<MyValueType>()));
@@ -88,9 +88,9 @@ public class AssertionOptionsSpecs
         [Fact]
         public void It_should_try_to_compare_the_classes_by_member_semantics_and_thus_throw()
         {
-            Action act = () => new MyValueType { Value = 1 }.Should().BeEquivalentToAsync(new MyValueType { Value = 2 });
+            Action act = () => new MyValueType { Value = 1 }.Should().BeEquivalentTo(new MyValueType { Value = 2 });
 
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         internal class MyValueType
@@ -112,7 +112,7 @@ public class AssertionOptionsSpecs
             Given(() =>
             {
                 // Trigger a first equivalency check using the default global settings
-                new MyClass { Value = 1 }.Should().BeEquivalentToAsync(new MyClass { Value = 1 });
+                new MyClass { Value = 1 }.Should().BeEquivalentTo(new MyClass { Value = 1 });
             });
 
             When(() => AssertionOptions.AssertEquivalencyUsing(o => o.ComparingByValue<MyClass>()));
@@ -123,9 +123,9 @@ public class AssertionOptionsSpecs
         {
             MyClass myClass = new() { Value = 1 };
 
-            Action act = () => myClass.Should().BeEquivalentToAsync(new MyClass { Value = 1 });
+            Action act = () => myClass.Should().BeEquivalentTo(new MyClass { Value = 1 });
 
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         internal class MyClass
@@ -148,7 +148,7 @@ public class AssertionOptionsSpecs
         [Fact]
         public void It_should_use_the_global_settings_for_comparing_records()
         {
-            new Position(123).Should().BeEquivalentToAsync(new Position(123));
+            new Position(123).Should().BeEquivalentTo(new Position(123));
         }
 
         private record Position
@@ -188,7 +188,7 @@ public class AssertionOptionsSpecs
                 Value = 0.33D
             };
 
-            Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
+            Action act = () => actual.Should().BeEquivalentTo(expected);
 
             act.Should().NotThrow();
         }
@@ -220,11 +220,11 @@ public class AssertionOptionsSpecs
                 Value = 0.33D
             };
 
-            Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected, options => options
+            Action act = () => actual.Should().BeEquivalentTo(expected, options => options
                 .Using<double>(ctx => ctx.Subject.Should().Be(ctx.Expectation))
                 .WhenTypeIs<double>());
 
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*");
         }
 
         [Fact]
@@ -240,7 +240,7 @@ public class AssertionOptionsSpecs
                 Value = 0.33D
             };
 
-            Func<Task> act = async () => await actual.Should().BeEquivalentToAsync(expected);
+            Action act = () => actual.Should().BeEquivalentTo(expected);
 
             act.Should().NotThrow();
         }

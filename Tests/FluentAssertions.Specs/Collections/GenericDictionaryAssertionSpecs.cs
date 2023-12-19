@@ -6,7 +6,7 @@ using System.Linq;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 public partial class GenericDictionaryAssertionSpecs
 {
@@ -127,7 +127,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => subject.Should().NotEqual(expected);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         public static IEnumerable<object[]> SingleDictionaryData() =>

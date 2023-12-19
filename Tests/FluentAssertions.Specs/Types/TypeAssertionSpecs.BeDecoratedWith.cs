@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Types;
+namespace FluentAssertionsAsync.Specs.Types;
 
 /// <content>
 /// The [Not]BeDecoratedWith specs.
@@ -51,7 +51,7 @@ public partial class TypeAssertionSpecs
                 typeWithoutAttribute.Should().BeDecoratedWith<DummyClassAttribute>("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type *.ClassWithoutAttribute to be decorated with *.DummyClassAttribute *failure message*" +
                     ", but the attribute was not found.");
@@ -68,7 +68,7 @@ public partial class TypeAssertionSpecs
                 typeWithAttribute.Should().BeDecoratedWith<DummyClassAttribute>(isMatchingAttributePredicate: null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("isMatchingAttributePredicate");
         }
 
@@ -115,7 +115,7 @@ public partial class TypeAssertionSpecs
                     .BeDecoratedWith<DummyClassAttribute>(a => a.Name == "Unexpected" && a.IsEnabled);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type *.ClassWithAttribute to be decorated with *.DummyClassAttribute that matches " +
                     "(a.Name == \"Unexpected\")*a.IsEnabled, but no matching attribute was found.");
@@ -149,7 +149,7 @@ public partial class TypeAssertionSpecs
                 typeWithAttribute.Should().NotBeDecoratedWith<DummyClassAttribute>("we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type *.ClassWithAttribute to not be decorated with *.DummyClassAttribute* *failure message*" +
                     ", but the attribute was found.");
@@ -166,7 +166,7 @@ public partial class TypeAssertionSpecs
                 .NotBeDecoratedWith<DummyClassAttribute>(isMatchingAttributePredicate: null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("isMatchingAttributePredicate");
         }
 
@@ -197,7 +197,7 @@ public partial class TypeAssertionSpecs
                     .NotBeDecoratedWith<DummyClassAttribute>(a => a.Name == "Expected" && a.IsEnabled);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type *.ClassWithAttribute to not be decorated with *.DummyClassAttribute that matches " +
                     "(a.Name == \"Expected\") * a.IsEnabled, but a matching attribute was found.");

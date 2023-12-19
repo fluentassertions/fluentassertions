@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 public partial class GenericDictionaryAssertionSpecs
 {
@@ -41,7 +41,7 @@ public partial class GenericDictionaryAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected dictionary to contain values {\"One\"} because we do, but found <null>.");
         }
 
@@ -79,7 +79,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().ContainValue(myClass).Which.SomeProperty.Should().BeGreaterThan(0);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("Expected*greater*0*0*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*greater*0*0*");
         }
 
         [Fact]
@@ -103,7 +103,7 @@ public partial class GenericDictionaryAssertionSpecs
                         .BeSameAs(myClass);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -120,7 +120,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().ContainValue("Three", "because {0}", "we do");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain value \"Three\" because we do.");
         }
     }
@@ -158,7 +158,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotContainValue("One", "because we {0} like it", "don't");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary {[1] = \"One\", [2] = \"Two\"} not to contain value \"One\" because we don't like it, but found it anyhow.");
         }
 
@@ -176,7 +176,7 @@ public partial class GenericDictionaryAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" because we want to test the behaviour with a null subject, but found <null>.");
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 public partial class GenericDictionaryAssertionSpecs
 {
@@ -32,7 +32,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().BeEmpty();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -48,7 +48,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().BeEmpty("because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected dictionary to be empty because we want to test the failure message, but found {[1] = \"One\"}.");
         }
@@ -63,7 +63,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().BeEmpty("because we want to test the behaviour with a null subject");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary to be empty because we want to test the behaviour with a null subject, but found <null>.");
         }
     }
@@ -109,7 +109,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotBeEmpty();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -122,7 +122,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotBeEmpty("because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected dictionary not to be empty because we want to test the failure message.");
         }
 
@@ -136,7 +136,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotBeEmpty("because we want to test the behaviour with a null subject");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary not to be empty because we want to test the behaviour with a null subject, but found <null>.");
         }
     }

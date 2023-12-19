@@ -5,13 +5,11 @@ using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertionsAsync;
-using FluentAssertionsAsync.Equivalency;
 using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Equivalency.Specs;
+namespace FluentAssertionsAsync.Equivalency.Specs;
 
 public class CollectionSpecs
 {

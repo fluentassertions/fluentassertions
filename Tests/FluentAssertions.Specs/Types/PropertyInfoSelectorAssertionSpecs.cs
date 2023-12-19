@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Types;
+using FluentAssertionsAsync.Types;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Types;
+namespace FluentAssertionsAsync.Specs.Types;
 
 public class PropertyInfoSelectorAssertionSpecs
 {
@@ -34,7 +34,7 @@ public class PropertyInfoSelectorAssertionSpecs
                 propertyInfoSelector.Should().BeVirtual();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -49,7 +49,7 @@ public class PropertyInfoSelectorAssertionSpecs
                 propertyInfoSelector.Should().BeVirtual("we want to test the error {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected properties" +
                     " to be virtual because we want to test the error message," +
                     " but the following properties are not virtual:*" +
@@ -86,7 +86,7 @@ public class PropertyInfoSelectorAssertionSpecs
                 propertyInfoSelector.Should().NotBeVirtual();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -101,7 +101,7 @@ public class PropertyInfoSelectorAssertionSpecs
                 propertyInfoSelector.Should().NotBeVirtual("we want to test the error {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected properties" +
                     " not to be virtual because we want to test the error message," +
                     " but the following properties are virtual*" +
@@ -139,7 +139,7 @@ public class PropertyInfoSelectorAssertionSpecs
                 propertyInfoSelector.Should().BeDecoratedWith<DummyPropertyAttribute>();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -155,7 +155,7 @@ public class PropertyInfoSelectorAssertionSpecs
                     .BeDecoratedWith<DummyPropertyAttribute>("because we want to test the error {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected properties to be decorated with" +
                     " FluentAssertions*DummyPropertyAttribute because we want to test the error message," +
                     " but the following properties are not:*" +
@@ -193,7 +193,7 @@ public class PropertyInfoSelectorAssertionSpecs
                 propertyInfoSelector.Should().NotBeDecoratedWith<DummyPropertyAttribute>();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -209,7 +209,7 @@ public class PropertyInfoSelectorAssertionSpecs
                     .NotBeDecoratedWith<DummyPropertyAttribute>("because we want to test the error {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected properties not to be decorated*" +
                     "DummyPropertyAttribute*" +
                     "because we want to test the error message*" +

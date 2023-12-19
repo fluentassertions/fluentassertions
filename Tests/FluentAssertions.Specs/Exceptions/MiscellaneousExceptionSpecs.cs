@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Exceptions;
+namespace FluentAssertionsAsync.Specs.Exceptions;
 
 public class MiscellaneousExceptionSpecs
 {
@@ -18,7 +18,7 @@ public class MiscellaneousExceptionSpecs
         Action act = target.Do;
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<ExceptionWithProperties>().And.Property.Should().Be(SomeParamNameValue);
+        act.Should().Throw<ExceptionWithProperties>().And.Property.Should().Be(SomeParamNameValue);
     }
 
     [Fact]
@@ -147,7 +147,7 @@ public class MiscellaneousExceptionSpecs
             () => throwException.Should().Throw<ArgumentNullException>();
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage($"*System.ArgumentNullException*{typeof(ExceptionWithEmptyToString)}*");
     }
 
@@ -178,7 +178,7 @@ public class MiscellaneousExceptionSpecs
                 .WithParameterName("someParameter", "we want to test the failure {0}", "message");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("*with parameter name \"someParameter\"*we want to test the failure message*\"someOtherParameter\"*");
     }
 }

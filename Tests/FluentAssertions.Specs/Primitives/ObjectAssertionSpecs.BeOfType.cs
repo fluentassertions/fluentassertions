@@ -1,11 +1,11 @@
 ﻿using System;
 using AssemblyA;
 using AssemblyB;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class ObjectAssertionSpecs
 {
@@ -21,7 +21,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().BeOfType(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
+            act.Should().Throw<ArgumentNullException>()
                 .WithParameterName("expectedType");
         }
 
@@ -61,7 +61,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => valueTypeObject.Should().BeOfType(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
+            act.Should().Throw<ArgumentNullException>()
                 .WithParameterName("expectedType");
         }
 
@@ -76,7 +76,7 @@ public partial class ObjectAssertionSpecs
                 valueTypeObject.Should().BeOfType(typeof(int), "because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*type to be System.Int32*because we want to test the failure message*");
         }
 
@@ -91,7 +91,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => valueTypeObject.Should().BeOfType(doubleType);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage($"Expected type to be {doubleType}, but found {valueTypeObject.GetType()}.");
         }
 
@@ -105,7 +105,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().BeOfType<Exception>().Which.Message.Should().Be("Other Message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage("*Expected*Actual*Other*");
+            act.Should().Throw<XunitException>().WithMessage("*Expected*Actual*Other*");
         }
 
         [Fact]
@@ -118,7 +118,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().BeOfType<int>("because they are {0} {1}", "of different", "type");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected type to be System.Int32 because they are of different type, but found System.Object.");
         }
 
@@ -132,7 +132,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().BeOfType<int>();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected someObject to be System.Int32, but found <null>.");
         }
 
@@ -153,7 +153,7 @@ public partial class ObjectAssertionSpecs
 #pragma warning restore 436
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type to be [AssemblyB.ClassC, FluentAssertions.Specs*], but found [AssemblyB.ClassC, AssemblyB*].");
         }
@@ -168,7 +168,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().BeOfType<DummyBaseClass>();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected type to be FluentAssertions*DummyBaseClass, but found FluentAssertions*DummyImplementingClass.");
         }
     }
@@ -185,7 +185,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => someObject.Should().NotBeOfType(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
+            act.Should().Throw<ArgumentNullException>()
                 .WithParameterName("unexpectedType");
         }
 
@@ -199,7 +199,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => valueTypeObject.Should().NotBeOfType(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>()
+            act.Should().Throw<ArgumentNullException>()
                 .WithParameterName("unexpectedType");
         }
 
@@ -231,7 +231,7 @@ public partial class ObjectAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*type not to be System.Int32*because we want to test the failure message*");
         }
 
@@ -246,7 +246,7 @@ public partial class ObjectAssertionSpecs
             Action act = () => valueTypeObject.Should().NotBeOfType(expectedType);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage($"Expected type not to be [{expectedType.AssemblyQualifiedName}], but it is.");
         }
     }

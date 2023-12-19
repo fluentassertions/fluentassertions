@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Exceptions;
+namespace FluentAssertionsAsync.Specs.Exceptions;
 
 public class OuterExceptionSpecs
 {
@@ -263,7 +263,7 @@ public class OuterExceptionSpecs
         Action act = testSubject.Do;
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<AggregateException>()
+        act.Should().Throw<AggregateException>()
             .WithMessage("Outer Message*")
             .WithInnerException<Exception>()
             .WithMessage("Inner Message");
@@ -280,7 +280,7 @@ public class OuterExceptionSpecs
         Action act = testSubject.Do;
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<AggregateException>()
+        act.Should().Throw<AggregateException>()
             .WithMessage("Outer Message*")
             .WithInnerException(typeof(Exception))
             .WithMessage("Inner Message");

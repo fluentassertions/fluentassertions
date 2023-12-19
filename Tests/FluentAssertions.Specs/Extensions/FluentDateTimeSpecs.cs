@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Common;
-using FluentAssertions.Extensions;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 
-namespace FluentAssertions.Specs.Extensions;
+namespace FluentAssertionsAsync.Specs.Extensions;
 
 public class FluentDateTimeSpecs
 {
@@ -164,7 +164,7 @@ public class FluentDateTimeSpecs
         Action act = () => 10.December(2011).At(0, 0, 0, 0, microseconds);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
+        act.Should().Throw<ArgumentOutOfRangeException>()
             .WithParameterName(expectedParameterName);
     }
 
@@ -190,7 +190,7 @@ public class FluentDateTimeSpecs
         Action act = () => 10.December(2011).At(0, 0, 0, 0, 0, nanoseconds);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
+        act.Should().Throw<ArgumentOutOfRangeException>()
             .WithParameterName(expectedParameterName);
     }
 
@@ -216,7 +216,7 @@ public class FluentDateTimeSpecs
         Action act = () => 10.December(2011).ToDateTimeOffset().At(0, 0, 0, 0, microseconds);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
+        act.Should().Throw<ArgumentOutOfRangeException>()
             .WithParameterName(expectedParameterName);
     }
 
@@ -242,7 +242,7 @@ public class FluentDateTimeSpecs
         Action act = () => 10.December(2011).ToDateTimeOffset().At(0, 0, 0, 0, 0, nanoseconds);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
+        act.Should().Throw<ArgumentOutOfRangeException>()
             .WithParameterName(expectedParameterName);
     }
 

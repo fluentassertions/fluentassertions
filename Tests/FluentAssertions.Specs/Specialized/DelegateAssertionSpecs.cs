@@ -1,8 +1,8 @@
 ﻿using System;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 
-namespace FluentAssertions.Specs.Specialized;
+namespace FluentAssertionsAsync.Specs.Specialized;
 
 public class DelegateAssertionSpecs
 {
@@ -16,7 +16,7 @@ public class DelegateAssertionSpecs
         var act = void () => subject.Should(clock: null).NotThrow();
 
         // Assert
-        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+        act.Should().ThrowExactly<ArgumentNullException>()
             .WithParameterName("clock");
     }
 

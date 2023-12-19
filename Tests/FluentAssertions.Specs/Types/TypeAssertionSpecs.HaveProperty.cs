@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Types;
+namespace FluentAssertionsAsync.Specs.Types;
 
 /// <content>
 /// The [Not]HaveProperty specs.
@@ -41,7 +41,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveProperty(typeof(string), "PublicProperty", "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected String *ClassWithNoMembers.PublicProperty to exist *failure message*, but it does not.");
         }
 
@@ -57,7 +57,7 @@ public partial class TypeAssertionSpecs
                     .HaveProperty(typeof(int), "PrivateWriteProtectedReadProperty", "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected String *.ClassWithMembers.PrivateWriteProtectedReadProperty to be of type System.Int32 " +
                     "*failure message*, but it is not.");
@@ -74,7 +74,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveProperty(typeof(string), "PublicProperty", "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected String type.PublicProperty to exist *failure message*, but type is <null>.");
         }
 
@@ -89,7 +89,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveProperty(null, "PublicProperty");
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("propertyType");
         }
 
@@ -104,7 +104,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveProperty(typeof(string), null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("name");
         }
 
@@ -119,7 +119,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveProperty(typeof(string), string.Empty);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }
@@ -155,7 +155,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveProperty<string>(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("name");
         }
 
@@ -170,7 +170,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveProperty<string>(string.Empty);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }
@@ -202,7 +202,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveProperty("PrivateWriteProtectedReadProperty", "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected String *.ClassWithMembers.PrivateWriteProtectedReadProperty to not exist *failure message*" +
                     ", but it does.");
@@ -219,7 +219,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveProperty("PublicProperty", "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected type.PublicProperty to not exist *failure message*, but type is <null>.");
         }
 
@@ -234,7 +234,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveProperty(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("name");
         }
 
@@ -249,7 +249,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveProperty(string.Empty);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }

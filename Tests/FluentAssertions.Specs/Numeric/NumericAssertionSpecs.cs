@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace FluentAssertions.Specs.Numeric;
+namespace FluentAssertionsAsync.Specs.Numeric;
 
 public partial class NumericAssertionSpecs
 {

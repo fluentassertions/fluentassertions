@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentAssertionsAsync;
 using Xunit;
 
-namespace FluentAssertions.Equivalency.Specs;
+namespace FluentAssertionsAsync.Equivalency.Specs;
 
 public class TupleSpecs
 {

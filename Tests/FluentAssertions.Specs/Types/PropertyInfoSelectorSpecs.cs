@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using FluentAssertions.Types;
+using FluentAssertionsAsync.Types;
 using Internal.Main.Test;
 using Xunit;
 
-namespace FluentAssertions.Specs.Types;
+namespace FluentAssertionsAsync.Specs.Types;
 
 public class PropertyInfoSelectorSpecs
 {
@@ -19,7 +19,7 @@ public class PropertyInfoSelectorSpecs
         Action act = () => propertyInfoSelector = new PropertyInfoSelector((Type)null);
 
         // Assert
-        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+        act.Should().ThrowExactly<ArgumentNullException>()
             .WithParameterName("types");
     }
 
@@ -33,7 +33,7 @@ public class PropertyInfoSelectorSpecs
         Action act = () => propertyInfoSelector = new PropertyInfoSelector((Type[])null);
 
         // Assert
-        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+        act.Should().ThrowExactly<ArgumentNullException>()
             .WithParameterName("types");
     }
 
@@ -47,7 +47,7 @@ public class PropertyInfoSelectorSpecs
         Action act = () => propertyInfoSelector.Should();
 
         // Assert
-        await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+        act.Should().ThrowExactly<ArgumentNullException>()
             .WithParameterName("propertyInfoSelector");
     }
 
@@ -344,7 +344,7 @@ public class PropertyInfoSelectorSpecs
 
         // Assert
         returnTypes.Should()
-            .BeEquivalentToAsync(new[]
+            .BeEquivalentTo(new[]
             {
                 typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string),
                 typeof(string), typeof(int), typeof(int), typeof(int), typeof(int)

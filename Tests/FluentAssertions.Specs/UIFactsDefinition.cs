@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace FluentAssertions.Specs;
+namespace FluentAssertionsAsync.Specs;
 
 // Try to stabilize UIFact tests
 [CollectionDefinition("UIFacts", DisableParallelization = true)]

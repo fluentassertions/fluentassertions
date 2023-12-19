@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Common;
+using FluentAssertionsAsync.Common;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Types;
+namespace FluentAssertionsAsync.Specs.Types;
 
 /// <content>
 /// The [Not]HaveIndexer specs.
@@ -42,7 +42,7 @@ public partial class TypeAssertionSpecs
                     typeof(string), new[] { typeof(int), typeof(Type) }, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected String *ClassWithNoMembers[System.Int32, System.Type] to exist *failure message*" +
                     ", but it does not.");
@@ -60,7 +60,7 @@ public partial class TypeAssertionSpecs
                     typeof(string), new[] { typeof(int), typeof(Type) }, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected String *.ClassWithMembers[System.Int32, System.Type] to exist *failure message*, but it does not.");
         }
@@ -76,7 +76,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveIndexer(typeof(string), new[] { typeof(string) }, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected String type[System.String] to exist *failure message*, but type is <null>.");
         }
 
@@ -91,7 +91,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveIndexer(null, new[] { typeof(string) });
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("indexerType");
         }
 
@@ -106,7 +106,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveIndexer(typeof(string), null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("parameterTypes");
         }
     }
@@ -138,7 +138,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveIndexer(new[] { typeof(string) }, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected indexer *.ClassWithMembers[System.String] to not exist *failure message*, but it does.");
         }
 
@@ -153,7 +153,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveIndexer(new[] { typeof(string) }, "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected indexer type[System.String] to not exist *failure message*, but type is <null>.");
         }
 
@@ -168,7 +168,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveIndexer(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("parameterTypes");
         }
     }

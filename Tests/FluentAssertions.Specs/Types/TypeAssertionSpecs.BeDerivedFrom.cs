@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Specs.Primitives;
+using FluentAssertionsAsync.Specs.Primitives;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Types;
+namespace FluentAssertionsAsync.Specs.Types;
 
 /// <content>
 /// The [Not]BeDerivedFrom specs.
@@ -37,7 +37,7 @@ public partial class TypeAssertionSpecs
                 type.Should().BeDerivedFrom(typeof(ClassWithMembers), "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type *.DummyBaseClass to be derived from *.ClassWithMembers *failure message*, but it is not.");
         }
@@ -53,7 +53,7 @@ public partial class TypeAssertionSpecs
                 type.Should().BeDerivedFrom(typeof(IDummyInterface), "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type *.ClassThatImplementsInterface to be derived from *.IDummyInterface *failure message*" +
                     ", but *.IDummyInterface is an interface.");
@@ -98,7 +98,7 @@ public partial class TypeAssertionSpecs
                 type.Should().BeDerivedFrom(typeof(DummyBaseType<>), "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type *.ClassWithMembers to be derived from *.DummyBaseType`* *failure message*, but it is not.");
         }
@@ -114,7 +114,7 @@ public partial class TypeAssertionSpecs
                 () => type.Should().BeDerivedFrom(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("baseType");
         }
     }
@@ -163,7 +163,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotBeDerivedFrom(typeof(DummyBaseClass), "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type *.DummyImplementingClass not to be derived from *.DummyBaseClass *failure message*" +
                     ", but it is.");
@@ -180,7 +180,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotBeDerivedFrom(typeof(IDummyInterface), "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type *.ClassThatImplementsInterface not to be derived from *.IDummyInterface *failure message*" +
                     ", but *.IDummyInterface is an interface.");
@@ -225,7 +225,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotBeDerivedFrom(typeof(DummyBaseType<>), "we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type *.DummyBaseType`1[*.ClassWithGenericBaseType] not to be derived from *.DummyBaseType`1[T] " +
                     "*failure message*, but it is.");
@@ -242,7 +242,7 @@ public partial class TypeAssertionSpecs
                 () => type.Should().NotBeDerivedFrom(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("baseType");
         }
     }

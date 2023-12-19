@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluentAssertions.Equivalency;
-using FluentAssertions.Equivalency.Execution;
-using FluentAssertions.Execution;
-using FluentAssertions.Specs.CultureAwareTesting;
+using FluentAssertionsAsync.Equivalency;
+using FluentAssertionsAsync.Equivalency.Execution;
+using FluentAssertionsAsync.Execution;
+using FluentAssertionsAsync.Specs.CultureAwareTesting;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 [Collection(nameof(StringComparisonSpecs))]
 public class StringComparisonSpecs
@@ -46,7 +46,7 @@ public class StringComparisonSpecs
     public void When_comparing_strings_for_equivalency_it_should_ignore_culture(string subject, string expected)
     {
         // Act
-        Action act = () => subject.Should().BeEquivalentToAsync(expected);
+        Action act = () => subject.Should().BeEquivalentTo(expected);
 
         // Assert
         act.Should().NotThrow();
@@ -60,7 +60,7 @@ public class StringComparisonSpecs
         Action act = () => subject.Should().Be(expected);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [CulturedTheory("tr-TR")]
@@ -71,7 +71,7 @@ public class StringComparisonSpecs
         Action act = () => subject.Should().StartWith(expected);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [CulturedTheory("tr-TR")]
@@ -104,7 +104,7 @@ public class StringComparisonSpecs
         Action act = () => subject.Should().NotStartWithEquivalentOf(expected);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [CulturedTheory("tr-TR")]
@@ -115,7 +115,7 @@ public class StringComparisonSpecs
         Action act = () => subject.Should().EndWith(expected);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [CulturedTheory("tr-TR")]
@@ -148,7 +148,7 @@ public class StringComparisonSpecs
         Action act = () => subject.Should().NotEndWithEquivalentOf(expected);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [CulturedTheory("tr-TR")]
@@ -170,7 +170,7 @@ public class StringComparisonSpecs
         Action act = () => subject.Should().NotContainEquivalentOf(expected);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [CulturedTheory("tr-TR")]
@@ -181,7 +181,7 @@ public class StringComparisonSpecs
         Action act = () => subject.Should().Contain(expected);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [CulturedTheory("tr-TR")]
@@ -192,7 +192,7 @@ public class StringComparisonSpecs
         Action act = () => subject.Should().ContainAll(expected);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [CulturedTheory("tr-TR")]
@@ -203,7 +203,7 @@ public class StringComparisonSpecs
         Action act = () => subject.Should().ContainAny(expected);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [CulturedTheory("tr-TR")]
@@ -214,7 +214,7 @@ public class StringComparisonSpecs
         Action act = () => subject.Should().Contain(expected, Exactly.Once());
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>();
+        act.Should().Throw<XunitException>();
     }
 
     [CulturedTheory("tr-TR")]
@@ -322,7 +322,7 @@ public class StringComparisonSpecs
         Action act = () => strategy.ThrowIfAny(context);
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("*1.234*", "it should always use . as decimal separator");
     }
 

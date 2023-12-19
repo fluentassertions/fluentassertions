@@ -1,7 +1,7 @@
 ﻿using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.CultureAwareTesting;
+namespace FluentAssertionsAsync.Specs.CultureAwareTesting;
 
 [XunitTestCaseDiscoverer("FluentAssertions.Specs.CultureAwareTesting.CulturedFactAttributeDiscoverer", "FluentAssertions.Specs")]
 public sealed class CulturedFactAttribute : FactAttribute

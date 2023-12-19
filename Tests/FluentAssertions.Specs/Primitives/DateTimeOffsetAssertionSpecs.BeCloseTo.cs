@@ -1,10 +1,10 @@
 ﻿using System;
-using FluentAssertions.Common;
-using FluentAssertions.Extensions;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class DateTimeOffsetAssertionSpecs
 {
@@ -21,7 +21,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => actual.Should().BeCloseTo(dateTime, -1.Ticks());
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
+            act.Should().Throw<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -122,7 +122,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected time to be within 20ms from <2012-03-13 12:15:31 +1H>, but <2012-03-13 12:15:30.979 +1H> was off by 21ms.");
         }
@@ -139,7 +139,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected time to be within 20ms from <2012-03-13 12:15:31 +1h>, but <2012-03-13 12:15:31.021 +1h> was off by 21ms.");
         }
@@ -156,7 +156,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => time.Should().BeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(35));
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected time to be within 35ms from <2012-03-13 12:15:31 +1h>, but <2012-03-13 12:15:31.036 +1h> was off by 36ms.");
         }
@@ -186,7 +186,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => time.Should().BeCloseTo(nearbyTime, 35.Milliseconds());
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected*, but found <null>.");
         }
 
@@ -232,7 +232,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(dateTime, -1.Ticks());
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentOutOfRangeException>()
+            act.Should().Throw<ArgumentOutOfRangeException>()
                 .WithParameterName("precision")
                 .WithMessage("*must be non-negative*");
         }
@@ -248,7 +248,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(dateTime, TimeSpan.FromTicks(1));
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -262,7 +262,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(dateTime, TimeSpan.FromTicks(1));
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -276,7 +276,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(dateTime, TimeSpan.FromTicks(1));
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -290,7 +290,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => actual.Should().NotBeCloseTo(dateTime, TimeSpan.FromTicks(1));
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -304,7 +304,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Did not expect time to be within 20ms from <2016-06-04 12:15:31 +0h>, but it was <2016-06-04 12:15:30.980 +0h>.");
         }
@@ -321,7 +321,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(20));
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect time to be within 20ms from <2016-06-04 12:15:31 +0h>, but it was <2016-06-04 12:15:30.980 +0h>.");
         }
 
@@ -336,7 +336,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Did not expect time to be within 20ms from <2016-06-04 12:15:31 +0h>, but it was <2016-06-04 12:15:31.020 +0h>.");
         }
@@ -382,7 +382,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Did not expect time to be within 35ms from <2012-03-13 12:15:31 +1h>, but it was <2012-03-13 12:15:31.035 +1h>.");
         }
@@ -398,7 +398,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect*, but it was <null>.");
         }
 
@@ -413,7 +413,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 100.Milliseconds());
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Did not expect time to be within 100ms from <0001-01-01 00:00:00.000>, but it was <00:00:00.050 +0h>.");
         }
@@ -429,7 +429,7 @@ public partial class DateTimeOffsetAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 100.Milliseconds());
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Did not expect time to be within 100ms from <9999-12-31 23:59:59.9999999 +0h>, but it was <9999-12-31 23:59:59.9499999 +0h>.");
         }

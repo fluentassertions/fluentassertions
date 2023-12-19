@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 /// <content>
 /// The HaveLength specs.
@@ -36,7 +36,7 @@ public partial class StringAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected actual with length 0 *failure message*, but found <null>.");
         }
 
@@ -54,7 +54,7 @@ public partial class StringAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected actual with length 1 *failure message*, but found string \"ABC\" with length 3.");
         }
     }

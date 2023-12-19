@@ -1,13 +1,13 @@
 ﻿using System;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 #if NET47
-using FluentAssertions.Specs.Common;
+using FluentAssertionsAsync.Specs.Common;
 #endif
 using Xunit;
 using Xunit.Sdk;
-using static FluentAssertions.Extensions.FluentTimeSpanExtensions;
+using static FluentAssertionsAsync.Extensions.FluentTimeSpanExtensions;
 
-namespace FluentAssertions.Specs.Exceptions;
+namespace FluentAssertionsAsync.Specs.Exceptions;
 
 public class NotThrowSpecs
 {

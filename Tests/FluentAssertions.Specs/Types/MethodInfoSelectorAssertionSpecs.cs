@@ -1,10 +1,10 @@
 ﻿using System;
-using FluentAssertions.Common;
-using FluentAssertions.Types;
+using FluentAssertionsAsync.Common;
+using FluentAssertionsAsync.Types;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Types;
+namespace FluentAssertionsAsync.Specs.Types;
 
 public class MethodInfoSelectorAssertionSpecs
 {
@@ -35,7 +35,7 @@ public class MethodInfoSelectorAssertionSpecs
                 methodSelector.Should().BeVirtual();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -50,7 +50,7 @@ public class MethodInfoSelectorAssertionSpecs
                 methodSelector.Should().BeVirtual("we want to test the error {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods" +
                     " to be virtual because we want to test the error message," +
                     " but the following methods are not virtual:*" +
@@ -87,7 +87,7 @@ public class MethodInfoSelectorAssertionSpecs
                 methodSelector.Should().NotBeVirtual();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -102,7 +102,7 @@ public class MethodInfoSelectorAssertionSpecs
                 methodSelector.Should().NotBeVirtual("we want to test the error {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods" +
                     " not to be virtual because we want to test the error message," +
                     " but the following methods are virtual" +
@@ -125,7 +125,7 @@ public class MethodInfoSelectorAssertionSpecs
                 methodSelector.Should().BeDecoratedWith<DummyMethodAttribute>(isMatchingAttributePredicate: null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("isMatchingAttributePredicate");
         }
 
@@ -156,7 +156,7 @@ public class MethodInfoSelectorAssertionSpecs
                 methodSelector.Should().BeDecoratedWith<DummyMethodAttribute>();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -171,7 +171,7 @@ public class MethodInfoSelectorAssertionSpecs
                 methodSelector.Should().BeDecoratedWith<DummyMethodAttribute>("because we want to test the error {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to be decorated with" +
                     " FluentAssertions*DummyMethodAttribute because we want to test the error message," +
                     " but the following methods are not:*" +
@@ -194,7 +194,7 @@ public class MethodInfoSelectorAssertionSpecs
                 methodSelector.Should().NotBeDecoratedWith<DummyMethodAttribute>(isMatchingAttributePredicate: null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("isMatchingAttributePredicate");
         }
 
@@ -225,7 +225,7 @@ public class MethodInfoSelectorAssertionSpecs
                 methodSelector.Should().NotBeDecoratedWith<DummyMethodAttribute>();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -240,7 +240,7 @@ public class MethodInfoSelectorAssertionSpecs
                     .NotBeDecoratedWith<DummyMethodAttribute>("because we want to test the error {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected all selected methods to not be decorated*DummyMethodAttribute*because we want to test the error message" +
                     "*ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothing*" +
@@ -277,7 +277,7 @@ public class MethodInfoSelectorAssertionSpecs
                 methodSelector.Should().Be(CSharpAccessModifier.Public);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to be Public" +
                     ", but the following methods are not:*" +
                     "Void FluentAssertions*ClassWithNonPublicMethods.PublicDoNothing*" +
@@ -296,7 +296,7 @@ public class MethodInfoSelectorAssertionSpecs
                 methodSelector.Should().Be(CSharpAccessModifier.Public, "we want to test the error {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to be Public" +
                     " because we want to test the error message" +
                     ", but the following methods are not:*" +
@@ -333,7 +333,7 @@ public class MethodInfoSelectorAssertionSpecs
                 methodSelector.Should().NotBe(CSharpAccessModifier.Public);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to not be Public" +
                     ", but the following methods are:*" +
                     "Void FluentAssertions*ClassWithPublicMethods.PublicDoNothing*");
@@ -350,7 +350,7 @@ public class MethodInfoSelectorAssertionSpecs
                 methodSelector.Should().NotBe(CSharpAccessModifier.Public, "we want to test the error {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to not be Public" +
                     " because we want to test the error message" +
                     ", but the following methods are:*" +
@@ -383,7 +383,7 @@ public class MethodInfoSelectorAssertionSpecs
             Action act = () => methodSelector.Should().BeAsync("we want to test the error {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods" +
                     " to be async because we want to test the error message," +
                     " but the following methods are not:" + Environment.NewLine +
@@ -418,7 +418,7 @@ public class MethodInfoSelectorAssertionSpecs
             Action act = () => methodSelector.Should().NotBeAsync("we want to test the error {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods" +
                     " not to be async because we want to test the error message," +
                     " but the following methods are:" + Environment.NewLine +

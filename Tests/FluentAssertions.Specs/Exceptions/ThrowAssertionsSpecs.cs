@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Exceptions;
+namespace FluentAssertionsAsync.Specs.Exceptions;
 
 public class ThrowAssertionsSpecs
 {
@@ -33,7 +33,7 @@ public class ThrowAssertionsSpecs
         var act = new Action(() => throw new InvalidOperationException("Some exception"));
 
         // Act / Assert
-        await await act.Should().ThrowAsyncAsync<InvalidOperationException>();
+        act.Should().Throw<InvalidOperationException>();
     }
 
     [Fact]
@@ -90,7 +90,7 @@ public class ThrowAssertionsSpecs
         {
             var act = new Action(() => { });
 
-            await await act.Should().ThrowAsyncAsync<Exception>();
+            act.Should().Throw<Exception>();
 
             throw new XunitException("Should().Throw() did not throw");
         }

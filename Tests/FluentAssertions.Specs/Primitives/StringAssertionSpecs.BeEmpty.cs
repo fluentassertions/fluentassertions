@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 /// <content>
 /// The [Not]BeEmpty specs.
@@ -31,7 +31,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().BeEmpty();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -44,7 +44,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().BeEmpty("because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected actual to be empty because we want to test the failure message, but found \"ABC\".");
         }
 
@@ -58,7 +58,7 @@ public partial class StringAssertionSpecs
             Action act = () => nullString.Should().BeEmpty("because strings should never be {0}", "null");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected nullString to be empty because strings should never be null, but found <null>.");
         }
     }
@@ -95,7 +95,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().NotBeEmpty();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -108,7 +108,7 @@ public partial class StringAssertionSpecs
             Action act = () => actual.Should().NotBeEmpty("because we want to test the failure {0}", "message");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect actual to be empty because we want to test the failure message.");
         }
     }

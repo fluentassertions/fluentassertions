@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Collections;
+using FluentAssertionsAsync.Collections;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs;
+namespace FluentAssertionsAsync.Specs;
 
 public class AndWhichConstraintSpecs
 {
@@ -17,7 +17,7 @@ public class AndWhichConstraintSpecs
         Action act = () => _ = continuation.Which;
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage(
                 "More than one object found.  FluentAssertions cannot determine which object is meant.*")
             .WithMessage("*Found objects:*\"hello\"*\"world\"");

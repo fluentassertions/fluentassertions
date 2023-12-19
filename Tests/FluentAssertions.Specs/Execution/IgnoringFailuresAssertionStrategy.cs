@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 
-namespace FluentAssertions.Specs.Execution;
+namespace FluentAssertionsAsync.Specs.Execution;
 
 internal class IgnoringFailuresAssertionStrategy : IAssertionStrategy
 {

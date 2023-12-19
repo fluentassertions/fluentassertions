@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class DateTimeAssertionSpecs
 {
@@ -33,7 +33,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().HaveHour(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the hour part of subject to be 22, but found 23.");
         }
 
@@ -48,7 +48,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().HaveHour(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected the hour part of subject to be 22, but found a <null> DateTime.");
         }
     }
@@ -66,7 +66,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().NotHaveHour(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect the hour part of subject to be 23, but it was.");
         }
 
@@ -95,7 +95,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().NotHaveHour(expectation);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect the hour part of subject to be 22, but found a <null> DateTime.");
         }
     }

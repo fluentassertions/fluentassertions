@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Execution;
+namespace FluentAssertionsAsync.Specs.Execution;
 
 public class GivenSelectorSpecs
 {
@@ -77,7 +77,7 @@ public class GivenSelectorSpecs
             .FailWith("Second selector");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Second selector");
     }
 
@@ -94,7 +94,7 @@ public class GivenSelectorSpecs
             .FailWith("{0} selector", "Second");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("\"Second\" selector");
     }
 
@@ -111,7 +111,7 @@ public class GivenSelectorSpecs
             .FailWith("{0} selector", _ => "Second");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("\"Second\" selector");
     }
 
@@ -131,7 +131,7 @@ public class GivenSelectorSpecs
         };
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("First selector");
     }
 
@@ -151,7 +151,7 @@ public class GivenSelectorSpecs
         };
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("\"First\" selector");
     }
 
@@ -171,7 +171,7 @@ public class GivenSelectorSpecs
         };
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("\"First\" selector");
     }
 
@@ -185,7 +185,7 @@ public class GivenSelectorSpecs
             .FailWith("Failure");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Expectation Failure");
     }
 
@@ -202,7 +202,7 @@ public class GivenSelectorSpecs
             .FailWith("Failure");
 
         // Assert
-        await await act.Should().ThrowAsyncAsync<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("Failure");
     }
 

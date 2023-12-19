@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 /// <content>
 /// The NotContainNulls specs.
@@ -33,7 +33,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainNulls("because they are {0}", "evil");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to contain <null>s because they are evil, but found one at index 1.");
         }
 
@@ -51,7 +51,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "*but found one*");
         }
 
@@ -65,7 +65,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainNulls("because they are {0}", "evil");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to contain <null>s*because they are evil*{1, 3}*");
         }
 
@@ -83,7 +83,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "*but found several*");
         }
 
@@ -97,7 +97,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainNulls("because we want to test the behaviour with a null subject");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to contain <null>s because we want to test the behaviour with a null subject, but collection is <null>.");
         }
 
@@ -111,7 +111,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainNulls<string>(predicate: null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsyncExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("predicate");
         }
 
@@ -144,7 +144,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainNulls(e => e.Text, "because they are {0}", "evil");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to contain <null>s*on e.Text*because they are evil*Text = <null>*");
         }
 
@@ -164,7 +164,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainNulls(e => e.Text, "because they are {0}", "evil");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to contain <null>s*on e.Text*because they are evil*Text = <null>*Text = <null>*");
         }
 
@@ -182,7 +182,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to contain <null>s *failure message*, but collection is <null>.");
         }
 
@@ -200,7 +200,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to contain <null>s because we want to test the behaviour with a null subject, but collection is <null>.");
         }
     }

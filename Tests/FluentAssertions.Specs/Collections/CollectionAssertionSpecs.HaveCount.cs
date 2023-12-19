@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 /// <content>
 /// The [Not]HaveCount specs.
@@ -32,7 +32,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveCount(4);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -75,7 +75,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "*to have a count (c > 3)*to have a count (c < 3)*");
         }
 
@@ -89,7 +89,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveCount(c => c >= 4, "a minimum of 4 is required");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to have a count (c >= 4) because a minimum of 4 is required, but count is 3: {1, 2, 3}.");
         }
 
@@ -103,7 +103,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveCount(null);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<ArgumentNullException>().WithMessage(
+            act.Should().Throw<ArgumentNullException>().WithMessage(
                 "Cannot compare collection count against a <null> predicate.*");
         }
 
@@ -121,7 +121,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to contain 1 item(s) because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -139,7 +139,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to contain (c < 3) items because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -166,7 +166,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveCount(c => (c % 2) == 0);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -219,7 +219,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotHaveCount(3);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>();
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -250,7 +250,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("*not contain*1*we want to test the behaviour with a null subject*found <null>*");
         }
     }

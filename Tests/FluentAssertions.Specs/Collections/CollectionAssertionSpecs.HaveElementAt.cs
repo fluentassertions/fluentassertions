@@ -1,9 +1,9 @@
 ﻿using System;
-using FluentAssertions.Execution;
+using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Collections;
+namespace FluentAssertionsAsync.Specs.Collections;
 
 /// <content>
 /// The HaveElementAt specs.
@@ -32,7 +32,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveElementAt(1, 3, "we put it {0}", "there");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected 3 at index 1 because we put it there, but found 2.");
         }
 
@@ -46,7 +46,7 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().HaveElementAt(4, 3, "we put it {0}", "there");
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected 3 at index 4 because we put it there, but found no element.");
         }
 
@@ -64,7 +64,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to have element at index 1 because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -89,7 +89,7 @@ public partial class CollectionAssertionSpecs
                 .Should().BeAssignableTo<string>();
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected*assignable*string*");
         }
     }

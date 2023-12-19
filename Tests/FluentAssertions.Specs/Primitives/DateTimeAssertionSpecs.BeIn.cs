@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Primitives;
+namespace FluentAssertionsAsync.Specs.Primitives;
 
 public partial class DateTimeAssertionSpecs
 {
@@ -31,7 +31,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().BeIn(DateTimeKind.Utc);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to be in Utc, but found Local.");
         }
 
@@ -45,7 +45,7 @@ public partial class DateTimeAssertionSpecs
             Action act = () => subject.Should().BeIn(DateTimeKind.Utc);
 
             // Assert
-            await await act.Should().ThrowAsyncAsync<XunitException>()
+            act.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to be in Utc, but found a <null> DateTime.");
         }
     }
