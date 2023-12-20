@@ -253,7 +253,7 @@ namespace FluentAssertionsAsync.Specs.Execution
         }
 
         [Fact]
-        public void Formatting_options_passed_to_inner_assertion_scopes()
+        public async Task Formatting_options_passed_to_inner_assertion_scopes()
         {
             // Arrange
             var subject = new[]
@@ -279,7 +279,7 @@ namespace FluentAssertionsAsync.Specs.Execution
             // Act
             using var scope = new AssertionScope();
             scope.FormattingOptions.MaxDepth = 1;
-            subject.Should().BeEquivalentTo(expected);
+            await subject.Should().BeEquivalentToAsync(expected);
 
             // Assert
             scope.Discard().Should().ContainSingle()

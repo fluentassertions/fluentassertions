@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using FluentAssertionsAsync.Collections;
 using Xunit;
 
@@ -31,6 +32,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
         // Assert
         var expectedTypes = new[]
         {
+            typeof(Task<AndWhichConstraint<StringCollectionAssertions<IEnumerable<string>>, string>>),
+            typeof(Task<AndConstraint<StringCollectionAssertions<IEnumerable<string>>>>),
             typeof(AndConstraint<StringCollectionAssertions<IEnumerable<string>>>),
             typeof(AndConstraint<SubsequentOrderingAssertions<string>>)
         };

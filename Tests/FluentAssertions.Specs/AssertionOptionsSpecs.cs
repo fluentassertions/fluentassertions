@@ -31,23 +31,27 @@ public class AssertionOptionsSpecs
     }
 
     [Collection("AssertionOptionsSpecs")]
-    public class When_injecting_a_null_configurer : GivenSubject<EquivalencyOptions, Action>
+    public class When_injecting_a_null_configurer : GivenSubject<EquivalencyOptions, Func<Task>>
     {
         public When_injecting_a_null_configurer()
         {
-            When(() => () => AssertionOptions.AssertEquivalencyUsing(defaultsConfigurer: null));
+            When(() => () =>
+            {
+                AssertionOptions.AssertEquivalencyUsing(defaultsConfigurer: null);
+                return Task.CompletedTask;
+            });
         }
 
         [Fact]
-        public void It_should_throw()
+        public async Task It_should_throw()
         {
-            Result.Should().ThrowExactly<ArgumentNullException>()
+            (await Result.Should().ThrowExactlyAsync<ArgumentNullException>())
                 .WithParameterName("defaultsConfigurer");
         }
     }
 
     [Collection("AssertionOptionsSpecs")]
-    public class When_concurrently_getting_equality_strategy : GivenSubject<EquivalencyOptions, Action>
+    public class When_concurrently_getting_equality_strategy : GivenSubject<EquivalencyOptions, Func<Task>>
     {
         public When_concurrently_getting_equality_strategy()
         {
@@ -57,16 +61,16 @@ public class AssertionOptionsSpecs
                 IEquivalencyOptions equivalencyOptions = new EquivalencyOptions();
 #pragma warning restore CA1859
 
-                return () => Parallel.For(0, 10_000, new ParallelOptions { MaxDegreeOfParallelism = 8 },
-                    _ => equivalencyOptions.GetEqualityStrategy(typeof(IEnumerable))
+                return () => Task.FromResult(Parallel.For(0, 10_000, new ParallelOptions { MaxDegreeOfParallelism = 8 },
+                    _ => equivalencyOptions.GetEqualityStrategy(typeof(IEnumerable)))
                 );
             });
         }
 
         [Fact]
-        public void It_should_not_throw()
+        public async Task It_should_not_throw()
         {
-            Result.Should().NotThrow();
+            await Result.Should().NotThrowAsync();
         }
     }
 
@@ -76,21 +80,21 @@ public class AssertionOptionsSpecs
     {
         public When_modifying_global_reference_type_settings_a_previous_assertion_should_not_have_any_effect()
         {
-            Given(() =>
+            Given(async () =>
             {
                 // Trigger a first equivalency check using the default global settings
-                new MyValueType { Value = 1 }.Should().BeEquivalentTo(new MyValueType { Value = 2 });
+                await new MyValueType { Value = 1 }.Should().BeEquivalentToAsync(new MyValueType { Value = 2 });
             });
 
             When(() => AssertionOptions.AssertEquivalencyUsing(o => o.ComparingByMembers<MyValueType>()));
         }
 
         [Fact]
-        public void It_should_try_to_compare_the_classes_by_member_semantics_and_thus_throw()
+        public async Task It_should_try_to_compare_the_classes_by_member_semantics_and_thus_throw()
         {
-            Action act = () => new MyValueType { Value = 1 }.Should().BeEquivalentTo(new MyValueType { Value = 2 });
+            Func<Task> act = () => new MyValueType { Value = 1 }.Should().BeEquivalentToAsync(new MyValueType { Value = 2 });
 
-            act.Should().Throw<XunitException>();
+            await act.Should().ThrowAsync<XunitException>();
         }
 
         internal class MyValueType
@@ -109,23 +113,23 @@ public class AssertionOptionsSpecs
     {
         public When_modifying_global_value_type_settings_a_previous_assertion_should_not_have_any_effect()
         {
-            Given(() =>
+            Given(async () =>
             {
                 // Trigger a first equivalency check using the default global settings
-                new MyClass { Value = 1 }.Should().BeEquivalentTo(new MyClass { Value = 1 });
+                await new MyClass { Value = 1 }.Should().BeEquivalentToAsync(new MyClass { Value = 1 });
             });
 
             When(() => AssertionOptions.AssertEquivalencyUsing(o => o.ComparingByValue<MyClass>()));
         }
 
         [Fact]
-        public void It_should_try_to_compare_the_classes_by_value_semantics_and_thus_throw()
+        public async Task It_should_try_to_compare_the_classes_by_value_semantics_and_thus_throw()
         {
             MyClass myClass = new() { Value = 1 };
 
-            Action act = () => myClass.Should().BeEquivalentTo(new MyClass { Value = 1 });
+            Func<Task> act = () => myClass.Should().BeEquivalentToAsync(new MyClass { Value = 1 });
 
-            act.Should().Throw<XunitException>();
+            await act.Should().ThrowAsync<XunitException>();
         }
 
         internal class MyClass
@@ -146,9 +150,9 @@ public class AssertionOptionsSpecs
         }
 
         [Fact]
-        public void It_should_use_the_global_settings_for_comparing_records()
+        public async Task It_should_use_the_global_settings_for_comparing_records()
         {
-            new Position(123).Should().BeEquivalentTo(new Position(123));
+            await new Position(123).Should().BeEquivalentToAsync(new Position(123));
         }
 
         private record Position
@@ -176,7 +180,7 @@ public class AssertionOptionsSpecs
         }
 
         [Fact]
-        public void Then_it_should_ignore_small_differences_without_the_need_of_local_options()
+        public async Task Then_it_should_ignore_small_differences_without_the_need_of_local_options()
         {
             var actual = new
             {
@@ -188,9 +192,9 @@ public class AssertionOptionsSpecs
                 Value = 0.33D
             };
 
-            Action act = () => actual.Should().BeEquivalentTo(expected);
+            Func<Task> act = () => actual.Should().BeEquivalentToAsync(expected);
 
-            act.Should().NotThrow();
+            await act.Should().NotThrowAsync();
         }
     }
 
@@ -208,7 +212,7 @@ public class AssertionOptionsSpecs
         }
 
         [Fact]
-        public void Then_they_should_override_the_global_options()
+        public async Task Then_they_should_override_the_global_options()
         {
             var actual = new
             {
@@ -220,15 +224,15 @@ public class AssertionOptionsSpecs
                 Value = 0.33D
             };
 
-            Action act = () => actual.Should().BeEquivalentTo(expected, options => options
+            Func<Task> act = () => actual.Should().BeEquivalentToAsync(expected, options => options
                 .Using<double>(ctx => ctx.Subject.Should().Be(ctx.Expectation))
                 .WhenTypeIs<double>());
 
-            act.Should().Throw<XunitException>().WithMessage("Expected*");
+            await act.Should().ThrowAsync<XunitException>().WithMessage("Expected*");
         }
 
         [Fact]
-        public void Then_they_should_not_affect_any_other_assertions()
+        public async Task Then_they_should_not_affect_any_other_assertions()
         {
             var actual = new
             {
@@ -240,9 +244,9 @@ public class AssertionOptionsSpecs
                 Value = 0.33D
             };
 
-            Action act = () => actual.Should().BeEquivalentTo(expected);
+            Func<Task> act = () => actual.Should().BeEquivalentToAsync(expected);
 
-            act.Should().NotThrow();
+            await act.Should().NotThrowAsync();
         }
     }
 

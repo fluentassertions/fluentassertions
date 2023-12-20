@@ -935,7 +935,7 @@ public class DictionarySpecs
         // Assert
         await action.Should().ThrowAsync<XunitException>()
             .WithMessage(
-                "Expected dictionary2 to be a dictionary or collection of key-value pairs that is keyed to type FluentAssertions.Equivalency.Specs.DictionarySpecs+SomeBaseKeyClass.*");
+                "Expected dictionary2 to be a dictionary or collection of key-value pairs that is keyed to type FluentAssertionsAsync.Equivalency.Specs.DictionarySpecs+SomeBaseKeyClass.*");
     }
 
     [Fact]

@@ -21,8 +21,9 @@ internal class CallerStatementBuilder
             new SingleLineCommentParsingStrategy(),
             new SemicolonParsingStrategy(),
             new ShouldCallParsingStrategy(),
+            new OpenParensAwaitParsingStrategy(),
             new AwaitParsingStrategy(),
-            new AddNonEmptySymbolParsingStrategy()
+            new AddNonEmptySymbolParsingStrategy(),
         };
     }
 

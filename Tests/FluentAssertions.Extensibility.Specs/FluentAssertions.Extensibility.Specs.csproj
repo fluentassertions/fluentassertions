@@ -8,6 +8,7 @@
     <NoWarn>$(NoWarn),IDE0052,1573,1591,1712</NoWarn>
     <DebugType>full</DebugType>
     <RootNamespace>FluentAssertionsAsync.Extensibility.Specs</RootNamespace>
+    <AssemblyName>FluentAssertionsAsync.Extensibility.Specs</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net47'">

@@ -147,9 +147,9 @@ public partial class CollectionAssertionSpecs
 *The following predicates did not have matching elements:
 *(element.Text == ""two"") AndAlso (element.Number == 2)
 *The following elements did not match any predicate:
-*Index: 0, Element:*FluentAssertions.Specs.Collections.CollectionAssertionSpecs+SomeClass*{*Number = 1*Text = ""one""*}
-*Index: 1, Element:*FluentAssertions.Specs.Collections.CollectionAssertionSpecs+SomeClass*{*Number = 3*Text = ""two""*}
-*Index: 2, Element:*FluentAssertions.Specs.Collections.CollectionAssertionSpecs+SomeClass*{*Number = 3*Text = ""three""*}");
+*Index: 0, Element:*FluentAssertionsAsync.Specs.Collections.CollectionAssertionSpecs+SomeClass*{*Number = 1*Text = ""one""*}
+*Index: 1, Element:*FluentAssertionsAsync.Specs.Collections.CollectionAssertionSpecs+SomeClass*{*Number = 3*Text = ""two""*}
+*Index: 2, Element:*FluentAssertionsAsync.Specs.Collections.CollectionAssertionSpecs+SomeClass*{*Number = 3*Text = ""three""*}");
         }
 
         [Fact]

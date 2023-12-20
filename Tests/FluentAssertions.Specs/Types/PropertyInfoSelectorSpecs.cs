@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using FluentAssertionsAsync.Types;
 using Internal.Main.Test;
 using Xunit;
@@ -334,7 +335,7 @@ public class PropertyInfoSelectorSpecs
     }
 
     [Fact]
-    public void When_selecting_properties_return_types_it_should_return_the_correct_types()
+    public async Task When_selecting_properties_return_types_it_should_return_the_correct_types()
     {
         // Arrange
         Type type = typeof(TestClassForPropertySelector);
@@ -343,8 +344,8 @@ public class PropertyInfoSelectorSpecs
         IEnumerable<Type> returnTypes = type.Properties().ReturnTypes().ToArray();
 
         // Assert
-        returnTypes.Should()
-            .BeEquivalentTo(new[]
+        await returnTypes.Should()
+            .BeEquivalentToAsync(new[]
             {
                 typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string),
                 typeof(string), typeof(int), typeof(int), typeof(int), typeof(int)

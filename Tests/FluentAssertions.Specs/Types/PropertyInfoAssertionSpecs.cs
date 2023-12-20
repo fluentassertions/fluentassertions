@@ -40,7 +40,7 @@ public class PropertyInfoAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected property String FluentAssertions*ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
+                    "Expected property String FluentAssertionsAsync*ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
                     " to be virtual because we want to test the error message," +
                     " but it is not.");
         }
@@ -174,8 +174,8 @@ public class PropertyInfoAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected property String " +
-                    "FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
-                    "FluentAssertions*DummyPropertyAttribute because we want to test the error message, but that attribute was not found.");
+                    "FluentAssertionsAsync*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
+                    "FluentAssertionsAsync*DummyPropertyAttribute because we want to test the error message, but that attribute was not found.");
         }
 
         [Fact]
@@ -194,8 +194,8 @@ public class PropertyInfoAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected property String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
-                    "FluentAssertions*DummyPropertyAttribute because we want to test the error message," +
+                    "Expected property String FluentAssertionsAsync*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
+                    "FluentAssertionsAsync*DummyPropertyAttribute because we want to test the error message," +
                     " but that attribute was not found.");
         }
 

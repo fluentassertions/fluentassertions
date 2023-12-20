@@ -3,8 +3,8 @@ using Xunit.Sdk;
 
 namespace FluentAssertionsAsync.Specs.CultureAwareTesting;
 
-[XunitTestCaseDiscoverer("FluentAssertions.Specs.CultureAwareTesting.CulturedTheoryAttributeDiscoverer",
-    "FluentAssertions.Specs")]
+[XunitTestCaseDiscoverer("FluentAssertionsAsync.Specs.CultureAwareTesting.CulturedTheoryAttributeDiscoverer",
+    "FluentAssertionsAsync.Specs")]
 public sealed class CulturedTheoryAttribute : TheoryAttribute
 {
 #pragma warning disable CA1019 // Define accessors for attribute arguments

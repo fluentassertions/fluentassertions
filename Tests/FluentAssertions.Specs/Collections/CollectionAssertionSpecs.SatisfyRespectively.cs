@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertionsAsync.Execution;
 using Xunit;
 using Xunit.Sdk;
@@ -145,16 +146,16 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_inspector_message_is_not_reformatable_it_should_not_throw()
+        public async Task When_inspector_message_is_not_reformatable_it_should_not_throw()
         {
             // Arrange
             byte[][] subject = { new byte[] { 1 } };
 
             // Act
-            Action act = () => subject.Should().SatisfyRespectively(e => e.Should().BeEquivalentTo(new byte[] { 2, 3, 4 }));
+            Func<Task> act = () => subject.Should().SatisfyRespectivelyAsync(async e => await e.Should().BeEquivalentToAsync(new byte[] { 2, 3, 4 }));
 
             // Assert
-            act.Should().NotThrow<FormatException>();
+            await act.Should().NotThrowAsync<FormatException>();
         }
 
         [Fact]

@@ -43,10 +43,10 @@ public class ReferenceTypeAssertionsSpecs
             .Should().Throw<XunitException>()
             .WithMessage(
             """
-            Expected subject to refer to
+            Expected subject to refer to 
             {
                 UserName = "JohnDoe"
-            } because they are the same, but found
+            } because they are the same, but found 
             {
                 Name = "John Doe"
             }.
@@ -61,10 +61,10 @@ public class ReferenceTypeAssertionsSpecs
         act.Should().Throw<XunitException>()
             .WithMessage(
             """
-            Expected subject to be empty, but found
+            Expected subject to be empty, but found 
             {
-                Simple(Hello),
-                FluentAssertions.Specs.Primitives.Complex
+                Simple(Hello), 
+                FluentAssertionsAsync.Specs.Primitives.Complex
                 {
                     Statement = "goodbye"
                 }
@@ -398,8 +398,8 @@ public class ReferenceTypeAssertionsSpecs
 
         // Assert
         act.Should().Throw<XunitException>().WithMessage(
-            "Expected subject to be*FluentAssertions*SomeDto*{*Age = 2*Birthdate = <2009-02-22>*" +
-            "  Name = \"Teddie\"*}, but found*FluentAssertions*SomeDto*{*Age = 37*" +
+            "Expected subject to be*FluentAssertionsAsync*SomeDto*{*Age = 2*Birthdate = <2009-02-22>*" +
+            "  Name = \"Teddie\"*}, but found*FluentAssertionsAsync*SomeDto*{*Age = 37*" +
             "  Birthdate = <1973-09-20>*Name = \"Dennis\"*}.");
     }
 

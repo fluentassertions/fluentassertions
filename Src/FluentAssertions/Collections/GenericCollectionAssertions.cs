@@ -3014,6 +3014,63 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     }
 
     /// <summary>
+    /// Asserts that a collection contains only items which meet
+    /// the criteria provided by the inspector.
+    /// </summary>
+    /// <param name="expected">
+    /// The element inspector, which inspects each element in turn.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> AllSatisfy(Action<T> expected, string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> inspector");
+
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to contain only items satisfying the inspector{reason}, ")
+            .Given(() => Subject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but collection is <null>.")
+            .Then
+            .ClearExpectation();
+
+        if (success)
+        {
+            string[] failuresFromInspectors;
+
+            using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
+            {
+                var elementInspectors = Subject.Select(_ => expected);
+                failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
+            }
+
+            if (failuresFromInspectors.Length > 0)
+            {
+                string failureMessage = Environment.NewLine
+                    + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .WithExpectation("Expected {context:collection} to contain only items satisfying the inspector{reason}:")
+                    .FailWithPreFormatted(failureMessage)
+                    .Then
+                    .ClearExpectation();
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
     /// Asserts that a collection contains exactly a given number of elements, which meet
     /// the criteria provided by the element inspectors.
     /// </summary>
@@ -3029,6 +3086,21 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     }
 
     /// <summary>
+    /// Asserts that a collection contains exactly a given number of elements, which meet
+    /// the criteria provided by the element inspectors.
+    /// </summary>
+    /// <param name="elementInspectors">
+    /// The element inspectors, which inspect each element in turn. The
+    /// total number of element inspectors must exactly match the number of elements in the collection.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="elementInspectors"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="elementInspectors"/> is empty.</exception>
+    public AndConstraint<TAssertions> SatisfyRespectively(params Action<T>[] elementInspectors)
+    {
+        return SatisfyRespectively(elementInspectors, string.Empty);
+    }
+
+        /// <summary>
     /// Asserts that a collection contains exactly a given number of elements, which meet
     /// the criteria provided by the element inspectors.
     /// </summary>
@@ -3080,6 +3152,78 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
             {
                 failuresFromInspectors = await CollectFailuresFromInspectorsAsync(elementInspectors);
+            }
+
+            if (failuresFromInspectors.Length > 0)
+            {
+                string failureMessage = Environment.NewLine
+                    + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .WithExpectation(
+                        "Expected {context:collection} to satisfy all inspectors{reason}, but some inspectors are not satisfied:")
+                    .FailWithPreFormatted(failureMessage)
+                    .Then
+                    .ClearExpectation();
+            }
+        }
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a collection contains exactly a given number of elements, which meet
+    /// the criteria provided by the element inspectors.
+    /// </summary>
+    /// <param name="expected">
+    /// The element inspectors, which inspect each element in turn. The
+    /// total number of element inspectors must exactly match the number of elements in the collection.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
+    public AndConstraint<TAssertions> SatisfyRespectively(IEnumerable<Action<T>> expected, string because = "",
+        params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> collection of inspectors");
+
+        ICollection<Action<T>> elementInspectors = expected.ConvertOrCastToCollection();
+
+        Guard.ThrowIfArgumentIsEmpty(elementInspectors, nameof(expected),
+            "Cannot verify against an empty collection of inspectors");
+
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to satisfy all inspectors{reason}, ")
+            .Given(() => Subject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but collection is <null>.")
+            .Then
+            .ForCondition(subject => subject.Any())
+            .FailWith("but collection is empty.")
+            .Then
+            .ClearExpectation()
+            .Then
+            .Given(subject => (elements: subject.Count(), inspectors: elementInspectors.Count))
+            .ForCondition(count => count.elements == count.inspectors)
+            .FailWith(
+                "Expected {context:collection} to contain exactly {0} items{reason}, but it contains {1} items",
+                count => count.inspectors, count => count.elements);
+
+        if (success)
+        {
+            string[] failuresFromInspectors;
+
+            using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
+            {
+                failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
             }
 
             if (failuresFromInspectors.Length > 0)
@@ -3458,6 +3602,43 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                 using (var itemScope = new AssertionScope())
                 {
                     await inspector(element);
+                    inspectorFailures = itemScope.Discard();
+                }
+
+                if (inspectorFailures.Length > 0)
+                {
+                    // Adding one tab and removing trailing dot to allow nested SatisfyRespectively
+                    string failures = string.Join(Environment.NewLine,
+                        inspectorFailures.Select(x => x.IndentLines().TrimEnd('.')));
+
+                    collectionScope.AddPreFormattedFailure($"At index {index}:{Environment.NewLine}{failures}");
+                }
+
+                index++;
+            }
+
+            collectionFailures = collectionScope.Discard();
+        }
+
+        return collectionFailures;
+    }
+
+    private string[] CollectFailuresFromInspectors(IEnumerable<Action<T>> elementInspectors)
+    {
+        string[] collectionFailures;
+
+        using (var collectionScope = new AssertionScope())
+        {
+            int index = 0;
+
+            foreach ((T element, Action<T> inspector) in Subject.Zip(elementInspectors,
+                         (element, inspector) => (element, inspector)))
+            {
+                string[] inspectorFailures;
+
+                using (var itemScope = new AssertionScope())
+                {
+                    inspector(element);
                     inspectorFailures = itemScope.Discard();
                 }
 

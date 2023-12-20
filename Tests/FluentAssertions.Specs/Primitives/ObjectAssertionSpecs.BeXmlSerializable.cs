@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -14,7 +15,7 @@ public partial class ObjectAssertionSpecs
     public class BeXmlSerializable
     {
         [Fact]
-        public void When_an_object_is_xml_serializable_it_should_succeed()
+        public async Task When_an_object_is_xml_serializable_it_should_succeed()
         {
             // Arrange
             var subject = new XmlSerializableClass
@@ -24,14 +25,14 @@ public partial class ObjectAssertionSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeXmlSerializable();
+            Func<Task> act = () => subject.Should().BeXmlSerializableAsync();
 
             // Assert
-            act.Should().NotThrow();
+            await act.Should().NotThrowAsync();
         }
 
         [Fact]
-        public void When_an_object_is_not_xml_serializable_it_should_fail()
+        public async Task When_an_object_is_not_xml_serializable_it_should_fail()
         {
             // Arrange
             var subject = new NonPublicClass
@@ -40,16 +41,16 @@ public partial class ObjectAssertionSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeXmlSerializable("we need to store it on {0}", "disk");
+            Func<Task> act = () => subject.Should().BeXmlSerializableAsync("we need to store it on {0}", "disk");
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await act.Should().ThrowAsync<XunitException>()
                 .WithMessage(
                     "*to be serializable because we need to store it on disk, but serialization failed with:*NonPublicClass*");
         }
 
         [Fact]
-        public void When_an_object_is_xml_serializable_but_doesnt_restore_all_properties_it_should_fail()
+        public async Task When_an_object_is_xml_serializable_but_doesnt_restore_all_properties_it_should_fail()
         {
             // Arrange
             var subject = new XmlSerializableClassNotRestoringAllProperties
@@ -59,10 +60,10 @@ public partial class ObjectAssertionSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeXmlSerializable();
+            Func<Task> act = () => subject.Should().BeXmlSerializableAsync();
 
             // Assert
-            act.Should().Throw<XunitException>()
+            await act.Should().ThrowAsync<XunitException>()
                 .WithMessage("*to be serializable, but serialization failed with:*Name*to be*");
         }
     }

@@ -54,9 +54,9 @@ public class MethodInfoSelectorAssertionSpecs
                 .WithMessage("Expected all selected methods" +
                     " to be virtual because we want to test the error message," +
                     " but the following methods are not virtual:*" +
-                    "Void FluentAssertions*ClassWithNonVirtualPublicMethods.PublicDoNothing*" +
-                    "Void FluentAssertions*ClassWithNonVirtualPublicMethods.InternalDoNothing*" +
-                    "Void FluentAssertions*ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
+                    "Void FluentAssertionsAsync*ClassWithNonVirtualPublicMethods.PublicDoNothing*" +
+                    "Void FluentAssertionsAsync*ClassWithNonVirtualPublicMethods.InternalDoNothing*" +
+                    "Void FluentAssertionsAsync*ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
         }
     }
 
@@ -173,11 +173,11 @@ public class MethodInfoSelectorAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to be decorated with" +
-                    " FluentAssertions*DummyMethodAttribute because we want to test the error message," +
+                    " FluentAssertionsAsync*DummyMethodAttribute because we want to test the error message," +
                     " but the following methods are not:*" +
-                    "Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing*" +
-                    "Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing*" +
-                    "Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
+                    "Void FluentAssertionsAsync*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing*" +
+                    "Void FluentAssertionsAsync*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing*" +
+                    "Void FluentAssertionsAsync*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
         }
     }
 
@@ -280,9 +280,9 @@ public class MethodInfoSelectorAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to be Public" +
                     ", but the following methods are not:*" +
-                    "Void FluentAssertions*ClassWithNonPublicMethods.PublicDoNothing*" +
-                    "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithParameter*" +
-                    "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
+                    "Void FluentAssertionsAsync*ClassWithNonPublicMethods.PublicDoNothing*" +
+                    "Void FluentAssertionsAsync*ClassWithNonPublicMethods.DoNothingWithParameter*" +
+                    "Void FluentAssertionsAsync*ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
         }
 
         [Fact]
@@ -300,9 +300,9 @@ public class MethodInfoSelectorAssertionSpecs
                 .WithMessage("Expected all selected methods to be Public" +
                     " because we want to test the error message" +
                     ", but the following methods are not:*" +
-                    "Void FluentAssertions*ClassWithNonPublicMethods.PublicDoNothing*" +
-                    "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithParameter*" +
-                    "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
+                    "Void FluentAssertionsAsync*ClassWithNonPublicMethods.PublicDoNothing*" +
+                    "Void FluentAssertionsAsync*ClassWithNonPublicMethods.DoNothingWithParameter*" +
+                    "Void FluentAssertionsAsync*ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
         }
     }
 
@@ -336,7 +336,7 @@ public class MethodInfoSelectorAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to not be Public" +
                     ", but the following methods are:*" +
-                    "Void FluentAssertions*ClassWithPublicMethods.PublicDoNothing*");
+                    "Void FluentAssertionsAsync*ClassWithPublicMethods.PublicDoNothing*");
         }
 
         [Fact]
@@ -354,7 +354,7 @@ public class MethodInfoSelectorAssertionSpecs
                 .WithMessage("Expected all selected methods to not be Public" +
                     " because we want to test the error message" +
                     ", but the following methods are:*" +
-                    "Void FluentAssertions*ClassWithPublicMethods.PublicDoNothing*");
+                    "Void FluentAssertionsAsync*ClassWithPublicMethods.PublicDoNothing*");
         }
     }
 
@@ -387,9 +387,9 @@ public class MethodInfoSelectorAssertionSpecs
                 .WithMessage("Expected all selected methods" +
                     " to be async because we want to test the error message," +
                     " but the following methods are not:" + Environment.NewLine +
-                    "Task FluentAssertions.Specs.Types.ClassWithNonAsyncMethods.PublicDoNothing" + Environment.NewLine +
-                    "Task FluentAssertions.Specs.Types.ClassWithNonAsyncMethods.InternalDoNothing" + Environment.NewLine +
-                    "Task FluentAssertions.Specs.Types.ClassWithNonAsyncMethods.ProtectedDoNothing");
+                    "Task FluentAssertionsAsync.Specs.Types.ClassWithNonAsyncMethods.PublicDoNothing" + Environment.NewLine +
+                    "Task FluentAssertionsAsync.Specs.Types.ClassWithNonAsyncMethods.InternalDoNothing" + Environment.NewLine +
+                    "Task FluentAssertionsAsync.Specs.Types.ClassWithNonAsyncMethods.ProtectedDoNothing");
         }
     }
 
@@ -422,9 +422,9 @@ public class MethodInfoSelectorAssertionSpecs
                 .WithMessage("Expected all selected methods" +
                     " not to be async because we want to test the error message," +
                     " but the following methods are:" + Environment.NewLine +
-                    "Task FluentAssertions.Specs.Types.ClassWithAllMethodsAsync.PublicAsyncDoNothing" + Environment.NewLine +
-                    "Task FluentAssertions.Specs.Types.ClassWithAllMethodsAsync.InternalAsyncDoNothing" + Environment.NewLine +
-                    "Task FluentAssertions.Specs.Types.ClassWithAllMethodsAsync.ProtectedAsyncDoNothing");
+                    "Task FluentAssertionsAsync.Specs.Types.ClassWithAllMethodsAsync.PublicAsyncDoNothing" + Environment.NewLine +
+                    "Task FluentAssertionsAsync.Specs.Types.ClassWithAllMethodsAsync.InternalAsyncDoNothing" + Environment.NewLine +
+                    "Task FluentAssertionsAsync.Specs.Types.ClassWithAllMethodsAsync.ProtectedAsyncDoNothing");
         }
     }
 }

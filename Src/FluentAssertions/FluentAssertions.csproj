@@ -36,8 +36,8 @@
   </PropertyGroup>
 
   <ItemGroup Label="Internals visible to">
-    <InternalsVisibleTo Include="FluentAssertions.Specs" Key="$(FluentAssertionsPublicKey)" />
-    <InternalsVisibleTo Include="FluentAssertions.Equivalency.Specs" Key="$(FluentAssertionsPublicKey)" />
+    <InternalsVisibleTo Include="FluentAssertionsAsync.Specs" Key="$(FluentAssertionsPublicKey)" />
+    <InternalsVisibleTo Include="FluentAssertionsAsync.Equivalency.Specs" Key="$(FluentAssertionsPublicKey)" />
     <InternalsVisibleTo Include="Benchmarks" Key="$(FluentAssertionsPublicKey)" />
   </ItemGroup>
 

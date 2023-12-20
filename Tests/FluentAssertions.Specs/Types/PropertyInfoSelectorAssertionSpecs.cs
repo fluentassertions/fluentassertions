@@ -53,9 +53,9 @@ public class PropertyInfoSelectorAssertionSpecs
                 .WithMessage("Expected all selected properties" +
                     " to be virtual because we want to test the error message," +
                     " but the following properties are not virtual:*" +
-                    "String FluentAssertions*ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty*" +
-                    "String FluentAssertions*ClassWithNonVirtualPublicProperties.InternalNonVirtualProperty*" +
-                    "String FluentAssertions*ClassWithNonVirtualPublicProperties.ProtectedNonVirtualProperty");
+                    "String FluentAssertionsAsync*ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty*" +
+                    "String FluentAssertionsAsync*ClassWithNonVirtualPublicProperties.InternalNonVirtualProperty*" +
+                    "String FluentAssertionsAsync*ClassWithNonVirtualPublicProperties.ProtectedNonVirtualProperty");
         }
     }
 
@@ -157,11 +157,11 @@ public class PropertyInfoSelectorAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected properties to be decorated with" +
-                    " FluentAssertions*DummyPropertyAttribute because we want to test the error message," +
+                    " FluentAssertionsAsync*DummyPropertyAttribute because we want to test the error message," +
                     " but the following properties are not:*" +
-                    "String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty*" +
-                    "String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalProperty*" +
-                    "String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedProperty");
+                    "String FluentAssertionsAsync*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty*" +
+                    "String FluentAssertionsAsync*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalProperty*" +
+                    "String FluentAssertionsAsync*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedProperty");
         }
     }
 
@@ -236,8 +236,8 @@ public class PropertyInfoSelectorAssertionSpecs
                 .WithMessage(
                     "Expected all selected properties to have a setter because we want to test the error message, " +
                     "but the following properties do not:*" +
-                    "String FluentAssertions*ClassWithReadOnlyProperties.ReadOnlyProperty*" +
-                    "String FluentAssertions*ClassWithReadOnlyProperties.ReadOnlyProperty2");
+                    "String FluentAssertionsAsync*ClassWithReadOnlyProperties.ReadOnlyProperty*" +
+                    "String FluentAssertionsAsync*ClassWithReadOnlyProperties.ReadOnlyProperty2");
         }
 
         [Fact]
@@ -271,8 +271,8 @@ public class PropertyInfoSelectorAssertionSpecs
                 .WithMessage(
                     "Expected selected properties to not have a setter because we want to test the error message, " +
                     "but the following properties do:*" +
-                    "String FluentAssertions*ClassWithWritableProperties.ReadWriteProperty*" +
-                    "String FluentAssertions*ClassWithWritableProperties.ReadWriteProperty2");
+                    "String FluentAssertionsAsync*ClassWithWritableProperties.ReadWriteProperty*" +
+                    "String FluentAssertionsAsync*ClassWithWritableProperties.ReadWriteProperty2");
         }
 
         [Fact]

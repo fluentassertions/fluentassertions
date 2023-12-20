@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
 
@@ -149,45 +150,45 @@ public class ComparableSpecs
         }
     }
 
-    public class BeEquivalentTo
+    public class BeEquivalentToAsync
     {
         [Fact]
-        public void When_two_instances_are_equivalent_it_should_succeed()
+        public async Task When_two_instances_are_equivalent_it_should_succeed()
         {
             // Arrange
             var subject = new ComparableCustomer(42);
             var expected = new CustomerDto(42);
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expected);
+            await subject.Should().BeEquivalentToAsync(expected);
         }
 
         [Fact]
-        public void When_two_instances_are_compared_it_should_allow_chaining()
+        public async Task When_two_instances_are_compared_it_should_allow_chaining()
         {
             // Arrange
             var subject = new ComparableCustomer(42);
             var expected = new CustomerDto(42);
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expected)
+            (await subject.Should().BeEquivalentToAsync(expected))
                 .And.NotBeNull();
         }
 
         [Fact]
-        public void When_two_instances_are_compared_with_config_it_should_allow_chaining()
+        public async Task When_two_instances_are_compared_with_config_it_should_allow_chaining()
         {
             // Arrange
             var subject = new ComparableCustomer(42);
             var expected = new CustomerDto(42);
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expected, opt => opt)
+            (await subject.Should().BeEquivalentToAsync(expected, opt => opt))
                 .And.NotBeNull();
         }
 
         [Fact]
-        public void When_two_instances_are_equivalent_due_to_exclusion_it_should_succeed()
+        public async Task When_two_instances_are_equivalent_due_to_exclusion_it_should_succeed()
         {
             // Arrange
             var subject = new ComparableCustomer(42);
@@ -198,28 +199,28 @@ public class ComparableSpecs
             };
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expected,
+            await subject.Should().BeEquivalentToAsync(expected,
                 options => options.Excluding(x => x.SomeOtherProperty),
                 "they have the same property values");
         }
 
         [Fact]
-        public void When_injecting_a_null_config_it_should_throw()
+        public async Task When_injecting_a_null_config_it_should_throw()
         {
             // Arrange
             var subject = new ComparableCustomer(42);
             var expected = new AnotherCustomerDto(42);
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(expected, config: null);
+            Func<Task> act = () => subject.Should().BeEquivalentToAsync(expected, config: null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            await act.Should().ThrowExactlyAsync<ArgumentNullException>()
                 .WithParameterName("config");
         }
 
         [Fact]
-        public void When_two_instances_are_not_equivalent_it_should_throw()
+        public async Task When_two_instances_are_not_equivalent_it_should_throw()
         {
             // Arrange
             var subject = new ComparableCustomer(42);
@@ -230,11 +231,11 @@ public class ComparableSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(expected, "they have the same property values");
+            Func<Task> act = () => subject.Should().BeEquivalentToAsync(expected, "they have the same property values");
 
             // Assert
-            act
-                .Should().Throw<XunitException>()
+            await act
+                .Should().ThrowAsync<XunitException>()
                 .WithMessage(
                     "Expectation has property subject.SomeOtherProperty*that the other object does not have*");
         }

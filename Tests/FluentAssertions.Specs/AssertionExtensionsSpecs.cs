@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using FluentAssertionsAsync.Common;
 using FluentAssertionsAsync.Numeric;
 using FluentAssertionsAsync.Primitives;
@@ -118,7 +119,7 @@ public class AssertionExtensionsSpecs
     }
 
     [Fact]
-    public void Should_methods_have_a_matching_overload_to_guard_against_chaining_and_constraints()
+    public async Task Should_methods_have_a_matching_overload_to_guard_against_chaining_and_constraints()
     {
         // Arrange / Act
         List<MethodInfo> shouldOverloads = AllTypes.From(typeof(FluentAssertionsAsync.AssertionExtensions).Assembly)
@@ -151,7 +152,7 @@ public class AssertionExtensionsSpecs
             .ToList();
 
         // Assert
-        fakeOverloads.Should().BeEquivalentTo(realOverloads, opt => opt
+        await fakeOverloads.Should().BeEquivalentToAsync(realOverloads, opt => opt
                 .Using<Type>(ctx => ctx.Subject.Name.Should().Be(ctx.Expectation.Name))
                 .WhenTypeIs<Type>(),
             "AssertionExtensions.cs should have a guard overload of Should calling InvalidShouldCall()");

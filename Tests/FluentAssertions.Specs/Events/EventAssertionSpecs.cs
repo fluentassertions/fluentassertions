@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertionsAsync.Events;
 using FluentAssertionsAsync.Execution;
 using FluentAssertionsAsync.Extensions;
@@ -655,7 +656,7 @@ public class EventAssertionSpecs
     public class Metadata
     {
         [Fact]
-        public void When_monitoring_an_object_it_should_monitor_all_the_events_it_exposes()
+        public async Task When_monitoring_an_object_it_should_monitor_all_the_events_it_exposes()
         {
             // Arrange
             var eventSource = new ClassThatRaisesEventsItself();
@@ -665,7 +666,7 @@ public class EventAssertionSpecs
             EventMetadata[] metadata = eventMonitor.MonitoredEvents;
 
             // Assert
-            metadata.Should().BeEquivalentTo(new[]
+            await metadata.Should().BeEquivalentToAsync(new[]
             {
                 new
                 {
@@ -681,7 +682,7 @@ public class EventAssertionSpecs
         }
 
         [Fact]
-        public void When_monitoring_an_object_through_an_interface_it_should_monitor_only_the_events_it_exposes()
+        public async Task When_monitoring_an_object_through_an_interface_it_should_monitor_only_the_events_it_exposes()
         {
             // Arrange
             var eventSource = new ClassThatRaisesEventsItself();
@@ -691,7 +692,7 @@ public class EventAssertionSpecs
             EventMetadata[] metadata = monitor.MonitoredEvents;
 
             // Assert
-            metadata.Should().BeEquivalentTo(new[]
+            await metadata.Should().BeEquivalentToAsync(new[]
             {
                 new
                 {
@@ -788,7 +789,7 @@ public class EventAssertionSpecs
         }
 
         [Fact]
-        public void When_an_object_raises_two_events_it_should_provide_the_data_about_those_occurrences()
+        public async Task When_an_object_raises_two_events_it_should_provide_the_data_about_those_occurrences()
         {
             // Arrange
             DateTime utcNow = 17.September(2017).At(21, 00).AsUtc();
@@ -804,7 +805,7 @@ public class EventAssertionSpecs
             eventSource.RaiseNonConventionalEvent("first", 123, "third");
 
             // Assert
-            monitor.OccurredEvents.Should().BeEquivalentTo(new[]
+            await monitor.OccurredEvents.Should().BeEquivalentToAsync(new[]
             {
                 new
                 {
