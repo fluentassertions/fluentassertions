@@ -984,6 +984,7 @@ public class ExtensibilitySpecs
         }, o => o
             .Using<StructWithProperties?, StructWithPropertiesComparer>()
         );
+        comperand.Value.Value.Value.Should().Be(42);
     }
 
     private class ClassWithNullableStructProperty
@@ -1081,6 +1082,7 @@ public class ExtensibilitySpecs
         }, o => o
             .Using<ClassProperty, ClassPropertyComparer>()
         );
+        comperand.Value.Value.Should().Be(42);
     }
 
     private class ClassWithClassProperty
@@ -1097,7 +1099,7 @@ public class ExtensibilitySpecs
     {
         public bool Equals(ClassProperty x, ClassProperty y)
         {
-            var result = Equals(x.Value, y.Value);
+            var result = Equals(x?.Value, y?.Value);
             return result;
         }
 
