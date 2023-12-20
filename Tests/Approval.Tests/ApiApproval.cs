@@ -23,7 +23,7 @@ public class ApiApproval
     public Task ApproveApi(string framework)
     {
         var configuration = typeof(ApiApproval).Assembly.GetCustomAttribute<AssemblyConfigurationAttribute>()!.Configuration;
-        var assemblyFile = CombinedPaths("Src", "FluentAssertions", "bin", configuration, framework, "FluentAssertions.dll");
+        var assemblyFile = CombinedPaths("Src", "FluentAssertions", "bin", configuration, framework, "FluentAssertionsAsync.dll");
         var assembly = Assembly.LoadFile(assemblyFile);
         var publicApi = assembly.GeneratePublicApi(options: null);
 
