@@ -18,7 +18,7 @@ internal sealed class TypeMemberReflector
     {
         Properties = LoadProperties(typeToReflect, visibility);
         Fields = LoadFields(typeToReflect, visibility);
-        Members = Properties.Concat<MemberInfo>(Fields).ToArray();
+        Members = [.. Properties, .. Fields];
     }
 
     public MemberInfo[] Members { get; }

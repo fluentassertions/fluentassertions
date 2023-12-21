@@ -129,21 +129,21 @@ public class AssertionExtensionsSpecs
             .Where(m => m.Name == "Should")
             .ToList();
 
-        List<Type> realOverloads = shouldOverloads
-            .Where(m => !IsGuardOverload(m))
-            .Select(t => GetMostParentType(t.ReturnType))
-            .Distinct()
-            .Concat(new[]
-            {
-                // @jnyrup: DateTimeRangeAssertions and DateTimeOffsetRangeAssertions are manually added here,
-                // because they expose AndConstraints,
-                // and hence should have a guarding Should(DateTimeRangeAssertions _) overloads,
-                // but they do not have a regular Should() overload,
-                // as they are always constructed through the fluent API.
-                typeof(DateTimeRangeAssertions<>),
-                typeof(DateTimeOffsetRangeAssertions<>),
-            })
-            .ToList();
+        List<Type> realOverloads =
+        [
+            ..shouldOverloads
+                .Where(m => !IsGuardOverload(m))
+                .Select(t => GetMostParentType(t.ReturnType))
+                .Distinct(),
+
+            // @jnyrup: DateTimeRangeAssertions and DateTimeOffsetRangeAssertions are manually added here,
+            // because they expose AndConstraints,
+            // and hence should have a guarding Should(DateTimeRangeAssertions _) overloads,
+            // but they do not have a regular Should() overload,
+            // as they are always constructed through the fluent API.
+            typeof(DateTimeRangeAssertions<>),
+            typeof(DateTimeOffsetRangeAssertions<>)
+        ];
 
         List<Type> fakeOverloads = shouldOverloads
             .Where(m => IsGuardOverload(m))
