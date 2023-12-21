@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <LangVersion>11.0</LangVersion>
+    <LangVersion>12.0</LangVersion>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
@@ -13,7 +13,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AnalysisLevel>7.0</AnalysisLevel>
+    <AnalysisLevel>8.0</AnalysisLevel>
     <AnalysisMode>All</AnalysisMode>
     <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
   </PropertyGroup>
