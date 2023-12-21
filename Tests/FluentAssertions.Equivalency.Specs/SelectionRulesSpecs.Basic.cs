@@ -276,13 +276,13 @@ public partial class SelectionRulesSpecs
             };
 
             // Act / Assert
-            sut.Should().BeEquivalentTo(new[]
-            {
+            sut.Should().BeEquivalentTo(
+            [
                 new BaseClassPointingToClassWithoutProperties
                 {
                     Name = "theName"
                 }
-            });
+            ]);
         }
 
         internal class BaseClassPointingToClassWithoutProperties

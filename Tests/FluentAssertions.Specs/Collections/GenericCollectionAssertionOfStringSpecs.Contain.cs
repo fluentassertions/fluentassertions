@@ -13,10 +13,10 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_a_collection_does_not_contain_another_collection_it_should_throw_with_clear_explanation()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
-            Action act = () => collection.Should().Contain(new[] { "three", "four", "five" }, "because {0}", "we do");
+            Action act = () => collection.Should().Contain(["three", "four", "five"], "because {0}", "we do");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -27,7 +27,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_a_collection_does_not_contain_single_item_it_should_throw_with_clear_explanation()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action act = () => collection.Should().Contain("four", "because {0}", "we do");
@@ -56,7 +56,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_asserting_collection_contains_an_item_from_the_collection_it_should_succeed()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action act = () => collection.Should().Contain("one");
@@ -69,10 +69,10 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_asserting_collection_contains_multiple_items_from_the_collection_in_any_order_it_should_succeed()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
-            Action act = () => collection.Should().Contain(new[] { "two", "one" });
+            Action act = () => collection.Should().Contain(["two", "one"]);
 
             // Assert
             act.Should().NotThrow<XunitException>();
@@ -82,7 +82,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_the_contents_of_a_collection_are_checked_against_an_empty_collection_it_should_throw_clear_explanation()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action act = () => collection.Should().Contain(new string[0]);
@@ -96,7 +96,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_the_expected_object_exists_it_should_allow_chaining_additional_assertions()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action act = () => collection.Should().Contain("one").Which.Should().HaveLength(4);
@@ -127,7 +127,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_contains_an_unexpected_item_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action act = () => collection.Should().NotContain("one", "because we {0} like it, but found it anyhow", "don't");
@@ -141,7 +141,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_does_contain_an_unexpected_item_matching_a_predicate_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action act = () => collection.Should().NotContain(item => item == "two", "because {0}s are evil", "two");
@@ -155,7 +155,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_does_not_contain_an_item_that_is_not_in_the_collection_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action act = () => collection.Should().NotContain("four");
@@ -168,7 +168,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_does_not_contain_an_unexpected_item_matching_a_predicate_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act / Assert
             collection.Should().NotContain(item => item == "four");

@@ -19,7 +19,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_has_the_correct_element_succeeding_another_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { "cris", "mick", "john" };
+            string[] collection = ["cris", "mick", "john"];
 
             // Act
             Action act = () => collection.Should().HaveElementSucceeding("cris", "mick");
@@ -33,7 +33,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_has_the_wrong_element_succeeding_another_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { "cris", "mick", "john" };
+            string[] collection = ["cris", "mick", "john"];
 
             // Act
             Action act = () => collection.Should().HaveElementSucceeding("mick", "cris", "because of some reason");
@@ -48,7 +48,7 @@ public partial class CollectionAssertionSpecs
         public void When_nothing_is_succeeding_an_element_it_should_throw()
         {
             // Arrange
-            var collection = new[] { "cris", "mick", "john" };
+            string[] collection = ["cris", "mick", "john"];
 
             // Act
             Action act = () => collection.Should().HaveElementSucceeding("john", "jane");
@@ -76,7 +76,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_null_element_is_succeeding_another_element_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { "mick", null, "john" };
+            string[] collection = ["mick", null, "john"];
 
             // Act
             Action act = () => collection.Should().HaveElementSucceeding("mick", null);
@@ -89,7 +89,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_null_element_is_not_succeeding_another_element_it_should_throw()
         {
             // Arrange
-            var collection = new[] { "cris", "mick", "john" };
+            string[] collection = ["cris", "mick", "john"];
 
             // Act
             Action act = () => collection.Should().HaveElementSucceeding("mick", null);
@@ -103,7 +103,7 @@ public partial class CollectionAssertionSpecs
         public void When_an_element_is_succeeding_a_null_element_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { "mick", null, "john" };
+            string[] collection = ["mick", null, "john"];
 
             // Act
             Action act = () => collection.Should().HaveElementSucceeding(null, "john");
@@ -116,7 +116,7 @@ public partial class CollectionAssertionSpecs
         public void When_an_element_is_not_succeeding_a_null_element_it_should_throw()
         {
             // Arrange
-            var collection = new[] { "mick", null, "john" };
+            string[] collection = ["mick", null, "john"];
 
             // Act
             Action act = () => collection.Should().HaveElementSucceeding(null, "cris");

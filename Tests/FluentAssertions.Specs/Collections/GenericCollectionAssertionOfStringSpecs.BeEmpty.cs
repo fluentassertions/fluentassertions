@@ -13,7 +13,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void Should_fail_when_asserting_collection_with_items_is_empty()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action act = () => collection.Should().BeEmpty();
@@ -50,7 +50,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_the_collection_is_not_empty_unexpectedly_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action act = () => collection.Should().BeEmpty("because we want to test the failure {0}", "message");
@@ -83,7 +83,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_asserting_collection_with_items_is_not_empty_it_should_succeed()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act / Assert
             collection.Should().NotBeEmpty();

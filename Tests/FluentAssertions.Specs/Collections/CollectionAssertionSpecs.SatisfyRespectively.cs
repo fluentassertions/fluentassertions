@@ -80,7 +80,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_satisfies_all_inspectors_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { new Customer { Age = 21, Name = "John" }, new Customer { Age = 22, Name = "Jane" } };
+            Customer[] collection = [new Customer { Age = 21, Name = "John" }, new Customer { Age = 22, Name = "Jane" }];
 
             // Act / Assert
             collection.Should().SatisfyRespectively(
@@ -100,11 +100,11 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_does_not_satisfy_any_inspector_it_should_throw()
         {
             // Arrange
-            var customers = new[]
-            {
+            CustomerWithItems[] customers =
+            [
                 new CustomerWithItems { Age = 21, Items = [1, 2] },
                 new CustomerWithItems { Age = 22, Items = [3] }
-            };
+            ];
 
             // Act
             Action act = () => customers.Should().SatisfyRespectively(
@@ -176,7 +176,7 @@ public partial class CollectionAssertionSpecs
         public void When_inspectors_count_does_not_equal_asserting_collection_length_it_should_fail_with_a_useful_message()
         {
             // Arrange
-            var collection = new int[0];
+            int[] collection = [];
 
             // Act
             Action act = () => collection.Should().SatisfyRespectively(

@@ -119,7 +119,7 @@ public partial class CollectionAssertionSpecs
             int[] collection = [1, 2, 3];
 
             // Act
-            Action act = () => collection.Should().Contain(new int[0]);
+            Action act = () => collection.Should().Contain([]);
 
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
@@ -200,7 +200,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_of_strings_contains_the_expected_string_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> strings = new[] { "string1", "string2", "string3" };
+            IEnumerable<string> strings = ["string1", "string2", "string3"];
 
             // Act / Assert
             strings.Should().Contain("string2");
@@ -210,7 +210,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_of_strings_does_not_contain_the_expected_string_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> strings = new[] { "string1", "string2", "string3" };
+            IEnumerable<string> strings = ["string1", "string2", "string3"];
 
             // Act
             Action act = () => strings.Should().Contain("string4", "because {0} is required", "4");
@@ -244,7 +244,7 @@ public partial class CollectionAssertionSpecs
             // Arrange
             DateTime now = DateTime.Now;
 
-            IEnumerable<DateTime> collection = new[] { now, DateTime.SpecifyKind(now, DateTimeKind.Unspecified) };
+            IEnumerable<DateTime> collection = [now, DateTime.SpecifyKind(now, DateTimeKind.Unspecified)];
 
             // Act
             Action act = () => collection.Should().Contain(now).Which.Kind.Should().Be(DateTimeKind.Local);

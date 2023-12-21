@@ -27,7 +27,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_contains_multiple_nulls_that_are_unexpected_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "", null, "", null };
+            IEnumerable<string> collection = ["", null, "", null];
 
             // Act
             Action act = () => collection.Should().NotContainNulls("because they are {0}", "evil");
@@ -41,7 +41,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_contains_nulls_that_are_unexpected_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "", null };
+            IEnumerable<string> collection = ["", null];
 
             // Act
             Action act = () => collection.Should().NotContainNulls("because they are {0}", "evil");
@@ -55,7 +55,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_does_not_contain_nulls_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act / Assert
             collection.Should().NotContainNulls();

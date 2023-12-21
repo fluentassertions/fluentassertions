@@ -122,13 +122,13 @@ public partial class CollectionAssertionSpecs
             When_assertion_fails_then_failure_message_must_contain_predicates_without_matching_elements_and_elements_without_matching_predicates()
         {
             // Arrange
-            IEnumerable<SomeClass> collection = new[]
-            {
+            IEnumerable<SomeClass> collection =
+            [
                 new SomeClass { Text = "one", Number = 1 },
                 new SomeClass { Text = "two", Number = 3 },
                 new SomeClass { Text = "three", Number = 3 },
                 new SomeClass { Text = "four", Number = 4 },
-            };
+            ];
 
             // Act
             Action act = () => collection.Should().Satisfy(

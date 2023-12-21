@@ -17,7 +17,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_the_items_in_an_descendingly_ordered_collection_are_ordered_descending_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { "z", "y", "x" };
+            string[] collection = ["z", "y", "x"];
 
             // Act / Assert
             collection.Should().BeInDescendingOrder();
@@ -27,7 +27,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_the_items_in_an_unordered_collection_are_ordered_descending_it_should_throw()
         {
             // Arrange
-            var collection = new[] { "z", "x", "y" };
+            string[] collection = ["z", "x", "y"];
 
             // Act
             Action action = () => collection.Should().BeInDescendingOrder("because letters are ordered");
@@ -98,7 +98,7 @@ public partial class CollectionAssertionSpecs
             When_asserting_the_items_in_an_unordered_collection_are_ordered_descending_using_the_given_comparer_it_should_throw()
         {
             // Arrange
-            var collection = new[] { "z", "x", "y" };
+            string[] collection = ["z", "x", "y"];
 
             // Act
             Action action = () =>
@@ -115,7 +115,7 @@ public partial class CollectionAssertionSpecs
             When_asserting_the_items_in_an_descendingly_ordered_collection_are_ordered_descending_using_the_given_comparer_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { "z", "y", "x" };
+            string[] collection = ["z", "y", "x"];
 
             // Act / Assert
             collection.Should().BeInDescendingOrder(Comparer<object>.Default);
@@ -292,7 +292,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_the_items_in_an_unordered_collection_are_not_in_descending_order_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { "x", "y", "x" };
+            string[] collection = ["x", "y", "x"];
 
             // Act / Assert
             collection.Should().NotBeInDescendingOrder();
@@ -303,7 +303,7 @@ public partial class CollectionAssertionSpecs
             When_asserting_the_items_in_an_unordered_collection_are_not_in_descending_order_using_the_given_comparer_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { "x", "y", "x" };
+            string[] collection = ["x", "y", "x"];
 
             // Act / Assert
             collection.Should().NotBeInDescendingOrder(Comparer<object>.Default);
@@ -313,7 +313,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_the_items_in_a_descending_ordered_collection_are_not_in_descending_order_it_should_throw()
         {
             // Arrange
-            var collection = new[] { "c", "b", "a" };
+            string[] collection = ["c", "b", "a"];
 
             // Act
             Action action = () => collection.Should().NotBeInDescendingOrder("because numbers are not ordered");
@@ -329,7 +329,7 @@ public partial class CollectionAssertionSpecs
             When_asserting_the_items_in_a_descending_ordered_collection_are_not_in_descending_order_using_the_given_comparer_it_should_throw()
         {
             // Arrange
-            var collection = new[] { "c", "b", "a" };
+            string[] collection = ["c", "b", "a"];
 
             // Act
             Action action = () =>

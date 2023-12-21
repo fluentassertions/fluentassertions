@@ -45,18 +45,18 @@ public class ExceptionAssertionSpecs
 
     public static TheoryData<Action, Exception> AggregateExceptionTestData()
     {
-        var tasks = new[]
-        {
+        Action[] tasks =
+        [
             AggregateExceptionWithLeftNestedException,
             AggregateExceptionWithRightNestedException
-        };
+        ];
 
-        var types = new Exception[]
-        {
+        Exception[] types =
+        [
             new AggregateException(),
             new ArgumentNullException(),
             new InvalidOperationException()
-        };
+        ];
 
         var data = new TheoryData<Action, Exception>();
 

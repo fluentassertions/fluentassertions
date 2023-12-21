@@ -13,7 +13,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void Should_succeed_when_asserting_collection_with_unique_items_contains_only_unique_items()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three", "four" };
+            IEnumerable<string> collection = ["one", "two", "three", "four"];
 
             // Act / Assert
             collection.Should().OnlyHaveUniqueItems();
@@ -23,7 +23,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_a_collection_contains_duplicate_items_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three", "three" };
+            IEnumerable<string> collection = ["one", "two", "three", "three"];
 
             // Act
             Action act = () => collection.Should().OnlyHaveUniqueItems("{0} don't like {1}", "we", "duplicates");
@@ -37,7 +37,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_a_collection_contains_multiple_duplicate_items_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "two", "three", "three" };
+            IEnumerable<string> collection = ["one", "two", "two", "three", "three"];
 
             // Act
             Action act = () => collection.Should().OnlyHaveUniqueItems("{0} don't like {1}", "we", "duplicates");

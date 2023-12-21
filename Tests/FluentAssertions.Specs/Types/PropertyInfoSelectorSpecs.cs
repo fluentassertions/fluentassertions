@@ -344,11 +344,11 @@ public class PropertyInfoSelectorSpecs
 
         // Assert
         returnTypes.Should()
-            .BeEquivalentTo(new[]
-            {
+            .BeEquivalentTo(
+            [
                 typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string),
                 typeof(string), typeof(int), typeof(int), typeof(int), typeof(int)
-            });
+            ]);
     }
 
     public class ThatArePublicOrInternal

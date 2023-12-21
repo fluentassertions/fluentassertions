@@ -665,8 +665,8 @@ public class EventAssertionSpecs
             EventMetadata[] metadata = eventMonitor.MonitoredEvents;
 
             // Assert
-            metadata.Should().BeEquivalentTo(new[]
-            {
+            metadata.Should().BeEquivalentTo(
+            [
                 new
                 {
                     EventName = nameof(ClassThatRaisesEventsItself.InterfaceEvent),
@@ -677,7 +677,7 @@ public class EventAssertionSpecs
                     EventName = nameof(ClassThatRaisesEventsItself.PropertyChanged),
                     HandlerType = typeof(PropertyChangedEventHandler)
                 }
-            });
+            ]);
         }
 
         [Fact]
@@ -691,14 +691,14 @@ public class EventAssertionSpecs
             EventMetadata[] metadata = monitor.MonitoredEvents;
 
             // Assert
-            metadata.Should().BeEquivalentTo(new[]
-            {
+            metadata.Should().BeEquivalentTo(
+            [
                 new
                 {
                     EventName = nameof(IEventRaisingInterface.InterfaceEvent),
                     HandlerType = typeof(EventHandler)
                 }
-            });
+            ]);
         }
 
 #if NETFRAMEWORK // DefineDynamicAssembly is obsolete in .NET Core
@@ -804,8 +804,8 @@ public class EventAssertionSpecs
             eventSource.RaiseNonConventionalEvent("first", 123, "third");
 
             // Assert
-            monitor.OccurredEvents.Should().BeEquivalentTo(new[]
-            {
+            monitor.OccurredEvents.Should().BeEquivalentTo(
+            [
                 new
                 {
                     EventName = "PropertyChanged",
@@ -818,7 +818,7 @@ public class EventAssertionSpecs
                     TimestampUtc = utcNow,
                     Parameters = new object[] { "first", 123, "third" }
                 }
-            }, o => o.WithStrictOrdering());
+            ], o => o.WithStrictOrdering());
         }
 
         [Fact]

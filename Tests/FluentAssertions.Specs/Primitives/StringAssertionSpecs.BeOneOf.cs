@@ -32,7 +32,7 @@ public partial class StringAssertionSpecs
             string value = "abc";
 
             // Act
-            Action action = () => value.Should().BeOneOf(new[] { "def", "xyz" }, "because those are the valid values");
+            Action action = () => value.Should().BeOneOf(["def", "xyz"], "because those are the valid values");
 
             // Assert
             action.Should().Throw<XunitException>()

@@ -129,7 +129,7 @@ public partial class CollectionAssertionSpecs
     public void When_single_item_contains_brackets_it_should_format_them_properly()
     {
         // Arrange
-        IEnumerable<string> collection = new[] { "" };
+        IEnumerable<string> collection = [""];
 
         // Act
         Action act = () => collection.Should().ContainSingle(item => item == "{123}");
@@ -143,7 +143,7 @@ public partial class CollectionAssertionSpecs
     public void When_single_item_contains_string_interpolation_it_should_format_brackets_properly()
     {
         // Arrange
-        IEnumerable<string> collection = new[] { "" };
+        IEnumerable<string> collection = [""];
 
         // Act
         Action act = () => collection.Should().ContainSingle(item => item == $"{123}");

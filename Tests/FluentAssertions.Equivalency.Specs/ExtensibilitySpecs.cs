@@ -162,8 +162,8 @@ public class ExtensibilitySpecs
     public void When_an_ordering_rule_is_added_it_should_be_evaluated_after_all_existing_rules()
     {
         // Arrange
-        var subject = new[] { "First", "Second" };
-        var expected = new[] { "First", "Second" };
+        string[] subject = ["First", "Second"];
+        string[] expected = ["First", "Second"];
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(
@@ -178,8 +178,8 @@ public class ExtensibilitySpecs
     public void When_an_ordering_rule_is_added_it_should_appear_in_the_exception_message()
     {
         // Arrange
-        var subject = new[] { "First", "Second" };
-        var expected = new[] { "Second", "First" };
+        string[] subject = ["First", "Second"];
+        string[] expected = ["Second", "First"];
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(
