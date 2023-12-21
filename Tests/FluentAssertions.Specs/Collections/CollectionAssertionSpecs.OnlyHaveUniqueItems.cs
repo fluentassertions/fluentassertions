@@ -123,13 +123,13 @@ public partial class CollectionAssertionSpecs
         public void Should_succeed_when_asserting_with_a_predicate_a_collection_with_unique_items_contains_only_unique_items()
         {
             // Arrange
-            IEnumerable<SomeClass> collection = new[]
-            {
+            IEnumerable<SomeClass> collection =
+            [
                 new SomeClass { Text = "one" },
                 new SomeClass { Text = "two" },
                 new SomeClass { Text = "three" },
                 new SomeClass { Text = "four" }
-            };
+            ];
 
             // Act / Assert
             collection.Should().OnlyHaveUniqueItems(e => e.Text);
@@ -139,13 +139,13 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_contains_duplicate_items_with_predicate_it_should_throw()
         {
             // Arrange
-            IEnumerable<SomeClass> collection = new[]
-            {
+            IEnumerable<SomeClass> collection =
+            [
                 new SomeClass { Text = "one" },
                 new SomeClass { Text = "two" },
                 new SomeClass { Text = "three" },
                 new SomeClass { Text = "three" }
-            };
+            ];
 
             // Act
             Action act = () => collection.Should().OnlyHaveUniqueItems(e => e.Text, "{0} don't like {1}", "we", "duplicates");
@@ -159,14 +159,14 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_contains_multiple_duplicate_items_with_a_predicate_it_should_throw()
         {
             // Arrange
-            IEnumerable<SomeClass> collection = new[]
-            {
+            IEnumerable<SomeClass> collection =
+            [
                 new SomeClass { Text = "one" },
                 new SomeClass { Text = "two" },
                 new SomeClass { Text = "two" },
                 new SomeClass { Text = "three" },
                 new SomeClass { Text = "three" }
-            };
+            ];
 
             // Act
             Action act = () => collection.Should().OnlyHaveUniqueItems(e => e.Text, "{0} don't like {1}", "we", "duplicates");
@@ -180,14 +180,14 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_contains_multiple_duplicates_on_different_properties_all_should_be_reported()
         {
             // Arrange
-            IEnumerable<SomeClass> collection = new[]
-            {
+            IEnumerable<SomeClass> collection =
+            [
                 new SomeClass { Text = "one", Number = 1 },
                 new SomeClass { Text = "two", Number = 2 },
                 new SomeClass { Text = "two", Number = 2 },
                 new SomeClass { Text = "three", Number = 3 },
                 new SomeClass { Text = "three", Number = 4 }
-            };
+            ];
 
             // Act
             Action act = () =>

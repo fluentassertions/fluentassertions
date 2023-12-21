@@ -13,10 +13,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_selecting_types_that_decorated_with_attribute_it_should_return_the_correct_type()
         {
-            var types = new[]
-            {
+            Type[] types =
+            [
                 typeof(JustAClass), typeof(ClassWithSomeAttribute), typeof(ClassDerivedFromClassWithSomeAttribute)
-            };
+            ];
 
             types.ThatAreDecoratedWith<SomeAttribute>()
                 .Should()
@@ -27,10 +27,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_selecting_types_that_decorated_with_attribute_or_inherit_it_should_return_the_correct_type()
         {
-            var types = new[]
-            {
+            Type[] types =
+            [
                 typeof(JustAClass), typeof(ClassWithSomeAttribute), typeof(ClassDerivedFromClassWithSomeAttribute)
-            };
+            ];
 
             types.ThatAreDecoratedWithOrInherit<SomeAttribute>()
                 .Should()
@@ -42,10 +42,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_selecting_types_that_not_decorated_with_attribute_it_should_return_the_correct_type()
         {
-            var types = new[]
-            {
+            Type[] types =
+            [
                 typeof(JustAClass), typeof(ClassWithSomeAttribute), typeof(ClassDerivedFromClassWithSomeAttribute)
-            };
+            ];
 
             types.ThatAreNotDecoratedWith<SomeAttribute>()
                 .Should()
@@ -57,10 +57,10 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_selecting_types_that_not_decorated_with_attribute_or_inherit_it_should_return_the_correct_type()
         {
-            var types = new[]
-            {
+            Type[] types =
+            [
                 typeof(JustAClass), typeof(ClassWithSomeAttribute), typeof(ClassDerivedFromClassWithSomeAttribute)
-            };
+            ];
 
             types.ThatAreNotDecoratedWithOrInherit<SomeAttribute>()
                 .Should()
@@ -171,7 +171,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_unwrap_task_types_it_should_return_the_correct_type()
         {
-            var types = new[] { typeof(Task<JustAClass>), typeof(List<IJustAnInterface>) };
+            Type[] types = [typeof(Task<JustAClass>), typeof(List<IJustAnInterface>)];
 
             types.UnwrapTaskTypes()
                 .Should()
@@ -183,7 +183,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_unwrap_enumerable_types_it_should_return_the_correct_type()
         {
-            var types = new[] { typeof(Task<JustAClass>), typeof(List<IJustAnInterface>) };
+            Type[] types = [typeof(Task<JustAClass>), typeof(List<IJustAnInterface>)];
 
             types.UnwrapEnumerableTypes()
                 .Should()

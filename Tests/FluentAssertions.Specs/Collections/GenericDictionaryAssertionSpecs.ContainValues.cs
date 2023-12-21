@@ -38,7 +38,7 @@ public partial class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action act = () => dictionary.Should().ContainValues(new[] { "Two", "Three" }, "because {0}", "we do");
+            Action act = () => dictionary.Should().ContainValues(["Two", "Three"], "because {0}", "we do");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -95,7 +95,7 @@ public partial class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action act = () => dictionary.Should().NotContainValues(new[] { "Two" }, "because {0}", "we do");
+            Action act = () => dictionary.Should().NotContainValues(["Two"], "because {0}", "we do");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -113,7 +113,7 @@ public partial class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action act = () => dictionary.Should().NotContainValues(new[] { "Two", "Three" }, "because {0}", "we do");
+            Action act = () => dictionary.Should().NotContainValues(["Two", "Three"], "because {0}", "we do");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -149,7 +149,7 @@ public partial class GenericDictionaryAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                dictionary.Should().NotContainValues(new[] { "Two", "Three" }, "because {0}", "we do");
+                dictionary.Should().NotContainValues(["Two", "Three"], "because {0}", "we do");
             };
 
             // Assert

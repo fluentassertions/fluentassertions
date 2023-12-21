@@ -28,7 +28,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_does_not_have_an_element_at_the_specific_index_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action act = () => collection.Should().HaveElementAt(4, "three", "we put it {0}", "there");
@@ -42,7 +42,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_does_not_have_the_expected_element_at_specific_index_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action act = () => collection.Should().HaveElementAt(1, "three", "we put it {0}", "there");
@@ -56,7 +56,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_has_expected_element_at_specific_index_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act / Assert
             collection.Should().HaveElementAt(1, "two");

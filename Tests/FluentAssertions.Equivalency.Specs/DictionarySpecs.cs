@@ -319,15 +319,15 @@ public class DictionarySpecs
             new ReadOnlyDictionary<string, IEnumerable<string>>(
                 new Dictionary<string, IEnumerable<string>>
                 {
-                    ["Key2"] = new[] { "Value2" },
-                    ["Key1"] = new[] { "Value1" }
+                    ["Key2"] = ["Value2"],
+                    ["Key1"] = ["Value1"]
                 });
 
         // Act
         Action act = () => dictionary.Should().BeEquivalentTo(new Dictionary<string, IEnumerable<string>>
         {
-            ["Key1"] = new[] { "Value1" },
-            ["Key2"] = new[] { "Value2" }
+            ["Key1"] = ["Value1"],
+            ["Key2"] = ["Value2"]
         });
 
         // Assert
@@ -342,15 +342,15 @@ public class DictionarySpecs
             new ReadOnlyDictionary<string, IEnumerable<string>>(
                 new Dictionary<string, IEnumerable<string>>
                 {
-                    ["Key2"] = new[] { "Value2" },
-                    ["Key1"] = new[] { "Value1" }
+                    ["Key2"] = ["Value2"],
+                    ["Key1"] = ["Value1"]
                 });
 
         // Act
         Action act = () => dictionary.Should().BeEquivalentTo(new Dictionary<string, IEnumerable<string>>
         {
-            ["Key2"] = new[] { "Value3" },
-            ["Key1"] = new[] { "Value1" }
+            ["Key2"] = ["Value3"],
+            ["Key1"] = ["Value1"]
         });
 
         // Assert

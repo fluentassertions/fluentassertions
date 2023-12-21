@@ -170,10 +170,10 @@ public partial class CollectionAssertionSpecs
         public void Can_use_an_index_into_a_list_in_the_ordering_expression()
         {
             // Arrange
-            var collection = new[]
-            {
-                new List<SomeClass> { new() { Text = "a", Number = 1 } }
-            };
+            List<SomeClass>[] collection =
+            [
+                [new() { Text = "a", Number = 1 }]
+            ];
 
             // Act & Assert
             collection.Should().BeInAscendingOrder(o => o[0].Number);
@@ -183,10 +183,10 @@ public partial class CollectionAssertionSpecs
         public void Can_use_an_index_into_an_array_in_the_ordering_expression()
         {
             // Arrange
-            var collection = new[]
-            {
-                new[] { new SomeClass { Text = "a", Number = 1 } }
-            };
+            SomeClass[][] collection =
+            [
+                [new SomeClass { Text = "a", Number = 1 }]
+            ];
 
             // Act & Assert
             collection.Should().BeInAscendingOrder(o => o[0].Number);

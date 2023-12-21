@@ -57,7 +57,7 @@ public class BasicSpecs
     public void When_comparing_nested_collection_with_a_null_value_it_should_fail_with_the_correct_message()
     {
         // Arrange
-        MyClass[] subject = [new MyClass { Items = new[] { "a" } }];
+        MyClass[] subject = [new MyClass { Items = ["a"] }];
 
         MyClass[] expectation = [new MyClass()];
 
@@ -209,12 +209,8 @@ public class BasicSpecs
     public void When_treating_a_value_type_in_a_collection_as_a_complex_type_it_should_compare_them_by_members()
     {
         // Arrange
-        var subject = new[] { new ClassWithValueSemanticsOnSingleProperty { Key = "SameKey", NestedProperty = "SomeValue" } };
-
-        var expected = new[]
-        {
-            new ClassWithValueSemanticsOnSingleProperty { Key = "SameKey", NestedProperty = "OtherValue" }
-        };
+        ClassWithValueSemanticsOnSingleProperty[] subject = [new() { Key = "SameKey", NestedProperty = "SomeValue" }];
+        ClassWithValueSemanticsOnSingleProperty[] expected = [new() { Key = "SameKey", NestedProperty = "OtherValue" }];
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected,

@@ -12,7 +12,7 @@ public partial class CollectionAssertionSpecs
         public void Succeeds_when_the_collection_does_not_contain_items_of_the_unexpected_type()
         {
             // Arrange
-            var collection = new[] { "1", "2", "3" };
+            string[] collection = ["1", "2", "3"];
 
             // Act / Assert
             collection.Should().NotContainItemsAssignableTo<int>();

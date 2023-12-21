@@ -160,7 +160,7 @@ public partial class CollectionAssertionSpecs
         public void When_an_empty_collection_is_compared_for_equality_to_a_non_empty_collection_it_should_throw()
         {
             // Arrange
-            var collection1 = new int[0];
+            int[] collection1 = [];
             int[] collection2 = [1, 2, 3];
 
             // Act
@@ -176,7 +176,7 @@ public partial class CollectionAssertionSpecs
         {
             // Arrange
             int[] collection1 = [1, 2, 3];
-            var collection2 = new int[0];
+            int[] collection2 = [];
 
             // Act
             Action act = () => collection1.Should().Equal(collection2);
@@ -414,7 +414,7 @@ public partial class CollectionAssertionSpecs
         [Fact]
         public void When_asserting_collections_not_to_be_equal_but_both_collections_reference_the_same_object_it_should_throw()
         {
-            var collection1 = new[] { "one", "two", "three" };
+            string[] collection1 = ["one", "two", "three"];
             var collection2 = collection1;
 
             // Act

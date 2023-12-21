@@ -95,8 +95,8 @@ public partial class CollectionAssertionSpecs
         public void When_two_collections_are_both_empty_it_should_treat_them_as_equivalent()
         {
             // Arrange
-            var subject = new int[0];
-            var otherCollection = new int[0];
+            int[] subject = [];
+            int[] otherCollection = [];
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(otherCollection);
@@ -237,7 +237,7 @@ public partial class CollectionAssertionSpecs
         {
             // Arrange
             int[] collection1 = [1, 2, 3];
-            var collection2 = new int[0];
+            int[] collection2 = [];
 
             // Act
             Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
@@ -282,8 +282,8 @@ public partial class CollectionAssertionSpecs
         public void When_a_collections_is_equivalent_to_an_approximate_copy_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1.0, 2.0, 3.0 };
-            var collection1 = new[] { 1.5, 2.5, 3.5 };
+            double[] collection = [1.0, 2.0, 3.0];
+            double[] collection1 = [1.5, 2.5, 3.5];
 
             // Act
             Action act = () => collection.Should().NotBeEquivalentTo(collection1, opt => opt

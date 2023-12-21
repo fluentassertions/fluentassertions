@@ -13,8 +13,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void Should_succeed_when_asserting_collection_is_equal_to_the_same_collection()
         {
             // Arrange
-            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
-            IEnumerable<string> collection2 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection1 = ["one", "two", "three"];
+            IEnumerable<string> collection2 = ["one", "two", "three"];
 
             // Act / Assert
             collection1.Should().Equal(collection2);
@@ -24,7 +24,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void Should_succeed_when_asserting_collection_is_equal_to_the_same_list_of_elements()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act / Assert
             collection.Should().Equal("one", "two", "three");
@@ -50,7 +50,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         {
             // Arrange
             var collection1 = new string[0];
-            IEnumerable<string> collection2 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = ["one", "two", "three"];
 
             // Act
             Action act = () => collection1.Should().Equal(collection2);
@@ -97,7 +97,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_asserting_collections_to_be_equal_but_expected_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
             IEnumerable<string> collection1 = null;
 
             // Act
@@ -115,7 +115,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         {
             // Arrange
             IEnumerable<string> collection = null;
-            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection1 = ["one", "two", "three"];
 
             // Act
             Action act = () =>
@@ -143,8 +143,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_two_collections_are_not_equal_because_one_item_differs_it_should_throw_using_the_reason()
         {
             // Arrange
-            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
-            IEnumerable<string> collection2 = new[] { "one", "two", "five" };
+            IEnumerable<string> collection1 = ["one", "two", "three"];
+            IEnumerable<string> collection2 = ["one", "two", "five"];
 
             // Act
             Action act = () => collection1.Should().Equal(collection2, "because we want to test the failure {0}", "message");
@@ -159,8 +159,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
             When_two_collections_are_not_equal_because_the_actual_collection_contains_less_items_it_should_throw_using_the_reason()
         {
             // Arrange
-            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
-            IEnumerable<string> collection2 = new[] { "one", "two", "three", "four" };
+            IEnumerable<string> collection1 = ["one", "two", "three"];
+            IEnumerable<string> collection2 = ["one", "two", "three", "four"];
 
             // Act
             Action act = () => collection1.Should().Equal(collection2, "because we want to test the failure {0}", "message");
@@ -175,8 +175,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
             When_two_collections_are_not_equal_because_the_actual_collection_contains_more_items_it_should_throw_using_the_reason()
         {
             // Arrange
-            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
-            IEnumerable<string> collection2 = new[] { "one", "two" };
+            IEnumerable<string> collection1 = ["one", "two", "three"];
+            IEnumerable<string> collection2 = ["one", "two"];
 
             // Act
             Action act = () => collection1.Should().Equal(collection2, "because we want to test the failure {0}", "message");
@@ -207,8 +207,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void Should_succeed_when_asserting_collection_is_not_equal_to_a_different_collection()
         {
             // Arrange
-            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
-            IEnumerable<string> collection2 = new[] { "three", "one", "two" };
+            IEnumerable<string> collection1 = ["one", "two", "three"];
+            IEnumerable<string> collection2 = ["three", "one", "two"];
 
             // Act / Assert
             collection1.Should()
@@ -218,7 +218,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         [Fact]
         public void When_asserting_collections_not_to_be_equal_but_both_collections_reference_the_same_object_it_should_throw()
         {
-            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection1 = ["one", "two", "three"];
             IEnumerable<string> collection2 = collection1;
 
             // Act
@@ -234,7 +234,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_asserting_collections_not_to_be_equal_but_expected_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
             IEnumerable<string> collection1 = null;
 
             // Act
@@ -252,7 +252,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         {
             // Arrange
             IEnumerable<string> collection = null;
-            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection1 = ["one", "two", "three"];
 
             // Act
             Action act =
@@ -267,8 +267,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_two_equal_collections_are_not_expected_to_be_equal_it_should_report_a_clear_explanation()
         {
             // Arrange
-            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
-            IEnumerable<string> collection2 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection1 = ["one", "two", "three"];
+            IEnumerable<string> collection2 = ["one", "two", "three"];
 
             // Act
             Action act = () => collection1.Should().NotEqual(collection2, "because we want to test the failure {0}", "message");
@@ -282,8 +282,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_two_equal_collections_are_not_expected_to_be_equal_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
-            IEnumerable<string> collection2 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection1 = ["one", "two", "three"];
+            IEnumerable<string> collection2 = ["one", "two", "three"];
 
             // Act
             Action act = () => collection1.Should().NotEqual(collection2);

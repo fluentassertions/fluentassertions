@@ -13,7 +13,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_a_collection_does_not_contain_a_range_twice_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "one", "three", "twelve", "two", "two" };
+            IEnumerable<string> collection = ["one", "two", "one", "three", "twelve", "two", "two"];
 
             // Act
             Action act = () => collection.Should().ContainInOrder("one", "two", "one", "one", "two");
@@ -27,7 +27,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_a_collection_does_not_contain_an_ordered_item_it_should_throw_with_a_clear_explanation()
         {
             // Act
-            Action act = () => new[] { "one", "two", "three" }.Should().ContainInOrder(new[] { "four", "one" }, "we failed");
+            Action act = () => new[] { "one", "two", "three" }.Should().ContainInOrder(["four", "one"], "we failed");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -44,7 +44,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             // Act
             Action act =
                 () => strings.Should()
-                    .ContainInOrder(new[] { "string4" }, "because we're checking how it reacts to a null subject");
+                    .ContainInOrder(["string4"], "because we're checking how it reacts to a null subject");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -55,7 +55,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_contains_null_value_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", null, "two", "string" };
+            IEnumerable<string> collection = ["one", null, "two", "string"];
 
             // Act / Assert
             collection.Should().ContainInOrder("one", null, "string");
@@ -76,7 +76,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_the_first_collection_contains_a_duplicate_item_without_affecting_the_order_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three", "two" };
+            IEnumerable<string> collection = ["one", "two", "three", "two"];
 
             // Act / Assert
             collection.Should().ContainInOrder("one", "two", "three");
@@ -86,7 +86,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_two_collections_contain_the_same_duplicate_items_in_the_same_order_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "one", "two", "twelve", "two", "two" };
+            IEnumerable<string> collection = ["one", "two", "one", "two", "twelve", "two", "two"];
 
             // Act / Assert
             collection.Should().ContainInOrder("one", "two", "one", "two", "twelve", "two", "two");
@@ -97,7 +97,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         {
             // Act
             Action act = () =>
-                new[] { "one", "two", "three" }.Should().ContainInOrder(new[] { "three", "one" }, "because we said so");
+                new[] { "one", "two", "three" }.Should().ContainInOrder(["three", "one"], "because we said so");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -108,7 +108,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_two_collections_contain_the_same_items_in_the_same_order_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "two", "three"];
 
             // Act / Assert
             collection.Should().ContainInOrder("one", "two", "three");
@@ -121,7 +121,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_two_collections_contain_the_same_items_but_in_different_order_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act / Assert
             collection.Should().NotContainInOrder("two", "one");
@@ -131,7 +131,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_a_collection_does_not_contain_an_ordered_item_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act / Assert
             collection.Should().NotContainInOrder("four", "one");
@@ -141,7 +141,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_a_collection_contains_less_items_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two" };
+            IEnumerable<string> collection = ["one", "two"];
 
             // Act / Assert
             collection.Should().NotContainInOrder("one", "two", "three");
@@ -151,7 +151,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_a_collection_does_not_contain_a_range_twice_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "one", "three", "twelve", "two", "two" };
+            IEnumerable<string> collection = ["one", "two", "one", "three", "twelve", "two", "two"];
 
             // Act / Assert
             collection.Should().NotContainInOrder("one", "two", "one", "one", "two");
@@ -175,10 +175,10 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_two_collections_contain_the_same_items_in_the_same_order_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "two", "three"];
 
             // Act
-            Action act = () => collection.Should().NotContainInOrder(new[] { "one", "two", "three" }, "that's what we expect");
+            Action act = () => collection.Should().NotContainInOrder(["one", "two", "three"], "that's what we expect");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -190,7 +190,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_contains_contain_the_same_items_in_the_same_order_with_null_value_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", null, "two", "three" };
+            IEnumerable<string> collection = ["one", null, "two", "three"];
 
             // Act
             Action act = () => collection.Should().NotContainInOrder("one", null, "three");
@@ -205,7 +205,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_the_first_collection_contains_a_duplicate_item_without_affecting_the_order_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three", "two" };
+            IEnumerable<string> collection = ["one", "two", "three", "two"];
 
             // Act
             Action act = () => collection.Should().NotContainInOrder("one", "two", "three");
@@ -220,7 +220,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_two_collections_contain_the_same_duplicate_items_in_the_same_order_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "one", "twelve", "two" };
+            IEnumerable<string> collection = ["one", "two", "one", "twelve", "two"];
 
             // Act
             Action act = () => collection.Should().NotContainInOrder("one", "two", "one", "twelve", "two");
@@ -235,7 +235,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_passing_in_null_while_checking_for_absence_of_ordered_containment_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action act = () => collection.Should().NotContainInOrder(null);

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
@@ -51,7 +51,7 @@ public partial class DateTimeOffsetAssertionSpecs
         {
             // Arrange
             var value = new DateTimeOffset(31.December(2016), 1.Hours());
-            var expected = new[] { value, value + 1.Hours() }.AsEnumerable();
+            IEnumerable<DateTimeOffset> expected = [value, value + 1.Hours()];
 
             // Act / Assert
             value.Should().BeOneOf(expected)
@@ -63,7 +63,7 @@ public partial class DateTimeOffsetAssertionSpecs
         {
             // Arrange
             var value = new DateTimeOffset(31.December(2016), 1.Hours());
-            var expected = new DateTimeOffset?[] { null, value, value + 1.Hours() }.AsEnumerable();
+            IEnumerable<DateTimeOffset?> expected = [null, value, value + 1.Hours()];
 
             // Act / Assert
             value.Should().BeOneOf(expected)

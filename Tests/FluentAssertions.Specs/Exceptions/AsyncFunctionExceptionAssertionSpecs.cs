@@ -213,18 +213,18 @@ public class AsyncFunctionExceptionAssertionSpecs
 
     public static TheoryData<Func<Task>, Exception> AggregateExceptionTestData()
     {
-        var tasks = new[]
-        {
+        Func<Task>[] tasks =
+        [
             AggregateExceptionWithLeftNestedException,
             AggregateExceptionWithRightNestedException
-        };
+        ];
 
-        var types = new Exception[]
-        {
+        Exception[] types =
+        [
             new AggregateException(),
             new ArgumentNullException(),
             new InvalidOperationException()
-        };
+        ];
 
         var data = new TheoryData<Func<Task>, Exception>();
 

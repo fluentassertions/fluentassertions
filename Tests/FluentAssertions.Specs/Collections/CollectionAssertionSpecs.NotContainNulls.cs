@@ -27,7 +27,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_contains_nulls_that_are_unexpected_it_should_throw()
         {
             // Arrange
-            var collection = new[] { new object(), null };
+            object[] collection = [new object(), null];
 
             // Act
             Action act = () => collection.Should().NotContainNulls("because they are {0}", "evil");
@@ -41,7 +41,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_contains_nulls_that_are_unexpected_it_supports_chaining()
         {
             // Arrange
-            var collection = new[] { new object(), null };
+            object[] collection = [new object(), null];
 
             // Act
             Action act = () =>
@@ -59,7 +59,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_contains_multiple_nulls_that_are_unexpected_it_should_throw()
         {
             // Arrange
-            var collection = new[] { new object(), null, new object(), null };
+            object[] collection = [new object(), null, new object(), null];
 
             // Act
             Action act = () => collection.Should().NotContainNulls("because they are {0}", "evil");
@@ -73,7 +73,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_contains_multiple_nulls_that_are_unexpected_it_supports_chaining()
         {
             // Arrange
-            var collection = new[] { new object(), null, new object(), null };
+            object[] collection = [new object(), null, new object(), null];
 
             // Act
             Action act = () =>
@@ -119,12 +119,12 @@ public partial class CollectionAssertionSpecs
         public void When_collection_does_not_contain_nulls_with_a_predicate_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<SomeClass> collection = new[]
-            {
+            IEnumerable<SomeClass> collection =
+            [
                 new SomeClass { Text = "one" },
                 new SomeClass { Text = "two" },
                 new SomeClass { Text = "three" }
-            };
+            ];
 
             // Act / Assert
             collection.Should().NotContainNulls(e => e.Text);
@@ -134,11 +134,11 @@ public partial class CollectionAssertionSpecs
         public void When_collection_contains_nulls_that_are_unexpected_with_a_predicate_it_should_throw()
         {
             // Arrange
-            IEnumerable<SomeClass> collection = new[]
-            {
+            IEnumerable<SomeClass> collection =
+            [
                 new SomeClass { Text = "" },
                 new SomeClass { Text = null }
-            };
+            ];
 
             // Act
             Action act = () => collection.Should().NotContainNulls(e => e.Text, "because they are {0}", "evil");
@@ -152,13 +152,13 @@ public partial class CollectionAssertionSpecs
         public void When_collection_contains_multiple_nulls_that_are_unexpected_with_a_predicate_it_should_throw()
         {
             // Arrange
-            IEnumerable<SomeClass> collection = new[]
-            {
+            IEnumerable<SomeClass> collection =
+            [
                 new SomeClass { Text = "" },
                 new SomeClass { Text = null },
                 new SomeClass { Text = "" },
                 new SomeClass { Text = null }
-            };
+            ];
 
             // Act
             Action act = () => collection.Should().NotContainNulls(e => e.Text, "because they are {0}", "evil");

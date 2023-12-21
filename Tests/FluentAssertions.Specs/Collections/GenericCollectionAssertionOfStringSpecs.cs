@@ -29,11 +29,11 @@ public partial class GenericCollectionAssertionOfStringSpecs
             select new { method.Name, method.ReturnType };
 
         // Assert
-        var expectedTypes = new[]
-        {
+        Type[] expectedTypes =
+        [
             typeof(AndConstraint<StringCollectionAssertions<IEnumerable<string>>>),
             typeof(AndConstraint<SubsequentOrderingAssertions<string>>)
-        };
+        ];
 
         methods.Should().OnlyContain(method => expectedTypes.Any(e => e.IsAssignableFrom(method.ReturnType)));
     }

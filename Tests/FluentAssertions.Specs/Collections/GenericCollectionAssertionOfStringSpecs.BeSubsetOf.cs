@@ -13,7 +13,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_a_subset_is_tested_against_a_null_superset_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
-            IEnumerable<string> subset = new[] { "one", "two", "three" };
+            IEnumerable<string> subset = ["one", "two", "three"];
             IEnumerable<string> superset = null;
 
             // Act
@@ -29,7 +29,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         {
             // Arrange
             IEnumerable<string> subset = new string[0];
-            IEnumerable<string> superset = new[] { "one", "two", "four", "five" };
+            IEnumerable<string> superset = ["one", "two", "four", "five"];
 
             // Act
             Action act = () => subset.Should().BeSubsetOf(superset);
@@ -43,7 +43,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         {
             // Arrange
             IEnumerable<string> collection = null;
-            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection1 = ["one", "two", "three"];
 
             // Act
             Action act =
@@ -58,8 +58,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_is_not_a_subset_of_another_it_should_throw_with_the_reason()
         {
             // Arrange
-            IEnumerable<string> subset = new[] { "one", "two", "three", "six" };
-            IEnumerable<string> superset = new[] { "one", "two", "four", "five" };
+            IEnumerable<string> subset = ["one", "two", "three", "six"];
+            IEnumerable<string> superset = ["one", "two", "four", "five"];
 
             // Act
             Action act = () => subset.Should().BeSubsetOf(superset, "because we want to test the failure {0}", "message");
@@ -74,8 +74,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_is_subset_of_a_specified_collection_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> subset = new[] { "one", "two" };
-            IEnumerable<string> superset = new[] { "one", "two", "three" };
+            IEnumerable<string> subset = ["one", "two"];
+            IEnumerable<string> superset = ["one", "two", "three"];
 
             // Act / Assert
             subset.Should().BeSubsetOf(superset);
@@ -88,8 +88,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void Should_fail_when_asserting_collection_is_not_subset_of_a_superset_collection()
         {
             // Arrange
-            IEnumerable<string> subject = new[] { "one", "two" };
-            IEnumerable<string> otherSet = new[] { "one", "two", "three" };
+            IEnumerable<string> subject = ["one", "two"];
+            IEnumerable<string> otherSet = ["one", "two", "three"];
 
             // Act
             Action act = () => subject.Should().NotBeSubsetOf(otherSet, "because I'm {0}", "mistaken");
@@ -103,8 +103,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_a_set_is_expected_to_be_not_a_subset_it_should_succeed()
         {
             // Arrange
-            IEnumerable<string> subject = new[] { "one", "two", "four" };
-            IEnumerable<string> otherSet = new[] { "one", "two", "three" };
+            IEnumerable<string> subject = ["one", "two", "four"];
+            IEnumerable<string> otherSet = ["one", "two", "three"];
 
             // Act / Assert
             subject.Should().NotBeSubsetOf(otherSet);
@@ -115,7 +115,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         {
             // Arrange
             IEnumerable<string> subject = [];
-            IEnumerable<string> otherSet = new[] { "one", "two", "three" };
+            IEnumerable<string> otherSet = ["one", "two", "three"];
 
             // Act
             Action act = () => subject.Should().NotBeSubsetOf(otherSet);
@@ -129,7 +129,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_asserting_collection_to_not_be_subset_against_same_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
             IEnumerable<string> otherCollection = collection;
 
             // Act

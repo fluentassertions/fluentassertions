@@ -338,13 +338,13 @@ public class CollectionSpecs
         var logbookEntry = new LogbookEntryProjection
         {
             Logbook = logbook,
-            LogbookRelations = new[] { new LogbookRelation { Logbook = logbook } }
+            LogbookRelations = [new LogbookRelation { Logbook = logbook }]
         };
 
         var equivalentLogbookEntry = new LogbookEntryProjection
         {
             Logbook = logbook,
-            LogbookRelations = new[] { new LogbookRelation { Logbook = logbook } }
+            LogbookRelations = [new LogbookRelation { Logbook = logbook }]
         };
 
         // Act
@@ -440,12 +440,11 @@ public class CollectionSpecs
     public void When_two_deeply_nested_collections_are_equivalent_while_ignoring_the_order_it_should_not_throw()
     {
         // Arrange
-        var items = new[] { new int[0], [42] };
+        int[][] subject = [[], [42]];
+        int[][] expectation = [[42], []];
 
         // Act / Assert
-        items.Should().BeEquivalentTo(
-            new[] { [42], new int[0] }
-        );
+        subject.Should().BeEquivalentTo(expectation);
     }
 
     [Fact]
@@ -1170,7 +1169,7 @@ public class CollectionSpecs
     public void When_some_string_in_the_collection_is_not_equal_to_the_expected_string_it_should_throw()
     {
         // Arrange
-        var subject = new[] { "one", "two", "six" };
+        string[] subject = ["one", "two", "six"];
 
         // Act
         Action action = () => subject.Should().AllBe("one");
@@ -1185,7 +1184,7 @@ public class CollectionSpecs
     public void When_some_string_in_the_collection_is_in_different_case_than_expected_string_it_should_throw()
     {
         // Arrange
-        var subject = new[] { "one", "One", "ONE" };
+        string[] subject = ["one", "One", "ONE"];
 
         // Act
         Action action = () => subject.Should().AllBe("one");
@@ -1296,7 +1295,7 @@ public class CollectionSpecs
     public void When_some_subject_items_are_not_equivalent_to_expectation_object_it_should_throw()
     {
         // Arrange
-        var subject = new[] { 1, 2, 3 };
+        int[] subject = [1, 2, 3];
 
         // Act
         Action action = () => subject.Should().AllBeEquivalentTo(1);
@@ -1611,8 +1610,8 @@ public class CollectionSpecs
         When_asserting_equivalence_of_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
     {
         // Arrange
-        ICollection collection1 = new NonGenericCollection(new[] { new Customer() });
-        ICollection collection2 = new NonGenericCollection(new[] { new Car() });
+        ICollection collection1 = new NonGenericCollection([new Customer()]);
+        ICollection collection2 = new NonGenericCollection([new Car()]);
 
         // Act
         Action act =
@@ -1642,8 +1641,8 @@ public class CollectionSpecs
     public void When_asserting_equivalence_of_non_generic_collections_it_should_respect_the_runtime_type()
     {
         // Arrange
-        ICollection subject = new NonGenericCollection(new[] { new Customer() });
-        ICollection expectation = new NonGenericCollection(new[] { new Car() });
+        ICollection subject = new NonGenericCollection([new Customer()]);
+        ICollection expectation = new NonGenericCollection([new Car()]);
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expectation);
@@ -1971,7 +1970,7 @@ public class CollectionSpecs
     public void When_the_expectation_is_null_it_should_throw()
     {
         // Arrange
-        var actual = new[,]
+        int[,] actual =
         {
             { 1, 2, 3 },
             { 4, 5, 6 }
@@ -1991,7 +1990,7 @@ public class CollectionSpecs
         // Arrange
         Array actual = null;
 
-        var expectation = new[,]
+        int[,] expectation =
         {
             { 1, 2, 3 },
             { 4, 5, 6 }
@@ -2011,7 +2010,7 @@ public class CollectionSpecs
         // Arrange
         var actual = new object();
 
-        var expectation = new[,]
+        int[,] expectation =
         {
             { 1, 2, 3 },
             { 4, 5, 6 }
@@ -2029,13 +2028,13 @@ public class CollectionSpecs
     public void When_the_length_of_the_2nd_dimension_differs_between_the_arrays_it_should_throw()
     {
         // Arrange
-        var actual = new[,]
+        int[,] actual =
         {
             { 1, 2, 3 },
             { 4, 5, 6 }
         };
 
-        var expectation = new[,] { { 1, 2, 3 } };
+        int[,] expectation = { { 1, 2, 3 } };
 
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expectation);
@@ -2049,13 +2048,13 @@ public class CollectionSpecs
     public void When_the_length_of_the_first_dimension_differs_between_the_arrays_it_should_throw()
     {
         // Arrange
-        var actual = new[,]
+        int[,] actual =
         {
             { 1, 2, 3 },
             { 4, 5, 6 }
         };
 
-        var expectation = new[,]
+        int[,] expectation =
         {
             { 1, 2 },
             { 4, 5 }
@@ -2074,7 +2073,7 @@ public class CollectionSpecs
     {
         // Arrange
 #pragma warning disable format // VS and Rider disagree on how to format a multidimensional array initializer
-        var actual = new[,,]
+        int[,,] actual =
         {
             {
                 { 1 },
@@ -2089,7 +2088,7 @@ public class CollectionSpecs
         };
 #pragma warning restore format
 
-        var expectation = new[,]
+        int[,] expectation =
         {
             { 1, 2, 3 },
             { 4, 5, 6 }
@@ -2308,8 +2307,8 @@ public class CollectionSpecs
         When_two_collections_have_properties_of_the_contained_items_excluded_but_still_differ_it_should_throw()
     {
         // Arrange
-        var list1 = new[] { new KeyValuePair<int, int>(1, 123) };
-        var list2 = new[] { new KeyValuePair<int, int>(2, 321) };
+        KeyValuePair<int, int>[] list1 = [new(1, 123)];
+        KeyValuePair<int, int>[] list2 = [new(2, 321)];
 
         // Act
         Action act = () => list1.Should().BeEquivalentTo(list2, config => config
@@ -2409,13 +2408,13 @@ public class CollectionSpecs
     public void When_two_multi_dimensional_arrays_are_equivalent_it_should_not_throw()
     {
         // Arrange
-        var subject = new[,]
+        int[,] subject =
         {
             { 1, 2, 3 },
             { 4, 5, 6 }
         };
 
-        var expectation = new[,]
+        int[,] expectation =
         {
             { 1, 2, 3 },
             { 4, 5, 6 }
@@ -2432,13 +2431,13 @@ public class CollectionSpecs
     public void When_two_multi_dimensional_arrays_are_not_equivalent_it_should_throw()
     {
         // Arrange
-        var actual = new[,]
+        int[,] actual =
         {
             { 1, 2, 3 },
             { 4, 5, 6 }
         };
 
-        var expectation = new[,]
+        int[,] expectation =
         {
             { 1, 2, 4 },
             { 4, -5, 6 }
@@ -2561,10 +2560,10 @@ public class CollectionSpecs
     public void When_two_unordered_lists_are_structurally_equivalent_and_order_is_strict_it_should_fail()
     {
         // Arrange
-        var subject = new[]
-        {
+        Customer[] subject =
+        [
             new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
-        };
+        ];
 
         var expectation = new Collection<Customer>
         {
@@ -2585,10 +2584,10 @@ public class CollectionSpecs
     public void When_two_unordered_lists_are_structurally_equivalent_and_order_was_reset_to_strict_it_should_fail()
     {
         // Arrange
-        var subject = new[]
-        {
+        Customer[] subject =
+        [
             new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
-        };
+        ];
 
         var expectation = new Collection<Customer>
         {
@@ -2614,10 +2613,10 @@ public class CollectionSpecs
     public void When_two_unordered_lists_are_structurally_equivalent_and_order_was_reset_to_not_strict_it_should_succeed()
     {
         // Arrange
-        var subject = new[]
-        {
+        Customer[] subject =
+        [
             new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
-        };
+        ];
 
         var expectation = new Collection<Customer>
         {
@@ -2637,10 +2636,10 @@ public class CollectionSpecs
     public void When_two_unordered_lists_are_structurally_equivalent_it_should_succeed()
     {
         // Arrange
-        var subject = new[]
-        {
+        Customer[] subject =
+        [
             new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
-        };
+        ];
 
         var expectation = new Collection<Customer>
         {

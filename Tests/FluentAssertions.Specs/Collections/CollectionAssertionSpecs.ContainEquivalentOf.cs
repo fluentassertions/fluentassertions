@@ -17,7 +17,7 @@ public partial class CollectionAssertionSpecs
         {
             // Arrange
             var item = new Customer { Name = "John" };
-            var collection = new[] { new Customer { Name = "Jane" }, item };
+            Customer[] collection = [new Customer { Name = "Jane" }, item];
 
             // Act / Assert
             collection.Should().ContainEquivalentOf(item);
@@ -27,7 +27,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_contains_object_equivalent_of_another_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { new Customer { Name = "Jane" }, new Customer { Name = "John" } };
+            Customer[] collection = [new Customer { Name = "Jane" }, new Customer { Name = "John" }];
             var item = new Customer { Name = "John" };
 
             // Act / Assert
@@ -113,7 +113,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_contains_equivalent_null_object_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3, (int?)null };
+            int?[] collection = [1, 2, 3, null];
             int? item = null;
 
             // Act
@@ -141,7 +141,7 @@ public partial class CollectionAssertionSpecs
         public void When_empty_collection_does_not_contain_equivalent_it_should_throw()
         {
             // Arrange
-            var collection = new int[0];
+            int[] collection = [];
             int item = 1;
 
             // Act
@@ -155,8 +155,8 @@ public partial class CollectionAssertionSpecs
         public void When_collection_does_not_contain_equivalent_because_of_second_property_it_should_throw()
         {
             // Arrange
-            var subject = new[]
-            {
+            Customer[] subject =
+            [
                 new Customer
                 {
                     Name = "John",
@@ -167,7 +167,7 @@ public partial class CollectionAssertionSpecs
                     Name = "Jane",
                     Age = 18
                 }
-            };
+            ];
 
             var item = new Customer { Name = "John", Age = 20 };
 
@@ -182,8 +182,8 @@ public partial class CollectionAssertionSpecs
         public void When_collection_does_contain_equivalent_by_including_single_property_it_should_not_throw()
         {
             // Arrange
-            var collection = new[]
-            {
+            Customer[] collection =
+            [
                 new Customer
                 {
                     Name = "John",
@@ -194,7 +194,7 @@ public partial class CollectionAssertionSpecs
                     Name = "Jane",
                     Age = 18
                 }
-            };
+            ];
 
             var item = new Customer { Name = "John", Age = 20 };
 
@@ -206,8 +206,8 @@ public partial class CollectionAssertionSpecs
         public void Tracing_should_be_included_in_the_assertion_output()
         {
             // Arrange
-            var collection = new[]
-            {
+            Customer[] collection =
+            [
                 new Customer
                 {
                     Name = "John",
@@ -218,7 +218,7 @@ public partial class CollectionAssertionSpecs
                     Name = "Jane",
                     Age = 18
                 }
-            };
+            ];
 
             var item = new Customer { Name = "John", Age = 21 };
 
@@ -325,7 +325,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_empty_collection_to_not_contain_equivalent_it_should_succeed()
         {
             // Arrange
-            var collection = new int[0];
+            int[] collection = [];
             int item = 4;
 
             // Act / Assert
@@ -365,8 +365,8 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_to_not_contain_equivalent_it_should_respect_config()
         {
             // Arrange
-            var collection = new[]
-            {
+            Customer[] collection =
+            [
                 new Customer
                 {
                     Name = "John",
@@ -377,7 +377,7 @@ public partial class CollectionAssertionSpecs
                     Name = "Jane",
                     Age = 18
                 }
-            };
+            ];
 
             var item = new Customer { Name = "John", Age = 20 };
 

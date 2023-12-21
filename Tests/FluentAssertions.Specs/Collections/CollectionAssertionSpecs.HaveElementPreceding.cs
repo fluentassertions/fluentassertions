@@ -19,7 +19,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_has_the_correct_element_preceding_another_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { "cris", "mick", "john" };
+            string[] collection = ["cris", "mick", "john"];
 
             // Act
             Action act = () => collection.Should().HaveElementPreceding("mick", "cris");
@@ -33,7 +33,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_has_the_wrong_element_preceding_another_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { "cris", "mick", "john" };
+            string[] collection = ["cris", "mick", "john"];
 
             // Act
             Action act = () => collection.Should().HaveElementPreceding("john", "cris", "because of some reason");
@@ -48,7 +48,7 @@ public partial class CollectionAssertionSpecs
         public void When_nothing_is_preceding_an_element_it_should_throw()
         {
             // Arrange
-            var collection = new[] { "cris", "mick", "john" };
+            string[] collection = ["cris", "mick", "john"];
 
             // Act
             Action act = () => collection.Should().HaveElementPreceding("cris", "jane");
@@ -77,7 +77,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_null_element_is_preceding_another_element_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { null, "mick", "john" };
+            string[] collection = [null, "mick", "john"];
 
             // Act
             Action act = () => collection.Should().HaveElementPreceding("mick", null);
@@ -91,7 +91,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_null_element_is_not_preceding_another_element_it_should_throw()
         {
             // Arrange
-            var collection = new[] { "cris", "mick", "john" };
+            string[] collection = ["cris", "mick", "john"];
 
             // Act
             Action act = () => collection.Should().HaveElementPreceding("mick", null);
@@ -105,7 +105,7 @@ public partial class CollectionAssertionSpecs
         public void When_an_element_is_preceding_a_null_element_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { "mick", null, "john" };
+            string[] collection = ["mick", null, "john"];
 
             // Act
             Action act = () => collection.Should().HaveElementPreceding(null, "mick");
@@ -118,7 +118,7 @@ public partial class CollectionAssertionSpecs
         public void When_an_element_is_not_preceding_a_null_element_it_should_throw()
         {
             // Arrange
-            var collection = new[] { "mick", null, "john" };
+            string[] collection = ["mick", null, "john"];
 
             // Act
             Action act = () => collection.Should().HaveElementPreceding(null, "cris");
