@@ -865,8 +865,11 @@ public class ExtensibilitySpecs
     [Fact]
     public void Can_compare_null_against_null_with_custom_comparer_for_nullable_property()
     {
-        var comperand = new ClassWithNullableStructProperty();
-        comperand.Should().BeEquivalentTo(new ClassWithNullableStructProperty(), o => o
+        // Arrange
+        var subject = new ClassWithNullableStructProperty();
+
+        // Act / Assert
+        subject.Should().BeEquivalentTo(new ClassWithNullableStructProperty(), o => o
             .Using<StructWithProperties, StructWithPropertiesComparer>()
         );
     }
@@ -874,14 +877,18 @@ public class ExtensibilitySpecs
     [Fact]
     public void Can_compare_null_against_not_null_with_custom_comparer_for_nullable_property()
     {
-        var comperand = new ClassWithNullableStructProperty();
-        comperand.Should().NotBeEquivalentTo(new ClassWithNullableStructProperty()
+        // Arrange
+        var subject = new ClassWithNullableStructProperty();
+        var unexpected = new ClassWithNullableStructProperty
         {
-            Value = new StructWithProperties()
+            Value = new StructWithProperties
             {
-                Value = 42,
+                Value = 42
             },
-        }, o => o
+        };
+
+        // Act / Assert
+        subject.Should().NotBeEquivalentTo(unexpected, o => o
             .Using<StructWithProperties, StructWithPropertiesComparer>()
         );
     }
@@ -889,15 +896,17 @@ public class ExtensibilitySpecs
     [Fact]
     public void Can_compare_not_null_against_null_with_custom_comparer_for_nullable_property()
     {
-        var comperand = new ClassWithNullableStructProperty()
+        // Arrange
+        var subject = new ClassWithNullableStructProperty
         {
-            Value = new StructWithProperties()
+            Value = new StructWithProperties
             {
-                Value = 42,
+                Value = 42
             },
         };
 
-        comperand.Should().NotBeEquivalentTo(new ClassWithNullableStructProperty(), o => o
+        // Act / Assert
+        subject.Should().NotBeEquivalentTo(new ClassWithNullableStructProperty(), o => o
             .Using<StructWithProperties, StructWithPropertiesComparer>()
         );
     }
@@ -905,21 +914,24 @@ public class ExtensibilitySpecs
     [Fact]
     public void Can_compare_not_null_against_not_null_with_custom_comparer_for_nullable_property()
     {
-        var comperand = new ClassWithNullableStructProperty()
+        // Arrange
+        var subject = new ClassWithNullableStructProperty
         {
-            Value = new StructWithProperties()
+            Value = new StructWithProperties
             {
-                Value = 42,
+                Value = 42
+            },
+        };
+        var expected = new ClassWithNullableStructProperty
+        {
+            Value = new StructWithProperties
+            {
+                Value = 42
             },
         };
 
-        comperand.Should().BeEquivalentTo(new ClassWithNullableStructProperty()
-        {
-            Value = new StructWithProperties()
-            {
-                Value = 42,
-            },
-        }, o => o
+        // Act / Assert
+        subject.Should().BeEquivalentTo(expected, o => o
             .Using<StructWithProperties, StructWithPropertiesComparer>()
         );
     }
@@ -927,8 +939,11 @@ public class ExtensibilitySpecs
     [Fact]
     public void Can_compare_null_against_null_with_custom_nullable_comparer_for_nullable_property()
     {
-        var comperand = new ClassWithNullableStructProperty();
-        comperand.Should().BeEquivalentTo(new ClassWithNullableStructProperty(), o => o
+        // Arrange
+        var subject = new ClassWithNullableStructProperty();
+
+        // Act / Assert
+        subject.Should().BeEquivalentTo(new ClassWithNullableStructProperty(), o => o
             .Using<StructWithProperties?, StructWithPropertiesComparer>()
         );
     }
@@ -936,14 +951,18 @@ public class ExtensibilitySpecs
     [Fact]
     public void Can_compare_null_against_not_null_with_custom_nullable_comparer_for_nullable_property()
     {
-        var comperand = new ClassWithNullableStructProperty();
-        comperand.Should().NotBeEquivalentTo(new ClassWithNullableStructProperty()
+        // Arrange
+        var subject = new ClassWithNullableStructProperty();
+        var unexpected = new ClassWithNullableStructProperty
         {
-            Value = new StructWithProperties()
+            Value = new StructWithProperties
             {
-                Value = 42,
+                Value = 42
             },
-        }, o => o
+        };
+
+        // Act / Assert
+        subject.Should().NotBeEquivalentTo(unexpected, o => o
             .Using<StructWithProperties?, StructWithPropertiesComparer>()
         );
     }
@@ -951,15 +970,17 @@ public class ExtensibilitySpecs
     [Fact]
     public void Can_compare_not_null_against_null_with_custom_nullable_comparer_for_nullable_property()
     {
-        var comperand = new ClassWithNullableStructProperty()
+        // Arrange
+        var subject = new ClassWithNullableStructProperty
         {
-            Value = new StructWithProperties()
+            Value = new StructWithProperties
             {
-                Value = 42,
+                Value = 42
             },
         };
 
-        comperand.Should().NotBeEquivalentTo(new ClassWithNullableStructProperty(), o => o
+        // Act / Assert
+        subject.Should().NotBeEquivalentTo(new ClassWithNullableStructProperty(), o => o
             .Using<StructWithProperties?, StructWithPropertiesComparer>()
         );
     }
@@ -967,24 +988,26 @@ public class ExtensibilitySpecs
     [Fact]
     public void Can_compare_not_null_against_not_null_with_custom_nullable_comparer_for_nullable_property()
     {
-        var comperand = new ClassWithNullableStructProperty()
+        // Arrange
+        var subject = new ClassWithNullableStructProperty
         {
-            Value = new StructWithProperties()
+            Value = new StructWithProperties
             {
-                Value = 42,
+                Value = 42
+            },
+        };
+        var expected = new ClassWithNullableStructProperty
+        {
+            Value = new StructWithProperties
+            {
+                Value = 42
             },
         };
 
-        comperand.Should().BeEquivalentTo(new ClassWithNullableStructProperty()
-        {
-            Value = new StructWithProperties()
-            {
-                Value = 42,
-            },
-        }, o => o
+        // Act / Assert
+        subject.Should().BeEquivalentTo(expected, o => o
             .Using<StructWithProperties?, StructWithPropertiesComparer>()
         );
-        comperand.Value.Value.Value.Should().Be(42);
     }
 
     private class ClassWithNullableStructProperty
@@ -994,39 +1017,29 @@ public class ExtensibilitySpecs
 
     private struct StructWithProperties
     {
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
         public int Value { get; set; }
     }
 
     private class StructWithPropertiesComparer : IEqualityComparer<StructWithProperties>, IEqualityComparer<StructWithProperties?>
     {
-        public bool Equals(StructWithProperties x, StructWithProperties y)
-        {
-            var result = Equals(x.Value, y.Value);
-            return result;
-        }
+        public bool Equals(StructWithProperties x, StructWithProperties y) => Equals(x.Value, y.Value);
 
-        public int GetHashCode(StructWithProperties obj)
-        {
-            return obj.Value;
-        }
+        public int GetHashCode(StructWithProperties obj) => obj.Value;
 
-        public bool Equals(StructWithProperties? x, StructWithProperties? y)
-        {
-            var result = Equals(x?.Value, y?.Value);
-            return result;
-        }
+        public bool Equals(StructWithProperties? x, StructWithProperties? y) => Equals(x?.Value, y?.Value);
 
-        public int GetHashCode(StructWithProperties? obj)
-        {
-            return obj?.Value ?? 0;
-        }
+        public int GetHashCode(StructWithProperties? obj) => obj?.Value ?? 0;
     }
 
     [Fact]
     public void Can_compare_null_against_null_with_custom_comparer_for_property()
     {
-        var comperand = new ClassWithClassProperty();
-        comperand.Should().BeEquivalentTo(new ClassWithClassProperty(), o => o
+        // Arrange
+        var subject = new ClassWithClassProperty();
+
+        // Act / Assert
+        subject.Should().BeEquivalentTo(new ClassWithClassProperty(), o => o
             .Using<ClassProperty, ClassPropertyComparer>()
         );
     }
@@ -1034,14 +1047,18 @@ public class ExtensibilitySpecs
     [Fact]
     public void Can_compare_null_against_not_null_with_custom_comparer_for_property()
     {
-        var comperand = new ClassWithClassProperty();
-        comperand.Should().NotBeEquivalentTo(new ClassWithClassProperty()
+        // Arrange
+        var subject = new ClassWithClassProperty();
+        var unexpected = new ClassWithClassProperty
         {
-            Value = new ClassProperty()
+            Value = new ClassProperty
             {
-                Value = 42,
+                Value = 42
             },
-        }, o => o
+        };
+
+        // Act / Assert
+        subject.Should().NotBeEquivalentTo(unexpected, o => o
             .Using<ClassProperty, ClassPropertyComparer>()
         );
     }
@@ -1049,15 +1066,17 @@ public class ExtensibilitySpecs
     [Fact]
     public void Can_compare_not_null_against_null_with_custom_comparer_for_property()
     {
-        var comperand = new ClassWithClassProperty()
+        // Arrange
+        var subject = new ClassWithClassProperty
         {
-            Value = new ClassProperty()
+            Value = new ClassProperty
             {
-                Value = 42,
+                Value = 42
             },
         };
 
-        comperand.Should().NotBeEquivalentTo(new ClassWithClassProperty(), o => o
+        // Act / Assert
+        subject.Should().NotBeEquivalentTo(new ClassWithClassProperty(), o => o
             .Using<ClassProperty, ClassPropertyComparer>()
         );
     }
@@ -1065,28 +1084,31 @@ public class ExtensibilitySpecs
     [Fact]
     public void Can_compare_not_null_against_not_null_with_custom_comparer_for_property()
     {
-        var comperand = new ClassWithClassProperty()
+        // Arrange
+        var subject = new ClassWithClassProperty
         {
-            Value = new ClassProperty()
+            Value = new ClassProperty
             {
-                Value = 42,
+                Value = 42
+            },
+        };
+        var expected = new ClassWithClassProperty
+        {
+            Value = new ClassProperty
+            {
+                Value = 42
             },
         };
 
-        comperand.Should().BeEquivalentTo(new ClassWithClassProperty()
-        {
-            Value = new ClassProperty()
-            {
-                Value = 42,
-            },
-        }, o => o
+        // Act / Assert
+        subject.Should().BeEquivalentTo(expected, o => o
             .Using<ClassProperty, ClassPropertyComparer>()
         );
-        comperand.Value.Value.Should().Be(42);
     }
 
     private class ClassWithClassProperty
     {
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
         public ClassProperty Value { get; set; }
     }
 
@@ -1097,16 +1119,9 @@ public class ExtensibilitySpecs
 
     private class ClassPropertyComparer : IEqualityComparer<ClassProperty>
     {
-        public bool Equals(ClassProperty x, ClassProperty y)
-        {
-            var result = Equals(x?.Value, y?.Value);
-            return result;
-        }
+        public bool Equals(ClassProperty x, ClassProperty y) => Equals(x?.Value, y?.Value);
 
-        public int GetHashCode(ClassProperty obj)
-        {
-            return obj.Value;
-        }
+        public int GetHashCode(ClassProperty obj) => obj.Value;
     }
 
     #endregion
