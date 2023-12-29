@@ -208,13 +208,9 @@ public class TypeExtensionsSpecs
         );
     }
 
-    private class InheritedType
-    {
-    }
+    private class InheritedType;
 
-    private class InheritingType : InheritedType
-    {
-    }
+    private class InheritingType : InheritedType;
 
     private readonly struct TypeWithFakeConversionOperators
     {

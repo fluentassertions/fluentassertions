@@ -8,6 +8,4 @@ namespace FluentAssertions;
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
 #pragma warning disable CA1813 // Avoid unsealed attributes. This type has shipped.
-public class CustomAssertionAttribute : Attribute
-{
-}
+public class CustomAssertionAttribute : Attribute;

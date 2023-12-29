@@ -114,9 +114,7 @@ internal class ClassWithEnumFour
     public EnumFour Enum { get; set; }
 }
 
-internal class ClassWithNoMembers
-{
-}
+internal class ClassWithNoMembers;
 
 internal class ClassWithOnlyAField
 {
@@ -138,9 +136,7 @@ internal class ClassWithOnlyAProperty
     public int Value { get; set; }
 }
 
-internal struct StructWithNoMembers
-{
-}
+internal struct StructWithNoMembers;
 
 internal class ClassWithSomeFieldsAndProperties
 {

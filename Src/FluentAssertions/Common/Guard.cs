@@ -120,7 +120,5 @@ internal static class Guard
     /// https://github.com/dotnet/roslyn-analyzers/issues/3451#issuecomment-606690452
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter)]
-    private sealed class ValidatedNotNullAttribute : Attribute
-    {
-    }
+    private sealed class ValidatedNotNullAttribute : Attribute;
 }

@@ -727,40 +727,26 @@ namespace FluentAssertions.Specs.Types
 
 namespace Internal.Main.Test
 {
-    internal class SomeBaseClass
-    {
-    }
+    internal class SomeBaseClass;
 
-    internal class ClassDerivedFromSomeBaseClass : SomeBaseClass
-    {
-    }
+    internal class ClassDerivedFromSomeBaseClass : SomeBaseClass;
 
     internal class SomeGenericBaseClass<T>
     {
         public T Value { get; set; }
     }
 
-    internal class ClassDerivedFromSomeGenericBaseClass : SomeGenericBaseClass<int>
-    {
-    }
+    internal class ClassDerivedFromSomeGenericBaseClass : SomeGenericBaseClass<int>;
 
-    internal interface ISomeInterface
-    {
-    }
+    internal interface ISomeInterface;
 
-    internal class ClassImplementingSomeInterface : ISomeInterface
-    {
-    }
+    internal class ClassImplementingSomeInterface : ISomeInterface;
 
     [AttributeUsage(AttributeTargets.Class)]
-    internal class SomeAttribute : Attribute
-    {
-    }
+    internal class SomeAttribute : Attribute;
 
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-    internal class SomeNonInheritableAttribute : Attribute
-    {
-    }
+    internal class SomeNonInheritableAttribute : Attribute;
 
     [Some]
     internal class ClassWithSomeAttribute
@@ -772,9 +758,7 @@ namespace Internal.Main.Test
         }
     }
 
-    internal class ClassWithSomeAttributeDerived : ClassWithSomeAttribute
-    {
-    }
+    internal class ClassWithSomeAttributeDerived : ClassWithSomeAttribute;
 
     [SomeNonInheritable]
     internal class ClassWithSomeNonInheritableAttribute
@@ -786,9 +770,7 @@ namespace Internal.Main.Test
         }
     }
 
-    internal class ClassWithSomeNonInheritableAttributeDerived : ClassWithSomeNonInheritableAttribute
-    {
-    }
+    internal class ClassWithSomeNonInheritableAttributeDerived : ClassWithSomeNonInheritableAttribute;
 
     [Some]
     internal class ClassWithSomeAttributeThatImplementsSomeInterface : ISomeInterface
@@ -803,72 +785,48 @@ namespace Internal.Main.Test
 
 namespace Internal.Other.Test
 {
-    internal class SomeOtherClass
-    {
-    }
+    internal class SomeOtherClass;
 }
 
 namespace Internal.Other.Test.Common
 {
-    internal class SomeCommonClass
-    {
-    }
+    internal class SomeCommonClass;
 }
 
 namespace Internal.NotOnlyClasses.Test
 {
-    internal class NotOnlyClassesClass
-    {
-    }
+    internal class NotOnlyClassesClass;
 
     internal enum NotOnlyClassesEnumeration
     {
     }
 
-    internal interface INotOnlyClassesInterface
-    {
-    }
+    internal interface INotOnlyClassesInterface;
 }
 
 namespace Internal.StaticAndNonStaticClasses.Test
 {
-    internal static class StaticClass
-    {
-    }
+    internal static class StaticClass;
 
-    internal class NotAStaticClass
-    {
-    }
+    internal class NotAStaticClass;
 }
 
 namespace Internal.AbstractAndNotAbstractClasses.Test
 {
-    internal abstract class AbstractClass
-    {
-    }
+    internal abstract class AbstractClass;
 
-    internal class NotAbstractClass
-    {
-    }
+    internal class NotAbstractClass;
 
-    internal static class NotAbstractStaticClass
-    {
-    }
+    internal static class NotAbstractStaticClass;
 }
 
 namespace Internal.InterfaceAndClasses.Test
 {
-    internal interface InternalInterface
-    {
-    }
+    internal interface InternalInterface;
 
-    internal abstract class InternalAbstractClass
-    {
-    }
+    internal abstract class InternalAbstractClass;
 
-    internal class InternalNotInterfaceClass
-    {
-    }
+    internal class InternalNotInterfaceClass;
 }
 
 namespace Internal.UnwrapSelectorTestTypes.Test
@@ -910,26 +868,18 @@ namespace Internal.UnwrapSelectorTestTypes.Test
 
 namespace Internal.SealedAndNotSealedClasses.Test
 {
-    internal sealed class SealedClass
-    {
-    }
+    internal sealed class SealedClass;
 
-    internal class NotSealedClass
-    {
-    }
+    internal class NotSealedClass;
 }
 
 namespace Internal.ValueTypesAndNotValueTypes.Test
 {
-    internal struct InternalStructValueType
-    {
-    }
+    internal struct InternalStructValueType;
 
     internal record struct InternalRecordStructValueType;
 
-    internal class InternalClassNotValueType
-    {
-    }
+    internal class InternalClassNotValueType;
 
     internal record class InternalRecordClass;
 
@@ -937,15 +887,11 @@ namespace Internal.ValueTypesAndNotValueTypes.Test
     {
     }
 
-    internal interface InternalInterfaceNotValueType
-    {
-    }
+    internal interface InternalInterfaceNotValueType;
 }
 
 #pragma warning disable RCS1110, S3903 // Declare type inside namespace.
-internal class ClassInGlobalNamespace
-{
-}
+internal class ClassInGlobalNamespace;
 #pragma warning restore RCS1110, S3903
 
 #endregion

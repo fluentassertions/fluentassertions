@@ -179,13 +179,9 @@ public partial class TypeAssertionSpecs
         }
     }
 
-    internal class ClassWithNoMembers
-    {
-    }
+    internal class ClassWithNoMembers;
 
-    internal class ClassWithCctor
-    {
-    }
+    internal class ClassWithCctor;
 
     internal class ClassWithCctorAndNonDefaultConstructor
     {
