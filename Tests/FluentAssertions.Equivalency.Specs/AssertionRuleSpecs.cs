@@ -245,9 +245,7 @@ public class AssertionRuleSpecs
         act.Should().Throw<XunitException>().WithMessage("*ConcreteClassEqualityComparer*");
     }
 
-    private interface IInterface
-    {
-    }
+    private interface IInterface;
 
     private class ConcreteClass : IInterface
     {

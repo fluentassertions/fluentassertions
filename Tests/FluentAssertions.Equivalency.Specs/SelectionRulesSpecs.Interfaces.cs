@@ -371,8 +371,6 @@ public partial class SelectionRulesSpecs
             public int Value2 { get; set; }
         }
 
-        public class DerivedClassImplementingInterface : BaseProvidingSamePropertiesAsInterface, IInterfaceWithTwoProperties
-        {
-        }
+        public class DerivedClassImplementingInterface : BaseProvidingSamePropertiesAsInterface, IInterfaceWithTwoProperties;
     }
 }

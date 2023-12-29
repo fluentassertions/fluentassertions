@@ -984,13 +984,9 @@ public class EventAssertionSpecs
         }
     }
 
-    public class B
-    {
-    }
+    public class B;
 
-    public class C
-    {
-    }
+    public class C;
 
     public class ClassThatRaisesEventsItself : IInheritsEventRaisingInterface
     {
@@ -1055,9 +1051,7 @@ public class EventAssertionSpecs
         event EventHandler Interface3Event;
     }
 
-    public interface IInheritsEventRaisingInterface : IEventRaisingInterface
-    {
-    }
+    public interface IInheritsEventRaisingInterface : IEventRaisingInterface;
 
     public class EventRaisingClass : INotifyPropertyChanged
     {

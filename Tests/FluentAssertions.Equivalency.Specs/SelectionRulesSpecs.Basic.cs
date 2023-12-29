@@ -292,8 +292,6 @@ public partial class SelectionRulesSpecs
             public ClassWithoutProperty ClassWithoutProperty { get; } = new();
         }
 
-        internal class ClassWithoutProperty
-        {
-        }
+        internal class ClassWithoutProperty;
     }
 }

@@ -20,9 +20,7 @@ public class ObjectCastingSpecs
         derivedInstance.DerivedProperty.Should().Be("hello");
     }
 
-    private class SomeBaseClass
-    {
-    }
+    private class SomeBaseClass;
 
     private class SomeDerivedClass : SomeBaseClass
     {
