@@ -285,15 +285,16 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     public AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs)
     {
+        var singleItemArray = Subject?.Take(1).ToArray();
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected {context:collection} to be empty{reason}, ")
-            .Given(() => Subject)
+            .Given(() => singleItemArray)
             .ForCondition(subject => subject is not null)
             .FailWith("but found <null>.")
             .Then
-            .ForCondition(subject => !subject.Any())
-            .FailWith("but found {0}.", Subject)
+            .ForCondition(subject => subject.Length == 0)
+            .FailWith("but found at least 1 item {0}.", singleItemArray)
             .Then
             .ClearExpectation();
 
