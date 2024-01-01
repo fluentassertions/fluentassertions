@@ -294,7 +294,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .FailWith("but found <null>.")
             .Then
             .ForCondition(subject => subject.Length == 0)
-            .FailWith("but found at least 1 item {0}.", singleItemArray)
+            .FailWith("but found at least one item {0}.", singleItemArray)
             .Then
             .ClearExpectation();
 

@@ -56,14 +56,13 @@ public class ReferenceTypeAssertionsSpecs
     [Fact]
     public void When_a_derived_class_has_longer_formatting_than_the_base_class()
     {
-        var subject = new SimpleComplexBase[] { new Simple(), new Complex("goodbye") };
+        var subject = new SimpleComplexBase[] { new Complex("goodbye"), new Simple() };
         Action act = () => subject.Should().BeEmpty();
         act.Should().Throw<XunitException>()
             .WithMessage(
             """
-            Expected subject to be empty, but found 
+            Expected subject to be empty, but found at least one item 
             {
-                Simple(Hello), 
                 FluentAssertions.Specs.Primitives.Complex
                 {
                     Statement = "goodbye"
