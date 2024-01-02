@@ -408,6 +408,53 @@ public class CollectionSpecs
     }
 
     [Fact]
+    public void When_all_subject_items_in_async_enumerable_are_equivalent_to_expectation_object_it_should_succeed()
+    {
+        // Arrange
+        var expected = AsyncEnumerable.Range(0, 10);
+
+        var subject = Enumerable.Range(0, 10).ToAsyncEnumerable();
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(expected);
+
+        // Assert
+        act.Should().NotThrow();
+    }
+
+    [Fact]
+    public void When_all_subject_items_in_async_enumerable_are_not_equivalent_to_expectation_object_it_should_throw()
+    {
+        // Arrange
+        var expected = AsyncEnumerable.Range(0, 10);
+
+        var subject = Enumerable.Range(1, 10).ToAsyncEnumerable();
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(expected);
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage(
+                "Expected subject[0] to be 0, but found 1*");
+    }
+
+    [Fact]
+    public void When_all_subject_in_async_enumerable_has_expectation_objects_it_should_succeed()
+    {
+        // Arrange
+        var expected = Enumerable.Range(1, 8);
+
+        var subject = AsyncEnumerable.Range(0, 10);
+
+        // Act
+        Action act = () => subject.Should().Contain(expected);
+
+        // Assert
+        act.Should().NotThrow();
+    }
+
+    [Fact]
     public void When_a_collection_property_contains_objects_with_matching_properties_in_any_order_it_should_not_throw()
     {
         // Arrange

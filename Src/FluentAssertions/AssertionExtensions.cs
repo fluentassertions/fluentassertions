@@ -347,6 +347,16 @@ public static class AssertionExtensions
     }
 
     /// <summary>
+    /// Returns an <see cref="AsyncEnumerableAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="IAsyncEnumerable{T}"/>.
+    /// </summary>
+    [Pure]
+    public static AsyncEnumerableAssertions<T> Should<T>(this IAsyncEnumerable<T> actualValue)
+    {
+        return new AsyncEnumerableAssertions<T>(actualValue);
+    }
+
+    /// <summary>
     /// Returns an <see cref="StringCollectionAssertions"/> object that can be used to assert the
     /// current <see cref="IEnumerable{T}"/>.
     /// </summary>

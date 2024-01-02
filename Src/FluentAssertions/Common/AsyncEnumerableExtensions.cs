@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FluentAssertions.Common;
 
-public static class AsyncEnumerableExtensions
+internal static class AsyncEnumerableExtensions
 {
     /// <summary>
     /// Converts an <see cref="IAsyncEnumerable{T}"/> instance into an <see cref="IEnumerable{T}"/> that enumerates elements in a blocking manner.

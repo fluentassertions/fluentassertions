@@ -61,7 +61,7 @@
       </ItemGroup>
       <ItemGroup>
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.2" />
-        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.0" />
+        <PackageReference Include="System.Linq.Async" Version="4.0.0" />
       </ItemGroup>
     </When>
     <When Condition="'$(TargetFramework)' == 'netstandard2.1'">
@@ -71,7 +71,7 @@
       </ItemGroup>
       <ItemGroup>
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.2" />
-        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.0" />
+        <PackageReference Include="System.Linq.Async" Version="4.0.0" />
       </ItemGroup>
     </When>
     <When Condition="'$(TargetFramework)' == 'netstandard2.0'">
@@ -83,7 +83,7 @@
       </ItemGroup>
       <ItemGroup>
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.2" />
-        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.0" />
+        <PackageReference Include="System.Linq.Async" Version="4.0.0" />
       </ItemGroup>
     </When>
     <When Condition="'$(TargetFramework)' == 'net47'">
@@ -92,7 +92,7 @@
       </ItemGroup>
       <ItemGroup>
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.2" />
-        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.0" />
+        <PackageReference Include="System.Linq.Async" Version="4.0.0" />
         <TfmSpecificFrameworkAssemblyReferences Include="System.Net.Http">
           <TargetFramework>$(TargetFramework)</TargetFramework>
         </TfmSpecificFrameworkAssemblyReferences>
