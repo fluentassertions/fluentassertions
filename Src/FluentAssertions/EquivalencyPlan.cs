@@ -152,6 +152,7 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
             new MultiDimensionalArrayEquivalencyStep(),
             new GenericEnumerableEquivalencyStep(),
             new EnumerableEquivalencyStep(),
+            new AsyncEnumerableEquivalencyStep(),
             new StringEqualityEquivalencyStep(),
             new EnumEqualityStep(),
             new ValueTypeEquivalencyStep(),
