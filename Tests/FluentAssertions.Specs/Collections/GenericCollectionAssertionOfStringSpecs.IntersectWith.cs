@@ -13,8 +13,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_asserting_the_items_in_an_two_intersecting_collections_intersect_it_should_succeed()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
-            IEnumerable<string> otherCollection = new[] { "three", "four", "five" };
+            IEnumerable<string> collection = ["one", "two", "three"];
+            IEnumerable<string> otherCollection = ["three", "four", "five"];
 
             // Act / Assert
             collection.Should().IntersectWith(otherCollection);
@@ -24,8 +24,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_asserting_the_items_in_an_two_non_intersecting_collections_intersect_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
-            IEnumerable<string> otherCollection = new[] { "four", "five" };
+            IEnumerable<string> collection = ["one", "two", "three"];
+            IEnumerable<string> otherCollection = ["four", "five"];
 
             // Act
             Action action = () => collection.Should().IntersectWith(otherCollection, "they should share items");
@@ -43,7 +43,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_asserting_collection_to_not_intersect_with_same_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
             IEnumerable<string> otherCollection = collection;
 
             // Act
@@ -59,8 +59,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_asserting_the_items_in_an_two_intersecting_collections_do_not_intersect_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
-            IEnumerable<string> otherCollection = new[] { "two", "three", "four" };
+            IEnumerable<string> collection = ["one", "two", "three"];
+            IEnumerable<string> otherCollection = ["two", "three", "four"];
 
             // Act
             Action action = () => collection.Should().NotIntersectWith(otherCollection, "they should not share items");
@@ -76,8 +76,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_asserting_the_items_in_an_two_non_intersecting_collections_do_not_intersect_it_should_succeed()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
-            IEnumerable<string> otherCollection = new[] { "four", "five" };
+            IEnumerable<string> collection = ["one", "two", "three"];
+            IEnumerable<string> otherCollection = ["four", "five"];
 
             // Act / Assert
             collection.Should().NotIntersectWith(otherCollection);

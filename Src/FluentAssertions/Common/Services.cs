@@ -76,7 +76,7 @@ public static class Services
         var currentAssembly = Assembly.GetExecutingAssembly();
         var currentAssemblyName = currentAssembly.GetName();
 
-        var attributes = Array.Empty<AssertionEngineInitializerAttribute>();
+        AssertionEngineInitializerAttribute[] attributes = [];
 
         try
         {

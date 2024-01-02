@@ -68,18 +68,18 @@ public class FunctionExceptionAssertionSpecs
 
     public static TheoryData<Func<int>, Exception> AggregateExceptionTestData()
     {
-        var tasks = new[]
-        {
+        Func<int>[] tasks =
+        [
             AggregateExceptionWithLeftNestedException,
             AggregateExceptionWithRightNestedException
-        };
+        ];
 
-        var types = new Exception[]
-        {
+        Exception[] types =
+        [
             new AggregateException(),
             new ArgumentNullException(),
             new InvalidOperationException()
-        };
+        ];
 
         var data = new TheoryData<Func<int>, Exception>();
 

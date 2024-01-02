@@ -71,8 +71,8 @@ public class EnumSpecs
     public void Comparing_collections_of_enums_by_value_includes_custom_message()
     {
         // Arrange
-        var subject = new[] { EnumOne.One };
-        var expectation = new[] { EnumOne.Two };
+        EnumOne[] subject = [EnumOne.One];
+        EnumOne[] expectation = [EnumOne.Two];
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expectation, "some {0}", "reason");
@@ -86,8 +86,8 @@ public class EnumSpecs
     public void Comparing_collections_of_enums_by_name_includes_custom_message()
     {
         // Arrange
-        var subject = new[] { EnumOne.Two };
-        var expectation = new[] { EnumFour.Three };
+        EnumOne[] subject = [EnumOne.Two];
+        EnumFour[] expectation = [EnumFour.Three];
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByName(),
@@ -102,9 +102,9 @@ public class EnumSpecs
     public void Comparing_collections_of_numerics_with_collections_of_enums_includes_custom_message()
     {
         // Arrange
-        var actual = new[] { 1 };
+        int[] actual = [1];
 
-        var expected = new[] { TestEnum.First };
+        TestEnum[] expected = [TestEnum.First];
 
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expected, options => options.ComparingEnumsByValue(),

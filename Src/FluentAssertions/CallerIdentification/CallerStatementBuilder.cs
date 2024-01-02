@@ -14,8 +14,8 @@ internal class CallerStatementBuilder
     {
         statement = new StringBuilder();
 
-        priorityOrderedParsingStrategies = new List<IParsingStrategy>
-        {
+        priorityOrderedParsingStrategies =
+        [
             new QuotesParsingStrategy(),
             new MultiLineCommentParsingStrategy(),
             new SingleLineCommentParsingStrategy(),
@@ -23,7 +23,7 @@ internal class CallerStatementBuilder
             new ShouldCallParsingStrategy(),
             new AwaitParsingStrategy(),
             new AddNonEmptySymbolParsingStrategy()
-        };
+        ];
     }
 
     internal void Append(string symbols)

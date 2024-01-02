@@ -171,11 +171,11 @@ public partial class GenericDictionaryAssertionSpecs
             // Arrange
             Dictionary<int, string> dictionary = null;
 
-            List<KeyValuePair<int, string>> keyValuePairs = new()
-            {
+            List<KeyValuePair<int, string>> keyValuePairs =
+            [
                 new KeyValuePair<int, string>(1, "One"),
                 new KeyValuePair<int, string>(1, "Two")
-            };
+            ];
 
             // Act
             Action act = () =>
@@ -199,7 +199,7 @@ public partial class GenericDictionaryAssertionSpecs
                 [2] = "Two"
             };
 
-            List<KeyValuePair<int, string>> keyValuePairs = new();
+            List<KeyValuePair<int, string>> keyValuePairs = [];
 
             // Act
             Action act = () => dictionary1.Should().Contain(keyValuePairs,
@@ -558,11 +558,11 @@ public partial class GenericDictionaryAssertionSpecs
             // Arrange
             Dictionary<int, string> dictionary = null;
 
-            List<KeyValuePair<int, string>> keyValuePairs = new()
-            {
+            List<KeyValuePair<int, string>> keyValuePairs =
+            [
                 new KeyValuePair<int, string>(1, "One"),
                 new KeyValuePair<int, string>(1, "Two")
-            };
+            ];
 
             // Act
             Action act = () =>
@@ -587,7 +587,7 @@ public partial class GenericDictionaryAssertionSpecs
                 [2] = "Two"
             };
 
-            List<KeyValuePair<int, string>> keyValuePair = new();
+            List<KeyValuePair<int, string>> keyValuePair = [];
 
             // Act
             Action act = () => dictionary1.Should().NotContain(keyValuePair,

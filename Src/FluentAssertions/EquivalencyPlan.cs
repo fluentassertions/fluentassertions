@@ -139,8 +139,8 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
 
     private static List<IEquivalencyStep> GetDefaultSteps()
     {
-        return new List<IEquivalencyStep>(18)
-        {
+        return
+        [
             new RunAllUserStepsEquivalencyStep(),
             new AutoConversionStep(),
             new ReferenceEqualityEquivalencyStep(),
@@ -158,6 +158,6 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
             new ValueTypeEquivalencyStep(),
             new StructuralEqualityEquivalencyStep(),
             new SimpleEqualityEquivalencyStep(),
-        };
+        ];
     }
 }

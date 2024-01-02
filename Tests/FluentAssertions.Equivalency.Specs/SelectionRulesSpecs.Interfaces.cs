@@ -306,22 +306,22 @@ public partial class SelectionRulesSpecs
         {
             // Arrange
             IInterfaceWithTwoProperties[] actual =
-            {
+            [
                 new DerivedClassImplementingInterface
                 {
                     Value1 = 1,
                     Value2 = 2
                 }
-            };
+            ];
 
             IInterfaceWithTwoProperties[] expected =
-            {
+            [
                 new DerivedClassImplementingInterface
                 {
                     Value1 = 999,
                     Value2 = 2
                 }
-            };
+            ];
 
             // Act / Assert
             actual.Should().BeEquivalentTo(expected, options => options
@@ -334,22 +334,22 @@ public partial class SelectionRulesSpecs
         {
             // Arrange
             IInterfaceWithTwoProperties[] actual =
-            {
+            [
                 new DerivedClassImplementingInterface
                 {
                     Value1 = 1,
                     Value2 = 2
                 }
-            };
+            ];
 
             IInterfaceWithTwoProperties[] expected =
-            {
+            [
                 new DerivedClassImplementingInterface
                 {
                     Value1 = 999,
                     Value2 = 2
                 }
-            };
+            ];
 
             // Act / Assert
             actual.Should().BeEquivalentTo(expected, options => options
@@ -371,8 +371,6 @@ public partial class SelectionRulesSpecs
             public int Value2 { get; set; }
         }
 
-        public class DerivedClassImplementingInterface : BaseProvidingSamePropertiesAsInterface, IInterfaceWithTwoProperties
-        {
-        }
+        public class DerivedClassImplementingInterface : BaseProvidingSamePropertiesAsInterface, IInterfaceWithTwoProperties;
     }
 }

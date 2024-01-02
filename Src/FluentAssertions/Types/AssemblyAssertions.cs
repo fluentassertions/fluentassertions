@@ -188,7 +188,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
 
         if (success)
         {
-            var bytes = Subject!.GetName().GetPublicKey() ?? Array.Empty<byte>();
+            var bytes = Subject!.GetName().GetPublicKey() ?? [];
             string assemblyKey = ToHexString(bytes);
 
             Execute.Assertion

@@ -11,7 +11,7 @@ public class AndWhichConstraintSpecs
     public void When_many_objects_are_provided_accessing_which_should_throw_a_descriptive_exception()
     {
         // Arrange
-        var continuation = new AndWhichConstraint<StringCollectionAssertions, string>(null, new[] { "hello", "world" });
+        var continuation = new AndWhichConstraint<StringCollectionAssertions, string>(null, ["hello", "world"]);
 
         // Act
         Action act = () => _ = continuation.Which;

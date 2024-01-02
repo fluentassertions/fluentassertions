@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
@@ -18,7 +17,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_asserting_against_null_inspectors_it_should_throw_with_clear_explanation()
         {
             // Arrange
-            IEnumerable<int> collection = new[] { 1, 2 };
+            IEnumerable<int> collection = [1, 2];
 
             // Act
             Action act = () => collection.Should().SatisfyRespectively(null);
@@ -32,7 +31,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_asserting_against_empty_inspectors_it_should_throw_with_clear_explanation()
         {
             // Arrange
-            IEnumerable<int> collection = new[] { 1, 2 };
+            IEnumerable<int> collection = [1, 2];
 
             // Act
             Action act = () => collection.Should().SatisfyRespectively();
@@ -66,7 +65,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_which_is_asserting_against_inspectors_is_empty_it_should_throw()
         {
             // Arrange
-            var collection = Enumerable.Empty<int>();
+            IEnumerable<int> collection = [];
 
             // Act
             Action act = () => collection.Should().SatisfyRespectively(new Action<int>[] { x => x.Should().Be(1) },
@@ -81,7 +80,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_satisfies_all_inspectors_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { new Customer { Age = 21, Name = "John" }, new Customer { Age = 22, Name = "Jane" } };
+            Customer[] collection = [new Customer { Age = 21, Name = "John" }, new Customer { Age = 22, Name = "Jane" }];
 
             // Act / Assert
             collection.Should().SatisfyRespectively(
@@ -101,11 +100,11 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_does_not_satisfy_any_inspector_it_should_throw()
         {
             // Arrange
-            var customers = new[]
-            {
-                new CustomerWithItems { Age = 21, Items = new[] { 1, 2 } },
-                new CustomerWithItems { Age = 22, Items = new[] { 3 } }
-            };
+            CustomerWithItems[] customers =
+            [
+                new CustomerWithItems { Age = 21, Items = [1, 2] },
+                new CustomerWithItems { Age = 22, Items = [3] }
+            ];
 
             // Act
             Action act = () => customers.Should().SatisfyRespectively(
@@ -148,7 +147,7 @@ public partial class CollectionAssertionSpecs
         public void When_inspector_message_is_not_reformatable_it_should_not_throw()
         {
             // Arrange
-            byte[][] subject = { new byte[] { 1 } };
+            byte[][] subject = [[1]];
 
             // Act
             Action act = () => subject.Should().SatisfyRespectively(e => e.Should().BeEquivalentTo(new byte[] { 2, 3, 4 }));
@@ -161,7 +160,7 @@ public partial class CollectionAssertionSpecs
         public void When_inspectors_count_does_not_equal_asserting_collection_length_it_should_throw_with_a_useful_message()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().SatisfyRespectively(
@@ -177,7 +176,7 @@ public partial class CollectionAssertionSpecs
         public void When_inspectors_count_does_not_equal_asserting_collection_length_it_should_fail_with_a_useful_message()
         {
             // Arrange
-            var collection = new int[0];
+            int[] collection = [];
 
             // Act
             Action act = () => collection.Should().SatisfyRespectively(

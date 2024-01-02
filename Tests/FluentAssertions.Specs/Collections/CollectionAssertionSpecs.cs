@@ -18,7 +18,7 @@ public partial class CollectionAssertionSpecs
         public void Should_support_chaining_constraints_with_and()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should()
@@ -33,13 +33,13 @@ public partial class CollectionAssertionSpecs
         public void When_the_collection_is_ordered_according_to_the_subsequent_ascending_assertion_it_should_succeed()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string)[] collection =
+            [
                 (1, "a"),
                 (2, "b"),
                 (2, "c"),
                 (3, "a")
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()
@@ -55,13 +55,13 @@ public partial class CollectionAssertionSpecs
         public void When_the_collection_is_not_ordered_according_to_the_subsequent_ascending_assertion_it_should_fail()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string)[] collection =
+            [
                 (1, "a"),
                 (2, "b"),
                 (2, "c"),
                 (3, "a")
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()
@@ -79,13 +79,13 @@ public partial class CollectionAssertionSpecs
             When_the_collection_is_ordered_according_to_the_subsequent_ascending_assertion_with_comparer_it_should_succeed()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string)[] collection =
+            [
                 (1, "a"),
                 (2, "B"),
                 (2, "b"),
                 (3, "a")
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()
@@ -101,13 +101,13 @@ public partial class CollectionAssertionSpecs
         public void When_the_collection_is_ordered_according_to_the_multiple_subsequent_ascending_assertions_it_should_succeed()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string, double)[] collection =
+            [
                 (1, "a", 1.1),
                 (2, "b", 1.2),
                 (2, "c", 1.3),
                 (3, "a", 1.1)
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()
@@ -125,13 +125,13 @@ public partial class CollectionAssertionSpecs
         public void When_the_collection_is_ordered_according_to_the_subsequent_descending_assertion_it_should_succeed()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string)[] collection =
+            [
                 (3, "a"),
                 (2, "c"),
                 (2, "b"),
                 (1, "a")
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()
@@ -147,13 +147,13 @@ public partial class CollectionAssertionSpecs
         public void When_the_collection_is_not_ordered_according_to_the_subsequent_descending_assertion_it_should_fail()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string)[] collection =
+            [
                 (3, "a"),
                 (2, "c"),
                 (2, "b"),
                 (1, "a")
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()
@@ -171,13 +171,13 @@ public partial class CollectionAssertionSpecs
             When_the_collection_is_ordered_according_to_the_subsequent_descending_assertion_with_comparer_it_should_succeed()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string)[] collection =
+            [
                 (3, "a"),
                 (2, "b"),
                 (2, "B"),
                 (1, "a")
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()
@@ -193,13 +193,13 @@ public partial class CollectionAssertionSpecs
         public void When_the_collection_is_ordered_according_to_the_multiple_subsequent_descending_assertions_it_should_succeed()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string, double)[] collection =
+            [
                 (3, "a", 1.1),
                 (2, "c", 1.3),
                 (2, "b", 1.2),
                 (1, "a", 1.1)
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()

@@ -769,7 +769,7 @@ public class EnumAssertionSpecs
 
             // Act / Assert
             Action act = () =>
-                flags.Should().BeOneOf(new[] { BindingFlags.Public, BindingFlags.ExactBinding }, "that's what we need");
+                flags.Should().BeOneOf([BindingFlags.Public, BindingFlags.ExactBinding], "that's what we need");
 
             act.Should()
                 .Throw<XunitException>()
@@ -783,7 +783,7 @@ public class EnumAssertionSpecs
             BindingFlags flags = BindingFlags.DeclaredOnly;
 
             // Act / Assert
-            Action act = () => flags.Should().BeOneOf(Array.Empty<BindingFlags>());
+            Action act = () => flags.Should().BeOneOf([]);
 
             act.Should()
                 .Throw<ArgumentException>()

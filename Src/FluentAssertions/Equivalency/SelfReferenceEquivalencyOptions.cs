@@ -28,19 +28,19 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     private readonly EqualityStrategyProvider equalityStrategyProvider;
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private readonly List<IMemberSelectionRule> selectionRules = new();
+    private readonly List<IMemberSelectionRule> selectionRules = [];
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private readonly List<IMemberMatchingRule> matchingRules = new();
+    private readonly List<IMemberMatchingRule> matchingRules = [];
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private readonly List<IEquivalencyStep> userEquivalencySteps = new();
+    private readonly List<IEquivalencyStep> userEquivalencySteps = [];
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException;
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    protected OrderingRuleCollection OrderingRules { get; } = new();
+    protected OrderingRuleCollection OrderingRules { get; } = [];
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private bool isRecursive;

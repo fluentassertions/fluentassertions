@@ -9,7 +9,7 @@ namespace FluentAssertions.Equivalency;
 /// </summary>
 public class OrderingRuleCollection : IEnumerable<IOrderingRule>
 {
-    private readonly List<IOrderingRule> rules = new();
+    private readonly List<IOrderingRule> rules = [];
 
     /// <summary>
     /// Initializes a new collection of ordering rules.

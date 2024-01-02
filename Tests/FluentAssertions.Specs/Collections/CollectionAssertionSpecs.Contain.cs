@@ -17,7 +17,7 @@ public partial class CollectionAssertionSpecs
         public void Should_succeed_when_asserting_collection_contains_an_item_from_the_collection()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().Contain(1);
@@ -27,17 +27,17 @@ public partial class CollectionAssertionSpecs
         public void Should_succeed_when_asserting_collection_contains_multiple_items_from_the_collection_in_any_order()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
-            collection.Should().Contain(new[] { 2, 1 });
+            collection.Should().Contain([2, 1]);
         }
 
         [Fact]
         public void When_a_collection_does_not_contain_single_item_it_should_throw_with_clear_explanation()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().Contain(4, "because {0}", "we do");
@@ -69,10 +69,10 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_does_not_contain_another_collection_it_should_throw_with_clear_explanation()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
-            Action act = () => collection.Should().Contain(new[] { 3, 4, 5 }, "because {0}", "we do");
+            Action act = () => collection.Should().Contain([3, 4, 5], "because {0}", "we do");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -83,10 +83,10 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_does_not_contain_a_single_element_collection_it_should_throw_with_clear_explanation()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
-            Action act = () => collection.Should().Contain(new[] { 4 }, "because {0}", "we do");
+            Action act = () => collection.Should().Contain([4], "because {0}", "we do");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -98,13 +98,13 @@ public partial class CollectionAssertionSpecs
             When_a_collection_does_not_contain_other_collection_with_assertion_scope_it_should_throw_with_clear_explanation()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                collection.Should().Contain(new[] { 4 }).And.Contain(new[] { 5, 6 });
+                collection.Should().Contain([4]).And.Contain([5, 6]);
             };
 
             // Assert
@@ -116,10 +116,10 @@ public partial class CollectionAssertionSpecs
         public void When_the_contents_of_a_collection_are_checked_against_an_empty_collection_it_should_throw_clear_explanation()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
-            Action act = () => collection.Should().Contain(new int[0]);
+            Action act = () => collection.Should().Contain([]);
 
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
@@ -136,7 +136,7 @@ public partial class CollectionAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                collection.Should().Contain(new[] { 1, 2 }, "we want to test the failure {0}", "message");
+                collection.Should().Contain([1, 2], "we want to test the failure {0}", "message");
             };
 
             // Assert
@@ -148,7 +148,7 @@ public partial class CollectionAssertionSpecs
         public void When_injecting_a_null_predicate_into_Contain_it_should_throw()
         {
             // Arrange
-            IEnumerable<int> collection = new int[] { };
+            IEnumerable<int> collection = [];
 
             // Act
             Action act = () => collection.Should().Contain(predicate: null);
@@ -162,7 +162,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_does_not_contain_an_expected_item_matching_a_predicate_it_should_throw()
         {
             // Arrange
-            IEnumerable<int> collection = new[] { 1, 2, 3 };
+            IEnumerable<int> collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().Contain(item => item > 3, "at least {0} item should be larger than 3", 1);
@@ -176,7 +176,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_does_contain_an_expected_item_matching_a_predicate_it_should_allow_chaining_it()
         {
             // Arrange
-            IEnumerable<int> collection = new[] { 1, 2, 3 };
+            IEnumerable<int> collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().Contain(item => item == 2).Which.Should().BeGreaterThan(4);
@@ -190,7 +190,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_does_contain_an_expected_item_matching_a_predicate_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<int> collection = new[] { 1, 2, 3 };
+            IEnumerable<int> collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().Contain(item => item == 2);
@@ -200,7 +200,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_of_strings_contains_the_expected_string_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> strings = new[] { "string1", "string2", "string3" };
+            IEnumerable<string> strings = ["string1", "string2", "string3"];
 
             // Act / Assert
             strings.Should().Contain("string2");
@@ -210,7 +210,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_of_strings_does_not_contain_the_expected_string_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> strings = new[] { "string1", "string2", "string3" };
+            IEnumerable<string> strings = ["string1", "string2", "string3"];
 
             // Act
             Action act = () => strings.Should().Contain("string4", "because {0} is required", "4");
@@ -244,7 +244,7 @@ public partial class CollectionAssertionSpecs
             // Arrange
             DateTime now = DateTime.Now;
 
-            IEnumerable<DateTime> collection = new[] { now, DateTime.SpecifyKind(now, DateTimeKind.Unspecified) };
+            IEnumerable<DateTime> collection = [now, DateTime.SpecifyKind(now, DateTimeKind.Unspecified)];
 
             // Act
             Action act = () => collection.Should().Contain(now).Which.Kind.Should().Be(DateTimeKind.Local);
@@ -278,7 +278,7 @@ public partial class CollectionAssertionSpecs
         public void Should_succeed_when_asserting_collection_does_not_contain_an_item_that_is_not_in_the_collection()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().NotContain(4);
@@ -288,17 +288,17 @@ public partial class CollectionAssertionSpecs
         public void Should_succeed_when_asserting_collection_does_not_contain_any_items_that_is_not_in_the_collection()
         {
             // Arrange
-            IEnumerable<int> collection = new[] { 1, 2, 3 };
+            IEnumerable<int> collection = [1, 2, 3];
 
             // Act / Assert
-            collection.Should().NotContain(new[] { 4, 5 });
+            collection.Should().NotContain([4, 5]);
         }
 
         [Fact]
         public void When_collection_contains_an_unexpected_item_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().NotContain(1, "because we {0} like it, but found it anyhow", "don't");
@@ -312,7 +312,7 @@ public partial class CollectionAssertionSpecs
         public void When_injecting_a_null_predicate_into_NotContain_it_should_throw()
         {
             // Arrange
-            IEnumerable<int> collection = new int[] { };
+            IEnumerable<int> collection = [];
 
             // Act
             Action act = () => collection.Should().NotContain(predicate: null);
@@ -326,7 +326,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_does_contain_an_unexpected_item_matching_a_predicate_it_should_throw()
         {
             // Arrange
-            IEnumerable<int> collection = new[] { 1, 2, 3 };
+            IEnumerable<int> collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().NotContain(item => item == 2, "because {0}s are evil", 2);
@@ -340,7 +340,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_does_not_contain_an_unexpected_item_matching_a_predicate_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<int> collection = new[] { 1, 2, 3 };
+            IEnumerable<int> collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().NotContain(item => item == 4);
@@ -368,11 +368,11 @@ public partial class CollectionAssertionSpecs
         public void When_collection_contains_unexpected_item_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should()
-                .NotContain(new[] { 2 }, "because we {0} like them", "don't");
+                .NotContain([2], "because we {0} like them", "don't");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -383,11 +383,11 @@ public partial class CollectionAssertionSpecs
         public void When_collection_contains_unexpected_items_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should()
-                .NotContain(new[] { 1, 2, 4 }, "because we {0} like them", "don't");
+                .NotContain([1, 2, 4], "because we {0} like them", "don't");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -398,13 +398,13 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_multiple_collection_in_assertion_scope_all_should_be_reported()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                collection.Should().NotContain(new[] { 1, 2 }).And.NotContain(new[] { 3 });
+                collection.Should().NotContain([1, 2]).And.NotContain([3]);
             };
 
             // Assert
@@ -416,10 +416,10 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_to_not_contain_an_empty_collection_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
-            Action act = () => collection.Should().NotContain(Array.Empty<int>());
+            Action act = () => collection.Should().NotContain([]);
 
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage("Cannot verify*");
@@ -453,7 +453,7 @@ public partial class CollectionAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                collection.Should().NotContain(new[] { 1, 2, 4 }, "we want to test the failure {0}", "message");
+                collection.Should().NotContain([1, 2, 4], "we want to test the failure {0}", "message");
             };
 
             // Assert

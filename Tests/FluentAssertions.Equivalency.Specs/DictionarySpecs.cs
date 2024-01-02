@@ -76,7 +76,7 @@ public class DictionarySpecs
 
     private class GenericDictionaryNotImplementingIDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
-        private readonly Dictionary<TKey, TValue> dictionary = new();
+        private readonly Dictionary<TKey, TValue> dictionary = [];
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -233,7 +233,7 @@ public class DictionarySpecs
 
     public class UserRolesLookupElement
     {
-        private readonly Dictionary<Guid, List<string>> innerRoles = new();
+        private readonly Dictionary<Guid, List<string>> innerRoles = [];
 
         public virtual Dictionary<Guid, IEnumerable<string>> Roles =>
             innerRoles.ToDictionary(x => x.Key, y => y.Value.Select(z => z));
@@ -319,15 +319,15 @@ public class DictionarySpecs
             new ReadOnlyDictionary<string, IEnumerable<string>>(
                 new Dictionary<string, IEnumerable<string>>
                 {
-                    ["Key2"] = new[] { "Value2" },
-                    ["Key1"] = new[] { "Value1" }
+                    ["Key2"] = ["Value2"],
+                    ["Key1"] = ["Value1"]
                 });
 
         // Act
         Action act = () => dictionary.Should().BeEquivalentTo(new Dictionary<string, IEnumerable<string>>
         {
-            ["Key1"] = new[] { "Value1" },
-            ["Key2"] = new[] { "Value2" }
+            ["Key1"] = ["Value1"],
+            ["Key2"] = ["Value2"]
         });
 
         // Assert
@@ -342,15 +342,15 @@ public class DictionarySpecs
             new ReadOnlyDictionary<string, IEnumerable<string>>(
                 new Dictionary<string, IEnumerable<string>>
                 {
-                    ["Key2"] = new[] { "Value2" },
-                    ["Key1"] = new[] { "Value1" }
+                    ["Key2"] = ["Value2"],
+                    ["Key1"] = ["Value1"]
                 });
 
         // Act
         Action act = () => dictionary.Should().BeEquivalentTo(new Dictionary<string, IEnumerable<string>>
         {
-            ["Key2"] = new[] { "Value3" },
-            ["Key1"] = new[] { "Value1" }
+            ["Key2"] = ["Value3"],
+            ["Key1"] = ["Value1"]
         });
 
         // Assert
@@ -362,7 +362,7 @@ public class DictionarySpecs
     {
         // Arrange
         Dictionary<int, int> subject = null;
-        Dictionary<int, int> expectation = new();
+        Dictionary<int, int> expectation = [];
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expectation, "because we do expect a valid dictionary");
@@ -1289,7 +1289,7 @@ internal class NonGenericChildDictionary : Dictionary<string, int>
 
 internal class NonGenericDictionary : IDictionary<string, int>
 {
-    private readonly Dictionary<string, int> innerDictionary = new();
+    private readonly Dictionary<string, int> innerDictionary = [];
 
     public int this[string key]
     {

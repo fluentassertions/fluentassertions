@@ -21,7 +21,7 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
     /// <param name="type">The type from which to select methods.</param>
     /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public MethodInfoSelector(Type type)
-        : this(new[] { type })
+        : this([type])
     {
     }
 

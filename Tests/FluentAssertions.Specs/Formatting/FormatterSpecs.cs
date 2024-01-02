@@ -51,9 +51,7 @@ public class FormatterSpecs
         exception.Message.Should().NotContainEquivalentOf("cyclic");
     }
 
-    private class A
-    {
-    }
+    private class A;
 
     private class B
     {
@@ -179,13 +177,13 @@ public class FormatterSpecs
             {
                 StuffId = 1,
                 Description = "Stuff_1",
-                Children = new List<int> { 1, 2, 3, 4 }
+                Children = [1, 2, 3, 4]
             },
             new()
             {
                 StuffId = 2,
                 Description = "Stuff_2",
-                Children = new List<int> { 1, 2, 3, 4 }
+                Children = [1, 2, 3, 4]
             }
         };
 
@@ -195,13 +193,13 @@ public class FormatterSpecs
             {
                 StuffId = 1,
                 Description = "Stuff_1",
-                Children = new List<int> { 1, 2, 3, 4 }
+                Children = [1, 2, 3, 4]
             },
             new()
             {
                 StuffId = 2,
                 Description = "WRONG_DESCRIPTION",
-                Children = new List<int> { 1, 2, 3, 4 }
+                Children = [1, 2, 3, 4]
             }
         };
 
@@ -249,7 +247,7 @@ public class FormatterSpecs
     public void When_the_object_is_a_user_defined_type_it_should_show_the_name_on_the_initial_line()
     {
         // Arrange
-        var stuff = new StuffRecord(42, "description", new(24), new List<int> { 10, 20, 30, 40 });
+        var stuff = new StuffRecord(42, "description", new(24), [10, 20, 30, 40]);
 
         // Act
         Action act = () => stuff.Should().BeNull();
@@ -396,7 +394,7 @@ public class FormatterSpecs
     public void When_the_object_is_a_tuple_it_should_show_the_properties_recursively()
     {
         // Arrange
-        (int TupleId, string Description, List<int> Children) stuff = (1, "description", new() { 1, 2, 3, 4 });
+        (int TupleId, string Description, List<int> Children) stuff = (1, "description", [1, 2, 3, 4]);
 
         (int, string, List<int>) expectedStuff = (2, "WRONG_DESCRIPTION", new List<int> { 4, 5, 6, 7 });
 
@@ -429,7 +427,7 @@ public class FormatterSpecs
             RecordId: 9,
             RecordDescription: "descriptive",
             SingleChild: new(ChildRecordId: 80),
-            RecordChildren: new() { 4, 5, 6, 7 });
+            RecordChildren: [4, 5, 6, 7]);
 
         var expectedStuff = new
         {
@@ -910,7 +908,7 @@ public class FormatterSpecs
         When_formatting_multiple_items_with_a_custom_string_representation_using_line_breaks_it_should_end_lines_with_a_comma()
     {
         // Arrange
-        var subject = new[] { typeof(A), typeof(B) };
+        Type[] subject = [typeof(A), typeof(B)];
 
         // Act
         string result = Formatter.ToString(subject, new FormattingOptions { UseLineBreaks = true });
@@ -1095,17 +1093,11 @@ public class FormatterSpecs
         }
     }
 
-    public class SomeClassInheritedFromClassWithCustomFormatterLvl1 : SomeClassWithCustomFormatter
-    {
-    }
+    public class SomeClassInheritedFromClassWithCustomFormatterLvl1 : SomeClassWithCustomFormatter;
 
-    public class SomeClassInheritedFromClassWithCustomFormatterLvl2 : SomeClassInheritedFromClassWithCustomFormatterLvl1
-    {
-    }
+    public class SomeClassInheritedFromClassWithCustomFormatterLvl2 : SomeClassInheritedFromClassWithCustomFormatterLvl1;
 
-    public class SomeClassInheritedFromClassWithCustomFormatterLvl3 : SomeClassInheritedFromClassWithCustomFormatterLvl2
-    {
-    }
+    public class SomeClassInheritedFromClassWithCustomFormatterLvl3 : SomeClassInheritedFromClassWithCustomFormatterLvl2;
 
     public static class CustomFormatter
     {
@@ -1229,9 +1221,7 @@ public class FormatterSpecs
 
 // Due to the tests that call Configuration.Current
 [CollectionDefinition("FormatterSpecs", DisableParallelization = true)]
-public class FormatterSpecsDefinition
-{
-}
+public class FormatterSpecsDefinition;
 
 internal class ExceptionThrowingClass
 {
@@ -1257,7 +1247,7 @@ internal class Node
 {
     public Node()
     {
-        Children = new List<Node>();
+        Children = [];
     }
 
     public static Node Default { get; } = new();

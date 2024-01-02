@@ -97,7 +97,7 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
     private static IEnumerable<IMember> GetMembersFromExpectation(INode currentNode, Comparands comparands,
         IEquivalencyOptions options)
     {
-        IEnumerable<IMember> members = Enumerable.Empty<IMember>();
+        IEnumerable<IMember> members = [];
 
         foreach (IMemberSelectionRule rule in options.SelectionRules)
         {

@@ -10,7 +10,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// </summary>
 internal class AssertionResultSet
 {
-    private readonly Dictionary<object, string[]> set = new();
+    private readonly Dictionary<object, string[]> set = [];
 
     /// <summary>
     /// Adds the failures (if any) resulting from executing an assertion within a
@@ -33,7 +33,7 @@ internal class AssertionResultSet
     {
         if (ContainsSuccessfulSet())
         {
-            return Array.Empty<string>();
+            return [];
         }
 
         KeyValuePair<object, string[]>[] bestResultSets = GetBestResultSets();

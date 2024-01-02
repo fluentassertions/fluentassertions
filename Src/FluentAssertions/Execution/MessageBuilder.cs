@@ -20,7 +20,7 @@ internal class MessageBuilder
 
     #region Private Definitions
 
-    private readonly char[] blanks = { '\r', '\n', ' ', '\t' };
+    private readonly char[] blanks = ['\r', '\n', ' ', '\t'];
 
     #endregion
 

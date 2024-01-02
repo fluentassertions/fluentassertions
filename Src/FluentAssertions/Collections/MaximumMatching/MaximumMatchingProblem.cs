@@ -23,9 +23,9 @@ internal class MaximumMatchingProblem<TValue>
         Elements.AddRange(elements.Select((element, index) => new Element<TValue>(element, index)));
     }
 
-    public List<Predicate<TValue>> Predicates { get; } = new();
+    public List<Predicate<TValue>> Predicates { get; } = [];
 
-    public List<Element<TValue>> Elements { get; } = new();
+    public List<Element<TValue>> Elements { get; } = [];
 
     public MaximumMatchingSolution<TValue> Solve() => new MaximumMatchingSolver<TValue>(this).Solve();
 }

@@ -18,7 +18,7 @@ namespace FluentAssertions.Formatting;
 public class FormattedObjectGraph
 {
     private readonly int maxLines;
-    private readonly List<string> lines = new();
+    private readonly List<string> lines = [];
     private readonly StringBuilder lineBuilder = new();
     private int indentation;
     private string lineBuilderWhitespace = string.Empty;
@@ -148,7 +148,7 @@ public class FormattedObjectGraph
     /// </summary>
     public override string ToString()
     {
-        return string.Join(Environment.NewLine, lines.Concat(new[] { lineBuilder.ToString() }));
+        return string.Join(Environment.NewLine, lines.Concat([lineBuilder.ToString()]));
     }
 
     internal PossibleMultilineFragment KeepOnSingleLineAsLongAsPossible()

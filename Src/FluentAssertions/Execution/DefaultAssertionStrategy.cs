@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using FluentAssertions.Common;
 
@@ -9,13 +8,7 @@ internal class DefaultAssertionStrategy : IAssertionStrategy
     /// <summary>
     /// Returns the messages for the assertion failures that happened until now.
     /// </summary>
-    public IEnumerable<string> FailureMessages
-    {
-        get
-        {
-            return Array.Empty<string>();
-        }
-    }
+    public IEnumerable<string> FailureMessages => [];
 
     /// <summary>
     /// Instructs the strategy to handle a assertion failure.
@@ -28,10 +21,7 @@ internal class DefaultAssertionStrategy : IAssertionStrategy
     /// <summary>
     /// Discards and returns the failure messages that happened up to now.
     /// </summary>
-    public IEnumerable<string> DiscardFailures()
-    {
-        return Array.Empty<string>();
-    }
+    public IEnumerable<string> DiscardFailures() => [];
 
     /// <summary>
     /// Will throw a combined exception for any failures have been collected.

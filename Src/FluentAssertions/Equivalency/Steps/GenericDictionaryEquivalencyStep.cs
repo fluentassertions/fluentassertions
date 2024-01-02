@@ -152,7 +152,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
     {
         AssertDictionaryEquivalenceMethod
             .MakeGenericMethod(actualDictionary.Key, actualDictionary.Value, expectedDictionary.Key, expectedDictionary.Value)
-            .Invoke(null, new[] { context, parent, context.Options, comparands.Subject, comparands.Expectation });
+            .Invoke(null, [context, parent, context.Options, comparands.Subject, comparands.Expectation]);
     }
 
     private static void AssertDictionaryEquivalence<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(

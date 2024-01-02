@@ -12,7 +12,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void All_items_satisfying_inspector_should_succeed()
         {
             // Arrange
-            string[] collection = { "John", "John" };
+            string[] collection = ["John", "John"];
 
             // Act / Assert
             collection.Should().AllSatisfy(value => value.Should().Be("John"));
@@ -22,7 +22,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void Any_items_not_satisfying_inspector_should_throw()
         {
             // Arrange
-            string[] collection = { "Jack", "Jessica" };
+            string[] collection = ["Jack", "Jessica"];
 
             // Act
             Action act = () => collection.Should()

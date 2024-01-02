@@ -16,10 +16,10 @@ public class TypeSelectorAssertionSpecs
         public void When_all_types_are_sealed_it_succeeds()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(Sealed)
-            });
+            ]);
 
             // Act / Assert
             types.Should().BeSealed();
@@ -29,11 +29,11 @@ public class TypeSelectorAssertionSpecs
         public void When_any_type_is_not_sealed_it_fails_with_a_meaningful_message()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(Sealed),
                 typeof(Abstract)
-            });
+            ]);
 
             // Act
             Action act = () => types.Should().BeSealed("we want to test the failure {0}", "message");
@@ -51,10 +51,10 @@ public class TypeSelectorAssertionSpecs
         public void When_all_types_are_not_sealed_it_succeeds()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(Abstract)
-            });
+            ]);
 
             // Act / Assert
             types.Should().NotBeSealed();
@@ -64,11 +64,11 @@ public class TypeSelectorAssertionSpecs
         public void When_any_type_is_sealed_it_fails_with_a_meaningful_message()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(Abstract),
                 typeof(Sealed)
-            });
+            ]);
 
             // Act
             Action act = () => types.Should().NotBeSealed("we want to test the failure {0}", "message");
@@ -85,10 +85,10 @@ public class TypeSelectorAssertionSpecs
         public void When_asserting_a_selection_of_decorated_types_is_decorated_with_an_attribute_it_succeeds()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassWithAttribute)
-            });
+            ]);
 
             // Act
             Action act = () =>
@@ -102,12 +102,12 @@ public class TypeSelectorAssertionSpecs
         public void When_asserting_a_selection_of_non_decorated_types_is_decorated_with_an_attribute_it_fails()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassWithAttribute),
                 typeof(ClassWithoutAttribute),
                 typeof(OtherClassWithoutAttribute)
-            });
+            ]);
 
             // Act
             Action act = () =>
@@ -140,12 +140,12 @@ public class TypeSelectorAssertionSpecs
         public void When_asserting_a_selection_of_types_with_unexpected_attribute_property_it_fails()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassWithAttribute),
                 typeof(ClassWithoutAttribute),
                 typeof(OtherClassWithoutAttribute)
-            });
+            ]);
 
             // Act
             Action act = () =>
@@ -168,10 +168,10 @@ public class TypeSelectorAssertionSpecs
         public void When_asserting_a_selection_of_decorated_types_inheriting_an_attribute_it_succeeds()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassWithInheritedAttribute)
-            });
+            ]);
 
             // Act
             Action act = () =>
@@ -185,12 +185,12 @@ public class TypeSelectorAssertionSpecs
         public void When_asserting_a_selection_of_non_decorated_types_inheriting_an_attribute_it_fails()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassWithAttribute),
                 typeof(ClassWithoutAttribute),
                 typeof(OtherClassWithoutAttribute)
-            });
+            ]);
 
             // Act
             Action act = () =>
@@ -224,13 +224,13 @@ public class TypeSelectorAssertionSpecs
             When_asserting_a_selection_of_types_with_some_inheriting_attributes_with_unexpected_attribute_property_it_fails()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassWithAttribute),
                 typeof(ClassWithInheritedAttribute),
                 typeof(ClassWithoutAttribute),
                 typeof(OtherClassWithoutAttribute)
-            });
+            ]);
 
             // Act
             Action act = () =>
@@ -253,11 +253,11 @@ public class TypeSelectorAssertionSpecs
         public void When_asserting_a_selection_of_non_decorated_types_is_not_decorated_with_an_attribute_it_succeeds()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassWithoutAttribute),
                 typeof(OtherClassWithoutAttribute)
-            });
+            ]);
 
             // Act
             Action act = () =>
@@ -271,11 +271,11 @@ public class TypeSelectorAssertionSpecs
         public void When_asserting_a_selection_of_decorated_types_is_not_decorated_with_an_attribute_it_fails()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassWithoutAttribute),
                 typeof(ClassWithAttribute)
-            });
+            ]);
 
             // Act
             Action act = () =>
@@ -307,11 +307,11 @@ public class TypeSelectorAssertionSpecs
         public void When_asserting_a_selection_of_types_with_unexpected_attribute_and_unexpected_attribute_property_it_fails()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassWithoutAttribute),
                 typeof(ClassWithAttribute)
-            });
+            ]);
 
             // Act
             Action act = () =>
@@ -334,11 +334,11 @@ public class TypeSelectorAssertionSpecs
         public void When_asserting_a_selection_of_non_decorated_types_does_not_inherit_an_attribute_it_succeeds()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassWithoutAttribute),
                 typeof(OtherClassWithoutAttribute)
-            });
+            ]);
 
             // Act
             Action act = () =>
@@ -352,11 +352,11 @@ public class TypeSelectorAssertionSpecs
         public void When_asserting_a_selection_of_decorated_types_does_not_inherit_an_attribute_it_fails()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassWithoutAttribute),
                 typeof(ClassWithInheritedAttribute)
-            });
+            ]);
 
             // Act
             Action act = () =>
@@ -437,12 +437,12 @@ public class TypeSelectorAssertionSpecs
         public void When_a_type_is_not_in_the_expected_namespace_it_should_throw()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassInDummyNamespace),
                 typeof(ClassNotInDummyNamespace),
                 typeof(OtherClassNotInDummyNamespace)
-            });
+            ]);
 
             // Act
             Action act = () =>
@@ -488,12 +488,12 @@ public class TypeSelectorAssertionSpecs
         public void When_a_type_is_not_in_the_expected_global_namespace_it_should_throw()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassInDummyNamespace),
                 typeof(ClassNotInDummyNamespace),
                 typeof(OtherClassNotInDummyNamespace)
-            });
+            ]);
 
             // Act
             Action act = () => types.Should().BeInNamespace(null);
@@ -539,12 +539,12 @@ public class TypeSelectorAssertionSpecs
         public void When_a_type_is_in_the_unexpected_namespace_it_should_throw()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassInDummyNamespace),
                 typeof(ClassNotInDummyNamespace),
                 typeof(OtherClassNotInDummyNamespace)
-            });
+            ]);
 
             // Act
             Action act = () =>
@@ -617,12 +617,12 @@ public class TypeSelectorAssertionSpecs
         public void When_a_type_is_under_the_expected_global_namespace_it_should_not_throw()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassInDummyNamespace),
                 typeof(ClassNotInDummyNamespace),
                 typeof(OtherClassNotInDummyNamespace)
-            });
+            ]);
 
             // Act
             Action act = () => types.Should().BeUnderNamespace(null);
@@ -651,11 +651,11 @@ public class TypeSelectorAssertionSpecs
         public void When_asserting_a_selection_of_types_not_under_a_namespace_is_under_that_namespace_it_fails()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassInDummyNamespace),
                 typeof(ClassInInnerDummyNamespace)
-            });
+            ]);
 
             // Act
             Action act = () =>
@@ -675,12 +675,12 @@ public class TypeSelectorAssertionSpecs
         public void When_a_types_is_not_under_the_unexpected_namespace_it_should_not_throw()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassInDummyNamespace),
                 typeof(ClassNotInDummyNamespace),
                 typeof(OtherClassNotInDummyNamespace)
-            });
+            ]);
 
             // Act
             Action act = () =>
@@ -760,12 +760,12 @@ public class TypeSelectorAssertionSpecs
         public void When_a_type_is_under_the_unexpected_parent_global_namespace_it_should_throw()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassInDummyNamespace),
                 typeof(ClassNotInDummyNamespace),
                 typeof(OtherClassNotInDummyNamespace)
-            });
+            ]);
 
             // Act
             Action act = () => types.Should().NotBeUnderNamespace(null);
@@ -797,10 +797,10 @@ public class TypeSelectorAssertionSpecs
         public void When_accidentally_using_equals_it_should_throw_a_helpful_error()
         {
             // Arrange
-            var types = new TypeSelector(new[]
-            {
+            var types = new TypeSelector(
+            [
                 typeof(ClassWithAttribute)
-            });
+            ]);
 
             // Act
             var action = () => types.Should().Equals(null);

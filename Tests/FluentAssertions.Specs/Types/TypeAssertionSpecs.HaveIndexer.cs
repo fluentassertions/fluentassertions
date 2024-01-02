@@ -21,7 +21,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 type.Should()
-                    .HaveIndexer(typeof(string), new[] { typeof(string) })
+                    .HaveIndexer(typeof(string), [typeof(string)])
                     .Which.Should()
                     .BeWritable(CSharpAccessModifier.Internal)
                     .And.BeReadable(CSharpAccessModifier.Private);
@@ -39,7 +39,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 type.Should().HaveIndexer(
-                    typeof(string), new[] { typeof(int), typeof(Type) }, "we want to test the failure {0}", "message");
+                    typeof(string), [typeof(int), typeof(Type)], "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -57,7 +57,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 type.Should().HaveIndexer(
-                    typeof(string), new[] { typeof(int), typeof(Type) }, "we want to test the failure {0}", "message");
+                    typeof(string), [typeof(int), typeof(Type)], "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -73,7 +73,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().HaveIndexer(typeof(string), new[] { typeof(string) }, "we want to test the failure {0}", "message");
+                type.Should().HaveIndexer(typeof(string), [typeof(string)], "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -88,7 +88,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().HaveIndexer(null, new[] { typeof(string) });
+                type.Should().HaveIndexer(null, [typeof(string)]);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
@@ -121,7 +121,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().NotHaveIndexer(new[] { typeof(string) });
+                type.Should().NotHaveIndexer([typeof(string)]);
 
             // Assert
             act.Should().NotThrow();
@@ -135,7 +135,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().NotHaveIndexer(new[] { typeof(string) }, "we want to test the failure {0}", "message");
+                type.Should().NotHaveIndexer([typeof(string)], "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -150,7 +150,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().NotHaveIndexer(new[] { typeof(string) }, "we want to test the failure {0}", "message");
+                type.Should().NotHaveIndexer([typeof(string)], "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()

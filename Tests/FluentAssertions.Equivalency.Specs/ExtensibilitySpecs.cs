@@ -162,8 +162,8 @@ public class ExtensibilitySpecs
     public void When_an_ordering_rule_is_added_it_should_be_evaluated_after_all_existing_rules()
     {
         // Arrange
-        var subject = new[] { "First", "Second" };
-        var expected = new[] { "First", "Second" };
+        string[] subject = ["First", "Second"];
+        string[] expected = ["First", "Second"];
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(
@@ -178,8 +178,8 @@ public class ExtensibilitySpecs
     public void When_an_ordering_rule_is_added_it_should_appear_in_the_exception_message()
     {
         // Arrange
-        var subject = new[] { "First", "Second" };
-        var expected = new[] { "Second", "First" };
+        string[] subject = ["First", "Second"];
+        string[] expected = ["Second", "First"];
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(
@@ -860,6 +860,268 @@ public class ExtensibilitySpecs
             doAction();
             return EquivalencyResult.AssertionCompleted;
         }
+    }
+
+    [Fact]
+    public void Can_compare_null_against_null_with_custom_comparer_for_nullable_property()
+    {
+        // Arrange
+        var subject = new ClassWithNullableStructProperty();
+
+        // Act / Assert
+        subject.Should().BeEquivalentTo(new ClassWithNullableStructProperty(), o => o
+            .Using<StructWithProperties, StructWithPropertiesComparer>()
+        );
+    }
+
+    [Fact]
+    public void Can_compare_null_against_not_null_with_custom_comparer_for_nullable_property()
+    {
+        // Arrange
+        var subject = new ClassWithNullableStructProperty();
+        var unexpected = new ClassWithNullableStructProperty
+        {
+            Value = new StructWithProperties
+            {
+                Value = 42
+            },
+        };
+
+        // Act / Assert
+        subject.Should().NotBeEquivalentTo(unexpected, o => o
+            .Using<StructWithProperties, StructWithPropertiesComparer>()
+        );
+    }
+
+    [Fact]
+    public void Can_compare_not_null_against_null_with_custom_comparer_for_nullable_property()
+    {
+        // Arrange
+        var subject = new ClassWithNullableStructProperty
+        {
+            Value = new StructWithProperties
+            {
+                Value = 42
+            },
+        };
+
+        // Act / Assert
+        subject.Should().NotBeEquivalentTo(new ClassWithNullableStructProperty(), o => o
+            .Using<StructWithProperties, StructWithPropertiesComparer>()
+        );
+    }
+
+    [Fact]
+    public void Can_compare_not_null_against_not_null_with_custom_comparer_for_nullable_property()
+    {
+        // Arrange
+        var subject = new ClassWithNullableStructProperty
+        {
+            Value = new StructWithProperties
+            {
+                Value = 42
+            },
+        };
+        var expected = new ClassWithNullableStructProperty
+        {
+            Value = new StructWithProperties
+            {
+                Value = 42
+            },
+        };
+
+        // Act / Assert
+        subject.Should().BeEquivalentTo(expected, o => o
+            .Using<StructWithProperties, StructWithPropertiesComparer>()
+        );
+    }
+
+    [Fact]
+    public void Can_compare_null_against_null_with_custom_nullable_comparer_for_nullable_property()
+    {
+        // Arrange
+        var subject = new ClassWithNullableStructProperty();
+
+        // Act / Assert
+        subject.Should().BeEquivalentTo(new ClassWithNullableStructProperty(), o => o
+            .Using<StructWithProperties?, StructWithPropertiesComparer>()
+        );
+    }
+
+    [Fact]
+    public void Can_compare_null_against_not_null_with_custom_nullable_comparer_for_nullable_property()
+    {
+        // Arrange
+        var subject = new ClassWithNullableStructProperty();
+        var unexpected = new ClassWithNullableStructProperty
+        {
+            Value = new StructWithProperties
+            {
+                Value = 42
+            },
+        };
+
+        // Act / Assert
+        subject.Should().NotBeEquivalentTo(unexpected, o => o
+            .Using<StructWithProperties?, StructWithPropertiesComparer>()
+        );
+    }
+
+    [Fact]
+    public void Can_compare_not_null_against_null_with_custom_nullable_comparer_for_nullable_property()
+    {
+        // Arrange
+        var subject = new ClassWithNullableStructProperty
+        {
+            Value = new StructWithProperties
+            {
+                Value = 42
+            },
+        };
+
+        // Act / Assert
+        subject.Should().NotBeEquivalentTo(new ClassWithNullableStructProperty(), o => o
+            .Using<StructWithProperties?, StructWithPropertiesComparer>()
+        );
+    }
+
+    [Fact]
+    public void Can_compare_not_null_against_not_null_with_custom_nullable_comparer_for_nullable_property()
+    {
+        // Arrange
+        var subject = new ClassWithNullableStructProperty
+        {
+            Value = new StructWithProperties
+            {
+                Value = 42
+            },
+        };
+        var expected = new ClassWithNullableStructProperty
+        {
+            Value = new StructWithProperties
+            {
+                Value = 42
+            },
+        };
+
+        // Act / Assert
+        subject.Should().BeEquivalentTo(expected, o => o
+            .Using<StructWithProperties?, StructWithPropertiesComparer>()
+        );
+    }
+
+    private class ClassWithNullableStructProperty
+    {
+        public StructWithProperties? Value { get; set; }
+    }
+
+    private struct StructWithProperties
+    {
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        public int Value { get; set; }
+    }
+
+    private class StructWithPropertiesComparer : IEqualityComparer<StructWithProperties>, IEqualityComparer<StructWithProperties?>
+    {
+        public bool Equals(StructWithProperties x, StructWithProperties y) => Equals(x.Value, y.Value);
+
+        public int GetHashCode(StructWithProperties obj) => obj.Value;
+
+        public bool Equals(StructWithProperties? x, StructWithProperties? y) => Equals(x?.Value, y?.Value);
+
+        public int GetHashCode(StructWithProperties? obj) => obj?.Value ?? 0;
+    }
+
+    [Fact]
+    public void Can_compare_null_against_null_with_custom_comparer_for_property()
+    {
+        // Arrange
+        var subject = new ClassWithClassProperty();
+
+        // Act / Assert
+        subject.Should().BeEquivalentTo(new ClassWithClassProperty(), o => o
+            .Using<ClassProperty, ClassPropertyComparer>()
+        );
+    }
+
+    [Fact]
+    public void Can_compare_null_against_not_null_with_custom_comparer_for_property()
+    {
+        // Arrange
+        var subject = new ClassWithClassProperty();
+        var unexpected = new ClassWithClassProperty
+        {
+            Value = new ClassProperty
+            {
+                Value = 42
+            },
+        };
+
+        // Act / Assert
+        subject.Should().NotBeEquivalentTo(unexpected, o => o
+            .Using<ClassProperty, ClassPropertyComparer>()
+        );
+    }
+
+    [Fact]
+    public void Can_compare_not_null_against_null_with_custom_comparer_for_property()
+    {
+        // Arrange
+        var subject = new ClassWithClassProperty
+        {
+            Value = new ClassProperty
+            {
+                Value = 42
+            },
+        };
+
+        // Act / Assert
+        subject.Should().NotBeEquivalentTo(new ClassWithClassProperty(), o => o
+            .Using<ClassProperty, ClassPropertyComparer>()
+        );
+    }
+
+    [Fact]
+    public void Can_compare_not_null_against_not_null_with_custom_comparer_for_property()
+    {
+        // Arrange
+        var subject = new ClassWithClassProperty
+        {
+            Value = new ClassProperty
+            {
+                Value = 42
+            },
+        };
+        var expected = new ClassWithClassProperty
+        {
+            Value = new ClassProperty
+            {
+                Value = 42
+            },
+        };
+
+        // Act / Assert
+        subject.Should().BeEquivalentTo(expected, o => o
+            .Using<ClassProperty, ClassPropertyComparer>()
+        );
+    }
+
+    private class ClassWithClassProperty
+    {
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        public ClassProperty Value { get; set; }
+    }
+
+    public class ClassProperty
+    {
+        public int Value { get; set; }
+    }
+
+    private class ClassPropertyComparer : IEqualityComparer<ClassProperty>
+    {
+        public bool Equals(ClassProperty x, ClassProperty y) => Equals(x?.Value, y?.Value);
+
+        public int GetHashCode(ClassProperty obj) => obj.Value;
     }
 
     #endregion

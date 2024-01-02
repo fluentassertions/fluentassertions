@@ -234,7 +234,7 @@ public class CyclicReferencesSpecs
 
         // Assert
         Action act = () => actual.Should().BeEquivalentTo(
-            new[] { new SelfReturningEnumerable(), new SelfReturningEnumerable() },
+            [new SelfReturningEnumerable(), new SelfReturningEnumerable()],
             "we want to test the failure {0}", "message");
 
         // Assert

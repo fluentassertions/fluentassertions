@@ -30,7 +30,7 @@ public class ConversionSelector
     private readonly List<ConversionSelectorRule> exclusions;
 
     public ConversionSelector()
-        : this(new List<ConversionSelectorRule>(), new List<ConversionSelectorRule>())
+        : this([], [])
     {
     }
 

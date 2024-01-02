@@ -54,8 +54,8 @@ public class MultidimensionalArrayFormatterSpecs
     public void When_formatting_a_multi_dimensional_array_with_bounds_it_should_show_structure()
     {
         // Arrange
-        var lengthsArray = new[] { 2, 3, 4 };
-        var boundsArray = new[] { 1, 5, 7 };
+        int[] lengthsArray = [2, 3, 4];
+        int[] boundsArray = [1, 5, 7];
         var value = Array.CreateInstance(typeof(string), lengthsArray, boundsArray);
 
         for (int i = value.GetLowerBound(0); i <= value.GetUpperBound(0); i++)
@@ -64,7 +64,7 @@ public class MultidimensionalArrayFormatterSpecs
             {
                 for (int k = value.GetLowerBound(2); k <= value.GetUpperBound(2); k++)
                 {
-                    var indices = new[] { i, j, k };
+                    int[] indices = [i, j, k];
                     value.SetValue($"{i}-{j}-{k}", indices);
                 }
             }

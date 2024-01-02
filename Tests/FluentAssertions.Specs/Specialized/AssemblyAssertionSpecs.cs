@@ -387,6 +387,4 @@ public class AssemblyAssertionSpecs
 }
 
 [DummyClass("name", true)]
-public class WellKnownClassWithAttribute
-{
-}
+public class WellKnownClassWithAttribute;

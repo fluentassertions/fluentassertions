@@ -17,8 +17,8 @@ public partial class CollectionAssertionSpecs
         public void Should_succeed_when_asserting_collection_is_equal_to_the_same_collection()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
-            var collection2 = new[] { 1, 2, 3 };
+            int[] collection1 = [1, 2, 3];
+            int[] collection2 = [1, 2, 3];
 
             // Act / Assert
             collection1.Should().Equal(collection2);
@@ -28,7 +28,7 @@ public partial class CollectionAssertionSpecs
         public void Should_succeed_when_asserting_collection_is_equal_to_the_same_list_of_elements()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().Equal(1, 2, 3);
@@ -65,8 +65,8 @@ public partial class CollectionAssertionSpecs
         public void When_two_collections_are_not_equal_because_one_item_differs_it_should_throw_using_the_reason()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
-            var collection2 = new[] { 1, 2, 5 };
+            int[] collection1 = [1, 2, 3];
+            int[] collection2 = [1, 2, 5];
 
             // Act
             Action act = () => collection1.Should().Equal(collection2, "because we want to test the failure {0}", "message");
@@ -81,8 +81,8 @@ public partial class CollectionAssertionSpecs
             When_two_collections_are_not_equal_because_the_actual_collection_contains_more_items_it_should_throw_using_the_reason()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
-            var collection2 = new[] { 1, 2 };
+            int[] collection1 = [1, 2, 3];
+            int[] collection2 = [1, 2];
 
             // Act
             Action act = () => collection1.Should().Equal(collection2, "because we want to test the failure {0}", "message");
@@ -97,8 +97,8 @@ public partial class CollectionAssertionSpecs
             When_two_collections_are_not_equal_because_the_actual_collection_contains_less_items_it_should_throw_using_the_reason()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
-            var collection2 = new[] { 1, 2, 3, 4 };
+            int[] collection1 = [1, 2, 3];
+            int[] collection2 = [1, 2, 3, 4];
 
             // Act
             Action act = () => collection1.Should().Equal(collection2, "because we want to test the failure {0}", "message");
@@ -112,8 +112,8 @@ public partial class CollectionAssertionSpecs
         public void When_two_multidimensional_collections_are_not_equal_and_it_should_format_the_collections_properly()
         {
             // Arrange
-            var collection1 = new[] { new[] { 1, 2 }, new[] { 3, 4 } };
-            var collection2 = new[] { new[] { 5, 6 }, new[] { 7, 8 } };
+            object[][] collection1 = [[1, 2], [3, 4]];
+            object[][] collection2 = [[5, 6], [7, 8]];
 
             // Act
             Action act = () => collection1.Should().Equal(collection2);
@@ -128,7 +128,7 @@ public partial class CollectionAssertionSpecs
         {
             // Arrange
             int[] collection = null;
-            var collection1 = new[] { 1, 2, 3 };
+            int[] collection1 = [1, 2, 3];
 
             // Act
             Action act = () =>
@@ -143,7 +143,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collections_to_be_equal_but_expected_collection_is_null_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
             int[] collection1 = null;
 
             // Act
@@ -160,8 +160,8 @@ public partial class CollectionAssertionSpecs
         public void When_an_empty_collection_is_compared_for_equality_to_a_non_empty_collection_it_should_throw()
         {
             // Arrange
-            var collection1 = new int[0];
-            var collection2 = new[] { 1, 2, 3 };
+            int[] collection1 = [];
+            int[] collection2 = [1, 2, 3];
 
             // Act
             Action act = () => collection1.Should().Equal(collection2);
@@ -175,8 +175,8 @@ public partial class CollectionAssertionSpecs
         public void When_a_non_empty_collection_is_compared_for_equality_to_an_empty_collection_it_should_throw()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
-            var collection2 = new int[0];
+            int[] collection1 = [1, 2, 3];
+            int[] collection2 = [];
 
             // Act
             Action act = () => collection1.Should().Equal(collection2);
@@ -250,8 +250,8 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_identical_collections_to_be_equal_it_should_enumerate_the_subject_only_once()
         {
             // Arrange
-            var actual = new CountingGenericEnumerable<int>(new[] { 1, 2, 3 });
-            var expected = new[] { 1, 2, 3 };
+            var actual = new CountingGenericEnumerable<int>([1, 2, 3]);
+            int[] expected = [1, 2, 3];
 
             // Act
             actual.Should().Equal(expected);
@@ -264,8 +264,8 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_identical_collections_to_not_be_equal_it_should_enumerate_the_subject_only_once()
         {
             // Arrange
-            var actual = new CountingGenericEnumerable<int>(new[] { 1, 2, 3 });
-            var expected = new[] { 1, 2, 3 };
+            var actual = new CountingGenericEnumerable<int>([1, 2, 3]);
+            int[] expected = [1, 2, 3];
 
             // Act
             try
@@ -285,8 +285,8 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_different_collections_to_be_equal_it_should_enumerate_the_subject_once()
         {
             // Arrange
-            var actual = new CountingGenericEnumerable<int>(new[] { 1, 2, 3 });
-            var expected = new[] { 1, 2, 4 };
+            var actual = new CountingGenericEnumerable<int>([1, 2, 3]);
+            int[] expected = [1, 2, 4];
 
             // Act
             try
@@ -306,8 +306,8 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_different_collections_to_not_be_equal_it_should_enumerate_the_subject_only_once()
         {
             // Arrange
-            var actual = new CountingGenericEnumerable<int>(new[] { 1, 2, 3 });
-            var expected = new[] { 1, 2, 4 };
+            var actual = new CountingGenericEnumerable<int>([1, 2, 3]);
+            int[] expected = [1, 2, 4];
 
             // Act
             actual.Should().NotEqual(expected);
@@ -321,7 +321,7 @@ public partial class CollectionAssertionSpecs
             When_asserting_equality_with_a_collection_built_from_params_arguments_that_are_assignable_to_the_subjects_type_parameter_it_should_succeed_by_treating_the_arguments_as_of_that_type()
         {
             // Arrange
-            byte[] byteArray = { 0xfe, 0xdc, 0xba, 0x98, 0x76, 0x54, 0x32, 0x10 };
+            byte[] byteArray = [0xfe, 0xdc, 0xba, 0x98, 0x76, 0x54, 0x32, 0x10];
 
             // Act
             Action act = () => byteArray.Should().Equal(0xfe, 0xdc, 0xba, 0x98, 0x76, 0x54, 0x32, 0x10);
@@ -337,8 +337,8 @@ public partial class CollectionAssertionSpecs
         public void Should_succeed_when_asserting_collection_is_not_equal_to_a_different_collection()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
-            var collection2 = new[] { 3, 1, 2 };
+            int[] collection1 = [1, 2, 3];
+            int[] collection2 = [3, 1, 2];
 
             // Act / Assert
             collection1.Should()
@@ -349,8 +349,8 @@ public partial class CollectionAssertionSpecs
         public void When_two_equal_collections_are_not_expected_to_be_equal_it_should_throw()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
-            var collection2 = new[] { 1, 2, 3 };
+            int[] collection1 = [1, 2, 3];
+            int[] collection2 = [1, 2, 3];
 
             // Act
             Action act = () => collection1.Should().NotEqual(collection2);
@@ -364,8 +364,8 @@ public partial class CollectionAssertionSpecs
         public void When_two_equal_collections_are_not_expected_to_be_equal_it_should_report_a_clear_explanation()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
-            var collection2 = new[] { 1, 2, 3 };
+            int[] collection1 = [1, 2, 3];
+            int[] collection2 = [1, 2, 3];
 
             // Act
             Action act = () => collection1.Should().NotEqual(collection2, "because we want to test the failure {0}", "message");
@@ -380,7 +380,7 @@ public partial class CollectionAssertionSpecs
         {
             // Arrange
             int[] collection = null;
-            var collection1 = new[] { 1, 2, 3 };
+            int[] collection1 = [1, 2, 3];
 
             // Act
             Action act = () =>
@@ -398,7 +398,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collections_not_to_be_equal_but_expected_collection_is_null_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
             int[] collection1 = null;
 
             // Act
@@ -414,7 +414,7 @@ public partial class CollectionAssertionSpecs
         [Fact]
         public void When_asserting_collections_not_to_be_equal_but_both_collections_reference_the_same_object_it_should_throw()
         {
-            var collection1 = new[] { "one", "two", "three" };
+            string[] collection1 = ["one", "two", "three"];
             var collection2 = collection1;
 
             // Act

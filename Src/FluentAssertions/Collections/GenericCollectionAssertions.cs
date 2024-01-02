@@ -71,7 +71,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .FailWith("Expected type to be {0}{reason}, but found {context:the collection} is <null>.",
                 typeof(TExpectation).FullName);
 
-        IEnumerable<TExpectation> matches = Enumerable.Empty<TExpectation>();
+        IEnumerable<TExpectation> matches = [];
 
         if (success)
         {
@@ -218,7 +218,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .FailWith("Expected type to be {0}{reason}, but found {context:collection} is <null>.",
                 typeof(TExpectation).FullName);
 
-        IEnumerable<TExpectation> matches = Enumerable.Empty<TExpectation>();
+        IEnumerable<TExpectation> matches = [];
 
         if (success)
         {
@@ -701,7 +701,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", expected);
 
-        IEnumerable<T> matches = Enumerable.Empty<T>();
+        IEnumerable<T> matches = [];
 
         if (success)
         {
@@ -740,7 +740,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", predicate.Body);
 
-        IEnumerable<T> matches = Enumerable.Empty<T>();
+        IEnumerable<T> matches = [];
 
         if (success)
         {
@@ -1204,7 +1204,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .ForCondition(Subject is not null)
             .FailWith(expectationPrefix + "but found <null>.", predicate);
 
-        T[] matches = Array.Empty<T>();
+        T[] matches = [];
 
         if (success)
         {
@@ -1304,7 +1304,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     public AndConstraint<TAssertions> EndWith(T element, string because = "", params object[] becauseArgs)
     {
-        return EndWith(new[] { element }, ObjectExtensions.GetComparer<T>(), because, becauseArgs);
+        return EndWith([element], ObjectExtensions.GetComparer<T>(), because, becauseArgs);
     }
 
     /// <summary>
@@ -2182,7 +2182,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:collection} to not contain {0}{reason}, but found <null>.", unexpected);
 
-        IEnumerable<T> matched = Enumerable.Empty<T>();
+        IEnumerable<T> matched = [];
 
         if (success)
         {
@@ -3259,7 +3259,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     public AndConstraint<TAssertions> StartWith(T element, string because = "", params object[] becauseArgs)
     {
-        return StartWith(new[] { element }, ObjectExtensions.GetComparer<T>(), because, becauseArgs);
+        return StartWith([element], ObjectExtensions.GetComparer<T>(), because, becauseArgs);
     }
 
     internal AndConstraint<SubsequentOrderingAssertions<T>> BeOrderedBy<TSelector>(
@@ -3312,7 +3312,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     {
         if (enumerable is null)
         {
-            return Enumerable.Empty<TExpectation>();
+            return [];
         }
 
         return RepeatAsManyAsIterator(value, enumerable);
@@ -3534,7 +3534,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .ForCondition(Subject is not null)
             .FailWith($"Expected {{context:collection}} to be in {sortOrder} order{{reason}}, but found <null>.");
 
-        IOrderedEnumerable<T> ordering = new List<T>(0).OrderBy(x => x);
+        IOrderedEnumerable<T> ordering = Array.Empty<T>().OrderBy(x => x);
 
         if (success)
         {

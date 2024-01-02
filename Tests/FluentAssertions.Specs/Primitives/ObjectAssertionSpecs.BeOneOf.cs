@@ -32,7 +32,7 @@ public partial class ObjectAssertionSpecs
 
             // Act
             Action act = () =>
-                value.Should().BeOneOf(new[] { new ClassWithCustomEqualMethod(4), new ClassWithCustomEqualMethod(5) },
+                value.Should().BeOneOf([new ClassWithCustomEqualMethod(4), new ClassWithCustomEqualMethod(5)],
                     "because those are the valid values");
 
             // Assert
@@ -62,7 +62,7 @@ public partial class ObjectAssertionSpecs
             object value = new SomeClass(5);
 
             // Act / Assert
-            value.Should().BeOneOf(new[] { new SomeClass(4), new SomeClass(5) }, new SomeClassEqualityComparer());
+            value.Should().BeOneOf([new SomeClass(4), new SomeClass(5)], new SomeClassEqualityComparer());
         }
 
         [Fact]
@@ -72,7 +72,7 @@ public partial class ObjectAssertionSpecs
             var value = new SomeClass(5);
 
             // Act / Assert
-            value.Should().BeOneOf(new[] { new SomeClass(4), new SomeClass(5) }, new SomeClassEqualityComparer());
+            value.Should().BeOneOf([new SomeClass(4), new SomeClass(5)], new SomeClassEqualityComparer());
         }
 
         [Fact]
@@ -82,7 +82,7 @@ public partial class ObjectAssertionSpecs
             object value = new SomeClass(3);
 
             // Act
-            Action act = () => value.Should().BeOneOf(new[] { new SomeClass(4), new SomeClass(5) },
+            Action act = () => value.Should().BeOneOf([new SomeClass(4), new SomeClass(5)],
                 new SomeClassEqualityComparer(), "I said so");
 
             // Assert
@@ -97,7 +97,7 @@ public partial class ObjectAssertionSpecs
             object value = new SomeClass(3);
 
             // Act
-            Action act = () => value.Should().BeOneOf(Array.Empty<SomeClass>(), new SomeClassEqualityComparer());
+            Action act = () => value.Should().BeOneOf([], new SomeClassEqualityComparer());
 
             // Assert
             act.Should().Throw<XunitException>();
@@ -110,7 +110,7 @@ public partial class ObjectAssertionSpecs
             var value = new SomeClass(3);
 
             // Act
-            Action act = () => value.Should().BeOneOf(new[] { new SomeClass(4), new SomeClass(5) },
+            Action act = () => value.Should().BeOneOf([new SomeClass(4), new SomeClass(5)],
                 new SomeClassEqualityComparer(), "I said so");
 
             // Assert
@@ -125,7 +125,7 @@ public partial class ObjectAssertionSpecs
             var value = new SomeClass(3);
 
             // Act
-            Action act = () => value.Should().BeOneOf(Array.Empty<SomeClass>(), new SomeClassEqualityComparer());
+            Action act = () => value.Should().BeOneOf([], new SomeClassEqualityComparer());
 
             // Assert
             act.Should().Throw<XunitException>();
@@ -138,7 +138,7 @@ public partial class ObjectAssertionSpecs
             var value = new ClassWithCustomEqualMethod(3);
 
             // Act
-            Action act = () => value.Should().BeOneOf(new[] { new SomeClass(4), new SomeClass(5) },
+            Action act = () => value.Should().BeOneOf([new SomeClass(4), new SomeClass(5)],
                 new SomeClassEqualityComparer(), "I said so");
 
             // Assert
@@ -179,7 +179,7 @@ public partial class ObjectAssertionSpecs
             object value = new SomeClass(3);
 
             // Act
-            Action act = () => value.Should().BeOneOf(Array.Empty<SomeClass>(), comparer: null);
+            Action act = () => value.Should().BeOneOf([], comparer: null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
@@ -192,7 +192,7 @@ public partial class ObjectAssertionSpecs
             var value = new SomeClass(3);
 
             // Act
-            Action act = () => value.Should().BeOneOf(Array.Empty<SomeClass>(), comparer: null);
+            Action act = () => value.Should().BeOneOf([], comparer: null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
@@ -215,7 +215,7 @@ public partial class ObjectAssertionSpecs
             var value = new object();
 
             // Act / Assert
-            value.Should().BeOneOf<object>(new[] { value }, new DumbObjectEqualityComparer()).And.NotBeNull();
+            value.Should().BeOneOf<object>([value], new DumbObjectEqualityComparer()).And.NotBeNull();
         }
     }
 }

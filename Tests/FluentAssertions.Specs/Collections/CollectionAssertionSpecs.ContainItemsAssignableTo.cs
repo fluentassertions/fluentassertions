@@ -17,7 +17,7 @@ public partial class CollectionAssertionSpecs
         public void Should_succeed_when_asserting_collection_with_all_items_of_same_type_only_contains_item_of_one_type()
         {
             // Arrange
-            var collection = new[] { "1", "2", "3" };
+            string[] collection = ["1", "2", "3"];
 
             // Act / Assert
             collection.Should().ContainItemsAssignableTo<string>();
@@ -59,7 +59,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_is_empty_an_exception_should_be_thrown()
         {
             // Arrange
-            int[] collection = Array.Empty<int>();
+            int[] collection = [];
 
             // Act
             Action act = () => collection.Should().ContainItemsAssignableTo<int>();

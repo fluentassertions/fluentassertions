@@ -12,7 +12,7 @@ public partial class CollectionAssertionSpecs
         public void Succeeds_when_the_collection_does_not_contain_items_of_the_unexpected_type()
         {
             // Arrange
-            var collection = new[] { "1", "2", "3" };
+            string[] collection = ["1", "2", "3"];
 
             // Act / Assert
             collection.Should().NotContainItemsAssignableTo<int>();
@@ -43,7 +43,7 @@ public partial class CollectionAssertionSpecs
         public void Succeeds_when_collection_is_empty()
         {
             // Arrange
-            var collection = Array.Empty<int>();
+            int[] collection = [];
 
             // Act / Assert
             collection.Should().NotContainItemsAssignableTo<int>();
@@ -53,7 +53,7 @@ public partial class CollectionAssertionSpecs
         public void Throws_when_the_passed_type_argument_is_null()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             var act = () => collection.Should().NotContainItemsAssignableTo(null);
@@ -66,7 +66,7 @@ public partial class CollectionAssertionSpecs
         public void Succeed_when_type_as_parameter_is_valid_type()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().NotContainItemsAssignableTo(typeof(string));

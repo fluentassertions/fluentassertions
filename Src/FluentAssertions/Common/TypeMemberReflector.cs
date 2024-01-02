@@ -18,7 +18,7 @@ internal sealed class TypeMemberReflector
     {
         Properties = LoadProperties(typeToReflect, visibility);
         Fields = LoadFields(typeToReflect, visibility);
-        Members = Properties.Concat<MemberInfo>(Fields).ToArray();
+        Members = [.. Properties, .. Fields];
     }
 
     public MemberInfo[] Members { get; }
@@ -113,7 +113,7 @@ internal sealed class TypeMemberReflector
         Func<Type, IEnumerable<TMemberInfo>> getMembers)
         where TMemberInfo : MemberInfo
     {
-        List<TMemberInfo> members = new();
+        List<TMemberInfo> members = [];
 
         var considered = new List<Type>();
         var queue = new Queue<Type>();
@@ -149,7 +149,7 @@ internal sealed class TypeMemberReflector
         Func<Type, IEnumerable<TMemberInfo>> getMembers)
         where TMemberInfo : MemberInfo
     {
-        List<TMemberInfo> members = new();
+        List<TMemberInfo> members = [];
 
         while (typeToReflect != null)
         {

@@ -155,7 +155,7 @@ public class NestedPropertiesSpecs
         public StringContainer(string mainValue, string subValue = null)
         {
             MainValue = mainValue;
-            SubValues = new[] { new StringSubContainer { SubValue = subValue } };
+            SubValues = [new StringSubContainer { SubValue = subValue }];
         }
 
         public string MainValue { get; set; }
@@ -174,20 +174,20 @@ public class NestedPropertiesSpecs
     public void When_deeply_nested_strings_dont_match_it_should_properly_report_the_mismatches()
     {
         // Arrange
-        var expected = new[]
-        {
+        MyClass2[] expected =
+        [
             new MyClass2 { One = new StringContainer("EXPECTED", "EXPECTED"), Two = new StringContainer("CORRECT") },
             new MyClass2()
-        };
+        ];
 
-        var actual = new[]
-        {
+        MyClass2[] actual =
+        [
             new MyClass2
             {
                 One = new StringContainer("INCORRECT", "INCORRECT"), Two = new StringContainer("CORRECT")
             },
             new MyClass2()
-        };
+        ];
 
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expected);
@@ -307,17 +307,15 @@ public class NestedPropertiesSpecs
     public void Should_support_nested_collections_containing_empty_objects()
     {
         // Arrange
-        var orig = new[] { new OuterWithObject { MyProperty = new[] { new Inner() } } };
+        OuterWithObject[] orig = [new OuterWithObject { MyProperty = [new Inner()] }];
 
-        var expectation = new[] { new OuterWithObject { MyProperty = new[] { new Inner() } } };
+        OuterWithObject[] expectation = [new OuterWithObject { MyProperty = [new Inner()] }];
 
         // Act / Assert
         orig.Should().BeEquivalentTo(expectation);
     }
 
-    public class Inner
-    {
-    }
+    public class Inner;
 
     public class OuterWithObject
     {

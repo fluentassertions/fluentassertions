@@ -86,7 +86,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
                 $"Expected {Identifier} to be decorated with {typeof(TAttribute)}{{reason}}" +
                 ", but {context:member} is <null>.");
 
-        IEnumerable<TAttribute> attributes = Array.Empty<TAttribute>();
+        IEnumerable<TAttribute> attributes = [];
 
         if (success)
         {

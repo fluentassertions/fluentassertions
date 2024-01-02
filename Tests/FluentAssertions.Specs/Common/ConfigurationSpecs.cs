@@ -11,7 +11,7 @@ public class ConfigurationSpecs
     public void Value_formatter_detection_mode_is_disabled_with_empty_store()
     {
         // Arrange
-        var store = new DummyConfigurationStore(new Dictionary<string, string>());
+        var store = new DummyConfigurationStore([]);
         var sut = new Configuration(store);
 
         // Act / Assert

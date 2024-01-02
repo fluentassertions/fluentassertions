@@ -13,7 +13,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void Should_fail_when_asserting_collection_has_a_count_that_is_different_from_the_number_of_items()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action act = () => collection.Should().HaveCount(4);
@@ -26,7 +26,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void Should_succeed_when_asserting_collection_has_a_count_that_equals_the_number_of_items()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act / Assert
             collection.Should().HaveCount(3);
@@ -36,7 +36,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void Should_support_chaining_constraints_with_and()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act / Assert
             collection.Should()
@@ -50,7 +50,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_count_is_matched_against_a_null_predicate_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action act = () => collection.Should().HaveCount(null);
@@ -93,7 +93,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_has_a_count_larger_than_the_minimum_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act / Assert
             collection.Should().HaveCount(c => c >= 3);
@@ -104,7 +104,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             When_collection_has_a_count_that_is_different_from_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action action = () => collection.Should().HaveCount(4, "because we want to test the failure {0}", "message");
@@ -119,7 +119,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_collection_has_a_count_that_not_matches_the_predicate_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection = ["one", "two", "three"];
 
             // Act
             Action act = () => collection.Should().HaveCount(c => c >= 4, "a minimum of 4 is required");

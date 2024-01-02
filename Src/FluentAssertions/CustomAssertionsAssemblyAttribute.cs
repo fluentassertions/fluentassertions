@@ -7,6 +7,4 @@ namespace FluentAssertions;
 /// internally, or directly uses the <c>Execute.Assertion</c>.
 /// </summary>
 [AttributeUsage(AttributeTargets.Assembly)]
-public sealed class CustomAssertionsAssemblyAttribute : Attribute
-{
-}
+public sealed class CustomAssertionsAssemblyAttribute : Attribute;

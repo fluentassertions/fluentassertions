@@ -268,7 +268,7 @@ public static class CallerIdentifier
 #if !NET6_0_OR_GREATER
         if (frames == null)
         {
-            return Array.Empty<StackFrame>();
+            return [];
         }
 #endif
         return frames
