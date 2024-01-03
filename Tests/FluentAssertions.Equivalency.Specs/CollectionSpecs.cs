@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
@@ -82,6 +84,25 @@ public class CollectionSpecs
         public object SyncRoot => ((ICollection)inner).SyncRoot;
 
         public bool IsSynchronized => ((ICollection)inner).IsSynchronized;
+    }
+
+    public sealed class AsyncEnumerableOfStringAndObject : IAsyncEnumerable<object>, IAsyncEnumerable<string>
+    {
+        IAsyncEnumerator<object> IAsyncEnumerable<object>.GetAsyncEnumerator(CancellationToken cancellationToken)
+        {
+            return GetAsyncEnumerator();
+        }
+
+        IAsyncEnumerator<string> IAsyncEnumerable<string>.GetAsyncEnumerator(CancellationToken cancellationToken)
+        {
+            return GetAsyncEnumerator();
+        }
+
+        private async IAsyncEnumerator<string> GetAsyncEnumerator()
+        {
+            await Task.Yield();
+            yield return string.Empty;
+        }
     }
 
     private class EnumerableOfStringAndObject : IEnumerable<object>, IEnumerable<string>
@@ -170,6 +191,16 @@ public class CollectionSpecs
 #pragma warning disable CA1065 // this is for testing purposes.
         public object ExceptionThrowingProperty => throw new NotImplementedException();
 #pragma warning restore CA1065
+    }
+
+    public class NestedAsyncEnumerableDto
+    {
+        public IAsyncEnumerable<int> Values { get; }
+
+        public NestedAsyncEnumerableDto(IAsyncEnumerable<int> values)
+        {
+            Values = values;
+        }
     }
 
     [Fact]
@@ -414,6 +445,38 @@ public class CollectionSpecs
         var expected = AsyncEnumerable.Range(0, 10);
 
         var subject = Enumerable.Range(0, 10).ToAsyncEnumerable();
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(expected);
+
+        // Assert
+        act.Should().NotThrow();
+    }
+
+    [Fact]
+    public void When_all_subject_items_in_nested_async_enumerable_are_not_equivalent_to_expectation_object_it_should_throw()
+    {
+        // Arrange
+        var expected = new NestedAsyncEnumerableDto(AsyncEnumerable.Range(0, 10));
+
+        var subject = new NestedAsyncEnumerableDto(Enumerable.Range(1, 10).ToAsyncEnumerable());
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(expected);
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage(
+                "Expected subject.Values[0] to be 0, but found 1*");
+    }
+
+    [Fact]
+    public void When_all_subject_items_in_nested_async_enumerable_are_equivalent_to_expectation_object_it_should_not_throw()
+    {
+        // Arrange
+        var expected = new NestedAsyncEnumerableDto(AsyncEnumerable.Range(0, 10));
+
+        var subject = new NestedAsyncEnumerableDto(Enumerable.Range(0, 10).ToAsyncEnumerable());
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected);
@@ -1152,6 +1215,23 @@ public class CollectionSpecs
 
         // Assert
         act.Should().Throw<XunitException>("the runtime type is assignable to two IEnumerable interfaces")
+            .WithMessage("*cannot determine which one*");
+    }
+
+    [Fact]
+    public void
+        When_a_object_implements_multiple_IAsyncEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_and_runtime_checking_is_configured_it_should_fail()
+    {
+        // Arrange
+        IAsyncEnumerable<string> collection1 = new AsyncEnumerableOfStringAndObject();
+        IAsyncEnumerable<string> collection2 = new AsyncEnumerableOfStringAndObject();
+
+        // Act
+        Action act =
+            () => collection1.Should().BeEquivalentTo(collection2, opts => opts.RespectingRuntimeTypes());
+
+        // Assert
+        act.Should().Throw<XunitException>("the runtime type is assignable to two IAsyncEnumerable interfaces")
             .WithMessage("*cannot determine which one*");
     }
 

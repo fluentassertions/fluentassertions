@@ -29,13 +29,13 @@ public class AsyncEnumerableEquivalencyStep : IEquivalencyStep
 
         Type[] interfaceTypes = GetIAsyncEnumerableInterfaces(expectedType);
 
-        AssertionScope.Current
+        var conditionMet = AssertionScope.Current
             .ForCondition(interfaceTypes.Length == 1)
             .FailWith(() => new FailReason("{context:Expectation} implements {0}, so cannot determine which one " +
                 "to use for asserting the equivalency of the collection. ",
                 interfaceTypes.Select(type => "IAsyncEnumerable<" + type.GetGenericArguments().Single() + ">")));
 
-        if (AssertSubjectIsCollection(comparands.Subject))
+        if (conditionMet && AssertSubjectIsCollection(comparands.Subject))
         {
             var validator = new EnumerableEquivalencyValidator(nestedValidator, context)
             {
@@ -99,7 +99,7 @@ public class AsyncEnumerableEquivalencyStep : IEquivalencyStep
 
     private static Type[] GetIAsyncEnumerableInterfaces(Type type)
     {
-        // Avoid expensive calculation when the type in question can't possibly implement IEnumerable<>.
+        // Avoid expensive calculation when the type in question can't possibly implement IAsyncEnumerable<>.
         if (Type.GetTypeCode(type) != TypeCode.Object)
         {
             return Array.Empty<Type>();

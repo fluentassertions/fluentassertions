@@ -27,13 +27,13 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
 
         Type[] interfaceTypes = GetIEnumerableInterfaces(expectedType);
 
-        AssertionScope.Current
+        var conditionMet = AssertionScope.Current
             .ForCondition(interfaceTypes.Length == 1)
             .FailWith(() => new FailReason("{context:Expectation} implements {0}, so cannot determine which one " +
                 "to use for asserting the equivalency of the collection. ",
                 interfaceTypes.Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">")));
 
-        if (AssertSubjectIsCollection(comparands.Subject))
+        if (conditionMet && AssertSubjectIsCollection(comparands.Subject))
         {
             var validator = new EnumerableEquivalencyValidator(nestedValidator, context)
             {
