@@ -104,7 +104,7 @@ public class NotThrowSpecs
             .Where(e => !e.Message.Contains("NullReferenceException"));
     }
 
-#pragma warning disable CS1998
+#pragma warning disable CS1998, MA0147
     [Fact]
     public void When_subject_is_async_it_should_throw()
     {
@@ -119,7 +119,7 @@ public class NotThrowSpecs
         action.Should().Throw<InvalidOperationException>()
             .WithMessage("Cannot use action assertions on an async void method.*");
     }
-#pragma warning restore CS1998
+#pragma warning restore CS1998, MA0147
 
     [Fact]
     public void When_wait_time_is_negative_it_should_throw()
