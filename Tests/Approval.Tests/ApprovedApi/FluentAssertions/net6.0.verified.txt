@@ -470,7 +470,8 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> NotBeNullOrEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeSubsetOf(System.Collections.Generic.IAsyncEnumerable<T> unexpectedSuperset, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeSubsetOf(System.Collections.Generic.IEnumerable<T> unexpectedSuperset, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Collections.Generic.IAsyncEnumerable<T> unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Collections.Generic.IAsyncEnumerable<T> expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Collections.Generic.IEnumerable<T> unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, T> NotContain(T unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf<TExpectation>(TExpectation unexpected, string because = "", params object[] becauseArgs) { }

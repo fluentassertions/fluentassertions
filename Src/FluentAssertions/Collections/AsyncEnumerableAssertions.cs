@@ -2290,6 +2290,25 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     }
 
     /// <summary>
+    /// Expects the current collection not to contain the specified elements in any order. Elements are compared
+    /// using their <see cref="object.Equals(object)" /> implementation.
+    /// </summary>
+    /// <param name="expected">An <see cref="IAsyncEnumerable{T}"/> with the expected elements.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
+    public AndConstraint<TAssertions> NotContain(IAsyncEnumerable<T> expected, string because = "", params object[] becauseArgs)
+    {
+        return NotContain(expected.ToBlockingEnumerable(), because, becauseArgs);
+    }
+
+    /// <summary>
     /// Asserts that the collection does not contain any items that match the predicate.
     /// </summary>
     /// <param name="predicate">A predicate to match the items in the collection against.</param>
@@ -2330,7 +2349,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// Asserts that the current collection does not contain the supplied items. Elements are compared
     /// using their <see cref="object.Equals(object)" /> implementation.
     /// </summary>
-    /// <param name="unexpected">An <see cref="IAsyncEnumerable{T}"/> with the unexpected elements.</param>
+    /// <param name="unexpected">An <see cref="IEnumerable{T}"/> with the unexpected elements.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -2340,11 +2359,11 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="unexpected"/> is empty.</exception>
-    public AndConstraint<TAssertions> NotContain(IAsyncEnumerable<T> unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotContain(IEnumerable<T> unexpected, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify non-containment against a <null> collection");
 
-        ICollection<T> unexpectedObjects = unexpected.ToBlockingEnumerable().ConvertOrCastToCollection();
+        ICollection<T> unexpectedObjects = unexpected.ConvertOrCastToCollection();
 
         Guard.ThrowIfArgumentIsEmpty(unexpectedObjects, nameof(unexpected),
             "Cannot verify non-containment against an empty collection");
