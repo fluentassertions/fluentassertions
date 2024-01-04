@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using FluentAssertions.Collections.MaximumMatching;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
+using FluentAssertions.Formatting;
 using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Collections;
@@ -37,18 +41,17 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     where TCollection : IAsyncEnumerable<T>
     where TAssertions : AsyncEnumerableAssertions<TCollection, T, TAssertions>
 {
-    private readonly GenericCollectionAssertions<T> genericCollectionAssertions;
-
     public AsyncEnumerableAssertions(TCollection actualValue)
         : base(actualValue)
     {
-        genericCollectionAssertions = new GenericCollectionAssertions<T>(actualValue?.ToBlockingEnumerable());
     }
 
     /// <summary>
     /// Returns the type of the subject the assertion applies on.
     /// </summary>
     protected override string Identifier => "collection";
+
+    private IEnumerable<T> BlockingSubject => Subject?.ToBlockingEnumerable();
 
     /// <summary>
     /// Asserts that all items in the collection are of the specified type <typeparamref name="TExpectation" />
@@ -64,7 +67,29 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     public AndWhichConstraint<TAssertions, IEnumerable<TExpectation>> AllBeAssignableTo<TExpectation>(string because = "",
         params object[] becauseArgs)
     {
-        var matches = genericCollectionAssertions.GetAllBeAssignableToMatches<TExpectation>(because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected type to be {0}{reason}, but found {context:the collection} is <null>.",
+                typeof(TExpectation).FullName);
+
+        IEnumerable<TExpectation> matches = [];
+
+        if (success)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected type to be {0}{reason}, ", typeof(TExpectation).FullName)
+                .ForCondition(BlockingSubject!.All(x => x is not null))
+                .FailWith("but found a null element.")
+                .Then
+                .ForCondition(BlockingSubject.All(x => typeof(TExpectation).IsAssignableFrom(GetType(x))))
+                .FailWith("but found {0}.", () => $"[{string.Join(", ", BlockingSubject.Select(x => GetType(x).FullName))}]")
+                .Then
+                .ClearExpectation();
+
+            matches = BlockingSubject.OfType<TExpectation>();
+        }
 
         return new AndWhichConstraint<TAssertions, IEnumerable<TExpectation>>((TAssertions)this, matches);
     }
@@ -85,7 +110,20 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(expectedType);
 
-        genericCollectionAssertions.AssertAllBeAssignableTo(expectedType, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but found {context:collection} is <null>.")
+            .Then
+            .ForCondition(subject => subject.All(x => x is not null))
+            .FailWith("but found a null element.")
+            .Then
+            .ForCondition(subject => subject.All(x => expectedType.IsAssignableFrom(GetType(x))))
+            .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]")
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -148,7 +186,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(config);
 
-        IAsyncEnumerable<TExpectation> repeatedExpectation = RepeatAsManyAs(expectation, genericCollectionAssertions.Subject).ToAsyncEnumerable();
+        IAsyncEnumerable<TExpectation> repeatedExpectation = RepeatAsManyAs(expectation, BlockingSubject).ToAsyncEnumerable();
 
         // Because we have just manually created the collection based on single element
         // we are sure that we can force strict ordering, because ordering does not matter in terms
@@ -176,7 +214,29 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     public AndWhichConstraint<TAssertions, IEnumerable<TExpectation>> AllBeOfType<TExpectation>(string because = "",
         params object[] becauseArgs)
     {
-        var matches = genericCollectionAssertions.GetAllBeOfTypeMatches<TExpectation>(because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected type to be {0}{reason}, but found {context:collection} is <null>.",
+                typeof(TExpectation).FullName);
+
+        IEnumerable<TExpectation> matches = [];
+
+        if (success)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected type to be {0}{reason}, ", typeof(TExpectation).FullName)
+                .ForCondition(BlockingSubject!.All(x => x is not null))
+                .FailWith("but found a null element.")
+                .Then
+                .ForCondition(BlockingSubject.All(x => typeof(TExpectation) == GetType(x)))
+                .FailWith("but found {0}.", () => $"[{string.Join(", ", BlockingSubject.Select(x => GetType(x).FullName))}]")
+                .Then
+                .ClearExpectation();
+
+            matches = BlockingSubject.OfType<TExpectation>();
+        }
 
         return new AndWhichConstraint<TAssertions, IEnumerable<TExpectation>>((TAssertions)this, matches);
     }
@@ -197,7 +257,20 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(expectedType);
 
-        genericCollectionAssertions.AssertAllBeOfType(expectedType, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but found {context:collection} is <null>.")
+            .Then
+            .ForCondition(subject => subject.All(x => x is not null))
+            .FailWith("but found a null element.")
+            .Then
+            .ForCondition(subject => subject.All(x => expectedType == GetType(x)))
+            .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]")
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -214,7 +287,17 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertBeEmpty(because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to be empty{reason}, ")
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .ForCondition(subject => !subject.Any())
+            .FailWith("but found {0}.", BlockingSubject)
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -346,7 +429,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
 
-        return genericCollectionAssertions.BeInOrder(comparer, SortOrder.Ascending, because, becauseArgs);
+        return BeInOrder(comparer, SortOrder.Ascending, because, becauseArgs);
     }
 
     /// <summary>
@@ -377,7 +460,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
 
-        return genericCollectionAssertions.BeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, becauseArgs);
+        return BeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, becauseArgs);
     }
 
     /// <summary>
@@ -419,7 +502,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     public AndConstraint<SubsequentOrderingAssertions<T>> BeInAscendingOrder(Func<T, T, int> comparison, string because = "",
         params object[] becauseArgs)
     {
-        return genericCollectionAssertions.BeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), SortOrder.Ascending, because, becauseArgs);
+        return BeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), SortOrder.Ascending, because, becauseArgs);
     }
 
     /// <summary>
@@ -469,7 +552,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
 
-        return genericCollectionAssertions.BeInOrder(comparer, SortOrder.Descending, because, becauseArgs);
+        return BeInOrder(comparer, SortOrder.Descending, because, becauseArgs);
     }
 
     /// <summary>
@@ -500,7 +583,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
 
-        return genericCollectionAssertions.BeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
+        return BeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
     }
 
     /// <summary>
@@ -542,7 +625,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     public AndConstraint<SubsequentOrderingAssertions<T>> BeInDescendingOrder(Func<T, T, int> comparison, string because = "",
         params object[] becauseArgs)
     {
-        return genericCollectionAssertions.BeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), SortOrder.Descending, because, becauseArgs);
+        return BeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), SortOrder.Descending, because, becauseArgs);
     }
 
     /// <summary>
@@ -557,7 +640,13 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> BeNullOrEmpty(string because = "", params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertBeNullOrEmpty(because, becauseArgs);
+        var nullOrEmpty = BlockingSubject is null || !BlockingSubject.Any();
+
+        Execute.Assertion.ForCondition(nullOrEmpty)
+            .BecauseOf(because, becauseArgs)
+            .FailWith(
+                "Expected {context:collection} to be null or empty{reason}, but found {0}.",
+                BlockingSubject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -580,7 +669,18 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         Guard.ThrowIfArgumentIsNull(expectedSuperset, nameof(expectedSuperset),
             "Cannot verify a subset against a <null> collection.");
 
-        genericCollectionAssertions.AssertBeSubsetOf(expectedSuperset, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to be a subset of {0}{reason}, ", expectedSuperset)
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .Given(subject => subject.Except(expectedSuperset))
+            .ForCondition(excessItems => !excessItems.Any())
+            .FailWith("but items {0} are not part of the superset.", excessItems => excessItems)
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -598,7 +698,24 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndWhichConstraint<TAssertions, T> Contain(T expected, string because = "", params object[] becauseArgs)
     {
-        IEnumerable<T> matches = genericCollectionAssertions.GetContainMatches(expected, because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", expected);
+
+        IEnumerable<T> matches = [];
+
+        if (success)
+        {
+            ICollection<T> collection = BlockingSubject.ConvertOrCastToCollection();
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(collection.Contains(expected))
+                .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", collection, expected);
+
+            matches = collection.Where(item => EqualityComparer<T>.Default.Equals(item, expected));
+        }
 
         return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matches);
     }
@@ -620,7 +737,24 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(predicate);
 
-        IEnumerable<T> matches = genericCollectionAssertions.GetContainMatches(predicate, because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", predicate.Body);
+
+        IEnumerable<T> matches = [];
+
+        if (success)
+        {
+            Func<T, bool> func = predicate.Compile();
+
+            Execute.Assertion
+                .ForCondition(BlockingSubject!.Any(func))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} {0} to have an item matching {1}{reason}.", BlockingSubject, predicate.Body);
+
+            matches = BlockingSubject.Where(func);
+        }
 
         return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matches);
     }
@@ -643,7 +777,36 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify containment against a <null> collection");
 
-        genericCollectionAssertions.AssertContain(expected, because, becauseArgs);
+        ICollection<T> expectedObjects = expected.ConvertOrCastToCollection();
+        Guard.ThrowIfArgumentIsEmpty(expectedObjects, nameof(expected), "Cannot verify containment against an empty collection");
+
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", expectedObjects);
+
+        if (success)
+        {
+            IEnumerable<T> missingItems = expectedObjects.Except(BlockingSubject!);
+
+            if (missingItems.Any())
+            {
+                if (expectedObjects.Count > 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} {0} to contain {1}{reason}, but could not find {2}.",
+                            BlockingSubject, expectedObjects, missingItems);
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} {0} to contain {1}{reason}.",
+                            BlockingSubject, expectedObjects.Single());
+                }
+            }
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -711,9 +874,51 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(config);
 
-        var unmatchedItem = genericCollectionAssertions.GetContainEquivalentOfUnmatchedItem(expectation, config, because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to contain equivalent of {0}{reason}, but found <null>.", expectation);
 
-        return new AndWhichConstraint<TAssertions, T>((TAssertions)this, unmatchedItem);
+        if (success)
+        {
+            EquivalencyOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
+
+            using var scope = new AssertionScope();
+            scope.AddReportable("configuration", () => options.ToString());
+
+            foreach (T actualItem in BlockingSubject!)
+            {
+                var context =
+                    new EquivalencyValidationContext(Node.From<TExpectation>(() => AssertionScope.Current.CallerIdentity),
+                        options)
+                    {
+                        Reason = new Reason(because, becauseArgs),
+                        TraceWriter = options.TraceWriter
+                    };
+
+                var comparands = new Comparands
+                {
+                    Subject = actualItem,
+                    Expectation = expectation,
+                    CompileTimeType = typeof(TExpectation),
+                };
+
+                new EquivalencyValidator().AssertEquality(comparands, context);
+
+                string[] failures = scope.Discard();
+
+                if (failures.Length == 0)
+                {
+                    return new AndWhichConstraint<TAssertions, T>((TAssertions)this, actualItem);
+                }
+            }
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} {0} to contain equivalent of {1}{reason}.", BlockingSubject, expectation);
+        }
+
+        return new AndWhichConstraint<TAssertions, T>((TAssertions)this, default(T));
     }
 
     /// <summary>
@@ -746,7 +951,34 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify ordered containment against a <null> collection.");
 
-        genericCollectionAssertions.AssertContainInOrder(expected, because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to contain {0} in order{reason}, but found <null>.", expected);
+
+        if (success)
+        {
+            IList<T> expectedItems = expected.ConvertOrCastToList();
+            IList<T> actualItems = BlockingSubject.ConvertOrCastToList();
+
+            int subjectIndex = 0;
+
+            for (int index = 0; index < expectedItems.Count; index++)
+            {
+                T expectedItem = expectedItems[index];
+                subjectIndex = IndexOf(actualItems, expectedItem, startIndex: subjectIndex);
+
+                if (subjectIndex == -1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(
+                            "Expected {context:collection} {0} to contain items {1} in order{reason}" +
+                            ", but {2} (index {3}) did not appear (in the right order).",
+                            BlockingSubject, expected, expectedItem, index);
+                }
+            }
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -781,7 +1013,50 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify ordered containment against a <null> collection.");
 
-        genericCollectionAssertions.AssertContainInConsecutiveOrder(expected, because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to contain {0} in order{reason}, but found <null>.", expected);
+
+        if (success)
+        {
+            IList<T> expectedItems = expected.ConvertOrCastToList();
+
+            if (expectedItems.Count == 0)
+            {
+                return new AndConstraint<TAssertions>((TAssertions)this);
+            }
+
+            IList<T> actualItems = BlockingSubject.ConvertOrCastToList();
+
+            int subjectIndex = 0;
+            int highestIndex = 0;
+
+            while (subjectIndex != -1)
+            {
+                subjectIndex = IndexOf(actualItems, expectedItems[0], startIndex: subjectIndex);
+
+                if (subjectIndex != -1)
+                {
+                    int consecutiveItems = ConsecutiveItemCount(actualItems, expectedItems, startIndex: subjectIndex);
+
+                    if (consecutiveItems == expectedItems.Count)
+                    {
+                        return new AndConstraint<TAssertions>((TAssertions)this);
+                    }
+
+                    highestIndex = Math.Max(highestIndex, consecutiveItems);
+                    subjectIndex++;
+                }
+            }
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:collection} {0} to contain items {1} in order{reason}" +
+                    ", but {2} (index {3}) did not appear (in the right consecutive order).",
+                    BlockingSubject, expected, expectedItems[highestIndex], highestIndex);
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -798,7 +1073,18 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> ContainItemsAssignableTo<TExpectation>(string because = "", params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertContainItemsAssignableTo<TExpectation>(because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to contain at least one element assignable to type {0}{reason}, ",
+                typeof(TExpectation).FullName)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .Given(() => BlockingSubject.ConvertOrCastToCollection())
+            .ForCondition(subject => subject.Any(x => typeof(TExpectation).IsAssignableFrom(GetType(x))))
+            .FailWith("but found {0}.", subject => subject.Select(x => GetType(x)))
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -833,7 +1119,18 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(type);
 
-        genericCollectionAssertions.AssertNotContainItemsAssignableTo(type, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to not contain any elements assignable to type {0}{reason}, ",
+                type.FullName)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .Given(() => BlockingSubject.ConvertOrCastToCollection())
+            .ForCondition(subject => subject.All(x => !type.IsAssignableFrom(GetType(x))))
+            .FailWith("but found {0}.", subject => subject.Select(x => GetType(x)))
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -850,7 +1147,36 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndWhichConstraint<TAssertions, T> ContainSingle(string because = "", params object[] becauseArgs)
     {
-        T match = genericCollectionAssertions.GetContainSingleMatch(because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to contain a single item{reason}, but found <null>.");
+
+        T match = default;
+
+        if (success)
+        {
+            ICollection<T> actualItems = BlockingSubject.ConvertOrCastToCollection();
+
+            switch (actualItems.Count)
+            {
+                case 0: // Fail, Collection is empty
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} to contain a single item{reason}, but the collection is empty.");
+
+                    break;
+                case 1: // Success Condition
+                    match = actualItems.Single();
+                    break;
+                default: // Fail, Collection contains more than a single item
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} to contain a single item{reason}, but found {0}.", BlockingSubject);
+
+                    break;
+            }
+        }
 
         return new AndWhichConstraint<TAssertions, T>((TAssertions)this, match);
     }
@@ -872,7 +1198,47 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(predicate);
 
-        T[] matches = genericCollectionAssertions.GetContainSingleMatches(predicate, because, becauseArgs);
+        const string expectationPrefix =
+            "Expected {context:collection} to contain a single item matching {0}{reason}, ";
+
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith(expectationPrefix + "but found <null>.", predicate);
+
+        T[] matches = [];
+
+        if (success)
+        {
+            ICollection<T> actualItems = BlockingSubject.ConvertOrCastToCollection();
+
+            Execute.Assertion
+                .ForCondition(actualItems.Count > 0)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(expectationPrefix + "but the collection is empty.", predicate);
+
+            matches = actualItems.Where(predicate.Compile()).ToArray();
+            int count = matches.Length;
+
+            if (count == 0)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(expectationPrefix + "but no such item was found.", predicate);
+            }
+            else if (count > 1)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        expectationPrefix + "but " + count.ToString(CultureInfo.InvariantCulture) + " such items were found.",
+                        predicate);
+            }
+            else
+            {
+                // Can never happen
+            }
+        }
 
         return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matches);
     }
@@ -920,8 +1286,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(expectation, nameof(expectation), "Cannot compare collection with <null>.");
 
-        genericCollectionAssertions.AssertEndWith(expectation, equalityComparison, because, becauseArgs);
-
+        AssertCollectionEndsWith(BlockingSubject, expectation.ConvertOrCastToCollection(), equalityComparison, because, becauseArgs);
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
@@ -951,7 +1316,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// <param name="elements">A params array with the expected elements.</param>
     public AndConstraint<TAssertions> Equal(params T[] elements)
     {
-        genericCollectionAssertions.AssertSubjectEquality(elements, ObjectExtensions.GetComparer<T>(), string.Empty);
+        AssertSubjectEquality(elements, ObjectExtensions.GetComparer<T>(), string.Empty);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -977,7 +1342,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         IEnumerable<TExpectation> expectation, Func<T, TExpectation, bool> equalityComparison, string because = "",
         params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertSubjectEquality(expectation, equalityComparison, because, becauseArgs);
+        AssertSubjectEquality(expectation, equalityComparison, because, becauseArgs);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -996,7 +1361,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> Equal(IEnumerable<T> expected, string because = "", params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertSubjectEquality(expected, ObjectExtensions.GetComparer<T>(), because, becauseArgs);
+        AssertSubjectEquality(expected, ObjectExtensions.GetComparer<T>(), because, becauseArgs);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1014,7 +1379,22 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> HaveCount(int expected, string because = "", params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertHaveCount(expected, because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to contain {0} item(s){reason}, but found <null>.", expected);
+
+        if (success)
+        {
+            int actualCount = BlockingSubject!.Count();
+
+            Execute.Assertion
+                .ForCondition(actualCount == expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:collection} to contain {0} item(s){reason}, but found {1}: {2}.",
+                    expected, actualCount, BlockingSubject);
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1037,7 +1417,25 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         Guard.ThrowIfArgumentIsNull(countPredicate, nameof(countPredicate),
             "Cannot compare collection count against a <null> predicate.");
 
-        genericCollectionAssertions.AssertHaveCount(countPredicate, because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to contain {0} items{reason}, but found <null>.", countPredicate.Body);
+
+        if (success)
+        {
+            Func<int, bool> compiledPredicate = countPredicate.Compile();
+
+            int actualCount = BlockingSubject!.Count();
+
+            if (!compiledPredicate(actualCount))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} to have a count {0}{reason}, but count is {1}: {2}.",
+                        countPredicate.Body, actualCount, BlockingSubject);
+            }
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1056,7 +1454,18 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     public AndConstraint<TAssertions> HaveCountGreaterThanOrEqualTo(int expected, string because = "",
         params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertHaveCountGreaterThanOrEqualTo(expected, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to contain at least {0} item(s){reason}, ", expected)
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .Given(subject => subject.Count())
+            .ForCondition(actualCount => actualCount >= expected)
+            .FailWith("but found {0}: {1}.", actualCount => actualCount, _ => BlockingSubject)
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1074,7 +1483,18 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertHaveCountGreaterThan(expected, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to contain more than {0} item(s){reason}, ", expected)
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .Given(subject => subject.Count())
+            .ForCondition(actualCount => actualCount > expected)
+            .FailWith("but found {0}: {1}.", actualCount => actualCount, _ => BlockingSubject)
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1092,7 +1512,18 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> HaveCountLessThanOrEqualTo(int expected, string because = "", params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertHaveCountLessThanOrEqualTo(expected, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to contain at most {0} item(s){reason}, ", expected)
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .Given(subject => subject.Count())
+            .ForCondition(actualCount => actualCount <= expected)
+            .FailWith("but found {0}: {1}.", actualCount => actualCount, _ => BlockingSubject)
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1110,7 +1541,18 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertHaveCountLessThan(expected, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to contain fewer than {0} item(s){reason}, ", expected)
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .Given(subject => subject.Count())
+            .ForCondition(actualCount => actualCount < expected)
+            .FailWith("but found {0}: {1}.", actualCount => actualCount, _ => BlockingSubject)
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1131,7 +1573,31 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     public AndWhichConstraint<TAssertions, T> HaveElementAt(int index, T element, string because = "",
         params object[] becauseArgs)
     {
-        T actual = genericCollectionAssertions.GetElementAt(index, element, because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to have element at index {0}{reason}, but found <null>.", index);
+
+        T actual = default;
+
+        if (success)
+        {
+            if (index < BlockingSubject!.Count())
+            {
+                actual = BlockingSubject.ElementAt(index);
+
+                Execute.Assertion
+                    .ForCondition(ObjectExtensions.GetComparer<T>()(actual, element))
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {0} at index {1}{reason}, but found {2}.", element, index, actual);
+            }
+            else
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {0} at index {1}{reason}, but found no element.", element, index);
+            }
+        }
 
         return new AndWhichConstraint<TAssertions, T>((TAssertions)this, actual);
     }
@@ -1151,7 +1617,24 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     public AndConstraint<TAssertions> HaveElementPreceding(T successor, T expectation, string because = "",
         params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertHaveElementPreceding(successor, expectation, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to have {0} precede {1}{reason}, ", expectation, successor)
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but the collection is <null>.")
+            .Then
+            .ForCondition(subject => subject.Any())
+            .FailWith("but the collection is empty.")
+            .Then
+            .ForCondition(subject => HasPredecessor(successor, subject))
+            .FailWith("but found nothing.")
+            .Then
+            .Given(subject => PredecessorOf(successor, subject))
+            .ForCondition(predecessor => ObjectExtensions.GetComparer<T>()(predecessor, expectation))
+            .FailWith("but found {0}.", predecessor => predecessor)
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1171,7 +1654,24 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     public AndConstraint<TAssertions> HaveElementSucceeding(T predecessor, T expectation, string because = "",
         params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertHaveElementSucceeding(predecessor, expectation, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to have {0} succeed {1}{reason}, ", expectation, predecessor)
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but the collection is <null>.")
+            .Then
+            .ForCondition(subject => subject.Any())
+            .FailWith("but the collection is empty.")
+            .Then
+            .ForCondition(subject => HasSuccessor(predecessor, subject))
+            .FailWith("but found nothing.")
+            .Then
+            .Given(subject => SuccessorOf(predecessor, subject))
+            .ForCondition(successor => ObjectExtensions.GetComparer<T>()(successor, expectation))
+            .FailWith("but found {0}.", successor => successor)
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1193,7 +1693,18 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
 
-        genericCollectionAssertions.AssertHaveSameCount(otherCollection, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to have ")
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("the same count as {0}{reason}, but found <null>.", otherCollection)
+            .Then
+            .Given(subject => (actual: subject.Count(), expected: otherCollection.Count()))
+            .ForCondition(count => count.actual == count.expected)
+            .FailWith("{0} item(s){reason}, but found {1}.", count => count.expected, count => count.actual)
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1216,7 +1727,22 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection),
             "Cannot verify intersection against a <null> collection.");
 
-        genericCollectionAssertions.AssertIntersectWith(otherCollection, because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to intersect with {0}{reason}, but found <null>.", otherCollection);
+
+        if (success)
+        {
+            IEnumerable<T> sharedItems = BlockingSubject!.Intersect(otherCollection);
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(sharedItems.Any())
+                .FailWith(
+                    "Expected {context:collection} to intersect with {0}{reason}, but {1} does not contain any shared items.",
+                    otherCollection, BlockingSubject);
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1233,7 +1759,17 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertNotBeEmpty(because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} not to be empty{reason}")
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith(", but found <null>.")
+            .Then
+            .ForCondition(subject => subject.Any())
+            .FailWith(".")
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1251,7 +1787,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(IEnumerable<TExpectation> unexpected, string because = "",
+    public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(IAsyncEnumerable<TExpectation> unexpected, string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify inequivalence against a <null> collection.");
@@ -1273,7 +1809,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
                     unexpected);
         }
 
-        return NotBeEquivalentTo(unexpected.ConvertOrCastToList().ToAsyncEnumerable(), config => config, because, becauseArgs);
+        return NotBeEquivalentTo(unexpected.ToBlockingEnumerable().ConvertOrCastToList().ToAsyncEnumerable(), config => config, because, becauseArgs);
     }
 
     /// <summary>
@@ -1300,7 +1836,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify inequivalence against a <null> collection.");
 
-        if (Subject is null)
+        if (BlockingSubject is null)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -1319,7 +1855,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         Execute.Assertion
             .ForCondition(failures.Length > 0)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:collection} {0} not to be equivalent to collection {1}{reason}.", Subject,
+            .FailWith("Expected {context:collection} {0} not to be equivalent to collection {1}{reason}.", BlockingSubject,
                 unexpected);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -1588,7 +2124,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// <summary>
     /// Asserts that the collection is not a subset of the <paramref name="unexpectedSuperset" />.
     /// </summary>
-    /// <param name="unexpectedSuperset">An <see cref="IEnumerable{T}"/> with the unexpected superset.</param>
+    /// <param name="unexpectedSuperset">An <see cref="IAsyncEnumerable{T}"/> with the unexpected superset.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -1599,7 +2135,50 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     public AndConstraint<TAssertions> NotBeSubsetOf(IEnumerable<T> unexpectedSuperset, string because = "",
         params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertNotBeSubsetOf(unexpectedSuperset, because, becauseArgs);
+        return NotBeSubsetOf(unexpectedSuperset.ToAsyncEnumerable(), because, becauseArgs);
+    }
+
+    /// <summary>
+    /// Asserts that the collection is not a subset of the <paramref name="unexpectedSuperset" />.
+    /// </summary>
+    /// <param name="unexpectedSuperset">An <see cref="IAsyncEnumerable{T}"/> with the unexpected superset.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotBeSubsetOf(IAsyncEnumerable<T> unexpectedSuperset, string because = "",
+        params object[] becauseArgs)
+    {
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject is not null)
+            .FailWith("Cannot assert a <null> collection against a subset.");
+
+        if (success)
+        {
+            if (ReferenceEquals(Subject, unexpectedSuperset))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Did not expect {context:collection} {0} to be a subset of {1}{reason}, but they both reference the same object.",
+                        Subject,
+                        unexpectedSuperset);
+            }
+
+            ICollection<T> actualItems = BlockingSubject.ConvertOrCastToCollection();
+
+            if (actualItems.Intersect(unexpectedSuperset.ToBlockingEnumerable()).Count() == actualItems.Count)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Did not expect {context:collection} {0} to be a subset of {1}{reason}.", actualItems,
+                        unexpectedSuperset);
+            }
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1617,7 +2196,26 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndWhichConstraint<TAssertions, T> NotContain(T unexpected, string because = "", params object[] becauseArgs)
     {
-        IEnumerable<T> matched = genericCollectionAssertions.GetNotContainMatches(unexpected, because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to not contain {0}{reason}, but found <null>.", unexpected);
+
+        IEnumerable<T> matched = [];
+
+        if (success)
+        {
+            ICollection<T> collection = BlockingSubject.ConvertOrCastToCollection();
+
+            if (collection.Contains(unexpected))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} {0} to not contain {1}{reason}.", collection, unexpected);
+            }
+
+            matched = collection.Where(item => !EqualityComparer<T>.Default.Equals(item, unexpected));
+        }
 
         return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matched);
     }
@@ -1639,7 +2237,22 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(predicate);
 
-        genericCollectionAssertions.AssertNotContain(predicate, because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} not to contain {0}{reason}, but found <null>.", predicate.Body);
+
+        if (success)
+        {
+            Func<T, bool> compiledPredicate = predicate.Compile();
+            IEnumerable<T> unexpectedItems = BlockingSubject!.Where(item => compiledPredicate(item));
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(!unexpectedItems.Any())
+                .FailWith("Expected {context:collection} {0} to not have any items matching {1}{reason}, but found {2}.",
+                    BlockingSubject, predicate, unexpectedItems);
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1662,7 +2275,38 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify non-containment against a <null> collection");
 
-        genericCollectionAssertions.AssertNotContain(unexpected, because, becauseArgs);
+        ICollection<T> unexpectedObjects = unexpected.ConvertOrCastToCollection();
+
+        Guard.ThrowIfArgumentIsEmpty(unexpectedObjects, nameof(unexpected),
+            "Cannot verify non-containment against an empty collection");
+
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to not contain {0}{reason}, but found <null>.", unexpected);
+
+        if (success)
+        {
+            IEnumerable<T> foundItems = unexpectedObjects.Intersect(BlockingSubject!);
+
+            if (foundItems.Any())
+            {
+                if (unexpectedObjects.Count > 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} {0} to not contain {1}{reason}, but found {2}.", BlockingSubject,
+                            unexpected, foundItems);
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} {0} to not contain {1}{reason}.",
+                            BlockingSubject, unexpectedObjects.First());
+                }
+            }
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1724,13 +2368,82 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
+    [SuppressMessage("Design", "MA0051:Method is too long", Justification = "Needs refactoring")]
     public AndConstraint<TAssertions> NotContainEquivalentOf<TExpectation>(TExpectation unexpected,
         Func<EquivalencyOptions<TExpectation>,
             EquivalencyOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
-        genericCollectionAssertions.AssertNotContainEquivalentOf(unexpected, config, because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} not to contain equivalent of {0}{reason}, but collection is <null>.",
+                unexpected);
+
+        if (success)
+        {
+            EquivalencyOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
+
+            var foundIndices = new List<int>();
+
+            using (var scope = new AssertionScope())
+            {
+                int index = 0;
+
+                foreach (T actualItem in BlockingSubject!)
+                {
+                    var context =
+                        new EquivalencyValidationContext(Node.From<TExpectation>(() => AssertionScope.Current.CallerIdentity),
+                            options)
+                        {
+                            Reason = new Reason(because, becauseArgs),
+                            TraceWriter = options.TraceWriter
+                        };
+
+                    var comparands = new Comparands
+                    {
+                        Subject = actualItem,
+                        Expectation = unexpected,
+                        CompileTimeType = typeof(TExpectation),
+                    };
+
+                    new EquivalencyValidator().AssertEquality(comparands, context);
+
+                    string[] failures = scope.Discard();
+
+                    if (failures.Length == 0)
+                    {
+                        foundIndices.Add(index);
+                    }
+
+                    index++;
+                }
+            }
+
+            if (foundIndices.Count > 0)
+            {
+                using (new AssertionScope())
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .WithExpectation("Expected {context:collection} {0} not to contain equivalent of {1}{reason}, ", BlockingSubject,
+                            unexpected)
+                        .AddReportable("configuration", () => options.ToString());
+
+                    if (foundIndices.Count == 1)
+                    {
+                        Execute.Assertion
+                            .FailWith("but found one at index {0}.", foundIndices[0]);
+                    }
+                    else
+                    {
+                        Execute.Assertion
+                            .FailWith("but found several at indices {0}.", foundIndices);
+                    }
+                }
+            }
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1769,7 +2482,39 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected),
             "Cannot verify absence of ordered containment against a <null> collection.");
 
-        genericCollectionAssertions.AssertNotContainInOrder(unexpected, because, becauseArgs);
+        if (BlockingSubject is null)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Cannot verify absence of ordered containment in a <null> collection.");
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        IList<T> unexpectedItems = unexpected.ConvertOrCastToList();
+
+        if (unexpectedItems.Any())
+        {
+            IList<T> actualItems = BlockingSubject.ConvertOrCastToList();
+            int subjectIndex = 0;
+
+            foreach (var unexpectedItem in unexpectedItems)
+            {
+                subjectIndex = IndexOf(actualItems, unexpectedItem, startIndex: subjectIndex);
+
+                if (subjectIndex == -1)
+                {
+                    return new AndConstraint<TAssertions>((TAssertions)this);
+                }
+            }
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:collection} {0} to not contain items {1} in order{reason}, " +
+                    "but items appeared in order ending at index {2}.",
+                    BlockingSubject, unexpected, subjectIndex - 1);
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1808,7 +2553,50 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected),
             "Cannot verify absence of ordered containment against a <null> collection.");
 
-        genericCollectionAssertions.AssertNotContainInConsecutiveOrder(unexpected, because, becauseArgs);
+        if (BlockingSubject is null)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Cannot verify absence of ordered containment in a <null> collection.");
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        IList<T> unexpectedItems = unexpected.ConvertOrCastToList();
+
+        if (unexpectedItems.Any())
+        {
+            IList<T> actualItems = BlockingSubject.ConvertOrCastToList();
+
+            if (unexpectedItems.Count > actualItems.Count)
+            {
+                return new AndConstraint<TAssertions>((TAssertions)this);
+            }
+
+            int subjectIndex = 0;
+
+            while (subjectIndex != -1)
+            {
+                subjectIndex = IndexOf(actualItems, unexpectedItems[0], startIndex: subjectIndex);
+
+                if (subjectIndex != -1)
+                {
+                    int consecutiveItems = ConsecutiveItemCount(actualItems, unexpectedItems, startIndex: subjectIndex);
+
+                    if (consecutiveItems == unexpectedItems.Count)
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith(
+                                "Expected {context:collection} {0} to not contain items {1} in consecutive order{reason}, " +
+                                "but items appeared in order ending at index {2}.",
+                                BlockingSubject, unexpectedItems, (subjectIndex + consecutiveItems) - 2);
+                    }
+
+                    subjectIndex++;
+                }
+            }
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1831,7 +2619,25 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(predicate);
 
-        genericCollectionAssertions.AssertNotContainNulls(predicate, because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} not to contain <null>s{reason}, but collection is <null>.");
+
+        if (success)
+        {
+            Func<T, TKey> compiledPredicate = predicate.Compile();
+
+            T[] values = BlockingSubject!
+                .Where(e => compiledPredicate(e) is null)
+                .ToArray();
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(values.Length == 0)
+                .FailWith("Expected {context:collection} not to contain <null>s on {0}{reason}, but found {1}.",
+                    predicate.Body, values);
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1848,7 +2654,38 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> NotContainNulls(string because = "", params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertNotContainNulls(because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} not to contain <null>s{reason}, but collection is <null>.");
+
+        if (success)
+        {
+            int[] indices = BlockingSubject!
+                .Select((item, index) => (Item: item, Index: index))
+                .Where(e => e.Item is null)
+                .Select(e => e.Index)
+                .ToArray();
+
+            if (indices.Length > 0)
+            {
+                if (indices.Length > 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(
+                            "Expected {context:collection} not to contain <null>s{reason}, but found several at indices {0}.",
+                            indices);
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} not to contain <null>s{reason}, but found one at index {0}.",
+                            indices[0]);
+                }
+            }
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1857,7 +2694,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// Expects the current collection not to contain all the same elements in the same order as the collection identified by
     /// <paramref name="unexpected" />. Elements are compared using their <see cref="object.Equals(object)" />.
     /// </summary>
-    /// <param name="unexpected">An <see cref="IEnumerable{T}"/> with the elements that are not expected.</param>
+    /// <param name="unexpected">An <see cref="IAsyncEnumerable{T}"/> with the elements that are not expected.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -1866,11 +2703,25 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> NotEqual(IEnumerable<T> unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotEqual(IAsyncEnumerable<T> unexpected, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare collection with <null>.");
 
-        genericCollectionAssertions.AssertNotEqual(unexpected, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected collections not to be equal{reason}, ")
+            .Given(() => Subject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .ForCondition(subject => !ReferenceEquals(subject, unexpected))
+            .FailWith("but they both reference the same object.")
+            .Then
+            .ClearExpectation()
+            .Then
+            .Given(subject => subject.ToBlockingEnumerable().ConvertOrCastToCollection())
+            .ForCondition(actualItems => !actualItems.SequenceEqual(unexpected.ToBlockingEnumerable()))
+            .FailWith("Did not expect collections {0} and {1} to be equal{reason}.", _ => unexpected, actualItems => actualItems);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1888,7 +2739,18 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertNotHaveCount(unexpected, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to not contain {0} item(s){reason}, ", unexpected)
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .Given(subject => subject.Count())
+            .ForCondition(actualCount => actualCount != unexpected)
+            .FailWith("but found {0}.", actualCount => actualCount)
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1905,13 +2767,30 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> NotHaveSameCount<TExpectation>(IEnumerable<TExpectation> otherCollection,
+    public AndConstraint<TAssertions> NotHaveSameCount<TExpectation>(IAsyncEnumerable<TExpectation> otherCollection,
         string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
 
-        genericCollectionAssertions.AssertNotHaveSameCount(otherCollection, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .Given(() => Subject)
+            .ForCondition(subject => subject is not null)
+            .FailWith(
+                "Expected {context:collection} to not have the same count as {0}{reason}, but found <null>.",
+                otherCollection)
+            .Then
+            .ForCondition(subject => !ReferenceEquals(subject, otherCollection))
+            .FailWith(
+                "Expected {context:collection} {0} to not have the same count as {1}{reason}, but they both reference the same object.",
+                subject => subject, _ => otherCollection)
+            .Then
+            .Given(subject => (actual: subject.ToBlockingEnumerable().Count(), expected: otherCollection.ToBlockingEnumerable().Count()))
+            .ForCondition(count => count.actual != count.expected)
+            .FailWith(
+                "Expected {context:collection} to not have {0} item(s){reason}, but found {1}.",
+                count => count.expected, count => count.actual);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1919,7 +2798,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// <summary>
     /// Asserts that the collection does not share any items with the specified <paramref name="otherCollection"/>.
     /// </summary>
-    /// <param name="otherCollection">The <see cref="IEnumerable{T}"/> to compare to.</param>
+    /// <param name="otherCollection">The <see cref="IAsyncEnumerable{T}"/> to compare to.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -1928,13 +2807,30 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> NotIntersectWith(IEnumerable<T> otherCollection, string because = "",
+    public AndConstraint<TAssertions> NotIntersectWith(IAsyncEnumerable<T> otherCollection, string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection),
             "Cannot verify intersection against a <null> collection.");
 
-        genericCollectionAssertions.AssertNotIntersectWith(otherCollection, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .Given(() => Subject)
+            .ForCondition(subject => subject is not null)
+            .FailWith(
+                "Did not expect {context:collection} to intersect with {0}{reason}, but found <null>.",
+                otherCollection)
+            .Then
+            .ForCondition(subject => !ReferenceEquals(subject, otherCollection))
+            .FailWith(
+                "Did not expect {context:collection} {0} to intersect with {1}{reason}, but they both reference the same object.",
+                subject => subject, _ => otherCollection)
+            .Then
+            .Given(subject => subject.Intersect(otherCollection))
+            .ForCondition(sharedItems => !sharedItems.ToBlockingEnumerable().Any())
+            .FailWith(
+                "Did not expect {context:collection} to intersect with {0}{reason}, but found the following shared items {1}.",
+                _ => otherCollection, sharedItems => sharedItems);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1956,7 +2852,20 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(predicate);
 
-        genericCollectionAssertions.AssertOnlyContain(predicate, because, becauseArgs);
+        Func<T, bool> compiledPredicate = predicate.Compile();
+
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to contain only items matching {0}{reason}, ", predicate.Body)
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but the collection is <null>.")
+            .Then
+            .Given(subject => subject.ConvertOrCastToCollection().Where(item => !compiledPredicate(item)))
+            .ForCondition(mismatchingItems => !mismatchingItems.Any())
+            .FailWith("but {0} do(es) not match.", mismatchingItems => mismatchingItems)
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1978,7 +2887,42 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(predicate);
 
-        genericCollectionAssertions.AssertOnlyHaveUniqueItems(predicate, because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to only have unique items{reason}, but found <null>.");
+
+        if (success)
+        {
+            Func<T, TKey> compiledPredicate = predicate.Compile();
+
+            IGrouping<TKey, T>[] groupWithMultipleItems = BlockingSubject!
+                .GroupBy(compiledPredicate)
+                .Where(g => g.Count() > 1)
+                .ToArray();
+
+            if (groupWithMultipleItems.Length > 0)
+            {
+                if (groupWithMultipleItems.Length > 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(
+                            "Expected {context:collection} to only have unique items on {0}{reason}, but items {1} are not unique.",
+                            predicate.Body,
+                            groupWithMultipleItems.SelectMany(g => g));
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(
+                            "Expected {context:collection} to only have unique items on {0}{reason}, but item {1} is not unique.",
+                            predicate.Body,
+                            groupWithMultipleItems[0].First());
+                }
+            }
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1995,7 +2939,37 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> OnlyHaveUniqueItems(string because = "", params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertOnlyHaveUniqueItems(because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to only have unique items{reason}, but found <null>.");
+
+        if (success)
+        {
+            IEnumerable<T> groupWithMultipleItems = BlockingSubject!
+                .GroupBy(o => o)
+                .Where(g => g.Count() > 1)
+                .Select(g => g.Key);
+
+            if (groupWithMultipleItems.Any())
+            {
+                if (groupWithMultipleItems.Count() > 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(
+                            "Expected {context:collection} to only have unique items{reason}, but items {0} are not unique.",
+                            groupWithMultipleItems);
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} to only have unique items{reason}, but item {0} is not unique.",
+                            groupWithMultipleItems.First());
+                }
+            }
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -2019,7 +2993,40 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> inspector");
 
-        genericCollectionAssertions.AssertAllSatisfy(expected, because, becauseArgs);
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to contain only items satisfying the inspector{reason}, ")
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but collection is <null>.")
+            .Then
+            .ClearExpectation();
+
+        if (success)
+        {
+            string[] failuresFromInspectors;
+
+            using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
+            {
+                var elementInspectors = BlockingSubject.Select(_ => expected);
+                failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
+            }
+
+            if (failuresFromInspectors.Length > 0)
+            {
+                string failureMessage = Environment.NewLine
+                    + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .WithExpectation("Expected {context:collection} to contain only items satisfying the inspector{reason}:")
+                    .FailWithPreFormatted(failureMessage)
+                    .Then
+                    .ClearExpectation();
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -2061,7 +3068,52 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> collection of inspectors");
 
-        genericCollectionAssertions.AssertSatisfyRespectively(expected, because, becauseArgs);
+        ICollection<Action<T>> elementInspectors = expected.ConvertOrCastToCollection();
+
+        Guard.ThrowIfArgumentIsEmpty(elementInspectors, nameof(expected),
+            "Cannot verify against an empty collection of inspectors");
+
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to satisfy all inspectors{reason}, ")
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but collection is <null>.")
+            .Then
+            .ForCondition(subject => subject.Any())
+            .FailWith("but collection is empty.")
+            .Then
+            .ClearExpectation()
+            .Then
+            .Given(subject => (elements: subject.Count(), inspectors: elementInspectors.Count))
+            .ForCondition(count => count.elements == count.inspectors)
+            .FailWith(
+                "Expected {context:collection} to contain exactly {0} items{reason}, but it contains {1} items",
+                count => count.inspectors, count => count.elements);
+
+        if (success)
+        {
+            string[] failuresFromInspectors;
+
+            using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
+            {
+                failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
+            }
+
+            if (failuresFromInspectors.Length > 0)
+            {
+                string failureMessage = Environment.NewLine
+                    + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .WithExpectation(
+                        "Expected {context:collection} to satisfy all inspectors{reason}, but some inspectors are not satisfied:")
+                    .FailWithPreFormatted(failureMessage)
+                    .Then
+                    .ClearExpectation();
+            }
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -2106,7 +3158,58 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(predicates, nameof(predicates), "Cannot verify against a <null> collection of predicates");
 
-        genericCollectionAssertions.AssertSatisfy(predicates, because, becauseArgs);
+        IList<Expression<Func<T, bool>>> predicatesList = predicates.ConvertOrCastToList();
+
+        Guard.ThrowIfArgumentIsEmpty(predicatesList, nameof(predicates),
+            "Cannot verify against an empty collection of predicates");
+
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .Given(() => BlockingSubject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("Expected {context:collection} to satisfy all predicates{reason}, but collection is <null>.")
+            .Then
+            .ForCondition(subject => subject.Any())
+            .FailWith("Expected {context:collection} to satisfy all predicates{reason}, but collection is empty.");
+
+        if (success)
+        {
+            MaximumMatchingSolution<T> maximumMatchingSolution = new MaximumMatchingProblem<T>(predicatesList, BlockingSubject).Solve();
+
+            if (maximumMatchingSolution.UnmatchedPredicatesExist || maximumMatchingSolution.UnmatchedElementsExist)
+            {
+                string message = string.Empty;
+                var doubleNewLine = Environment.NewLine + Environment.NewLine;
+
+                List<MaximumMatching.Predicate<T>> unmatchedPredicates = maximumMatchingSolution.GetUnmatchedPredicates();
+
+                if (unmatchedPredicates.Count > 0)
+                {
+                    message += doubleNewLine + "The following predicates did not have matching elements:";
+
+                    message += doubleNewLine +
+                        string.Join(Environment.NewLine,
+                            unmatchedPredicates.Select(predicate => Formatter.ToString(predicate.Expression)));
+                }
+
+                List<Element<T>> unmatchedElements = maximumMatchingSolution.GetUnmatchedElements();
+
+                if (unmatchedElements.Count > 0)
+                {
+                    message += doubleNewLine + "The following elements did not match any predicate:";
+
+                    IEnumerable<string> elementDescriptions = unmatchedElements
+                        .Select(element => $"Index: {element.Index}, Element: {Formatter.ToString(element.Value)}");
+
+                    message += doubleNewLine + string.Join(doubleNewLine, elementDescriptions);
+                }
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .WithExpectation("Expected {context:collection} to satisfy all predicates{reason}, but:")
+                    .FailWithPreFormatted(message);
+            }
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -2155,8 +3258,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     {
         Guard.ThrowIfArgumentIsNull(expectation, nameof(expectation), "Cannot compare collection with <null>.");
 
-        genericCollectionAssertions.AssertStartsWith(expectation, equalityComparison, because, becauseArgs);
-
+        AssertCollectionStartsWith(BlockingSubject, expectation.ConvertOrCastToCollection(), equalityComparison, because, becauseArgs);
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
@@ -2179,16 +3281,235 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         return StartWith([element], ObjectExtensions.GetComparer<T>(), because, becauseArgs);
     }
 
-    /// <summary>
-    /// Asserts the current collection does not have all elements in ascending order. Elements are compared
-    /// using their <see cref="object.Equals(object)" /> implementation.
-    /// </summary>
-    private AndConstraint<TAssertions> NotBeInOrder(IComparer<T> comparer, SortOrder order, string because = "",
+    internal AndConstraint<SubsequentOrderingAssertions<T>> BeOrderedBy<TSelector>(
+        Expression<Func<T, TSelector>> propertyExpression,
+        IComparer<TSelector> comparer,
+        SortOrder direction,
+        string because,
+        object[] becauseArgs)
+    {
+        if (IsValidProperty(propertyExpression, because, becauseArgs))
+        {
+            ICollection<T> unordered = BlockingSubject.ConvertOrCastToCollection();
+
+            IOrderedEnumerable<T> expectation = GetOrderedEnumerable(
+                propertyExpression,
+                comparer,
+                direction,
+                unordered);
+
+            Execute.Assertion
+                .ForCondition(unordered.SequenceEqual(expectation))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} {0} to be ordered {1}{reason} and result in {2}.",
+                    () => BlockingSubject, () => GetExpressionOrderString(propertyExpression), () => expectation);
+
+            return new AndConstraint<SubsequentOrderingAssertions<T>>(
+                new SubsequentOrderingAssertions<T>(BlockingSubject, expectation));
+        }
+
+        return new AndConstraint<SubsequentOrderingAssertions<T>>(
+            new SubsequentOrderingAssertions<T>(BlockingSubject, Enumerable.Empty<T>().OrderBy(x => x)));
+    }
+
+    internal virtual IOrderedEnumerable<T> GetOrderedEnumerable<TSelector>(
+        Expression<Func<T, TSelector>> propertyExpression,
+        IComparer<TSelector> comparer,
+        SortOrder direction,
+        ICollection<T> unordered)
+    {
+        Func<T, TSelector> keySelector = propertyExpression.Compile();
+
+        IOrderedEnumerable<T> expectation = direction == SortOrder.Ascending
+            ? unordered.OrderBy(keySelector, comparer)
+            : unordered.OrderByDescending(keySelector, comparer);
+
+        return expectation;
+    }
+
+    protected static IEnumerable<TExpectation> RepeatAsManyAs<TExpectation>(TExpectation value, IEnumerable<T> enumerable)
+    {
+        if (enumerable is null)
+        {
+            return [];
+        }
+
+        return RepeatAsManyAsIterator(value, enumerable);
+    }
+
+    protected void AssertCollectionEndsWith<TActual, TExpectation>(IEnumerable<TActual> actual,
+        ICollection<TExpectation> expected, Func<TActual, TExpectation, bool> equalityComparison, string because = "",
         params object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertNotBeInOrder(comparer, order, because, becauseArgs);
+        Guard.ThrowIfArgumentIsNull(equalityComparison);
 
-        return new AndConstraint<TAssertions>((TAssertions)this);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to end with {0}{reason}, ", expected)
+            .Given(() => actual)
+            .AssertCollectionIsNotNull()
+            .Then
+            .AssertCollectionHasEnoughItems(expected.Count)
+            .Then
+            .AssertCollectionsHaveSameItems(expected, (a, e) =>
+            {
+                int firstIndexToCompare = a.Count - e.Count;
+                int index = a.Skip(firstIndexToCompare).IndexOfFirstDifferenceWith(e, equalityComparison);
+                return index >= 0 ? index + firstIndexToCompare : index;
+            })
+            .Then
+            .ClearExpectation();
+    }
+
+    protected void AssertCollectionStartsWith<TActual, TExpectation>(IEnumerable<TActual> actualItems,
+        ICollection<TExpectation> expected, Func<TActual, TExpectation, bool> equalityComparison, string because = "",
+        params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(equalityComparison);
+
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to start with {0}{reason}, ", expected)
+            .Given(() => actualItems)
+            .AssertCollectionIsNotNull()
+            .Then
+            .AssertCollectionHasEnoughItems(expected.Count)
+            .Then
+            .AssertCollectionsHaveSameItems(expected, (a, e) => a.Take(e.Count).IndexOfFirstDifferenceWith(e, equalityComparison))
+            .Then
+            .ClearExpectation();
+    }
+
+    protected void AssertSubjectEquality<TExpectation>(IEnumerable<TExpectation> expectation,
+        Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(equalityComparison);
+
+        bool subjectIsNull = BlockingSubject is null;
+        bool expectationIsNull = expectation is null;
+
+        if (subjectIsNull && expectationIsNull)
+        {
+            return;
+        }
+
+        Guard.ThrowIfArgumentIsNull(expectation, nameof(expectation), "Cannot compare collection with <null>.");
+
+        ICollection<TExpectation> expectedItems = expectation.ConvertOrCastToCollection();
+
+        AssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
+
+        if (subjectIsNull)
+        {
+            assertion.FailWith("Expected {context:collection} to be equal to {0}{reason}, but found <null>.", expectedItems);
+        }
+
+        assertion
+            .WithExpectation("Expected {context:collection} to be equal to {0}{reason}, ", expectedItems)
+            .Given(() => BlockingSubject.ConvertOrCastToCollection())
+            .AssertCollectionsHaveSameCount(expectedItems.Count)
+            .Then
+            .AssertCollectionsHaveSameItems(expectedItems, (a, e) => a.IndexOfFirstDifferenceWith(e, equalityComparison))
+            .Then
+            .ClearExpectation();
+    }
+
+    private static string GetExpressionOrderString<TSelector>(Expression<Func<T, TSelector>> propertyExpression)
+    {
+        string orderString = propertyExpression.GetMemberPath().ToString();
+
+        return orderString is "\"\"" ? string.Empty : "by " + orderString;
+    }
+
+    private static Type GetType<TType>(TType o)
+    {
+        return o is Type t ? t : o.GetType();
+    }
+
+    private static bool HasPredecessor(T successor, IEnumerable<T> subject)
+    {
+        return !ReferenceEquals(subject.First(), successor);
+    }
+
+    private static bool HasSuccessor(T predecessor, IEnumerable<T> subject)
+    {
+        return !ReferenceEquals(subject.Last(), predecessor);
+    }
+
+    private static T PredecessorOf(T successor, IEnumerable<T> subject)
+    {
+        IList<T> collection = subject.ConvertOrCastToList();
+        int index = collection.IndexOf(successor);
+        return index > 0 ? collection[index - 1] : default;
+    }
+
+    private static IEnumerable<TExpectation> RepeatAsManyAsIterator<TExpectation>(TExpectation value, IEnumerable<T> enumerable)
+    {
+        using IEnumerator<T> enumerator = enumerable.GetEnumerator();
+
+        while (enumerator.MoveNext())
+        {
+            yield return value;
+        }
+    }
+
+    private static T SuccessorOf(T predecessor, IEnumerable<T> subject)
+    {
+        IList<T> collection = subject.ConvertOrCastToList();
+        int index = collection.IndexOf(predecessor);
+        return index < (collection.Count - 1) ? collection[index + 1] : default;
+    }
+
+    private string[] CollectFailuresFromInspectors(IEnumerable<Action<T>> elementInspectors)
+    {
+        string[] collectionFailures;
+
+        using (var collectionScope = new AssertionScope())
+        {
+            int index = 0;
+
+            foreach ((T element, Action<T> inspector) in BlockingSubject.Zip(elementInspectors,
+                         (element, inspector) => (element, inspector)))
+            {
+                string[] inspectorFailures;
+
+                using (var itemScope = new AssertionScope())
+                {
+                    inspector(element);
+                    inspectorFailures = itemScope.Discard();
+                }
+
+                if (inspectorFailures.Length > 0)
+                {
+                    // Adding one tab and removing trailing dot to allow nested SatisfyRespectively
+                    string failures = string.Join(Environment.NewLine,
+                        inspectorFailures.Select(x => x.IndentLines().TrimEnd('.')));
+
+                    collectionScope.AddPreFormattedFailure($"At index {index}:{Environment.NewLine}{failures}");
+                }
+
+                index++;
+            }
+
+            collectionFailures = collectionScope.Discard();
+        }
+
+        return collectionFailures;
+    }
+
+    private bool IsValidProperty<TSelector>(Expression<Func<T, TSelector>> propertyExpression, string because,
+        object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(propertyExpression, nameof(propertyExpression),
+            "Cannot assert collection ordering without specifying a property.");
+
+        propertyExpression.ValidateMemberPath();
+
+        return Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith("Expected {context:collection} to be ordered by {0}{reason} but found <null>.",
+                () => propertyExpression.GetMemberPath());
     }
 
     private AndConstraint<TAssertions> NotBeOrderedBy<TSelector>(
@@ -2198,19 +3519,109 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         string because,
         object[] becauseArgs)
     {
-        genericCollectionAssertions.AssertNotBeOrderedBy(propertyExpression, comparer, direction, because, becauseArgs);
+        if (IsValidProperty(propertyExpression, because, becauseArgs))
+        {
+            ICollection<T> unordered = BlockingSubject.ConvertOrCastToCollection();
+
+            IOrderedEnumerable<T> expectation = GetOrderedEnumerable(
+                propertyExpression,
+                comparer,
+                direction,
+                unordered);
+
+            Execute.Assertion
+                .ForCondition(!unordered.SequenceEqual(expectation))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} {0} to not be ordered {1}{reason} and not result in {2}.",
+                    () => BlockingSubject, () => GetExpressionOrderString(propertyExpression), () => expectation);
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
-    private static IEnumerable<TExpectation> RepeatAsManyAs<TExpectation>(TExpectation value, IEnumerable<T> enumerable)
+    /// <summary>
+    /// Expects the current collection to have all elements in the specified <paramref name="expectedOrder"/>.
+    /// Elements are compared using their <see cref="object.Equals(object)" /> implementation.
+    /// </summary>
+    private AndConstraint<SubsequentOrderingAssertions<T>> BeInOrder(
+        IComparer<T> comparer, SortOrder expectedOrder, string because = "", params object[] becauseArgs)
     {
-        if (enumerable is null)
+        string sortOrder = expectedOrder == SortOrder.Ascending ? "ascending" : "descending";
+
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith($"Expected {{context:collection}} to be in {sortOrder} order{{reason}}, but found <null>.");
+
+        IOrderedEnumerable<T> ordering = Array.Empty<T>().OrderBy(x => x);
+
+        if (success)
         {
-            return [];
+            IList<T> actualItems = BlockingSubject.ConvertOrCastToList();
+
+            ordering = expectedOrder == SortOrder.Ascending
+                ? actualItems.OrderBy(item => item, comparer)
+                : actualItems.OrderByDescending(item => item, comparer);
+
+            T[] orderedItems = ordering.ToArray();
+            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
+
+            for (int index = 0; index < orderedItems.Length; index++)
+            {
+                if (!areSameOrEqual(actualItems[index], orderedItems[index]))
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} to be in " + sortOrder +
+                            " order{reason}, but found {0} where item at index {1} is in wrong order.",
+                            actualItems, index);
+
+                    return new AndConstraint<SubsequentOrderingAssertions<T>>(
+                        new SubsequentOrderingAssertions<T>(BlockingSubject, Enumerable.Empty<T>().OrderBy(x => x)));
+                }
+            }
         }
 
-        return GenericCollectionAssertions<T>.RepeatAsManyAsIterator(value, enumerable);
+        return new AndConstraint<SubsequentOrderingAssertions<T>>(new SubsequentOrderingAssertions<T>(BlockingSubject, ordering));
+    }
+
+    /// <summary>
+    /// Asserts the current collection does not have all elements in ascending order. Elements are compared
+    /// using their <see cref="object.Equals(object)" /> implementation.
+    /// </summary>
+    private AndConstraint<TAssertions> NotBeInOrder(IComparer<T> comparer, SortOrder order, string because = "",
+        params object[] becauseArgs)
+    {
+        string sortOrder = order == SortOrder.Ascending ? "ascending" : "descending";
+
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(BlockingSubject is not null)
+            .FailWith($"Did not expect {{context:collection}} to be in {sortOrder} order{{reason}}, but found <null>.");
+
+        if (success)
+        {
+            IList<T> actualItems = BlockingSubject.ConvertOrCastToList();
+
+            T[] orderedItems = order == SortOrder.Ascending
+                ? actualItems.OrderBy(item => item, comparer).ToArray()
+                : actualItems.OrderByDescending(item => item, comparer).ToArray();
+
+            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
+
+            bool itemsAreUnordered = actualItems
+                .Where((actualItem, index) => !areSameOrEqual(actualItem, orderedItems[index]))
+                .Any();
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(itemsAreUnordered)
+                .FailWith(
+                    "Did not expect {context:collection} to be in " + sortOrder + " order{reason}, but found {0}.",
+                    actualItems);
+        }
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     /// <inheritdoc/>
@@ -2218,6 +3629,40 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         throw new NotSupportedException(
             "Equals is not part of Fluent Assertions. Did you mean BeSameAs(), Equal(), or BeEquivalentTo() instead?");
 
-    private static IComparer<TItem> GetComparer<TItem>() =>
+    private static int IndexOf(IList<T> items, T item, int startIndex)
+    {
+        Func<T, T, bool> comparer = ObjectExtensions.GetComparer<T>();
+
+        for (; startIndex < items.Count; startIndex++)
+        {
+            if (comparer(items[startIndex], item))
+            {
+                startIndex++;
+                return startIndex;
+            }
+        }
+
+        return -1;
+    }
+
+    private static int ConsecutiveItemCount(IList<T> actualItems, IList<T> expectedItems, int startIndex)
+    {
+        for (var index = 1; index < expectedItems.Count; index++)
+        {
+            T unexpectedItem = expectedItems[index];
+
+            int previousSubjectIndex = startIndex;
+            startIndex = IndexOf(actualItems, unexpectedItem, startIndex: startIndex);
+
+            if (startIndex == -1 || !previousSubjectIndex.IsConsecutiveTo(startIndex))
+            {
+                return index;
+            }
+        }
+
+        return expectedItems.Count;
+    }
+
+    private protected static IComparer<TItem> GetComparer<TItem>() =>
         typeof(TItem) == typeof(string) ? (IComparer<TItem>)StringComparer.Ordinal : Comparer<TItem>.Default;
 }

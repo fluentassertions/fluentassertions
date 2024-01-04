@@ -137,6 +137,23 @@ public partial class AsyncEnumerableAssertionSpecs
         }
 
         [Fact]
+        public void When_asserting_collection_to_not_be_subset_against_same_collection_it_should_throw()
+        {
+            // Arrange
+            int[] array = [1, 2, 3];
+            var collection = array.ToAsyncEnumerable();
+            var collection1 = collection;
+
+            // Act
+            Action act = () => collection.Should().NotBeSubsetOf(collection1,
+                "because we want to test the behaviour with same objects");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect*to be a subset of*because we want to test the behaviour with same objects*but they both reference the same object.");
+        }
+
+        [Fact]
         public void When_asserting_collection_to_not_be_subset_against_null_collection_it_should_throw()
         {
             // Arrange
