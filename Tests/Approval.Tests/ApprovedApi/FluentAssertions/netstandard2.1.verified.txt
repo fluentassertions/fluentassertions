@@ -381,7 +381,6 @@ namespace FluentAssertions.Collections
     {
         public AsyncEnumerableAssertions(TCollection actualValue) { }
         protected override string Identifier { get; }
-        public System.Collections.Generic.IEnumerable<T> Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> AllBeAssignableTo(System.Type expectedType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, System.Collections.Generic.IEnumerable<TExpectation>> AllBeAssignableTo<TExpectation>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> AllBeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
@@ -389,9 +388,6 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> AllBeOfType(System.Type expectedType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, System.Collections.Generic.IEnumerable<TExpectation>> AllBeOfType<TExpectation>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> AllSatisfy(System.Action<T> expected, string because = "", params object[] becauseArgs) { }
-        protected void AssertCollectionEndsWith<TActual, TExpectation>(System.Collections.Generic.IEnumerable<TActual> actual, System.Collections.Generic.ICollection<TExpectation> expected, System.Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
-        protected void AssertCollectionStartsWith<TActual, TExpectation>(System.Collections.Generic.IEnumerable<TActual> actualItems, System.Collections.Generic.ICollection<TExpectation> expected, System.Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
-        protected void AssertSubjectEquality<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, System.Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(System.Collections.Generic.IAsyncEnumerable<TExpectation> expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(System.Collections.Generic.IAsyncEnumerable<TExpectation> expectation, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
@@ -480,7 +476,6 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> StartWith(System.Collections.Generic.IEnumerable<T> expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> StartWith(T element, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> StartWith<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, System.Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
-        protected static System.Collections.Generic.IEnumerable<TExpectation> RepeatAsManyAs<TExpectation>(TExpectation value, System.Collections.Generic.IEnumerable<T> enumerable) { }
     }
     public class GenericCollectionAssertions<T> : FluentAssertions.Collections.GenericCollectionAssertions<System.Collections.Generic.IEnumerable<T>, T, FluentAssertions.Collections.GenericCollectionAssertions<T>>
     {
@@ -506,7 +501,6 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> AllSatisfy(System.Action<T> expected, string because = "", params object[] becauseArgs) { }
         protected void AssertCollectionEndsWith<TActual, TExpectation>(System.Collections.Generic.IEnumerable<TActual> actual, System.Collections.Generic.ICollection<TExpectation> expected, System.Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
         protected void AssertCollectionStartsWith<TActual, TExpectation>(System.Collections.Generic.IEnumerable<TActual> actualItems, System.Collections.Generic.ICollection<TExpectation> expected, System.Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
-        protected void AssertSubjectEquality<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, System.Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }

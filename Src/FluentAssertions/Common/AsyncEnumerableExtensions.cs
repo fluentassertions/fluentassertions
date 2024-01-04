@@ -22,6 +22,8 @@ internal static class AsyncEnumerableExtensions
     /// </remarks>
     public static IEnumerable<T> ToBlockingEnumerable<T>(this IAsyncEnumerable<T> source, CancellationToken cancellationToken = default)
     {
+        Guard.ThrowIfArgumentIsNull(nameof(source));
+
         IAsyncEnumerator<T> enumerator = source.GetAsyncEnumerator(cancellationToken);
 
         // A ManualResetEventSlim variant that lets us reuse the same

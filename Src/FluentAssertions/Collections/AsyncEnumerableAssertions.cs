@@ -42,7 +42,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     public AsyncEnumerableAssertions(TCollection actualValue)
         : base(actualValue)
     {
-        genericCollectionAssertions = new GenericCollectionAssertions<T>(actualValue.ToBlockingEnumerable());
+        genericCollectionAssertions = new GenericCollectionAssertions<T>(actualValue?.ToBlockingEnumerable());
     }
 
     /// <summary>
@@ -2203,21 +2203,6 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
-    internal virtual IOrderedEnumerable<T> GetOrderedEnumerable<TSelector>(
-        Expression<Func<T, TSelector>> propertyExpression,
-        IComparer<TSelector> comparer,
-        SortOrder direction,
-        ICollection<T> unordered)
-    {
-        Func<T, TSelector> keySelector = propertyExpression.Compile();
-
-        IOrderedEnumerable<T> expectation = direction == SortOrder.Ascending
-            ? unordered.OrderBy(keySelector, comparer)
-            : unordered.OrderByDescending(keySelector, comparer);
-
-        return expectation;
-    }
-
     private static IEnumerable<TExpectation> RepeatAsManyAs<TExpectation>(TExpectation value, IEnumerable<T> enumerable)
     {
         if (enumerable is null)
@@ -2233,6 +2218,6 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         throw new NotSupportedException(
             "Equals is not part of Fluent Assertions. Did you mean BeSameAs(), Equal(), or BeEquivalentTo() instead?");
 
-    private protected static IComparer<TItem> GetComparer<TItem>() =>
+    private static IComparer<TItem> GetComparer<TItem>() =>
         typeof(TItem) == typeof(string) ? (IComparer<TItem>)StringComparer.Ordinal : Comparer<TItem>.Default;
 }
