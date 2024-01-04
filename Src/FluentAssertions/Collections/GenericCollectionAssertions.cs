@@ -639,13 +639,14 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     public AndConstraint<TAssertions> BeNullOrEmpty(string because = "", params object[] becauseArgs)
     {
-        var nullOrEmpty = Subject is null || !Subject.Any();
+        var singleItemArray = Subject?.Take(1).ToArray();
+        var nullOrEmpty = singleItemArray is null || singleItemArray.Length == 0;
 
         Execute.Assertion.ForCondition(nullOrEmpty)
             .BecauseOf(because, becauseArgs)
             .FailWith(
-                "Expected {context:collection} to be null or empty{reason}, but found {0}.",
-                Subject);
+                "Expected {context:collection} to be null or empty{reason}, but found at least one item {0}.",
+                singleItemArray);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }

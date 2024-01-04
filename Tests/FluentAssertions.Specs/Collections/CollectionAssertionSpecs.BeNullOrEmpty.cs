@@ -46,7 +46,7 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected collection to be null or empty because we want to test the failure message, but found {1, 2, 3}.");
+                    "Expected collection to be null or empty because we want to test the failure message, but found at least one item {1}.");
         }
 
         [Fact]
