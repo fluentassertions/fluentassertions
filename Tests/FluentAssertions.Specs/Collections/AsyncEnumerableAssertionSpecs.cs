@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Xunit;
 using Xunit.Sdk;
 
@@ -234,26 +234,21 @@ public partial class AsyncEnumerableAssertionSpecs
     }
 }
 
-internal class CountingAsyncEnumerable<TElement> : IEnumerable<TElement>
+internal class CountingAsyncEnumerable<TElement> : IAsyncEnumerable<TElement>
 {
-    private readonly IEnumerable<TElement> backingSet;
+    private readonly IAsyncEnumerable<TElement> backingSet;
 
     public CountingAsyncEnumerable(IEnumerable<TElement> backingSet)
     {
-        this.backingSet = backingSet;
+        this.backingSet = backingSet.ToAsyncEnumerable();
         GetEnumeratorCallCount = 0;
     }
 
     public int GetEnumeratorCallCount { get; private set; }
 
-    public IEnumerator<TElement> GetEnumerator()
+    public IAsyncEnumerator<TElement> GetAsyncEnumerator(CancellationToken cancellationToken = default)
     {
         GetEnumeratorCallCount++;
-        return backingSet.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
+        return backingSet.GetAsyncEnumerator(cancellationToken);
     }
 }

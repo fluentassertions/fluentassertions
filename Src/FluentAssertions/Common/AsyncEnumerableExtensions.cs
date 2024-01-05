@@ -22,7 +22,7 @@ internal static class AsyncEnumerableExtensions
     /// </remarks>
     public static IEnumerable<T> ToBlockingEnumerable<T>(this IAsyncEnumerable<T> source, CancellationToken cancellationToken = default)
     {
-        Guard.ThrowIfArgumentIsNull(nameof(source));
+        Guard.ThrowIfArgumentIsNull(source, nameof(source));
 
         IAsyncEnumerator<T> enumerator = source.GetAsyncEnumerator(cancellationToken);
 

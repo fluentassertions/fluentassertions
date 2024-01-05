@@ -374,7 +374,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         {
             Subject = Subject,
             Expectation = expectation,
-            CompileTimeType = typeof(IAsyncEnumerable<TExpectation>),
+            CompileTimeType = typeof(IAsyncEnumerable<TExpectation>)
         };
 
         new EquivalencyValidator().AssertEquality(comparands, context);
@@ -793,7 +793,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
     public AndConstraint<TAssertions> Contain(IAsyncEnumerable<T> expected, string because = "", params object[] becauseArgs)
     {
-        return Contain(expected.ToBlockingEnumerable(), because, becauseArgs);
+        return Contain(expected?.ToBlockingEnumerable(), because, becauseArgs);
     }
 
     /// <summary>
@@ -1316,6 +1316,25 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> EndWith(IAsyncEnumerable<T> expectation, string because = "", params object[] becauseArgs)
     {
+        return EndWith(expectation?.ToBlockingEnumerable(), (a, b) => EqualityComparer<T>.Default.Equals(a, b), because, becauseArgs);
+    }
+
+    /// <summary>
+    /// Asserts that the current collection ends with same elements in the same order as the collection identified by
+    /// <paramref name="expectation" />. Elements are compared using their <see cref="object.Equals(object)" />.
+    /// </summary>
+    /// <param name="expectation">
+    /// A collection of expected elements.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> EndWith(IEnumerable<T> expectation, string because = "", params object[] becauseArgs)
+    {
         return EndWith(expectation, (a, b) => EqualityComparer<T>.Default.Equals(a, b), because, becauseArgs);
     }
 
@@ -1338,12 +1357,12 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expectation"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> EndWith<TExpectation>(
-        IAsyncEnumerable<TExpectation> expectation, Func<T, TExpectation, bool> equalityComparison, string because = "",
+        IEnumerable<TExpectation> expectation, Func<T, TExpectation, bool> equalityComparison, string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expectation, nameof(expectation), "Cannot compare collection with <null>.");
 
-        AssertCollectionEndsWith(BlockingSubject, expectation.ToBlockingEnumerable().ConvertOrCastToCollection(), equalityComparison, because, becauseArgs);
+        AssertCollectionEndsWith(BlockingSubject, expectation.ConvertOrCastToCollection(), equalityComparison, because, becauseArgs);
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
@@ -1363,7 +1382,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> EndWith(T element, string because = "", params object[] becauseArgs)
     {
-        return EndWith(new[] { element }.ToAsyncEnumerable(), ObjectExtensions.GetComparer<T>(), because, becauseArgs);
+        return EndWith([element], ObjectExtensions.GetComparer<T>(), because, becauseArgs);
     }
 
     /// <summary>
@@ -1431,6 +1450,51 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     public AndConstraint<TAssertions> Equal(IAsyncEnumerable<T> expected, string because = "", params object[] becauseArgs)
     {
         AssertSubjectEquality(expected?.ToBlockingEnumerable(), ObjectExtensions.GetComparer<T>(), because, becauseArgs);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that two collections contain the same items in the same order, where equality is determined using a
+    /// <paramref name="equalityComparison"/>.
+    /// </summary>
+    /// <param name="expectation">
+    /// The collection to compare the subject with.
+    /// </param>
+    /// <param name="equalityComparison">
+    /// A equality comparison the is used to determine whether two objects should be treated as equal.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> Equal<TExpectation>(
+        IEnumerable<TExpectation> expectation, Func<T, TExpectation, bool> equalityComparison, string because = "",
+        params object[] becauseArgs)
+    {
+        AssertSubjectEquality(expectation, equalityComparison, because, becauseArgs);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Expects the current collection to contain all the same elements in the same order as the collection identified by
+    /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.
+    /// </summary>
+    /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> Equal(IEnumerable<T> expected, string because = "", params object[] becauseArgs)
+    {
+        AssertSubjectEquality(expected, ObjectExtensions.GetComparer<T>(), because, becauseArgs);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -2240,7 +2304,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
 
             ICollection<T> actualItems = BlockingSubject.ConvertOrCastToCollection();
 
-            if (actualItems.Intersect(unexpectedSuperset.ToBlockingEnumerable()).Count() == actualItems.Count)
+            if (actualItems.Intersect(unexpectedSuperset?.ToBlockingEnumerable()).Count() == actualItems.Count)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -2305,7 +2369,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
     public AndConstraint<TAssertions> NotContain(IAsyncEnumerable<T> expected, string because = "", params object[] becauseArgs)
     {
-        return NotContain(expected.ToBlockingEnumerable(), because, becauseArgs);
+        return NotContain(expected?.ToBlockingEnumerable(), because, becauseArgs);
     }
 
     /// <summary>
@@ -2802,6 +2866,24 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Expects the current collection not to contain all the same elements in the same order as the collection identified by
+    /// <paramref name="unexpected" />. Elements are compared using their <see cref="object.Equals(object)" />.
+    /// </summary>
+    /// <param name="unexpected">An <see cref="IEnumerable{T}"/> with the elements that are not expected.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> NotEqual(IEnumerable<T> unexpected, string because = "", params object[] becauseArgs)
+    {
+        return NotEqual(unexpected?.ToAsyncEnumerable(), because, becauseArgs);
     }
 
     /// <summary>

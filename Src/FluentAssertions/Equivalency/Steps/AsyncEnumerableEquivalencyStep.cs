@@ -14,7 +14,7 @@ public class AsyncEnumerableEquivalencyStep : IEquivalencyStep
         (HandleImpl).GetMethodInfo().GetGenericMethodDefinition();
 
     private static readonly MethodInfo ToObjectArrayAsyncMethod = new Func<IAsyncEnumerable<object>, object[]>
-            (ToObjectArray).GetMethodInfo().GetGenericMethodDefinition();
+        (ToObjectArray).GetMethodInfo().GetGenericMethodDefinition();
 #pragma warning restore SA1110
 
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
@@ -27,15 +27,11 @@ public class AsyncEnumerableEquivalencyStep : IEquivalencyStep
             return EquivalencyResult.ContinueWithNext;
         }
 
-        Type[] interfaceTypes = GetIAsyncEnumerableInterfaces(expectedType);
+        Type subjectType = comparands.Subject?.GetType();
 
-        var conditionMet = AssertionScope.Current
-            .ForCondition(interfaceTypes.Length == 1)
-            .FailWith(() => new FailReason("{context:Expectation} implements {0}, so cannot determine which one " +
-                "to use for asserting the equivalency of the collection. ",
-                interfaceTypes.Select(type => "IAsyncEnumerable<" + type.GetGenericArguments().Single() + ">")));
-
-        if (conditionMet && AssertSubjectIsCollection(comparands.Subject))
+        if (AssertSubjectIsCollection(comparands.Subject)
+            && AssertTypeHasSingleEnumerableInterface(subjectType, "Subject")
+            && AssertTypeHasSingleEnumerableInterface(expectedType, "Expectation"))
         {
             var validator = new EnumerableEquivalencyValidator(nestedValidator, context)
             {
@@ -43,24 +39,14 @@ public class AsyncEnumerableEquivalencyStep : IEquivalencyStep
                 OrderingRules = context.Options.OrderingRules
             };
 
+            object subjectAsArray = ToArray(comparands.Subject);
+
             Type typeOfEnumeration = GetTypeOfEnumeration(expectedType);
-
-            object subjectAsArray = null;
-
-            try
-            {
-                subjectAsArray = ToObjectArrayAsyncMethod.MakeGenericMethod(typeOfEnumeration)
-                    .Invoke(null, new[] { comparands.Subject });
-            }
-            catch (TargetInvocationException e)
-            {
-                e.Unwrap().Throw();
-            }
 
             try
             {
                 HandleMethod.MakeGenericMethod(typeOfEnumeration)
-                    .Invoke(null, new[] { validator, subjectAsArray, comparands.Expectation });
+                    .Invoke(null, [validator, subjectAsArray, comparands.Expectation]);
             }
             catch (TargetInvocationException e)
             {
@@ -69,6 +55,37 @@ public class AsyncEnumerableEquivalencyStep : IEquivalencyStep
         }
 
         return EquivalencyResult.AssertionCompleted;
+    }
+
+    private static bool AssertTypeHasSingleEnumerableInterface(Type type, string context)
+    {
+        Type[] interfaceTypes = GetIAsyncEnumerableInterfaces(type);
+
+        var conditionMet = AssertionScope.Current
+            .ForCondition(interfaceTypes.Length == 1)
+            .FailWith(() => new FailReason("{context:" + context + "} implements {0}, so cannot determine which one " +
+                "to use for asserting the equivalency of the collection. ",
+                interfaceTypes.Select(t => "IAsyncEnumerable<" + t.GetGenericArguments().Single() + ">")));
+        return conditionMet;
+    }
+
+    private static object ToArray(object subject)
+    {
+        Type typeOfEnumerationOfSubject = GetTypeOfEnumeration(subject.GetType());
+
+        object subjectAsArray = null;
+
+        try
+        {
+            subjectAsArray = ToObjectArrayAsyncMethod.MakeGenericMethod(typeOfEnumerationOfSubject)
+                .Invoke(null, [subject]);
+        }
+        catch (TargetInvocationException e)
+        {
+            e.Unwrap().Throw();
+        }
+
+        return subjectAsArray;
     }
 
     private static void HandleImpl<T>(EnumerableEquivalencyValidator validator, object[] subject, IAsyncEnumerable<T> expectation) =>

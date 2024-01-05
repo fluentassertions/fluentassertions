@@ -416,12 +416,15 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndWhichConstraint<TAssertions, T> ContainSingle(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, T> ContainSingle(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> EndWith(System.Collections.Generic.IAsyncEnumerable<T> expectation, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> EndWith(System.Collections.Generic.IEnumerable<T> expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> EndWith(T element, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> EndWith<TExpectation>(System.Collections.Generic.IAsyncEnumerable<TExpectation> expectation, System.Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> EndWith<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, System.Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Equal(System.Collections.Generic.IEnumerable<T> elements) { }
         public FluentAssertions.AndConstraint<TAssertions> Equal(params T[] elements) { }
         public FluentAssertions.AndConstraint<TAssertions> Equal(System.Collections.Generic.IAsyncEnumerable<T> expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Equal(System.Collections.Generic.IEnumerable<T> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Equal<TExpectation>(System.Collections.Generic.IAsyncEnumerable<TExpectation> expectation, System.Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Equal<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, System.Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
         public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveCount(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveCount(System.Linq.Expressions.Expression<System.Func<int, bool>> countPredicate, string because = "", params object[] becauseArgs) { }
@@ -468,6 +471,7 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> NotContainNulls<TKey>(System.Linq.Expressions.Expression<System.Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
             where TKey :  class { }
         public FluentAssertions.AndConstraint<TAssertions> NotEqual(System.Collections.Generic.IAsyncEnumerable<T> unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotEqual(System.Collections.Generic.IEnumerable<T> unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveSameCount<TExpectation>(System.Collections.Generic.IAsyncEnumerable<TExpectation> otherCollection, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotIntersectWith(System.Collections.Generic.IAsyncEnumerable<T> otherCollection, string because = "", params object[] becauseArgs) { }

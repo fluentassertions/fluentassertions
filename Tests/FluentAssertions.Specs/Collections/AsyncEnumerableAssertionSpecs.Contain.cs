@@ -405,10 +405,11 @@ public partial class AsyncEnumerableAssertionSpecs
             // Arrange
             int[] array = [1, 2, 3];
             var collection = array.ToAsyncEnumerable();
+            int[] unexpected = [1, 2, 4];
 
             // Act
             Action act = () => collection.Should()
-                .NotContain([1, 2, 4], "because we {0} like them", "don't");
+                .NotContain(unexpected.ToAsyncEnumerable(), "because we {0} like them", "don't");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
