@@ -1,4 +1,6 @@
 ﻿using System;
+using FluentAssertions.Execution;
+using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
@@ -47,6 +49,51 @@ public partial class DateTimeAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to be in Utc, but found a <null> DateTime.");
+        }
+    }
+
+    public class NotBeIn
+    {
+        [Fact]
+        public void Date_is_not_in_kind()
+        {
+            // Arrange
+            DateTime subject = 5.January(2024).AsLocal();
+
+            // Act / Assert
+            subject.Should().NotBeIn(DateTimeKind.Utc);
+        }
+
+        [Fact]
+        public void Date_is_in_kind_but_should_not()
+        {
+            // Arrange
+            DateTime subject = 5.January(2024).AsLocal();
+
+            // Act
+            Action act = () => subject.Should().NotBeIn(DateTimeKind.Local);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect subject to be in Local, but it was.");
+        }
+
+        [Fact]
+        public void Date_is_null_on_kind_check()
+        {
+            // Arrange
+            DateTime? subject = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                subject.Should().NotBeIn(DateTimeKind.Utc);
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not*<null>*");
         }
     }
 }
