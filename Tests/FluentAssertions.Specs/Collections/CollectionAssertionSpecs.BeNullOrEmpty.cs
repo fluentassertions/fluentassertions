@@ -46,7 +46,7 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected collection to be null or empty because we want to test the failure message, but found {1, 2, 3}.");
+                    "Expected collection to be null or empty because we want to test the failure message, but found at least one item {1}.");
         }
 
         [Fact]
@@ -59,6 +59,21 @@ public partial class CollectionAssertionSpecs
             collection.Should().BeNullOrEmpty();
 
             // Assert
+            collection.GetEnumeratorCallCount.Should().Be(1);
+        }
+
+        [Fact]
+        public void When_asserting_non_empty_collection_is_null_or_empty_it_should_enumerate_only_once()
+        {
+            // Arrange
+            var collection = new CountingGenericEnumerable<int>([1, 2, 3]);
+
+            // Act
+            Action act = () => collection.Should().BeNullOrEmpty();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*to be null or empty, but found at least one item {1}.");
             collection.GetEnumeratorCallCount.Should().Be(1);
         }
     }

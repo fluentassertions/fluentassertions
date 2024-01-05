@@ -59,7 +59,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected collection to be empty because we want to test the failure message, but found*one*two*three*");
+                    "Expected collection to be empty because we want to test the failure message, but found at least one item*one*");
         }
     }
 

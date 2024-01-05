@@ -50,7 +50,7 @@ public partial class GenericDictionaryAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected dictionary to be empty because we want to test the failure message, but found {[1] = \"One\"}.");
+                    "Expected dictionary to be empty because we want to test the failure message, but found at least one item {[1, One]}.");
         }
 
         [Fact]
