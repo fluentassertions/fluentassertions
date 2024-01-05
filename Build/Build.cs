@@ -354,11 +354,33 @@ class Build : NukeBuild
         .ProceedAfterFailure()
         .Executes(() =>
         {
-            Node($"{YarnCli} --silent install", workingDirectory: RootDirectory);
+            Node($"{YarnCli} --silent install", workingDirectory: RootDirectory,
+                logger: YarnInstallLogger);
 
             Node($"{YarnCli} --silent run cspell", workingDirectory: RootDirectory,
                 logger: (_, msg) => Error(msg));
         });
+
+    Action<OutputType, string> YarnInstallLogger = (_, msg) =>
+    {
+        // See this PR here: https://github.com/fluentassertions/fluentassertions/pull/2537
+        // and several comments and references.
+        // This seems to be a bug in yarn and the package 'Yarn.MSBuild' is no longer maintained;
+        // So: ignore 'yarn install' errors when the same cache directory is defined in yarn.lock.
+        // This errors have the pattern like: 'Error: warning Pattern [packagename@version]...'
+
+        if (!msg.Contains("is trying to unpack in the same destination"))
+        {
+            if (msg.Contains("warning Pattern"))
+            {
+                Warning(msg);
+            }
+            else
+            {
+                Error(msg);
+            }
+        }
+    };
 
     bool HasDocumentationChanges => Changes.Any(x => IsDocumentation(x));
 
