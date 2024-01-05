@@ -286,15 +286,16 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     public AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs)
     {
+        var singleItemArray = Subject?.Take(1).ToArray();
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected {context:collection} to be empty{reason}, ")
-            .Given(() => Subject)
+            .Given(() => singleItemArray)
             .ForCondition(subject => subject is not null)
             .FailWith("but found <null>.")
             .Then
-            .ForCondition(subject => !subject.Any())
-            .FailWith("but found {0}.", Subject)
+            .ForCondition(subject => subject.Length == 0)
+            .FailWith("but found at least one item {0}.", singleItemArray)
             .Then
             .ClearExpectation();
 
@@ -639,13 +640,14 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     public AndConstraint<TAssertions> BeNullOrEmpty(string because = "", params object[] becauseArgs)
     {
-        var nullOrEmpty = Subject is null || !Subject.Any();
+        var singleItemArray = Subject?.Take(1).ToArray();
+        var nullOrEmpty = singleItemArray is null || singleItemArray.Length == 0;
 
         Execute.Assertion.ForCondition(nullOrEmpty)
             .BecauseOf(because, becauseArgs)
             .FailWith(
-                "Expected {context:collection} to be null or empty{reason}, but found {0}.",
-                Subject);
+                "Expected {context:collection} to be null or empty{reason}, but found at least one item {0}.",
+                singleItemArray);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
