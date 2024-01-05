@@ -30,6 +30,7 @@ theDatetime.Should().NotBeBefore(1.February(2010));
 theDatetime.Should().NotBeOnOrAfter(2.March(2010));
 theDatetime.Should().NotBeOnOrBefore(1.February(2010));
 theDatetime.Should().NotBeSameDateAs(2.March(2010));
+theDatetime.Should().NotBeIn(DateTimeKind.Utc);
 
 theDatetime.Should().BeOneOf(
     1.March(2010).At(21, 15),
