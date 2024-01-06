@@ -371,7 +371,7 @@ class Build : NukeBuild
 
         if (!msg.Contains("is trying to unpack in the same destination"))
         {
-            if (msg.Contains("warning Pattern"))
+            if (msg.StartsWith("warning"))
             {
                 Warning(msg);
             }
