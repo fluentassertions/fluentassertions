@@ -880,7 +880,7 @@ namespace Internal.ValueTypesAndNotValueTypes.Test
 
     internal class InternalClassNotValueType;
 
-    internal record class InternalRecordClass;
+    internal record InternalRecordClass;
 
     internal enum InternalEnumValueType
     {

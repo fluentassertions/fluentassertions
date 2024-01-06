@@ -11,7 +11,7 @@ using Xunit;
 using Xunit.Sdk;
 
 #pragma warning disable RCS1192, RCS1214, S4144 // verbatim string literals and interpolated strings
-
+// ReSharper disable RedundantStringInterpolation
 namespace FluentAssertions.Specs.Execution
 {
     public class CallerIdentifierSpecs

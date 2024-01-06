@@ -215,7 +215,7 @@ public partial class ObjectAssertionSpecs
             var value = new object();
 
             // Act / Assert
-            value.Should().BeOneOf<object>([value], new DumbObjectEqualityComparer()).And.NotBeNull();
+            value.Should().BeOneOf([value], new DumbObjectEqualityComparer()).And.NotBeNull();
         }
     }
 }

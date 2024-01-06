@@ -295,12 +295,9 @@ internal class CountingGenericCollection<TElement> : ICollection<TElement>
 
 internal sealed class TrackingTestEnumerable : IEnumerable<int>
 {
-    private readonly int[] values;
-
     public TrackingTestEnumerable(params int[] values)
     {
-        this.values = values;
-        Enumerator = new TrackingEnumerator(this.values);
+        Enumerator = new TrackingEnumerator(values);
     }
 
     public TrackingEnumerator Enumerator { get; }
