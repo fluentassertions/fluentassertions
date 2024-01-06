@@ -38,13 +38,14 @@ internal static class ExpressionExtensions
     /// </example>
     /// <exception cref="ArgumentNullException"><paramref name="expression"/> is <see langword="null"/>.</exception>
 #pragma warning disable MA0051
-    public static MemberPath GetMemberPath<TDeclaringType, TPropertyType>(
+    public static IEnumerable<MemberPath> GetMemberPaths<TDeclaringType, TPropertyType>(
         this Expression<Func<TDeclaringType, TPropertyType>> expression)
 #pragma warning restore MA0051
     {
         Guard.ThrowIfArgumentIsNull(expression, nameof(expression), "Expected an expression, but found <null>.");
 
         var segments = new List<string>();
+        var selectors = new List<string>();
         var declaringTypes = new List<Type>();
         Expression node = expression;
 
@@ -95,20 +96,40 @@ internal static class ExpressionExtensions
                     node = methodCallExpression.Object;
                     segments.Add("[" + argumentExpression.Value + "]");
                     break;
+                case ExpressionType.New:
+                    var newExpression = (NewExpression)node;
+
+                    foreach (var member in newExpression.Arguments)
+                    {
+                        selectors.Add(string.Join(".", member.ToString().Split('.').Skip(1)));
+                        declaringTypes.Add(((MemberExpression)member).Member.DeclaringType);
+                    }
+
+                    node = null;
+                    break;
 
                 default:
                     throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
             }
         }
 
-        // If any members were accessed in the expression, the first one found is the last member.
         Type declaringType = declaringTypes.FirstOrDefault() ?? typeof(TDeclaringType);
 
-        IEnumerable<string> reversedSegments = segments.AsEnumerable().Reverse();
-        string segmentPath = string.Join(".", reversedSegments);
+        if (selectors.Count == 0)
+        {
+            // If any members were accessed in the expression, the first one found is the last member.
+            IEnumerable<string> reversedSegments = segments.AsEnumerable().Reverse();
+            string segmentPath = string.Join(".", reversedSegments);
 
-        return new MemberPath(typeof(TDeclaringType), declaringType, segmentPath.Replace(".[", "[", StringComparison.Ordinal));
+            return new List<MemberPath> { new(typeof(TDeclaringType), declaringType, segmentPath.Replace(".[", "[", StringComparison.Ordinal)) };
+        }
+
+        return selectors.Select(selector => new MemberPath(typeof(TDeclaringType), declaringType, selector.Replace(".[", "[", StringComparison.Ordinal)));
     }
+
+    public static MemberPath GetMemberPath<TDeclaringType, TPropertyType>(
+         this Expression<Func<TDeclaringType, TPropertyType>> expression) =>
+        expression.GetMemberPaths().First();
 
     /// <summary>
     /// Validates that the expression can be used to construct a <see cref="MemberPath"/>.

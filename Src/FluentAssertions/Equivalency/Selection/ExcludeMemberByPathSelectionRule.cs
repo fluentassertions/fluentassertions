@@ -27,6 +27,8 @@ internal class ExcludeMemberByPathSelectionRule : SelectMemberByPathSelectionRul
         memberToExclude = memberToExclude.AsParentCollectionOf(nextPath);
     }
 
+    public MemberPath CurrentPath => memberToExclude;
+
     public override string ToString()
     {
         return "Exclude member " + memberToExclude;

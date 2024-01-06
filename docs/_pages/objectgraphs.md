@@ -147,6 +147,22 @@ orderDto.Should().BeEquivalentTo(order, options =>
            .Exclude(o => o.Name));
 ```
 
+You can also use an anonymous object to exclude members. This can be useful if you want to exclude multiple (maybe nested) fields and avoid writing 
+`Excluding().Excuding().Excluding()...`.
+
+```csharp
+orderDto.Should().BeEquivalentTo(order, options => 
+    options.Excluding(o => new { o.Customer.Name, o.Customer.LastName, o.Vat }));
+```
+
+This is also possible after `.For()` like
+
+```csharp
+orderDto.Should().BeEquivalentTo(order, options =>
+    options.For(o => o.Products)
+           .Exclude(o => new { o.Name, o.Price }));
+```
+
 Of course, `Excluding()` and `ExcludingMissingMembers()` can be combined.
 
 You can also take a different approach and explicitly tell Fluent Assertions which members to include. You can directly specify a property expression or use a predicate that acts on the provided `ISubjectInfo`.
@@ -190,6 +206,8 @@ orderDto.Should().BeEquivalentTo(order, options => options
 ```
 
 This configuration affects the initial inclusion of members and happens before any `Exclude`s or other `IMemberSelectionRule`s. This configuration also affects matching. For example, that if properties are excluded, properties will not be inspected when looking for a match on the expected object.
+
+The behavior with anonymous objects for selection also applies to `Include` how it does to `Exclude`.
 
 ### Comparing members with different names
 

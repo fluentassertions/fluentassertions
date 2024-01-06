@@ -349,5 +349,103 @@ public partial class SelectionRulesSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*Level.Level.Text*Level2*Mismatch*");
         }
+
+        [Fact]
+        public void An_anonymous_object_selects_correctly()
+        {
+            // Arrange
+            var subject = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Field2 = "ipsum",
+                Field3 = "dolor",
+                Property1 = "sit",
+                Property2 = "amet",
+                Property3 = "consectetur"
+            };
+
+            var expectation = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Field2 = "ipsum"
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
+                        opts => opts.Including(o => new { o.Field1, o.Field2, o.Field3 }));
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected field subject.Field3*");
+        }
+
+        [Fact]
+        public void An_anonymous_object_selects_nested_fields_correctly()
+        {
+            // Arrange
+            var subject = new
+            {
+                Field = "Lorem",
+                NestedField = new
+                {
+                    FieldB = "ipsum"
+                }
+            };
+
+            var expectation = new
+            {
+                FieldA = "Lorem",
+                NestedField = new
+                {
+                    FieldB = "no ipsum"
+                }
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
+                        opts => opts.Including(o => new { o.NestedField.FieldB }));
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected*subject.NestedField.FieldB*");
+        }
+
+        [Fact]
+        public void An_anonymous_object_in_combination_with_exclude_selects_nested_fields_correctly()
+        {
+            // Arrange
+            var subject = new
+            {
+                FieldA = "Lorem",
+                NestedField = new
+                {
+                    FieldB = "ipsum",
+                    FieldC = "ipsum2",
+                    FieldD = "ipsum3",
+                    FieldE = "ipsum4",
+                }
+            };
+
+            var expectation = new
+            {
+                FieldA = "Lorem",
+                NestedField = new
+                {
+                    FieldB = "no ipsum",
+                    FieldC = "no ipsum2",
+                    FieldD = "no ipsum3",
+                    FieldE = "no ipsum4",
+                }
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opts => opts
+                .Excluding(o => new { o.NestedField })
+                .Including(o => new { o.NestedField.FieldB }));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .Which.Message.Should()
+                .Match("*Expected*subject.NestedField.FieldB*").And
+                .NotMatch("*Expected*FieldC*FieldD*FieldE*");
+        }
     }
 }

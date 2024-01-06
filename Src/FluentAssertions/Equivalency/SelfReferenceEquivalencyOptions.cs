@@ -803,7 +803,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         selectionRules.RemoveAll(selectionRule => selectionRule is T);
     }
 
-    protected TSelf AddSelectionRule(IMemberSelectionRule selectionRule)
+    protected internal TSelf AddSelectionRule(IMemberSelectionRule selectionRule)
     {
         selectionRules.Add(selectionRule);
         return (TSelf)this;

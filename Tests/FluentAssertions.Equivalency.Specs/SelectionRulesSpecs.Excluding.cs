@@ -666,5 +666,416 @@ public partial class SelectionRulesSpecs
                 .Excluding(o => o.VirtualProperty)
                 .Excluding(o => o.DerivedProperty2));
         }
+
+        [Fact]
+        public void An_anonymous_object_with_multiple_fields()
+        {
+            // Arrange
+            var subject = new
+            {
+                FirstName = "John",
+                MiddleName = "X",
+                LastName = "Doe",
+                Age = 34
+            };
+
+            var expectation = new
+            {
+                FirstName = "John",
+                MiddleName = "W.",
+                LastName = "Smith",
+                Age = 29
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opts => opts
+                .Excluding(p => new { p.MiddleName, p.LastName, p.Age }));
+        }
+
+        [Fact]
+        public void An_empty_anonymous_object_excludes_nothing()
+        {
+            // Arrange
+            var subject = new
+            {
+                FirstName = "John",
+                MiddleName = "X",
+                LastName = "Doe",
+                Age = 34
+            };
+
+            var expectation = new
+            {
+                FirstName = "John",
+                MiddleName = "W.",
+                LastName = "Smith",
+                Age = 29
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opts => opts
+                .Excluding(p => new { }));
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void An_anonymous_object_can_exclude_collections()
+        {
+            // Arrange
+            var subject = new
+            {
+                Names = new[]
+                {
+                    "John",
+                    "X.",
+                    "Doe"
+                },
+                Age = 34
+            };
+
+            var expectation = new
+            {
+                Names = new[]
+                {
+                    "John",
+                    "W.",
+                    "Smith"
+                },
+                Age = 34
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opts => opts
+                .Excluding(p => new { p.Names }));
+        }
+
+        [Fact]
+        public void An_anonymous_object_can_exclude_nested_objects()
+        {
+            // Arrange
+            var subject = new
+            {
+                Names = new
+                {
+                    FirstName = "John",
+                    MiddleName = "X",
+                    LastName = "Doe",
+                },
+                Age = 34
+            };
+
+            var expectation = new
+            {
+                Names = new
+                {
+                    FirstName = "John",
+                    MiddleName = "W.",
+                    LastName = "Smith",
+                },
+                Age = 34
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opts => opts
+                .Excluding(p => new { p.Names.MiddleName, p.Names.LastName }));
+        }
+
+        [Fact]
+        public void An_anonymous_object_can_exclude_nested_objects_inside_collections()
+        {
+            // Arrange
+            var subject = new
+            {
+                Names = new
+                {
+                    FirstName = "John",
+                    MiddleName = "X",
+                    LastName = "Doe",
+                },
+                Pets = new[]
+                {
+                    new
+                    {
+                        Name = "Dog",
+                        Age = 1,
+                        Color = "Black"
+                    },
+                    new
+                    {
+                        Name = "Cat",
+                        Age = 1,
+                        Color = "Black"
+                    },
+                    new
+                    {
+                        Name = "Bird",
+                        Age = 1,
+                        Color = "Black"
+                    },
+                }
+            };
+
+            var expectation = new
+            {
+                Names = new
+                {
+                    FirstName = "John",
+                    MiddleName = "W.",
+                    LastName = "Smith",
+                },
+                Pets = new[]
+                {
+                    new
+                    {
+                        Name = "Dog",
+                        Age = 1,
+                        Color = "Black"
+                    },
+                    new
+                    {
+                        Name = "Dog",
+                        Age = 2,
+                        Color = "Gray"
+                    },
+                    new
+                    {
+                        Name = "Bird",
+                        Age = 3,
+                        Color = "Black"
+                    },
+                }
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opts => opts
+                .Excluding(p => new { p.Names.MiddleName, p.Names.LastName })
+                .For(p => p.Pets)
+                .Exclude(p => new { p.Age, p.Name }));
+
+            // Assert
+            act.Should().Throw<XunitException>().Which.Message.Should()
+                .NotMatch("*Pets[1].Age*").And
+                .NotMatch("*Pets[1].Name*").And
+                .Match("*Pets[1].Color*");
+        }
+
+        [Fact]
+        public void An_anonymous_object_can_exclude_nested_objects_inside_nested_collections()
+        {
+            // Arrange
+            var subject = new
+            {
+                Names = new
+                {
+                    FirstName = "John",
+                    MiddleName = "W.",
+                    LastName = "Smith",
+                },
+                Pets = new[]
+                {
+                    new
+                    {
+                        Name = "Dog",
+                        Fleas = new[]
+                        {
+                            new
+                            {
+                                Name = "Flea 1",
+                                Age = 1,
+                            },
+                            new
+                            {
+                                Name = "Flea 2",
+                                Age = 2,
+                            },
+                        },
+                    },
+                    new
+                    {
+                        Name = "Dog",
+                        Fleas = new[]
+                        {
+                            new
+                            {
+                                Name = "Flea 10",
+                                Age = 1,
+                            },
+                            new
+                            {
+                                Name = "Flea 21",
+                                Age = 3,
+                            },
+                        },
+                    },
+                    new
+                    {
+                        Name = "Dog",
+                        Fleas = new[]
+                        {
+                            new
+                            {
+                                Name = "Flea 1",
+                                Age = 1,
+                            },
+                            new
+                            {
+                                Name = "Flea 2",
+                                Age = 2,
+                            },
+                        },
+                    },
+                },
+            };
+
+            var expectation = new
+            {
+                Names = new
+                {
+                    FirstName = "John",
+                    MiddleName = "W.",
+                    LastName = "Smith",
+                },
+                Pets = new[]
+                {
+                    new
+                    {
+                        Name = "Dog",
+                        Fleas = new[]
+                        {
+                            new
+                            {
+                                Name = "Flea 1",
+                                Age = 1,
+                            },
+                            new
+                            {
+                                Name = "Flea 2",
+                                Age = 2,
+                            },
+                        },
+                    },
+                    new
+                    {
+                        Name = "Dog",
+                        Fleas = new[]
+                        {
+                            new
+                            {
+                                Name = "Flea 1",
+                                Age = 1,
+                            },
+                            new
+                            {
+                                Name = "Flea 2",
+                                Age = 1,
+                            },
+                        },
+                    },
+                    new
+                    {
+                        Name = "Bird",
+                        Fleas = new[]
+                        {
+                            new
+                            {
+                                Name = "Flea 1",
+                                Age = 1,
+                            },
+                            new
+                            {
+                                Name = "Flea 2",
+                                Age = 2,
+                            },
+                        },
+                    },
+                },
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opts => opts
+                .Excluding(p => new { p.Names.MiddleName, p.Names.LastName })
+                .For(person => person.Pets)
+                .For(pet => pet.Fleas)
+                .Exclude(flea => new { flea.Name, flea.Age }));
+
+            // Assert
+            act.Should().Throw<XunitException>().Which.Message.Should()
+                .NotMatch("*Pets[*].Fleas[*].Age*").And
+                .NotMatch("*Pets[*].Fleas[*].Name*").And
+                .Match("*- Exclude*Pets[]Fleas[]Age*").And
+                .Match("*- Exclude*Pets[]Fleas[]Name*");
+        }
+
+        [Fact]
+        public void An_empty_anonymous_object_excludes_nothing_inside_collections()
+        {
+            // Arrange
+            var subject = new
+            {
+                Names = new
+                {
+                    FirstName = "John",
+                    MiddleName = "X",
+                    LastName = "Doe",
+                },
+                Pets = new[]
+                {
+                    new
+                    {
+                        Name = "Dog",
+                        Age = 1
+                    },
+                    new
+                    {
+                        Name = "Cat",
+                        Age = 1
+                    },
+                    new
+                    {
+                        Name = "Bird",
+                        Age = 1
+                    },
+                }
+            };
+
+            var expectation = new
+            {
+                Names = new
+                {
+                    FirstName = "John",
+                    MiddleName = "W.",
+                    LastName = "Smith",
+                },
+                Pets = new[]
+                {
+                    new
+                    {
+                        Name = "Dog",
+                        Age = 1
+                    },
+                    new
+                    {
+                        Name = "Dog",
+                        Age = 2
+                    },
+                    new
+                    {
+                        Name = "Bird",
+                        Age = 1
+                    },
+                }
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opts => opts
+                .Excluding(p => new { p.Names.MiddleName, p.Names.LastName })
+                .For(p => p.Pets)
+                .Exclude(p => new { }));
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*Pets[1].Name*Pets[1].Age*");
+        }
     }
 }
