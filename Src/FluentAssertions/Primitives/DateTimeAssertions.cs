@@ -928,6 +928,36 @@ public class DateTimeAssertions<TAssertions>
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
+    /// <summary>
+    /// Asserts that the <see cref="DateTime"/> does not represent a value in a specific kind.
+    /// </summary>
+    /// <param name="unexpectedKind">
+    /// The <see cref="DateTimeKind"/> that the current value should not represent.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotBeIn(DateTimeKind unexpectedKind, string because = "", params object[] becauseArgs)
+    {
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Did not expect {context:the date and time} to be in " + unexpectedKind + "{reason}")
+            .Given(() => Subject)
+            .ForCondition(subject => subject.HasValue)
+            .FailWith(", but found a <null> DateTime.")
+            .Then
+            .ForCondition(subject => subject.GetValueOrDefault().Kind != unexpectedKind)
+            .FailWith(", but it was.")
+            .Then
+            .ClearExpectation();
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
         throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
