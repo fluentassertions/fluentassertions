@@ -950,7 +950,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(subject => subject.HasValue)
             .FailWith(", but found a <null> DateTime.")
             .Then
-            .ForCondition(subject => subject.Value!.Kind != unexpectedKind)
+            .ForCondition(subject => subject!.Value.Kind != unexpectedKind)
             .FailWith(", but it was.")
             .Then
             .ClearExpectation();
