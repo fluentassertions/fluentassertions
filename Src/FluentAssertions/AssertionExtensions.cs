@@ -367,6 +367,16 @@ public static class AssertionExtensions
     }
 
     /// <summary>
+    /// Returns an <see cref="StringCollectionAssertions"/> object that can be used to assert the
+    /// current <see cref="IAsyncEnumerable{T}"/>.
+    /// </summary>
+    [Pure]
+    public static StringAsyncEnumerableAssertions Should(this IAsyncEnumerable<string> @this)
+    {
+        return new StringAsyncEnumerableAssertions(@this);
+    }
+
+    /// <summary>
     /// Returns an <see cref="GenericDictionaryAssertions{TCollection, TKey, TValue}"/> object that can be used to assert the
     /// current <see cref="IDictionary{TKey, TValue}"/>.
     /// </summary>

@@ -51,7 +51,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </summary>
     protected override string Identifier => "collection";
 
-    private IEnumerable<T> BlockingSubject => Subject?.ToBlockingEnumerable();
+    protected IEnumerable<T> BlockingSubject => Subject?.ToBlockingEnumerable();
 
     /// <summary>
     /// Asserts that all items in the collection are of the specified type <typeparamref name="TExpectation" />
@@ -1405,6 +1405,18 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     public AndConstraint<TAssertions> Equal(IEnumerable<T> elements)
     {
         AssertSubjectEquality(elements, ObjectExtensions.GetComparer<T>(), string.Empty);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Expects the current collection to contain all the same elements in the same order as the collection identified by
+    /// <paramref name="elements" />. Elements are compared using their <see cref="object.Equals(object)" /> method.
+    /// </summary>
+    /// <param name="elements">A params array with the expected elements.</param>
+    public AndConstraint<TAssertions> Equal(IAsyncEnumerable<T> elements)
+    {
+        AssertSubjectEquality(elements.ToBlockingEnumerable(), ObjectExtensions.GetComparer<T>(), string.Empty);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }

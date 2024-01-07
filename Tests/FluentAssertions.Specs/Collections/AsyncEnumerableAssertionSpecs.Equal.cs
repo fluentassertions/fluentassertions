@@ -40,9 +40,10 @@ public partial class AsyncEnumerableAssertionSpecs
         {
             // Arrange
             IAsyncEnumerable<int> nullColl = null;
+            IAsyncEnumerable<int> nullExpected = null;
 
             // Act
-            Action act = () => nullColl.Should().Equal(null);
+            Action act = () => nullColl.Should().Equal(nullExpected);
 
             // Assert
             act.Should().NotThrow();
