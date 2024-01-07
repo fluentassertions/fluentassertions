@@ -18,7 +18,7 @@ sidebar:
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
 * Allow specifying `EquivalencyOptions` in string assertions - [#2413](https://github.com/fluentassertions/fluentassertions/pull/2413)
-  * This also adds the capability to ignore casing, leading or trailing whitespace or newlines on strings when using `BeEquivalentTo` on object graphs or collections.
+  * This also adds the capability to ignore casing, leading or trailing whitespace on strings when using `BeEquivalentTo` on object graphs or collections.
 * You can mark all assertions in an assembly as custom assertions using the `[CustomAssertionsAssembly]` attribute - [#2389](https://github.com/fluentassertions/fluentassertions/pull/2389)
 
 ### Fixes
