@@ -256,7 +256,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected value that does not end with equivalent of \"Bc\" because of some reason, but found \"ABC\".");
+                "Expected value not to end with equivalent of \"Bc\" because of some reason, but found \"ABC\".");
         }
 
         [Fact]
@@ -286,7 +286,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected value that does not end with equivalent of \"\", but found \"ABC\".");
+                "Expected value not to end with equivalent of \"\", but found \"ABC\".");
         }
 
         [Fact]
@@ -304,7 +304,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected someString that does not end with equivalent of \"Abc\"*some reason*, but found <null>.");
+                "Expected someString not to end with equivalent of \"Abc\"*some reason*, but found <null>.");
         }
     }
 }

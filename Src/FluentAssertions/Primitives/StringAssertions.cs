@@ -919,7 +919,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Execute.Assertion
             .ForCondition(Subject != null && notEquivalent)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:string} that does not start with {0}{reason}, but found {1}.", unexpected, Subject);
+            .FailWith("Expected {context:string} not to start with {0}{reason}, but found {1}.", unexpected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1015,7 +1015,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Execute.Assertion
             .ForCondition(Subject != null && notEquivalent)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:string} that does not start with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
+            .FailWith("Expected {context:string} not to start with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1053,7 +1053,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Execute.Assertion
             .ForCondition(Subject != null && notEquivalent)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:string} that does not start with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
+            .FailWith("Expected {context:string} not to start with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1208,7 +1208,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Execute.Assertion
             .ForCondition(Subject != null && notEquivalent)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
+            .FailWith("Expected {context:string} not to end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1246,7 +1246,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Execute.Assertion
             .ForCondition(Subject != null && notEquivalent)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
+            .FailWith("Expected {context:string} not to end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }

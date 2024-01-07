@@ -255,7 +255,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected value that does not start with equivalent of \"aB\" because of some reason, but found \"ABC\".");
+                "Expected value not to start with equivalent of \"aB\" because of some reason, but found \"ABC\".");
         }
 
         [Fact]
@@ -285,7 +285,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected value that does not start with equivalent of \"\", but found \"ABC\".");
+                "Expected value not to start with equivalent of \"\", but found \"ABC\".");
         }
 
         [Fact]
@@ -299,7 +299,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected someString that does not start with equivalent of \"ABC\", but found <null>.");
+                "Expected someString not to start with equivalent of \"ABC\", but found <null>.");
         }
     }
 }
