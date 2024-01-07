@@ -10,6 +10,7 @@ sidebar:
 ## 6.12.1
 
 ### Improvements
+* Improve `BeEmpty()` and `BeNullOrEmpty()` performance for `IEnumerable<T>`, by materializing only the first item - [#2530](https://github.com/fluentassertions/fluentassertions/pull/2530)
 
 ### Fixes
 * Fixed formatting error when checking nullable `DateTimeOffset` with 
