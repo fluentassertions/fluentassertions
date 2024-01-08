@@ -34,7 +34,7 @@
 
   <ItemGroup>
     <PackageReference Include="Chill" Version="4.1.0" />
-    <PackageReference Include="xunit" Version="2.6.2" />
+    <PackageReference Include="xunit" Version="2.6.5" />
     <PackageReference Include="Xunit.StaFact" Version="1.1.11" />
     <PackageReference Include="coverlet.collector" Version="6.0.0" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
