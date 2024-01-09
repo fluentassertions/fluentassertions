@@ -51,7 +51,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </summary>
     protected override string Identifier => "collection";
 
-    protected IEnumerable<T> BlockingSubject => Subject?.ToBlockingEnumerable();
+    private IEnumerable<T> BlockingSubject => Subject?.ToBlockingEnumerable();
 
     /// <summary>
     /// Asserts that all items in the collection are of the specified type <typeparamref name="TExpectation" />
@@ -1392,7 +1392,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// <param name="elements">A params array with the expected elements.</param>
     public AndConstraint<TAssertions> Equal(params T[] elements)
     {
-        AssertSubjectEquality(elements, ObjectExtensions.GetComparer<T>(), string.Empty);
+        AssertSubjectEquality(BlockingSubject, elements, ObjectExtensions.GetComparer<T>(), string.Empty);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1404,7 +1404,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// <param name="elements">A params array with the expected elements.</param>
     public AndConstraint<TAssertions> Equal(IEnumerable<T> elements)
     {
-        AssertSubjectEquality(elements, ObjectExtensions.GetComparer<T>(), string.Empty);
+        AssertSubjectEquality(BlockingSubject, elements, ObjectExtensions.GetComparer<T>(), string.Empty);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1416,7 +1416,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// <param name="elements">A params array with the expected elements.</param>
     public AndConstraint<TAssertions> Equal(IAsyncEnumerable<T> elements)
     {
-        AssertSubjectEquality(elements.ToBlockingEnumerable(), ObjectExtensions.GetComparer<T>(), string.Empty);
+        AssertSubjectEquality(BlockingSubject, elements?.ToBlockingEnumerable(), ObjectExtensions.GetComparer<T>(), string.Empty);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1442,7 +1442,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         IAsyncEnumerable<TExpectation> expectation, Func<T, TExpectation, bool> equalityComparison, string because = "",
         params object[] becauseArgs)
     {
-        AssertSubjectEquality(expectation?.ToBlockingEnumerable(), equalityComparison, because, becauseArgs);
+        AssertSubjectEquality(BlockingSubject, expectation?.ToBlockingEnumerable(), equalityComparison, because, becauseArgs);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1461,7 +1461,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> Equal(IAsyncEnumerable<T> expected, string because = "", params object[] becauseArgs)
     {
-        AssertSubjectEquality(expected?.ToBlockingEnumerable(), ObjectExtensions.GetComparer<T>(), because, becauseArgs);
+        AssertSubjectEquality(BlockingSubject, expected?.ToBlockingEnumerable(), ObjectExtensions.GetComparer<T>(), because, becauseArgs);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1487,7 +1487,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         IEnumerable<TExpectation> expectation, Func<T, TExpectation, bool> equalityComparison, string because = "",
         params object[] becauseArgs)
     {
-        AssertSubjectEquality(expectation, equalityComparison, because, becauseArgs);
+        AssertSubjectEquality(BlockingSubject, expectation, equalityComparison, because, becauseArgs);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1506,7 +1506,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// </param>
     public AndConstraint<TAssertions> Equal(IEnumerable<T> expected, string because = "", params object[] becauseArgs)
     {
-        AssertSubjectEquality(expected, ObjectExtensions.GetComparer<T>(), because, becauseArgs);
+        AssertSubjectEquality(BlockingSubject, expected, ObjectExtensions.GetComparer<T>(), because, becauseArgs);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1836,6 +1836,24 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     public AndConstraint<TAssertions> HaveSameCount<TExpectation>(IAsyncEnumerable<TExpectation> otherCollection, string because = "",
         params object[] becauseArgs)
     {
+        return HaveSameCount(otherCollection?.ToBlockingEnumerable(), because, becauseArgs);
+    }
+
+    /// <summary>
+    /// Assert that the current collection has the same number of elements as <paramref name="otherCollection" />.
+    /// </summary>
+    /// <param name="otherCollection">The other collection with the same expected number of elements</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> HaveSameCount<TExpectation>(IEnumerable<TExpectation> otherCollection, string because = "",
+        params object[] becauseArgs)
+    {
         Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
 
         Execute.Assertion
@@ -1845,13 +1863,31 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
             .ForCondition(subject => subject is not null)
             .FailWith("the same count as {0}{reason}, but found <null>.", otherCollection)
             .Then
-            .Given(subject => (actual: subject.Count(), expected: otherCollection.ToBlockingEnumerable().Count()))
+            .Given(subject => (actual: subject.Count(), expected: otherCollection.Count()))
             .ForCondition(count => count.actual == count.expected)
             .FailWith("{0} item(s){reason}, but found {1}.", count => count.expected, count => count.actual)
             .Then
             .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that the collection shares one or more items with the specified <paramref name="otherCollection"/>.
+    /// </summary>
+    /// <param name="otherCollection">The <see cref="IEnumerable{T}"/> with the expected shared items.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> IntersectWith(IEnumerable<T> otherCollection, string because = "",
+        params object[] becauseArgs)
+    {
+        return IntersectWith(otherCollection?.ToAsyncEnumerable(), because, becauseArgs);
     }
 
     /// <summary>
@@ -1874,7 +1910,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
-            .ForCondition(BlockingSubject is not null)
+            .ForCondition(Subject is not null)
             .FailWith("Expected {context:collection} to intersect with {0}{reason}, but found <null>.", otherCollection);
 
         if (success)
@@ -1886,7 +1922,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
                 .ForCondition(sharedItems.ToBlockingEnumerable().Any())
                 .FailWith(
                     "Expected {context:collection} to intersect with {0}{reason}, but {1} does not contain any shared items.",
-                    otherCollection, BlockingSubject);
+                    otherCollection, Subject);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -2975,6 +3011,25 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> NotHaveSameCount<TExpectation>(IEnumerable<TExpectation> otherCollection,
+        string because = "",
+        params object[] becauseArgs)
+    {
+        return NotHaveSameCount(otherCollection?.ToAsyncEnumerable(), because, becauseArgs);
+    }
+
+    /// <summary>
+    /// Assert that the current collection does not have the same number of elements as <paramref name="otherCollection" />.
+    /// </summary>
+    /// <param name="otherCollection">The other collection with the unexpected number of elements</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotHaveSameCount<TExpectation>(IAsyncEnumerable<TExpectation> otherCollection,
         string because = "",
         params object[] becauseArgs)
@@ -3001,6 +3056,24 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
                 count => count.expected, count => count.actual);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that the collection does not share any items with the specified <paramref name="otherCollection"/>.
+    /// </summary>
+    /// <param name="otherCollection">The <see cref="IEnumerable{T}"/> to compare to.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> NotIntersectWith(IEnumerable<T> otherCollection, string because = "",
+        params object[] becauseArgs)
+    {
+        return NotIntersectWith(otherCollection?.ToAsyncEnumerable(), because, becauseArgs);
     }
 
     /// <summary>
@@ -3034,8 +3107,8 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
                 "Did not expect {context:collection} {0} to intersect with {1}{reason}, but they both reference the same object.",
                 subject => subject, _ => otherCollection)
             .Then
-            .Given(subject => subject.Intersect(otherCollection))
-            .ForCondition(sharedItems => !sharedItems.ToBlockingEnumerable().Any())
+            .Given(subject => subject.ToBlockingEnumerable().Intersect(otherCollection.ToBlockingEnumerable()))
+            .ForCondition(sharedItems => !sharedItems.Any())
             .FailWith(
                 "Did not expect {context:collection} to intersect with {0}{reason}, but found the following shared items {1}.",
                 _ => otherCollection, sharedItems => sharedItems);
@@ -3573,7 +3646,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
         return RepeatAsManyAsIterator(value, enumerable);
     }
 
-    protected void AssertCollectionEndsWith<TActual, TExpectation>(IEnumerable<TActual> actual,
+    private static void AssertCollectionEndsWith<TActual, TExpectation>(IEnumerable<TActual> actual,
         ICollection<TExpectation> expected, Func<TActual, TExpectation, bool> equalityComparison, string because = "",
         params object[] becauseArgs)
     {
@@ -3597,7 +3670,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
             .ClearExpectation();
     }
 
-    protected void AssertCollectionStartsWith<TActual, TExpectation>(IEnumerable<TActual> actualItems,
+    private static void AssertCollectionStartsWith<TActual, TExpectation>(IEnumerable<TActual> actualItems,
         ICollection<TExpectation> expected, Func<TActual, TExpectation, bool> equalityComparison, string because = "",
         params object[] becauseArgs)
     {
@@ -3616,12 +3689,13 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
             .ClearExpectation();
     }
 
-    protected void AssertSubjectEquality<TExpectation>(IEnumerable<TExpectation> expectation,
-        Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs)
+    private static void AssertSubjectEquality<TExpectation>(IEnumerable<T> actualItems,
+        IEnumerable<TExpectation> expectation, Func<T, TExpectation, bool> equalityComparison, string because = "",
+        params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(equalityComparison);
 
-        bool subjectIsNull = BlockingSubject is null;
+        bool subjectIsNull = actualItems is null;
         bool expectationIsNull = expectation is null;
 
         if (subjectIsNull && expectationIsNull)
@@ -3642,7 +3716,7 @@ public class AsyncEnumerableAssertions<TCollection, T, TAssertions> : ReferenceT
 
         assertion
             .WithExpectation("Expected {context:collection} to be equal to {0}{reason}, ", expectedItems)
-            .Given(() => BlockingSubject.ConvertOrCastToCollection())
+            .Given(() => actualItems.ConvertOrCastToCollection())
             .AssertCollectionsHaveSameCount(expectedItems.Count)
             .Then
             .AssertCollectionsHaveSameItems(expectedItems, (a, e) => a.IndexOfFirstDifferenceWith(e, equalityComparison))

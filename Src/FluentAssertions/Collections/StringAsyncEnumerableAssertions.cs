@@ -35,6 +35,8 @@ public class StringAsyncEnumerableAssertions<TCollection, TAssertions> : AsyncEn
     where TCollection : IAsyncEnumerable<string>
     where TAssertions : StringAsyncEnumerableAssertions<TCollection, TAssertions>
 {
+    private IEnumerable<string> BlockingSubject => Subject?.ToBlockingEnumerable();
+
     /// <summary>
     /// Initializes a new instance of the <see cref="StringAsyncEnumerableAssertions{TCollection, TAssertions}"/> class.
     /// </summary>
