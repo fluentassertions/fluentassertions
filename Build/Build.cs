@@ -22,6 +22,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 using static Nuke.Common.Tools.Xunit.XunitTasks;
 using static Serilog.Log;
+using static Tasks.CustomNpmTasks;
 
 [UnsetVisualStudioEnvironmentVariables]
 [DotNetVerbosityMapping]
@@ -65,21 +66,6 @@ class Build : NukeBuild
     [Required]
     [GitRepository]
     readonly GitRepository GitRepository;
-
-    const string NodeVersion = "20.10.0";
-
-    Tool Node;
-    Tool Npm;
-
-    AbsolutePath TempDir => RootDirectory / ".nuke" / "temp";
-    AbsolutePath NodeDir => TempDir / "node";
-
-    AbsolutePath NodeDirPerOs;
-
-    AbsolutePath WorkingDirectory;
-
-    IReadOnlyDictionary<string, string> NpmEnvironmentVariables = new Dictionary<string, string>();
-
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
     AbsolutePath TestResultsDirectory => RootDirectory / "TestResults";
@@ -362,11 +348,8 @@ class Build : NukeBuild
         .ProceedAfterFailure()
         .Executes(() =>
         {
-            Npm($"install --silent",
-                 workingDirectory: RootDirectory);
-            Npm($"run --silent cspell",
-                environmentVariables: NpmEnvironmentVariables,
-                logger: (_, msg) => Error(msg));
+            NpmInstall(workingDirectory: RootDirectory);
+            NpmRun("--silent cspell");
         });
 
     Target InstallNode => _ => _
@@ -374,86 +357,12 @@ class Build : NukeBuild
         .ProceedAfterFailure()
         .Executes(() =>
         {
-            string os = null;
-            string archiveType = null;
+            Initialize(RootDirectory);
 
-            if (EnvironmentInfo.IsWin)
-            {
-                os = "win-x64";
-                archiveType = ".zip";
-            }
-            else if (EnvironmentInfo.IsOsx)
-            {
-                os = "darwin-x64";
-                archiveType = ".tar.gz";
-            }
-            else if (EnvironmentInfo.IsLinux)
-            {
-                os = "linux-x64";
-                archiveType = ".tar.xz";
-            }
+            NpmFetchRuntime();
 
-            Assert.NotNull(os);
-            Assert.NotNull(archiveType);
-
-            os = EnvironmentInfo.IsArm64 ? os.Replace("x64", "arm64") : os;
-
-            string downloadUrl = $"https://nodejs.org/dist/v{NodeVersion}/node-v{NodeVersion}-{os}{archiveType}";
-            var archive = TempDir / $"node.{archiveType}";
-            HttpTasks.HttpDownloadFile(downloadUrl, archive, clientConfigurator: c =>
-            {
-                c.Timeout = TimeSpan.FromSeconds(50);
-
-                return c;
-            });
-
-            var extractDir = NodeDir;
-            NodeDirPerOs = extractDir / $"node-v{NodeVersion}-{os}";
-            WorkingDirectory = NodeDirPerOs;
-
-            if (EnvironmentInfo.IsWin)
-            {
-                archive.UnZipTo(extractDir);
-
-                Node = ToolResolver.GetTool(NodeDirPerOs / "node.exe");
-                Npm = ToolResolver.GetTool(NodeDirPerOs / "npm.cmd");
-
-                NpmEnvironmentVariables = new Dictionary<string, string>()
-                {
-                    {"PATH", WorkingDirectory }
-                };
-            }
-            else if (EnvironmentInfo.IsUnix)
-            {
-                archive.UnTarGZipTo(extractDir);
-
-                Tool Bash = ToolResolver.GetPathTool("bash");
-
-                WorkingDirectory = WorkingDirectory / "bin";
-
-                var nodeExecutable = WorkingDirectory / "node";
-                var npmNodeModules = NodeDirPerOs / "lib" / "node_modules";
-                var npmExecutable = npmNodeModules / "npm" / "bin" / "npm";
-
-                Bash($"-c \"chmod +x {nodeExecutable}\"");
-                Bash($"-c \"chmod +x {npmExecutable}\"");
-                Bash($"-c \"ln -sf {npmExecutable} npm\"", workingDirectory: WorkingDirectory);
-                Bash($"-c \"ln -sf {npmNodeModules} node_modules\"", workingDirectory: WorkingDirectory);
-
-                Node = ToolResolver.GetTool(nodeExecutable);
-                Npm = ToolResolver.GetTool(WorkingDirectory / "npm");
-
-                NpmEnvironmentVariables = EnvironmentInfo.Variables
-                    .ToDictionary(x => x.Key, x => x.Value)
-                    .SetKeyValue("path", NodeDirPerOs).AsReadOnly();
-            }
-
-            Node("--version",
-                workingDirectory: WorkingDirectory,
-                environmentVariables: NpmEnvironmentVariables);
-            Npm($"--version",
-                workingDirectory: WorkingDirectory,
-                environmentVariables: NpmEnvironmentVariables);
+            NodeVersion();
+            NpmVersion();
         });
 
     bool HasDocumentationChanges => Changes.Any(x => IsDocumentation(x));
