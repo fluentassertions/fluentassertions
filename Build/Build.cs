@@ -22,7 +22,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 using static Nuke.Common.Tools.Xunit.XunitTasks;
 using static Serilog.Log;
-using static Tasks.CustomNpmTasks;
+using static CustomNpmTasks;
 
 [UnsetVisualStudioEnvironmentVariables]
 [DotNetVerbosityMapping]
@@ -348,8 +348,8 @@ class Build : NukeBuild
         .ProceedAfterFailure()
         .Executes(() =>
         {
-            NpmInstall(workingDirectory: RootDirectory);
-            NpmRun("--silent cspell");
+            NpmInstall(silent: true, workingDirectory: RootDirectory);
+            NpmRun("cspell", silent: true);
         });
 
     Target InstallNode => _ => _
@@ -361,8 +361,9 @@ class Build : NukeBuild
 
             NpmFetchRuntime();
 
-            NodeVersion();
-            NpmVersion();
+            ReportSummary(s => s
+                .When(HasCachedNodeModules, conf => conf
+                    .AddPair("Skipped", "Downloading and extracting")));
         });
 
     bool HasDocumentationChanges => Changes.Any(x => IsDocumentation(x));

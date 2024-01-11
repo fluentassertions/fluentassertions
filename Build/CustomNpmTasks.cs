@@ -8,8 +8,6 @@ using Nuke.Common.Utilities;
 using Nuke.Common.Utilities.Collections;
 using static Serilog.Log;
 
-namespace Tasks;
-
 public class CustomNpmTasks
 {
     static AbsolutePath RootDirectory;
@@ -23,13 +21,17 @@ public class CustomNpmTasks
     static Tool Node;
     static Tool Npm;
 
-    static string Version = "20.10.0";
+    static string Version;
+
+    public static bool HasCachedNodeModules;
 
     public static void Initialize(AbsolutePath root)
     {
         RootDirectory = root;
-        TempDir = RootDirectory / ".nuke" / "temp";
-        NodeDir = TempDir;
+        NodeDir = RootDirectory / ".nuke" / "temp";
+
+        Version = (RootDirectory / "NodeVersion").ReadAllText().Trim();
+        HasCachedNodeModules = NodeDir.GlobFiles($"node*{Version}*/**/node*", $"node*{Version}*/**/npm*").Count != 0;
     }
 
     public static void NpmFetchRuntime()
@@ -37,10 +39,13 @@ public class CustomNpmTasks
         var archive = DownloadingNodeArchives();
 
         ExtractNodeArchive(archive);
+
+        LinkTools();
     }
 
-    private static AbsolutePath DownloadingNodeArchives()
+    static AbsolutePath DownloadingNodeArchives()
     {
+        AbsolutePath archive = NodeDir;
         string os = null;
         string archiveType = null;
 
@@ -60,22 +65,29 @@ public class CustomNpmTasks
             archiveType = ".tar.xz";
         }
 
-        Assert.NotNull(os);
-        Assert.NotNull(archiveType);
+        os.NotNull();
+        archiveType.NotNull();
 
-        os = EnvironmentInfo.IsArm64 ? os.Replace("x64", "arm64") : os;
+        os = EnvironmentInfo.IsArm64 ? os!.Replace("x64", "arm64") : os;
 
-        Information($"Fetching node.js ({Version}) for {os}");
-
-        string downloadUrl = $"https://nodejs.org/dist/v{Version}/node-v{Version}-{os}{archiveType}";
-        var archive = TempDir / $"node{archiveType}";
-
-        HttpTasks.HttpDownloadFile(downloadUrl, archive, clientConfigurator: c =>
+        if (!HasCachedNodeModules)
         {
-            c.Timeout = TimeSpan.FromSeconds(50);
+            Information($"Fetching node.js ({Version}) for {os}");
 
-            return c;
-        });
+            string downloadUrl = $"https://nodejs.org/dist/v{Version}/node-v{Version}-{os}{archiveType}";
+            archive = NodeDir / $"node{archiveType}";
+
+            HttpTasks.HttpDownloadFile(downloadUrl, archive, clientConfigurator: c =>
+            {
+                c.Timeout = TimeSpan.FromSeconds(50);
+
+                return c;
+            });
+        }
+        else
+        {
+            Information("Skipping archive download due to cache");
+        }
 
         NodeDirPerOs = NodeDir / $"node-v{Version}-{os}";
         WorkingDirectory = NodeDirPerOs;
@@ -83,29 +95,47 @@ public class CustomNpmTasks
         return archive;
     }
 
-    private static void ExtractNodeArchive(AbsolutePath archive)
+    static void ExtractNodeArchive(AbsolutePath archive)
     {
+        if (HasCachedNodeModules)
+        {
+            Information("Skipping archive extratction due to cache");
+
+            return;
+        }
+
         Information($"Extracting node.js binary archive ({archive}) to {NodeDir}");
 
         if (EnvironmentInfo.IsWin)
         {
             archive.UnZipTo(NodeDir);
-
-            Information("Resolve tool Node...");
-            Node = ToolResolver.GetTool(NodeDirPerOs / "node.exe");
-
-            Information("Resolve tool npm...");
-            Npm = ToolResolver.GetTool(NodeDirPerOs / "npm.cmd");
-
-            NpmEnvironmentVariables = new Dictionary<string, string>()
-            {
-                {"PATH", WorkingDirectory }
-            };
         }
         else if (EnvironmentInfo.IsUnix)
         {
             archive.UnTarGZipTo(NodeDir);
-            WorkingDirectory = WorkingDirectory / "bin";
+        }
+    }
+
+    static void LinkTools()
+    {
+        if (EnvironmentInfo.IsWin)
+        {
+            Information("Resolve tool Node...");
+            Node = ToolResolver.GetTool(NodeDirPerOs / "node.exe");
+            NodeVersion();
+
+            Information("Resolve tool npm...");
+            Npm = ToolResolver.GetTool(NodeDirPerOs / "npm.cmd");
+            NpmVersion();
+
+            NpmEnvironmentVariables = new Dictionary<string, string>()
+            {
+                { "PATH", WorkingDirectory }
+            };
+        }
+        else
+        {
+            WorkingDirectory /= "bin";
 
             var nodeExecutable = WorkingDirectory / "node";
             var npmNodeModules = NodeDirPerOs / "lib" / "node_modules";
@@ -119,15 +149,17 @@ public class CustomNpmTasks
             npmExecutable.SetExecutable();
 
             Information("Linking binaries...");
-            Tool Bash = ToolResolver.GetPathTool("bash");
-            Bash($"-c \"ln -sf {npmExecutable} npm\"", workingDirectory: WorkingDirectory);
-            Bash($"-c \"ln -sf {npmNodeModules} node_modules\"", workingDirectory: WorkingDirectory);
+            Tool ln = ToolResolver.GetPathTool("ln");
+            ln($"-sf {npmExecutable} npm", workingDirectory: WorkingDirectory);
+            ln($"-sf {npmNodeModules} node_modules", workingDirectory: WorkingDirectory);
 
             Information("Resolve tool Node...");
             Node = ToolResolver.GetTool(nodeExecutable);
+            NodeVersion();
 
             Information("Resolve tool npm...");
             Npm = ToolResolver.GetTool(npmSymlink);
+            NpmVersion();
 
             NpmEnvironmentVariables = EnvironmentInfo.Variables
                 .ToDictionary(x => x.Key, x => x.Value)
@@ -135,26 +167,26 @@ public class CustomNpmTasks
         }
     }
 
-    public static void NpmInstall(string workingDirectory = null)
+    public static void NpmInstall(bool silent = false, string workingDirectory = null)
     {
-        Npm("install --silent", workingDirectory);
+        Npm($"install {(silent ? "--silent" : "")}", workingDirectory);
     }
 
-    public static void NpmRun(string args)
+    public static void NpmRun(string args, bool silent = false)
     {
-        Npm($"run {args}".TrimMatchingDoubleQuotes(),
+        Npm($"run {(silent ? "--silent" : "")} {args}".TrimMatchingDoubleQuotes(),
             environmentVariables: NpmEnvironmentVariables,
             logger: (_, msg) => Error(msg));
     }
 
-    public static void NpmVersion()
+    static void NpmVersion()
     {
         Npm("--version",
             workingDirectory: WorkingDirectory,
             environmentVariables: NpmEnvironmentVariables);
     }
 
-    public static void NodeVersion()
+    static void NodeVersion()
     {
         Node("--version",
             workingDirectory: WorkingDirectory,
