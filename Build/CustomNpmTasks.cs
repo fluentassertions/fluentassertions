@@ -99,7 +99,7 @@ public class CustomNpmTasks
     {
         if (HasCachedNodeModules)
         {
-            Information("Skipping archive extratction due to cache");
+            Information("Skipping archive extraction due to cache");
 
             return;
         }
