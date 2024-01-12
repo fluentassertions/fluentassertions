@@ -110,9 +110,13 @@ public class CustomNpmTasks
         {
             archive.UnZipTo(NodeDir);
         }
-        else if (EnvironmentInfo.IsUnix)
+        else if (EnvironmentInfo.IsOsx)
         {
             archive.UnTarGZipTo(NodeDir);
+        }
+        else if (EnvironmentInfo.IsLinux)
+        {
+            archive.UnTarXzTo(NodeDir);
         }
     }
 

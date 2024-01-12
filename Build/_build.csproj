@@ -23,5 +23,6 @@
     <PackageReference Include="LibGit2Sharp" Version="0.29.0" />
     <PackageReference Include="Nuke.Common" Version="7.0.6" />
     <PackageReference Include="Nuke.Components" Version="7.0.6" />
+    <PackageReference Include="SharpCompress" Version="0.35.0" />
   </ItemGroup>
 </Project>
