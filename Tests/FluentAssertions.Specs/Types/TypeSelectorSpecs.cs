@@ -796,9 +796,7 @@ namespace Internal.NotOnlyClasses.Test
 {
     internal class NotOnlyClassesClass;
 
-    internal enum NotOnlyClassesEnumeration
-    {
-    }
+    internal enum NotOnlyClassesEnumeration;
 
     internal interface INotOnlyClassesInterface;
 }
@@ -882,9 +880,7 @@ namespace Internal.ValueTypesAndNotValueTypes.Test
 
     internal record InternalRecordClass;
 
-    internal enum InternalEnumValueType
-    {
-    }
+    internal enum InternalEnumValueType;
 
     internal interface InternalInterfaceNotValueType;
 }
