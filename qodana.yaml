@@ -33,3 +33,9 @@ exclude:
   - name: SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
   - name: UnusedMemberInSuper.Global
   - name: ArrangeAccessorOwnerBody
+  - name: CollectionNeverUpdated.Local
+    paths:
+      - Tests
+  - name: PossibleMultipleEnumeration
+    paths:
+      - Tests
