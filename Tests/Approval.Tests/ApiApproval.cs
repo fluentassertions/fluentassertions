@@ -42,11 +42,7 @@ public class ApiApproval
             var csproj = CombinedPaths("Src", "FluentAssertions", "FluentAssertions.csproj");
             var project = XDocument.Load(csproj);
             var targetFrameworks = project.XPathSelectElement("/Project/PropertyGroup/TargetFrameworks");
-
-            foreach (string targetFramework in targetFrameworks!.Value.Split(';'))
-            {
-                Add(targetFramework);
-            }
+            AddRange(targetFrameworks!.Value.Split(';'));
         }
     }
 
