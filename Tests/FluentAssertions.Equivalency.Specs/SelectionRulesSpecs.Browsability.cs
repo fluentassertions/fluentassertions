@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Sdk;
 
@@ -543,46 +544,60 @@ public partial class SelectionRulesSpecs
 
         private class ClassWithNonBrowsableMembers
         {
+            [UsedImplicitly]
             public int BrowsableField = -1;
 
+            [UsedImplicitly]
             public int BrowsableProperty { get; set; }
 
+            [UsedImplicitly]
             [EditorBrowsable(EditorBrowsableState.Always)]
             public int ExplicitlyBrowsableField = -1;
 
+            [UsedImplicitly]
             [EditorBrowsable(EditorBrowsableState.Always)]
             public int ExplicitlyBrowsableProperty { get; set; }
 
+            [UsedImplicitly]
             [EditorBrowsable(EditorBrowsableState.Advanced)]
             public int AdvancedBrowsableField = -1;
 
+            [UsedImplicitly]
             [EditorBrowsable(EditorBrowsableState.Advanced)]
             public int AdvancedBrowsableProperty { get; set; }
 
+            [UsedImplicitly]
             [EditorBrowsable(EditorBrowsableState.Never)]
             public int NonBrowsableField = -1;
 
+            [UsedImplicitly]
             [EditorBrowsable(EditorBrowsableState.Never)]
             public int NonBrowsableProperty { get; set; }
         }
 
         private class ClassWhereMemberThatCouldBeNonBrowsableIsBrowsable
         {
+            [UsedImplicitly]
             public int BrowsableProperty { get; set; }
 
+            [UsedImplicitly]
             public int FieldThatMightBeNonBrowsable = -1;
 
+            [UsedImplicitly]
             public int PropertyThatMightBeNonBrowsable { get; set; }
         }
 
         private class ClassWhereMemberThatCouldBeNonBrowsableIsNonBrowsable
         {
+            [UsedImplicitly]
             public int BrowsableProperty { get; set; }
 
             [EditorBrowsable(EditorBrowsableState.Never)]
+            [UsedImplicitly]
             public int FieldThatMightBeNonBrowsable = -1;
 
             [EditorBrowsable(EditorBrowsableState.Never)]
+            [UsedImplicitly]
             public int PropertyThatMightBeNonBrowsable { get; set; }
         }
     }

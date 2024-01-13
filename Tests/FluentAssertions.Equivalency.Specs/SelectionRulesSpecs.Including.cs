@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Sdk;
 
@@ -162,6 +163,7 @@ public partial class SelectionRulesSpecs
 
         public class CustomType
         {
+            [UsedImplicitly]
             public string Name { get; set; }
         }
 

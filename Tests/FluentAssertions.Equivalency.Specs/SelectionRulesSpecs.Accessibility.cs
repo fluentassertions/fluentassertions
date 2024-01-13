@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Sdk;
 
@@ -133,10 +134,13 @@ public partial class SelectionRulesSpecs
 
         private class ClassWithInternalProperty
         {
+            [UsedImplicitly]
             public string PublicProperty { get; set; }
 
+            [UsedImplicitly]
             internal string InternalProperty { get; set; }
 
+            [UsedImplicitly]
             protected internal string ProtectedInternalProperty { get; set; }
         }
 
@@ -189,10 +193,13 @@ public partial class SelectionRulesSpecs
 
         private class ClassWithInternalField
         {
+            [UsedImplicitly]
             public string PublicField;
 
+            [UsedImplicitly]
             internal string InternalField;
 
+            [UsedImplicitly]
             protected internal string ProtectedInternalField;
         }
 
@@ -237,8 +244,10 @@ public partial class SelectionRulesSpecs
                 Value = value;
             }
 
+            [UsedImplicitly]
             public string Name { get; }
 
+            [UsedImplicitly]
             private protected int Value { get; }
         }
 
@@ -261,8 +270,10 @@ public partial class SelectionRulesSpecs
                 this.value = value;
             }
 
+            [UsedImplicitly]
             public string Name;
 
+            [UsedImplicitly]
             private protected int value;
         }
     }

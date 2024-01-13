@@ -4,6 +4,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using FluentAssertions.Extensions;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Sdk;
 
@@ -69,6 +70,7 @@ public partial class ObjectAssertionSpecs
 
     public class XmlSerializableClass
     {
+        [UsedImplicitly]
         public string Name { get; set; }
 
         public int Id;
@@ -76,6 +78,7 @@ public partial class ObjectAssertionSpecs
 
     public class XmlSerializableClassNotRestoringAllProperties : IXmlSerializable
     {
+        [UsedImplicitly]
         public string Name { get; set; }
 
         public DateTime BirthDay { get; set; }
@@ -98,6 +101,7 @@ public partial class ObjectAssertionSpecs
 
     internal class NonPublicClass
     {
+        [UsedImplicitly]
         public string Name { get; set; }
     }
 }
