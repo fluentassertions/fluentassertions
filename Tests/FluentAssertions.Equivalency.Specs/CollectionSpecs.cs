@@ -2716,7 +2716,7 @@ public class CollectionSpecs
         var genericCollectionB = new List<ExceptionThrowingClass> { new() };
 
         var expectedTargetSite = typeof(ExceptionThrowingClass)
-            .GetProperty(nameof(ExceptionThrowingClass.ExceptionThrowingProperty)).GetMethod;
+            .GetProperty(nameof(ExceptionThrowingClass.ExceptionThrowingProperty))!.GetMethod;
 
         // Act
         Action act = () => genericCollectionA.Should().BeEquivalentTo(genericCollectionB);
