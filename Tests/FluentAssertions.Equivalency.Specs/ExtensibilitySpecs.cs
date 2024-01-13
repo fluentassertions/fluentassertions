@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Extensions;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Sdk;
 
@@ -1012,6 +1013,7 @@ public class ExtensibilitySpecs
 
     private class ClassWithNullableStructProperty
     {
+        [UsedImplicitly]
         public StructWithProperties? Value { get; set; }
     }
 

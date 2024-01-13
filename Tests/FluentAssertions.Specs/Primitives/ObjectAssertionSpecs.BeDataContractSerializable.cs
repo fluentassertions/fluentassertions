@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using FluentAssertions.Extensions;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Sdk;
 
@@ -103,6 +104,7 @@ public partial class ObjectAssertionSpecs
 
     public class DataContractSerializableClass
     {
+        [UsedImplicitly]
         public string Name { get; set; }
 
         public int Id;

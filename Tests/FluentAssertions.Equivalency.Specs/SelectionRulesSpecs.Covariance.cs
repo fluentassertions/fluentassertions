@@ -1,6 +1,7 @@
 ﻿#if NET5_0_OR_GREATER
 
 using System;
+using JetBrains.Annotations;
 using Xunit;
 
 namespace FluentAssertions.Equivalency.Specs;
@@ -70,11 +71,13 @@ public partial class SelectionRulesSpecs
 
         private class BaseWithProperty
         {
+            [UsedImplicitly]
             public string BaseProperty { get; set; }
         }
 
         private class DerivedWithProperty : BaseWithProperty
         {
+            [UsedImplicitly]
             public string DerivedProperty { get; set; }
         }
 
@@ -87,6 +90,7 @@ public partial class SelectionRulesSpecs
         {
             public override DerivedWithProperty Property { get; }
 
+            [UsedImplicitly]
             public string OtherProp { get; set; }
 
             public DerivedWithCovariantOverride(DerivedWithProperty prop)

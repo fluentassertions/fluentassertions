@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Xunit;
 
 namespace FluentAssertions.Equivalency.Specs;
@@ -143,26 +144,31 @@ public partial class SelectionRulesSpecs
 
         private class BaseWithProperty
         {
+            [UsedImplicitly]
             public object Property { get; set; }
         }
 
         private class SubclassAHidingProperty<T> : BaseWithProperty
         {
+            [UsedImplicitly]
             public new T Property { get; set; }
         }
 
         private class BaseWithStringProperty
         {
+            [UsedImplicitly]
             public string Property { get; set; }
         }
 
         private class SubclassHidingStringProperty : BaseWithStringProperty
         {
+            [UsedImplicitly]
             public new string Property { get; set; }
         }
 
         private class AnotherBaseWithProperty
         {
+            [UsedImplicitly]
             public object Property { get; set; }
         }
 
@@ -291,21 +297,25 @@ public partial class SelectionRulesSpecs
 
         private class BaseWithField
         {
+            [UsedImplicitly]
             public string Field;
         }
 
         private class SubclassAHidingField : BaseWithField
         {
+            [UsedImplicitly]
             public new string Field;
         }
 
         private class AnotherBaseWithField
         {
+            [UsedImplicitly]
             public string Field;
         }
 
         private class SubclassBHidingField : AnotherBaseWithField
         {
+            [UsedImplicitly]
             public new string Field;
         }
     }

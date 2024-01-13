@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Sdk;
 
@@ -57,7 +58,7 @@ public partial class SelectionRulesSpecs
 
         private class ClassWithFieldInLowerCase
         {
-            [JetBrains.Annotations.UsedImplicitly]
+            [UsedImplicitly]
 #pragma warning disable SA1307
             public string name;
 #pragma warning restore SA1307
@@ -65,7 +66,7 @@ public partial class SelectionRulesSpecs
 
         private class ClassWithFieldInUpperCase
         {
-            [JetBrains.Annotations.UsedImplicitly]
+            [UsedImplicitly]
             public string Name;
         }
 
@@ -92,6 +93,7 @@ public partial class SelectionRulesSpecs
 
         public class ClassWithIndexer
         {
+            [UsedImplicitly]
             public object Foo { get; set; }
 
             public string this[int n] =>
@@ -287,8 +289,10 @@ public partial class SelectionRulesSpecs
 
         internal class BaseClassPointingToClassWithoutProperties
         {
+            [UsedImplicitly]
             public string Name { get; set; }
 
+            [UsedImplicitly]
             public ClassWithoutProperty ClassWithoutProperty { get; } = new();
         }
 
