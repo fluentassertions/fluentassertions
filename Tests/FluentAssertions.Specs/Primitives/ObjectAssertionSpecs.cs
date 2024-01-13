@@ -39,7 +39,11 @@ public partial class ObjectAssertionSpecs
 
     internal class DumbObjectEqualityComparer : IEqualityComparer<object>
     {
-        public new bool Equals(object x, object y) => x.Equals(y);
+        // ReSharper disable once MemberHidesStaticFromOuterClass
+        public new bool Equals(object x, object y)
+        {
+            return (x == y) || (x is not null && y is not null && x.Equals(y));
+        }
 
         public int GetHashCode(object obj) => obj.GetHashCode();
     }
@@ -69,7 +73,10 @@ internal class SomeClass
 
 internal class SomeClassEqualityComparer : IEqualityComparer<SomeClass>
 {
-    public bool Equals(SomeClass x, SomeClass y) => x.Key == y.Key;
+    public bool Equals(SomeClass x, SomeClass y)
+    {
+        return (x == y) || (x is not null && y is not null && x.Key.Equals(y.Key));
+    }
 
     public int GetHashCode(SomeClass obj) => obj.Key;
 }
