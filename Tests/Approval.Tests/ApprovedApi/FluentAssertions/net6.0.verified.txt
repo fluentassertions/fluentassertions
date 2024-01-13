@@ -75,6 +75,9 @@ namespace FluentAssertions
         public static FluentAssertions.Types.ConstructorInfoAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.ConstructorInfo constructorInfo) { }
         public static FluentAssertions.Types.MethodInfoAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.MethodInfo methodInfo) { }
         public static FluentAssertions.Types.PropertyInfoAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.PropertyInfo propertyInfo) { }
+        public static FluentAssertions.Json.JsonElementAssertions Should(this System.Text.Json.JsonDocument actualValue) { }
+        public static FluentAssertions.Json.JsonElementAssertions Should(this System.Text.Json.JsonElement actualValue) { }
+        public static FluentAssertions.Json.JsonElementAssertions Should(this System.Text.Json.JsonElement? actualValue) { }
         public static FluentAssertions.Specialized.TaskCompletionSourceAssertions Should(this System.Threading.Tasks.TaskCompletionSource tcs) { }
         public static FluentAssertions.Primitives.TimeOnlyAssertions Should(this System.TimeOnly actualValue) { }
         public static FluentAssertions.Primitives.NullableTimeOnlyAssertions Should(this System.TimeOnly? actualValue) { }
@@ -1612,6 +1615,22 @@ namespace FluentAssertions.Formatting
         public XmlReaderValueFormatter() { }
         public bool CanHandle(object value) { }
         public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+    }
+}
+namespace FluentAssertions.Json
+{
+    public class JsonElementAssertions : FluentAssertions.Json.JsonElementAssertions<FluentAssertions.Json.JsonElementAssertions>
+    {
+        public JsonElementAssertions(System.Text.Json.JsonElement? value) { }
+    }
+    public class JsonElementAssertions<TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Text.Json.JsonElement?, TAssertions>
+        where TAssertions : FluentAssertions.Json.JsonElementAssertions<TAssertions>
+    {
+        public JsonElementAssertions(System.Text.Json.JsonElement? value) { }
+        protected override string Identifier { get; }
+        public FluentAssertions.AndConstraint<TAssertions> HaveCount(int expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, System.Text.Json.JsonElement> HaveElement(string expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveElement(string expected, string because = "", params object[] becauseArgs) { }
     }
 }
 namespace FluentAssertions.Numeric
