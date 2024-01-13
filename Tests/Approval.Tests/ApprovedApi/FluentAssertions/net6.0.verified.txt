@@ -2054,6 +2054,11 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> Be(TSubject expected, System.Collections.Generic.IEqualityComparer<TSubject> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeJsonSerializable(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeJsonSerializable<T>(string because = "", params object[] becauseArgs)
+            where T :  class { }
+        public FluentAssertions.AndConstraint<TAssertions> BeJsonSerializable<T>(System.Func<FluentAssertions.Equivalency.EquivalencyOptions<T>, FluentAssertions.Equivalency.EquivalencyOptions<T>> options, string because = "", params object[] becauseArgs)
+            where T :  class { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params TSubject[] validValues) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<TSubject> validValues, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<TSubject> validValues, System.Collections.Generic.IEqualityComparer<TSubject> comparer, string because = "", params object[] becauseArgs) { }

@@ -443,6 +443,91 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
+#if NET6_0_OR_GREATER
+    /// <summary>
+    /// Asserts that an object can be serialized to and deserialized from JSON and retains the values of all members.
+    /// </summary>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> BeJsonSerializable(string because = "", params object[] becauseArgs)
+    {
+        return BeJsonSerializable<object>(options => options, because, becauseArgs);
+    }
+
+    /// <summary>
+    /// Asserts that an object can be serialized to and deserialized from JSON and retains the values of all members.
+    /// </summary>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> BeJsonSerializable<T>(string because = "", params object[] becauseArgs)
+        where T : class
+    {
+        return BeJsonSerializable<T>(options => options, because, becauseArgs);
+    }
+
+    /// <summary>
+    /// Asserts that an object can be serialized to and deserialized from JSON and retains the values of all members.
+    /// </summary>
+    /// <param name="options">
+    /// The equivalency options.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> BeJsonSerializable<T>(Func<EquivalencyOptions<T>, EquivalencyOptions<T>> options,
+        string because = "", params object[] becauseArgs)
+        where T : class
+    {
+        static object CreateCloneUsingJsonSerializer(object subject)
+        {
+            var serializedObject = System.Text.Json.JsonSerializer.Serialize(subject);
+            return System.Text.Json.JsonSerializer.Deserialize(serializedObject, subject.GetType());
+        }
+
+        Execute.Assertion.ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:object} to be JSON serializable{reason}, but found is null.");
+
+        if (Subject is not T typedSubject)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:object} to be JSON serializable{reason}, but {context:object} is not assignable to {0}", typeof(T));
+            typedSubject = default;
+        }
+
+        try
+        {
+            var deserializedObject = CreateCloneUsingJsonSerializer(Subject);
+            ((T)deserializedObject).Should().BeEquivalentTo(typedSubject, options);
+        }
+#pragma warning disable CA1031 // Ignore catching general exception
+        catch (Exception exc)
+#pragma warning restore CA1031 // Ignore catching general exception
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:object} to be JSON serializable{reason}, but serializing {0} failed with {1}", Subject, exc);
+        }
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+#endif
+
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
         throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() or BeSameAs() instead?");
