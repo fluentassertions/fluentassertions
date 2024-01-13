@@ -130,7 +130,7 @@ namespace FluentAssertions.Specs.Types
     {
         private class PrivateClass;
 
-        protected enum ProtectedEnum { }
+        protected enum ProtectedEnum;
 
         public interface IPublicInterface;
 

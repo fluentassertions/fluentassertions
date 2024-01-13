@@ -162,6 +162,10 @@ resharper_keep_user_linebreaks = true
 # Make class static
 dotnet_diagnostic.RCS1102.severity = none
 
+# Unnecessary semicolon at the end of declaration
+# see https://github.com/dotnet/roslynator/issues/1359
+dotnet_diagnostic.RCS1055.severity = none
+
 # Mark local variable as const.
 dotnet_diagnostic.RCS1118.severity = none
 
