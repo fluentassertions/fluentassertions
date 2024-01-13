@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+#if NET6_0_OR_GREATER
+using System.Text.Json;
+#endif
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
@@ -1972,6 +1975,62 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         expectation.Validate(subject, expected);
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
+
+#if NET6_0_OR_GREATER
+    /// <summary>
+    /// Asserts that the string is a valid JSON document.
+    /// </summary>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndWhichConstraint<TAssertions, JsonDocument> BeValidJson(
+        string because = "", params object[] becauseArgs)
+    {
+        return BeValidJson(default, because, becauseArgs);
+    }
+
+    /// <summary>
+    /// Asserts that the string is a valid JSON document.
+    /// </summary>
+    /// <param name="options">
+    /// Options to control the reader behavior during parsing.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndWhichConstraint<TAssertions, JsonDocument> BeValidJson(
+        JsonDocumentOptions options,
+        string because = "", params object[] becauseArgs)
+    {
+        JsonDocument json = null;
+
+        Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:string} to be valid JSON{reason}, but found null.");
+
+        try
+        {
+            json = JsonDocument.Parse(Subject, options);
+        }
+        catch (JsonException jsonException)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} to be valid JSON{reason}, but parsing failed with {0}.", jsonException.Message);
+        }
+
+        return new AndWhichConstraint<TAssertions, JsonDocument>((TAssertions)this, json);
+    }
+#endif
 
     private static bool Contains(string actual, string expected, StringComparison comparison)
     {

@@ -2126,6 +2126,8 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params string[] validValues) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<string> validValues, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeUpperCased(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, System.Text.Json.JsonDocument> BeValidJson(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, System.Text.Json.JsonDocument> BeValidJson(System.Text.Json.JsonDocumentOptions options, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Contain(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Contain(string expected, FluentAssertions.OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainAll(params string[] values) { }
