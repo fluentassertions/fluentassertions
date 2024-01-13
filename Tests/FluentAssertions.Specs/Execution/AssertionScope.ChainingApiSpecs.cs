@@ -186,7 +186,7 @@ public partial class AssertionScopeSpecs
     public void When_the_previous_assertion_failed_it_should_not_execute_the_succeeding_failure()
     {
         // Arrange
-        using var scope = new AssertionScope();
+        var scope = new AssertionScope();
 
         // Act
         Execute.Assertion
@@ -532,7 +532,7 @@ public partial class AssertionScopeSpecs
     public void Does_not_continue_a_chained_assertion_after_the_first_one_failed_the_occurrence_check()
     {
         // Arrange
-        using var scope = new AssertionScope();
+        var scope = new AssertionScope();
 
         // Act
         Execute.Assertion
