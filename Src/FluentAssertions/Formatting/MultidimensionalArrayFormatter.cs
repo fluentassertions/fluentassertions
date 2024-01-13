@@ -33,6 +33,9 @@ public class MultidimensionalArrayFormatter : IValueFormatter
         int[] dimensionIndices = Enumerable.Range(0, arr.Rank).Select(dimension => arr.GetLowerBound(dimension)).ToArray();
 
         int currentLoopIndex = 0;
+
+        // ReSharper disable once NotDisposedResource (false positive)
+        // See https://youtrack.jetbrains.com/issue/QD-8114/It-is-not-a-problem-Local-variable-enumerator-is-never-disposed
         IEnumerator enumerator = arr.GetEnumerator();
 
         // Emulate n-ary loop
