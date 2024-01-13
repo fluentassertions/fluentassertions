@@ -16,7 +16,7 @@ public class CustomNpmTasks
     static AbsolutePath NodeDirPerOs;
     static AbsolutePath WorkingDirectory;
 
-    static IReadOnlyDictionary<string, string> NpmEnvironmentVariables = new Dictionary<string, string>();
+    static IReadOnlyDictionary<string, string> NpmEnvironmentVariables = null;
 
     static Tool Node;
     static Tool Npm;
@@ -131,11 +131,6 @@ public class CustomNpmTasks
             Information("Resolve tool npm...");
             Npm = ToolResolver.GetTool(NodeDirPerOs / "npm.cmd");
             NpmVersion();
-
-            NpmEnvironmentVariables = new Dictionary<string, string>()
-            {
-                { "PATH", WorkingDirectory }
-            };
         }
         else
         {
@@ -164,11 +159,16 @@ public class CustomNpmTasks
             Information("Resolve tool npm...");
             Npm = ToolResolver.GetTool(npmSymlink);
             NpmVersion();
+        }
 
-            NpmEnvironmentVariables = EnvironmentInfo.Variables
+        SetEnvVars();
+    }
+
+    static void SetEnvVars()
+    {
+        NpmEnvironmentVariables = EnvironmentInfo.Variables
                 .ToDictionary(x => x.Key, x => x.Value)
                 .SetKeyValue("path", NodeDirPerOs).AsReadOnly();
-        }
     }
 
     public static void NpmInstall(bool silent = false, string workingDirectory = null)
