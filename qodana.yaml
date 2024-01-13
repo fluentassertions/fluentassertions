@@ -1,7 +1,7 @@
 version: "1.0"
 
 ide: QDNET
-failThreshold: 20
+failThreshold: 0
 
 profile:
   path: profile.yaml
