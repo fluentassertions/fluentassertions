@@ -8,7 +8,7 @@ using Nuke.Common.Utilities;
 using Nuke.Common.Utilities.Collections;
 using static Serilog.Log;
 
-public class CustomNpmTasks
+public static class CustomNpmTasks
 {
     static AbsolutePath RootDirectory;
     static AbsolutePath TempDir;
@@ -18,7 +18,6 @@ public class CustomNpmTasks
 
     static IReadOnlyDictionary<string, string> NpmEnvironmentVariables = null;
 
-    static Tool Node;
     static Tool Npm;
 
     static string Version;
@@ -36,14 +35,12 @@ public class CustomNpmTasks
 
     public static void NpmFetchRuntime()
     {
-        var archive = DownloadingNodeArchives();
-
-        ExtractNodeArchive(archive);
+        DownloadNodeArchive().ExtractNodeArchive();
 
         LinkTools();
     }
 
-    static AbsolutePath DownloadingNodeArchives()
+    static AbsolutePath DownloadNodeArchive()
     {
         AbsolutePath archive = NodeDir;
         string os = null;
@@ -95,7 +92,7 @@ public class CustomNpmTasks
         return archive;
     }
 
-    static void ExtractNodeArchive(AbsolutePath archive)
+    static void ExtractNodeArchive(this AbsolutePath archive)
     {
         if (HasCachedNodeModules)
         {
@@ -124,10 +121,6 @@ public class CustomNpmTasks
     {
         if (EnvironmentInfo.IsWin)
         {
-            Information("Resolve tool Node...");
-            Node = ToolResolver.GetTool(NodeDirPerOs / "node.exe");
-            NodeVersion();
-
             Information("Resolve tool npm...");
             Npm = ToolResolver.GetTool(NodeDirPerOs / "npm.cmd");
             NpmVersion();
@@ -152,10 +145,6 @@ public class CustomNpmTasks
             ln($"-sf {npmExecutable} npm", workingDirectory: WorkingDirectory);
             ln($"-sf {npmNodeModules} node_modules", workingDirectory: WorkingDirectory);
 
-            Information("Resolve tool Node...");
-            Node = ToolResolver.GetTool(nodeExecutable);
-            NodeVersion();
-
             Information("Resolve tool npm...");
             Npm = ToolResolver.GetTool(npmSymlink);
             NpmVersion();
@@ -173,7 +162,9 @@ public class CustomNpmTasks
 
     public static void NpmInstall(bool silent = false, string workingDirectory = null)
     {
-        Npm($"install {(silent ? "--silent" : "")}", workingDirectory);
+        Npm($"install {(silent ? "--silent" : "")}",
+            workingDirectory,
+            logger: (_, msg) => Error(msg));
     }
 
     public static void NpmRun(string args, bool silent = false)
@@ -187,13 +178,7 @@ public class CustomNpmTasks
     {
         Npm("--version",
             workingDirectory: WorkingDirectory,
-            environmentVariables: NpmEnvironmentVariables);
-    }
-
-    static void NodeVersion()
-    {
-        Node("--version",
-            workingDirectory: WorkingDirectory,
+            logInvocation: false,
             environmentVariables: NpmEnvironmentVariables);
     }
 }
