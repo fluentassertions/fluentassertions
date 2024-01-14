@@ -20,6 +20,7 @@ sidebar:
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
 * You can mark all assertions in an assembly as custom assertions using the `[CustomAssertionsAssembly]` attribute - [#2389](https://github.com/fluentassertions/fluentassertions/pull/2389)
 * Improve `BeEmpty()` and `BeNullOrEmpty()` performance for `IEnumerable<T>`, by materializing only the first item - [#2530](https://github.com/fluentassertions/fluentassertions/pull/2530)
+* All `Should()` methods on reference types are now annotated with the `[NotNull]` attribute for a better Fluent Assertions experience when nullable reference types are enabled - [#2380](https://github.com/fluentassertions/fluentassertions/pull/2380)
 
 ### Fixes
 * Fixed formatting error when checking nullable `DateTimeOffset` with
