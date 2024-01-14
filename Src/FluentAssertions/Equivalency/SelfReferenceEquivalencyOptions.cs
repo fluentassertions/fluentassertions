@@ -56,6 +56,8 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     private bool ignoreNonBrowsableOnSubject;
     private bool excludeNonBrowsableOnExpectation;
 
+    private IEqualityComparer<string> stringComparer;
+
     #endregion
 
     private protected SelfReferenceEquivalencyOptions()
@@ -86,6 +88,9 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         includedFields = defaults.IncludedFields;
         ignoreNonBrowsableOnSubject = defaults.IgnoreNonBrowsableOnSubject;
         excludeNonBrowsableOnExpectation = defaults.ExcludeNonBrowsableOnExpectation;
+        IgnoreLeadingWhitespace = defaults.IgnoreLeadingWhitespace;
+        IgnoreTrailingWhitespace = defaults.IgnoreTrailingWhitespace;
+        IgnoreCase = defaults.IgnoreCase;
 
         ConversionSelector = defaults.ConversionSelector.Clone();
 
@@ -179,6 +184,12 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
 
     EqualityStrategy IEquivalencyOptions.GetEqualityStrategy(Type type)
         => equalityStrategyProvider.GetEqualityStrategy(type);
+
+    public bool IgnoreLeadingWhitespace { get; private set; }
+
+    public bool IgnoreTrailingWhitespace { get; private set; }
+
+    public bool IgnoreCase { get; private set; }
 
     public ITraceWriter TraceWriter { get; private set; }
 
@@ -498,6 +509,18 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     }
 
     /// <summary>
+    /// Ensures the equivalency comparison will use the specified implementation of <see cref="IEqualityComparer{String}"/>
+    /// any time when a property is a <see langword="string" />.
+    /// </summary>
+    public TSelf Using(IEqualityComparer<string> comparer)
+    {
+        userEquivalencySteps.Insert(0, new EqualityComparerEquivalencyStep<string>(comparer));
+        stringComparer = comparer;
+
+        return (TSelf)this;
+    }
+
+    /// <summary>
     /// Causes all collections to be compared in the order in which the items appear in the expectation.
     /// </summary>
     public TSelf WithStrictOrdering()
@@ -677,6 +700,44 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     {
         ConversionSelector.Exclude(predicate);
         return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Instructs the comparison to ignore leading whitespace when comparing <see langword="string" />s.
+    /// </summary>
+    /// <remarks>
+    /// Note: This affects the index of first mismatch, as the removed whitespace is also ignored for the index calculation!
+    /// </remarks>
+    public TSelf IgnoringLeadingWhitespace()
+    {
+        IgnoreLeadingWhitespace = true;
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Instructs the comparison to ignore trailing whitespace when comparing <see langword="string" />s.
+    /// </summary>
+    public TSelf IgnoringTrailingWhitespace()
+    {
+        IgnoreTrailingWhitespace = true;
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Instructs the comparison to compare <see langword="string" />s case-insensitive.
+    /// </summary>
+    public TSelf IgnoringCase()
+    {
+        IgnoreCase = true;
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Returns the comparer for strings, which is either an explicitly specified comparer via <see cref="Using{T}(System.Collections.Generic.IEqualityComparer{T})"/> or an ordinal comparer depending on <see cref="IgnoringCase()" />.
+    /// </summary>
+    internal IEqualityComparer<string> GetStringComparerOrDefault()
+    {
+        return stringComparer ?? (IgnoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal);
     }
 
     /// <summary>

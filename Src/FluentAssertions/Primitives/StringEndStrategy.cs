@@ -4,12 +4,12 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
-internal class StringStartStrategy : IStringComparisonStrategy
+internal class StringEndStrategy : IStringComparisonStrategy
 {
     private readonly IEqualityComparer<string> comparer;
     private readonly string predicateDescription;
 
-    public StringStartStrategy(IEqualityComparer<string> comparer, string predicateDescription)
+    public StringEndStrategy(IEqualityComparer<string> comparer, string predicateDescription)
     {
         this.comparer = comparer;
         this.predicateDescription = predicateDescription;
@@ -20,15 +20,15 @@ internal class StringStartStrategy : IStringComparisonStrategy
     public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {
         if (!assertion
-                .ForCondition(subject.Length >= expected.Length)
+                .ForCondition(subject!.Length >= expected.Length)
                 .FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", expected, subject))
         {
             return;
         }
 
-        int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparer);
+        int indexOfMismatch = subject.Substring(subject.Length - expected.Length).IndexOfFirstMismatch(expected, comparer);
 
-        if (indexOfMismatch < 0 || indexOfMismatch >= expected.Length)
+        if (indexOfMismatch < 0)
         {
             return;
         }

@@ -18,12 +18,18 @@ public partial class StringAssertionSpecs
             // Arrange
             string value = "ABC";
 
-            // Act
-            Action action = () =>
-                value.Should().StartWith("AB");
+            // Act / Assert
+            value.Should().StartWith("AB");
+        }
 
-            // Assert
-            action.Should().NotThrow();
+        [Fact]
+        public void When_expected_string_is_the_same_value_it_should_not_throw()
+        {
+            // Arrange
+            string value = "ABC";
+
+            // Act / Assert
+            value.Should().StartWith(value);
         }
 
         [Fact]
@@ -67,11 +73,8 @@ public partial class StringAssertionSpecs
         [Fact]
         public void When_string_start_is_compared_with_empty_string_it_should_not_throw()
         {
-            // Act
-            Action act = () => "ABC".Should().StartWith("");
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            "ABC".Should().StartWith("");
         }
 
         [Fact]
@@ -107,12 +110,8 @@ public partial class StringAssertionSpecs
             // Arrange
             string value = "ABC";
 
-            // Act
-            Action action = () =>
-                value.Should().NotStartWith("DE");
-
-            // Assert
-            action.Should().NotThrow();
+            // Act / Assert
+            value.Should().NotStartWith("DE");
         }
 
         [Fact]
@@ -127,7 +126,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected value that does not start with \"AB\" because of some reason, but found \"ABC\".");
+                "Expected value not to start with \"AB\" because of some reason, but found \"ABC\".");
         }
 
         [Fact]
@@ -157,7 +156,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected value that does not start with \"\", but found \"ABC\".");
+                "Expected value not to start with \"\", but found \"ABC\".");
         }
 
         [Fact]
@@ -169,7 +168,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected someString that does not start with \"ABC\", but found <null>.");
+                "Expected someString not to start with \"ABC\", but found <null>.");
         }
     }
 }

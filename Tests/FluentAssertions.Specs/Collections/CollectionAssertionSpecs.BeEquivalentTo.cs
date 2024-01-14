@@ -158,6 +158,39 @@ public partial class CollectionAssertionSpecs
             // Act / Assert
             collection.Should().BeEquivalentTo(collection1);
         }
+
+        [Fact]
+        public void Can_ignore_casing_while_comparing_collections_of_strings()
+        {
+            // Arrange
+            var actual = new[] { "first", "test", "last" };
+            var expectation = new[] { "first", "TEST", "last" };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expectation, o => o.IgnoringCase());
+        }
+
+        [Fact]
+        public void Can_ignore_leading_whitespace_while_comparing_collections_of_strings()
+        {
+            // Arrange
+            var actual = new[] { "first", "  test", "last" };
+            var expectation = new[] { "first", "test", "last" };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expectation, o => o.IgnoringLeadingWhitespace());
+        }
+
+        [Fact]
+        public void Can_ignore_trailing_whitespace_while_comparing_collections_of_strings()
+        {
+            // Arrange
+            var actual = new[] { "first", "test  ", "last" };
+            var expectation = new[] { "first", "test", "last" };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expectation, o => o.IgnoringTrailingWhitespace());
+        }
     }
 
     public class NotBeEquivalentTo

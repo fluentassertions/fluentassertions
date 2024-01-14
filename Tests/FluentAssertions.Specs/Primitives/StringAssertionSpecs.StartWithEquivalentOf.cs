@@ -10,8 +10,68 @@ namespace FluentAssertions.Specs.Primitives;
 /// </content>
 public partial class StringAssertionSpecs
 {
-    public class StartWithEquivalent
+    public class StartWithEquivalentOf
     {
+        [Fact]
+        public void Succeed_for_different_strings_using_custom_matching_comparer()
+        {
+            // Arrange
+            var comparer = new AlwaysMatchingEqualityComparer();
+            string actual = "ABC";
+            string expect = "XYZ";
+
+            // Act / Assert
+            actual.Should().StartWithEquivalentOf(expect, o => o.Using(comparer));
+        }
+
+        [Fact]
+        public void Fail_for_same_strings_using_custom_not_matching_comparer()
+        {
+            // Arrange
+            var comparer = new NeverMatchingEqualityComparer();
+            string actual = "ABC";
+            string expect = "ABC";
+
+            // Act
+            Action act = () => actual.Should().StartWithEquivalentOf(expect, o => o.Using(comparer));
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_casing_while_checking_a_string_to_start_with_another()
+        {
+            // Arrange
+            string actual = "test with suffix";
+            string expect = "TEST";
+
+            // Act / Assert
+            actual.Should().StartWithEquivalentOf(expect, o => o.IgnoringCase());
+        }
+
+        [Fact]
+        public void Can_ignore_leading_whitespace_while_checking_a_string_to_start_with_another()
+        {
+            // Arrange
+            string actual = "  test with suffix";
+            string expect = "test";
+
+            // Act / Assert
+            actual.Should().StartWithEquivalentOf(expect, o => o.IgnoringLeadingWhitespace());
+        }
+
+        [Fact]
+        public void Can_ignore_trailing_whitespace_while_checking_a_string_to_start_with_another()
+        {
+            // Arrange
+            string actual = "test with suffix  ";
+            string expect = "test";
+
+            // Act / Assert
+            actual.Should().StartWithEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
+        }
+
         [Fact]
         public void When_start_of_string_differs_by_case_only_it_should_not_throw()
         {
@@ -97,8 +157,77 @@ public partial class StringAssertionSpecs
         }
     }
 
-    public class NotStartWithEquivalent
+    public class NotStartWithEquivalentOf
     {
+        [Fact]
+        public void Succeed_for_same_strings_using_custom_not_matching_comparer()
+        {
+            // Arrange
+            var comparer = new NeverMatchingEqualityComparer();
+            string actual = "ABC";
+            string expect = "ABC";
+
+            // Act / Assert
+            actual.Should().NotStartWithEquivalentOf(expect, o => o.Using(comparer));
+        }
+
+        [Fact]
+        public void Fail_for_different_strings_using_custom_matching_comparer()
+        {
+            // Arrange
+            var comparer = new AlwaysMatchingEqualityComparer();
+            string actual = "ABC";
+            string expect = "XYZ";
+
+            // Act
+            Action act = () => actual.Should().NotStartWithEquivalentOf(expect, o => o.Using(comparer));
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_casing_while_checking_a_string_to_not_start_with_another()
+        {
+            // Arrange
+            string actual = "test with suffix";
+            string expect = "TEST";
+
+            // Act
+            Action act = () => actual.Should().NotStartWithEquivalentOf(expect, o => o.IgnoringCase());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_leading_whitespace_while_checking_a_string_to_not_start_with_another()
+        {
+            // Arrange
+            string actual = "  test with suffix";
+            string expect = "test";
+
+            // Act
+            Action act = () => actual.Should().NotStartWithEquivalentOf(expect, o => o.IgnoringLeadingWhitespace());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_trailing_whitespace_while_checking_a_string_to_not_start_with_another()
+        {
+            // Arrange
+            string actual = "test with suffix  ";
+            string expect = "test";
+
+            // Act
+            Action act = () => actual.Should().NotStartWithEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
         [Fact]
         public void When_asserting_string_does_not_start_with_equivalent_of_a_value_and_it_does_not_it_should_succeed()
         {
@@ -126,7 +255,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected value that does not start with equivalent of \"aB\" because of some reason, but found \"ABC\".");
+                "Expected value not to start with equivalent of \"aB\" because of some reason, but found \"ABC\".");
         }
 
         [Fact]
@@ -156,7 +285,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected value that does not start with equivalent of \"\", but found \"ABC\".");
+                "Expected value not to start with equivalent of \"\", but found \"ABC\".");
         }
 
         [Fact]
@@ -170,7 +299,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected someString that does not start with equivalent of \"ABC\", but found <null>.");
+                "Expected someString not to start with equivalent of \"ABC\", but found <null>.");
         }
     }
 }

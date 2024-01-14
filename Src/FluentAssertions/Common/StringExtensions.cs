@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Formatting;
@@ -9,15 +10,13 @@ internal static class StringExtensions
 {
     /// <summary>
     /// Finds the first index at which the <paramref name="value"/> does not match the <paramref name="expected"/>
-    /// string anymore, accounting for the specified <paramref name="stringComparison"/>.
+    /// string anymore, accounting for the specified <paramref name="comparer"/>.
     /// </summary>
-    public static int IndexOfFirstMismatch(this string value, string expected, StringComparison stringComparison)
+    public static int IndexOfFirstMismatch(this string value, string expected, IEqualityComparer<string> comparer)
     {
-        Func<char, char, bool> comparer = GetCharComparer(stringComparison);
-
         for (int index = 0; index < value.Length; index++)
         {
-            if (index >= expected.Length || !comparer(value[index], expected[index]))
+            if (index >= expected.Length || !comparer.Equals(value[index..(index + 1)], expected[index..(index + 1)]))
             {
                 return index;
             }
@@ -25,11 +24,6 @@ internal static class StringExtensions
 
         return -1;
     }
-
-    private static Func<char, char, bool> GetCharComparer(StringComparison stringComparison) =>
-        stringComparison == StringComparison.Ordinal
-            ? (x, y) => x == y
-            : (x, y) => char.ToUpperInvariant(x) == char.ToUpperInvariant(y);
 
     /// <summary>
     /// Gets the quoted three characters at the specified index of a string, including the index itself.
@@ -129,23 +123,21 @@ internal static class StringExtensions
     }
 
     /// <summary>
-    /// Counts the number of times a substring appears within a string by using the specified <see cref="StringComparison"/>.
+    /// Counts the number of times the <paramref name="substring"/> appears within a string by using the specified <paramref name="comparer"/>.
     /// </summary>
-    /// <param name="str">The string to search in.</param>
-    /// <param name="substring">The substring to search for.</param>
-    /// <param name="comparisonType">The <see cref="StringComparison"/> option to use for comparison.</param>
-    public static int CountSubstring(this string str, string substring, StringComparison comparisonType)
+    public static int CountSubstring(this string str, string substring, IEqualityComparer<string> comparer)
     {
         string actual = str ?? string.Empty;
         string search = substring ?? string.Empty;
 
         int count = 0;
-        int index = 0;
-
-        while ((index = actual.IndexOf(search, index, comparisonType)) >= 0)
+        int maxIndex = actual.Length - search.Length;
+        for (int index = 0; index <= maxIndex; index++)
         {
-            index += search.Length;
-            count++;
+            if (comparer.Equals(actual[index..(index + search.Length)], search))
+            {
+                count++;
+            }
         }
 
         return count;

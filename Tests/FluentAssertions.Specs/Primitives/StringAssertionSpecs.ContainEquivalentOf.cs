@@ -11,6 +11,66 @@ public partial class StringAssertionSpecs
 {
     public class ContainEquivalentOf
     {
+        [Fact]
+        public void Succeed_for_different_strings_using_custom_matching_comparer()
+        {
+            // Arrange
+            var comparer = new AlwaysMatchingEqualityComparer();
+            string actual = "ABC";
+            string expect = "XYZ";
+
+            // Act / Assert
+            actual.Should().ContainEquivalentOf(expect, o => o.Using(comparer));
+        }
+
+        [Fact]
+        public void Fail_for_same_strings_using_custom_not_matching_comparer()
+        {
+            // Arrange
+            var comparer = new NeverMatchingEqualityComparer();
+            string actual = "ABC";
+            string expect = "ABC";
+
+            // Act
+            Action act = () => actual.Should().ContainEquivalentOf(expect, o => o.Using(comparer));
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_casing_while_checking_a_string_to_contain_another()
+        {
+            // Arrange
+            string actual = "this is a string containing test.";
+            string expect = "TEST";
+
+            // Act / Assert
+            actual.Should().ContainEquivalentOf(expect, o => o.IgnoringCase());
+        }
+
+        [Fact]
+        public void Can_ignore_leading_whitespace_while_checking_a_string_to_contain_another()
+        {
+            // Arrange
+            string actual = "  this is a string containing test.";
+            string expect = "test";
+
+            // Act / Assert
+            actual.Should().ContainEquivalentOf(expect, o => o.IgnoringLeadingWhitespace());
+        }
+
+        [Fact]
+        public void Can_ignore_trailing_whitespace_while_checking_a_string_to_contain_another()
+        {
+            // Arrange
+            string actual = "this is a string containing test.  ";
+            string expect = "test";
+
+            // Act / Assert
+            actual.Should().ContainEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
+        }
+
         [InlineData("aa", "A")]
         [InlineData("aCCa", "acca")]
         [Theory]
@@ -29,7 +89,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected string \"a\" to contain the equivalent of \"aa\".");
+                .WithMessage("Expected string \"a\" to contain the equivalent of \"aa\" at least 1 time, but found it 0 times.");
         }
 
         [Fact]
@@ -91,7 +151,7 @@ public partial class StringAssertionSpecs
                 // Assert
                 act.Should().Throw<XunitException>()
                     .WithMessage(
-                        "Expected * <null> to contain equivalent of \"XyZ\" exactly 1 time because that is required, but found it 0 times.");
+                        "Expected * <null> to contain the equivalent of \"XyZ\" exactly 1 time because that is required, but found it 0 times.");
             }
 
             [Fact]
@@ -123,7 +183,7 @@ public partial class StringAssertionSpecs
                 // Assert
                 act.Should().Throw<XunitException>()
                     .WithMessage(
-                        "Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" exactly 3 times, but found it 2 times.");
+                        "Expected * \"abCDEBcDF\" to contain the equivalent of \"Bcd\" exactly 3 times, but found it 2 times.");
             }
 
             [Fact]
@@ -139,7 +199,7 @@ public partial class StringAssertionSpecs
 
                 // Assert
                 act.Should().Throw<XunitException>()
-                    .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" exactly 1 time, but found it 0 times.");
+                    .WithMessage("Expected * \"abCDEf\" to contain the equivalent of \"xyS\" exactly 1 time, but found it 0 times.");
             }
 
             [Fact]
@@ -190,7 +250,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" at least 3 times, but found it 2 times.");
+                .WithMessage("Expected * \"abCDEBcDF\" to contain the equivalent of \"Bcd\" at least 3 times, but found it 2 times.");
         }
 
         [Fact]
@@ -206,7 +266,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" at least 1 time, but found it 0 times.");
+                .WithMessage("Expected * \"abCDEf\" to contain the equivalent of \"xyS\" at least 1 time, but found it 0 times.");
         }
 
         [Fact]
@@ -222,7 +282,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" at least 1 time, but found it 0 times.");
+                .WithMessage("Expected * <null> to contain the equivalent of \"XyZ\" at least 1 time, but found it 0 times.");
         }
     }
 
@@ -257,7 +317,7 @@ public partial class StringAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" more than 2 times, but found it 2 times.");
+                    "Expected * \"abCDEBcDF\" to contain the equivalent of \"Bcd\" more than 2 times, but found it 2 times.");
         }
 
         [Fact]
@@ -273,7 +333,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEf\" to contain equivalent of \"xyS\" more than 1 time, but found it 0 times.");
+                .WithMessage("Expected * \"abCDEf\" to contain the equivalent of \"xyS\" more than 1 time, but found it 0 times.");
         }
 
         [Fact]
@@ -289,7 +349,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" more than 1 time, but found it 0 times.");
+                .WithMessage("Expected * <null> to contain the equivalent of \"XyZ\" more than 1 time, but found it 0 times.");
         }
     }
 
@@ -323,7 +383,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" at most 1 time, but found it 2 times.");
+                .WithMessage("Expected * \"abCDEBcDF\" to contain the equivalent of \"Bcd\" at most 1 time, but found it 2 times.");
         }
 
         [Fact]
@@ -388,7 +448,7 @@ public partial class StringAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" less than 2 times, but found it 2 times.");
+                    "Expected * \"abCDEBcDF\" to contain the equivalent of \"Bcd\" less than 2 times, but found it 2 times.");
         }
 
         [Fact]
@@ -425,6 +485,75 @@ public partial class StringAssertionSpecs
     public class NotContainEquivalentOf
     {
         [Fact]
+        public void Succeed_for_same_strings_using_custom_not_matching_comparer()
+        {
+            // Arrange
+            var comparer = new NeverMatchingEqualityComparer();
+            string actual = "ABC";
+            string expect = "ABC";
+
+            // Act / Assert
+            actual.Should().NotContainEquivalentOf(expect, o => o.Using(comparer));
+        }
+
+        [Fact]
+        public void Fail_for_different_strings_using_custom_matching_comparer()
+        {
+            // Arrange
+            var comparer = new AlwaysMatchingEqualityComparer();
+            string actual = "ABC";
+            string expect = "XYZ";
+
+            // Act
+            Action act = () => actual.Should().NotContainEquivalentOf(expect, o => o.Using(comparer));
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_casing_while_checking_a_string_to_not_contain_another()
+        {
+            // Arrange
+            string actual = "this is a string containing test.";
+            string expect = "TEST";
+
+            // Act
+            Action act = () => actual.Should().NotContainEquivalentOf(expect, o => o.IgnoringCase());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_leading_whitespace_while_checking_a_string_to_not_contain_another()
+        {
+            // Arrange
+            string actual = "  this is a string containing test.";
+            string expect = "test";
+
+            // Act
+            Action act = () => actual.Should().NotContainEquivalentOf(expect, o => o.IgnoringLeadingWhitespace());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_trailing_whitespace_while_checking_a_string_to_not_contain_another()
+        {
+            // Arrange
+            string actual = "this is a string containing test.  ";
+            string expect = "test";
+
+            // Act
+            Action act = () => actual.Should().NotContainEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
         public void Should_fail_when_asserting_string_does_not_contain_equivalent_of_null()
         {
             // Act
@@ -433,7 +562,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect string to contain equivalent of <null> but found \"a\".");
+                .WithMessage("Did not expect string to contain the equivalent of <null>, but found \"a\".");
         }
 
         [Fact]
@@ -445,7 +574,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect string to contain equivalent of \"\" but found \"a\".");
+                .WithMessage("Did not expect string to contain the equivalent of \"\", but found \"a\".");
         }
 
         [Fact]
@@ -457,7 +586,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect string to contain equivalent of \", worLD!\" but found \"Hello, world!\".");
+                .WithMessage("Did not expect string to contain the equivalent of \", worLD!\" but found \"Hello, world!\".");
         }
 
         [Fact]

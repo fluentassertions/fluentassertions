@@ -12,6 +12,39 @@ public partial class StringAssertionSpecs
     public class MatchEquivalentOf
     {
         [Fact]
+        public void Can_ignore_casing_while_checking_a_string_to_match_another()
+        {
+            // Arrange
+            string actual = "test";
+            string expect = "T*T";
+
+            // Act / Assert
+            actual.Should().MatchEquivalentOf(expect, o => o.IgnoringCase());
+        }
+
+        [Fact]
+        public void Can_ignore_leading_whitespace_while_checking_a_string_to_match_another()
+        {
+            // Arrange
+            string actual = "  test";
+            string expect = "t*t";
+
+            // Act / Assert
+            actual.Should().MatchEquivalentOf(expect, o => o.IgnoringLeadingWhitespace());
+        }
+
+        [Fact]
+        public void Can_ignore_trailing_whitespace_while_checking_a_string_to_match_another()
+        {
+            // Arrange
+            string actual = "test  ";
+            string expect = "t*t";
+
+            // Act / Assert
+            actual.Should().MatchEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
+        }
+
+        [Fact]
         public void When_a_string_does_not_match_the_equivalent_of_a_wildcard_pattern_it_should_throw()
         {
             // Arrange
@@ -86,6 +119,48 @@ public partial class StringAssertionSpecs
 
     public class NotMatchEquivalentOf
     {
+        [Fact]
+        public void Can_ignore_casing_while_checking_a_string_to_not_match_another()
+        {
+            // Arrange
+            string actual = "test";
+            string expect = "T*T";
+
+            // Act
+            Action act = () => actual.Should().NotMatchEquivalentOf(expect, o => o.IgnoringCase());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_leading_whitespace_while_checking_a_string_to_not_match_another()
+        {
+            // Arrange
+            string actual = "  test";
+            string expect = "t*t";
+
+            // Act
+            Action act = () => actual.Should().NotMatchEquivalentOf(expect, o => o.IgnoringLeadingWhitespace());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_trailing_whitespace_while_checking_a_string_to_not_match_another()
+        {
+            // Arrange
+            string actual = "test  ";
+            string expect = "t*t";
+
+            // Act
+            Action act = () => actual.Should().NotMatchEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
         [Fact]
         public void When_a_string_is_not_equivalent_to_a_pattern_and_that_is_expected_it_should_not_throw()
         {

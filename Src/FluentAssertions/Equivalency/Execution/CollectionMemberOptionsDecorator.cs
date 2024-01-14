@@ -73,5 +73,11 @@ internal class CollectionMemberOptionsDecorator : IEquivalencyOptions
         return inner.GetEqualityStrategy(type);
     }
 
+    public bool IgnoreLeadingWhitespace => inner.IgnoreLeadingWhitespace;
+
+    public bool IgnoreTrailingWhitespace => inner.IgnoreTrailingWhitespace;
+
+    public bool IgnoreCase => inner.IgnoreCase;
+
     public ITraceWriter TraceWriter => inner.TraceWriter;
 }

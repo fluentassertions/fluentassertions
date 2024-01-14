@@ -75,6 +75,26 @@ theString.Should().EndWithEquivalentOf("a string");
 theString.Should().NotEndWithEquivalentOf("a string");
 ```
 
+All equivalency methods which end with "EquivalentOf" can be fine-tuned in its behavior what differences to ignore.
+For instance, if you want to ignore leading whitespace, use this:
+
+```csharp
+theString.Should().BeEquivalentTo("This is a string", o => o.IgnoringLeadingWhitespace());
+```
+
+The supported options are:
+
+| Option                       | Behavior                                                       |
+| ---------------------------- | --------------------------------------------------------------- |
+| `IgnoringLeadingWhitespace`  | Ignores leading whitespace in the subject and the expectation.  |
+| `IgnoringTrailingWhitespace` | Ignores trailing whitespace in the subject and the expectation. |
+| `IgnoringCase`               | Compares the strings case-insensitive.                          |
+
+You can also specify a custom string comparer via
+```csharp
+theString.Should().BeEquivalentTo("THIS IS A STRING", o => o.Using(StringComparer.OrdinalIgnoreCase));
+```
+
 For the `Match`, `NotMatch`, `MatchEquivalentOf`, and `NotMatchEquivalentOf` methods we support wildcards.
 
 The pattern can be a combination of literal and wildcard characters, but it doesn't support regular expressions.
