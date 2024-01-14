@@ -12,13 +12,16 @@ namespace FluentAssertions.Xml;
 [DebuggerNonUserCode]
 public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAssertions>
 {
+    private readonly Assertion assertion;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="XmlElementAssertions"/> class.
     /// </summary>
     /// <param name="xmlElement"></param>
-    public XmlElementAssertions(XmlElement xmlElement)
-        : base(xmlElement)
+    public XmlElementAssertions(XmlElement xmlElement, Assertion assertion)
+        : base(xmlElement, assertion)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -36,7 +39,7 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
     public AndConstraint<XmlElementAssertions> HaveInnerText(string expected, string because = "",
         params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Subject.InnerText == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -93,7 +96,7 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
             (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : $"{{{expectedNamespace}}}")
             + expectedName;
 
-        bool success = Execute.Assertion
+        assertion
             .ForCondition(attribute is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -101,9 +104,9 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
                 + " with value {1}{reason}, but found no such attribute in {2}",
                 expectedFormattedName, expectedValue, Subject);
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .ForCondition(attribute!.Value == expectedValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -159,7 +162,7 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
             (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : $"{{{expectedNamespace}}}")
             + expectedName;
 
-        Execute.Assertion
+        assertion
             .ForCondition(element is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith(

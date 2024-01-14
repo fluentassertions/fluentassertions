@@ -38,7 +38,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// Initializes a new instance of the <see cref="StringAssertions{TAssertions}"/> class.
     /// </summary>
     public StringAssertions(string value, Assertion assertion)
-        : base(value)
+        : base(value, assertion)
     {
         this.assertion = assertion;
     }
@@ -91,7 +91,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> BeOneOf(IEnumerable<string> validValues, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(validValues.Contains(Subject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} to be one of {0}{reason}, but found {1}.", validValues, Subject);
@@ -150,7 +150,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             notEquivalent = scope.Discard().Length > 0;
         }
 
-        Execute.Assertion
+        assertion
             .ForCondition(notEquivalent)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} not to be equivalent to {0}{reason}, but they are.", unexpected);
@@ -172,7 +172,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> NotBe(string unexpected, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Subject != unexpected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} not to be {0}{reason}.", unexpected);
@@ -436,7 +436,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         }
         catch (ArgumentException)
         {
-            Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
+            assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
                 regularExpression);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -473,7 +473,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         }
         catch (ArgumentException)
         {
-            Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
+            assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
                 regularExpression);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -514,17 +514,17 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsEmpty(regexStr, nameof(regularExpression),
             "Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.");
 
-        bool success = Execute.Assertion
+        assertion
             .ForCondition(Subject is not null)
             .UsingLineBreaks
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regexStr);
 
-        if (success)
+        if (assertion.Succeeded)
         {
             int actual = regularExpression.Matches(Subject).Count;
 
-            Execute.Assertion
+            assertion
                 .ForConstraint(occurrenceConstraint, actual)
                 .UsingLineBreaks
                 .BecauseOf(because, becauseArgs)
@@ -562,15 +562,15 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsEmpty(regexStr, nameof(regularExpression),
             "Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.");
 
-        bool success = Execute.Assertion
+        assertion
             .ForCondition(Subject is not null)
             .UsingLineBreaks
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regexStr);
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .ForCondition(regularExpression.IsMatch(Subject))
                 .BecauseOf(because, becauseArgs)
                 .UsingLineBreaks
@@ -608,7 +608,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         }
         catch (ArgumentException)
         {
-            Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
+            assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
                 regularExpression);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -642,15 +642,15 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsEmpty(regexStr, nameof(regularExpression),
             "Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.");
 
-        bool success = Execute.Assertion
+        assertion
             .ForCondition(Subject is not null)
             .UsingLineBreaks
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} to not match regex {0}{reason}, but it was <null>.", regexStr);
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .ForCondition(!regularExpression.IsMatch(Subject))
                 .BecauseOf(because, becauseArgs)
                 .UsingLineBreaks
@@ -824,14 +824,14 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
 
-        bool success = Execute.Assertion
+        assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} that does not end with {1}{reason}, but found {0}.", Subject, unexpected);
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .ForCondition(!Subject.EndsWith(unexpected, StringComparison.Ordinal))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} {0} not to end with {1}{reason}.", Subject, unexpected);
@@ -857,24 +857,24 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end equivalence with <null>.");
 
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 "Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            success = Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject.Length >= expected.Length)
                 .FailWith(
                     "Expected {context:string} to end with equivalent of {0}{reason}, but {1} is too short.",
                     expected, Subject);
 
-            if (success)
+            if (assertion.Succeeded)
             {
-                Execute.Assertion
+                assertion
                     .ForCondition(Subject.EndsWith(expected, StringComparison.OrdinalIgnoreCase))
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
@@ -903,16 +903,16 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
 
-        var success = Execute.Assertion
+        var success = assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 "Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.",
                 unexpected, Subject);
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .ForCondition(!Subject.EndsWith(unexpected, StringComparison.OrdinalIgnoreCase))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -943,7 +943,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
         Guard.ThrowIfArgumentIsEmpty(expected, nameof(expected), "Cannot assert string containment against an empty string.");
 
-        Execute.Assertion
+        assertion
             .ForCondition(Contains(Subject, expected, StringComparison.Ordinal))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} {0} to contain {1}{reason}.", Subject, expected);
@@ -980,7 +980,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
 
         int actual = Subject.CountSubstring(expected, StringComparison.Ordinal);
 
-        Execute.Assertion
+        assertion
             .ForConstraint(occurrenceConstraint, actual)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -1009,7 +1009,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
         Guard.ThrowIfArgumentIsEmpty(expected, nameof(expected), "Cannot assert string containment against an empty string.");
 
-        Execute.Assertion
+        assertion
             .ForCondition(Contains(Subject, expected, StringComparison.OrdinalIgnoreCase))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} {0} to contain the equivalent of {1}{reason}.", Subject, expected);
@@ -1047,7 +1047,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
 
         int actual = Subject.CountSubstring(expected, StringComparison.OrdinalIgnoreCase);
 
-        Execute.Assertion
+        assertion
             .ForConstraint(occurrenceConstraint, actual)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -1076,7 +1076,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
 
         IEnumerable<string> missing = values.Where(v => !Contains(Subject, v, StringComparison.Ordinal));
 
-        Execute.Assertion
+        assertion
             .ForCondition(values.All(v => Contains(Subject, v, StringComparison.Ordinal)))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} {0} to contain the strings: {1}{reason}.", Subject, missing);
@@ -1112,7 +1112,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         ThrowIfValuesNullOrEmpty(values);
 
-        Execute.Assertion
+        assertion
             .ForCondition(values.Any(v => Contains(Subject, v, StringComparison.Ordinal)))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} {0} to contain at least one of the strings: {1}{reason}.", Subject, values);
@@ -1152,7 +1152,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot assert string containment against <null>.");
         Guard.ThrowIfArgumentIsEmpty(unexpected, nameof(unexpected), "Cannot assert string containment against an empty string.");
 
-        Execute.Assertion
+        assertion
             .ForCondition(!Contains(Subject, unexpected, StringComparison.Ordinal))
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:string} {0} to contain {1}{reason}.", Subject, unexpected);
@@ -1181,7 +1181,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
 
         var matches = values.Count(v => Contains(Subject, v, StringComparison.Ordinal));
 
-        Execute.Assertion
+        assertion
             .ForCondition(matches != values.Count())
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:string} {0} to contain all of the strings: {1}{reason}.", Subject, values);
@@ -1221,7 +1221,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
 
         IEnumerable<string> matches = values.Where(v => Contains(Subject, v, StringComparison.Ordinal));
 
-        Execute.Assertion
+        assertion
             .ForCondition(!matches.Any())
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:string} {0} to contain any of the strings: {1}{reason}.", Subject, matches);
@@ -1255,7 +1255,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     public AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected, string because = "",
         params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(!Contains(Subject, unexpected, StringComparison.OrdinalIgnoreCase))
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:string} to contain equivalent of {0}{reason} but found {1}.", unexpected, Subject);
@@ -1280,7 +1280,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Subject?.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} to be empty{reason}, but found {0}.", Subject);
@@ -1300,7 +1300,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Subject is null || Subject.Length > 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:string} to be empty{reason}.");
@@ -1321,14 +1321,14 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> HaveLength(int expected, string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:string} with length {0}{reason}, but found <null>.", expected);
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject.Length == expected)
                 .FailWith("Expected {context:string} with length {0}{reason}, but found string {1} with length {2}.",
@@ -1350,7 +1350,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> NotBeNullOrEmpty(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(!string.IsNullOrEmpty(Subject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} not to be <null> or empty{reason}, but found {0}.", Subject);
@@ -1370,7 +1370,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> BeNullOrEmpty(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(string.IsNullOrEmpty(Subject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} to be <null> or empty{reason}, but found {0}.", Subject);
@@ -1390,7 +1390,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> NotBeNullOrWhiteSpace(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(!string.IsNullOrWhiteSpace(Subject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} not to be <null> or whitespace{reason}, but found {0}.", Subject);
@@ -1410,7 +1410,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> BeNullOrWhiteSpace(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(string.IsNullOrWhiteSpace(Subject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} to be <null> or whitespace{reason}, but found {0}.", Subject);
@@ -1435,7 +1435,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> BeUpperCased(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Subject?.All(char.IsUpper) == true)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all characters in {context:string} to be upper cased{reason}, but found {0}.", Subject);
@@ -1455,7 +1455,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> NotBeUpperCased(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Subject is null || Subject.Any(ch => !char.IsUpper(ch)))
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect any characters in {context:string} to be upper cased{reason}.");
@@ -1480,7 +1480,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> BeLowerCased(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Subject?.All(char.IsLower) == true)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all characters in {context:string} to be lower cased{reason}, but found {0}.", Subject);
@@ -1500,7 +1500,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> NotBeLowerCased(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Subject is null || Subject.Any(ch => !char.IsLower(ch)))
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect any characters in {context:string} to be lower cased{reason}.");

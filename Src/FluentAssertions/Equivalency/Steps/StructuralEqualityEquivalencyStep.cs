@@ -7,8 +7,8 @@ namespace FluentAssertions.Equivalency.Steps;
 
 public class StructuralEqualityEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, Assertion assertion, IEquivalencyValidationContext context,
+        IValidateChildNodeEquivalency nestedValidator)
     {
         if (!context.CurrentNode.IsRoot && !context.Options.IsRecursive)
         {
@@ -45,17 +45,17 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
 
             foreach (IMember selectedMember in selectedMembers)
             {
-                AssertMemberEquality(comparands, context, nestedValidator, selectedMember, context.Options);
+                AssertMemberEquality(comparands, context, nestedValidator, selectedMember, context.Options, assertion);
             }
         }
 
-        return EquivalencyResult.AssertionCompleted;
+        return EquivalencyResult.EquivalencyProven;
     }
 
     private static void AssertMemberEquality(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator parent, IMember selectedMember, IEquivalencyOptions options)
+        IValidateChildNodeEquivalency parent, IMember selectedMember, IEquivalencyOptions options, Assertion assertion)
     {
-        IMember matchingMember = FindMatchFor(selectedMember, context.CurrentNode, comparands.Subject, options);
+        IMember matchingMember = FindMatchFor(selectedMember, context.CurrentNode, comparands.Subject, options, assertion);
 
         if (matchingMember is not null)
         {
@@ -73,16 +73,16 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
                 selectedMember.Name = matchingMember.Name;
             }
 
-            parent.RecursivelyAssertEquality(nestedComparands, context.AsNestedMember(selectedMember));
+            parent.AssertEquivalencyOf(nestedComparands, assertion, context.AsNestedMember(selectedMember));
         }
     }
 
     private static IMember FindMatchFor(IMember selectedMember, INode currentNode, object subject,
-        IEquivalencyOptions config)
+        IEquivalencyOptions config, Assertion assertion)
     {
         IEnumerable<IMember> query =
             from rule in config.MatchingRules
-            let match = rule.Match(selectedMember, subject, currentNode, config)
+            let match = rule.Match(selectedMember, subject, currentNode, config, assertion)
             where match is not null
             select match;
 

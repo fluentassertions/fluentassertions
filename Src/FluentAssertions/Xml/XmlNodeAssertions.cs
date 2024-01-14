@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Xml;
+using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using FluentAssertions.Xml.Equivalency;
 
@@ -11,8 +12,8 @@ namespace FluentAssertions.Xml;
 [DebuggerNonUserCode]
 public class XmlNodeAssertions : XmlNodeAssertions<XmlNode, XmlNodeAssertions>
 {
-    public XmlNodeAssertions(XmlNode xmlNode)
-        : base(xmlNode)
+    public XmlNodeAssertions(XmlNode xmlNode, Assertion assertion)
+        : base(xmlNode, assertion)
     {
     }
 }
@@ -25,8 +26,8 @@ public class XmlNodeAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<
     where TSubject : XmlNode
     where TAssertions : XmlNodeAssertions<TSubject, TAssertions>
 {
-    public XmlNodeAssertions(TSubject xmlNode)
-        : base(xmlNode)
+    public XmlNodeAssertions(TSubject xmlNode, Assertion assertion)
+        : base(xmlNode, assertion)
     {
     }
 

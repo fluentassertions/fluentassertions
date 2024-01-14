@@ -18,9 +18,12 @@ namespace FluentAssertions.Specialized;
 public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerable<TException>, ExceptionAssertions<TException>>
     where TException : Exception
 {
-    public ExceptionAssertions(IEnumerable<TException> exceptions)
-        : base(exceptions)
+    private readonly Assertion assertion;
+
+    public ExceptionAssertions(IEnumerable<TException> exceptions, Assertion assertion)
+        : base(exceptions, assertion)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -74,9 +77,9 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     public virtual ExceptionAssertions<TException> WithMessage(string expectedWildcardPattern, string because = "",
         params object[] becauseArgs)
     {
-        AssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs).UsingLineBreaks;
-
         assertion
+            .BecauseOf(because, becauseArgs)
+            .UsingLineBreaks
             .ForCondition(Subject.Any())
             .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedWildcardPattern);
 
@@ -102,7 +105,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
         where TInnerException : Exception
     {
         var expectedInnerExceptions = AssertInnerExceptions(typeof(TInnerException), because, becauseArgs);
-        return new ExceptionAssertions<TInnerException>(expectedInnerExceptions.Cast<TInnerException>());
+        return new ExceptionAssertions<TInnerException>(expectedInnerExceptions.Cast<TInnerException>(), assertion);
     }
 
     /// <summary>
@@ -121,7 +124,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     {
         Guard.ThrowIfArgumentIsNull(innerException);
 
-        return new ExceptionAssertions<Exception>(AssertInnerExceptions(innerException, because, becauseArgs));
+        return new ExceptionAssertions<Exception>(AssertInnerExceptions(innerException, because, becauseArgs), assertion);
     }
 
     /// <summary>
@@ -140,7 +143,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
         where TInnerException : Exception
     {
         var exceptionExpression = AssertInnerExceptionExactly(typeof(TInnerException), because, becauseArgs);
-        return new ExceptionAssertions<TInnerException>(exceptionExpression.Cast<TInnerException>());
+        return new ExceptionAssertions<TInnerException>(exceptionExpression.Cast<TInnerException>(), assertion);
     }
 
     /// <summary>
@@ -159,7 +162,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     {
         Guard.ThrowIfArgumentIsNull(innerException);
 
-        return new ExceptionAssertions<Exception>(AssertInnerExceptionExactly(innerException, because, becauseArgs));
+        return new ExceptionAssertions<Exception>(AssertInnerExceptionExactly(innerException, because, becauseArgs), assertion);
     }
 
     /// <summary>
@@ -183,7 +186,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
 
         Func<TException, bool> condition = exceptionExpression.Compile();
 
-        Execute.Assertion
+        assertion
             .ForCondition(condition(SingleSubject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected exception where {0}{reason}, but the condition was not met by:"
@@ -196,7 +199,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     private IEnumerable<Exception> AssertInnerExceptionExactly(Type innerException, string because = "",
         params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject.Any(e => e.InnerException is not null))
             .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.", innerException);
@@ -205,7 +208,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
             .Select(e => e.InnerException)
             .Where(e => e?.GetType() == innerException).ToArray();
 
-        Execute.Assertion
+        assertion
             .ForCondition(expectedExceptions.Length > 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected inner {0}{reason}, but found {1}.", innerException, SingleSubject.InnerException);
@@ -216,7 +219,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     private IEnumerable<Exception> AssertInnerExceptions(Type innerException, string because = "",
         params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject.Any(e => e.InnerException is not null))
             .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.", innerException);
@@ -226,7 +229,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
             .Where(e => e != null && e.GetType().IsSameOrInherits(innerException))
             .ToArray();
 
-        Execute.Assertion
+        assertion
             .ForCondition(expectedInnerExceptions.Length > 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected inner {0}{reason}, but found {1}.", innerException, SingleSubject.InnerException);

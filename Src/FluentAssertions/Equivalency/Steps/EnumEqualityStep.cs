@@ -10,15 +10,15 @@ namespace FluentAssertions.Equivalency.Steps;
 
 public class EnumEqualityStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, Assertion assertion, IEquivalencyValidationContext context,
+        IValidateChildNodeEquivalency nestedValidator)
     {
         if (!comparands.GetExpectedType(context.Options).IsEnum)
         {
             return EquivalencyResult.ContinueWithNext;
         }
 
-        bool succeeded = Execute.Assertion
+        assertion
             .ForCondition(comparands.Subject?.GetType().IsEnum == true)
             .BecauseOf(context.Reason)
             .FailWith(() =>
@@ -31,16 +31,16 @@ public class EnumEqualityStep : IEquivalencyStep
                     comparands.Subject);
             });
 
-        if (succeeded)
+        if (assertion.Succeeded)
         {
             switch (context.Options.EnumEquivalencyHandling)
             {
                 case EnumEquivalencyHandling.ByValue:
-                    HandleByValue(comparands, context.Reason);
+                    HandleByValue(assertion, comparands, context.Reason);
                     break;
 
                 case EnumEquivalencyHandling.ByName:
-                    HandleByName(comparands, context.Reason);
+                    HandleByName(assertion, comparands, context.Reason);
                     break;
 
                 default:
@@ -48,15 +48,15 @@ public class EnumEqualityStep : IEquivalencyStep
             }
         }
 
-        return EquivalencyResult.AssertionCompleted;
+        return EquivalencyResult.EquivalencyProven;
     }
 
-    private static void HandleByValue(Comparands comparands, Reason reason)
+    private static void HandleByValue(Assertion assertion, Comparands comparands, Reason reason)
     {
         decimal? subjectsUnderlyingValue = ExtractDecimal(comparands.Subject);
         decimal? expectationsUnderlyingValue = ExtractDecimal(comparands.Expectation);
 
-        Execute.Assertion
+        assertion
             .ForCondition(subjectsUnderlyingValue == expectationsUnderlyingValue)
             .BecauseOf(reason)
             .FailWith(() =>
@@ -69,12 +69,12 @@ public class EnumEqualityStep : IEquivalencyStep
             });
     }
 
-    private static void HandleByName(Comparands comparands, Reason reason)
+    private static void HandleByName(Assertion assertion, Comparands comparands, Reason reason)
     {
         string subject = comparands.Subject.ToString();
         string expected = comparands.Expectation.ToString();
 
-        Execute.Assertion
+        assertion
             .ForCondition(subject == expected)
             .BecauseOf(reason)
             .FailWith(() =>

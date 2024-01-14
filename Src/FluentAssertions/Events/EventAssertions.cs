@@ -15,10 +15,12 @@ namespace FluentAssertions.Events;
 public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
 {
     private const string PropertyChangedEventName = "PropertyChanged";
+    private readonly Assertion assertion;
 
-    protected internal EventAssertions(IMonitor<T> monitor)
-        : base(monitor.Subject)
+    protected internal EventAssertions(IMonitor<T> monitor, Assertion assertion)
+        : base(monitor.Subject, assertion)
     {
+        this.assertion = assertion;
         Monitor = monitor;
     }
 
@@ -46,7 +48,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
 
         if (!recording.Any())
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected object {0} to raise event {1}{reason}, but it did not.", Monitor.Subject, eventName);
         }
@@ -73,7 +75,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
 
         if (events.Any())
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected object {0} to not raise event {1}{reason}, but it did.", Monitor.Subject, eventName);
         }
@@ -100,14 +102,14 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
 
         IEventRecording recording = Monitor.GetRecordingFor(PropertyChangedEventName);
 
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(recording.Any())
             .FailWith(
                 "Expected object {0} to raise event {1} for property {2}{reason}, but it did not raise that event at all.",
                 Monitor.Subject, PropertyChangedEventName, propertyName);
 
-        if (success)
+        if (assertion.Succeeded)
         {
             var actualPropertyNames = recording
                 .SelectMany(@event => @event.Parameters.OfType<PropertyChangedEventArgs>())
@@ -115,7 +117,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
                 .Distinct()
                 .ToArray();
 
-            Execute.Assertion
+            assertion
                 .ForCondition(actualPropertyNames.Contains(propertyName))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it was only raised for {3}.",
@@ -147,7 +149,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
 
         if (recording.Any(@event => GetAffectedPropertyName(@event) == propertyName))
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect object {0} to raise the {1} event for property {2}{reason}, but it did.",
                     Monitor.Subject, PropertyChangedEventName, propertyName);

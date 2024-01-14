@@ -12,9 +12,12 @@ namespace FluentAssertions.Primitives;
 /// </summary>
 public class ObjectAssertions : ObjectAssertions<object, ObjectAssertions>
 {
-    public ObjectAssertions(object value)
-        : base(value)
+    private readonly Assertion assertion;
+
+    public ObjectAssertions(object value, Assertion assertion)
+        : base(value, assertion)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -36,7 +39,7 @@ public class ObjectAssertions : ObjectAssertions<object, ObjectAssertions>
     {
         Guard.ThrowIfArgumentIsNull(comparer);
 
-        Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is TExpectation subject && comparer.Equals(subject, expected))
             .WithDefaultIdentifier(Identifier)
@@ -65,7 +68,7 @@ public class ObjectAssertions : ObjectAssertions<object, ObjectAssertions>
     {
         Guard.ThrowIfArgumentIsNull(comparer);
 
-        Execute.Assertion
+        assertion
             .ForCondition(Subject is not TExpectation subject || !comparer.Equals(subject, unexpected))
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
@@ -100,7 +103,7 @@ public class ObjectAssertions : ObjectAssertions<object, ObjectAssertions>
         Guard.ThrowIfArgumentIsNull(validValues);
         Guard.ThrowIfArgumentIsNull(comparer);
 
-        Execute.Assertion
+        assertion
             .ForCondition(Subject is TExpectation subject && validValues.Contains(subject, comparer))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to be one of {0}{reason}, but found {1}.", validValues, Subject);
@@ -117,9 +120,12 @@ public class ObjectAssertions : ObjectAssertions<object, ObjectAssertions>
 public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>
     where TAssertions : ObjectAssertions<TSubject, TAssertions>
 {
-    public ObjectAssertions(TSubject value)
-        : base(value)
+    private readonly Assertion assertion;
+
+    public ObjectAssertions(TSubject value, Assertion assertion)
+        : base(value, assertion)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -135,7 +141,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> Be(TSubject expected, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(ObjectExtensions.GetComparer<TSubject>()(Subject, expected))
             .WithDefaultIdentifier(Identifier)
@@ -164,7 +170,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     {
         Guard.ThrowIfArgumentIsNull(comparer);
 
-        Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(comparer.Equals(Subject, expected))
             .WithDefaultIdentifier(Identifier)
@@ -187,7 +193,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> NotBe(TSubject unexpected, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(!ObjectExtensions.GetComparer<TSubject>()(Subject, unexpected))
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
@@ -215,7 +221,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     {
         Guard.ThrowIfArgumentIsNull(comparer);
 
-        Execute.Assertion
+        assertion
             .ForCondition(!comparer.Equals(Subject, unexpected))
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
@@ -365,7 +371,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
             hasMismatches = scope.Discard().Length > 0;
         }
 
-        Execute.Assertion
+        assertion
             .ForCondition(hasMismatches)
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
@@ -401,7 +407,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     public AndConstraint<TAssertions> BeOneOf(IEnumerable<TSubject> validValues, string because = "",
         params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(validValues.Contains(Subject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to be one of {0}{reason}, but found {1}.", validValues, Subject);
@@ -435,7 +441,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         Guard.ThrowIfArgumentIsNull(validValues);
         Guard.ThrowIfArgumentIsNull(comparer);
 
-        Execute.Assertion
+        assertion
             .ForCondition(validValues.Contains(Subject, comparer))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to be one of {0}{reason}, but found {1}.", validValues, Subject);

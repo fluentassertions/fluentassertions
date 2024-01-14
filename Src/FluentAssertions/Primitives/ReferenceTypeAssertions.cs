@@ -15,8 +15,9 @@ namespace FluentAssertions.Primitives;
 public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     where TAssertions : ReferenceTypeAssertions<TSubject, TAssertions>
 {
-    protected ReferenceTypeAssertions(TSubject subject)
+    protected ReferenceTypeAssertions(TSubject subject, Assertion assertion)
     {
+        this.CurrentAssertion = assertion;
         Subject = subject;
     }
 
@@ -37,7 +38,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// </param>
     public AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject is null)
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
@@ -58,7 +59,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// </param>
     public AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
@@ -80,7 +81,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// </param>
     public AndConstraint<TAssertions> BeSameAs(TSubject expected, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        CurrentAssertion
             .UsingLineBreaks
             .ForCondition(ReferenceEquals(Subject, expected))
             .BecauseOf(because, becauseArgs)
@@ -103,7 +104,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// </param>
     public AndConstraint<TAssertions> NotBeSameAs(TSubject unexpected, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        CurrentAssertion
             .UsingLineBreaks
             .ForCondition(!ReferenceEquals(Subject, unexpected))
             .BecauseOf(because, becauseArgs)
@@ -153,13 +154,13 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     {
         Guard.ThrowIfArgumentIsNull(expectedType);
 
-        bool success = Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier("type")
             .FailWith("Expected {context} to be {0}{reason}, but found <null>.", expectedType);
 
-        if (success)
+        if (CurrentAssertion.Succeeded)
         {
             Type subjectType = Subject.GetType();
 
@@ -212,13 +213,13 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     {
         Guard.ThrowIfArgumentIsNull(unexpectedType);
 
-        bool success = Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier("type")
             .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", unexpectedType);
 
-        if (success)
+        if (CurrentAssertion.Succeeded)
         {
             Type subjectType = Subject.GetType();
 
@@ -249,15 +250,15 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <returns>An <see cref="AndWhichConstraint{TAssertions, T}"/> which can be used to chain assertions.</returns>
     public AndWhichConstraint<TAssertions, T> BeAssignableTo<T>(string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier("type")
             .FailWith("Expected {context} to be assignable to {0}{reason}, but found <null>.", typeof(T));
 
-        if (success)
+        if (CurrentAssertion.Succeeded)
         {
-            Execute.Assertion
+            CurrentAssertion
                 .ForCondition(Subject is T)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
@@ -288,19 +289,19 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     {
         Guard.ThrowIfArgumentIsNull(type);
 
-        bool success = Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier("type")
             .FailWith("Expected {context} to be assignable to {0}{reason}, but found <null>.", type);
 
-        if (success)
+        if (CurrentAssertion.Succeeded)
         {
             bool isAssignable = type.IsGenericTypeDefinition
                 ? Subject.GetType().IsAssignableToOpenGeneric(type)
                 : type.IsAssignableFrom(Subject.GetType());
 
-            Execute.Assertion
+            CurrentAssertion
                 .ForCondition(isAssignable)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
@@ -346,19 +347,19 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     {
         Guard.ThrowIfArgumentIsNull(type);
 
-        bool success = Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier("type")
             .FailWith("Expected {context} to not be assignable to {0}{reason}, but found <null>.", type);
 
-        if (success)
+        if (CurrentAssertion.Succeeded)
         {
             bool isAssignable = type.IsGenericTypeDefinition
                 ? Subject.GetType().IsAssignableToOpenGeneric(type)
                 : type.IsAssignableFrom(Subject.GetType());
 
-            Execute.Assertion
+            CurrentAssertion
                 .ForCondition(!isAssignable)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
@@ -407,7 +408,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     {
         Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate), "Cannot match an object against a <null> predicate.");
 
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(predicate.Compile()((T)Subject))
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
@@ -425,4 +426,6 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
         throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean BeSameAs() instead?");
+
+    public Assertion CurrentAssertion { get; }
 }

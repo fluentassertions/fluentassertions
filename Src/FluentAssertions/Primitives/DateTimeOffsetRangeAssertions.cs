@@ -22,6 +22,7 @@ public class DateTimeOffsetRangeAssertions<TAssertions>
     #region Private Definitions
 
     private readonly TAssertions parentAssertions;
+    private readonly Assertion assertion;
     private readonly TimeSpanPredicate predicate;
 
     private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new()
@@ -38,11 +39,13 @@ public class DateTimeOffsetRangeAssertions<TAssertions>
 
     #endregion
 
-    protected internal DateTimeOffsetRangeAssertions(TAssertions parentAssertions, DateTimeOffset? subject,
+    protected internal DateTimeOffsetRangeAssertions(TAssertions parentAssertions, Assertion assertion,
+        DateTimeOffset? subject,
         TimeSpanCondition condition,
         TimeSpan timeSpan)
     {
         this.parentAssertions = parentAssertions;
+        this.assertion = assertion;
         this.subject = subject;
         this.timeSpan = timeSpan;
 
@@ -65,17 +68,17 @@ public class DateTimeOffsetRangeAssertions<TAssertions>
     public AndConstraint<TAssertions> Before(DateTimeOffset target, string because = "",
         params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .ForCondition(subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the date and time} to be " + predicate.DisplayText +
                 " {0} before {1}{reason}, but found a <null> DateTime.", timeSpan, target);
 
-        if (success)
+        if (assertion.Succeeded)
         {
             TimeSpan actual = target - subject.Value;
 
-            Execute.Assertion
+            assertion
                 .ForCondition(predicate.IsMatchedBy(actual, timeSpan))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -102,17 +105,17 @@ public class DateTimeOffsetRangeAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> After(DateTimeOffset target, string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .ForCondition(subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the date and time} to be " + predicate.DisplayText +
                 " {0} after {1}{reason}, but found a <null> DateTime.", timeSpan, target);
 
-        if (success)
+        if (assertion.Succeeded)
         {
             TimeSpan actual = subject.Value - target;
 
-            Execute.Assertion
+            assertion
                 .ForCondition(predicate.IsMatchedBy(actual, timeSpan))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(

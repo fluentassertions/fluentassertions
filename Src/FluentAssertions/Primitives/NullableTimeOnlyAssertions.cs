@@ -12,8 +12,8 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class NullableTimeOnlyAssertions : NullableTimeOnlyAssertions<NullableTimeOnlyAssertions>
 {
-    public NullableTimeOnlyAssertions(TimeOnly? value)
-        : base(value)
+    public NullableTimeOnlyAssertions(TimeOnly? value, Assertion assertion)
+        : base(value, assertion)
     {
     }
 }
@@ -25,9 +25,12 @@ public class NullableTimeOnlyAssertions : NullableTimeOnlyAssertions<NullableTim
 public class NullableTimeOnlyAssertions<TAssertions> : TimeOnlyAssertions<TAssertions>
     where TAssertions : NullableTimeOnlyAssertions<TAssertions>
 {
-    public NullableTimeOnlyAssertions(TimeOnly? value)
-        : base(value)
+    private readonly Assertion assertion;
+
+    public NullableTimeOnlyAssertions(TimeOnly? value, Assertion assertion)
+        : base(value, assertion)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -42,7 +45,7 @@ public class NullableTimeOnlyAssertions<TAssertions> : TimeOnlyAssertions<TAsser
     /// </param>
     public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:nullable time} to have a value{reason}, but found {0}.", Subject);
@@ -77,7 +80,7 @@ public class NullableTimeOnlyAssertions<TAssertions> : TimeOnlyAssertions<TAsser
     /// </param>
     public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:nullable time} to have a value{reason}, but found {0}.", Subject);

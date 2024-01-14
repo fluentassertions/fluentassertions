@@ -10,8 +10,8 @@ namespace FluentAssertions.Numeric;
 public class NullableNumericAssertions<T> : NullableNumericAssertions<T, NullableNumericAssertions<T>>
     where T : struct, IComparable<T>
 {
-    public NullableNumericAssertions(T? value)
-        : base(value)
+    public NullableNumericAssertions(T? value, Assertion assertion)
+        : base(value, assertion)
     {
     }
 }
@@ -21,9 +21,12 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
     where T : struct, IComparable<T>
     where TAssertions : NullableNumericAssertions<T, TAssertions>
 {
-    public NullableNumericAssertions(T? value)
-        : base(value)
+    private readonly Assertion assertion;
+
+    public NullableNumericAssertions(T? value, Assertion assertion)
+        : base(value, assertion)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -38,7 +41,7 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
     /// </param>
     public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected a value{reason}.");
@@ -73,7 +76,7 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
     /// </param>
     public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
@@ -116,7 +119,7 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
     {
         Guard.ThrowIfArgumentIsNull(predicate);
 
-        Execute.Assertion
+        assertion
             .ForCondition(predicate.Compile()(Subject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected value to match {0}{reason}, but found {1}.", predicate, Subject);

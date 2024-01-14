@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Numeric;
 
@@ -9,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class NullableUInt64Assertions : NullableNumericAssertions<ulong>
 {
-    internal NullableUInt64Assertions(ulong? value)
-        : base(value)
+    internal NullableUInt64Assertions(ulong? value, Assertion assertion)
+        : base(value, assertion)
     {
     }
 

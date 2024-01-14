@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
-#if NET6_0_OR_GREATER || NETSTANDARD2_1
 using FluentAssertions.Execution;
-#endif
 
 namespace FluentAssertions.Streams;
 
@@ -13,18 +11,24 @@ namespace FluentAssertions.Streams;
 [DebuggerNonUserCode]
 public class BufferedStreamAssertions : BufferedStreamAssertions<BufferedStreamAssertions>
 {
-    public BufferedStreamAssertions(BufferedStream stream)
-        : base(stream)
+    private readonly Assertion assertion;
+
+    public BufferedStreamAssertions(BufferedStream stream, Assertion assertion)
+        : base(stream, assertion)
     {
+        this.assertion = assertion;
     }
 }
 
 public class BufferedStreamAssertions<TAssertions> : StreamAssertions<BufferedStream, TAssertions>
     where TAssertions : BufferedStreamAssertions<TAssertions>
 {
-    public BufferedStreamAssertions(BufferedStream stream)
-        : base(stream)
+    private readonly Assertion assertion;
+
+    public BufferedStreamAssertions(BufferedStream stream, Assertion assertion)
+        : base(stream, assertion)
     {
+        this.assertion = assertion;
     }
 
     protected override string Identifier => "buffered stream";
@@ -43,15 +47,15 @@ public class BufferedStreamAssertions<TAssertions> : StreamAssertions<BufferedSt
     /// </param>
     public AndConstraint<TAssertions> HaveBufferSize(int expected, string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected the buffer size of {context:stream} to be {0}{reason}, but found a <null> reference.",
                 expected);
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject!.BufferSize == expected)
                 .FailWith("Expected the buffer size of {context:stream} to be {0}{reason}, but it was {1}.",
@@ -74,15 +78,15 @@ public class BufferedStreamAssertions<TAssertions> : StreamAssertions<BufferedSt
     /// </param>
     public AndConstraint<TAssertions> NotHaveBufferSize(int unexpected, string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected the buffer size of {context:stream} not to be {0}{reason}, but found a <null> reference.",
                 unexpected);
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject!.BufferSize != unexpected)
                 .FailWith("Expected the buffer size of {context:stream} not to be {0}{reason}, but it was.",

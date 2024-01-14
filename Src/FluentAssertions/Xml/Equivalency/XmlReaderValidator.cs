@@ -17,7 +17,7 @@ internal class XmlReaderValidator
 
     public XmlReaderValidator(XmlReader subjectReader, XmlReader expectationReader, string because, object[] becauseArgs)
     {
-        assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
+        assertion = assertion.BecauseOf(because, becauseArgs);
 
         this.subjectReader = subjectReader;
         this.expectationReader = expectationReader;

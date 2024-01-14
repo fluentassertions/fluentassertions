@@ -18,9 +18,12 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     where TSubject : MemberInfo
     where TAssertions : MemberInfoAssertions<TSubject, TAssertions>
 {
-    protected MemberInfoAssertions(TSubject subject)
-        : base(subject)
+    private readonly Assertion assertion;
+
+    protected MemberInfoAssertions(TSubject subject, Assertion assertion)
+        : base(subject, assertion)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -79,7 +82,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
@@ -88,11 +91,11 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
 
         IEnumerable<TAttribute> attributes = [];
 
-        if (success)
+        if (assertion.Succeeded)
         {
             attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
-            Execute.Assertion
+            assertion
                 .ForCondition(attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -125,18 +128,18 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {Identifier} to not be decorated with {typeof(TAttribute)}{{reason}}" +
                 ", but {context:member} is <null>.");
 
-        if (success)
+        if (assertion.Succeeded)
         {
             IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
-            Execute.Assertion
+            assertion
                 .ForCondition(!attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(

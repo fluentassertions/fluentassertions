@@ -20,6 +20,8 @@ public class NewGivenSelector<T>
         this.selector = previousAssertion.Succeeded ? selector() : default;
     }
 
+    public bool Succeeded => previousAssertion.Succeeded;
+
     /// <summary>
     /// Specify the condition that must be satisfied upon the subject selected through a prior selector.
     /// </summary>

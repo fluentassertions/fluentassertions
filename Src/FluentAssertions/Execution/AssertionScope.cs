@@ -27,7 +27,7 @@ public sealed class AssertionScope : IAssertionScope
     private Func<string> reason;
 
     private static readonly AsyncLocal<AssertionScope> CurrentScope = new();
-    private Func<string> callerIdentityProvider = () => CallerIdentifier.DetermineCallerIdentity();
+    private readonly Func<string> callerIdentityProvider = () => CallerIdentifier.DetermineCallerIdentity();
     private AssertionScope parent;
     private Func<string> expectation;
     private string fallbackIdentifier = "object";
@@ -201,12 +201,6 @@ public sealed class AssertionScope : IAssertionScope
         return this;
     }
 
-    internal void TrackComparands(object subject, object expectation)
-    {
-        ContextData.Add(new ContextDataItems.DataItem("subject", subject, reportable: false, requiresFormatting: true));
-        ContextData.Add(new ContextDataItems.DataItem("expectation", expectation, reportable: false, requiresFormatting: true));
-    }
-
     /// <inheritdoc/>
     public Continuation ClearExpectation()
     {
@@ -254,9 +248,6 @@ public sealed class AssertionScope : IAssertionScope
             return result;
         });
     }
-
-    internal Continuation FailWithPreFormatted(string formattedFailReason) =>
-        FailWith(() => formattedFailReason);
 
     private Continuation FailWith(Func<string> failReasonFunc)
     {
@@ -422,17 +413,6 @@ public sealed class AssertionScope : IAssertionScope
     {
         fallbackIdentifier = identifier;
         return this;
-    }
-
-    /// <summary>
-    /// Allows the scope to assume that all assertions that happen within this scope are going to
-    /// be initiated by the same caller.
-    /// </summary>
-    public void AssumeSingleCaller()
-    {
-        // Since we know there's only one caller, we don't have to have every assertion determine the caller identity again
-        var provider = new Lazy<string>(() => CallerIdentifier.DetermineCallerIdentity());
-        callerIdentityProvider = () => provider.Value;
     }
 
     private static AssertionScope GetCurrentAssertionScope()

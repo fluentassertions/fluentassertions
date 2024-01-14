@@ -390,7 +390,7 @@ public partial class AssertionScopeSpecs
     public void Message_should_start_with_the_defined_expectation()
     {
         // Act
-        Action act = () => Execute.Assertion
+        Action act = () => Assertion.GetOrCreate()
             .WithExpectation("Expectations are the root ")
             .ForCondition(false)
             .FailWith("of disappointment");
@@ -404,7 +404,7 @@ public partial class AssertionScopeSpecs
     public void Message_should_start_with_the_defined_expectation_and_arguments()
     {
         // Act
-        Action act = () => Execute.Assertion
+        Action act = () => Assertion.GetOrCreate()
             .WithExpectation("Expectations are the {0} ", "root")
             .ForCondition(false)
             .FailWith("of disappointment");
@@ -418,7 +418,7 @@ public partial class AssertionScopeSpecs
     public void Message_should_contain_object_as_context_if_identifier_can_not_be_resolved()
     {
         // Act
-        Action act = () => Execute.Assertion
+        Action act = () => Assertion.GetOrCreate()
             .ForCondition(false)
             .FailWith("Expected {context}");
 
@@ -431,7 +431,7 @@ public partial class AssertionScopeSpecs
     public void Message_should_contain_the_fallback_value_as_context_if_identifier_can_not_be_resolved()
     {
         // Act
-        Action act = () => Execute.Assertion
+        Action act = () => Assertion.GetOrCreate()
             .ForCondition(false)
             .FailWith("Expected {context:fallback}");
 
@@ -444,7 +444,7 @@ public partial class AssertionScopeSpecs
     public void Message_should_contain_the_default_identifier_as_context_if_identifier_can_not_be_resolved()
     {
         // Act
-        Action act = () => Execute.Assertion
+        Action act = () => Assertion.GetOrCreate()
             .WithDefaultIdentifier("identifier")
             .ForCondition(false)
             .FailWith("Expected {context}");
@@ -458,7 +458,7 @@ public partial class AssertionScopeSpecs
     public void Message_should_contain_the_reason_as_defined()
     {
         // Act
-        Action act = () => Execute.Assertion
+        Action act = () => Assertion.GetOrCreate()
             .BecauseOf("because reasons")
             .FailWith("Expected{reason}");
 
@@ -471,7 +471,7 @@ public partial class AssertionScopeSpecs
     public void Message_should_contain_the_reason_as_defined_with_arguments()
     {
         // Act
-        Action act = () => Execute.Assertion
+        Action act = () => Assertion.GetOrCreate()
             .BecauseOf("because {0}", "reasons")
             .FailWith("Expected{reason}");
 

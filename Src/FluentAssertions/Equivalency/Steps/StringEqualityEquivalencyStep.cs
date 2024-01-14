@@ -5,8 +5,8 @@ namespace FluentAssertions.Equivalency.Steps;
 
 public class StringEqualityEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, Assertion assertion, IEquivalencyValidationContext context,
+        IValidateChildNodeEquivalency nestedValidator)
     {
         Type expectationType = comparands.GetExpectedType(context.Options);
 
@@ -17,7 +17,7 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
 
         if (!ValidateAgainstNulls(comparands, context.CurrentNode))
         {
-            return EquivalencyResult.AssertionCompleted;
+            return EquivalencyResult.EquivalencyProven;
         }
 
         bool subjectIsString = ValidateSubjectIsString(comparands, context.CurrentNode);
@@ -31,7 +31,7 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
                 .Be(expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
         }
 
-        return EquivalencyResult.AssertionCompleted;
+        return EquivalencyResult.EquivalencyProven;
     }
 
     private static bool ValidateAgainstNulls(Comparands comparands, INode currentNode)

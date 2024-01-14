@@ -17,12 +17,15 @@ namespace FluentAssertions.Xml;
 [DebuggerNonUserCode]
 public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentAssertions>
 {
+    private readonly Assertion assertion;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="XDocumentAssertions" /> class.
     /// </summary>
-    public XDocumentAssertions(XDocument document)
-        : base(document)
+    public XDocumentAssertions(XDocument document, Assertion assertion)
+        : base(document, assertion)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -39,7 +42,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     /// </param>
     public AndConstraint<XDocumentAssertions> Be(XDocument expected, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Equals(Subject, expected))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:subject} to be {0}{reason}, but found {1}.", expected, Subject);
@@ -61,7 +64,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     /// </param>
     public AndConstraint<XDocumentAssertions> NotBe(XDocument unexpected, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(!Equals(Subject, unexpected))
             .FailWith("Did not expect {context:subject} to be {0}{reason}.", unexpected);
@@ -167,7 +170,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
 
         XElement root = Subject.Root;
 
-        Execute.Assertion
+        assertion
             .ForCondition(root is not null && root.Name == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -254,7 +257,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
             "Cannot assert the document has an element if the expected name is <null>.");
 
-        bool success = Execute.Assertion
+        assertion
             .ForCondition(Subject.Root is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -263,11 +266,11 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
 
         XElement xElement = null;
 
-        if (success)
+        if (assertion.Succeeded)
         {
             xElement = Subject.Root!.Element(expected);
 
-            Execute.Assertion
+            assertion
                 .ForCondition(xElement is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -303,30 +306,30 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
             "Cannot assert the document has an element count if the element name is <null>.");
 
-        bool success = Execute.Assertion
+        assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Cannot assert the count if the document itself is <null>.");
 
         IEnumerable<XElement> xElements = [];
 
-        if (success)
+        if (assertion.Succeeded)
         {
             var root = Subject!.Root;
 
-            success = Execute.Assertion
+            assertion
                 .ForCondition(root is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} to have root element containing a child {0}{reason}, but it has no root element.",
                     expected.ToString());
 
-            if (success)
+            if (assertion.Succeeded)
             {
                 xElements = root!.Elements(expected);
                 int actual = xElements.Count();
 
-                Execute.Assertion
+                assertion
                     .ForConstraint(occurrenceConstraint, actual)
                     .BecauseOf(because, becauseArgs)
                     .FailWith(

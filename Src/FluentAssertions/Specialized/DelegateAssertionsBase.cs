@@ -17,11 +17,15 @@ public abstract class DelegateAssertionsBase<TDelegate, TAssertions>
     where TDelegate : Delegate
     where TAssertions : DelegateAssertionsBase<TDelegate, TAssertions>
 {
+    private readonly Assertion assertion;
+
     private protected IExtractExceptions Extractor { get; }
 
-    private protected DelegateAssertionsBase(TDelegate @delegate, IExtractExceptions extractor, IClock clock)
-        : base(@delegate)
+    private protected DelegateAssertionsBase(TDelegate @delegate, IExtractExceptions extractor, Assertion assertion,
+        IClock clock)
+        : base(@delegate, assertion)
     {
+        this.assertion = assertion;
         Extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
         Clock = clock ?? throw new ArgumentNullException(nameof(clock));
     }
@@ -34,7 +38,7 @@ public abstract class DelegateAssertionsBase<TDelegate, TAssertions>
     {
         TException[] expectedExceptions = Extractor.OfType<TException>(exception).ToArray();
 
-        Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected a <{0}> to be thrown{reason}, ", typeof(TException))
             .ForCondition(exception is not null)
@@ -43,16 +47,14 @@ public abstract class DelegateAssertionsBase<TDelegate, TAssertions>
             .ForCondition(expectedExceptions.Length > 0)
             .FailWith("but found <{0}>:" + Environment.NewLine + "{1}.",
                 exception?.GetType(),
-                exception)
-            .Then
-            .ClearExpectation();
+                exception);
 
-        return new ExceptionAssertions<TException>(expectedExceptions);
+        return new ExceptionAssertions<TException>(expectedExceptions, assertion);
     }
 
     protected AndConstraint<TAssertions> NotThrowInternal(Exception exception, string because, object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(exception is null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
@@ -65,7 +67,7 @@ public abstract class DelegateAssertionsBase<TDelegate, TAssertions>
     {
         IEnumerable<TException> exceptions = Extractor.OfType<TException>(exception);
 
-        Execute.Assertion
+        assertion
             .ForCondition(!exceptions.Any())
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {0}{reason}, but found {1}.", typeof(TException), exception);

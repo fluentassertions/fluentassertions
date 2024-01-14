@@ -12,8 +12,8 @@ namespace FluentAssertions.Streams;
 [DebuggerNonUserCode]
 public class StreamAssertions : StreamAssertions<Stream, StreamAssertions>
 {
-    public StreamAssertions(Stream stream)
-        : base(stream)
+    public StreamAssertions(Stream stream, Assertion assertion)
+        : base(stream, assertion)
     {
     }
 }
@@ -25,9 +25,12 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     where TSubject : Stream
     where TAssertions : StreamAssertions<TSubject, TAssertions>
 {
-    public StreamAssertions(TSubject stream)
-        : base(stream)
+    private readonly Assertion assertion;
+
+    public StreamAssertions(TSubject stream, Assertion assertion)
+        : base(stream, assertion)
     {
+        this.assertion = assertion;
     }
 
     protected override string Identifier => "stream";
@@ -44,14 +47,14 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> BeWritable(string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:stream} to be writable{reason}, but found a <null> reference.");
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject!.CanWrite)
                 .FailWith("Expected {context:stream} to be writable{reason}, but it was not.");
@@ -72,14 +75,14 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> NotBeWritable(string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:stream} not to be writable{reason}, but found a <null> reference.");
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!Subject!.CanWrite)
                 .FailWith("Expected {context:stream} not to be writable{reason}, but it was.");
@@ -100,14 +103,14 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> BeSeekable(string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:stream} to be seekable{reason}, but found a <null> reference.");
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject!.CanSeek)
                 .FailWith("Expected {context:stream} to be seekable{reason}, but it was not.");
@@ -128,14 +131,14 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> NotBeSeekable(string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:stream} not to be seekable{reason}, but found a <null> reference.");
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!Subject!.CanSeek)
                 .FailWith("Expected {context:stream} not to be seekable{reason}, but it was.");
@@ -156,14 +159,14 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> BeReadable(string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:stream} to be readable{reason}, but found a <null> reference.");
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject!.CanRead)
                 .FailWith("Expected {context:stream} to be readable{reason}, but it was not.");
@@ -184,14 +187,14 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> NotBeReadable(string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:stream} not to be readable{reason}, but found a <null> reference.");
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!Subject!.CanRead)
                 .FailWith("Expected {context:stream} not to be readable{reason}, but it was.");
@@ -213,13 +216,13 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> HavePosition(long expected, string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected the position of {context:stream} to be {0}{reason}, but found a <null> reference.",
                 expected);
 
-        if (success)
+        if (assertion.Succeeded)
         {
             long position;
 
@@ -230,7 +233,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
             catch (Exception exception)
                 when (exception is IOException or NotSupportedException or ObjectDisposedException)
             {
-                Execute.Assertion
+                assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected the position of {context:stream} to be {0}{reason}, but it failed with:"
                                 + Environment.NewLine + "{1}",
@@ -239,7 +242,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
                 return new AndConstraint<TAssertions>((TAssertions)this);
             }
 
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(position == expected)
                 .FailWith("Expected the position of {context:stream} to be {0}{reason}, but it was {1}.",
@@ -262,13 +265,13 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> NotHavePosition(long unexpected, string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected the position of {context:stream} not to be {0}{reason}, but found a <null> reference.",
                 unexpected);
 
-        if (success)
+        if (assertion.Succeeded)
         {
             long position;
 
@@ -279,7 +282,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
             catch (Exception exception)
                 when (exception is IOException or NotSupportedException or ObjectDisposedException)
             {
-                Execute.Assertion
+                assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected the position of {context:stream} not to be {0}{reason}, but it failed with:"
                                 + Environment.NewLine + "{1}",
@@ -288,7 +291,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
                 return new AndConstraint<TAssertions>((TAssertions)this);
             }
 
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(position != unexpected)
                 .FailWith("Expected the position of {context:stream} not to be {0}{reason}, but it was.",
@@ -311,13 +314,13 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> HaveLength(long expected, string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected the length of {context:stream} to be {0}{reason}, but found a <null> reference.",
                 expected);
 
-        if (success)
+        if (assertion.Succeeded)
         {
             long length;
 
@@ -328,7 +331,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
             catch (Exception exception)
                 when (exception is IOException or NotSupportedException or ObjectDisposedException)
             {
-                Execute.Assertion
+                assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected the length of {context:stream} to be {0}{reason}, but it failed with:"
                                 + Environment.NewLine + "{1}",
@@ -337,7 +340,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
                 return new AndConstraint<TAssertions>((TAssertions)this);
             }
 
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(length == expected)
                 .FailWith("Expected the length of {context:stream} to be {0}{reason}, but it was {1}.",
@@ -360,13 +363,13 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> NotHaveLength(long unexpected, string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected the length of {context:stream} not to be {0}{reason}, but found a <null> reference.",
                 unexpected);
 
-        if (success)
+        if (assertion.Succeeded)
         {
             long length;
 
@@ -377,7 +380,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
             catch (Exception exception)
                 when (exception is IOException or NotSupportedException or ObjectDisposedException)
             {
-                Execute.Assertion
+                assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected the length of {context:stream} not to be {0}{reason}, but it failed with:"
                                 + Environment.NewLine + "{1}",
@@ -386,7 +389,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
                 return new AndConstraint<TAssertions>((TAssertions)this);
             }
 
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(length != unexpected)
                 .FailWith("Expected the length of {context:stream} not to be {0}{reason}, but it was.",
@@ -408,14 +411,14 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> BeReadOnly(string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:stream} to be read-only{reason}, but found a <null> reference.");
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!Subject!.CanWrite && Subject.CanRead)
                 .FailWith("Expected {context:stream} to be read-only{reason}, but it was writable or not readable.");
@@ -436,14 +439,14 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> NotBeReadOnly(string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:stream} not to be read-only{reason}, but found a <null> reference.");
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject!.CanWrite || !Subject.CanRead)
                 .FailWith("Expected {context:stream} not to be read-only{reason}, but it was.");
@@ -464,14 +467,14 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> BeWriteOnly(string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:stream} to be write-only{reason}, but found a <null> reference.");
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject!.CanWrite && !Subject.CanRead)
                 .FailWith("Expected {context:stream} to be write-only{reason}, but it was readable or not writable.");
@@ -492,14 +495,14 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> NotBeWriteOnly(string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:stream} not to be write-only{reason}, but found a <null> reference.");
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!Subject!.CanWrite || Subject.CanRead)
                 .FailWith("Expected {context:stream} not to be write-only{reason}, but it was.");

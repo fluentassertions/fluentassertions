@@ -14,4 +14,6 @@ public class NewContinuationOfGiven<TSubject>
     /// Continuous the assertion chain if the previous assertion was successful.
     /// </summary>
     public NewGivenSelector<TSubject> Then { get; }
+
+    public bool Succeeded => Then.Succeeded;
 }

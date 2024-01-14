@@ -17,12 +17,15 @@ namespace FluentAssertions.Types;
 [DebuggerNonUserCode]
 public class TypeSelectorAssertions
 {
+    private readonly Assertion assertion;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="TypeSelectorAssertions"/> class.
     /// </summary>
     /// <exception cref="ArgumentNullException"><paramref name="types"/> is or contains <see langword="null"/>.</exception>
-    public TypeSelectorAssertions(params Type[] types)
+    public TypeSelectorAssertions(Assertion assertion, params Type[] types)
     {
+        this.assertion = assertion;
         Guard.ThrowIfArgumentIsNull(types);
         Guard.ThrowIfArgumentContainsNull(types);
 
@@ -51,7 +54,7 @@ public class TypeSelectorAssertions
             .Where(type => !type.IsDecoratedWith<TAttribute>())
             .ToArray();
 
-        Execute.Assertion
+        assertion
             .ForCondition(typesWithoutAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be decorated with {0}{reason}," +
@@ -87,7 +90,7 @@ public class TypeSelectorAssertions
             .Where(type => !type.IsDecoratedWith(isMatchingAttributePredicate))
             .ToArray();
 
-        Execute.Assertion
+        assertion
             .ForCondition(typesWithoutMatchingAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be decorated with {0} that matches {1}{reason}," +
@@ -117,7 +120,7 @@ public class TypeSelectorAssertions
             .Where(type => !type.IsDecoratedWithOrInherit<TAttribute>())
             .ToArray();
 
-        Execute.Assertion
+        assertion
             .ForCondition(typesWithoutAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be decorated with or inherit {0}{reason}," +
@@ -153,7 +156,7 @@ public class TypeSelectorAssertions
             .Where(type => !type.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
             .ToArray();
 
-        Execute.Assertion
+        assertion
             .ForCondition(typesWithoutMatchingAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be decorated with or inherit {0} that matches {1}{reason}," +
@@ -182,7 +185,7 @@ public class TypeSelectorAssertions
             .Where(type => type.IsDecoratedWith<TAttribute>())
             .ToArray();
 
-        Execute.Assertion
+        assertion
             .ForCondition(typesWithAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to not be decorated with {0}{reason}," +
@@ -218,7 +221,7 @@ public class TypeSelectorAssertions
             .Where(type => type.IsDecoratedWith(isMatchingAttributePredicate))
             .ToArray();
 
-        Execute.Assertion
+        assertion
             .ForCondition(typesWithMatchingAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to not be decorated with {0} that matches {1}{reason}," +
@@ -248,7 +251,7 @@ public class TypeSelectorAssertions
             .Where(type => type.IsDecoratedWithOrInherit<TAttribute>())
             .ToArray();
 
-        Execute.Assertion
+        assertion
             .ForCondition(typesWithAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to not be decorated with or inherit {0}{reason}," +
@@ -284,7 +287,7 @@ public class TypeSelectorAssertions
             .Where(type => type.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
             .ToArray();
 
-        Execute.Assertion
+        assertion
             .ForCondition(typesWithMatchingAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to not be decorated with or inherit {0} that matches {1}{reason}," +
@@ -310,7 +313,7 @@ public class TypeSelectorAssertions
     {
         var notSealedTypes = Subject.Where(type => !type.IsCSharpSealed()).ToArray();
 
-        Execute.Assertion.ForCondition(notSealedTypes.Length == 0)
+        assertion.ForCondition(notSealedTypes.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be sealed{reason}, but the following types are not:" + Environment.NewLine + "{0}.",
                 GetDescriptionsFor(notSealedTypes));
@@ -332,7 +335,7 @@ public class TypeSelectorAssertions
     {
         var sealedTypes = Subject.Where(type => type.IsCSharpSealed()).ToArray();
 
-        Execute.Assertion.ForCondition(sealedTypes.Length == 0)
+        assertion.ForCondition(sealedTypes.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types not to be sealed{reason}, but the following types are:" + Environment.NewLine + "{0}.",
                 GetDescriptionsFor(sealedTypes));
@@ -360,7 +363,7 @@ public class TypeSelectorAssertions
             .Where(t => t.Namespace != @namespace)
             .ToArray();
 
-        Execute.Assertion
+        assertion
             .ForCondition(typesNotInNamespace.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be in namespace {0}{reason}," +
@@ -391,7 +394,7 @@ public class TypeSelectorAssertions
             .Where(t => t.Namespace == @namespace)
             .ToArray();
 
-        Execute.Assertion
+        assertion
             .ForCondition(typesInNamespace.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected no types to be in namespace {0}{reason}," +
@@ -422,7 +425,7 @@ public class TypeSelectorAssertions
             .Where(t => !t.IsUnderNamespace(@namespace))
             .ToArray();
 
-        Execute.Assertion
+        assertion
             .ForCondition(typesNotUnderNamespace.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected the namespaces of all types to start with {0}{reason}," +
@@ -454,7 +457,7 @@ public class TypeSelectorAssertions
             .Where(t => t.IsUnderNamespace(@namespace))
             .ToArray();
 
-        Execute.Assertion
+        assertion
             .ForCondition(typesUnderNamespace.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected the namespaces of all types to not start with {0}{reason}," +

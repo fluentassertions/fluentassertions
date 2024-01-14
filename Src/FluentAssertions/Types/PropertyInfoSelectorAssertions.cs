@@ -16,6 +16,8 @@ namespace FluentAssertions.Types;
 [DebuggerNonUserCode]
 public class PropertyInfoSelectorAssertions
 {
+    private readonly Assertion assertion;
+
     /// <summary>
     /// Gets the object whose value is being asserted.
     /// </summary>
@@ -26,8 +28,9 @@ public class PropertyInfoSelectorAssertions
     /// </summary>
     /// <param name="properties">The properties to assert.</param>
     /// <exception cref="ArgumentNullException"><paramref name="properties"/> is <see langword="null"/>.</exception>
-    public PropertyInfoSelectorAssertions(params PropertyInfo[] properties)
+    public PropertyInfoSelectorAssertions(Assertion assertion, params PropertyInfo[] properties)
     {
+        this.assertion = assertion;
         Guard.ThrowIfArgumentIsNull(properties);
 
         SubjectProperties = properties;
@@ -47,7 +50,7 @@ public class PropertyInfoSelectorAssertions
     {
         PropertyInfo[] nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
 
-        Execute.Assertion
+        assertion
             .ForCondition(nonVirtualProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -71,7 +74,7 @@ public class PropertyInfoSelectorAssertions
     {
         PropertyInfo[] virtualProperties = GetAllVirtualPropertiesFromSelection();
 
-        Execute.Assertion
+        assertion
             .ForCondition(virtualProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -95,7 +98,7 @@ public class PropertyInfoSelectorAssertions
     {
         PropertyInfo[] readOnlyProperties = GetAllReadOnlyPropertiesFromSelection();
 
-        Execute.Assertion
+        assertion
             .ForCondition(readOnlyProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -119,7 +122,7 @@ public class PropertyInfoSelectorAssertions
     {
         PropertyInfo[] writableProperties = GetAllWritablePropertiesFromSelection();
 
-        Execute.Assertion
+        assertion
             .ForCondition(writableProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -165,7 +168,7 @@ public class PropertyInfoSelectorAssertions
     {
         PropertyInfo[] propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
 
-        Execute.Assertion
+        assertion
             .ForCondition(propertiesWithoutAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -192,7 +195,7 @@ public class PropertyInfoSelectorAssertions
     {
         PropertyInfo[] propertiesWithAttribute = GetPropertiesWith<TAttribute>();
 
-        Execute.Assertion
+        assertion
             .ForCondition(propertiesWithAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(

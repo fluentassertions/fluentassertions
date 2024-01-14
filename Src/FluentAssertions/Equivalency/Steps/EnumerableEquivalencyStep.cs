@@ -7,8 +7,8 @@ namespace FluentAssertions.Equivalency.Steps;
 
 public class EnumerableEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, Assertion assertion, IEquivalencyValidationContext context,
+        IValidateChildNodeEquivalency nestedValidator)
     {
         if (!IsCollection(comparands.GetExpectedType(context.Options)))
         {
@@ -17,7 +17,7 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
 
         if (AssertSubjectIsCollection(comparands.Subject))
         {
-            var validator = new EnumerableEquivalencyValidator(nestedValidator, context)
+            var validator = new EnumerableEquivalencyValidator(assertion, nestedValidator, context)
             {
                 Recursive = context.CurrentNode.IsRoot || context.Options.IsRecursive,
                 OrderingRules = context.Options.OrderingRules
@@ -26,7 +26,7 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
             validator.Execute(ToArray(comparands.Subject), ToArray(comparands.Expectation));
         }
 
-        return EquivalencyResult.AssertionCompleted;
+        return EquivalencyResult.EquivalencyProven;
     }
 
     private static bool AssertSubjectIsCollection(object subject)

@@ -72,9 +72,16 @@ public class AssertionFailureSpecs
 
     internal class AssertionsTestSubClass : ReferenceTypeAssertions<object, AssertionsTestSubClass>
     {
+        private static readonly Assertion Assertion = Assertion.GetOrCreate();
+
+        public AssertionsTestSubClass()
+            : base(null, Assertion)
+        {
+        }
+
         public void AssertFail(string because, params object[] becauseArgs)
         {
-            Execute.Assertion
+            Assertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected it to fail{reason}");
         }
@@ -82,11 +89,6 @@ public class AssertionFailureSpecs
         protected override string Identifier
         {
             get { return "test"; }
-        }
-
-        public AssertionsTestSubClass()
-            : base(null)
-        {
         }
     }
 }

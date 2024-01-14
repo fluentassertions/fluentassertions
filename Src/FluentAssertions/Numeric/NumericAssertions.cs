@@ -15,8 +15,8 @@ namespace FluentAssertions.Numeric;
 public class NumericAssertions<T> : NumericAssertions<T, NumericAssertions<T>>
     where T : struct, IComparable<T>
 {
-    public NumericAssertions(T value)
-        : base(value)
+    public NumericAssertions(T value, Assertion assertion)
+        : base(value, assertion)
     {
     }
 }
@@ -31,14 +31,15 @@ public class NumericAssertions<T, TAssertions>
     where T : struct, IComparable<T>
     where TAssertions : NumericAssertions<T, TAssertions>
 {
-    public NumericAssertions(T value)
-        : this((T?)value)
+    public NumericAssertions(T value, Assertion assertion)
+        : this((T?)value, assertion)
     {
     }
 
-    private protected NumericAssertions(T? value)
+    private protected NumericAssertions(T? value, Assertion assertion)
     {
         Subject = value;
+        this.CurrentAssertion = assertion;
     }
 
     public T? Subject { get; }
@@ -56,7 +57,7 @@ public class NumericAssertions<T, TAssertions>
     /// </param>
     public AndConstraint<TAssertions> Be(T expected, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject?.CompareTo(expected) == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to be {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected,
@@ -78,7 +79,7 @@ public class NumericAssertions<T, TAssertions>
     /// </param>
     public AndConstraint<TAssertions> Be(T? expected, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(expected is { } value ? Subject?.CompareTo(value) == 0 : !Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to be {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected,
@@ -100,7 +101,7 @@ public class NumericAssertions<T, TAssertions>
     /// </param>
     public AndConstraint<TAssertions> NotBe(T unexpected, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject?.CompareTo(unexpected) != 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:value} to be {0}{reason}.", unexpected);
@@ -121,7 +122,7 @@ public class NumericAssertions<T, TAssertions>
     /// </param>
     public AndConstraint<TAssertions> NotBe(T? unexpected, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(unexpected is { } value ? Subject?.CompareTo(value) != 0 : Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:value} to be {0}{reason}.", unexpected);
@@ -141,7 +142,7 @@ public class NumericAssertions<T, TAssertions>
     /// </param>
     public AndConstraint<TAssertions> BePositive(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject?.CompareTo(default) > 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to be positive{reason}, but found {0}.", Subject);
@@ -161,7 +162,7 @@ public class NumericAssertions<T, TAssertions>
     /// </param>
     public AndConstraint<TAssertions> BeNegative(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject is { } value && !IsNaN(value) && value.CompareTo(default) < 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to be negative{reason}, but found {0}.", Subject);
@@ -187,7 +188,7 @@ public class NumericAssertions<T, TAssertions>
             throw new ArgumentException("A value can never be less than NaN", nameof(expected));
         }
 
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject is { } value && !IsNaN(value) && value.CompareTo(expected) < 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to be less than {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected),
@@ -215,7 +216,7 @@ public class NumericAssertions<T, TAssertions>
             throw new ArgumentException("A value can never be less than or equal to NaN", nameof(expected));
         }
 
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject is { } value && !IsNaN(value) && value.CompareTo(expected) <= 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -244,7 +245,7 @@ public class NumericAssertions<T, TAssertions>
             throw new ArgumentException("A value can never be greater than NaN", nameof(expected));
         }
 
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject?.CompareTo(expected) > 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -273,7 +274,7 @@ public class NumericAssertions<T, TAssertions>
             throw new ArgumentException("A value can never be greater than or equal to a NaN", nameof(expected));
         }
 
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject?.CompareTo(expected) >= 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -310,7 +311,7 @@ public class NumericAssertions<T, TAssertions>
             throw new ArgumentException("A range cannot begin or end with NaN");
         }
 
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject is { } value && value.CompareTo(minimumValue) >= 0 && value.CompareTo(maximumValue) <= 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to be between {0} and {1}{reason}, but found {2}.",
@@ -346,7 +347,7 @@ public class NumericAssertions<T, TAssertions>
             throw new ArgumentException("A range cannot begin or end with NaN");
         }
 
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject is { } value && !(value.CompareTo(minimumValue) >= 0 && value.CompareTo(maximumValue) <= 0))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to not be between {0} and {1}{reason}, but found {2}.",
@@ -382,7 +383,7 @@ public class NumericAssertions<T, TAssertions>
     public AndConstraint<TAssertions> BeOneOf(IEnumerable<T> validValues, string because = "",
         params object[] becauseArgs)
     {
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject is { } value && validValues.Contains(value))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to be one of {0}{reason}, but found {1}.", validValues, Subject);
@@ -440,12 +441,12 @@ public class NumericAssertions<T, TAssertions>
     {
         Guard.ThrowIfArgumentIsNull(unexpectedType);
 
-        bool success = Execute.Assertion
+        CurrentAssertion
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected type not to be " + unexpectedType + "{reason}, but found <null>.");
 
-        if (success)
+        if (CurrentAssertion.Succeeded)
         {
             Subject.GetType().Should().NotBe(unexpectedType, because, becauseArgs);
         }
@@ -473,7 +474,7 @@ public class NumericAssertions<T, TAssertions>
     {
         Guard.ThrowIfArgumentIsNull(predicate);
 
-        Execute.Assertion
+        CurrentAssertion
             .ForCondition(predicate.Compile()((T)Subject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to match {0}{reason}, but found {1}.", predicate.Body, Subject);
@@ -510,4 +511,6 @@ public class NumericAssertions<T, TAssertions>
         var difference = CalculateDifferenceForFailureMessage(subject, expectedValue);
         return difference is null ? noDifferenceMessage : $" (difference of {difference}).";
     }
+
+    public Assertion CurrentAssertion { get; }
 }

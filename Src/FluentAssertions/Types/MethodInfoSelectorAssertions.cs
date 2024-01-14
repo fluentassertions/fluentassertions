@@ -17,13 +17,16 @@ namespace FluentAssertions.Types;
 [DebuggerNonUserCode]
 public class MethodInfoSelectorAssertions
 {
+    private readonly Assertion assertion;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="MethodInfoSelectorAssertions"/> class.
     /// </summary>
     /// <param name="methods">The methods to assert.</param>
     /// <exception cref="ArgumentNullException"><paramref name="methods"/> is <see langword="null"/>.</exception>
-    public MethodInfoSelectorAssertions(params MethodInfo[] methods)
+    public MethodInfoSelectorAssertions(Assertion assertion, params MethodInfo[] methods)
     {
+        this.assertion = assertion;
         Guard.ThrowIfArgumentIsNull(methods);
 
         SubjectMethods = methods;
@@ -53,7 +56,7 @@ public class MethodInfoSelectorAssertions
             Environment.NewLine +
             GetDescriptionsFor(nonVirtualMethods);
 
-        Execute.Assertion
+        assertion
             .ForCondition(nonVirtualMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
@@ -80,7 +83,7 @@ public class MethodInfoSelectorAssertions
             Environment.NewLine +
             GetDescriptionsFor(virtualMethods);
 
-        Execute.Assertion
+        assertion
             .ForCondition(virtualMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
@@ -117,7 +120,7 @@ public class MethodInfoSelectorAssertions
             Environment.NewLine +
             GetDescriptionsFor(nonAsyncMethods);
 
-        Execute.Assertion
+        assertion
             .ForCondition(nonAsyncMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
@@ -144,7 +147,7 @@ public class MethodInfoSelectorAssertions
             Environment.NewLine +
             GetDescriptionsFor(asyncMethods);
 
-        Execute.Assertion
+        assertion
             .ForCondition(asyncMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
@@ -197,7 +200,7 @@ public class MethodInfoSelectorAssertions
             Environment.NewLine +
             GetDescriptionsFor(methodsWithoutAttribute);
 
-        Execute.Assertion
+        assertion
             .ForCondition(methodsWithoutAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage, typeof(TAttribute));
@@ -250,7 +253,7 @@ public class MethodInfoSelectorAssertions
             Environment.NewLine +
             GetDescriptionsFor(methodsWithAttribute);
 
-        Execute.Assertion
+        assertion
             .ForCondition(methodsWithAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage, typeof(TAttribute));
@@ -277,7 +280,7 @@ public class MethodInfoSelectorAssertions
         var message = $"Expected all selected methods to be {accessModifier}{{reason}}, but the following methods are not:" +
             Environment.NewLine + GetDescriptionsFor(methods);
 
-        Execute.Assertion
+        assertion
             .ForCondition(methods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(message);
@@ -304,7 +307,7 @@ public class MethodInfoSelectorAssertions
         var message = $"Expected all selected methods to not be {accessModifier}{{reason}}, but the following methods are:" +
             Environment.NewLine + GetDescriptionsFor(methods);
 
-        Execute.Assertion
+        assertion
             .ForCondition(methods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(message);

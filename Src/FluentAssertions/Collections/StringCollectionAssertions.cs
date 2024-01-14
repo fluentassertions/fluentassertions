@@ -35,12 +35,15 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     where TCollection : IEnumerable<string>
     where TAssertions : StringCollectionAssertions<TCollection, TAssertions>
 {
+    private readonly Assertion assertion;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="StringCollectionAssertions{TCollection, TAssertions}"/> class.
     /// </summary>
     public StringCollectionAssertions(TCollection actualValue, Assertion assertion)
         : base(actualValue, assertion)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -248,16 +251,16 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
         Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
             "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.");
 
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern);
 
         IEnumerable<string> matched = [];
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(ContainsMatch(wildcardPattern))
                 .FailWith("Expected {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);
@@ -333,15 +336,15 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
         Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
             "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.");
 
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Did not expect {context:collection} to contain a match of {0}{reason}, but found <null>.",
                 wildcardPattern);
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(NotContainsMatch(wildcardPattern))
                 .FailWith("Did not expect {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);

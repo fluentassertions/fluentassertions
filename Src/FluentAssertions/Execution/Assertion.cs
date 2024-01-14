@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using FluentAssertions.Common;
 
@@ -9,7 +10,9 @@ namespace FluentAssertions.Execution;
 public class Assertion<TAssertion> : IAssertion
     where TAssertion : Assertion<TAssertion>
 {
-    private const string FallbackIdentifier = "object";
+    private readonly StringBuilder tracing = new();
+    private readonly ContextDataItems contextData = new();
+    private string fallbackIdentifier = "object";
     private Func<string> getCallerIdentifier;
     private bool previousAssertionSucceeded;
     private Func<string> reason;
@@ -111,11 +114,33 @@ public class Assertion<TAssertion> : IAssertion
                     actualReason,
                     GetCurrentScope().ContextData,
                     identifier,
-                    FallbackIdentifier);
+                    fallbackIdentifier);
             };
         }
 
         return (TAssertion)this;
+    }
+
+    public void WithReportable(string name, Func<string> content)
+    {
+        GetCurrentScope().AddReportable(name, content);
+    }
+
+    /// <inheritdoc cref="IAssertionScope.WithDefaultIdentifier(string)"/>
+    public TAssertion WithDefaultIdentifier(string identifier)
+    {
+        fallbackIdentifier = identifier;
+        return (TAssertion)this;
+    }
+
+    public NewGivenSelector<T> Given<T>(Func<T> selector)
+    {
+        return new NewGivenSelector<T>(selector, this);
+    }
+
+    internal NewContinuation<ContinuedAssertion> FailWithPreFormatted(string formattedFailReason)
+    {
+        return FailWith(() => formattedFailReason);
     }
 
     public NewContinuation<ContinuedAssertion> FailWith(string message)
@@ -150,9 +175,9 @@ public class Assertion<TAssertion> : IAssertion
                     failReason.Message,
                     failReason.Args,
                     localReason,
-                    GetCurrentScope().ContextData,
+                    contextData,
                     identifier,
-                    FallbackIdentifier);
+                    fallbackIdentifier);
 
                 return result;
             });
@@ -188,6 +213,20 @@ public class Assertion<TAssertion> : IAssertion
         getCallerIdentifier = () => originalCallerIdentifier() + postfix;
     }
 
+    /// <summary>
+    /// Adds a block of tracing to the scope for reporting when an assertion fails.
+    /// </summary>
+    public void AppendTracing(string tracingBlock)
+    {
+        tracing.Append(tracingBlock);
+    }
+
+    internal void TrackComparands(object subject, object expectation)
+    {
+        contextData.Add(new ContextDataItems.DataItem("subject", subject, reportable: false, requiresFormatting: true));
+        contextData.Add(new ContextDataItems.DataItem("expectation", expectation, reportable: false, requiresFormatting: true));
+    }
+
     public Func<IAssertionScope> GetCurrentScope { get; }
 
     public Func<string> GetCallerIdentifier => getCallerIdentifier;
@@ -208,6 +247,7 @@ public class Assertion<TAssertion> : IAssertion
 
 public sealed class Assertion : Assertion<Assertion>
 {
+    // REFACTOR: Do we really need to pass in the scope and identifier?
     private Assertion(Func<IAssertionScope> currentScope, Func<string> getCallerIdentifier)
         : base(currentScope, getCallerIdentifier, previousAssertionSucceeded: true)
     {
@@ -218,6 +258,11 @@ public sealed class Assertion : Assertion<Assertion>
     public static void ReuseOnce(Assertion assertion)
     {
         Instance.Value = assertion;
+    }
+
+    public static Assertion GetOrCreate()
+    {
+        return GetOrCreate(() => AssertionScope.Current, () => AssertionScope.Current.GetIdentifier());
     }
 
     public static Assertion GetOrCreate(Func<AssertionScope> getCurrent, Func<string> getCallerIdentifier)

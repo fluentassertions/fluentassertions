@@ -14,8 +14,8 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class NullableDateTimeAssertions : NullableDateTimeAssertions<NullableDateTimeAssertions>
 {
-    public NullableDateTimeAssertions(DateTime? expected)
-        : base(expected)
+    public NullableDateTimeAssertions(DateTime? expected, Assertion assertion)
+        : base(expected, assertion)
     {
     }
 }
@@ -30,9 +30,12 @@ public class NullableDateTimeAssertions : NullableDateTimeAssertions<NullableDat
 public class NullableDateTimeAssertions<TAssertions> : DateTimeAssertions<TAssertions>
     where TAssertions : NullableDateTimeAssertions<TAssertions>
 {
-    public NullableDateTimeAssertions(DateTime? expected)
-        : base(expected)
+    private readonly Assertion assertion;
+
+    public NullableDateTimeAssertions(DateTime? expected, Assertion assertion)
+        : base(expected, assertion)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -47,7 +50,7 @@ public class NullableDateTimeAssertions<TAssertions> : DateTimeAssertions<TAsser
     /// </param>
     public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:nullable date and time} to have a value{reason}, but found {0}.", Subject);
@@ -82,7 +85,7 @@ public class NullableDateTimeAssertions<TAssertions> : DateTimeAssertions<TAsser
     /// </param>
     public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:nullable date and time} to have a value{reason}, but found {0}.", Subject);

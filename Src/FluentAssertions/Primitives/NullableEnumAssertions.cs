@@ -9,8 +9,8 @@ namespace FluentAssertions.Primitives;
 public class NullableEnumAssertions<TEnum> : NullableEnumAssertions<TEnum, NullableEnumAssertions<TEnum>>
     where TEnum : struct, Enum
 {
-    public NullableEnumAssertions(TEnum? subject)
-        : base(subject)
+    public NullableEnumAssertions(TEnum? subject, Assertion assertion)
+        : base(subject, assertion)
     {
     }
 }
@@ -22,9 +22,12 @@ public class NullableEnumAssertions<TEnum, TAssertions> : EnumAssertions<TEnum, 
     where TEnum : struct, Enum
     where TAssertions : NullableEnumAssertions<TEnum, TAssertions>
 {
-    public NullableEnumAssertions(TEnum? subject)
-        : base(subject)
+    private readonly Assertion assertion;
+
+    public NullableEnumAssertions(TEnum? subject, Assertion assertion)
+        : base(subject, assertion)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -39,7 +42,7 @@ public class NullableEnumAssertions<TEnum, TAssertions> : EnumAssertions<TEnum, 
     /// </param>
     public AndWhichConstraint<TAssertions, TEnum> HaveValue(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:nullable enum} to have a value{reason}, but found {0}.", Subject);
@@ -74,7 +77,7 @@ public class NullableEnumAssertions<TEnum, TAssertions> : EnumAssertions<TEnum, 
     /// </param>
     public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:nullable enum} to have a value{reason}, but found {0}.", Subject);

@@ -15,14 +15,18 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     where TDelegate : Delegate
     where TAssertions : DelegateAssertions<TDelegate, TAssertions>
 {
-    protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor)
-        : base(@delegate, extractor, new Clock())
+    private readonly Assertion assertion;
+
+    protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, Assertion assertion)
+        : base(@delegate, extractor, assertion, new Clock())
     {
+        this.assertion = assertion;
     }
 
-    private protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, IClock clock)
-        : base(@delegate, extractor, clock)
+    private protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, Assertion assertion, IClock clock)
+        : base(@delegate, extractor, assertion, clock)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -38,19 +42,19 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     public ExceptionAssertions<TException> Throw<TException>(string because = "", params object[] becauseArgs)
         where TException : Exception
     {
-        bool success = Execute.Assertion
+        assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
-        if (success)
+        if (assertion.Succeeded)
         {
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
             return ThrowInternal<TException>(exception, because, becauseArgs);
         }
 
-        return new ExceptionAssertions<TException>([]);
+        return new ExceptionAssertions<TException>([], assertion);
     }
 
     /// <summary>
@@ -66,12 +70,12 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     public AndConstraint<TAssertions> NotThrow<TException>(string because = "", params object[] becauseArgs)
         where TException : Exception
     {
-        bool success = Execute.Assertion
+        assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw {0}{reason}, but found <null>.", typeof(TException));
 
-        if (success)
+        if (assertion.Succeeded)
         {
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
@@ -101,32 +105,32 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
         params object[] becauseArgs)
         where TException : Exception
     {
-        bool success = Execute.Assertion
+        assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", typeof(TException));
 
-        if (success)
+        if (assertion.Succeeded)
         {
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
 
             Type expectedType = typeof(TException);
 
-            success = Execute.Assertion
+            assertion
                 .ForCondition(exception is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
 
-            if (success)
+            if (assertion.Succeeded)
             {
                 exception.Should().BeOfType(expectedType, because, becauseArgs);
             }
 
-            return new ExceptionAssertions<TException>([exception as TException]);
+            return new ExceptionAssertions<TException>([exception as TException], assertion);
         }
 
-        return new ExceptionAssertions<TException>([]);
+        return new ExceptionAssertions<TException>([], assertion);
     }
 
     protected abstract void InvokeSubject();

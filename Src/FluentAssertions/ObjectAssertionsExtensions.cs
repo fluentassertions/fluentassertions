@@ -65,7 +65,7 @@ public static class ObjectAssertionsExtensions
         }
         catch (Exception exc)
         {
-            Execute.Assertion
+            assertions.CurrentAssertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:"
                     + Environment.NewLine + Environment.NewLine + "{1}.",
@@ -109,7 +109,7 @@ public static class ObjectAssertionsExtensions
         }
         catch (Exception exc)
         {
-            Execute.Assertion
+            assertions.CurrentAssertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:"
                     + Environment.NewLine + Environment.NewLine + "{1}.",

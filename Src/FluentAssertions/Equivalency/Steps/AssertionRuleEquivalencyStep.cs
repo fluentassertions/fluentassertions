@@ -10,20 +10,20 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
 {
     private readonly Func<IObjectInfo, bool> predicate;
     private readonly string description;
-    private readonly Action<IAssertionContext<TSubject>> assertion;
+    private readonly Action<IAssertionContext<TSubject>> assertionAction;
     private readonly AutoConversionStep converter = new();
 
     public AssertionRuleEquivalencyStep(
         Expression<Func<IObjectInfo, bool>> predicate,
-        Action<IAssertionContext<TSubject>> assertion)
+        Action<IAssertionContext<TSubject>> assertionAction)
     {
         this.predicate = predicate.Compile();
-        this.assertion = assertion;
+        this.assertionAction = assertionAction;
         description = predicate.ToString();
     }
 
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, Assertion assertion, IEquivalencyValidationContext context,
+        IValidateChildNodeEquivalency nestedValidator)
     {
         bool success = false;
 
@@ -41,7 +41,7 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
             {
                 // Convert into a child context
                 context = context.Clone();
-                converter.Handle(comparands, context, nestedValidator);
+                converter.Handle(comparands, assertion, context, nestedValidator);
                 converted = true;
             }
 
@@ -50,7 +50,7 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
                 // Try again after conversion
                 success = ExecuteAssertion(comparands, context);
 
-                if (success)
+                if (assertion.Succeeded)
                 {
                     // If the assertion succeeded after conversion, discard the failures from
                     // the previous attempt. If it didn't, let the scope throw with those failures.
@@ -59,7 +59,7 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
             }
         }
 
-        return success ? EquivalencyResult.AssertionCompleted : EquivalencyResult.ContinueWithNext;
+        return success ? EquivalencyResult.EquivalencyProven : EquivalencyResult.ContinueWithNext;
     }
 
     private bool AppliesTo(Comparands comparands, INode currentNode) => predicate(new ObjectInfo(comparands, currentNode));
@@ -90,7 +90,7 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
                 return false;
             }
 
-            assertion(AssertionContext<TSubject>.CreateFrom(comparands, context));
+            assertionAction(AssertionContext<TSubject>.CreateFrom(comparands, context));
             return true;
         }
 

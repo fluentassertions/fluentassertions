@@ -14,9 +14,12 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class NullableDateTimeOffsetAssertions : NullableDateTimeOffsetAssertions<NullableDateTimeOffsetAssertions>
 {
-    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected)
-        : base(expected)
+    private readonly Assertion assertion;
+
+    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected, Assertion assertion)
+        : base(expected, assertion)
     {
+        this.assertion = assertion;
     }
 }
 
@@ -31,9 +34,12 @@ public class NullableDateTimeOffsetAssertions : NullableDateTimeOffsetAssertions
 public class NullableDateTimeOffsetAssertions<TAssertions> : DateTimeOffsetAssertions<TAssertions>
     where TAssertions : NullableDateTimeOffsetAssertions<TAssertions>
 {
-    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected)
-        : base(expected)
+    private readonly Assertion assertion;
+
+    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected, Assertion assertion)
+        : base(expected, assertion)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -48,7 +54,7 @@ public class NullableDateTimeOffsetAssertions<TAssertions> : DateTimeOffsetAsser
     /// </param>
     public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:variable} to have a value{reason}, but found {0}", Subject);
@@ -84,7 +90,7 @@ public class NullableDateTimeOffsetAssertions<TAssertions> : DateTimeOffsetAsser
     public AndConstraint<TAssertions> NotHaveValue(string because = "",
         params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:variable} to have a value{reason}, but found {0}", Subject);

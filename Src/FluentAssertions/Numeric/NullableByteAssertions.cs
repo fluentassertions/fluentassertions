@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Numeric;
 
@@ -9,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class NullableByteAssertions : NullableNumericAssertions<byte>
 {
-    internal NullableByteAssertions(byte? value)
-        : base(value)
+    internal NullableByteAssertions(byte? value, Assertion assertion)
+        : base(value, assertion)
     {
     }
 

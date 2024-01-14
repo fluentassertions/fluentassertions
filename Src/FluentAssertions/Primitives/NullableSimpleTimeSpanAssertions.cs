@@ -14,8 +14,8 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class NullableSimpleTimeSpanAssertions : NullableSimpleTimeSpanAssertions<NullableSimpleTimeSpanAssertions>
 {
-    public NullableSimpleTimeSpanAssertions(TimeSpan? value)
-        : base(value)
+    public NullableSimpleTimeSpanAssertions(TimeSpan? value, Assertion assertion)
+        : base(value, assertion)
     {
     }
 }
@@ -31,9 +31,12 @@ public class NullableSimpleTimeSpanAssertions : NullableSimpleTimeSpanAssertions
 public class NullableSimpleTimeSpanAssertions<TAssertions> : SimpleTimeSpanAssertions<TAssertions>
     where TAssertions : NullableSimpleTimeSpanAssertions<TAssertions>
 {
-    public NullableSimpleTimeSpanAssertions(TimeSpan? value)
-        : base(value)
+    private readonly Assertion assertion;
+
+    public NullableSimpleTimeSpanAssertions(TimeSpan? value, Assertion assertion)
+        : base(value, assertion)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -48,7 +51,7 @@ public class NullableSimpleTimeSpanAssertions<TAssertions> : SimpleTimeSpanAsser
     /// </param>
     public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected a value{reason}.");
@@ -83,7 +86,7 @@ public class NullableSimpleTimeSpanAssertions<TAssertions> : SimpleTimeSpanAsser
     /// </param>
     public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
@@ -120,7 +123,7 @@ public class NullableSimpleTimeSpanAssertions<TAssertions> : SimpleTimeSpanAsser
     public AndConstraint<TAssertions> Be(TimeSpan? expected, string because = "",
         params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertion
             .ForCondition(Subject == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);

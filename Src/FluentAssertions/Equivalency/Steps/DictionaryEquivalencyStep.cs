@@ -8,13 +8,14 @@ namespace FluentAssertions.Equivalency.Steps;
 public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
 {
     [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
-    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+    protected override EquivalencyResult OnHandle(Comparands comparands, Assertion assertion,
+        IEquivalencyValidationContext context,
+        IValidateChildNodeEquivalency nestedValidator)
     {
         var subject = comparands.Subject as IDictionary;
         var expectation = comparands.Expectation as IDictionary;
 
-        if (PreconditionsAreMet(expectation, subject) && expectation is not null)
+        if (PreconditionsAreMet(expectation, subject, assertion) && expectation is not null)
         {
             foreach (object key in expectation.Keys)
             {
@@ -23,8 +24,8 @@ public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
                     context.Tracer.WriteLine(member =>
                         Invariant($"Recursing into dictionary item {key} at {member.Description}"));
 
-                    nestedValidator.RecursivelyAssertEquality(new Comparands(subject[key], expectation[key], typeof(object)),
-                        context.AsDictionaryItem<object, IDictionary>(key));
+                    nestedValidator.AssertEquivalencyOf(new Comparands(subject[key], expectation[key], typeof(object)),
+                        assertion, context.AsDictionaryItem<object, IDictionary>(key));
                 }
                 else
                 {
@@ -37,35 +38,41 @@ public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
             }
         }
 
-        return EquivalencyResult.AssertionCompleted;
+        return EquivalencyResult.EquivalencyProven;
     }
 
-    private static bool PreconditionsAreMet(IDictionary expectation, IDictionary subject)
+    private static bool PreconditionsAreMet(IDictionary expectation, IDictionary subject, Assertion assertion)
     {
-        return AssertIsDictionary(subject)
-            && AssertEitherIsNotNull(expectation, subject)
-            && AssertSameLength(expectation, subject);
+        return AssertIsDictionary(subject, assertion)
+            && AssertEitherIsNotNull(expectation, subject, assertion)
+            && AssertSameLength(expectation, subject, assertion);
     }
 
-    private static bool AssertEitherIsNotNull(IDictionary expectation, IDictionary subject)
+    private static bool AssertEitherIsNotNull(IDictionary expectation, IDictionary subject, Assertion assertion)
     {
-        return AssertionScope.Current
+        assertion
             .ForCondition((expectation is null && subject is null) || expectation is not null)
             .FailWith("Expected {context:subject} to be {0}{reason}, but found {1}.", null, subject);
+
+        return assertion.Succeeded;
     }
 
-    private static bool AssertIsDictionary(IDictionary subject)
+    private static bool AssertIsDictionary(IDictionary subject, Assertion assertion)
     {
-        return AssertionScope.Current
+        assertion
             .ForCondition(subject is not null)
             .FailWith("Expected {context:subject} to be a dictionary, but it is not.");
+
+        return assertion.Succeeded;
     }
 
-    private static bool AssertSameLength(IDictionary expectation, IDictionary subject)
+    private static bool AssertSameLength(IDictionary expectation, IDictionary subject, Assertion assertion)
     {
-        return AssertionScope.Current
+        assertion
             .ForCondition(expectation is null || subject.Keys.Count == expectation.Keys.Count)
             .FailWith("Expected {context:subject} to be a dictionary with {0} item(s), but it only contains {1} item(s).",
                 expectation?.Keys.Count, subject?.Keys.Count);
+
+        return assertion.Succeeded;
     }
 }

@@ -16,13 +16,15 @@ internal class EnumerableEquivalencyValidator
 
     #region Private Definitions
 
-    private readonly IEquivalencyValidator parent;
+    private readonly Assertion assertion;
+    private readonly IValidateChildNodeEquivalency parent;
     private readonly IEquivalencyValidationContext context;
 
     #endregion
 
-    public EnumerableEquivalencyValidator(IEquivalencyValidator parent, IEquivalencyValidationContext context)
+    public EnumerableEquivalencyValidator(Assertion assertion, IValidateChildNodeEquivalency parent, IEquivalencyValidationContext context)
     {
+        this.assertion = assertion;
         this.parent = parent;
         this.context = context;
         Recursive = false;
@@ -70,8 +72,7 @@ internal class EnumerableEquivalencyValidator
             .AssertCollectionHasEnoughItems(subject, expectation)
             .Then
             .AssertCollectionHasNotTooManyItems(subject, expectation)
-            .Then
-            .ClearExpectation();
+ ;
     }
 
     private void AssertElementGraphEquivalency<T>(object[] subjects, T[] expectations, INode currentNode)
@@ -195,8 +196,8 @@ internal class EnumerableEquivalencyValidator
     {
         using var scope = new AssertionScope();
 
-        parent.RecursivelyAssertEquality(new Comparands(subject, expectation, typeof(T)),
-            context.AsCollectionItem<T>(expectationIndex));
+        parent.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(T)),
+            assertion, context.AsCollectionItem<T>(expectationIndex));
 
         return scope.Discard();
     }
@@ -207,7 +208,7 @@ internal class EnumerableEquivalencyValidator
         object subject = subjects[expectationIndex];
         IEquivalencyValidationContext equivalencyValidationContext = context.AsCollectionItem<T>(expectationIndex);
 
-        parent.RecursivelyAssertEquality(new Comparands(subject, expectation, typeof(T)), equivalencyValidationContext);
+        parent.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(T)), assertion, equivalencyValidationContext);
 
         bool failed = scope.HasFailures();
         return !failed;
