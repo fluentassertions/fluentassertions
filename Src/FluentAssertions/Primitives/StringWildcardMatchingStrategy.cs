@@ -8,7 +8,7 @@ namespace FluentAssertions.Primitives;
 
 internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
 {
-    public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
+    public void ValidateAgainstMismatch(Assertion assertion, string subject, string expected)
     {
         bool isMatch = IsMatch(subject, expected);
 

@@ -19,8 +19,8 @@ public class StringAssertions : StringAssertions<StringAssertions>
     /// <summary>
     /// Initializes a new instance of the <see cref="StringAssertions"/> class.
     /// </summary>
-    public StringAssertions(string value)
-        : base(value)
+    public StringAssertions(string value, Assertion assertion)
+        : base(value, assertion)
     {
     }
 }
@@ -32,12 +32,15 @@ public class StringAssertions : StringAssertions<StringAssertions>
 public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAssertions>
     where TAssertions : StringAssertions<TAssertions>
 {
+    private readonly Assertion assertion;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="StringAssertions{TAssertions}"/> class.
     /// </summary>
-    public StringAssertions(string value)
+    public StringAssertions(string value, Assertion assertion)
         : base(value)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -53,7 +56,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs)
     {
-        var stringEqualityValidator = new StringValidator(
+        var stringEqualityValidator = new StringValidator(assertion,
             new StringEqualityStrategy(StringComparison.Ordinal),
             because, becauseArgs);
 
@@ -113,7 +116,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     public AndConstraint<TAssertions> BeEquivalentTo(string expected, string because = "",
         params object[] becauseArgs)
     {
-        var expectation = new StringValidator(
+        var expectation = new StringValidator(assertion,
             new StringEqualityStrategy(StringComparison.OrdinalIgnoreCase),
             because, becauseArgs);
 
@@ -220,7 +223,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
             "Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.");
 
-        var stringWildcardMatchingValidator = new StringValidator(
+        var stringWildcardMatchingValidator = new StringValidator(assertion,
             new StringWildcardMatchingStrategy(),
             because, becauseArgs);
 
@@ -272,7 +275,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
             "Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.");
 
-        var stringWildcardMatchingValidator = new StringValidator(
+        var stringWildcardMatchingValidator = new StringValidator(assertion,
             new StringWildcardMatchingStrategy
             {
                 Negate = true
@@ -328,7 +331,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
             "Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.");
 
-        var stringWildcardMatchingValidator = new StringValidator(
+        var stringWildcardMatchingValidator = new StringValidator(assertion,
             new StringWildcardMatchingStrategy
             {
                 IgnoreCase = true,
@@ -385,7 +388,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
             "Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.");
 
-        var stringWildcardMatchingValidator = new StringValidator(
+        var stringWildcardMatchingValidator = new StringValidator(assertion,
             new StringWildcardMatchingStrategy
             {
                 IgnoreCase = true,
@@ -674,7 +677,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare start of string with <null>.");
 
-        var stringStartValidator = new StringValidator(
+        var stringStartValidator = new StringValidator(assertion,
             new StringStartStrategy(StringComparison.Ordinal),
             because, becauseArgs);
 
@@ -700,7 +703,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
 
-        var negatedStringStartValidator = new StringValidator(
+        var negatedStringStartValidator = new StringValidator(assertion,
             new NegatedStringStartStrategy(StringComparison.Ordinal),
             because, becauseArgs);
 
@@ -727,7 +730,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string start equivalence with <null>.");
 
-        var stringStartValidator = new StringValidator(
+        var stringStartValidator = new StringValidator(assertion,
             new StringStartStrategy(StringComparison.OrdinalIgnoreCase),
             because, becauseArgs);
 
@@ -754,7 +757,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
 
-        var negatedStringStartValidator = new StringValidator(
+        var negatedStringStartValidator = new StringValidator(assertion,
             new NegatedStringStartStrategy(StringComparison.OrdinalIgnoreCase),
             because, becauseArgs);
 
@@ -780,21 +783,21 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end with <null>.");
 
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            success = Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject.Length >= expected.Length)
                 .FailWith("Expected {context:string} to end with {0}{reason}, but {1} is too short.", expected, Subject);
 
-            if (success)
+            if (assertion.Succeeded)
             {
-                Execute.Assertion
+                assertion
                     .ForCondition(Subject.EndsWith(expected, StringComparison.Ordinal))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);

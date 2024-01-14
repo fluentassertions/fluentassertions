@@ -6,12 +6,13 @@ namespace FluentAssertions.Primitives;
 internal class StringValidator
 {
     private readonly IStringComparisonStrategy comparisonStrategy;
-    private IAssertionScope assertion;
+    private Assertion assertion;
 
-    public StringValidator(IStringComparisonStrategy comparisonStrategy, string because, object[] becauseArgs)
+    public StringValidator(Assertion assertion, IStringComparisonStrategy comparisonStrategy, string because,
+        object[] becauseArgs)
     {
         this.comparisonStrategy = comparisonStrategy;
-        assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
+        this.assertion = assertion.BecauseOf(because, becauseArgs);
     }
 
     public void Validate(string subject, string expected)

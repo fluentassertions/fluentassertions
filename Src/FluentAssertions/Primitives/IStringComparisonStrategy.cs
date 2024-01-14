@@ -15,5 +15,5 @@ internal interface IStringComparisonStrategy
     /// <summary>
     /// Asserts that the <paramref name="subject"/> matches the <paramref name="expected"/> value.
     /// </summary>
-    void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected);
+    void ValidateAgainstMismatch(Assertion assertion, string subject, string expected);
 }
