@@ -54,7 +54,7 @@ public partial class TypeAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type *.ClassWithoutAttribute to be decorated with or inherit *.DummyClassAttribute " +
-                    "*failure message*, but the attribute was not found.");
+                    "*failure message*, but that attribute was not found.");
         }
 
         [Fact]

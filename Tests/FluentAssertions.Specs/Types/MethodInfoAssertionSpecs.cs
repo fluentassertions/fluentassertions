@@ -220,7 +220,7 @@ public class MethodInfoAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type FluentAssertions*ClassWithAllMethodsDecoratedWithDummyAttribute to be decorated with " +
-                    "System.Runtime.CompilerServices.MethodImplAttribute, but the attribute was not found.");
+                    "System.Runtime.CompilerServices.MethodImplAttribute, but that attribute was not found.");
         }
 
         [Fact]
@@ -317,8 +317,8 @@ public class MethodInfoAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected method Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing to be decorated with " +
-                    "FluentAssertions*DummyMethodAttribute because we want to test the error message," +
-                    " but that attribute was not found.");
+                    "FluentAssertions*DummyMethodAttribute that matches Not(d.Filter) because we want to test the error message," +
+                    " but no matching attribute was found.");
         }
 
         [Fact]
@@ -336,7 +336,8 @@ public class MethodInfoAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected method Void FluentAssertions*ClassWithMethodWithImplementationAttribute.DoNotInlineMe to be decorated with " +
-                    "System.Runtime.CompilerServices.MethodImplAttribute, but that attribute was not found.");
+                    "System.Runtime.CompilerServices.MethodImplAttribute that matches (Convert(x.Value*) == 256)," +
+                    " but no matching attribute was found.");
         }
 
         [Fact]
@@ -507,8 +508,8 @@ public class MethodInfoAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected method Void FluentAssertions*ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothing to not be decorated with " +
-                    "FluentAssertions*DummyMethodAttribute because we want to test the error message," +
-                    " but that attribute was found.");
+                    "FluentAssertions*DummyMethodAttribute that matches d.Filter because we want to test the error message," +
+                    " but a matching attribute was found.");
         }
 
         [Fact]

@@ -195,8 +195,8 @@ public class PropertyInfoAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected property String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
-                    "FluentAssertions*DummyPropertyAttribute because we want to test the error message," +
-                    " but that attribute was not found.");
+                    "FluentAssertions*DummyPropertyAttribute that matches (d.Value == \"NotARealValue\") because we want to test the error message," +
+                    " but no matching attribute was found.");
         }
 
         [Fact]

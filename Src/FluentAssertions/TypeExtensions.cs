@@ -59,6 +59,28 @@ public static class TypeExtensions
     }
 
     /// <summary>
+    /// Returns a parameter selector for the current <see cref="MethodInfo"/>.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="method"/> is <see langword="null"/>.</exception>
+    public static ParameterInfoSelector Parameters(this MethodInfo method)
+    {
+        Guard.ThrowIfArgumentIsNull(method);
+
+        return new ParameterInfoSelector(method);
+    }
+
+    /// <summary>
+    /// Returns a parameter selector for the current collection of <see cref="MethodInfo"/>.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="methods"/> is <see langword="null"/>.</exception>
+    public static ParameterInfoSelector Parameters(this IEnumerable<MethodInfo> methods)
+    {
+        Guard.ThrowIfArgumentIsNull(methods);
+
+        return new ParameterInfoSelector(methods);
+    }
+
+    /// <summary>
     /// Returns a property selector for the current <see cref="Type"/>.
     /// </summary>
     /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
