@@ -164,14 +164,14 @@ public static class CustomNpmTasks
     {
         Npm($"install {(silent ? "--silent" : "")}",
             workingDirectory,
-            logger: (_, msg) => Error(msg));
+            logger: NpmLogger);
     }
 
     public static void NpmRun(string args, bool silent = false)
     {
         Npm($"run {(silent ? "--silent" : "")} {args}".TrimMatchingDoubleQuotes(),
             environmentVariables: NpmEnvironmentVariables,
-            logger: (_, msg) => Error(msg));
+            logger: NpmLogger);
     }
 
     static void NpmVersion()
@@ -179,6 +179,22 @@ public static class CustomNpmTasks
         Npm("--version",
             workingDirectory: WorkingDirectory,
             logInvocation: false,
+            logger: NpmLogger,
             environmentVariables: NpmEnvironmentVariables);
     }
+
+    static Action<OutputType, string> NpmLogger = (outputType, msg) =>
+    {
+        if (EnvironmentInfo.IsWsl && msg.Contains("wslpath"))
+            return;
+
+        if (outputType == OutputType.Err)
+        {
+            Error(msg);
+
+            return;
+        }
+
+        Information(msg);
+    };
 }
