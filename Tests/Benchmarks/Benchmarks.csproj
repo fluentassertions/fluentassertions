@@ -10,7 +10,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
-    <PackageReference Include="Bogus" Version="35.3.0" />
+    <PackageReference Include="Bogus" Version="35.4.0" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Net.Http" Condition="'$(TargetFramework)' == 'net472'" />
