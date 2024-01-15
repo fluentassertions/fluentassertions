@@ -16,7 +16,7 @@ public static class CustomNpmTasks
     static AbsolutePath NodeDirPerOs;
     static AbsolutePath WorkingDirectory;
 
-    static IReadOnlyDictionary<string, string> NpmEnvironmentVariables = null;
+    static IReadOnlyDictionary<string, string> NpmEnvironmentVariables;
 
     static Tool Npm;
 
@@ -123,7 +123,7 @@ public static class CustomNpmTasks
         {
             Information("Resolve tool npm...");
             Npm = ToolResolver.GetTool(NodeDirPerOs / "npm.cmd");
-            NpmVersion();
+
         }
         else
         {
@@ -147,8 +147,10 @@ public static class CustomNpmTasks
 
             Information("Resolve tool npm...");
             Npm = ToolResolver.GetTool(npmSymlink);
-            NpmVersion();
         }
+
+        NpmConfig("set update-notifier false");
+        NpmVersion();
 
         SetEnvVars();
     }
@@ -183,7 +185,17 @@ public static class CustomNpmTasks
             environmentVariables: NpmEnvironmentVariables);
     }
 
-    static Action<OutputType, string> NpmLogger = (outputType, msg) =>
+    static void NpmConfig(string args)
+    {
+        Npm($"config {args}".TrimMatchingDoubleQuotes(),
+            workingDirectory: WorkingDirectory,
+            logInvocation: false,
+            logOutput: false,
+            logger: NpmLogger,
+            environmentVariables: NpmEnvironmentVariables);
+    }
+
+    static readonly Action<OutputType, string> NpmLogger = (outputType, msg) =>
     {
         if (EnvironmentInfo.IsWsl && msg.Contains("wslpath"))
             return;
