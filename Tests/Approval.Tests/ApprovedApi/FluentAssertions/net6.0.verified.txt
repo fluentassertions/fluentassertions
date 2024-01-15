@@ -1630,6 +1630,7 @@ namespace FluentAssertions.Json
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> HaveCount(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, System.Text.Json.JsonElement> HaveElement(string expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveElement(string expected, string because = "", params object[] becauseArgs) { }
     }
 }

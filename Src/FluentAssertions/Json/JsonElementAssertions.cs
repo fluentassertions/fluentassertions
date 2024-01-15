@@ -82,6 +82,43 @@ public class JsonElementAssertions<TAssertions> : ReferenceTypeAssertions<JsonEl
     }
 
     /// <summary>
+    /// Asserts that the number of items in the current <see cref="JsonElement" /> does not match the supplied <paramref name="unexpected" /> amount.
+    /// </summary>
+    /// <param name="unexpected">The number of items not expected in the current <see cref="JsonElement" />.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs)
+    {
+        Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected JSON element to not contain {0} item(s){reason}, but it was <null>.", unexpected);
+
+        Execute.Assertion
+            .ForCondition(Subject?.ValueKind is JsonValueKind.Array or JsonValueKind.Object)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected JSON element {0} to not contain {1} item(s){reason}, but it is of type {2}.", Subject, unexpected, Subject.Value.ValueKind);
+
+        int? count = Subject.Value.ValueKind switch
+        {
+            JsonValueKind.Array => Subject.Value.GetArrayLength(),
+            JsonValueKind.Object => Subject.Value.EnumerateObject().Count(),
+            _ => 0
+        };
+        Execute.Assertion
+            .ForCondition(count != unexpected)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected JSON element {0} to not contain {1} item(s){reason}, but found them.", Subject, unexpected);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
     /// Asserts that the current <see cref="JsonElement" /> has a direct child element with the specified
     /// <paramref name="expected" /> name.
     /// </summary>
