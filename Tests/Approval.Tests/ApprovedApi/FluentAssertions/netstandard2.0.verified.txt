@@ -749,8 +749,10 @@ namespace FluentAssertions.Equivalency
         FluentAssertions.Equivalency.CyclicReferenceHandling CyclicReferenceHandling { get; }
         FluentAssertions.Equivalency.EnumEquivalencyHandling EnumEquivalencyHandling { get; }
         bool ExcludeNonBrowsableOnExpectation { get; }
+        bool IgnoreAllNewlines { get; }
         bool IgnoreCase { get; }
         bool IgnoreLeadingWhitespace { get; }
+        bool IgnoreNewlineStyle { get; }
         bool IgnoreNonBrowsableOnSubject { get; }
         bool IgnoreTrailingWhitespace { get; }
         FluentAssertions.Equivalency.MemberVisibility IncludedFields { get; }
@@ -913,8 +915,10 @@ namespace FluentAssertions.Equivalency
         protected SelfReferenceEquivalencyOptions(FluentAssertions.Equivalency.IEquivalencyOptions defaults) { }
         public bool? CompareRecordsByValue { get; }
         public FluentAssertions.Equivalency.ConversionSelector ConversionSelector { get; }
+        public bool IgnoreAllNewlines { get; }
         public bool IgnoreCase { get; }
         public bool IgnoreLeadingWhitespace { get; }
+        public bool IgnoreNewlineStyle { get; }
         public bool IgnoreTrailingWhitespace { get; }
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         protected FluentAssertions.Equivalency.OrderingRuleCollection OrderingRules { get; }
@@ -936,9 +940,11 @@ namespace FluentAssertions.Equivalency
         public TSelf ExcludingNestedObjects() { }
         public TSelf ExcludingNonBrowsableMembers() { }
         public TSelf ExcludingProperties() { }
+        public TSelf IgnoringAllNewlines() { }
         public TSelf IgnoringCase() { }
         public TSelf IgnoringCyclicReferences() { }
         public TSelf IgnoringLeadingWhitespace() { }
+        public TSelf IgnoringNewlineStyle() { }
         public TSelf IgnoringNonBrowsableMembersOnSubject() { }
         public TSelf IgnoringTrailingWhitespace() { }
         public TSelf Including(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }

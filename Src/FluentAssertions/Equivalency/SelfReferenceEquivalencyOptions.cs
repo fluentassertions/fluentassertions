@@ -91,6 +91,8 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         IgnoreLeadingWhitespace = defaults.IgnoreLeadingWhitespace;
         IgnoreTrailingWhitespace = defaults.IgnoreTrailingWhitespace;
         IgnoreCase = defaults.IgnoreCase;
+        IgnoreAllNewlines = defaults.IgnoreAllNewlines;
+        IgnoreNewlineStyle = defaults.IgnoreNewlineStyle;
 
         ConversionSelector = defaults.ConversionSelector.Clone();
 
@@ -190,6 +192,10 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     public bool IgnoreTrailingWhitespace { get; private set; }
 
     public bool IgnoreCase { get; private set; }
+
+    public bool IgnoreAllNewlines { get; private set; }
+
+    public bool IgnoreNewlineStyle { get; private set; }
 
     public ITraceWriter TraceWriter { get; private set; }
 
@@ -729,6 +735,30 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     public TSelf IgnoringCase()
     {
         IgnoreCase = true;
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Instructs the comparison ignore all newlines when comparing <see langword="string" />s.
+    /// </summary>
+    /// <remarks>
+    /// Enabling this option will remove all newlines from the strings before comparing them.
+    /// </remarks>
+    public TSelf IgnoringAllNewlines()
+    {
+        IgnoreAllNewlines = true;
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Instructs the comparison ignore the newline style when comparing <see langword="string" />s.
+    /// </summary>
+    /// <remarks>
+    /// Enabling this option will replace all occurences of <c>\r\n</c> and <c>\r</c> with <c>\n</c> in the strings before comparing them.
+    /// </remarks>
+    public TSelf IgnoringNewlineStyle()
+    {
+        IgnoreNewlineStyle = true;
         return (TSelf)this;
     }
 

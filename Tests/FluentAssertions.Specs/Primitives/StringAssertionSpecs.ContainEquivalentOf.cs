@@ -71,6 +71,28 @@ public partial class StringAssertionSpecs
             actual.Should().ContainEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
         }
 
+        [Fact]
+        public void Can_ignore_all_newlines_while_checking_a_string_to_contain_another()
+        {
+            // Arrange
+            string actual = "this is a string containing \rA\nB\r\nC.\n";
+            string expect = "\nA\rB\r\nC";
+
+            // Act / Assert
+            actual.Should().ContainEquivalentOf(expect, o => o.IgnoringAllNewlines());
+        }
+
+        [Fact]
+        public void Can_ignore_newline_style_while_checking_a_string_to_contain_another()
+        {
+            // Arrange
+            string actual = "this is a string containing \rA\nB\r\nC.\n";
+            string expect = "A\r\nB\nC";
+
+            // Act / Assert
+            actual.Should().ContainEquivalentOf(expect, o => o.IgnoringNewlineStyle());
+        }
+
         [InlineData("aa", "A")]
         [InlineData("aCCa", "acca")]
         [Theory]
@@ -548,6 +570,34 @@ public partial class StringAssertionSpecs
 
             // Act
             Action act = () => actual.Should().NotContainEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_all_newlines_while_checking_a_string_to_not_contain_another()
+        {
+            // Arrange
+            string actual = "this is a string containing \rA\nB\r\nC.\n";
+            string expect = "AB\n\nC\r";
+
+            // Act
+            Action act = () => actual.Should().NotContainEquivalentOf(expect, o => o.IgnoringAllNewlines());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_newline_style_while_checking_a_string_to_not_contain_another()
+        {
+            // Arrange
+            string actual = "this is a string containing \rA\nB\r\nC.\n";
+            string expect = "\nA\r\nB\rC";
+
+            // Act
+            Action act = () => actual.Should().NotContainEquivalentOf(expect, o => o.IgnoringNewlineStyle());
 
             // Assert
             act.Should().Throw<XunitException>();

@@ -470,7 +470,8 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         var stringWildcardMatchingValidator = new StringValidator(
             new StringWildcardMatchingStrategy
             {
-                IgnoreCase = options.IgnoreCase
+                IgnoreCase = options.IgnoreCase,
+                IgnoreNewLineDifferences = options.IgnoreNewlineStyle
             },
             because, becauseArgs);
 
@@ -595,6 +596,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringWildcardMatchingStrategy
             {
                 IgnoreCase = options.IgnoreCase,
+                IgnoreNewLineDifferences = options.IgnoreNewlineStyle,
                 Negate = true
             },
             because, becauseArgs);
@@ -1994,6 +1996,8 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <remarks>
     /// When <see cref="IEquivalencyOptions.IgnoreLeadingWhitespace"/> is set, whitespace is removed from the start of the <paramref name="value"/>.<br />
     /// When <see cref="IEquivalencyOptions.IgnoreTrailingWhitespace"/> is set, whitespace is removed from the end of the <paramref name="value"/>.<br />
+    /// When <see cref="IEquivalencyOptions.IgnoreAllNewlines"/> is set, all newlines are removed from the <paramref name="value"/>.<br />
+    /// When <see cref="IEquivalencyOptions.IgnoreNewlineStyle"/> is set, all newlines (<c>\r\n</c> and <c>\r</c>) are replaced with <c>\n</c> in the <paramref name="value"/>.<br />
     /// </remarks>
     private static string ApplyStringSettings(string value, IEquivalencyOptions options)
     {
@@ -2005,6 +2009,20 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         if (options.IgnoreTrailingWhitespace)
         {
             value = value.TrimEnd();
+        }
+
+        if (options.IgnoreAllNewlines)
+        {
+            value = value
+                .Replace("\r", string.Empty, StringComparison.Ordinal)
+                .Replace("\n", string.Empty, StringComparison.Ordinal);
+        }
+
+        if (options.IgnoreNewlineStyle)
+        {
+            value = value
+                .Replace("\r\n", "\n", StringComparison.Ordinal)
+                .Replace("\r", "\n", StringComparison.Ordinal);
         }
 
         return value;

@@ -191,6 +191,28 @@ public partial class CollectionAssertionSpecs
             // Act / Assert
             actual.Should().BeEquivalentTo(expectation, o => o.IgnoringTrailingWhitespace());
         }
+
+        [Fact]
+        public void Can_ignore_all_newlines_while_comparing_collections_of_strings()
+        {
+            // Arrange
+            var actual = new[] { "first", "\rA\nB\r\nC\n", "last" };
+            var expectation = new[] { "first", "ABC", "last" };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expectation, o => o.IgnoringAllNewlines());
+        }
+
+        [Fact]
+        public void Can_ignore_newline_style_while_comparing_collections_of_strings()
+        {
+            // Arrange
+            var actual = new[] { "first", "A\nB\r\nC", "last" };
+            var expectation = new[] { "first", "A\r\nB\nC", "last" };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expectation, o => o.IgnoringNewlineStyle());
+        }
     }
 
     public class NotBeEquivalentTo

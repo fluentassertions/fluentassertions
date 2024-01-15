@@ -79,5 +79,9 @@ internal class CollectionMemberOptionsDecorator : IEquivalencyOptions
 
     public bool IgnoreCase => inner.IgnoreCase;
 
+    public bool IgnoreAllNewlines => inner.IgnoreAllNewlines;
+
+    public bool IgnoreNewlineStyle => inner.IgnoreNewlineStyle;
+
     public ITraceWriter TraceWriter => inner.TraceWriter;
 }
