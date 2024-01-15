@@ -16,7 +16,7 @@ public static class CustomNpmTasks
     static AbsolutePath NodeDirPerOs;
     static AbsolutePath WorkingDirectory;
 
-    static IReadOnlyDictionary<string, string> NpmEnvironmentVariables = null;
+    static IReadOnlyDictionary<string, string> NpmEnvironmentVariables;
 
     static Tool Npm;
 
@@ -48,24 +48,28 @@ public static class CustomNpmTasks
 
         if (EnvironmentInfo.IsWin)
         {
-            os = "win-x64";
+            os = "win";
             archiveType = ".zip";
         }
         else if (EnvironmentInfo.IsOsx)
         {
-            os = "darwin-x64";
+            os = "darwin";
             archiveType = ".tar.gz";
         }
         else if (EnvironmentInfo.IsLinux)
         {
-            os = "linux-x64";
+            os = "linux";
             archiveType = ".tar.xz";
         }
 
         os.NotNull();
         archiveType.NotNull();
 
-        os = EnvironmentInfo.IsArm64 ? os!.Replace("x64", "arm64") : os;
+        string architecture =
+            EnvironmentInfo.IsArm64 ? "arm64" :
+            EnvironmentInfo.Is64Bit ? "x64" : "x86";
+
+        os = $"{os}-{architecture}";
 
         if (!HasCachedNodeModules)
         {
@@ -119,11 +123,11 @@ public static class CustomNpmTasks
 
     static void LinkTools()
     {
+        AbsolutePath npmExecutable;
+
         if (EnvironmentInfo.IsWin)
         {
-            Information("Resolve tool npm...");
-            Npm = ToolResolver.GetTool(NodeDirPerOs / "npm.cmd");
-            NpmVersion();
+            npmExecutable = NodeDirPerOs / "npm.cmd";
         }
         else
         {
@@ -131,8 +135,7 @@ public static class CustomNpmTasks
 
             var nodeExecutable = WorkingDirectory / "node";
             var npmNodeModules = NodeDirPerOs / "lib" / "node_modules";
-            var npmExecutable = npmNodeModules / "npm" / "bin" / "npm";
-            var npmSymlink = WorkingDirectory / "npm";
+            npmExecutable = npmNodeModules / "npm" / "bin" / "npm";
 
             Information($"Set execution permissions for {nodeExecutable}...");
             nodeExecutable.SetExecutable();
@@ -145,10 +148,15 @@ public static class CustomNpmTasks
             ln($"-sf {npmExecutable} npm", workingDirectory: WorkingDirectory);
             ln($"-sf {npmNodeModules} node_modules", workingDirectory: WorkingDirectory);
 
-            Information("Resolve tool npm...");
-            Npm = ToolResolver.GetTool(npmSymlink);
-            NpmVersion();
+            npmExecutable = WorkingDirectory / "npm";
         }
+
+        Information("Resolve tool npm...");
+        npmExecutable.NotNull();
+        Npm = ToolResolver.GetTool(npmExecutable);
+
+        NpmConfig("set update-notifier false");
+        NpmVersion();
 
         SetEnvVars();
     }
@@ -156,8 +164,8 @@ public static class CustomNpmTasks
     static void SetEnvVars()
     {
         NpmEnvironmentVariables = EnvironmentInfo.Variables
-                .ToDictionary(x => x.Key, x => x.Value)
-                .SetKeyValue("path", WorkingDirectory).AsReadOnly();
+            .ToDictionary(x => x.Key, x => x.Value)
+            .SetKeyValue("path", WorkingDirectory).AsReadOnly();
     }
 
     public static void NpmInstall(bool silent = false, string workingDirectory = null)
@@ -183,7 +191,17 @@ public static class CustomNpmTasks
             environmentVariables: NpmEnvironmentVariables);
     }
 
-    static Action<OutputType, string> NpmLogger = (outputType, msg) =>
+    static void NpmConfig(string args)
+    {
+        Npm($"config {args}".TrimMatchingDoubleQuotes(),
+            workingDirectory: WorkingDirectory,
+            logInvocation: false,
+            logOutput: false,
+            logger: NpmLogger,
+            environmentVariables: NpmEnvironmentVariables);
+    }
+
+    static readonly Action<OutputType, string> NpmLogger = (outputType, msg) =>
     {
         if (EnvironmentInfo.IsWsl && msg.Contains("wslpath"))
             return;
