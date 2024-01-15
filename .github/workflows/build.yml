@@ -75,3 +75,6 @@ jobs:
 
     - name: Run NUKE
       run: ./build.sh UnitTests
+
+    - name: Run NUKE
+      run: ./build.sh spellcheck
