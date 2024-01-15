@@ -157,7 +157,7 @@ public static class CustomNpmTasks
     {
         NpmEnvironmentVariables = EnvironmentInfo.Variables
                 .ToDictionary(x => x.Key, x => x.Value)
-                .SetKeyValue("path", NodeDirPerOs).AsReadOnly();
+                .SetKeyValue("path", WorkingDirectory).AsReadOnly();
     }
 
     public static void NpmInstall(bool silent = false, string workingDirectory = null)
