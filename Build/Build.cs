@@ -1,6 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Runtime.InteropServices;
 using LibGit2Sharp;
+using Microsoft.Build.Tasks;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Execution;
@@ -18,6 +22,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 using static Nuke.Common.Tools.Xunit.XunitTasks;
 using static Serilog.Log;
+using static CustomNpmTasks;
 
 [UnsetVisualStudioEnvironmentVariables]
 [DotNetVerbosityMapping]
@@ -61,18 +66,6 @@ class Build : NukeBuild
     [Required]
     [GitRepository]
     readonly GitRepository GitRepository;
-
-#if OS_WINDOWS
-    [NuGetPackage("Node.js.redist", "node.exe", Version = "20.9.0", Framework = "win-x64")]
-#elif OS_MAC
-    [NuGetPackage("Node.js.redist", "node", Version = "20.9.0", Framework = "osx-x64")]
-#else
-    [NuGetPackage("Node.js.redist", "node", Version = "20.9.0", Framework = "linux-x64")]
-#endif
-    Tool Node;
-
-    string YarnCli => $"{NuGetToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19")}";
-
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
     AbsolutePath TestResultsDirectory => RootDirectory / "TestResults";
@@ -351,36 +344,27 @@ class Build : NukeBuild
 
     Target SpellCheck => _ => _
         .OnlyWhenDynamic(() => RunAllTargets || HasDocumentationChanges)
+        .DependsOn(InstallNode)
         .ProceedAfterFailure()
         .Executes(() =>
         {
-            Node($"{YarnCli} --silent install", workingDirectory: RootDirectory,
-                logger: YarnInstallLogger);
-
-            Node($"{YarnCli} --silent run cspell", workingDirectory: RootDirectory,
-                logger: (_, msg) => Error(msg));
+            NpmInstall(silent: true, workingDirectory: RootDirectory);
+            NpmRun("cspell", silent: true);
         });
 
-    Action<OutputType, string> YarnInstallLogger = (_, msg) =>
-    {
-        // See this PR here: https://github.com/fluentassertions/fluentassertions/pull/2537
-        // and several comments and references.
-        // This seems to be a bug in yarn and the package 'Yarn.MSBuild' is no longer maintained;
-        // So: ignore 'yarn install' errors when the same cache directory is defined in yarn.lock.
-        // This errors have the pattern like: 'Error: warning Pattern [packagename@version]...'
-
-        if (!msg.Contains("is trying to unpack in the same destination"))
+    Target InstallNode => _ => _
+        .OnlyWhenDynamic(() => RunAllTargets || HasDocumentationChanges)
+        .ProceedAfterFailure()
+        .Executes(() =>
         {
-            if (msg.StartsWith("warning"))
-            {
-                Warning(msg);
-            }
-            else
-            {
-                Error(msg);
-            }
-        }
-    };
+            Initialize(RootDirectory);
+
+            NpmFetchRuntime();
+
+            ReportSummary(s => s
+                .When(HasCachedNodeModules, conf => conf
+                    .AddPair("Skipped", "Downloading and extracting")));
+        });
 
     bool HasDocumentationChanges => Changes.Any(x => IsDocumentation(x));
 
@@ -392,6 +376,7 @@ class Build : NukeBuild
         x.StartsWith("cSpell.json") ||
         x.StartsWith("LICENSE") ||
         x.StartsWith("package.json") ||
+        x.StartsWith("package-lock.json") ||
         x.StartsWith("README.md");
 
     string[] Changes =>

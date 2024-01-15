@@ -23,6 +23,13 @@ jobs:
           7.0.x
           8.0.x
 
+    - name: Cache .nuke/temp
+      uses: actions/cache@v3
+      with:
+        path: |
+          .nuke/temp
+        key: ${{ runner.os }}-${{ hashFiles('NodeVersion') }}
+
     - name: Run NUKE
       run: ./build.ps1
       env:
