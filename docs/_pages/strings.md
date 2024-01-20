@@ -84,11 +84,13 @@ theString.Should().BeEquivalentTo("This is a string", o => o.IgnoringLeadingWhit
 
 The supported options are:
 
-| Option                       | Behavior                                                       |
-| ---------------------------- | --------------------------------------------------------------- |
-| `IgnoringLeadingWhitespace`  | Ignores leading whitespace in the subject and the expectation.  |
-| `IgnoringTrailingWhitespace` | Ignores trailing whitespace in the subject and the expectation. |
-| `IgnoringCase`               | Compares the strings case-insensitive.                          |
+| Option                       | Behavior                                                                                          |
+| ---------------------------- | ------------------------------------------------------------------------------------------------- |
+| `IgnoringLeadingWhitespace`  | Ignores leading whitespace in the subject and the expectation.                                    |
+| `IgnoringTrailingWhitespace` | Ignores trailing whitespace in the subject and the expectation.                                   |
+| `IgnoringCase`               | Compares the strings case-insensitive.                                                            |
+| `IgnoringAllNewlines`        | Removes all newlines in the subject and expectation.                                              |
+| `IgnoringNewlineStyle`       | Replaces `"\r\n"` and `"\r"` with `"\n"` before comparing the subject and expectation.            |
 
 You can also specify a custom string comparer via
 ```csharp
