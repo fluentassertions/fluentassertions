@@ -24,7 +24,7 @@ jobs:
           8.0.x
 
     - name: Cache .nuke/temp
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           .nuke/temp
