@@ -739,7 +739,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     }
 
     /// <summary>
-    /// Instructs the comparison ignore all newlines when comparing <see langword="string" />s.
+    /// Instructs the comparison to ignore all newlines when comparing <see langword="string" />s.
     /// </summary>
     /// <remarks>
     /// Enabling this option will remove all newlines from the strings before comparing them.
@@ -751,7 +751,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     }
 
     /// <summary>
-    /// Instructs the comparison ignore the newline style when comparing <see langword="string" />s.
+    /// Instructs the comparison to ignore the newline style when comparing <see langword="string" />s.
     /// </summary>
     /// <remarks>
     /// Enabling this option will replace all occurences of <c>\r\n</c> and <c>\r</c> with <c>\n</c> in the strings before comparing them.

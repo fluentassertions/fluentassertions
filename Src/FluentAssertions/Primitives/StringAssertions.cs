@@ -406,7 +406,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringWildcardMatchingStrategy
             {
                 IgnoreCase = true,
-                IgnoreNewLineDifferences = true
+                IgnoreAllNewlines = true
             },
             because, becauseArgs);
 
@@ -471,7 +471,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringWildcardMatchingStrategy
             {
                 IgnoreCase = options.IgnoreCase,
-                IgnoreNewLineDifferences = options.IgnoreNewlineStyle
+                IgnoreAllNewlines = options.IgnoreAllNewlines
             },
             because, becauseArgs);
 
@@ -530,7 +530,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringWildcardMatchingStrategy
             {
                 IgnoreCase = true,
-                IgnoreNewLineDifferences = true,
+                IgnoreAllNewlines = true,
                 Negate = true
             },
             because, becauseArgs);
@@ -596,7 +596,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringWildcardMatchingStrategy
             {
                 IgnoreCase = options.IgnoreCase,
-                IgnoreNewLineDifferences = options.IgnoreNewlineStyle,
+                IgnoreAllNewlines = options.IgnoreNewlineStyle,
                 Negate = true
             },
             because, becauseArgs);
