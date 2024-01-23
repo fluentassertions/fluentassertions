@@ -121,6 +121,12 @@ internal static class StringExtensions
             .Replace("\r", string.Empty, StringComparison.Ordinal);
     }
 
+    public static string RemoveNewlineStyle(this string @this)
+    {
+        return @this.Replace("\r\n", "\n", StringComparison.Ordinal)
+            .Replace("\r", "\n", StringComparison.Ordinal);
+    }
+
     /// <summary>
     /// Counts the number of times the <paramref name="substring"/> appears within a string by using the specified <paramref name="comparer"/>.
     /// </summary>

@@ -202,7 +202,7 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             string actual = "\rA\nB\r\nC\n";
-            string expect = "\nA\r\n?\n\nC\r";
+            string expect = "\nA\r\n?\nC\r";
 
             // Act
             Action act = () => actual.Should().NotMatchEquivalentOf(expect, o => o.IgnoringNewlineStyle());

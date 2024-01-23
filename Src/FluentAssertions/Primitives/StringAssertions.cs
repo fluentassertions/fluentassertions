@@ -471,7 +471,8 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringWildcardMatchingStrategy
             {
                 IgnoreCase = options.IgnoreCase,
-                IgnoreAllNewlines = options.IgnoreAllNewlines
+                IgnoreAllNewlines = options.IgnoreAllNewlines,
+                IgnoreNewlineStyle = options.IgnoreNewlineStyle,
             },
             because, becauseArgs);
 
@@ -596,7 +597,8 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringWildcardMatchingStrategy
             {
                 IgnoreCase = options.IgnoreCase,
-                IgnoreAllNewlines = options.IgnoreNewlineStyle,
+                IgnoreAllNewlines = options.IgnoreAllNewlines,
+                IgnoreNewlineStyle = options.IgnoreNewlineStyle,
                 Negate = true
             },
             because, becauseArgs);
@@ -2013,16 +2015,12 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
 
         if (options.IgnoreAllNewlines)
         {
-            value = value
-                .Replace("\r", string.Empty, StringComparison.Ordinal)
-                .Replace("\n", string.Empty, StringComparison.Ordinal);
+            value = value.RemoveNewLines();
         }
 
         if (options.IgnoreNewlineStyle)
         {
-            value = value
-                .Replace("\r\n", "\n", StringComparison.Ordinal)
-                .Replace("\r", "\n", StringComparison.Ordinal);
+            value = value.RemoveNewlineStyle();
         }
 
         return value;
