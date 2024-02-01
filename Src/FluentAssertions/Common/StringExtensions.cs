@@ -118,8 +118,7 @@ internal static class StringExtensions
     public static string RemoveNewLines(this string @this)
     {
         return @this.Replace("\n", string.Empty, StringComparison.Ordinal)
-            .Replace("\r", string.Empty, StringComparison.Ordinal)
-            .Replace(@"\r\n", string.Empty, StringComparison.Ordinal);
+            .Replace("\r", string.Empty, StringComparison.Ordinal);
     }
 
     /// <summary>

@@ -235,5 +235,16 @@ public partial class StringAssertionSpecs
                     "Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.*")
                 .WithParameterName("wildcardPattern");
         }
+
+        [Fact]
+        public void Does_not_treat_escaped_newlines_as_newlines()
+        {
+            // Arrange
+            string actual = "te\r\nst";
+            string expect = "te\\r\\nst";
+
+            // Act / Assert
+            actual.Should().NotMatchEquivalentOf(expect);
+        }
     }
 }
