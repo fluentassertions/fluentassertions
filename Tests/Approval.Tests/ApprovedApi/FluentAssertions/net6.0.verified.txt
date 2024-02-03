@@ -1004,6 +1004,11 @@ namespace FluentAssertions.Equivalency.Steps
         public GenericEnumerableEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
+    public class JsonElementEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public JsonElementEquivalencyStep() { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
     public class ReferenceEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public ReferenceEqualityEquivalencyStep() { }
