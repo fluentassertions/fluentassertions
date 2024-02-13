@@ -72,9 +72,11 @@ public class JsonElementEquivalencyStep : IEquivalencyStep
     {
         // Json does not specify a range for numbers, but allows scientific syntax
         // (1E2 for 100), so we can't just compare strings.
-        // The solution here is to first check if the numbers are equal in 64bit floating point
-        // then compare the actual raw text to get a proper error message.
-        if (!NumbersEqualsIgnoreInfAndNan(subject.GetDouble(), expectation.GetDouble()))
+        // The solution here is to run multiple checks
+        // 1. Check if they are both representable as 64 bit integers and compare them
+        // 2. If not check if they are equal in 64bit floating point
+        // 3. Then compare the actual raw text to get a proper error message.
+        if (!NumbersEqualsIgnoreInfAndNan(subject, expectation))
         {
             var subjectString = subject.GetRawText();
             var expectationString = expectation.GetRawText();
@@ -82,18 +84,26 @@ public class JsonElementEquivalencyStep : IEquivalencyStep
         }
     }
 
-    private static bool NumbersEqualsIgnoreInfAndNan(double actual, double expected)
+    private static bool NumbersEqualsIgnoreInfAndNan(JsonElement actual, JsonElement expected)
     {
+        // This check ensures that integers between 2^53 and 2^61 are compared with full precision
+        if(actual.TryGetInt64(out var actualInt) && expected.TryGetInt64(out var expectedInt))
+        {
+            return actualInt == expectedInt;
+        }
+
+        var actualDouble = actual.GetDouble();
+        var expectedDouble = expected.GetDouble();
         if (
-            double.IsInfinity(actual) ||
-            double.IsInfinity(expected) ||
-            double.IsNaN(actual) ||
-            double.IsNaN(expected))
+            double.IsInfinity(actualDouble) ||
+            double.IsInfinity(expectedDouble) ||
+            double.IsNaN(actualDouble) ||
+            double.IsNaN(expectedDouble))
         {
             return false;
         }
 
-        return actual.Equals(expected);
+        return actualDouble.Equals(expectedDouble);
     }
 
     private static void HandleStringCompare(JsonElement subject, JsonElement expectation, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
