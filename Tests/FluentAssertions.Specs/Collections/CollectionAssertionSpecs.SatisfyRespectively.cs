@@ -126,21 +126,21 @@ public partial class CollectionAssertionSpecs
                 }, "because we want to test {0}", "nested assertions");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                @"Expected customers to satisfy all inspectors because we want to test nested assertions, but some inspectors are not satisfied:
-*At index 0:
-*Expected customer.Age to be less than 21, but found 21
-*Expected customer.Items to satisfy all inspectors, but some inspectors are not satisfied:
-*At index 0:
-*Expected item to be 2, but found 1
-*At index 1:
-*Expected item to be 1, but found 2
-*At index 1:
-*Expected customer.Age to be less than 22, but found 22
-*Expected customer.Items to satisfy all inspectors, but some inspectors are not satisfied:
-*At index 0:
-*Expected item to be 2, but found 3"
-            );
+            act.Should().Throw<XunitException>().WithMessage("""
+                Expected customers to satisfy all inspectors because we want to test nested assertions, but some inspectors are not satisfied:
+                *At index 0:
+                *Expected customer.Age to be less than 21, but found 21
+                *Expected customer.Items to satisfy all inspectors, but some inspectors are not satisfied:
+                *At index 0:
+                *Expected item to be 2, but found 1
+                *At index 1:
+                *Expected item to be 1, but found 2
+                *At index 1:
+                *Expected customer.Age to be less than 22, but found 22
+                *Expected customer.Items to satisfy all inspectors, but some inspectors are not satisfied:
+                *At index 0:
+                *Expected item to be 2, but found 3
+                """);
         }
 
         [Fact]

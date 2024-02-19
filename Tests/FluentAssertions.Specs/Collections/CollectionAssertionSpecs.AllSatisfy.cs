@@ -94,18 +94,18 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should()
                 .Throw<XunitException>()
-                .WithMessage(
-                    @"Expected customers to contain only items satisfying the inspector because we want to test nested assertions:
-*At index 0:
-*Expected customer.Age to be less than 21, but found 21
-*Expected customer.Items to contain only items satisfying the inspector:
-*At index 0:
-*Expected item to be 3, but found 1
-*At index 1:
-*Expected item to be 3, but found 2
-*At index 1:
-*Expected customer.Age to be less than 21, but found 22 (difference of 1)"
-                );
+                .WithMessage("""
+                    Expected customers to contain only items satisfying the inspector because we want to test nested assertions:
+                    *At index 0:
+                    *Expected customer.Age to be less than 21, but found 21
+                    *Expected customer.Items to contain only items satisfying the inspector:
+                    *At index 0:
+                    *Expected item to be 3, but found 1
+                    *At index 1:
+                    *Expected item to be 3, but found 2
+                    *At index 1:
+                    *Expected customer.Age to be less than 21, but found 22 (difference of 1)
+                    """);
         }
 
         [Fact]
