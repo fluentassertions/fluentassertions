@@ -14,7 +14,7 @@ public class ContinuationOfGiven<TSubject>
     }
 
     /// <summary>
-    /// Continuous the assertion chain if the previous assertion was successful.
+    /// Continues the assertion chain if the previous assertion was successful.
     /// </summary>
     public GivenSelector<TSubject> Then { get; }
 
