@@ -200,6 +200,49 @@ public partial class ReferenceTypeAssertionsSpecs
                     $"Expected {nameof(personDto)} to be assignable to {typeof(AddressDto)}, but {typeof(PersonDto)} is not.");
         }
 
+        [Fact]
+        public void Sub_class_satisfied_against_base_class_does_not_throw()
+        {
+            // Arrange
+            var subClass = new SubClass
+            {
+                Number = 42,
+                Date = new DateTime(2021, 1, 1),
+                Text = "Some text"
+            };
+
+            // Act / Assert
+            subClass.Should().Satisfy<BaseClass>(x =>
+            {
+                x.Number.Should().Be(42);
+                x.Date.Should().Be(new DateTime(2021, 1, 1));
+            });
+        }
+
+        [Fact]
+        public void Base_class_satisfied_against_sub_class_throws()
+        {
+            // Arrange
+            var baseClass = new BaseClass
+            {
+                Number = 42,
+                Date = new DateTime(2021, 1, 1),
+            };
+
+            // Act
+            Action act = () => baseClass.Should().Satisfy<SubClass>(x =>
+            {
+                x.Number.Should().Be(42);
+                x.Date.Should().Be(new DateTime(2021, 1, 1));
+                x.Text.Should().Be("Some text");
+            });
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    $"Expected {nameof(baseClass)} to be assignable to {typeof(SubClass)}, but {typeof(BaseClass)} is not.");
+        }
+
         private class PersonDto
         {
             public string Name { get; init; }
@@ -227,6 +270,18 @@ public partial class ReferenceTypeAssertionsSpecs
             public string PostalCode { get; init; }
 
             public string Country { get; init; }
+        }
+
+        private class BaseClass
+        {
+            public int Number { get; init; }
+
+            public DateTime Date { get; init; }
+        }
+
+        private sealed class SubClass : BaseClass
+        {
+            public string Text { get; init; }
         }
     }
 }
