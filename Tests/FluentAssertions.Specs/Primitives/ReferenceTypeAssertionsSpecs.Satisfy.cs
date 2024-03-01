@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
@@ -91,7 +92,7 @@ public partial class ReferenceTypeAssertionsSpecs
                 {
                     person.Name.Should().Be("Name Nameson");
                     person.Age.Should().BeGreaterThan(0);
-                    person.Birthdate.Should().Be(new DateTime(2000, 1, 1));
+                    person.Birthdate.Should().Be(1.January(2000));
                 });
 
                 dto.Address.Should().Satisfy<AddressDto>(address =>
@@ -120,7 +121,7 @@ public partial class ReferenceTypeAssertionsSpecs
             {
                 d.Name.Should().Be("Someone Else");
                 d.Age.Should().BeLessThan(20);
-                d.Birthdate.Should().BeAfter(new DateTime(2001, 1, 1));
+                d.Birthdate.Should().BeAfter(1.January(2001));
             });
 
             // Assert
@@ -161,7 +162,7 @@ public partial class ReferenceTypeAssertionsSpecs
                 {
                     person.Name.Should().Be("Biff Tannen");
                     person.Age.Should().Be(48);
-                    person.Birthdate.Should().Be(new DateTime(1937, 3, 26));
+                    person.Birthdate.Should().Be(26.March(1937));
                 });
 
                 dto.Address.Should().Satisfy<AddressDto>(address =>
@@ -215,7 +216,7 @@ public partial class ReferenceTypeAssertionsSpecs
             subClass.Should().Satisfy<BaseClass>(x =>
             {
                 x.Number.Should().Be(42);
-                x.Date.Should().Be(new DateTime(2021, 1, 1));
+                x.Date.Should().Be(1.January(2021));
             });
         }
 
@@ -233,7 +234,7 @@ public partial class ReferenceTypeAssertionsSpecs
             Action act = () => baseClass.Should().Satisfy<SubClass>(x =>
             {
                 x.Number.Should().Be(42);
-                x.Date.Should().Be(new DateTime(2021, 1, 1));
+                x.Date.Should().Be(1.January(2021));
                 x.Text.Should().Be("Some text");
             });
 
