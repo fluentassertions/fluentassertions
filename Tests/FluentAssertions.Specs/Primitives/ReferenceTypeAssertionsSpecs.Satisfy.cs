@@ -14,11 +14,8 @@ public partial class ReferenceTypeAssertionsSpecs
             // Arrange
             var someObject = new object();
 
-            // Act
-            Action act = () => someObject.Should().Satisfy<object>(x => x.Should().NotBeNull());
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            someObject.Should().Satisfy<object>(x => x.Should().NotBeNull());
         }
 
         [Fact]
@@ -31,11 +28,8 @@ public partial class ReferenceTypeAssertionsSpecs
                 Birthdate = new DateTime(2000, 1, 1),
             };
 
-            // Act
-            Action act = () => someObject.Should().Satisfy<PersonDto>(o => o.Age.Should().BeGreaterThan(0));
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            someObject.Should().Satisfy<PersonDto>(o => o.Age.Should().BeGreaterThan(0));
         }
 
         [Fact]
@@ -147,7 +141,7 @@ public partial class ReferenceTypeAssertionsSpecs
         }
 
         [Fact]
-        public void When_a_typed_object_does_not_match_multiple_inspectors_it_should_throw()
+        public void When_a_typed_object_does_not_satisfy_multiple_inspectors_it_should_throw()
         {
             // Arrange
             var somePerson = new PersonDto
