@@ -9,7 +9,7 @@ public partial class ReferenceTypeAssertionsSpecs
     public class Satisfy
     {
         [Fact]
-        public void When_object_satisfies_inspector_it_should_not_throw()
+        public void Object_satisfying_inspector_does_not_throw()
         {
             // Arrange
             var someObject = new object();
@@ -19,7 +19,7 @@ public partial class ReferenceTypeAssertionsSpecs
         }
 
         [Fact]
-        public void When_object_does_not_satisfy_the_inspector_it_should_throw()
+        public void Object_not_satisfying_inspector_throws()
         {
             // Arrange
             var someObject = new object();
@@ -36,7 +36,7 @@ public partial class ReferenceTypeAssertionsSpecs
         }
 
         [Fact]
-        public void When_object_is_satisfied_against_a_null_inspector_it_should_throw()
+        public void Object_satisfied_against_null_throws()
         {
             // Arrange
             var someObject = new object();
@@ -50,7 +50,7 @@ public partial class ReferenceTypeAssertionsSpecs
         }
 
         [Fact]
-        public void When_typed_object_satisfies_inspector_it_should_not_throw()
+        public void Typed_object_satisfying_inspector_does_not_throw()
         {
             // Arrange
             var personDto = new PersonDto
@@ -64,7 +64,7 @@ public partial class ReferenceTypeAssertionsSpecs
         }
 
         [Fact]
-        public void When_complex_typed_object_satisfies_inspector_it_should_not_throw()
+        public void Complex_typed_object_satisfying_inspector_does_not_throw()
         {
             // Arrange
             var complexDto = new PersonAndAddressDto
@@ -106,31 +106,7 @@ public partial class ReferenceTypeAssertionsSpecs
         }
 
         [Fact]
-        public void When_a_typed_object_does_not_satisfy_the_inspector_it_should_throw()
-        {
-            // Arrange
-            const string personName = "Name Nameson";
-
-            var personDto = new PersonDto
-            {
-                Name = personName,
-                Birthdate = new DateTime(1973, 9, 20),
-            };
-
-            // Act
-            Action act = () =>
-                personDto.Should().Satisfy<PersonDto>(d => d.Name.Should().HaveLength(0, "it is not initialized yet"));
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                $"""
-                 Expected {nameof(personDto)} to match inspector, but the inspector was not satisfied:
-                 *Expected d.Name with length 0 because it is not initialized yet, but found string "{personName}" with length {personName.Length}.
-                 """);
-        }
-
-        [Fact]
-        public void When_a_typed_object_does_not_satisfy_inspector_it_should_throw()
+        public void Typed_object_not_satisfying_inspector_throws()
         {
             // Arrange
             var personDto = new PersonDto
@@ -158,7 +134,7 @@ public partial class ReferenceTypeAssertionsSpecs
         }
 
         [Fact]
-        public void When_a_complex_typed_object_does_not_satisfy_inspector_it_should_throw()
+        public void Complex_typed_object_not_satisfying_inspector_throws()
         {
             // Arrange
             var complexDto = new PersonAndAddressDto
@@ -210,7 +186,7 @@ public partial class ReferenceTypeAssertionsSpecs
         }
 
         [Fact]
-        public void When_a_typed_object_is_satisfied_against_an_incorrect_type_it_should_throw()
+        public void Typed_object_satisfied_against_incorrect_type_throws()
         {
             // Arrange
             var personDto = new PersonDto();
