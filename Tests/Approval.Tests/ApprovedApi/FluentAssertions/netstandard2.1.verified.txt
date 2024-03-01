@@ -2019,6 +2019,8 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBeOfType(System.Type unexpectedType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeOfType<T>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeSameAs(TSubject unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Satisfy<T>(System.Action<T> expected)
+            where T : TSubject { }
     }
     public class SimpleTimeSpanAssertions : FluentAssertions.Primitives.SimpleTimeSpanAssertions<FluentAssertions.Primitives.SimpleTimeSpanAssertions>
     {
