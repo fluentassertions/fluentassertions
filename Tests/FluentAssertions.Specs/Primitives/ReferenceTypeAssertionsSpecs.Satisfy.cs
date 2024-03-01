@@ -19,20 +19,6 @@ public partial class ReferenceTypeAssertionsSpecs
         }
 
         [Fact]
-        public void When_typed_object_satisfies_inspector_it_should_not_throw()
-        {
-            // Arrange
-            var someObject = new PersonDto
-            {
-                Name = "Name Nameson",
-                Birthdate = new DateTime(2000, 1, 1),
-            };
-
-            // Act / Assert
-            someObject.Should().Satisfy<PersonDto>(o => o.Age.Should().BeGreaterThan(0));
-        }
-
-        [Fact]
         public void When_object_does_not_satisfy_the_inspector_it_should_throw()
         {
             // Arrange
@@ -50,12 +36,82 @@ public partial class ReferenceTypeAssertionsSpecs
         }
 
         [Fact]
+        public void When_object_is_satisfied_against_a_null_inspector_it_should_throw()
+        {
+            // Arrange
+            var someObject = new object();
+
+            // Act
+            Action act = () => someObject.Should().Satisfy<object>(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Cannot verify an object against a <null> inspector.*");
+        }
+
+        [Fact]
+        public void When_typed_object_satisfies_inspector_it_should_not_throw()
+        {
+            // Arrange
+            var personDto = new PersonDto
+            {
+                Name = "Name Nameson",
+                Birthdate = new DateTime(2000, 1, 1),
+            };
+
+            // Act / Assert
+            personDto.Should().Satisfy<PersonDto>(o => o.Age.Should().BeGreaterThan(0));
+        }
+
+        [Fact]
+        public void When_complex_typed_object_satisfies_inspector_it_should_not_throw()
+        {
+            // Arrange
+            var complexDto = new PersonAndAddressDto
+            {
+                Person = new PersonDto
+                {
+                    Name = "Name Nameson",
+                    Birthdate = new DateTime(2000, 1, 1),
+                },
+                Address = new AddressDto
+                {
+                    Street = "Named St.",
+                    Number = "42",
+                    City = "Nowhere",
+                    Country = "Neverland",
+                    PostalCode = "12345",
+                }
+            };
+
+            // Act / Assert
+            complexDto.Should().Satisfy<PersonAndAddressDto>(dto =>
+            {
+                dto.Person.Should().Satisfy<PersonDto>(person =>
+                {
+                    person.Name.Should().Be("Name Nameson");
+                    person.Age.Should().BeGreaterThan(0);
+                    person.Birthdate.Should().Be(new DateTime(2000, 1, 1));
+                });
+
+                dto.Address.Should().Satisfy<AddressDto>(address =>
+                {
+                    address.Street.Should().Be("Named St.");
+                    address.Number.Should().Be("42");
+                    address.City.Should().Be("Nowhere");
+                    address.Country.Should().Be("Neverland");
+                    address.PostalCode.Should().Be("12345");
+                });
+            });
+        }
+
+        [Fact]
         public void When_a_typed_object_does_not_satisfy_the_inspector_it_should_throw()
         {
             // Arrange
             const string personName = "Name Nameson";
 
-            var somePerson = new PersonDto
+            var personDto = new PersonDto
             {
                 Name = personName,
                 Birthdate = new DateTime(1973, 9, 20),
@@ -63,13 +119,41 @@ public partial class ReferenceTypeAssertionsSpecs
 
             // Act
             Action act = () =>
-                somePerson.Should().Satisfy<PersonDto>(d => d.Name.Should().HaveLength(0, "it is not initialized yet"));
+                personDto.Should().Satisfy<PersonDto>(d => d.Name.Should().HaveLength(0, "it is not initialized yet"));
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 $"""
-                 Expected {nameof(somePerson)} to match inspector, but the inspector was not satisfied:
+                 Expected {nameof(personDto)} to match inspector, but the inspector was not satisfied:
                  *Expected d.Name with length 0 because it is not initialized yet, but found string "{personName}" with length {personName.Length}.
+                 """);
+        }
+
+        [Fact]
+        public void When_a_typed_object_does_not_satisfy_inspector_it_should_throw()
+        {
+            // Arrange
+            var personDto = new PersonDto
+            {
+                Name = "Name Nameson",
+                Birthdate = new DateTime(2000, 1, 1),
+            };
+
+            // Act
+            Action act = () => personDto.Should().Satisfy<PersonDto>(d =>
+            {
+                d.Name.Should().Be("Someone Else");
+                d.Age.Should().BeLessThan(20);
+                d.Birthdate.Should().BeAfter(new DateTime(2001, 1, 1));
+            });
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                $"""
+                 Expected {nameof(personDto)} to match inspector, but the inspector was not satisfied:
+                 *Expected d.Name*
+                 *Expected d.Age*
+                 *Expected d.Birthdate*
                  """);
         }
 
@@ -77,7 +161,7 @@ public partial class ReferenceTypeAssertionsSpecs
         public void When_a_complex_typed_object_does_not_satisfy_inspector_it_should_throw()
         {
             // Arrange
-            var someComplexDto = new PersonAndAddressDto
+            var complexDto = new PersonAndAddressDto
             {
                 Person = new PersonDto
                 {
@@ -95,7 +179,7 @@ public partial class ReferenceTypeAssertionsSpecs
             };
 
             // Act
-            Action act = () => someComplexDto.Should().Satisfy<PersonAndAddressDto>(dto =>
+            Action act = () => complexDto.Should().Satisfy<PersonAndAddressDto>(dto =>
             {
                 dto.Person.Should().Satisfy<PersonDto>(person =>
                 {
@@ -117,7 +201,7 @@ public partial class ReferenceTypeAssertionsSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 $"""
-                 Expected {nameof(someComplexDto)} to match inspector, but the inspector was not satisfied:
+                 Expected {nameof(complexDto)} to match inspector, but the inspector was not satisfied:
                  *Expected dto.Person to match inspector*
                  *Expected person.Name*
                  *Expected dto.Address to match inspector*
@@ -138,48 +222,6 @@ public partial class ReferenceTypeAssertionsSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     $"Expected {nameof(personDto)} to be assignable to {typeof(AddressDto)}, but {typeof(PersonDto)} is not.");
-        }
-
-        [Fact]
-        public void When_a_typed_object_does_not_satisfy_multiple_inspectors_it_should_throw()
-        {
-            // Arrange
-            var somePerson = new PersonDto
-            {
-                Name = "Name Nameson",
-                Birthdate = new DateTime(2000, 1, 1),
-            };
-
-            // Act
-            Action act = () => somePerson.Should().Satisfy<PersonDto>(d =>
-            {
-                d.Name.Should().Be("Someone Else");
-                d.Age.Should().BeLessThan(20);
-                d.Birthdate.Should().BeAfter(new DateTime(2001, 1, 1));
-            });
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                $"""
-                 Expected {nameof(somePerson)} to match inspector, but the inspector was not satisfied:
-                 *Expected d.Name*
-                 *Expected d.Age*
-                 *Expected d.Birthdate*
-                 """);
-        }
-
-        [Fact]
-        public void When_object_is_satisfied_against_a_null_inspector_it_should_throw()
-        {
-            // Arrange
-            var someObject = new object();
-
-            // Act
-            Action act = () => someObject.Should().Satisfy<object>(null);
-
-            // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot verify an object against a <null> inspector.*");
         }
 
         private class PersonDto
