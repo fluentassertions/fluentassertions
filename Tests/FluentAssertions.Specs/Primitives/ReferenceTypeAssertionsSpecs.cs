@@ -8,7 +8,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Primitives;
 
-public class ReferenceTypeAssertionsSpecs
+public partial class ReferenceTypeAssertionsSpecs
 {
     [Fact]
     public void When_the_same_objects_are_expected_to_be_the_same_it_should_not_fail()
