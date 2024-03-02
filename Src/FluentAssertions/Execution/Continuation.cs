@@ -15,7 +15,7 @@ public class Continuation
     }
 
     /// <summary>
-    /// Continuous the assertion chain if the previous assertion was successful.
+    /// Continues the assertion chain if the previous assertion was successful.
     /// </summary>
     public IAssertionScope Then
     {
