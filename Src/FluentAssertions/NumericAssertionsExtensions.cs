@@ -1481,6 +1481,209 @@ public static class NumericAssertionsExtensions
 
     #endregion
 
+    #region BeNaN
+
+    /// <summary>
+    /// Asserts that the number value is NaN.
+    /// </summary>
+    /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NumericAssertions<float>> BeNaN(this NumericAssertions<float> parent,
+        string because = "",
+        params object[] becauseArgs)
+    {
+        float actualValue = parent.Subject.Value;
+
+        FailIfValueIsNotNaN(float.IsNaN(actualValue), actualValue, because, becauseArgs);
+
+        return new AndConstraint<NumericAssertions<float>>(parent);
+    }
+
+    /// <summary>
+    /// Asserts that the number value is NaN.
+    /// </summary>
+    /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NumericAssertions<double>> BeNaN(this NumericAssertions<double> parent,
+        string because = "",
+        params object[] becauseArgs)
+    {
+        double actualValue = parent.Subject.Value;
+
+        FailIfValueIsNotNaN(double.IsNaN(actualValue), actualValue, because, becauseArgs);
+
+        return new AndConstraint<NumericAssertions<double>>(parent);
+    }
+
+    /// <summary>
+    /// Asserts that the number value is NaN.
+    /// </summary>
+    /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NullableNumericAssertions<float>> BeNaN(this NullableNumericAssertions<float> parent,
+        string because = "",
+        params object[] becauseArgs)
+    {
+        float? actualValue = parent.Subject;
+
+        FailIfValueIsNotNaN(actualValue is { } value && float.IsNaN(value), actualValue, because, becauseArgs);
+
+        return new AndConstraint<NullableNumericAssertions<float>>(parent);
+    }
+
+    /// <summary>
+    /// Asserts that the number value is NaN.
+    /// </summary>
+    /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NullableNumericAssertions<double>> BeNaN(this NullableNumericAssertions<double> parent,
+        string because = "",
+        params object[] becauseArgs)
+    {
+        double? actualValue = parent.Subject;
+
+        FailIfValueIsNotNaN(actualValue is { } value && double.IsNaN(value), actualValue, because, becauseArgs);
+
+        return new AndConstraint<NullableNumericAssertions<double>>(parent);
+    }
+
+    private static void FailIfValueIsNotNaN<TValue>(bool valueIsNaN,
+        TValue actualValue,
+        string because, object[] becauseArgs)
+    {
+        Execute.Assertion
+            .ForCondition(valueIsNaN)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:value} to be NaN{reason}, but found {0}.", actualValue);
+    }
+
+    #endregion
+
+    #region NotBeNaN
+
+    /// <summary>
+    /// Asserts that the number value is not NaN.
+    /// </summary>
+    /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NumericAssertions<float>> NotBeNaN(this NumericAssertions<float> parent,
+        string because = "",
+        params object[] becauseArgs)
+    {
+        float actualValue = parent.Subject.Value;
+
+        FailIfValueIsNaN(float.IsNaN(actualValue), because, becauseArgs);
+
+        return new AndConstraint<NumericAssertions<float>>(parent);
+    }
+
+    /// <summary>
+    /// Asserts that the number value is not NaN.
+    /// </summary>
+    /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NumericAssertions<double>> NotBeNaN(this NumericAssertions<double> parent,
+        string because = "",
+        params object[] becauseArgs)
+    {
+        double actualValue = parent.Subject.Value;
+
+        FailIfValueIsNaN(double.IsNaN(actualValue), because, becauseArgs);
+
+        return new AndConstraint<NumericAssertions<double>>(parent);
+    }
+
+    /// <summary>
+    /// Asserts that the number value is not NaN.
+    /// </summary>
+    /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NullableNumericAssertions<float>> NotBeNaN(this NullableNumericAssertions<float> parent,
+        string because = "",
+        params object[] becauseArgs)
+    {
+        float? actualValue = parent.Subject;
+
+        FailIfValueIsNaN(actualValue is { } value && float.IsNaN(value), because, becauseArgs);
+
+        return new AndConstraint<NullableNumericAssertions<float>>(parent);
+    }
+
+    /// <summary>
+    /// Asserts that the number value is not NaN.
+    /// </summary>
+    /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NullableNumericAssertions<double>> NotBeNaN(this NullableNumericAssertions<double> parent,
+        string because = "",
+        params object[] becauseArgs)
+    {
+        double? actualValue = parent.Subject;
+
+        FailIfValueIsNaN(actualValue is { } value && double.IsNaN(value), because, becauseArgs);
+
+        return new AndConstraint<NullableNumericAssertions<double>>(parent);
+    }
+
+    private static void FailIfValueIsNaN(bool valueIsNaN,
+        string because, object[] becauseArgs)
+    {
+        Execute.Assertion
+            .ForCondition(!valueIsNaN)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:value} to be NaN{reason}.");
+    }
+
+    #endregion
+
     private static long GetMinValue(long value, ulong delta)
     {
         long minValue;
