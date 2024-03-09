@@ -10,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class Int32Assertions : NumericAssertions<int>
 {
-    internal Int32Assertions(int value, Assertion assertion)
-        : base(value, assertion)
+    internal Int32Assertions(int value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 

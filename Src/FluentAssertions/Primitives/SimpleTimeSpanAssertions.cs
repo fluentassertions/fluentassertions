@@ -11,8 +11,8 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class SimpleTimeSpanAssertions : SimpleTimeSpanAssertions<SimpleTimeSpanAssertions>
 {
-    public SimpleTimeSpanAssertions(TimeSpan? value, Assertion assertion)
-        : base(value, assertion)
+    public SimpleTimeSpanAssertions(TimeSpan? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 }
@@ -26,11 +26,11 @@ public class SimpleTimeSpanAssertions : SimpleTimeSpanAssertions<SimpleTimeSpanA
 public class SimpleTimeSpanAssertions<TAssertions>
     where TAssertions : SimpleTimeSpanAssertions<TAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
-    public SimpleTimeSpanAssertions(TimeSpan? value, Assertion assertion)
+    public SimpleTimeSpanAssertions(TimeSpan? value, AssertionChain assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
         Subject = value;
     }
 
@@ -51,7 +51,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> BePositive(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject > TimeSpan.Zero)
             .FailWith("Expected {context:time} to be positive{reason}, but found {0}.", Subject);
@@ -71,7 +71,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> BeNegative(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject < TimeSpan.Zero)
             .FailWith("Expected {context:time} to be negative{reason}, but found {0}.", Subject);
@@ -93,7 +93,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> Be(TimeSpan expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(expected == Subject)
             .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
@@ -115,7 +115,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> NotBe(TimeSpan unexpected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(unexpected != Subject)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {0}{reason}.", unexpected);
@@ -137,7 +137,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> BeLessThan(TimeSpan expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject < expected)
             .FailWith("Expected {context:time} to be less than {0}{reason}, but found {1}.", expected, Subject);
@@ -159,7 +159,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> BeLessThanOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject <= expected)
             .FailWith("Expected {context:time} to be less than or equal to {0}{reason}, but found {1}.", expected, Subject);
@@ -181,7 +181,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> BeGreaterThan(TimeSpan expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject > expected)
             .FailWith("Expected {context:time} to be greater than {0}{reason}, but found {1}.", expected, Subject);
@@ -204,7 +204,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
     public AndConstraint<TAssertions> BeGreaterThanOrEqualTo(TimeSpan expected, string because = "",
         params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject >= expected)
             .FailWith("Expected {context:time} to be greater than or equal to {0}{reason}, but found {1}.", expected, Subject);
@@ -242,7 +242,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
         TimeSpan minimumValue = nearbyTime - precision;
         TimeSpan maximumValue = nearbyTime + precision;
 
-        assertion
+        assertionChain
             .ForCondition(Subject >= minimumValue && Subject.Value <= maximumValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:time} to be within {0} from {1}{reason}, but found {2}.",
@@ -282,7 +282,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
         TimeSpan minimumValue = distantTime - precision;
         TimeSpan maximumValue = distantTime + precision;
 
-        assertion
+        assertionChain
             .ForCondition(Subject < minimumValue || Subject > maximumValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:time} to not be within {0} from {1}{reason}, but found {2}.",

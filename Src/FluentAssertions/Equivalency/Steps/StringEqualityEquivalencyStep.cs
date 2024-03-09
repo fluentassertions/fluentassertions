@@ -5,7 +5,7 @@ namespace FluentAssertions.Equivalency.Steps;
 
 public class StringEqualityEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, Assertion assertion, IEquivalencyValidationContext context,
+    public EquivalencyResult Handle(Comparands comparands, AssertionChain assertionChain, IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency nestedValidator)
     {
         Type expectationType = comparands.GetExpectedType(context.Options);
@@ -15,12 +15,12 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
             return EquivalencyResult.ContinueWithNext;
         }
 
-        if (!ValidateAgainstNulls(comparands, context.CurrentNode))
+        if (!ValidateAgainstNulls(assertionChain, comparands, context.CurrentNode))
         {
             return EquivalencyResult.EquivalencyProven;
         }
 
-        bool subjectIsString = ValidateSubjectIsString(comparands, context.CurrentNode);
+        bool subjectIsString = ValidateSubjectIsString(assertionChain, comparands, context.CurrentNode);
 
         if (subjectIsString)
         {
@@ -34,7 +34,7 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
         return EquivalencyResult.EquivalencyProven;
     }
 
-    private static bool ValidateAgainstNulls(Comparands comparands, INode currentNode)
+    private static bool ValidateAgainstNulls(AssertionChain assertionChain, Comparands comparands, INode currentNode)
     {
         object expected = comparands.Expectation;
         object subject = comparands.Subject;
@@ -43,7 +43,7 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
 
         if (onlyOneNull)
         {
-            AssertionScope.Current.FailWith(
+            assertionChain.FailWith(
                 $"Expected {currentNode.Description} to be {{0}}{{reason}}, but found {{1}}.", expected, subject);
 
             return false;
@@ -52,16 +52,17 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
         return true;
     }
 
-    private static bool ValidateSubjectIsString(Comparands comparands, INode currentNode)
+    private static bool ValidateSubjectIsString(AssertionChain assertionChain, Comparands comparands, INode currentNode)
     {
         if (comparands.Subject is string)
         {
             return true;
         }
 
-        return
-            AssertionScope.Current
-                .FailWith($"Expected {currentNode} to be {{0}}, but found {{1}}.",
-                    comparands.RuntimeType, comparands.Subject.GetType());
+        assertionChain.FailWith(
+            $"Expected {currentNode} to be {{0}}, but found {{1}}.",
+            comparands.RuntimeType, comparands.Subject.GetType());
+
+        return assertionChain.Succeeded;
     }
 }

@@ -10,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class ByteAssertions : NumericAssertions<byte>
 {
-    internal ByteAssertions(byte value, Assertion assertion)
-        : base(value, assertion)
+    internal ByteAssertions(byte value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 

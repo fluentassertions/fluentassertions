@@ -17,6 +17,6 @@ public interface IEquivalencyStep
     /// <remarks>
     /// May throw when preconditions are not met or if it detects mismatching data.
     /// </remarks>
-    EquivalencyResult Handle(Comparands comparands, Assertion assertion, IEquivalencyValidationContext context,
+    EquivalencyResult Handle(Comparands comparands, AssertionChain assertionChain, IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency nestedValidator);
 }

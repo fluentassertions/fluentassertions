@@ -5,7 +5,7 @@ namespace FluentAssertions.Equivalency.Steps;
 
 public class XAttributeEquivalencyStep : EquivalencyStep<XAttribute>
 {
-    protected override EquivalencyResult OnHandle(Comparands comparands, Assertion assertion,
+    protected override EquivalencyResult OnHandle(Comparands comparands, AssertionChain assertionChain,
         IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency nestedValidator)
     {

@@ -9,16 +9,16 @@ namespace FluentAssertions;
 
 public class AndWhich<TParent, TSubject> : AndConstraint<TParent>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
     private readonly string pathPostfix;
     private readonly Lazy<TSubject> getSubject;
 
-    public AndWhich(TParent parent, TSubject subject, Assertion assertion, string pathPostfix)
+    public AndWhich(TParent parent, TSubject subject, AssertionChain assertionChain, string pathPostfix)
         : base(parent)
     {
         getSubject = new Lazy<TSubject>(() => subject);
 
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
         this.pathPostfix = pathPostfix;
     }
 
@@ -43,9 +43,9 @@ public class AndWhich<TParent, TSubject> : AndConstraint<TParent>
     {
         get
         {
-            assertion.AddCallerPostfix(pathPostfix);
+            assertionChain.AddCallerPostfix(pathPostfix);
 
-            Assertion.ReuseOnce(assertion);
+            AssertionChain.ReuseOnce(assertionChain);
 
             return getSubject.Value;
         }

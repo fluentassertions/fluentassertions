@@ -15,8 +15,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 public class ComparableTypeAssertions<T> : ComparableTypeAssertions<T, ComparableTypeAssertions<T>>
 {
-    public ComparableTypeAssertions(IComparable<T> value, Assertion assertion)
-        : base(value, assertion)
+    public ComparableTypeAssertions(IComparable<T> value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 }
@@ -29,12 +29,12 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     where TAssertions : ComparableTypeAssertions<T, TAssertions>
 {
     private const int Equal = 0;
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
-    public ComparableTypeAssertions(IComparable<T> value, Assertion assertion)
-        : base(value, assertion)
+    public ComparableTypeAssertions(IComparable<T> value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     /// </param>
     public AndConstraint<TAssertions> Be(T expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Equals(Subject, expected))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to be equal to {0}{reason}, but found {1}.", expected, Subject);
@@ -113,7 +113,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
         EquivalencyOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
         var context = new EquivalencyValidationContext(
-            Node.From<TExpectation>(() => AssertionScope.Current.CallerIdentity), options)
+            Node.From<TExpectation>(() => CurrentAssertionChain.CallerIdentifier), options)
         {
             Reason = new Reason(because, becauseArgs),
             TraceWriter = options.TraceWriter
@@ -146,7 +146,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     /// </param>
     public AndConstraint<TAssertions> NotBe(T unexpected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(!Equals(Subject, unexpected))
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", unexpected);
@@ -170,7 +170,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     /// </param>
     public AndConstraint<TAssertions> BeRankedEquallyTo(T expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject.CompareTo(expected) == Equal)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} {0} to be ranked as equal to {1}{reason}.", Subject, expected);
@@ -194,7 +194,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     /// </param>
     public AndConstraint<TAssertions> NotBeRankedEquallyTo(T unexpected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject.CompareTo(unexpected) != Equal)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} {0} not to be ranked as equal to {1}{reason}.", Subject, unexpected);
@@ -217,7 +217,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     /// </param>
     public AndConstraint<TAssertions> BeLessThan(T expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject.CompareTo(expected) < Equal)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} {0} to be less than {1}{reason}.", Subject, expected);
@@ -240,7 +240,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     /// </param>
     public AndConstraint<TAssertions> BeLessThanOrEqualTo(T expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject.CompareTo(expected) <= Equal)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} {0} to be less than or equal to {1}{reason}.", Subject, expected);
@@ -263,7 +263,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     /// </param>
     public AndConstraint<TAssertions> BeGreaterThan(T expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject.CompareTo(expected) > Equal)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} {0} to be greater than {1}{reason}.", Subject, expected);
@@ -286,7 +286,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     /// </param>
     public AndConstraint<TAssertions> BeGreaterThanOrEqualTo(T expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject.CompareTo(expected) >= Equal)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} {0} to be greater than or equal to {1}{reason}.", Subject, expected);
@@ -316,7 +316,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     public AndConstraint<TAssertions> BeInRange(T minimumValue, T maximumValue, string because = "",
         params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject.CompareTo(minimumValue) >= Equal && Subject.CompareTo(maximumValue) <= Equal)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to be between {0} and {1}{reason}, but found {2}.",
@@ -347,7 +347,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     public AndConstraint<TAssertions> NotBeInRange(T minimumValue, T maximumValue, string because = "",
         params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(!(Subject.CompareTo(minimumValue) >= Equal && Subject.CompareTo(maximumValue) <= Equal))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to not be between {0} and {1}{reason}, but found {2}.",
@@ -383,7 +383,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     public AndConstraint<TAssertions> BeOneOf(IEnumerable<T> validValues, string because = "",
         params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(validValues.Any(val => Equals(Subject, val)))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to be one of {0}{reason}, but found {1}.", validValues, Subject);

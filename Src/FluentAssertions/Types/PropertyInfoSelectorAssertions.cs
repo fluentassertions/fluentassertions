@@ -16,7 +16,7 @@ namespace FluentAssertions.Types;
 [DebuggerNonUserCode]
 public class PropertyInfoSelectorAssertions
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
     /// <summary>
     /// Gets the object whose value is being asserted.
@@ -28,9 +28,9 @@ public class PropertyInfoSelectorAssertions
     /// </summary>
     /// <param name="properties">The properties to assert.</param>
     /// <exception cref="ArgumentNullException"><paramref name="properties"/> is <see langword="null"/>.</exception>
-    public PropertyInfoSelectorAssertions(Assertion assertion, params PropertyInfo[] properties)
+    public PropertyInfoSelectorAssertions(AssertionChain assertionChain, params PropertyInfo[] properties)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
         Guard.ThrowIfArgumentIsNull(properties);
 
         SubjectProperties = properties;
@@ -50,7 +50,7 @@ public class PropertyInfoSelectorAssertions
     {
         PropertyInfo[] nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
 
-        assertion
+        assertionChain
             .ForCondition(nonVirtualProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -74,7 +74,7 @@ public class PropertyInfoSelectorAssertions
     {
         PropertyInfo[] virtualProperties = GetAllVirtualPropertiesFromSelection();
 
-        assertion
+        assertionChain
             .ForCondition(virtualProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -98,7 +98,7 @@ public class PropertyInfoSelectorAssertions
     {
         PropertyInfo[] readOnlyProperties = GetAllReadOnlyPropertiesFromSelection();
 
-        assertion
+        assertionChain
             .ForCondition(readOnlyProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -122,7 +122,7 @@ public class PropertyInfoSelectorAssertions
     {
         PropertyInfo[] writableProperties = GetAllWritablePropertiesFromSelection();
 
-        assertion
+        assertionChain
             .ForCondition(writableProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -168,7 +168,7 @@ public class PropertyInfoSelectorAssertions
     {
         PropertyInfo[] propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
 
-        assertion
+        assertionChain
             .ForCondition(propertiesWithoutAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -195,7 +195,7 @@ public class PropertyInfoSelectorAssertions
     {
         PropertyInfo[] propertiesWithAttribute = GetPropertiesWith<TAttribute>();
 
-        assertion
+        assertionChain
             .ForCondition(propertiesWithAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(

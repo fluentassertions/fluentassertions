@@ -78,7 +78,7 @@ internal class SomeClassEqualityComparer : IEqualityComparer<SomeClass>
 internal class SomeClassAssertions : ObjectAssertions<SomeClass, SomeClassAssertions>
 {
     public SomeClassAssertions(SomeClass value)
-        : base(value, Assertion.GetOrCreate())
+        : base(value, AssertionChain.GetOrCreate())
     {
     }
 }

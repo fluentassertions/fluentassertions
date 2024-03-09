@@ -10,8 +10,8 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class NullableGuidAssertions : NullableGuidAssertions<NullableGuidAssertions>
 {
-    public NullableGuidAssertions(Guid? value, Assertion assertion)
-        : base(value, assertion)
+    public NullableGuidAssertions(Guid? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 }
@@ -23,12 +23,12 @@ public class NullableGuidAssertions : NullableGuidAssertions<NullableGuidAsserti
 public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     where TAssertions : NullableGuidAssertions<TAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
-    public NullableGuidAssertions(Guid? value, Assertion assertion)
-        : base(value, assertion)
+    public NullableGuidAssertions(Guid? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected a value{reason}.");
@@ -78,7 +78,7 @@ public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
@@ -114,7 +114,7 @@ public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> Be(Guid? expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, Subject);

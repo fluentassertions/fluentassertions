@@ -10,8 +10,8 @@ namespace FluentAssertions.Numeric;
 public class NullableNumericAssertions<T> : NullableNumericAssertions<T, NullableNumericAssertions<T>>
     where T : struct, IComparable<T>
 {
-    public NullableNumericAssertions(T? value, Assertion assertion)
-        : base(value, assertion)
+    public NullableNumericAssertions(T? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 }
@@ -21,12 +21,12 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
     where T : struct, IComparable<T>
     where TAssertions : NullableNumericAssertions<T, TAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
-    public NullableNumericAssertions(T? value, Assertion assertion)
-        : base(value, assertion)
+    public NullableNumericAssertions(T? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
     /// </param>
     public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected a value{reason}.");
@@ -76,7 +76,7 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
     /// </param>
     public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
@@ -119,7 +119,7 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
     {
         Guard.ThrowIfArgumentIsNull(predicate);
 
-        assertion
+        assertionChain
             .ForCondition(predicate.Compile()(Subject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected value to match {0}{reason}, but found {1}.", predicate, Subject);

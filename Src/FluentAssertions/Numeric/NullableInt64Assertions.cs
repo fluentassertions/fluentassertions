@@ -10,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class NullableInt64Assertions : NullableNumericAssertions<long>
 {
-    internal NullableInt64Assertions(long? value, Assertion assertion)
-        : base(value, assertion)
+    internal NullableInt64Assertions(long? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 

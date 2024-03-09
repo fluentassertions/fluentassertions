@@ -10,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class SingleAssertions : NumericAssertions<float>
 {
-    internal SingleAssertions(float value, Assertion assertion)
-        : base(value, assertion)
+    internal SingleAssertions(float value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 

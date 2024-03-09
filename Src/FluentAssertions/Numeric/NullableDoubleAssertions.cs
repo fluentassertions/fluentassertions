@@ -10,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class NullableDoubleAssertions : NullableNumericAssertions<double>
 {
-    internal NullableDoubleAssertions(double? value, Assertion assertion)
-        : base(value, assertion)
+    internal NullableDoubleAssertions(double? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 

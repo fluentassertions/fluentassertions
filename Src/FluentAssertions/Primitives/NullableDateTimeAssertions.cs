@@ -14,8 +14,8 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class NullableDateTimeAssertions : NullableDateTimeAssertions<NullableDateTimeAssertions>
 {
-    public NullableDateTimeAssertions(DateTime? expected, Assertion assertion)
-        : base(expected, assertion)
+    public NullableDateTimeAssertions(DateTime? expected, AssertionChain assertionChain)
+        : base(expected, assertionChain)
     {
     }
 }
@@ -30,12 +30,12 @@ public class NullableDateTimeAssertions : NullableDateTimeAssertions<NullableDat
 public class NullableDateTimeAssertions<TAssertions> : DateTimeAssertions<TAssertions>
     where TAssertions : NullableDateTimeAssertions<TAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
-    public NullableDateTimeAssertions(DateTime? expected, Assertion assertion)
-        : base(expected, assertion)
+    public NullableDateTimeAssertions(DateTime? expected, AssertionChain assertionChain)
+        : base(expected, assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class NullableDateTimeAssertions<TAssertions> : DateTimeAssertions<TAsser
     /// </param>
     public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:nullable date and time} to have a value{reason}, but found {0}.", Subject);
@@ -85,7 +85,7 @@ public class NullableDateTimeAssertions<TAssertions> : DateTimeAssertions<TAsser
     /// </param>
     public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:nullable date and time} to have a value{reason}, but found {0}.", Subject);

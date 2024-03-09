@@ -40,24 +40,24 @@ public class AssertionExtensionsSpecs
 
     public static TheoryData<object> ClassesWithGuardEquals => new()
     {
-        new ObjectAssertions<object, ObjectAssertions>(default, Assertion.GetOrCreate()),
-        new BooleanAssertions<BooleanAssertions>(default, Assertion.GetOrCreate()),
-        new DateTimeAssertions<DateTimeAssertions>(default, Assertion.GetOrCreate()),
-        new DateTimeRangeAssertions<DateTimeAssertions>(default, Assertion.GetOrCreate(),  default, default, default),
-        new DateTimeOffsetAssertions<DateTimeOffsetAssertions>(default, Assertion.GetOrCreate()),
-        new DateTimeOffsetRangeAssertions<DateTimeOffsetAssertions>(default, Assertion.GetOrCreate(), default, default, default),
-        new ExecutionTimeAssertions(new ExecutionTime(() => { }, () => new StopwatchTimer()), Assertion.GetOrCreate()),
-        new GuidAssertions<GuidAssertions>(default, Assertion.GetOrCreate()),
-        new MethodInfoSelectorAssertions(Assertion.GetOrCreate()),
-        new NumericAssertions<int, NumericAssertions<int>>(default, Assertion.GetOrCreate()),
-        new PropertyInfoSelectorAssertions(Assertion.GetOrCreate()),
-        new SimpleTimeSpanAssertions<SimpleTimeSpanAssertions>(default, Assertion.GetOrCreate()),
-        new TaskCompletionSourceAssertions<int>(default, Assertion.GetOrCreate()),
-        new TypeSelectorAssertions(Assertion.GetOrCreate()),
-        new EnumAssertions<StringComparison, EnumAssertions<StringComparison>>(default, Assertion.GetOrCreate()),
+        new ObjectAssertions<object, ObjectAssertions>(default, AssertionChain.GetOrCreate()),
+        new BooleanAssertions<BooleanAssertions>(default, AssertionChain.GetOrCreate()),
+        new DateTimeAssertions<DateTimeAssertions>(default, AssertionChain.GetOrCreate()),
+        new DateTimeRangeAssertions<DateTimeAssertions>(default, AssertionChain.GetOrCreate(),  default, default, default),
+        new DateTimeOffsetAssertions<DateTimeOffsetAssertions>(default, AssertionChain.GetOrCreate()),
+        new DateTimeOffsetRangeAssertions<DateTimeOffsetAssertions>(default, AssertionChain.GetOrCreate(), default, default, default),
+        new ExecutionTimeAssertions(new ExecutionTime(() => { }, () => new StopwatchTimer()), AssertionChain.GetOrCreate()),
+        new GuidAssertions<GuidAssertions>(default, AssertionChain.GetOrCreate()),
+        new MethodInfoSelectorAssertions(AssertionChain.GetOrCreate()),
+        new NumericAssertions<int, NumericAssertions<int>>(default, AssertionChain.GetOrCreate()),
+        new PropertyInfoSelectorAssertions(AssertionChain.GetOrCreate()),
+        new SimpleTimeSpanAssertions<SimpleTimeSpanAssertions>(default, AssertionChain.GetOrCreate()),
+        new TaskCompletionSourceAssertions<int>(default, AssertionChain.GetOrCreate()),
+        new TypeSelectorAssertions(AssertionChain.GetOrCreate()),
+        new EnumAssertions<StringComparison, EnumAssertions<StringComparison>>(default, AssertionChain.GetOrCreate()),
 #if NET6_0_OR_GREATER
-        new DateOnlyAssertions<DateOnlyAssertions>(default, Assertion.GetOrCreate()),
-        new TimeOnlyAssertions<TimeOnlyAssertions>(default, Assertion.GetOrCreate()),
+        new DateOnlyAssertions<DateOnlyAssertions>(default, AssertionChain.GetOrCreate()),
+        new TimeOnlyAssertions<TimeOnlyAssertions>(default, AssertionChain.GetOrCreate()),
 #endif
     };
 

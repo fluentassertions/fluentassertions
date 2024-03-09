@@ -8,12 +8,12 @@ namespace FluentAssertions.Equivalency.Steps;
 /// </summary>
 public class RunAllUserStepsEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, Assertion assertion, IEquivalencyValidationContext context,
+    public EquivalencyResult Handle(Comparands comparands, AssertionChain assertionChain, IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency nestedValidator)
     {
         foreach (IEquivalencyStep step in context.Options.UserEquivalencySteps)
         {
-            if (step.Handle(comparands, assertion, context, nestedValidator) == EquivalencyResult.EquivalencyProven)
+            if (step.Handle(comparands, assertionChain, context, nestedValidator) == EquivalencyResult.EquivalencyProven)
             {
                 return EquivalencyResult.EquivalencyProven;
             }

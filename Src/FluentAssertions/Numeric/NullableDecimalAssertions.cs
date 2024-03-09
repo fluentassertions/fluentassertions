@@ -11,8 +11,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class NullableDecimalAssertions : NullableNumericAssertions<decimal>
 {
-    internal NullableDecimalAssertions(decimal? value, Assertion assertion)
-        : base(value, assertion)
+    internal NullableDecimalAssertions(decimal? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 

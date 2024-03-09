@@ -14,12 +14,12 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class NullableDateTimeOffsetAssertions : NullableDateTimeOffsetAssertions<NullableDateTimeOffsetAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
-    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected, Assertion assertion)
-        : base(expected, assertion)
+    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected, AssertionChain assertionChain)
+        : base(expected, assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 }
 
@@ -34,12 +34,12 @@ public class NullableDateTimeOffsetAssertions : NullableDateTimeOffsetAssertions
 public class NullableDateTimeOffsetAssertions<TAssertions> : DateTimeOffsetAssertions<TAssertions>
     where TAssertions : NullableDateTimeOffsetAssertions<TAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
-    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected, Assertion assertion)
-        : base(expected, assertion)
+    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected, AssertionChain assertionChain)
+        : base(expected, assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public class NullableDateTimeOffsetAssertions<TAssertions> : DateTimeOffsetAsser
     /// </param>
     public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:variable} to have a value{reason}, but found {0}", Subject);
@@ -90,7 +90,7 @@ public class NullableDateTimeOffsetAssertions<TAssertions> : DateTimeOffsetAsser
     public AndConstraint<TAssertions> NotHaveValue(string because = "",
         params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:variable} to have a value{reason}, but found {0}", Subject);

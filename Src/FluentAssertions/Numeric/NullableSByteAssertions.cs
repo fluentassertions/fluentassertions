@@ -10,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class NullableSByteAssertions : NullableNumericAssertions<sbyte>
 {
-    internal NullableSByteAssertions(sbyte? value, Assertion assertion)
-        : base(value, assertion)
+    internal NullableSByteAssertions(sbyte? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 

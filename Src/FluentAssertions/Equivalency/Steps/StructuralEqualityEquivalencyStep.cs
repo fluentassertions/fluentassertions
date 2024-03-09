@@ -7,7 +7,7 @@ namespace FluentAssertions.Equivalency.Steps;
 
 public class StructuralEqualityEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, Assertion assertion, IEquivalencyValidationContext context,
+    public EquivalencyResult Handle(Comparands comparands, AssertionChain assertionChain, IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency nestedValidator)
     {
         if (!context.CurrentNode.IsRoot && !context.Options.IsRecursive)
@@ -17,7 +17,7 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
 
         if (comparands.Expectation is null)
         {
-            AssertionScope.Current
+            assertionChain
                 .BecauseOf(context.Reason)
                 .FailWith(
                     "Expected {context:subject} to be <null>{reason}, but found {0}.",
@@ -25,7 +25,7 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
         }
         else if (comparands.Subject is null)
         {
-            AssertionScope.Current
+            assertionChain
                 .BecauseOf(context.Reason)
                 .FailWith(
                     "Expected {context:object} to be {0}{reason}, but found {1}.",
@@ -45,7 +45,7 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
 
             foreach (IMember selectedMember in selectedMembers)
             {
-                AssertMemberEquality(comparands, context, nestedValidator, selectedMember, context.Options, assertion);
+                AssertMemberEquality(comparands, context, nestedValidator, selectedMember, context.Options, assertionChain);
             }
         }
 
@@ -53,9 +53,9 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
     }
 
     private static void AssertMemberEquality(Comparands comparands, IEquivalencyValidationContext context,
-        IValidateChildNodeEquivalency parent, IMember selectedMember, IEquivalencyOptions options, Assertion assertion)
+        IValidateChildNodeEquivalency parent, IMember selectedMember, IEquivalencyOptions options, AssertionChain assertionChain)
     {
-        IMember matchingMember = FindMatchFor(selectedMember, context.CurrentNode, comparands.Subject, options, assertion);
+        IMember matchingMember = FindMatchFor(selectedMember, context.CurrentNode, comparands.Subject, options, assertionChain);
 
         if (matchingMember is not null)
         {
@@ -73,16 +73,16 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
                 selectedMember.Name = matchingMember.Name;
             }
 
-            parent.AssertEquivalencyOf(nestedComparands, assertion, context.AsNestedMember(selectedMember));
+            parent.AssertEquivalencyOf(nestedComparands, assertionChain, context.AsNestedMember(selectedMember));
         }
     }
 
     private static IMember FindMatchFor(IMember selectedMember, INode currentNode, object subject,
-        IEquivalencyOptions config, Assertion assertion)
+        IEquivalencyOptions config, AssertionChain assertionChain)
     {
         IEnumerable<IMember> query =
             from rule in config.MatchingRules
-            let match = rule.Match(selectedMember, subject, currentNode, config, assertion)
+            let match = rule.Match(selectedMember, subject, currentNode, config, assertionChain)
             where match is not null
             select match;
 

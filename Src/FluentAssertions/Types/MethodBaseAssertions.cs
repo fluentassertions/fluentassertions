@@ -16,12 +16,12 @@ public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAs
     where TSubject : MethodBase
     where TAssertions : MethodBaseAssertions<TSubject, TAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
-    protected MethodBaseAssertions(TSubject subject, Assertion assertion)
-        : base(subject, assertion)
+    protected MethodBaseAssertions(TSubject subject, AssertionChain assertionChain)
+        : base(subject, assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -42,16 +42,16 @@ public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAs
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith($"Expected method to be {accessModifier}{{reason}}, but {{context:member}} is <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
 
-            assertion
+            assertionChain
                 .ForCondition(accessModifier == subjectAccessModifier)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -79,16 +79,16 @@ public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAs
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith($"Expected method not to be {accessModifier}{{reason}}, but {{context:member}} is <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
 
-            assertion
+            assertionChain
                 .ForCondition(accessModifier != subjectAccessModifier)
                 .BecauseOf(because, becauseArgs)
                 .FailWith($"Expected method {Subject!.Name} not to be {accessModifier}{{reason}}, but it is.");

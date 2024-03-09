@@ -16,15 +16,15 @@ namespace FluentAssertions.Types;
 [DebuggerNonUserCode]
 public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TypeAssertions"/> class.
     /// </summary>
-    public TypeAssertions(Type type, Assertion assertion)
-        : base(type, assertion)
+    public TypeAssertions(Type type, AssertionChain assertionChain)
+        : base(type, assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -55,7 +55,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// </param>
     public AndConstraint<TypeAssertions> Be(Type expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject == expected)
             .FailWith(GetFailureMessageIfTypesAreDifferent(Subject, expected));
@@ -101,7 +101,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
             ? Subject.IsAssignableToOpenGeneric(type)
             : type.IsAssignableFrom(Subject);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(isAssignable)
             .FailWith("Expected {context:type} {0} to be assignable to {1}{reason}, but it is not.", Subject, type);
@@ -147,7 +147,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
             ? Subject.IsAssignableToOpenGeneric(type)
             : type.IsAssignableFrom(Subject);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(!isAssignable)
             .FailWith("Expected {context:type} {0} to not be assignable to {1}{reason}, but it is.", Subject, type);
@@ -212,7 +212,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         string nameOfUnexpectedType = unexpected is not null ? $"[{unexpected.AssemblyQualifiedName}]" : "<null>";
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject != unexpected)
             .FailWith("Expected type not to be " + nameOfUnexpectedType + "{reason}, but it is.");
@@ -236,7 +236,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes<TAttribute>();
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(attributes.Any())
             .FailWith("Expected type {0} to be decorated with {1}{reason}, but the attribute was not found.",
@@ -270,7 +270,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 
         IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(attributes.Any())
             .FailWith(
@@ -296,7 +296,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         IEnumerable<TAttribute> attributes = Subject.GetMatchingOrInheritedAttributes<TAttribute>();
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(attributes.Any())
             .FailWith("Expected type {0} to be decorated with or inherit {1}{reason}, but the attribute was not found.",
@@ -330,7 +330,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 
         IEnumerable<TAttribute> attributes = Subject.GetMatchingOrInheritedAttributes(isMatchingAttributePredicate);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(attributes.Any())
             .FailWith(
@@ -353,7 +353,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     public AndConstraint<TypeAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(!Subject.IsDecoratedWith<TAttribute>())
             .FailWith("Expected type {0} to not be decorated with {1}{reason}, but the attribute was found.",
@@ -383,7 +383,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(!Subject.IsDecoratedWith(isMatchingAttributePredicate))
             .FailWith(
@@ -408,7 +408,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(!Subject.IsDecoratedWithOrInherit<TAttribute>())
             .FailWith("Expected type {0} to not be decorated with or inherit {1}{reason}, but the attribute was found.",
@@ -439,7 +439,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(!Subject.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
             .FailWith(
@@ -474,7 +474,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         bool containsInterface = interfaceType.IsAssignableFrom(Subject) && interfaceType != Subject;
 
-        assertion
+        assertionChain
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected type {0} to implement interface {1}{reason}", Subject, interfaceType)
                 .ForCondition(interfaceType.IsInterface)
@@ -483,7 +483,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .ForCondition(containsInterface)
                 .FailWith(", but it does not.");
 
-        return assertion.Succeeded;
+        return assertionChain.Succeeded;
     }
 
     /// <summary>
@@ -521,7 +521,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 
         bool containsInterface = interfaceType.IsAssignableFrom(Subject) && interfaceType != Subject;
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected type {0} to not implement interface {1}{reason}", Subject, interfaceType)
             .ForCondition(interfaceType.IsInterface)
@@ -571,7 +571,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
             ? Subject.IsDerivedFromOpenGeneric(baseType)
             : Subject.IsSubclassOf(baseType);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected type {0} to be derived from {1}{reason}", Subject, baseType)
             .ForCondition(!baseType.IsInterface)
@@ -621,7 +621,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
             ? Subject.IsDerivedFromOpenGeneric(baseType)
             : Subject.IsSubclassOf(baseType);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected type {0} not to be derived from {1}{reason}", Subject, baseType)
             .ForCondition(!baseType.IsInterface)
@@ -665,16 +665,16 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// is not a class.</exception>
     public AndConstraint<TypeAssertions> BeSealed(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected type to be sealed{reason}, but {context:type} is <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             AssertThatSubjectIsClass();
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject.IsCSharpSealed())
                 .FailWith("Expected type {0} to be sealed{reason}.", Subject);
@@ -697,16 +697,16 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// is not a class.</exception>
     public AndConstraint<TypeAssertions> NotBeSealed(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected type not to be sealed{reason}, but {context:type} is <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             AssertThatSubjectIsClass();
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!Subject.IsCSharpSealed())
                 .FailWith("Expected type {0} not to be sealed{reason}.", Subject);
@@ -729,16 +729,16 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// is not a class.</exception>
     public AndConstraint<TypeAssertions> BeAbstract(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected type to be abstract{reason}, but {context:type} is <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             AssertThatSubjectIsClass();
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject.IsCSharpAbstract())
                 .FailWith("Expected {context:type} {0} to be abstract{reason}.", Subject);
@@ -761,16 +761,16 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// is not a class.</exception>
     public AndConstraint<TypeAssertions> NotBeAbstract(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected type not to be abstract{reason}, but {context:type} is <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             AssertThatSubjectIsClass();
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!Subject.IsCSharpAbstract())
                 .FailWith("Expected type {0} not to be abstract{reason}.", Subject);
@@ -793,16 +793,16 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// is not a class.</exception>
     public AndConstraint<TypeAssertions> BeStatic(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected type to be static{reason}, but {context:type} is <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             AssertThatSubjectIsClass();
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject.IsCSharpStatic())
                 .FailWith("Expected type {0} to be static{reason}.", Subject);
@@ -825,16 +825,16 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// is not a class.</exception>
     public AndConstraint<TypeAssertions> NotBeStatic(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected type not to be static{reason}, but {context:type} is <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             AssertThatSubjectIsClass();
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!Subject.IsCSharpStatic())
                 .FailWith("Expected type {0} not to be static{reason}.", Subject);
@@ -865,7 +865,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         Guard.ThrowIfArgumentIsNull(propertyType);
         Guard.ThrowIfArgumentIsNullOrEmpty(name);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
@@ -873,12 +873,12 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 
         PropertyInfo propertyInfo = null;
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             propertyInfo = Subject.FindPropertyByName(name);
             var propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(propertyInfo is not null)
                 .FailWith($"Expected {propertyType.Name} {Subject}.{name} to exist{{reason}}, but it does not.")
@@ -928,17 +928,17 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         Guard.ThrowIfArgumentIsNullOrEmpty(name);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith($"Expected {{context:type}}.{name} to not exist{{reason}}, but {{context:type}} is <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             PropertyInfo propertyInfo = Subject.FindPropertyByName(name);
             var propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(propertyInfo is null)
                 .FailWith($"Expected {propertyInfoDescription} to not exist{{reason}}, but it does.");
@@ -969,18 +969,18 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         Guard.ThrowIfArgumentIsNull(interfaceType);
         Guard.ThrowIfArgumentIsNullOrEmpty(name);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {{context:type}} to explicitly implement {interfaceType}.{name}{{reason}}" +
                 ", but {context:type} is <null>.");
 
-        if (assertion.Succeeded && AssertSubjectImplements(interfaceType, because, becauseArgs))
+        if (assertionChain.Succeeded && AssertSubjectImplements(interfaceType, because, becauseArgs))
         {
             var explicitlyImplementsProperty = Subject.HasExplicitlyImplementedProperty(interfaceType, name);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(explicitlyImplementsProperty)
                 .FailWith(
@@ -1034,18 +1034,18 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         Guard.ThrowIfArgumentIsNull(interfaceType);
         Guard.ThrowIfArgumentIsNullOrEmpty(name);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {{context:type}} to not explicitly implement {interfaceType}.{name}{{reason}}" +
                 ", but {context:type} is <null>.");
 
-        if (assertion.Succeeded && AssertSubjectImplements(interfaceType, because, becauseArgs))
+        if (assertionChain.Succeeded && AssertSubjectImplements(interfaceType, because, becauseArgs))
         {
             var explicitlyImplementsProperty = Subject.HasExplicitlyImplementedProperty(interfaceType, name);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!explicitlyImplementsProperty)
                 .FailWith(
@@ -1103,18 +1103,18 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         Guard.ThrowIfArgumentIsNullOrEmpty(name);
         Guard.ThrowIfArgumentIsNull(parameterTypes);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {{context:type}} to explicitly implement {interfaceType}.{name}" +
                 $"({GetParameterString(parameterTypes)}){{reason}}, but {{context:type}} is <null>.");
 
-        if (assertion.Succeeded && AssertSubjectImplements(interfaceType, because, becauseArgs))
+        if (assertionChain.Succeeded && AssertSubjectImplements(interfaceType, because, becauseArgs))
         {
             var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType}.{name}", parameterTypes);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(explicitlyImplementsMethod)
                 .FailWith(
@@ -1174,18 +1174,18 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         Guard.ThrowIfArgumentIsNullOrEmpty(name);
         Guard.ThrowIfArgumentIsNull(parameterTypes);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {{context:type}} to not explicitly implement {interfaceType}.{name}" +
                 $"({GetParameterString(parameterTypes)}){{reason}}, but {{context:type}} is <null>.");
 
-        if (assertion.Succeeded && AssertSubjectImplements(interfaceType, because, becauseArgs))
+        if (assertionChain.Succeeded && AssertSubjectImplements(interfaceType, because, becauseArgs))
         {
             var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType}.{name}", parameterTypes);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!explicitlyImplementsMethod)
                 .FailWith(
@@ -1241,7 +1241,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         Guard.ThrowIfArgumentIsNull(indexerType);
         Guard.ThrowIfArgumentIsNull(parameterTypes);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
@@ -1250,12 +1250,12 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 
         PropertyInfo propertyInfo = null;
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             propertyInfo = Subject.GetIndexerByParameterTypes(parameterTypes);
             var propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(propertyInfo is not null)
                 .FailWith(
@@ -1287,18 +1287,18 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         Guard.ThrowIfArgumentIsNull(parameterTypes);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected indexer {{context:type}}[{GetParameterString(parameterTypes)}] to not exist{{reason}}" +
                 ", but {context:type} is <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             PropertyInfo propertyInfo = Subject.GetIndexerByParameterTypes(parameterTypes);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(propertyInfo is null)
                 .FailWith(
@@ -1331,7 +1331,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         Guard.ThrowIfArgumentIsNullOrEmpty(name);
         Guard.ThrowIfArgumentIsNull(parameterTypes);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
@@ -1340,11 +1340,11 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 
         MethodInfo methodInfo = null;
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             methodInfo = Subject.GetMethod(name, parameterTypes);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(methodInfo is not null)
                 .FailWith(
@@ -1377,19 +1377,19 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         Guard.ThrowIfArgumentIsNullOrEmpty(name);
         Guard.ThrowIfArgumentIsNull(parameterTypes);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected method {{context:type}}.{name}({GetParameterString(parameterTypes)}) to not exist{{reason}}" +
                 ", but {context:type} is <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             MethodInfo methodInfo = Subject.GetMethod(name, parameterTypes);
             var methodInfoDescription = MethodInfoAssertions.GetDescriptionFor(methodInfo);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(methodInfo is null)
                 .FailWith(
@@ -1417,7 +1417,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         Guard.ThrowIfArgumentIsNull(parameterTypes);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
@@ -1426,11 +1426,11 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 
         ConstructorInfo constructorInfo = null;
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             constructorInfo = Subject.GetConstructor(parameterTypes);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(constructorInfo is not null)
                 .FailWith(
@@ -1474,7 +1474,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         Guard.ThrowIfArgumentIsNull(parameterTypes);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
@@ -1483,11 +1483,11 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 
         ConstructorInfo constructorInfo = null;
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             constructorInfo = Subject.GetConstructor(parameterTypes);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(constructorInfo is null)
                 .FailWith(
@@ -1537,16 +1537,16 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith($"Expected {{context:type}} to be {accessModifier}{{reason}}, but {{context:type}} is <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
 
-            assertion.ForCondition(accessModifier == subjectAccessModifier)
+            assertionChain.ForCondition(accessModifier == subjectAccessModifier)
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(accessModifier == subjectAccessModifier)
                 .FailWith(
@@ -1575,16 +1575,16 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith($"Expected {{context:type}} not to be {accessModifier}{{reason}}, but {{context:type}} is <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
 
-            assertion
+            assertionChain
                 .ForCondition(accessModifier != subjectAccessModifier)
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(accessModifier != subjectAccessModifier)
@@ -1634,7 +1634,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         Guard.ThrowIfArgumentIsNull(sourceType);
         Guard.ThrowIfArgumentIsNull(targetType);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected public static implicit {0}({1}) to exist{reason}, but {context:type} is <null>.",
@@ -1642,11 +1642,11 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 
         MethodInfo methodInfo = null;
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             methodInfo = Subject.GetImplicitConversionOperator(sourceType, targetType);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(methodInfo is not null)
                 .FailWith("Expected public static implicit {0}({1}) to exist{reason}, but it does not.",
@@ -1696,17 +1696,17 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         Guard.ThrowIfArgumentIsNull(sourceType);
         Guard.ThrowIfArgumentIsNull(targetType);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected public static implicit {0}({1}) to not exist{reason}, but {context:type} is <null>.",
                 targetType, sourceType);
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             MethodInfo methodInfo = Subject.GetImplicitConversionOperator(sourceType, targetType);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(methodInfo is null)
                 .FailWith("Expected public static implicit {0}({1}) to not exist{reason}, but it does.",
@@ -1756,7 +1756,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         Guard.ThrowIfArgumentIsNull(sourceType);
         Guard.ThrowIfArgumentIsNull(targetType);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected public static explicit {0}({1}) to exist{reason}, but {context:type} is <null>.",
@@ -1764,11 +1764,11 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 
         MethodInfo methodInfo = null;
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             methodInfo = Subject.GetExplicitConversionOperator(sourceType, targetType);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(methodInfo is not null)
                 .FailWith("Expected public static explicit {0}({1}) to exist{reason}, but it does not.",
@@ -1818,17 +1818,17 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         Guard.ThrowIfArgumentIsNull(sourceType);
         Guard.ThrowIfArgumentIsNull(targetType);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected public static explicit {0}({1}) to not exist{reason}, but {context:type} is <null>.",
                 targetType, sourceType);
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             MethodInfo methodInfo = Subject.GetExplicitConversionOperator(sourceType, targetType);
 
-            assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(methodInfo is null)
                 .FailWith("Expected public static explicit {0}({1}) to not exist{reason}, but it does.",

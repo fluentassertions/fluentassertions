@@ -20,7 +20,7 @@ public static class EnumAssertionsExtensions
     public static EnumAssertions<TEnum> Should<TEnum>(this TEnum @enum)
         where TEnum : struct, Enum
     {
-        return new EnumAssertions<TEnum>(@enum, Assertion.GetOrCreate());
+        return new EnumAssertions<TEnum>(@enum, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -31,6 +31,6 @@ public static class EnumAssertionsExtensions
     public static NullableEnumAssertions<TEnum> Should<TEnum>(this TEnum? @enum)
         where TEnum : struct, Enum
     {
-        return new NullableEnumAssertions<TEnum>(@enum, Assertion.GetOrCreate());
+        return new NullableEnumAssertions<TEnum>(@enum, AssertionChain.GetOrCreate());
     }
 }

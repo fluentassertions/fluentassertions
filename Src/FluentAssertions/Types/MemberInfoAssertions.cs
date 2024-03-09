@@ -18,12 +18,12 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     where TSubject : MemberInfo
     where TAssertions : MemberInfoAssertions<TSubject, TAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
-    protected MemberInfoAssertions(TSubject subject, Assertion assertion)
-        : base(subject, assertion)
+    protected MemberInfoAssertions(TSubject subject, AssertionChain assertionChain)
+        : base(subject, assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
@@ -91,11 +91,11 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
 
         IEnumerable<TAttribute> attributes = [];
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
-            assertion
+            assertionChain
                 .ForCondition(attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -128,18 +128,18 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {Identifier} to not be decorated with {typeof(TAttribute)}{{reason}}" +
                 ", but {context:member} is <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
-            assertion
+            assertionChain
                 .ForCondition(!attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(

@@ -17,15 +17,15 @@ namespace FluentAssertions.Xml;
 [DebuggerNonUserCode]
 public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="XElementAssertions" /> class.
     /// </summary>
-    public XElementAssertions(XElement xElement, Assertion assertion)
-        : base(xElement, assertion)
+    public XElementAssertions(XElement xElement, AssertionChain assertionChain)
+        : base(xElement, assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// </param>
     public AndConstraint<XElementAssertions> Be(XElement expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(XNode.DeepEquals(Subject, expected))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:subject} to be {0}{reason}, but found {1}.", expected, Subject);
@@ -66,7 +66,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// </param>
     public AndConstraint<XElementAssertions> NotBe(XElement unexpected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition((Subject is null && unexpected is not null) || !XNode.DeepEquals(Subject, unexpected))
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:subject} to be {0}{reason}.", unexpected);
@@ -93,7 +93,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
         using (XmlReader subjectReader = Subject?.CreateReader())
         using (XmlReader expectedReader = expected?.CreateReader())
         {
-            var xmlReaderValidator = new XmlReaderValidator(subjectReader, expectedReader, because, becauseArgs);
+            var xmlReaderValidator = new XmlReaderValidator(assertionChain, subjectReader, expectedReader, because, becauseArgs);
             xmlReaderValidator.Validate(shouldBeEquivalent: true);
         }
 
@@ -119,7 +119,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
         using (XmlReader subjectReader = Subject?.CreateReader())
         using (XmlReader otherReader = unexpected?.CreateReader())
         {
-            var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
+            var xmlReaderValidator = new XmlReaderValidator(assertionChain, subjectReader, otherReader, because, becauseArgs);
             xmlReaderValidator.Validate(shouldBeEquivalent: false);
         }
 
@@ -139,14 +139,14 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// </param>
     public AndConstraint<XElementAssertions> HaveValue(string expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected the element to have value {0}{reason}, but {context:member} is <null>.", expected);
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
-            assertion
+            assertionChain
                 .ForCondition(Subject!.Value == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -201,18 +201,18 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
 
         string expectedText = expectedName.ToString();
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 "Expected attribute {0} in element to have value {1}{reason}, but {context:member} is <null>.",
                 expectedText, expectedValue);
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             XAttribute attribute = Subject!.Attribute(expectedName);
 
-            assertion
+            assertionChain
                 .ForCondition(attribute is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -220,9 +220,9 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
                     + " but found no such attribute in {2}",
                     expectedText, expectedValue, Subject);
 
-            if (assertion.Succeeded)
+            if (assertionChain.Succeeded)
             {
-                assertion
+                assertionChain
                     .ForCondition(attribute!.Value == expectedValue)
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
@@ -274,7 +274,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     {
         Guard.ThrowIfArgumentIsNull(expected);
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
@@ -283,11 +283,11 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
 
         XElement xElement = null;
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             xElement = Subject!.Element(expected);
 
-            assertion
+            assertionChain
                 .ForCondition(xElement is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -323,7 +323,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
             "Cannot assert the element has an element count if the element name is <null>.");
 
-        assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -332,12 +332,12 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
 
         IEnumerable<XElement> xElements = [];
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             xElements = Subject!.Elements(expected);
             int actual = xElements.Count();
 
-            assertion
+            assertionChain
                 .ForConstraint(occurrenceConstraint, actual)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(

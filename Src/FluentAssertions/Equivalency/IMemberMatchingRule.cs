@@ -25,10 +25,10 @@ public interface IMemberMatchingRule
     /// </param>
     /// <param name="parent"></param>
     /// <param name="options"></param>
-    /// <param name="assertion"></param>
+    /// <param name="assertionChain"></param>
     /// <returns>
     /// Returns the <see cref="IMember"/> of the property with which to compare the subject with, or <see langword="null"/>
     /// if no match was found.
     /// </returns>
-    IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options, Assertion assertion);
+    IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options, AssertionChain assertionChain);
 }

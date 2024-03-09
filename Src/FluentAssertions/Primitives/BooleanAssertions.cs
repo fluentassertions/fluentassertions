@@ -11,8 +11,8 @@ namespace FluentAssertions.Primitives;
 public class BooleanAssertions
     : BooleanAssertions<BooleanAssertions>
 {
-    public BooleanAssertions(bool? value, Assertion assertion)
-        : base(value, assertion)
+    public BooleanAssertions(bool? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 }
@@ -26,11 +26,11 @@ public class BooleanAssertions
 public class BooleanAssertions<TAssertions>
     where TAssertions : BooleanAssertions<TAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
-    public BooleanAssertions(bool? value, Assertion assertion)
+    public BooleanAssertions(bool? value, AssertionChain assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
         Subject = value;
     }
 
@@ -51,7 +51,7 @@ public class BooleanAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> BeFalse(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject == false)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:boolean} to be {0}{reason}, but found {1}.", false, Subject);
@@ -71,7 +71,7 @@ public class BooleanAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> BeTrue(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject == true)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:boolean} to be {0}{reason}, but found {1}.", true, Subject);
@@ -92,7 +92,7 @@ public class BooleanAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> Be(bool expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:boolean} to be {0}{reason}, but found {1}.", expected, Subject);
@@ -113,7 +113,7 @@ public class BooleanAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> NotBe(bool unexpected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject != unexpected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:boolean} not to be {0}{reason}, but found {1}.", unexpected, Subject);
@@ -138,7 +138,7 @@ public class BooleanAssertions<TAssertions>
     {
         bool? antecedent = Subject;
 
-        assertion
+        assertionChain
             .ForCondition(antecedent is not null)
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected {context:antecedent} ({0}) to imply consequent ({1}){reason}, ", antecedent, consequent)

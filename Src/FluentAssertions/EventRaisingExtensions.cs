@@ -23,7 +23,7 @@ public static class EventRaisingExtensions
     {
         var eventsForSender = new List<OccurredEvent>();
         var otherSenders = new List<object>();
-        var assertion = Assertion.GetOrCreate();
+        var assertion = AssertionChain.GetOrCreate();
 
         foreach (OccurredEvent @event in eventRecording)
         {
@@ -84,7 +84,7 @@ public static class EventRaisingExtensions
 
         bool foundMatchingEvent = eventsWithMatchingPredicate.Count > 0;
 
-        Assertion
+        AssertionChain
             .GetOrCreate()
             .ForCondition(foundMatchingEvent)
             .FailWith("Expected at least one event with some argument of type <{0}> that matches {1}, but found none.",
@@ -138,7 +138,7 @@ public static class EventRaisingExtensions
 
         if (!foundMatchingEvent)
         {
-            Assertion
+            AssertionChain
                 .GetOrCreate()
                 .FailWith(
                     "Expected at least one event with some arguments of type <{0}> that pairwise match {1}, but found none.",

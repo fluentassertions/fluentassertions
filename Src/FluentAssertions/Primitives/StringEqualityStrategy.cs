@@ -15,9 +15,9 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
         this.comparisonMode = comparisonMode;
     }
 
-    public void ValidateAgainstMismatch(Assertion assertion, string subject, string expected)
+    public void ValidateAgainstMismatch(AssertionChain assertionChain, string subject, string expected)
     {
-        ValidateAgainstSuperfluousWhitespace(assertion, subject, expected);
+        ValidateAgainstSuperfluousWhitespace(assertionChain, subject, expected);
 
         if (expected.IsLongOrMultiline() || subject.IsLongOrMultiline())
         {
@@ -25,7 +25,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
 
             if (indexOfMismatch == -1)
             {
-                ValidateAgainstLengthDifferences(assertion, subject, expected);
+                ValidateAgainstLengthDifferences(assertionChain, subject, expected);
                 return;
             }
 
@@ -40,18 +40,18 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
                 locationDescription = $"on line {lineNumber + 1} and column {column} (index {indexOfMismatch})";
             }
 
-            assertion.FailWith(
+            assertionChain.FailWith(
                 ExpectationDescription + "the same string{reason}, but they differ " + locationDescription + ":" +
                 Environment.NewLine
                 + GetMismatchSegmentForLongStrings(subject, expected, indexOfMismatch) + ".");
         }
-        else if (ValidateAgainstLengthDifferences(assertion, subject, expected))
+        else if (ValidateAgainstLengthDifferences(assertionChain, subject, expected))
         {
             int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
 
             if (indexOfMismatch != -1)
             {
-                assertion.FailWith(
+                assertionChain.FailWith(
                     ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) +
                     ".",
                     expected, subject);
@@ -71,9 +71,9 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
     private bool IgnoreCase
         => comparisonMode == StringComparison.OrdinalIgnoreCase;
 
-    private void ValidateAgainstSuperfluousWhitespace(Assertion assertion, string subject, string expected)
+    private void ValidateAgainstSuperfluousWhitespace(AssertionChain assertionChain, string subject, string expected)
     {
-        assertion
+        assertionChain
             .ForCondition(!(expected.Length > subject.Length && expected.TrimEnd().Equals(subject, comparisonMode)))
             .FailWith(ExpectationDescription + "{0}{reason}, but it misses some extra whitespace at the end.", expected)
             .Then
@@ -81,9 +81,9 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
             .FailWith(ExpectationDescription + "{0}{reason}, but it has unexpected whitespace at the end.", expected);
     }
 
-    private bool ValidateAgainstLengthDifferences(Assertion assertion, string subject, string expected)
+    private bool ValidateAgainstLengthDifferences(AssertionChain assertionChain, string subject, string expected)
     {
-        assertion
+        assertionChain
             .ForCondition(subject.Length == expected.Length)
             .FailWith(() =>
             {
@@ -95,7 +95,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
                 return new FailReason(message, expected, expected.Length, subject, subject.Length);
             });
 
-        return assertion.Succeeded;
+        return assertionChain.Succeeded;
     }
 
     private string GetMismatchSegmentForStringsOfDifferentLengths(string subject, string expected)

@@ -8,7 +8,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// </summary>
 public class ValueTypeEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, Assertion assertion, IEquivalencyValidationContext context,
+    public EquivalencyResult Handle(Comparands comparands, AssertionChain assertionChain, IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency nestedValidator)
     {
         Type expectationType = comparands.GetExpectedType(context.Options);

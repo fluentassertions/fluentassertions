@@ -10,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class UInt64Assertions : NumericAssertions<ulong>
 {
-    internal UInt64Assertions(ulong value, Assertion assertion)
-        : base(value, assertion)
+    internal UInt64Assertions(ulong value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 

@@ -14,7 +14,7 @@ public class GivenSelectorSpecs
         string value = string.Empty;
 
         // Act
-        Assertion.GetOrCreate()
+        AssertionChain.GetOrCreate()
             .ForCondition(true)
             .Given(() => "First selector")
             .Given(_ => value = "Second selector");
@@ -30,7 +30,7 @@ public class GivenSelectorSpecs
         string value = string.Empty;
 
         // Act
-        Assertion.GetOrCreate()
+        AssertionChain.GetOrCreate()
             .ForCondition(false)
             .Given(() => "First selector")
             .Given(_ => value = "Second selector");
@@ -43,7 +43,7 @@ public class GivenSelectorSpecs
     public void A_consecutive_condition_should_be_evaluated()
     {
         // Act / Assert
-        Assertion.GetOrCreate()
+        AssertionChain.GetOrCreate()
             .ForCondition(true)
             .Given(() => "Subject")
             .ForCondition(_ => true)
@@ -54,7 +54,7 @@ public class GivenSelectorSpecs
     public void After_a_failed_condition_a_consecutive_condition_should_be_ignored()
     {
         // Act
-        Action act = () => Assertion.GetOrCreate()
+        Action act = () => AssertionChain.GetOrCreate()
             .ForCondition(false)
             .Given(() => "Subject")
             .ForCondition(_ => throw new ApplicationException())
@@ -68,7 +68,7 @@ public class GivenSelectorSpecs
     public void When_continuing_an_assertion_chain_it_fails_with_a_message_after_selecting_the_subject()
     {
         // Act
-        Action act = () => Assertion.GetOrCreate()
+        Action act = () => AssertionChain.GetOrCreate()
             .ForCondition(true)
             .Given(() => "First")
             .FailWith("First selector")
@@ -85,7 +85,7 @@ public class GivenSelectorSpecs
     public void When_continuing_an_assertion_chain_it_fails_with_a_message_with_arguments_after_selecting_the_subject()
     {
         // Act
-        Action act = () => Assertion.GetOrCreate()
+        Action act = () => AssertionChain.GetOrCreate()
             .ForCondition(true)
             .Given(() => "First")
             .FailWith("{0} selector", "First")
@@ -102,7 +102,7 @@ public class GivenSelectorSpecs
     public void When_continuing_an_assertion_chain_it_fails_with_a_message_with_argument_selectors_after_selecting_the_subject()
     {
         // Act
-        Action act = () => Assertion.GetOrCreate()
+        Action act = () => AssertionChain.GetOrCreate()
             .ForCondition(true)
             .Given(() => "First")
             .FailWith("{0} selector", _ => "First")
@@ -123,7 +123,7 @@ public class GivenSelectorSpecs
         {
             using var _ = new AssertionScope();
 
-            Assertion.GetOrCreate()
+            AssertionChain.GetOrCreate()
                 .Given(() => "First")
                 .FailWith("First selector")
                 .Then
@@ -143,7 +143,7 @@ public class GivenSelectorSpecs
         {
             using var _ = new AssertionScope();
 
-            Assertion.GetOrCreate()
+            AssertionChain.GetOrCreate()
                 .Given(() => "First")
                 .FailWith("{0} selector", "First")
                 .Then
@@ -163,7 +163,7 @@ public class GivenSelectorSpecs
         {
             using var _ = new AssertionScope();
 
-            Assertion.GetOrCreate()
+            AssertionChain.GetOrCreate()
                 .Given(() => "First")
                 .FailWith("{0} selector", _ => "First")
                 .Then
@@ -179,7 +179,7 @@ public class GivenSelectorSpecs
     public void The_failure_message_should_be_preceded_by_the_expectation_after_selecting_a_subject()
     {
         // Act
-        Action act = () => Assertion.GetOrCreate()
+        Action act = () => AssertionChain.GetOrCreate()
             .WithExpectation("Expectation ")
             .Given(() => "Subject")
             .FailWith("Failure");
@@ -194,7 +194,7 @@ public class GivenSelectorSpecs
         The_failure_message_should_not_be_preceded_by_the_expectation_after_selecting_a_subject_and_clearing_the_expectation()
     {
         // Act
-        Action act = () => Assertion.GetOrCreate()
+        Action act = () => AssertionChain.GetOrCreate()
             .WithExpectation("Expectation ")
             .Given(() => "Subject")
             .FailWith("Failure");
@@ -208,7 +208,7 @@ public class GivenSelectorSpecs
     public void Clearing_the_expectation_does_not_affect_a_successful_assertion()
     {
         // Act
-        var assertion = Assertion.GetOrCreate()
+        var assertion = AssertionChain.GetOrCreate()
             .WithExpectation("Expectation ")
             .Given(() => "Don't care")
             .ForCondition(_ => true)
@@ -224,7 +224,7 @@ public class GivenSelectorSpecs
         // Act
         using var scope = new AssertionScope();
 
-        var assertion = Assertion.GetOrCreate()
+        var assertion = AssertionChain.GetOrCreate()
             .WithExpectation("Expectation ")
             .Given(() => "Don't care")
             .ForCondition(_ => false)

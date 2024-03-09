@@ -7,16 +7,16 @@ namespace FluentAssertions.Execution;
 
 internal static class GivenSelectorExtensions
 {
-    public static NewContinuationOfGiven<IEnumerable<T>> AssertCollectionIsNotNull<T>(
-        this NewGivenSelector<IEnumerable<T>> givenSelector)
+    public static ContinuationOfGiven<IEnumerable<T>> AssertCollectionIsNotNull<T>(
+        this GivenSelector<IEnumerable<T>> givenSelector)
     {
         return givenSelector
             .ForCondition(items => items is not null)
             .FailWith("but found collection is <null>.");
     }
 
-    public static NewContinuationOfGiven<ICollection<T>> AssertEitherCollectionIsNotEmpty<T>(
-        this NewGivenSelector<ICollection<T>> givenSelector, int length)
+    public static ContinuationOfGiven<ICollection<T>> AssertEitherCollectionIsNotEmpty<T>(
+        this GivenSelector<ICollection<T>> givenSelector, int length)
     {
         return givenSelector
             .ForCondition(items => items.Count > 0 || length == 0)
@@ -26,32 +26,32 @@ internal static class GivenSelectorExtensions
             .FailWith("but found {0}.", items => items);
     }
 
-    public static NewContinuationOfGiven<ICollection<T>> AssertCollectionHasEnoughItems<T>(
-        this NewGivenSelector<IEnumerable<T>> givenSelector, int length)
+    public static ContinuationOfGiven<ICollection<T>> AssertCollectionHasEnoughItems<T>(
+        this GivenSelector<IEnumerable<T>> givenSelector, int length)
     {
         return givenSelector
             .Given(items => items.ConvertOrCastToCollection())
             .AssertCollectionHasEnoughItems(length);
     }
 
-    public static NewContinuationOfGiven<ICollection<T>> AssertCollectionHasEnoughItems<T>(
-        this NewGivenSelector<ICollection<T>> givenSelector, int length)
+    public static ContinuationOfGiven<ICollection<T>> AssertCollectionHasEnoughItems<T>(
+        this GivenSelector<ICollection<T>> givenSelector, int length)
     {
         return givenSelector
             .ForCondition(items => items.Count >= length)
             .FailWith("but {0} contains {1} item(s) less.", items => items, items => length - items.Count);
     }
 
-    public static NewContinuationOfGiven<ICollection<T>> AssertCollectionHasNotTooManyItems<T>(
-        this NewGivenSelector<ICollection<T>> givenSelector, int length)
+    public static ContinuationOfGiven<ICollection<T>> AssertCollectionHasNotTooManyItems<T>(
+        this GivenSelector<ICollection<T>> givenSelector, int length)
     {
         return givenSelector
             .ForCondition(items => items.Count <= length)
             .FailWith("but {0} contains {1} item(s) too many.", items => items, items => items.Count - length);
     }
 
-    public static NewContinuationOfGiven<ICollection<T>> AssertCollectionsHaveSameCount<T>(
-        this NewGivenSelector<ICollection<T>> givenSelector, int length)
+    public static ContinuationOfGiven<ICollection<T>> AssertCollectionsHaveSameCount<T>(
+        this GivenSelector<ICollection<T>> givenSelector, int length)
     {
         return givenSelector
             .AssertEitherCollectionIsNotEmpty(length)
@@ -61,8 +61,8 @@ internal static class GivenSelectorExtensions
             .AssertCollectionHasNotTooManyItems(length);
     }
 
-    public static NewContinuationOfGiven<ICollection<TActual>> AssertCollectionsHaveSameItems<TActual, TExpected>(
-        this NewGivenSelector<ICollection<TActual>> givenSelector,
+    public static ContinuationOfGiven<ICollection<TActual>> AssertCollectionsHaveSameItems<TActual, TExpected>(
+        this GivenSelector<ICollection<TActual>> givenSelector,
         ICollection<TExpected> expected, Func<ICollection<TActual>, ICollection<TExpected>, int> findIndex)
     {
         return givenSelector

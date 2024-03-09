@@ -72,16 +72,16 @@ public class AssertionFailureSpecs
 
     internal class AssertionsTestSubClass : ReferenceTypeAssertions<object, AssertionsTestSubClass>
     {
-        private static readonly Assertion Assertion = Assertion.GetOrCreate();
+        private static readonly AssertionChain AssertionChain = AssertionChain.GetOrCreate();
 
         public AssertionsTestSubClass()
-            : base(null, Assertion)
+            : base(null, AssertionChain)
         {
         }
 
         public void AssertFail(string because, params object[] becauseArgs)
         {
-            Assertion
+            AssertionChain
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected it to fail{reason}");
         }

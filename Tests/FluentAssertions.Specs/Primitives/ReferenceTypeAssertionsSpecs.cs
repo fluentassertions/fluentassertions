@@ -454,7 +454,7 @@ public class ReferenceTypeAssertionsSpecs
         public class ReferenceTypeAssertionsDummy : ReferenceTypeAssertions<object, ReferenceTypeAssertionsDummy>
         {
             public ReferenceTypeAssertionsDummy(object subject)
-                : base(subject, Assertion.GetOrCreate())
+                : base(subject, AssertionChain.GetOrCreate())
             {
             }
 

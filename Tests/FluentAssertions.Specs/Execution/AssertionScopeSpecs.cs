@@ -69,7 +69,7 @@ namespace FluentAssertions.Specs.Execution
             var scope = new AssertionScope();
             bool failReasonCalled = false;
 
-            AssertionScope.Current
+            AssertionChain.GetOrCreate()
                 .ForCondition(true)
                 .FailWith(() =>
                 {
@@ -91,7 +91,9 @@ namespace FluentAssertions.Specs.Execution
             // Arrange
             var scope = new AssertionScope();
 
-            AssertionScope.Current.FailWith(() => new FailReason("Failure{0}", 1));
+            AssertionChain
+                .GetOrCreate()
+                .FailWith(() => new FailReason("Failure{0}", 1));
 
             // Act
             Action act = scope.Dispose;

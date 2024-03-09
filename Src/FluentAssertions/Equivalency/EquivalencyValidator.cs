@@ -15,9 +15,7 @@ public class EquivalencyValidator : IValidateChildNodeEquivalency
     {
         using var scope = new AssertionScope();
 
-        var getIdentifierOnce = new Lazy<string>(() => scope.GetIdentifier());
-
-        var assertion = Assertion.GetOrCreate(() => scope, () => getIdentifierOnce.Value);
+        var assertion = AssertionChain.GetOrCreate();
 
         assertion.WithReportable("configuration", () => context.Options.ToString());
         assertion.BecauseOf(context.Reason);
@@ -30,44 +28,55 @@ public class EquivalencyValidator : IValidateChildNodeEquivalency
         }
     }
 
-    private void RecursivelyAssertEquivalencyOf(Comparands comparands, Assertion assertion, IEquivalencyValidationContext context)
+    private void RecursivelyAssertEquivalencyOf(Comparands comparands, AssertionChain assertionChain, IEquivalencyValidationContext context)
     {
-        AssertEquivalencyOf(comparands, assertion, context);
+        AssertEquivalencyOf(comparands, assertionChain, context);
     }
 
-    public void AssertEquivalencyOf(Comparands comparands, Assertion assertion, IEquivalencyValidationContext context)
+    public void AssertEquivalencyOf(Comparands comparands, AssertionChain assertionChain, IEquivalencyValidationContext context)
     {
-        if (ShouldContinueThisDeep(context.CurrentNode, context.Options, assertion))
+        if (ShouldContinueThisDeep(context.CurrentNode, context.Options, assertionChain))
         {
-            TrackWhatIsNeededToProvideContextToFailures(assertion, comparands, context.CurrentNode);
+            TrackWhatIsNeededToProvideContextToFailures(assertionChain, comparands, context.CurrentNode);
 
             if (!context.IsCyclicReference(comparands.Expectation))
             {
-                TryToProveNodesAreEquivalent(assertion, comparands, context);
+                TryToProveNodesAreEquivalent(assertionChain, comparands, context);
+            }
+            else if (context.Options.CyclicReferenceHandling == CyclicReferenceHandling.ThrowException)
+            {
+                assertionChain
+                    .BecauseOf(context.Reason)
+                    .FailWith("Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference.");
+            }
+            else
+            {
+                // If cyclic references are allowed, we consider the objects to be equivalent
             }
         }
     }
 
     private static bool ShouldContinueThisDeep(INode currentNode, IEquivalencyOptions options,
-        Assertion assertion)
+        AssertionChain assertionChain)
     {
         bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth <= MaxDepth;
         if (!shouldRecurse)
         {
             // This will throw, unless we're inside an AssertionScope
-            assertion.FailWith($"The maximum recursion depth of {MaxDepth} was reached.  ");
+            assertionChain.FailWith($"The maximum recursion depth of {MaxDepth} was reached.  ");
         }
 
         return shouldRecurse;
     }
 
-    private static void TrackWhatIsNeededToProvideContextToFailures(Assertion assertion, Comparands comparands, INode currentNode)
+    private static void TrackWhatIsNeededToProvideContextToFailures(AssertionChain assertionChain, Comparands comparands, INode currentNode)
     {
-        assertion.Context = new Lazy<string>(() => currentNode.Description);
-        assertion.TrackComparands(comparands.Subject, comparands.Expectation);
+        var getCallerIdentifier = new Lazy<string>(() => currentNode.Description);
+        assertionChain.OverrideCallerIdentifier(() => getCallerIdentifier.Value);
+        assertionChain.TrackComparands(comparands.Subject, comparands.Expectation);
     }
 
-    private void TryToProveNodesAreEquivalent(Assertion assertion, Comparands comparands, IEquivalencyValidationContext context)
+    private void TryToProveNodesAreEquivalent(AssertionChain assertionChain, Comparands comparands, IEquivalencyValidationContext context)
     {
         using var _ = context.Tracer.WriteBlock(node => node.Description);
 
@@ -75,7 +84,7 @@ public class EquivalencyValidator : IValidateChildNodeEquivalency
 
         foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
         {
-            var result = step.Handle(comparands, assertion, context, this);
+            var result = step.Handle(comparands, assertionChain, context, this);
             if (result == EquivalencyResult.EquivalencyProven)
             {
                 context.Tracer.WriteLine(getMessage(step));

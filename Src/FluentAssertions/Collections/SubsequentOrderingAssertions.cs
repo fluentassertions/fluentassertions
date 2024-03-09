@@ -9,8 +9,8 @@ namespace FluentAssertions.Collections;
 public class SubsequentOrderingAssertions<T>
     : SubsequentOrderingGenericCollectionAssertions<IEnumerable<T>, T, SubsequentOrderingAssertions<T>>
 {
-    public SubsequentOrderingAssertions(IEnumerable<T> actualValue, IOrderedEnumerable<T> previousOrderedEnumerable, Assertion assertion)
-        : base(actualValue, previousOrderedEnumerable, assertion)
+    public SubsequentOrderingAssertions(IEnumerable<T> actualValue, IOrderedEnumerable<T> previousOrderedEnumerable, AssertionChain assertionChain)
+        : base(actualValue, previousOrderedEnumerable, assertionChain)
     {
     }
 }

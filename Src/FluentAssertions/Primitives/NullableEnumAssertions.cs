@@ -9,8 +9,8 @@ namespace FluentAssertions.Primitives;
 public class NullableEnumAssertions<TEnum> : NullableEnumAssertions<TEnum, NullableEnumAssertions<TEnum>>
     where TEnum : struct, Enum
 {
-    public NullableEnumAssertions(TEnum? subject, Assertion assertion)
-        : base(subject, assertion)
+    public NullableEnumAssertions(TEnum? subject, AssertionChain assertionChain)
+        : base(subject, assertionChain)
     {
     }
 }
@@ -22,12 +22,12 @@ public class NullableEnumAssertions<TEnum, TAssertions> : EnumAssertions<TEnum, 
     where TEnum : struct, Enum
     where TAssertions : NullableEnumAssertions<TEnum, TAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
-    public NullableEnumAssertions(TEnum? subject, Assertion assertion)
-        : base(subject, assertion)
+    public NullableEnumAssertions(TEnum? subject, AssertionChain assertionChain)
+        : base(subject, assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public class NullableEnumAssertions<TEnum, TAssertions> : EnumAssertions<TEnum, 
     /// </param>
     public AndWhichConstraint<TAssertions, TEnum> HaveValue(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:nullable enum} to have a value{reason}, but found {0}.", Subject);
@@ -77,7 +77,7 @@ public class NullableEnumAssertions<TEnum, TAssertions> : EnumAssertions<TEnum, 
     /// </param>
     public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:nullable enum} to have a value{reason}, but found {0}.", Subject);

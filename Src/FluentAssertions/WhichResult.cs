@@ -4,13 +4,13 @@ namespace FluentAssertions;
 
 public class WhichResult<T>
 {
-    public WhichResult(T matchedElement, Assertion assertion)
+    public WhichResult(T matchedElement, AssertionChain assertionChain)
     {
         MatchedElement = matchedElement;
-        Assertion = assertion;
+        AssertionChain = assertionChain;
     }
 
     public T MatchedElement { get; }
 
-    public Assertion Assertion { get; }
+    public AssertionChain AssertionChain { get; }
 }

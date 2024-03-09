@@ -11,20 +11,20 @@ namespace FluentAssertions.Specialized;
 #if NET6_0_OR_GREATER
 public class TaskCompletionSourceAssertions : TaskCompletionSourceAssertionsBase
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
     private readonly TaskCompletionSource subject;
 
-    public TaskCompletionSourceAssertions(TaskCompletionSource tcs, Assertion assertion)
-        : this(tcs, assertion, new Clock())
+    public TaskCompletionSourceAssertions(TaskCompletionSource tcs, AssertionChain assertionChain)
+        : this(tcs, assertionChain, new Clock())
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
-    public TaskCompletionSourceAssertions(TaskCompletionSource tcs, Assertion assertion, IClock clock)
+    public TaskCompletionSourceAssertions(TaskCompletionSource tcs, AssertionChain assertionChain, IClock clock)
         : base(clock)
     {
         subject = tcs;
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -41,15 +41,15 @@ public class TaskCompletionSourceAssertions : TaskCompletionSourceAssertionsBase
     public async Task<AndConstraint<TaskCompletionSourceAssertions>> CompleteWithinAsync(
         TimeSpan timeSpan, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to complete within {0}{reason}, but found <null>.", timeSpan);
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject!.Task, timeSpan);
-            assertion
+            assertionChain
                 .ForCondition(completesWithinTimeout)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
@@ -72,15 +72,15 @@ public class TaskCompletionSourceAssertions : TaskCompletionSourceAssertionsBase
     public async Task<AndConstraint<TaskCompletionSourceAssertions>> NotCompleteWithinAsync(
         TimeSpan timeSpan, string because = "", params object[] becauseArgs)
     {
-        var success = assertion
+        var success = assertionChain
             .ForCondition(subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to not complete within {0}{reason}, but found <null>.", timeSpan);
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject!.Task, timeSpan);
-            assertion
+            assertionChain
                 .ForCondition(!completesWithinTimeout)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to not complete within {0}{reason}.", timeSpan);
@@ -93,20 +93,20 @@ public class TaskCompletionSourceAssertions : TaskCompletionSourceAssertionsBase
 
 public class TaskCompletionSourceAssertions<T> : TaskCompletionSourceAssertionsBase
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
     private readonly TaskCompletionSource<T> subject;
 
-    public TaskCompletionSourceAssertions(TaskCompletionSource<T> tcs, Assertion assertion)
-        : this(tcs, assertion, new Clock())
+    public TaskCompletionSourceAssertions(TaskCompletionSource<T> tcs, AssertionChain assertionChain)
+        : this(tcs, assertionChain, new Clock())
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
-    public TaskCompletionSourceAssertions(TaskCompletionSource<T> tcs, Assertion assertion, IClock clock)
+    public TaskCompletionSourceAssertions(TaskCompletionSource<T> tcs, AssertionChain assertionChain, IClock clock)
         : base(clock)
     {
         subject = tcs;
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -123,16 +123,16 @@ public class TaskCompletionSourceAssertions<T> : TaskCompletionSourceAssertionsB
     public async Task<AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>> CompleteWithinAsync(
         TimeSpan timeSpan, string because = "", params object[] becauseArgs)
     {
-        var success = assertion
+        var success = assertionChain
             .ForCondition(subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to complete within {0}{reason}, but found <null>.", timeSpan);
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject!.Task, timeSpan);
 
-            assertion
+            assertionChain
                 .ForCondition(completesWithinTimeout)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
@@ -160,16 +160,16 @@ public class TaskCompletionSourceAssertions<T> : TaskCompletionSourceAssertionsB
     public async Task<AndConstraint<TaskCompletionSourceAssertions<T>>> NotCompleteWithinAsync(
         TimeSpan timeSpan, string because = "", params object[] becauseArgs)
     {
-        var success = assertion
+        var success = assertionChain
             .ForCondition(subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context} to complete within {0}{reason}, but found <null>.", timeSpan);
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject!.Task, timeSpan);
 
-            assertion
+            assertionChain
                 .ForCondition(!completesWithinTimeout)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:task} to complete within {0}{reason}.", timeSpan);

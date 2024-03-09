@@ -11,22 +11,22 @@ namespace FluentAssertions.Specialized;
 /// </summary>
 public class NonGenericAsyncFunctionAssertions : AsyncFunctionAssertions<Task, NonGenericAsyncFunctionAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NonGenericAsyncFunctionAssertions"/> class.
     /// </summary>
-    public NonGenericAsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor, Assertion assertion)
-        : this(subject, extractor, assertion, new Clock())
+    public NonGenericAsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor, AssertionChain assertionChain)
+        : this(subject, extractor, assertionChain, new Clock())
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NonGenericAsyncFunctionAssertions"/> class with custom <see cref="IClock"/>.
     /// </summary>
-    public NonGenericAsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor, Assertion assertion, IClock clock)
-        : base(subject, extractor, assertion, clock)
+    public NonGenericAsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor, AssertionChain assertionChain, IClock clock)
+        : base(subject, extractor, assertionChain, clock)
     {
     }
 
@@ -44,25 +44,25 @@ public class NonGenericAsyncFunctionAssertions : AsyncFunctionAssertions<Task, N
     public async Task<AndConstraint<NonGenericAsyncFunctionAssertions>> CompleteWithinAsync(
         TimeSpan timeSpan, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:task} to complete within {0}{reason}, but found <null>.", timeSpan);
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             (Task task, TimeSpan remainingTime) = InvokeWithTimer(timeSpan);
 
-            assertion
+            assertionChain
                 .ForCondition(remainingTime >= TimeSpan.Zero)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
 
-            if (assertion.Succeeded)
+            if (assertionChain.Succeeded)
             {
                 bool completesWithinTimeout = await CompletesWithinTimeoutAsync(task, remainingTime);
 
-                assertion
+                assertionChain
                     .ForCondition(completesWithinTimeout)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
@@ -84,12 +84,12 @@ public class NonGenericAsyncFunctionAssertions : AsyncFunctionAssertions<Task, N
     /// </param>
     public async Task<AndConstraint<NonGenericAsyncFunctionAssertions>> NotThrowAsync(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             try
             {
@@ -133,12 +133,12 @@ public class NonGenericAsyncFunctionAssertions : AsyncFunctionAssertions<Task, N
         Guard.ThrowIfArgumentIsNegative(waitTime);
         Guard.ThrowIfArgumentIsNegative(pollInterval);
 
-        assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             return AssertionTaskAsync();
 
@@ -161,7 +161,7 @@ public class NonGenericAsyncFunctionAssertions : AsyncFunctionAssertions<Task, N
                     invocationEndTime = timer.Elapsed;
                 }
 
-                assertion
+                assertionChain
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
 

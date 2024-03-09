@@ -10,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class NullableInt32Assertions : NullableNumericAssertions<int>
 {
-    internal NullableInt32Assertions(int? value, Assertion assertion)
-        : base(value, assertion)
+    internal NullableInt32Assertions(int? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 

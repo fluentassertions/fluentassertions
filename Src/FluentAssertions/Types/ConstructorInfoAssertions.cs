@@ -14,9 +14,9 @@ public class ConstructorInfoAssertions : MethodBaseAssertions<ConstructorInfo, C
     /// Initializes a new instance of the <see cref="ConstructorInfoAssertions"/> class.
     /// </summary>
     /// <param name="constructorInfo">The constructorInfo from which to select properties.</param>
-    /// <param name="assertion"></param>
-    public ConstructorInfoAssertions(ConstructorInfo constructorInfo, Assertion assertion)
-        : base(constructorInfo, assertion)
+    /// <param name="assertionChain"></param>
+    public ConstructorInfoAssertions(ConstructorInfo constructorInfo, AssertionChain assertionChain)
+        : base(constructorInfo, assertionChain)
     {
     }
 

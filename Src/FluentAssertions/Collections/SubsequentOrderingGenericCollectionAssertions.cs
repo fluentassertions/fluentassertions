@@ -17,8 +17,8 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAsse
     private readonly IOrderedEnumerable<T> previousOrderedEnumerable;
     private bool subsequentOrdering;
 
-    public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, IOrderedEnumerable<T> previousOrderedEnumerable, Assertion assertion)
-        : base(actualValue, assertion)
+    public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, IOrderedEnumerable<T> previousOrderedEnumerable, AssertionChain assertionChain)
+        : base(actualValue, assertionChain)
     {
         this.previousOrderedEnumerable = previousOrderedEnumerable;
     }
@@ -168,8 +168,8 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T>
     : SubsequentOrderingGenericCollectionAssertions<TCollection, T, SubsequentOrderingGenericCollectionAssertions<TCollection, T>>
     where TCollection : IEnumerable<T>
 {
-    public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, IOrderedEnumerable<T> previousOrderedEnumerable, Assertion assertion)
-        : base(actualValue, previousOrderedEnumerable, assertion)
+    public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, IOrderedEnumerable<T> previousOrderedEnumerable, AssertionChain assertionChain)
+        : base(actualValue, previousOrderedEnumerable, assertionChain)
     {
     }
 }

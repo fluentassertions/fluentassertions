@@ -11,18 +11,18 @@ namespace FluentAssertions.Specialized;
 [DebuggerNonUserCode]
 public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAssertions<T>>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
-    public FunctionAssertions(Func<T> subject, IExtractExceptions extractor, Assertion assertion)
-        : base(subject, extractor, assertion)
+    public FunctionAssertions(Func<T> subject, IExtractExceptions extractor, AssertionChain assertionChain)
+        : base(subject, extractor, assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
-    public FunctionAssertions(Func<T> subject, IExtractExceptions extractor, Assertion assertion, IClock clock)
-        : base(subject, extractor, assertion, clock)
+    public FunctionAssertions(Func<T> subject, IExtractExceptions extractor, AssertionChain assertionChain, IClock clock)
+        : base(subject, extractor, assertionChain, clock)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     protected override void InvokeSubject()
@@ -44,14 +44,14 @@ public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAsserti
     /// </param>
     public AndWhichConstraint<FunctionAssertions<T>, T> NotThrow(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
         T result = default;
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             try
             {
@@ -59,7 +59,7 @@ public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAsserti
             }
             catch (Exception exception)
             {
-                assertion
+                assertionChain
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
 
@@ -96,14 +96,14 @@ public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAsserti
     public AndWhichConstraint<FunctionAssertions<T>, T> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval,
         string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
         T result = default;
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             result = NotThrowAfter(Subject, Clock, waitTime, pollInterval, because, becauseArgs);
         }
@@ -136,7 +136,7 @@ public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAsserti
             invocationEndTime = timer.Elapsed;
         }
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
 

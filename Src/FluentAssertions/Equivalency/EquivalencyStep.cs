@@ -7,7 +7,7 @@ namespace FluentAssertions.Equivalency;
 /// </summary>
 public abstract class EquivalencyStep<T> : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, Assertion assertion, IEquivalencyValidationContext context,
+    public EquivalencyResult Handle(Comparands comparands, AssertionChain assertionChain, IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency nestedValidator)
     {
         if (!typeof(T).IsAssignableFrom(comparands.GetExpectedType(context.Options)))
@@ -15,13 +15,13 @@ public abstract class EquivalencyStep<T> : IEquivalencyStep
             return EquivalencyResult.ContinueWithNext;
         }
 
-        return OnHandle(comparands, assertion, context, nestedValidator);
+        return OnHandle(comparands, assertionChain, context, nestedValidator);
     }
 
     /// <summary>
     /// Implements <see cref="IEquivalencyStep.Handle"/>, but only gets called when the expected type matches <typeparamref name="T"/>.
     /// </summary>
-    protected abstract EquivalencyResult OnHandle(Comparands comparands, Assertion assertion,
+    protected abstract EquivalencyResult OnHandle(Comparands comparands, AssertionChain assertionChain,
         IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency nestedValidator);
 }

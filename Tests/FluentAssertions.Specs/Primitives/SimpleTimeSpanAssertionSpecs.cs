@@ -166,7 +166,7 @@ public class SimpleTimeSpanAssertionSpecs
     public void A_null_is_not_equal_to_another_value()
     {
         // Arrange
-        var subject = new SimpleTimeSpanAssertions(null, Assertion.GetOrCreate());
+        var subject = new SimpleTimeSpanAssertions(null, AssertionChain.GetOrCreate());
         TimeSpan expected = 2.Seconds();
 
         // Act

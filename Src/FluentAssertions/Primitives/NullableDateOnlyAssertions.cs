@@ -12,8 +12,8 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class NullableDateOnlyAssertions : NullableDateOnlyAssertions<NullableDateOnlyAssertions>
 {
-    public NullableDateOnlyAssertions(DateOnly? value, Assertion assertion)
-        : base(value, assertion)
+    public NullableDateOnlyAssertions(DateOnly? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 }
@@ -25,12 +25,12 @@ public class NullableDateOnlyAssertions : NullableDateOnlyAssertions<NullableDat
 public class NullableDateOnlyAssertions<TAssertions> : DateOnlyAssertions<TAssertions>
     where TAssertions : NullableDateOnlyAssertions<TAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
-    public NullableDateOnlyAssertions(DateOnly? value, Assertion assertion)
-        : base(value, assertion)
+    public NullableDateOnlyAssertions(DateOnly? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public class NullableDateOnlyAssertions<TAssertions> : DateOnlyAssertions<TAsser
     /// </param>
     public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:nullable date} to have a value{reason}, but found {0}.", Subject);
@@ -80,7 +80,7 @@ public class NullableDateOnlyAssertions<TAssertions> : DateOnlyAssertions<TAsser
     /// </param>
     public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:nullable date} to have a value{reason}, but found {0}.", Subject);

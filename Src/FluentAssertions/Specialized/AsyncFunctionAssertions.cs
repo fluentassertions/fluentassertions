@@ -18,12 +18,12 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     where TTask : Task
     where TAssertions : AsyncFunctionAssertions<TTask, TAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
-    protected AsyncFunctionAssertions(Func<TTask> subject, IExtractExceptions extractor, Assertion assertion, IClock clock)
-        : base(subject, extractor, assertion, clock)
+    protected AsyncFunctionAssertions(Func<TTask> subject, IExtractExceptions extractor, AssertionChain assertionChain, IClock clock)
+        : base(subject, extractor, assertionChain, clock)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     protected override string Identifier => "async function";
@@ -42,12 +42,12 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     public async Task<AndConstraint<TAssertions>> NotCompleteWithinAsync(
         TimeSpan timeSpan, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:task} to complete within {0}{reason}, but found <null>.", timeSpan);
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             (Task task, TimeSpan remainingTime) = InvokeWithTimer(timeSpan);
 
@@ -55,7 +55,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
             {
                 bool completesWithinTimeout = await CompletesWithinTimeoutAsync(task, remainingTime);
 
-                assertion
+                assertionChain
                     .ForCondition(!completesWithinTimeout)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect {context:task} to complete within {0}{reason}.", timeSpan);
@@ -85,29 +85,29 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     {
         Type expectedType = typeof(TException);
 
-        assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", expectedType);
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             Exception exception = await InvokeWithInterceptionAsync(Subject);
 
-            assertion
+            assertionChain
                 .ForCondition(exception is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
 
-            if (assertion.Succeeded)
+            if (assertionChain.Succeeded)
             {
                 exception.Should().BeOfType(expectedType, because, becauseArgs);
             }
 
-            return new ExceptionAssertions<TException>([exception as TException], assertion);
+            return new ExceptionAssertions<TException>([exception as TException], assertionChain);
         }
 
-        return new ExceptionAssertions<TException>([], assertion);
+        return new ExceptionAssertions<TException>([], assertionChain);
     }
 
     /// <summary>
@@ -125,18 +125,18 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
         params object[] becauseArgs)
         where TException : Exception
     {
-        assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             Exception exception = await InvokeWithInterceptionAsync(Subject);
             return ThrowInternal<TException>(exception, because, becauseArgs);
         }
 
-        return new ExceptionAssertions<TException>([], assertion);
+        return new ExceptionAssertions<TException>([], assertionChain);
     }
 
     /// <summary>
@@ -156,19 +156,19 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
         TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         where TException : Exception
     {
-        assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw {0} within {1}{reason}, but found <null>.",
                 typeof(TException), timeSpan);
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             Exception caughtException = await InvokeWithInterceptionAsync(timeSpan);
             return AssertThrows<TException>(caughtException, timeSpan, because, becauseArgs);
         }
 
-        return new ExceptionAssertions<TException>([], assertion);
+        return new ExceptionAssertions<TException>([], assertionChain);
     }
 
     private ExceptionAssertions<TException> AssertThrows<TException>(
@@ -177,7 +177,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     {
         TException[] expectedExceptions = Extractor.OfType<TException>(exception).ToArray();
 
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected a <{0}> to be thrown within {1}{reason}, ",
                 typeof(TException), timeSpan)
@@ -189,7 +189,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
                 exception?.GetType(),
                 exception);
 
-        return new ExceptionAssertions<TException>(expectedExceptions, assertion);
+        return new ExceptionAssertions<TException>(expectedExceptions, assertionChain);
     }
 
     private async Task<Exception> InvokeWithInterceptionAsync(TimeSpan timeout)
@@ -250,12 +250,12 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     public async Task<AndConstraint<TAssertions>> NotThrowAsync<TException>(string because = "", params object[] becauseArgs)
         where TException : Exception
     {
-        assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
             try
             {

@@ -4,7 +4,7 @@ namespace FluentAssertions.Equivalency.Steps;
 
 public class SimpleEqualityEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, Assertion assertion, IEquivalencyValidationContext context,
+    public EquivalencyResult Handle(Comparands comparands, AssertionChain assertionChain, IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency nestedValidator)
     {
         if (!context.Options.IsRecursive && !context.CurrentNode.IsRoot)

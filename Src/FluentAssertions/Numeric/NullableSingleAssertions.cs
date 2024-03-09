@@ -10,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class NullableSingleAssertions : NullableNumericAssertions<float>
 {
-    internal NullableSingleAssertions(float? value, Assertion assertion)
-        : base(value, assertion)
+    internal NullableSingleAssertions(float? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 

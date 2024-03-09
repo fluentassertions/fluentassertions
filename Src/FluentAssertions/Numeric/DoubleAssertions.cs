@@ -10,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class DoubleAssertions : NumericAssertions<double>
 {
-    internal DoubleAssertions(double value, Assertion assertion)
-        : base(value, assertion)
+    internal DoubleAssertions(double value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 

@@ -49,7 +49,7 @@ public class OccurrenceConstraintSpecs
     public void Occurrence_constraint_passes(OccurrenceConstraint constraint, int occurrences)
     {
         // Act / Assert
-        Assertion.GetOrCreate()
+        AssertionChain.GetOrCreate()
             .ForConstraint(constraint, occurrences)
             .FailWith("");
     }
@@ -96,7 +96,7 @@ public class OccurrenceConstraintSpecs
     public void Occurrence_constraint_fails(OccurrenceConstraint constraint, int occurrences)
     {
         // Act
-        Action act = () => Assertion.GetOrCreate()
+        Action act = () => AssertionChain.GetOrCreate()
             .ForConstraint(constraint, occurrences)
             .FailWith($"Expected occurrence to be {constraint.Mode} {constraint.ExpectedCount}, but it was {occurrences}");
 

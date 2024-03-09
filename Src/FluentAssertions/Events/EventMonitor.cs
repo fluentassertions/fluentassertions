@@ -68,7 +68,7 @@ internal sealed class EventMonitor<T> : IMonitor<T>
 
     public EventAssertions<T> Should()
     {
-        return new EventAssertions<T>(this, Assertion.GetOrCreate());
+        return new EventAssertions<T>(this, AssertionChain.GetOrCreate());
     }
 
     public IEventRecording GetRecordingFor(string eventName)

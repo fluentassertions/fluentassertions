@@ -13,7 +13,7 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
         this.comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
     }
 
-    public EquivalencyResult Handle(Comparands comparands, Assertion assertion, IEquivalencyValidationContext context,
+    public EquivalencyResult Handle(Comparands comparands, AssertionChain assertionChain, IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency nestedValidator)
     {
         if (comparands.GetExpectedType(context.Options) != typeof(T))
@@ -27,7 +27,7 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
             return EquivalencyResult.ContinueWithNext;
         }
 
-        assertion
+        assertionChain
             .BecauseOf(context.Reason.FormattedMessage, context.Reason.Arguments)
             .ForCondition(comparands.Subject is T)
             .FailWith("Expected {context:object} to be of type {0}{because}, but found {1}", typeof(T), comparands.Subject)

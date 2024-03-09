@@ -11,15 +11,15 @@ namespace FluentAssertions.Xml;
 [DebuggerNonUserCode]
 public class XAttributeAssertions : ReferenceTypeAssertions<XAttribute, XAttributeAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="XAttributeAssertions" /> class.
     /// </summary>
-    public XAttributeAssertions(XAttribute attribute, Assertion assertion)
-        : base(attribute, assertion)
+    public XAttributeAssertions(XAttribute attribute, AssertionChain assertionChain)
+        : base(attribute, assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public class XAttributeAssertions : ReferenceTypeAssertions<XAttribute, XAttribu
     /// </param>
     public AndConstraint<XAttributeAssertions> Be(XAttribute expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject?.Name == expected?.Name && Subject?.Value == expected?.Value)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to be {0}{reason}, but found {1}.", expected, Subject);
@@ -57,7 +57,7 @@ public class XAttributeAssertions : ReferenceTypeAssertions<XAttribute, XAttribu
     /// </param>
     public AndConstraint<XAttributeAssertions> NotBe(XAttribute unexpected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(!(Subject?.Name == unexpected?.Name && Subject?.Value == unexpected?.Value))
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context} to be {0}{reason}.", unexpected);
@@ -78,14 +78,14 @@ public class XAttributeAssertions : ReferenceTypeAssertions<XAttribute, XAttribu
     /// </param>
     public AndConstraint<XAttributeAssertions> HaveValue(string expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected the attribute to have value {0}{reason}, but {context:member} is <null>.", expected);
 
-        if (assertion.Succeeded)
+        if (assertionChain.Succeeded)
         {
-            assertion
+            assertionChain
                 .ForCondition(Subject!.Value == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} \"{0}\" to have value {1}{reason}, but found {2}.",

@@ -22,7 +22,7 @@ public abstract class OccurrenceConstraint
 
     internal abstract bool Assert(int actual);
 
-    internal void RegisterReportables(IAssertionScope scope)
+    internal void RegisterReportables(AssertionChain scope)
     {
         scope.AddReportable("expectedOccurrence", $"{Mode} {ExpectedCount.Times()}");
     }

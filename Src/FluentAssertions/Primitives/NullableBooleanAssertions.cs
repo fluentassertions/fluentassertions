@@ -9,8 +9,8 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class NullableBooleanAssertions : NullableBooleanAssertions<NullableBooleanAssertions>
 {
-    public NullableBooleanAssertions(bool? value, Assertion assertion)
-        : base(value, assertion)
+    public NullableBooleanAssertions(bool? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 }
@@ -22,12 +22,12 @@ public class NullableBooleanAssertions : NullableBooleanAssertions<NullableBoole
 public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAssertions>
     where TAssertions : NullableBooleanAssertions<TAssertions>
 {
-    private readonly Assertion assertion;
+    private readonly AssertionChain assertionChain;
 
-    public NullableBooleanAssertions(bool? value, Assertion assertion)
-        : base(value, assertion)
+    public NullableBooleanAssertions(bool? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
-        this.assertion = assertion;
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     /// </param>
     public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected a value{reason}.");
@@ -77,7 +77,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     /// </param>
     public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
@@ -113,7 +113,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     /// </param>
     public AndConstraint<TAssertions> Be(bool? expected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
@@ -134,7 +134,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     /// </param>
     public AndConstraint<TAssertions> NotBe(bool? unexpected, string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject != unexpected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:nullable boolean} not to be {0}{reason}, but found {1}.", unexpected, Subject);
@@ -154,7 +154,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     /// </param>
     public AndConstraint<TAssertions> NotBeFalse(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject is not false)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:nullable boolean} not to be {0}{reason}, but found {1}.", false, Subject);
@@ -174,7 +174,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     /// </param>
     public AndConstraint<TAssertions> NotBeTrue(string because = "", params object[] becauseArgs)
     {
-        assertion
+        assertionChain
             .ForCondition(Subject is not true)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:nullable boolean} not to be {0}{reason}, but found {1}.", true, Subject);

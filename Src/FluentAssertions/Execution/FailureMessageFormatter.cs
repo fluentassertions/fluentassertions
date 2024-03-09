@@ -1,39 +1,91 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
-#endregion
-
 namespace FluentAssertions.Execution;
 
 /// <summary>
 /// Encapsulates expanding the various placeholders supported in a failure message.
 /// </summary>
-internal class MessageBuilder
+internal class FailureMessageFormatter(FormattingOptions formattingOptions)
 {
-    private readonly FormattingOptions formattingOptions;
-
     #region Private Definitions
 
-    private readonly char[] blanks = ['\r', '\n', ' ', '\t'];
+    private static readonly char[] Blanks = ['\r', '\n', ' ', '\t'];
+    private string reason;
+    private ContextDataItems contextData;
+    private string identifier;
+    private string fallbackIdentifier;
 
     #endregion
 
-    public MessageBuilder(FormattingOptions formattingOptions)
+    public FailureMessageFormatter WithReason(string reason)
     {
-        this.formattingOptions = formattingOptions;
+        this.reason = SanitizeReason(reason ?? string.Empty);
+        return this;
     }
 
-    // SMELL: Too many parameters.
-    public string Build(string message, object[] messageArgs, string reason, ContextDataItems contextData, string identifier,
-        string fallbackIdentifier)
+    private static string SanitizeReason(string reason)
     {
-        message = message.Replace("{reason}", SanitizeReason(reason), StringComparison.Ordinal);
+        if (!string.IsNullOrEmpty(reason))
+        {
+            reason = EnsurePrefix("because", reason);
+            reason = reason.EscapePlaceholders();
+
+            return StartsWithBlank(reason) ? reason : " " + reason;
+        }
+
+        return string.Empty;
+    }
+
+    // SMELL: looks way too complex just to retain the leading whitespace
+    private static string EnsurePrefix(string prefix, string text)
+    {
+        string leadingBlanks = ExtractLeadingBlanksFrom(text);
+        string textWithoutLeadingBlanks = text.Substring(leadingBlanks.Length);
+
+        return !textWithoutLeadingBlanks.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
+            ? leadingBlanks + prefix + " " + textWithoutLeadingBlanks
+            : text;
+    }
+
+    private static string ExtractLeadingBlanksFrom(string text)
+    {
+        string trimmedText = text.TrimStart(Blanks);
+        int leadingBlanksCount = text.Length - trimmedText.Length;
+
+        return text.Substring(0, leadingBlanksCount);
+    }
+
+    private static bool StartsWithBlank(string text)
+    {
+        return text.Length > 0 && Blanks.Contains(text[0]);
+    }
+
+    public FailureMessageFormatter WithContext(ContextDataItems contextData)
+    {
+        this.contextData = contextData;
+        return this;
+    }
+
+    public FailureMessageFormatter WithIdentifier(string identifier)
+    {
+        this.identifier = identifier;
+        return this;
+    }
+
+    public FailureMessageFormatter WithFallbackIdentifier(string fallbackIdentifier)
+    {
+        this.fallbackIdentifier = fallbackIdentifier;
+        return this;
+    }
+
+    public string Format(string message, object[] messageArgs)
+    {
+        message = message.Replace("{reason}", reason, StringComparison.Ordinal);
 
         message = SubstituteIdentifier(message, identifier?.EscapePlaceholders(), fallbackIdentifier);
 
@@ -102,42 +154,5 @@ internal class MessageBuilder
             return
                 $"**WARNING** failure message '{failureMessage}' could not be formatted with string.Format{Environment.NewLine}{formatException.StackTrace}";
         }
-    }
-
-    private string SanitizeReason(string reason)
-    {
-        if (!string.IsNullOrEmpty(reason))
-        {
-            reason = EnsurePrefix("because", reason);
-            reason = reason.EscapePlaceholders();
-
-            return StartsWithBlank(reason) ? reason : " " + reason;
-        }
-
-        return string.Empty;
-    }
-
-    // SMELL: looks way too complex just to retain the leading whitespace
-    private string EnsurePrefix(string prefix, string text)
-    {
-        string leadingBlanks = ExtractLeadingBlanksFrom(text);
-        string textWithoutLeadingBlanks = text.Substring(leadingBlanks.Length);
-
-        return !textWithoutLeadingBlanks.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
-            ? leadingBlanks + prefix + " " + textWithoutLeadingBlanks
-            : text;
-    }
-
-    private string ExtractLeadingBlanksFrom(string text)
-    {
-        string trimmedText = text.TrimStart(blanks);
-        int leadingBlanksCount = text.Length - trimmedText.Length;
-
-        return text.Substring(0, leadingBlanksCount);
-    }
-
-    private bool StartsWithBlank(string text)
-    {
-        return text.Length > 0 && blanks.Contains(text[0]);
     }
 }

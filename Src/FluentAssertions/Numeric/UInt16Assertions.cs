@@ -10,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class UInt16Assertions : NumericAssertions<ushort>
 {
-    internal UInt16Assertions(ushort value, Assertion assertion)
-        : base(value, assertion)
+    internal UInt16Assertions(ushort value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 
