@@ -74,29 +74,28 @@ As an alternative to using predicate matching, it is also possible to use elemen
 
 ```csharp
 var productDto = new ProductDto
+{
+    Name = "Some product name",
+    Price = 19.95,
+    SKU = "ABC12345",
+    Store = new Store
     {
-        Name = "Some product name",
-        Price = 19.95,
-        SKU = "ABC12345",
-        Store = new Store
-            {
-                Country = "Germany",
-                Quantity = 42
-            }
-    };
-productDto.Should().Satisfy<ProductDto>(dto =>
-    {
-        dto.Name.Should().Be("Some product name");
-        dto.Price.Should().Be(19.95);
-        dto.SKU.Should().EndWith("12345");
-        dto.Store.Should().Satisfy<Store>(store =>
-            {
-                store.Country.Should().Be("Germany");
-                store.Quantity.Should().BeGreaterThan(40);
-            }
-        );
+        Country = "Germany",
+        Quantity = 42
     }
-);
+};
+
+productDto.Should().Satisfy<ProductDto>(dto =>
+{
+    dto.Name.Should().Be("Some product name");
+    dto.Price.Should().Be(19.95);
+    dto.SKU.Should().EndWith("12345");
+    dto.Store.Should().Satisfy<Store>(store =>
+    {
+        store.Country.Should().Be("Germany");
+        store.Quantity.Should().BeGreaterThan(40);
+    });
+});
 ```
 
 Some users requested the ability to easily downcast an object to one of its derived classes in a fluent way.
