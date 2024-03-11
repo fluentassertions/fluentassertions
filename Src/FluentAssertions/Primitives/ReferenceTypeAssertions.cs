@@ -423,15 +423,18 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     }
 
     /// <summary>
-    /// Asserts that the criteria provided by the element inspector is satisfied.
+    /// Allows combining one or more assertions using the other assertion methods that this library offers on an instance of <typeparamref name="T"/>.
     /// </summary>
-    /// <param name="expected">The element inspector which must be satisfied by the <typeparamref name="TSubject" />.</param>
+    /// <remarks>
+    /// If multiple assertions executed by the <paramref name="assertion"/> fail, they will be raised as a single failure.
+    /// </remarks>
+    /// <param name="assertion">The element inspector which must be satisfied by the <typeparamref name="TSubject" />.</param>
     /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> Satisfy<T>(Action<T> expected)
+    /// <exception cref="ArgumentNullException"><paramref name="assertion"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> Satisfy<T>(Action<T> assertion)
         where T : TSubject
     {
-        Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify an object against a <null> inspector.");
+        Guard.ThrowIfArgumentIsNull(assertion, nameof(assertion), "Cannot verify an object against a <null> inspector.");
 
         Execute.Assertion
             .ForCondition(Subject is T)
@@ -442,7 +445,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
 
         using (var assertionScope = new AssertionScope())
         {
-            expected((T)Subject);
+            assertion((T)Subject);
             failuresFromInspector = assertionScope.Discard();
         }
 
