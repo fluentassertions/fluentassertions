@@ -15,7 +15,7 @@ sidebar:
 * Ensure compatibility with .NET 8 - [#2466](https://github.com/fluentassertions/fluentassertions/pull/2466)
 * Add support for NUnit 4 - [#2483](https://github.com/fluentassertions/fluentassertions/pull/2483)
 * Added `NotBeIn` to check if a `DateTime` is not in a given `DateTimeKind` - [#2536](https://github.com/fluentassertions/fluentassertions/pull/2536)
-* Added `BeNaN` and `NotBeNaN` for assertions on `float` and `double` - [#2579](https://github.com/fluentassertions/fluentassertions/pull/2579)
+* Added `BeNaN` and `NotBeNaN` for assertions on `float` and `double` - [#2606](https://github.com/fluentassertions/fluentassertions/pull/2606)
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
