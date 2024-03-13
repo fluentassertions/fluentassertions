@@ -9,16 +9,13 @@ public partial class NumericAssertionSpecs
     public class BeNaN
     {
         [Fact]
-        public void When_a_float_value_is_NaN_it_should_succeed()
+        public void NaN_is_equal_to_NaN_when_its_a_float()
         {
             // Arrange
             float actual = float.NaN;
 
-            // Act
-            Action act = () => actual.Should().BeNaN();
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            actual.Should().BeNaN();
         }
 
         [InlineData(-1f)]
@@ -30,7 +27,7 @@ public partial class NumericAssertionSpecs
         [InlineData(float.NegativeInfinity)]
         [InlineData(float.PositiveInfinity)]
         [Theory]
-        public void When_a_float_value_is_not_NaN_it_should_fail(float actual)
+        public void Should_fail_when_asserting_normal_float_value_to_be_NaN(float actual)
         {
             // Act
             Action act = () => actual.Should().BeNaN();
@@ -40,7 +37,7 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_float_value_is_not_NaN_it_should_fail_with_a_descriptive_message()
+        public void Should_fail_with_a_descriptive_message_when_asserting_normal_float_value_to_be_NaN()
         {
             // Arrange
             float actual = 1;
@@ -54,30 +51,24 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_float_value_is_returned_from_BeNaN_it_should_chain()
+        public void Should_chain_when_asserting_NaN_as_float()
         {
             // Arrange
             float actual = float.NaN;
 
-            // Act
-            Action act = () => actual.Should().BeNaN()
+            // Act / Assert
+            actual.Should().BeNaN()
                 .And.Be(actual);
-
-            // Assert
-            act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_a_double_value_is_NaN_it_should_succeed()
+        public void NaN_is_equal_to_NaN_when_its_a_double()
         {
             // Arrange
             double actual = double.NaN;
 
-            // Act
-            Action act = () => actual.Should().BeNaN();
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            actual.Should().BeNaN();
         }
 
         [InlineData(-1d)]
@@ -89,7 +80,7 @@ public partial class NumericAssertionSpecs
         [InlineData(double.NegativeInfinity)]
         [InlineData(double.PositiveInfinity)]
         [Theory]
-        public void When_a_double_value_is_not_NaN_it_should_fail(double actual)
+        public void Should_fail_when_asserting_normal_double_value_to_be_NaN(double actual)
         {
             // Act
             Action act = () => actual.Should().BeNaN();
@@ -99,7 +90,7 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_double_value_is_not_NaN_it_should_fail_with_a_descriptive_message()
+        public void Should_fail_with_a_descriptive_message_when_asserting_normal_double_value_to_be_NaN()
         {
             // Arrange
             double actual = 1;
@@ -113,30 +104,24 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_double_value_is_returned_from_BeNaN_it_should_chain()
+        public void Should_chain_when_asserting_NaN_as_double()
         {
             // Arrange
             double actual = double.NaN;
 
-            // Act
-            Action act = () => actual.Should().BeNaN()
+            // Act / Assert
+            actual.Should().BeNaN()
                 .And.Be(actual);
-
-            // Assert
-            act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_a_nullable_float_value_is_NaN_it_should_succeed()
+        public void NaN_is_equal_to_NaN_when_its_a_nullable_float()
         {
             // Arrange
             float? actual = float.NaN;
 
-            // Act
-            Action act = () => actual.Should().BeNaN();
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            actual.Should().BeNaN();
         }
 
         [InlineData(null)]
@@ -149,7 +134,7 @@ public partial class NumericAssertionSpecs
         [InlineData(float.NegativeInfinity)]
         [InlineData(float.PositiveInfinity)]
         [Theory]
-        public void When_a_nullable_float_value_is_not_NaN_it_should_fail(float? actual)
+        public void Should_fail_when_asserting_nullable_normal_float_value_to_be_NaN(float? actual)
         {
             // Act
             Action act = () => actual.Should().BeNaN();
@@ -159,7 +144,7 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_nullable_float_value_is_not_NaN_it_should_fail_with_a_descriptive_message()
+        public void Should_fail_with_a_descriptive_message_when_asserting_nullable_normal_float_value_to_be_NaN()
         {
             // Arrange
             float? actual = 1;
@@ -173,30 +158,24 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_nullable_float_value_is_returned_from_BeNaN_it_should_chain()
+        public void Should_chain_when_asserting_NaN_as_nullable_float()
         {
             // Arrange
             float? actual = float.NaN;
 
-            // Act
-            Action act = () => actual.Should().BeNaN()
+            // Act / Assert
+            actual.Should().BeNaN()
                 .And.Be(actual);
-
-            // Assert
-            act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_a_nullable_double_value_is_NaN_it_should_succeed()
+        public void NaN_is_equal_to_NaN_when_its_a_nullable_double()
         {
             // Arrange
             double? actual = double.NaN;
 
-            // Act
-            Action act = () => actual.Should().BeNaN();
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            actual.Should().BeNaN();
         }
 
         [InlineData(null)]
@@ -209,7 +188,7 @@ public partial class NumericAssertionSpecs
         [InlineData(double.NegativeInfinity)]
         [InlineData(double.PositiveInfinity)]
         [Theory]
-        public void When_a_nullable_double_value_is_not_NaN_it_should_fail(double? actual)
+        public void Should_fail_when_asserting_nullable_normal_double_value_to_be_NaN(double? actual)
         {
             // Act
             Action act = () => actual.Should().BeNaN();
@@ -219,7 +198,7 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_nullable_double_value_is_not_NaN_it_should_fail_with_a_descriptive_message()
+        public void Should_fail_with_a_descriptive_message_when_asserting_nullable_normal_double_value_to_be_NaN()
         {
             // Arrange
             double? actual = 1;
@@ -233,17 +212,14 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_nullable_double_value_is_returned_from_BeNaN_it_should_chain()
+        public void Should_chain_when_asserting_NaN_as_nullable_double()
         {
             // Arrange
             double? actual = double.NaN;
 
-            // Act
-            Action act = () => actual.Should().BeNaN()
+            // Act / Assert
+            actual.Should().BeNaN()
                 .And.Be(actual);
-
-            // Assert
-            act.Should().NotThrow();
         }
     }
 
@@ -258,17 +234,14 @@ public partial class NumericAssertionSpecs
         [InlineData(float.NegativeInfinity)]
         [InlineData(float.PositiveInfinity)]
         [Theory]
-        public void When_a_float_value_is_not_NaN_it_should_succeed(float actual)
+        public void Normal_float_is_never_equal_to_NaN(float actual)
         {
-            // Act
-            Action act = () => actual.Should().NotBeNaN();
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            actual.Should().NotBeNaN();
         }
 
         [Fact]
-        public void When_a_float_value_is_NaN_it_should_fail()
+        public void Should_fail_when_asserting_NaN_as_float()
         {
             // Arrange
             float actual = float.NaN;
@@ -281,7 +254,7 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_float_value_is_NaN_it_should_fail_with_a_descriptive_message()
+        public void Should_fail_with_a_descriptive_message_when_asserting_NaN_as_float()
         {
             // Arrange
             float actual = float.NaN;
@@ -295,17 +268,14 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_float_value_is_returned_from_NotBeNaN_it_should_chain()
+        public void Should_chain_when_asserting_normal_float_value()
         {
             // Arrange
             float actual = 1;
 
-            // Act
-            Action act = () => actual.Should().NotBeNaN()
+            // Act / Assert
+            actual.Should().NotBeNaN()
                 .And.Be(actual);
-
-            // Assert
-            act.Should().NotThrow();
         }
 
         [InlineData(-1d)]
@@ -317,17 +287,14 @@ public partial class NumericAssertionSpecs
         [InlineData(double.NegativeInfinity)]
         [InlineData(double.PositiveInfinity)]
         [Theory]
-        public void When_a_double_value_is_not_NaN_it_should_succeed(double actual)
+        public void Normal_double_is_never_equal_to_NaN(double actual)
         {
-            // Act
-            Action act = () => actual.Should().NotBeNaN();
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            actual.Should().NotBeNaN();
         }
 
         [Fact]
-        public void When_a_double_value_is_NaN_it_should_fail()
+        public void Should_fail_when_asserting_NaN_as_double()
         {
             // Arrange
             double actual = double.NaN;
@@ -340,7 +307,7 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_double_value_is_NaN_it_should_fail_with_a_descriptive_message()
+        public void Should_fail_with_a_descriptive_message_when_asserting_NaN_as_double()
         {
             // Arrange
             double actual = double.NaN;
@@ -354,17 +321,14 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_double_value_is_returned_from_NotBeNaN_it_should_chain()
+        public void Should_chain_when_asserting_normal_double_value()
         {
             // Arrange
             double actual = 1;
 
-            // Act
-            Action act = () => actual.Should().NotBeNaN()
+            // Act / Assert
+            actual.Should().NotBeNaN()
                 .And.Be(actual);
-
-            // Assert
-            act.Should().NotThrow();
         }
 
         [InlineData(null)]
@@ -377,17 +341,14 @@ public partial class NumericAssertionSpecs
         [InlineData(float.NegativeInfinity)]
         [InlineData(float.PositiveInfinity)]
         [Theory]
-        public void When_a_nullable_float_value_is_not_NaN_it_should_succeed(float? actual)
+        public void Normal_nullable_float_is_never_equal_to_NaN(float? actual)
         {
-            // Act
-            Action act = () => actual.Should().NotBeNaN();
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            actual.Should().NotBeNaN();
         }
 
         [Fact]
-        public void When_a_nullable_float_value_is_NaN_it_should_fail()
+        public void Should_fail_when_asserting_NaN_as_nullable_float()
         {
             // Arrange
             float? actual = float.NaN;
@@ -400,7 +361,7 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_nullable_float_value_is_NaN_it_should_fail_with_a_descriptive_message()
+        public void Should_fail_with_a_descriptive_message_when_asserting_NaN_as_nullable_float()
         {
             // Arrange
             float? actual = float.NaN;
@@ -414,17 +375,14 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_nullable_float_value_is_returned_from_NotBeNaN_it_should_chain()
+        public void Should_chain_when_asserting_normal_nullable_float_value()
         {
             // Arrange
             float? actual = 1;
 
-            // Act
-            Action act = () => actual.Should().NotBeNaN()
+            // Act / Assert
+            actual.Should().NotBeNaN()
                 .And.Be(actual);
-
-            // Assert
-            act.Should().NotThrow();
         }
 
         [InlineData(null)]
@@ -437,17 +395,14 @@ public partial class NumericAssertionSpecs
         [InlineData(double.NegativeInfinity)]
         [InlineData(double.PositiveInfinity)]
         [Theory]
-        public void When_a_nullable_double_value_is_not_NaN_it_should_succeed(double? actual)
+        public void Normal_nullable_double_is_never_equal_to_NaN(double? actual)
         {
-            // Act
-            Action act = () => actual.Should().NotBeNaN();
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            actual.Should().NotBeNaN();
         }
 
         [Fact]
-        public void When_a_nullable_double_value_is_NaN_it_should_fail()
+        public void Should_fail_when_asserting_NaN_as_nullable_double()
         {
             // Arrange
             double? actual = double.NaN;
@@ -460,7 +415,7 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_nullable_double_value_is_NaN_it_should_fail_with_a_descriptive_message()
+        public void Should_fail_with_a_descriptive_message_when_asserting_NaN_as_nullable_double()
         {
             // Arrange
             double? actual = double.NaN;
@@ -474,17 +429,14 @@ public partial class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_nullable_double_value_is_returned_from_NotBeNaN_it_should_chain()
+        public void Should_chain_when_asserting_normal_nullable_double_value()
         {
             // Arrange
             double? actual = 1;
 
-            // Act
-            Action act = () => actual.Should().NotBeNaN()
+            // Act / Assert
+            actual.Should().NotBeNaN()
                 .And.Be(actual);
-
-            // Assert
-            act.Should().NotThrow();
         }
     }
 }

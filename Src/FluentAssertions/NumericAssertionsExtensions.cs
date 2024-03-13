@@ -1484,7 +1484,7 @@ public static class NumericAssertionsExtensions
     #region BeNaN
 
     /// <summary>
-    /// Asserts that the number value is NaN.
+    /// Asserts that the number is seen as not a number (NaN).
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="because">
@@ -1500,13 +1500,16 @@ public static class NumericAssertionsExtensions
     {
         float actualValue = parent.Subject.Value;
 
-        FailIfValueIsNotNaN(float.IsNaN(actualValue), actualValue, because, becauseArgs);
+        Execute.Assertion
+            .ForCondition(float.IsNaN(actualValue))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:value} to be NaN{reason}, but found {0}.", actualValue);
 
         return new AndConstraint<NumericAssertions<float>>(parent);
     }
 
     /// <summary>
-    /// Asserts that the number value is NaN.
+    /// Asserts that the number is seen as not a number (NaN).
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="because">
@@ -1522,13 +1525,16 @@ public static class NumericAssertionsExtensions
     {
         double actualValue = parent.Subject.Value;
 
-        FailIfValueIsNotNaN(double.IsNaN(actualValue), actualValue, because, becauseArgs);
+        Execute.Assertion
+            .ForCondition(double.IsNaN(actualValue))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:value} to be NaN{reason}, but found {0}.", actualValue);
 
         return new AndConstraint<NumericAssertions<double>>(parent);
     }
 
     /// <summary>
-    /// Asserts that the number value is NaN.
+    /// Asserts that the number is seen as not a number (NaN).
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="because">
@@ -1544,13 +1550,16 @@ public static class NumericAssertionsExtensions
     {
         float? actualValue = parent.Subject;
 
-        FailIfValueIsNotNaN(actualValue is { } value && float.IsNaN(value), actualValue, because, becauseArgs);
+        Execute.Assertion
+            .ForCondition(actualValue is { } value && float.IsNaN(value))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:value} to be NaN{reason}, but found {0}.", actualValue);
 
         return new AndConstraint<NullableNumericAssertions<float>>(parent);
     }
 
     /// <summary>
-    /// Asserts that the number value is NaN.
+    /// Asserts that the number is seen as not a number (NaN).
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="because">
@@ -1566,19 +1575,12 @@ public static class NumericAssertionsExtensions
     {
         double? actualValue = parent.Subject;
 
-        FailIfValueIsNotNaN(actualValue is { } value && double.IsNaN(value), actualValue, because, becauseArgs);
-
-        return new AndConstraint<NullableNumericAssertions<double>>(parent);
-    }
-
-    private static void FailIfValueIsNotNaN<TValue>(bool valueIsNaN,
-        TValue actualValue,
-        string because, object[] becauseArgs)
-    {
         Execute.Assertion
-            .ForCondition(valueIsNaN)
+            .ForCondition(actualValue is { } value && double.IsNaN(value))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to be NaN{reason}, but found {0}.", actualValue);
+
+        return new AndConstraint<NullableNumericAssertions<double>>(parent);
     }
 
     #endregion
@@ -1586,7 +1588,7 @@ public static class NumericAssertionsExtensions
     #region NotBeNaN
 
     /// <summary>
-    /// Asserts that the number value is not NaN.
+    /// Asserts that the number is not seen as the special value not a number (NaN).
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="because">
@@ -1602,13 +1604,16 @@ public static class NumericAssertionsExtensions
     {
         float actualValue = parent.Subject.Value;
 
-        FailIfValueIsNaN(float.IsNaN(actualValue), because, becauseArgs);
+        Execute.Assertion
+            .ForCondition(!float.IsNaN(actualValue))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:value} to be NaN{reason}.");
 
         return new AndConstraint<NumericAssertions<float>>(parent);
     }
 
     /// <summary>
-    /// Asserts that the number value is not NaN.
+    /// Asserts that the number is not seen as the special value not a number (NaN).
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="because">
@@ -1624,13 +1629,16 @@ public static class NumericAssertionsExtensions
     {
         double actualValue = parent.Subject.Value;
 
-        FailIfValueIsNaN(double.IsNaN(actualValue), because, becauseArgs);
+        Execute.Assertion
+            .ForCondition(!double.IsNaN(actualValue))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:value} to be NaN{reason}.");
 
         return new AndConstraint<NumericAssertions<double>>(parent);
     }
 
     /// <summary>
-    /// Asserts that the number value is not NaN.
+    /// Asserts that the number is not seen as the special value not a number (NaN).
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="because">
@@ -1645,14 +1653,18 @@ public static class NumericAssertionsExtensions
         params object[] becauseArgs)
     {
         float? actualValue = parent.Subject;
+        bool actualValueIsNaN = actualValue is { } value && float.IsNaN(value);
 
-        FailIfValueIsNaN(actualValue is { } value && float.IsNaN(value), because, becauseArgs);
+        Execute.Assertion
+            .ForCondition(!actualValueIsNaN)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:value} to be NaN{reason}.");
 
         return new AndConstraint<NullableNumericAssertions<float>>(parent);
     }
 
     /// <summary>
-    /// Asserts that the number value is not NaN.
+    /// Asserts that the number is not seen as the special value not a number (NaN).
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="because">
@@ -1667,19 +1679,14 @@ public static class NumericAssertionsExtensions
         params object[] becauseArgs)
     {
         double? actualValue = parent.Subject;
+        bool actualValueIsNaN = actualValue is { } value && double.IsNaN(value);
 
-        FailIfValueIsNaN(actualValue is { } value && double.IsNaN(value), because, becauseArgs);
-
-        return new AndConstraint<NullableNumericAssertions<double>>(parent);
-    }
-
-    private static void FailIfValueIsNaN(bool valueIsNaN,
-        string because, object[] becauseArgs)
-    {
         Execute.Assertion
-            .ForCondition(!valueIsNaN)
+            .ForCondition(!actualValueIsNaN)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:value} to be NaN{reason}.");
+
+        return new AndConstraint<NullableNumericAssertions<double>>(parent);
     }
 
     #endregion
