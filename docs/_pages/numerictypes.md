@@ -54,6 +54,20 @@ value.Should().NotBeApproximately(2.5F, 0.5F);
 
 This will verify that the value of the float is not between 2.0 and 3.0.
 
+Float and double values may take the special value NaN. To verify, you can do this.
+
+```csharp
+float value = float.NaN;
+value.Should().BeNaN();
+```
+
+This will verify that the value of the float is anything other than the special value NaN.
+
+```csharp
+float value = float.NaN;
+value.Should().NotBeNaN();
+```
+
 To assert that a value matches one of the provided values, you can do this (works for numeric types and `IComparable`s).
 
 ```csharp
