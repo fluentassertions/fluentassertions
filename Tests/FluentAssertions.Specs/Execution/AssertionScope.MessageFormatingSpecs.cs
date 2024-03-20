@@ -67,6 +67,22 @@ public partial class AssertionScopeSpecs
     }
 
     [Fact]
+    public void Nested_scopes_use_the_name_of_their_outer_scope_as_context()
+    {
+        // Act
+        Action act = () =>
+        {
+            using var outerScope = new AssertionScope("outer");
+            using var innerScope = new AssertionScope("inner");
+            new[] { 1, 2, 3 }.Should().Equal(3, 2, 1);
+        };
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("Expected outer/inner to be equal to*");
+    }
+
+    [Fact]
     public void Message_should_contain_each_unique_failed_assertion_seperately()
     {
         // Act

@@ -28,6 +28,8 @@ sidebar:
 * Changed `BeEquivalentTo` to exclude `private protected` members from the comparison - [#2417](https://github.com/fluentassertions/fluentassertions/pull/2417)
 * Fixed using `BeEquivalentTo` on an empty `ArraySegment` - [#2445](https://github.com/fluentassertions/fluentassertions/pull/2445), [#2511](https://github.com/fluentassertions/fluentassertions/pull/2511)
 * `BeEquivalentTo` with a custom comparer can now handle null values - [#2489](https://github.com/fluentassertions/fluentassertions/pull/2489)
+* Ensured that nested calls to `AssertionScope(context)` create a chained context - [#2607](https://github.com/fluentassertions/fluentassertions/pull/2607)
+* One overload of the `AssertionScope` constructor would not create an actual scope associated with the thread - [#2607](https://github.com/fluentassertions/fluentassertions/pull/2607)
 
 ## 6.12.0
 
