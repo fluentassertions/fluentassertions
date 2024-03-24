@@ -40,17 +40,6 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void Can_ignore_all_newlines_while_comparing_collections_of_strings()
-        {
-            // Arrange
-            var actual = new[] { "ABC", "\nA\nBC", "A\nBC\n", "A\r\nB\r\nC", "\r\nA\r\nB\r\nC\r\n" };
-            var expectation = "ABC";
-
-            // Act / Assert
-            actual.Should().AllBeEquivalentTo(expectation, o => o.IgnoringAllNewlines());
-        }
-
-        [Fact]
         public void Can_ignore_newline_style_while_comparing_collections_of_strings()
         {
             // Arrange

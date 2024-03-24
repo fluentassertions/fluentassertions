@@ -115,18 +115,10 @@ public interface IEquivalencyOptions
     bool IgnoreCase { get; }
 
     /// <summary>
-    /// Gets a value indicating whether all newlines are ignored when comparing <see langword="string" />s.
-    /// </summary>
-    /// <remarks>
-    /// Enabling this option will remove all newlines from the strings before comparing them.
-    /// </remarks>
-    bool IgnoreAllNewlines { get; }
-
-    /// <summary>
     /// Gets a value indicating whether the newline style is ignored when comparing <see langword="string" />s.
     /// </summary>
     /// <remarks>
-    /// Enabling this option will replace all occurences of <c>\r\n</c> and <c>\r</c> with <c>\n</c> in the strings before comparing them.
+    /// Enabling this option will replace all occurrences of <c>\r\n</c> and <c>\r</c> with <c>\n</c> in the strings before comparing them.
     /// </remarks>
     bool IgnoreNewlineStyle { get; }
 }

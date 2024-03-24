@@ -756,7 +756,6 @@ namespace FluentAssertions.Equivalency
         FluentAssertions.Equivalency.CyclicReferenceHandling CyclicReferenceHandling { get; }
         FluentAssertions.Equivalency.EnumEquivalencyHandling EnumEquivalencyHandling { get; }
         bool ExcludeNonBrowsableOnExpectation { get; }
-        bool IgnoreAllNewlines { get; }
         bool IgnoreCase { get; }
         bool IgnoreLeadingWhitespace { get; }
         bool IgnoreNewlineStyle { get; }
@@ -922,7 +921,6 @@ namespace FluentAssertions.Equivalency
         protected SelfReferenceEquivalencyOptions(FluentAssertions.Equivalency.IEquivalencyOptions defaults) { }
         public bool? CompareRecordsByValue { get; }
         public FluentAssertions.Equivalency.ConversionSelector ConversionSelector { get; }
-        public bool IgnoreAllNewlines { get; }
         public bool IgnoreCase { get; }
         public bool IgnoreLeadingWhitespace { get; }
         public bool IgnoreNewlineStyle { get; }
@@ -947,7 +945,6 @@ namespace FluentAssertions.Equivalency
         public TSelf ExcludingNestedObjects() { }
         public TSelf ExcludingNonBrowsableMembers() { }
         public TSelf ExcludingProperties() { }
-        public TSelf IgnoringAllNewlines() { }
         public TSelf IgnoringCase() { }
         public TSelf IgnoringCyclicReferences() { }
         public TSelf IgnoringLeadingWhitespace() { }

@@ -73,17 +73,6 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void Can_ignore_all_newlines_while_checking_a_string_to_start_with_another()
-        {
-            // Arrange
-            string actual = "\rA\nB\r\nC\n with suffix";
-            string expect = "\n\nABC";
-
-            // Act / Assert
-            actual.Should().StartWithEquivalentOf(expect, o => o.IgnoringAllNewlines());
-        }
-
-        [Fact]
         public void Can_ignore_newline_style_while_checking_a_string_to_start_with_another()
         {
             // Arrange
@@ -245,20 +234,6 @@ public partial class StringAssertionSpecs
 
             // Act
             Action act = () => actual.Should().NotStartWithEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void Can_ignore_all_newlines_while_checking_a_string_to_not_start_with_another()
-        {
-            // Arrange
-            string actual = "\rA\nB\r\nC\n with suffix";
-            string expect = "\n\nAB\rC";
-
-            // Act
-            Action act = () => actual.Should().NotStartWithEquivalentOf(expect, o => o.IgnoringAllNewlines());
 
             // Assert
             act.Should().Throw<XunitException>();

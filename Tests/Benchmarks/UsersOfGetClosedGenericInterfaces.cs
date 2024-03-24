@@ -82,11 +82,7 @@ public class UsersOfGetClosedGenericInterfaces
 
         public bool IgnoreTrailingWhitespace => throw new NotImplementedException();
 
-        public bool IgnoreNewlines => throw new NotImplementedException();
-
         public bool IgnoreCase => throw new NotImplementedException();
-
-        public bool IgnoreAllNewlines => throw new NotImplementedException();
 
         public bool IgnoreNewlineStyle => throw new NotImplementedException();
     }

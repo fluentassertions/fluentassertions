@@ -45,17 +45,6 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void Can_ignore_all_newlines_while_checking_a_string_to_match_another()
-        {
-            // Arrange
-            string actual = "\rA\nB\r\nC\n";
-            string expect = "A?C\r";
-
-            // Act / Assert
-            actual.Should().MatchEquivalentOf(expect, o => o.IgnoringAllNewlines());
-        }
-
-        [Fact]
         public void Can_ignore_newline_style_while_checking_a_string_to_match_another()
         {
             // Arrange
@@ -178,20 +167,6 @@ public partial class StringAssertionSpecs
 
             // Act
             Action act = () => actual.Should().NotMatchEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void Can_ignore_all_newlines_while_checking_a_string_to_not_match_another()
-        {
-            // Arrange
-            string actual = "\rA\nB\r\nC\n";
-            string expect = "\nA\r\n?\nC\r";
-
-            // Act
-            Action act = () => actual.Should().NotMatchEquivalentOf(expect, o => o.IgnoringAllNewlines());
 
             // Assert
             act.Should().Throw<XunitException>();
