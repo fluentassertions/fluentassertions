@@ -244,6 +244,31 @@ public partial class ReferenceTypeAssertionsSpecs
                     $"Expected {nameof(baseClass)} to be assignable to {typeof(SubClass)}, but {typeof(BaseClass)} is not.");
         }
 
+        [Fact]
+        public void Nested_assertion_on_null_throws()
+        {
+            // Arrange
+            var complexDto = new PersonAndAddressDto
+            {
+                Person = new PersonDto
+                {
+                    Name = "Buford Howard Tannen",
+                },
+                Address = null,
+            };
+
+            // Act
+            Action act = () => complexDto.Should().Satisfy<PersonAndAddressDto>(dto =>
+            {
+                dto.Person.Name.Should().Be("Buford Howard Tannen");
+                dto.Address.Should().Satisfy<AddressDto>(address => address.City.Should().Be("Hill Valley"));
+            });
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected dto.Address to be assignable to *AddressDto, but found <null>.");
+        }
+
         private class PersonDto
         {
             public string Name { get; init; }
