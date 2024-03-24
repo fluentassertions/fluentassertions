@@ -437,9 +437,13 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
         Guard.ThrowIfArgumentIsNull(assertion, nameof(assertion), "Cannot verify an object against a <null> inspector.");
 
         Execute.Assertion
+            .ForCondition(Subject is not null)
+            .WithDefaultIdentifier(Identifier)
+            .FailWith("Expected {context:object} to be assignable to {0}{reason}, but found <null>.", typeof(T))
+            .Then
             .ForCondition(Subject is T)
             .WithDefaultIdentifier(Identifier)
-            .FailWith("Expected {context:object} to be assignable to {0}{reason}, but {1} is not.", typeof(T), Subject.GetType());
+            .FailWith("Expected {context:object} to be assignable to {0}{reason}, but {1} is not.", typeof(T), Subject!.GetType());
 
         string[] failuresFromInspector;
 
