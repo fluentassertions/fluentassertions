@@ -108,7 +108,7 @@ public sealed class AssertionScope : IAssertionScope
             reason = parent.reason;
             callerIdentityProvider = parent.callerIdentityProvider;
             FormattingOptions = parent.FormattingOptions.Clone();
-            Context = new Lazy<string>(() => JoinContext(parent.Context, context));
+            Context = JoinContexts(parent.Context, context);
         }
         else
         {
@@ -116,9 +116,18 @@ public sealed class AssertionScope : IAssertionScope
         }
     }
 
-    private static string JoinContext(params Lazy<string>[] contexts)
+    private static Lazy<string> JoinContexts(Lazy<string> outer, Lazy<string> inner)
     {
-        return string.Join("/", contexts.Where(ctx => ctx is not null).Select(x => x.Value));
+        return (outer, inner) switch
+        {
+            (null, null) => null,
+            ({ } a, null) => a,
+            (null, { } b) => b,
+            ({ } a, { } b) => Join(a, b)
+        };
+
+        static Lazy<string> Join(Lazy<string> outer, Lazy<string> inner) =>
+            new(() => outer.Value + "/" + inner.Value);
     }
 
     /// <summary>
