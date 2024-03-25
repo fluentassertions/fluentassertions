@@ -435,8 +435,8 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     {
         using var delayCancellationTokenSource = new CancellationTokenSource();
 
-        Task completedTask =
-            await Task.WhenAny(target, Clock.DelayAsync(remainingTime, delayCancellationTokenSource.Token));
+        Task delayTask = Clock.DelayAsync(remainingTime, delayCancellationTokenSource.Token);
+        Task completedTask = await Task.WhenAny(target, delayTask);
 
         if (completedTask.IsFaulted)
         {
@@ -448,6 +448,12 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
         {
             // The monitored task did not complete.
             return false;
+        }
+
+        if (target.IsCanceled)
+        {
+            // Rethrow the exception causing the task be canceled.
+            await target;
         }
 
         // The monitored task is completed, we shall cancel the clock.

@@ -465,6 +465,52 @@ public static class TaskAssertionSpecs
                 "Expected a <System.InvalidOperationException> to be thrown within 1s,"
                 + " but found <System.NotSupportedException>:*foo*");
         }
+
+        [Fact]
+        public async Task When_task_is_canceled_before_timeout_it_succeeds()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<bool>();
+
+            // Act
+            Func<Task> action = () =>
+            {
+                return Awaiting(() => (Task)taskFactory.Task)
+                    .Should(timer).ThrowWithinAsync<TaskCanceledException>(1.Seconds());
+            };
+
+            _ = action.Invoke();
+
+            taskFactory.SetCanceled();
+            timer.Complete();
+
+            // Assert
+            await action.Should().NotThrowAsync<XunitException>();
+        }
+
+        [Fact]
+        public async Task When_task_is_canceled_after_timeout_it_fails()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<bool>();
+
+            // Act
+            Func<Task> action = () =>
+            {
+                return Awaiting(() => (Task)taskFactory.Task)
+                    .Should(timer).ThrowWithinAsync<TaskCanceledException>(1.Seconds());
+            };
+
+            _ = action.Invoke();
+
+            timer.Delay(1.Seconds());
+            taskFactory.SetCanceled();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>();
+        }
     }
 
     public class ThrowExactlyAsync

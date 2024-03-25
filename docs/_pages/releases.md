@@ -30,6 +30,7 @@ sidebar:
 * `BeEquivalentTo` with a custom comparer can now handle null values - [#2489](https://github.com/fluentassertions/fluentassertions/pull/2489)
 * Ensured that nested calls to `AssertionScope(context)` create a chained context - [#2607](https://github.com/fluentassertions/fluentassertions/pull/2607)
 * One overload of the `AssertionScope` constructor would not create an actual scope associated with the thread - [#2607](https://github.com/fluentassertions/fluentassertions/pull/2607)
+* Fixed `ThrowWithinAsync` not respecting `OperationCanceledException` - [#2614](https://github.com/fluentassertions/fluentassertions/pull/2614)
 
 ## 6.12.0
 
