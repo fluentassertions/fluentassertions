@@ -50,7 +50,17 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
 
     private string CleanNewLines(string input)
     {
-        return IgnoreNewLineDifferences ? input.RemoveNewLines() : input;
+        if (IgnoreAllNewlines)
+        {
+            return input.RemoveNewLines();
+        }
+
+        if (IgnoreNewlineStyle)
+        {
+            return input.RemoveNewlineStyle();
+        }
+
+        return input;
     }
 
     public string ExpectationDescription
@@ -80,7 +90,12 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
     public bool IgnoreCase { get; init; }
 
     /// <summary>
+    /// Ignores all newline differences
+    /// </summary>
+    public bool IgnoreAllNewlines { get; init; }
+
+    /// <summary>
     /// Ignores the difference between environment newline differences
     /// </summary>
-    public bool IgnoreNewLineDifferences { get; init; }
+    public bool IgnoreNewlineStyle { get; init; }
 }

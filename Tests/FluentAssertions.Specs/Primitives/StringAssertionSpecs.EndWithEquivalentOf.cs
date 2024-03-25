@@ -73,6 +73,17 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
+        public void Can_ignore_newline_style_while_checking_a_string_to_end_with_another()
+        {
+            // Arrange
+            string actual = "prefix for \rA\nB\r\nC";
+            string expect = "A\r\nB\nC";
+
+            // Act / Assert
+            actual.Should().EndWithEquivalentOf(expect, o => o.IgnoringNewlineStyle());
+        }
+
+        [Fact]
         public void When_suffix_of_string_differs_by_case_only_it_should_not_throw()
         {
             // Arrange
@@ -224,6 +235,20 @@ public partial class StringAssertionSpecs
 
             // Act
             Action act = () => actual.Should().NotEndWithEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_newline_style_while_checking_a_string_to_not_end_with_another()
+        {
+            // Arrange
+            string actual = "prefix for \rA\nB\r\nC\n";
+            string expect = "A\r\nB\nC\r";
+
+            // Act
+            Action act = () => actual.Should().NotEndWithEquivalentOf(expect, o => o.IgnoringNewlineStyle());
 
             // Assert
             act.Should().Throw<XunitException>();

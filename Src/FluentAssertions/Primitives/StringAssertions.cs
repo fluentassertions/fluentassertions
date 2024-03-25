@@ -406,7 +406,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringWildcardMatchingStrategy
             {
                 IgnoreCase = true,
-                IgnoreNewLineDifferences = true
+                IgnoreAllNewlines = true
             },
             because, becauseArgs);
 
@@ -470,7 +470,8 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         var stringWildcardMatchingValidator = new StringValidator(
             new StringWildcardMatchingStrategy
             {
-                IgnoreCase = options.IgnoreCase
+                IgnoreCase = options.IgnoreCase,
+                IgnoreNewlineStyle = options.IgnoreNewlineStyle,
             },
             because, becauseArgs);
 
@@ -529,7 +530,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringWildcardMatchingStrategy
             {
                 IgnoreCase = true,
-                IgnoreNewLineDifferences = true,
+                IgnoreAllNewlines = true,
                 Negate = true
             },
             because, becauseArgs);
@@ -595,6 +596,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringWildcardMatchingStrategy
             {
                 IgnoreCase = options.IgnoreCase,
+                IgnoreNewlineStyle = options.IgnoreNewlineStyle,
                 Negate = true
             },
             because, becauseArgs);
@@ -1994,6 +1996,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <remarks>
     /// When <see cref="IEquivalencyOptions.IgnoreLeadingWhitespace"/> is set, whitespace is removed from the start of the <paramref name="value"/>.<br />
     /// When <see cref="IEquivalencyOptions.IgnoreTrailingWhitespace"/> is set, whitespace is removed from the end of the <paramref name="value"/>.<br />
+    /// When <see cref="IEquivalencyOptions.IgnoreNewlineStyle"/> is set, all newlines (<c>\r\n</c> and <c>\r</c>) are replaced with <c>\n</c> in the <paramref name="value"/>.<br />
     /// </remarks>
     private static string ApplyStringSettings(string value, IEquivalencyOptions options)
     {
@@ -2005,6 +2008,11 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         if (options.IgnoreTrailingWhitespace)
         {
             value = value.TrimEnd();
+        }
+
+        if (options.IgnoreNewlineStyle)
+        {
+            value = value.RemoveNewlineStyle();
         }
 
         return value;

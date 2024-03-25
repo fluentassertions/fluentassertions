@@ -59,6 +59,11 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
                 o.IgnoringCase();
             }
 
+            if (existingOptions.IgnoreNewlineStyle)
+            {
+                o.IgnoringNewlineStyle();
+            }
+
             return o;
         };
 

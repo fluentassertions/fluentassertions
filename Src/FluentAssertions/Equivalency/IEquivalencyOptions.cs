@@ -113,4 +113,12 @@ public interface IEquivalencyOptions
     /// Gets a value indicating whether a case-insensitive comparer is used when comparing <see langword="string" />s.
     /// </summary>
     bool IgnoreCase { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether the newline style is ignored when comparing <see langword="string" />s.
+    /// </summary>
+    /// <remarks>
+    /// Enabling this option will replace all occurrences of <c>\r\n</c> and <c>\r</c> with <c>\n</c> in the strings before comparing them.
+    /// </remarks>
+    bool IgnoreNewlineStyle { get; }
 }

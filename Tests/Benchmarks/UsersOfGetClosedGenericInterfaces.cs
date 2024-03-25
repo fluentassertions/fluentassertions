@@ -82,9 +82,9 @@ public class UsersOfGetClosedGenericInterfaces
 
         public bool IgnoreTrailingWhitespace => throw new NotImplementedException();
 
-        public bool IgnoreNewlines => throw new NotImplementedException();
-
         public bool IgnoreCase => throw new NotImplementedException();
+
+        public bool IgnoreNewlineStyle => throw new NotImplementedException();
     }
 
     [Params(typeof(DBNull), typeof(bool), typeof(char), typeof(sbyte), typeof(byte), typeof(short), typeof(ushort),
