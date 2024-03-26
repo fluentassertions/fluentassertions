@@ -231,6 +231,43 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
         return new AndConstraint<XElementAssertions>(this);
     }
 
+    public AndConstraint<XElementAssertions> NotHaveAttribute(string expectedName, string because = "",
+        params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNullOrEmpty(expectedName);
+
+        return NotHaveAttribute(XNamespace.None + expectedName, because, becauseArgs);
+    }
+
+    public AndConstraint<XElementAssertions> NotHaveAttribute(XName expectedName, string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(expectedName);
+
+        string expectedText = expectedName.ToString();
+
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject is not null)
+            .FailWith(
+                "Expected not to have attribute {0}{reason}, but {context:member} is <null>.",
+                expectedText);
+
+        if (success)
+        {
+            XAttribute attribute = Subject!.Attribute(expectedName);
+
+            Execute.Assertion
+                .ForCondition(attribute is null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:subject} not to have attribute {0}{reason},"
+                    + " but found {1} in {2}",
+                    expectedText, attribute?.Value, Subject);
+        }
+
+        return new AndConstraint<XElementAssertions>(this);
+    }
+
     /// <summary>
     /// Asserts that the current <see cref="XElement"/> has a direct child element with the specified
     /// <paramref name="expected"/> name.
@@ -290,6 +327,43 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
                 .FailWith(
                     "Expected {context:subject} to have child element {0}{reason}, but no such child element was found.",
                     expected.ToString().EscapePlaceholders());
+        }
+
+        return new AndWhichConstraint<XElementAssertions, XElement>(this, xElement);
+    }
+
+    public AndWhichConstraint<XElementAssertions, XElement> NotHaveElement(string expected, string because = "",
+        params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNullOrEmpty(expected);
+
+        return NotHaveElement(XNamespace.None + expected, because, becauseArgs);
+    }
+
+    public AndWhichConstraint<XElementAssertions, XElement> NotHaveElement(XName expected, string because = "",
+        params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(expected);
+
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject is not null)
+            .FailWith(
+                "Expected the element not to have child element {0}{reason}, but {context:member} is <null>.",
+                expected.ToString().EscapePlaceholders());
+
+        XElement xElement = null;
+
+        if (success)
+        {
+            xElement = Subject!.Element(expected);
+
+            Execute.Assertion
+                .ForCondition(xElement is null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:subject} not to have child element {0}{reason}, but found {1}.",
+                    expected.ToString().EscapePlaceholders(), xElement);
         }
 
         return new AndWhichConstraint<XElementAssertions, XElement>(this, xElement);
