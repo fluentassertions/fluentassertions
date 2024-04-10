@@ -13,7 +13,6 @@ using Xunit;
 
 namespace Approval.Tests;
 
-[UsesVerify]
 public class ApiApproval
 {
     static ApiApproval() => VerifyDiffPlex.Initialize(OutputType.Minimal);
