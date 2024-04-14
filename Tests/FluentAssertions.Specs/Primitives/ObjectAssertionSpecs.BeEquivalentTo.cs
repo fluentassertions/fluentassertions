@@ -38,5 +38,16 @@ public partial class ObjectAssertionSpecs
             // Act / Assert
             actual.Should().BeEquivalentTo(expectation, o => o.IgnoringTrailingWhitespace());
         }
+
+        [Fact]
+        public void Can_ignore_newline_style_while_comparing_objects_with_string_properties()
+        {
+            // Arrange
+            var actual = new { foo = "A\nB\r\nC" };
+            var expectation = new { foo = "A\r\nB\nC" };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expectation, o => o.IgnoringNewlineStyle());
+        }
     }
 }
