@@ -77,8 +77,11 @@ public partial class ObjectAssertionSpecs
                 ObservedProperty = "observed"
             };
 
-            // Act & Assert
-            subject.Should().BeXmlSerializable();
+            // Act
+            Action act = () => subject.Should().BeXmlSerializable();
+
+            // Assert
+            act.Should().NotThrow();
         }
     }
 
