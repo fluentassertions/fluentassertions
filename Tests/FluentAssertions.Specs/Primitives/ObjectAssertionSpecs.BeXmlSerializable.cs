@@ -66,6 +66,20 @@ public partial class ObjectAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage("*to be serializable, but serialization failed with:*Name*to be*");
         }
+
+        [Fact]
+        public void When_an_object_is_xml_serializable_but_ignores_members_it_should_pass()
+        {
+            // Arrange
+            var subject = new ClassWithIgnoredMembers
+            {
+                IgnoredProperty = "ignored",
+                ObservedProperty = "observed"
+            };
+
+            // Act & Assert
+            subject.Should().BeXmlSerializable();
+        }
     }
 
     public class XmlSerializableClass
@@ -103,5 +117,13 @@ public partial class ObjectAssertionSpecs
     {
         [UsedImplicitly]
         public string Name { get; set; }
+    }
+
+    public class ClassWithIgnoredMembers
+    {
+        [XmlIgnore]
+        public string IgnoredProperty { get; set; }
+
+        public string ObservedProperty { get; set; }
     }
 }
