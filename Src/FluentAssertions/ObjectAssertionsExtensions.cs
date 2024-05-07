@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
@@ -24,7 +25,7 @@ public static class ObjectAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<ObjectAssertions> BeDataContractSerializable(this ObjectAssertions assertions,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return BeDataContractSerializable<object>(assertions, options => options, because, becauseArgs);
     }
@@ -49,8 +50,8 @@ public static class ObjectAssertionsExtensions
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="options"/> is <see langword="null"/>.</exception>
     public static AndConstraint<ObjectAssertions> BeDataContractSerializable<T>(this ObjectAssertions assertions,
-        Func<EquivalencyOptions<T>, EquivalencyOptions<T>> options, string because = "",
-        params object[] becauseArgs)
+        Func<EquivalencyOptions<T>, EquivalencyOptions<T>> options,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(options);
 
@@ -97,8 +98,8 @@ public static class ObjectAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public static AndConstraint<ObjectAssertions> BeXmlSerializable(this ObjectAssertions assertions, string because = "",
-        params object[] becauseArgs)
+    public static AndConstraint<ObjectAssertions> BeXmlSerializable(this ObjectAssertions assertions,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         try
         {

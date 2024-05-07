@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using ExampleExtensions;
 using Xunit;
 using Xunit.Sdk;

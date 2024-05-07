@@ -34,7 +34,9 @@ public partial class CollectionAssertionSpecs
             string[] collection = ["john", "jane", "mike"];
 
             // Act
+#pragma warning disable CA2241
             Action act = () => collection.Should().EndWith("mike", "of some reason {0,abc}", 1, 2);
+#pragma warning restore CA2241
 
             // Assert
             act.Should().NotThrow();

@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -28,7 +29,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public AndConstraint<PropertyInfoAssertions> BeVirtual(
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -56,7 +57,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoAssertions> NotBeVirtual([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -85,7 +86,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public AndConstraint<PropertyInfoAssertions> BeWritable(
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -118,8 +119,8 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
     /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
-    public AndConstraint<PropertyInfoAssertions> BeWritable(CSharpAccessModifier accessModifier, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<PropertyInfoAssertions> BeWritable(CSharpAccessModifier accessModifier,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
@@ -157,7 +158,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public AndConstraint<PropertyInfoAssertions> NotBeWritable(
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -187,7 +188,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoAssertions> BeReadable(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoAssertions> BeReadable([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -217,8 +218,8 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
     /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
-    public AndConstraint<PropertyInfoAssertions> BeReadable(CSharpAccessModifier accessModifier, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<PropertyInfoAssertions> BeReadable(CSharpAccessModifier accessModifier,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
@@ -253,7 +254,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public AndConstraint<PropertyInfoAssertions> NotBeReadable(
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -286,7 +287,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="propertyType"/> is <see langword="null"/>.</exception>
     public AndConstraint<PropertyInfoAssertions> Return(Type propertyType,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(propertyType);
 
@@ -317,7 +318,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoAssertions> Return<TReturn>(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoAssertions> Return<TReturn>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return Return(typeof(TReturn), because, becauseArgs);
     }
@@ -334,7 +335,8 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="propertyType"/> is <see langword="null"/>.</exception>
-    public AndConstraint<PropertyInfoAssertions> NotReturn(Type propertyType, string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoAssertions> NotReturn(Type propertyType,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(propertyType);
 
@@ -365,7 +367,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoAssertions> NotReturn<TReturn>(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoAssertions> NotReturn<TReturn>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return NotReturn(typeof(TReturn), because, becauseArgs);
     }

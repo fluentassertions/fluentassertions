@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,8 +37,8 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public async Task<AndConstraint<TAssertions>> NotCompleteWithinAsync(
-        TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+    public async Task<AndConstraint<TAssertions>> NotCompleteWithinAsync(TimeSpan timeSpan,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -76,8 +77,8 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <returns>
     /// Returns an object that allows asserting additional members of the thrown exception.
     /// </returns>
-    public async Task<ExceptionAssertions<TException>> ThrowExactlyAsync<TException>(string because = "",
-        params object[] becauseArgs)
+    public async Task<ExceptionAssertions<TException>> ThrowExactlyAsync<TException>(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TException : Exception
     {
         Type expectedType = typeof(TException);
@@ -118,8 +119,8 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public async Task<ExceptionAssertions<TException>> ThrowAsync<TException>(string because = "",
-        params object[] becauseArgs)
+    public async Task<ExceptionAssertions<TException>> ThrowAsync<TException>(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TException : Exception
     {
         bool success = Execute.Assertion
@@ -149,8 +150,8 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public async Task<ExceptionAssertions<TException>> ThrowWithinAsync<TException>(
-        TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+    public async Task<ExceptionAssertions<TException>> ThrowWithinAsync<TException>(TimeSpan timeSpan,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TException : Exception
     {
         bool success = Execute.Assertion
@@ -246,7 +247,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public async Task<AndConstraint<TAssertions>> NotThrowAsync<TException>(string because = "", params object[] becauseArgs)
+    public async Task<AndConstraint<TAssertions>> NotThrowAsync<TException>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TException : Exception
     {
         bool success = Execute.Assertion

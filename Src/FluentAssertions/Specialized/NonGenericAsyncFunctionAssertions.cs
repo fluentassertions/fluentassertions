@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
@@ -39,7 +40,7 @@ public class NonGenericAsyncFunctionAssertions : AsyncFunctionAssertions<Task, N
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public async Task<AndConstraint<NonGenericAsyncFunctionAssertions>> CompleteWithinAsync(
-        TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        TimeSpan timeSpan, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -79,7 +80,8 @@ public class NonGenericAsyncFunctionAssertions : AsyncFunctionAssertions<Task, N
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public async Task<AndConstraint<NonGenericAsyncFunctionAssertions>> NotThrowAsync(string because = "", params object[] becauseArgs)
+    public async Task<AndConstraint<NonGenericAsyncFunctionAssertions>> NotThrowAsync(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -124,8 +126,8 @@ public class NonGenericAsyncFunctionAssertions : AsyncFunctionAssertions<Task, N
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="waitTime"/> or <paramref name="pollInterval"/> are negative.</exception>
-    public Task<AndConstraint<NonGenericAsyncFunctionAssertions>> NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "",
-        params object[] becauseArgs)
+    public Task<AndConstraint<NonGenericAsyncFunctionAssertions>> NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(waitTime);
         Guard.ThrowIfArgumentIsNegative(pollInterval);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
@@ -38,7 +39,7 @@ public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> HaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject.HasValue)
@@ -58,7 +59,7 @@ public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeNull([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return HaveValue(because, becauseArgs);
     }
@@ -73,7 +74,7 @@ public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotHaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(!Subject.HasValue)
@@ -93,7 +94,7 @@ public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeNull([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return NotHaveValue(because, becauseArgs);
     }
@@ -109,7 +110,7 @@ public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> Be(Guid? expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> Be(Guid? expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject == expected)

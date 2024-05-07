@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
@@ -41,7 +42,7 @@ public class GenericAsyncFunctionAssertions<TResult>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> CompleteWithinAsync(
-        TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        TimeSpan timeSpan, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -87,7 +88,7 @@ public class GenericAsyncFunctionAssertions<TResult>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAsync(
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -134,7 +135,7 @@ public class GenericAsyncFunctionAssertions<TResult>
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="waitTime"/> or <paramref name="pollInterval"/> are negative.</exception>
     public Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAfterAsync(
-        TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+        TimeSpan waitTime, TimeSpan pollInterval, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(waitTime);
         Guard.ThrowIfArgumentIsNegative(pollInterval);

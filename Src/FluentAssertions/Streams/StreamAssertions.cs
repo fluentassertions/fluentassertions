@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -42,7 +43,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeWritable(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeWritable([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -70,7 +71,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeWritable(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeWritable([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -98,7 +99,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeSeekable(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeSeekable([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -126,7 +127,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeSeekable(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeSeekable([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -154,7 +155,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeReadable(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeReadable([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -182,7 +183,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeReadable(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeReadable([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -211,7 +212,8 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HavePosition(long expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> HavePosition(long expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -260,7 +262,8 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotHavePosition(long unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotHavePosition(long unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -309,7 +312,8 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveLength(long expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> HaveLength(long expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -358,7 +362,8 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotHaveLength(long unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotHaveLength(long unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -406,7 +411,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeReadOnly(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeReadOnly([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -434,7 +439,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeReadOnly(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeReadOnly([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -462,7 +467,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeWriteOnly(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeWriteOnly([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -490,7 +495,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeWriteOnly(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeWriteOnly([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)

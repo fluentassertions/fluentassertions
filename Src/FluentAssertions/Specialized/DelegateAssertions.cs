@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using FluentAssertions.Common;
@@ -35,7 +36,7 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public ExceptionAssertions<TException> Throw<TException>(string because = "", params object[] becauseArgs)
+    public ExceptionAssertions<TException> Throw<TException>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TException : Exception
     {
         bool success = Execute.Assertion
@@ -63,7 +64,7 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotThrow<TException>(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotThrow<TException>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TException : Exception
     {
         bool success = Execute.Assertion
@@ -97,7 +98,7 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     /// <returns>
     /// Returns an object that allows asserting additional members of the thrown exception.
     /// </returns>
-    public ExceptionAssertions<TException> ThrowExactly<TException>(string because = "",
+    public ExceptionAssertions<TException> ThrowExactly<TException>([StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
         where TException : Exception
     {

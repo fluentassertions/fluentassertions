@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions.Execution;
 
@@ -50,7 +51,7 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> Be(DateOnly expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> Be(DateOnly expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject == expected)
@@ -72,7 +73,7 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> Be(DateOnly? expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> Be(DateOnly? expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject == expected)
@@ -94,7 +95,7 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBe(DateOnly unexpected, string because = "",
+    public AndConstraint<TAssertions> NotBe(DateOnly unexpected, [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
         Execute.Assertion
@@ -116,8 +117,8 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBe(DateOnly? unexpected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBe(DateOnly? unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject != unexpected)
@@ -138,8 +139,8 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeBefore(DateOnly expected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeBefore(DateOnly expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject < expected)
@@ -161,8 +162,8 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeBefore(DateOnly unexpected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeBefore(DateOnly unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return BeOnOrAfter(unexpected, because, becauseArgs);
     }
@@ -178,8 +179,8 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeOnOrBefore(DateOnly expected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeOnOrBefore(DateOnly expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject <= expected)
@@ -201,8 +202,8 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeOnOrBefore(DateOnly unexpected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeOnOrBefore(DateOnly unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return BeAfter(unexpected, because, becauseArgs);
     }
@@ -218,8 +219,8 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeAfter(DateOnly expected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeAfter(DateOnly expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject > expected)
@@ -241,8 +242,8 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeAfter(DateOnly unexpected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeAfter(DateOnly unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return BeOnOrBefore(unexpected, because, becauseArgs);
     }
@@ -258,8 +259,8 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeOnOrAfter(DateOnly expected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeOnOrAfter(DateOnly expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject >= expected)
@@ -281,8 +282,8 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeOnOrAfter(DateOnly unexpected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeOnOrAfter(DateOnly unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return BeBefore(unexpected, because, becauseArgs);
     }
@@ -298,7 +299,7 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveYear(int expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> HaveYear(int expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -325,7 +326,7 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotHaveYear(int unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotHaveYear(int unexpected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -351,7 +352,7 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveMonth(int expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> HaveMonth(int expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -378,7 +379,7 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotHaveMonth(int unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotHaveMonth(int unexpected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -405,7 +406,7 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveDay(int expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> HaveDay(int expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -432,7 +433,7 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotHaveDay(int unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotHaveDay(int unexpected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -483,7 +484,7 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateOnly> validValues, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateOnly> validValues, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return BeOneOf(validValues.Cast<DateOnly?>(), because, becauseArgs);
     }
@@ -501,8 +502,8 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateOnly?> validValues, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateOnly?> validValues,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(validValues.Contains(Subject))

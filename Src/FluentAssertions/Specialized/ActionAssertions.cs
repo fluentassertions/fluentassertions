@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -31,7 +32,7 @@ public class ActionAssertions : DelegateAssertions<Action, ActionAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<ActionAssertions> NotThrow(string because = "", params object[] becauseArgs)
+    public AndConstraint<ActionAssertions> NotThrow([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -71,8 +72,8 @@ public class ActionAssertions : DelegateAssertions<Action, ActionAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="waitTime"/> or <paramref name="pollInterval"/> are negative.</exception>
-    public AndConstraint<ActionAssertions> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<ActionAssertions> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(waitTime);
         Guard.ThrowIfArgumentIsNegative(pollInterval);

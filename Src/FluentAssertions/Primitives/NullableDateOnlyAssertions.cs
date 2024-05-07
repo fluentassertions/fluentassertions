@@ -2,6 +2,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
@@ -40,7 +41,7 @@ public class NullableDateOnlyAssertions<TAssertions> : DateOnlyAssertions<TAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> HaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject.HasValue)
@@ -60,7 +61,7 @@ public class NullableDateOnlyAssertions<TAssertions> : DateOnlyAssertions<TAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeNull([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return HaveValue(because, becauseArgs);
     }
@@ -75,7 +76,7 @@ public class NullableDateOnlyAssertions<TAssertions> : DateOnlyAssertions<TAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotHaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(!Subject.HasValue)
@@ -95,7 +96,7 @@ public class NullableDateOnlyAssertions<TAssertions> : DateOnlyAssertions<TAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeNull([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return NotHaveValue(because, becauseArgs);
     }

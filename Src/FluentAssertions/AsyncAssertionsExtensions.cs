@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using FluentAssertions.Specialized;
 
@@ -26,7 +27,7 @@ public static class AsyncAssertionsExtensions
     /// </remarks>
     public static async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<T>, T>> WithResult<T>(
         this Task<AndWhichConstraint<GenericAsyncFunctionAssertions<T>, T>> task,
-        T expected, string because = "", params object[] becauseArgs)
+        T expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var andWhichConstraint = await task;
         var subject = andWhichConstraint.Subject;
@@ -49,7 +50,7 @@ public static class AsyncAssertionsExtensions
     /// </param>
     public static async Task<AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>> WithResult<T>(
         this Task<AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>> task,
-        T expected, string because = "", params object[] becauseArgs)
+        T expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var andWhichConstraint = await task;
         var subject = andWhichConstraint.Subject;
