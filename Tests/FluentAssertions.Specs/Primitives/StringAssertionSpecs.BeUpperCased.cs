@@ -22,7 +22,17 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_a_non_upper_string_is_supposed_to_be_upper_it_should_throw()
+        public void When_an_empty_string_is_supposed_to_be_upper_it_should_succeed()
+        {
+            // Arrange
+            string actual = "";
+
+            // Act / Assert
+            actual.Should().BeUpperCased();
+        }
+
+        [Fact]
+        public void When_a_lower_case_string_is_supposed_to_be_upper_it_should_throw()
         {
             // Arrange
             string actual = "abc";
@@ -35,16 +45,23 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_an_upper_case_string_with_numbers_is_supposed_to_be_in_upper_case_only_it_should_throw()
+        public void When_an_upper_case_string_with_non_alplha_chars_is_supposed_to_be_in_upper_case_only_it_should_succeed()
         {
             // Arrange
-            string actual = "A1";
+            string actual = "A1!";
 
-            // Act
-            Action act = () => actual.Should().BeUpperCased();
+            // Act / Assert
+            actual.Should().BeUpperCased();
+        }
 
-            // Assert
-            act.Should().Throw<XunitException>();
+        [Fact]
+        public void When_a_string_with_caseless_chars_is_supposed_to_be_upper_it_should_succeed()
+        {
+            // Arrange
+            string actual = "1!漢字";
+
+            // Act / Assert
+            actual.Should().BeUpperCased();
         }
 
         [Fact]
@@ -58,7 +75,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                @"Expected all characters in actual to be upper cased because we want to test the failure message, but found ""abc"".");
+                @"Expected all alpha characters in actual to be upper-case because we want to test the failure message, but found ""abc"".");
         }
 
         [Fact]
@@ -72,17 +89,17 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected all characters in nullString to be upper cased because strings should never be null, but found <null>.");
+                "Expected all alpha characters in nullString to be upper-case because strings should never be null, but found <null>.");
         }
     }
 
     public class NotBeUpperCased
     {
         [Fact]
-        public void When_a_non_upper_string_is_supposed_to_be_non_upper_it_should_succeed()
+        public void When_a_mixed_case_string_is_not_supposed_to_be_uppered_it_should_succeed()
         {
             // Arrange
-            string actual = "abc";
+            string actual = "aBc";
 
             // Act / Assert
             actual.Should().NotBeUpperCased();
@@ -112,10 +129,30 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_an_upper_case_string_with_numbers_is_not_supposed_to_be_in_upper_case_only_it_should_succeed()
+        public void When_a_string_containing_lower_chars_is_not_supposed_to_be_uppered_it_should_succeed()
         {
             // Arrange
-            string actual = "a1";
+            string actual = "Ab1!";
+
+            // Act / Assert
+            actual.Should().NotBeUpperCased();
+        }
+
+        [Fact]
+        public void When_a_string_in_which_all_alpha_chars_are_upper_is_not_supposed_to_be_uppered_only_it_should_throw()
+        {
+            // Arrange
+            string actual = "a1b!";
+
+            // Act / Assert
+            actual.Should().NotBeUpperCased();
+        }
+
+        [Fact]
+        public void When_a_string_with_caseless_chars_is_not_supposed_to_be_uppered_it_should_succeed()
+        {
+            // Arrange
+            string actual = "1!漢字";
 
             // Act / Assert
             actual.Should().NotBeUpperCased();
@@ -132,7 +169,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Did not expect any characters in actual to be upper cased because we want to test the failure message.");
+                "Expected some characters in actual to be lower-case because we want to test the failure message.");
         }
     }
 }
