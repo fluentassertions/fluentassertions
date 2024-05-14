@@ -409,7 +409,7 @@ public class EventAssertionSpecs
 
             recording
                 .Should().ContainSingle("because we were expecting a specific property change")
-                .Which.Parameters.Last().Should().BeOfType<PropertyChangedEventArgs>()
+                .Which.Parameters[^1].Should().BeOfType<PropertyChangedEventArgs>()
                 .Which.PropertyName.Should().Be("Boo");
         }
 

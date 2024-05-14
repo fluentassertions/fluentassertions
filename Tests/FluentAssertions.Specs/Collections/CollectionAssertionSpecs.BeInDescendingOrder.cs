@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 using Xunit.Sdk;
 
@@ -263,7 +262,7 @@ public partial class CollectionAssertionSpecs
             string[] strings = ["roy", "dennis", "barbara"];
 
             // Act
-            Action act = () => strings.Should().BeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()));
+            Action act = () => strings.Should().BeInDescendingOrder((sut, exp) => sut[^1].CompareTo(exp[^1]));
 
             // Assert
             act.Should().NotThrow();
@@ -277,7 +276,7 @@ public partial class CollectionAssertionSpecs
 
             // Act
             Action act = () =>
-                strings.Should().BeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()), "of {0}", "reasons");
+                strings.Should().BeInDescendingOrder((sut, exp) => sut[^1].CompareTo(exp[^1]), "of {0}", "reasons");
 
             // Assert
             act.Should()
@@ -572,7 +571,7 @@ public partial class CollectionAssertionSpecs
             string[] strings = ["dennis", "roy", "barbara"];
 
             // Act
-            Action act = () => strings.Should().NotBeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()));
+            Action act = () => strings.Should().NotBeInDescendingOrder((sut, exp) => sut[^1].CompareTo(exp[^1]));
 
             // Assert
             act.Should().NotThrow();
@@ -586,7 +585,7 @@ public partial class CollectionAssertionSpecs
 
             // Act
             Action act = () =>
-                strings.Should().NotBeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()), "of {0}", "reasons");
+                strings.Should().NotBeInDescendingOrder((sut, exp) => sut[^1].CompareTo(exp[^1]), "of {0}", "reasons");
 
             // Assert
             act.Should()
