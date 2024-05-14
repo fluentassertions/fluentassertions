@@ -218,7 +218,7 @@ public partial class CollectionAssertionSpecs
     {
         public int Compare(string x, string y)
         {
-            return x[^1].CompareTo(y[^1]);
+            return Nullable.Compare(x?[^1], y?[^1]);
         }
     }
 }
