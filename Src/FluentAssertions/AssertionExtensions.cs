@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -873,14 +873,27 @@ public static class AssertionExtensions
     /// Starts monitoring <paramref name="eventSource"/> for its events.
     /// </summary>
     /// <param name="eventSource">The object for which to monitor the events.</param>
-    /// <param name="utcNow">
-    /// An optional delegate that returns the current date and time in UTC format.
-    /// Will revert to <see cref="DateTime.UtcNow"/> if no delegate was provided.
+    /// <exception cref="ArgumentNullException"><paramref name="eventSource"/> is <see langword="null"/>.</exception>
+    public static IMonitor<T> Monitor<T>(this T eventSource)
+    {
+        return new EventMonitor<T>(eventSource, new EventMonitorOptions());
+    }
+
+    /// <summary>
+    /// Starts monitoring <paramref name="eventSource"/> for its events using the given <paramref name="configureOptions"/>.
+    /// </summary>
+    /// <param name="eventSource">The object for which to monitor the events.</param>
+    /// <param name="configureOptions">
+    /// Options to configure the EventMonitor.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="eventSource"/> is <see langword="null"/>.</exception>
-    public static IMonitor<T> Monitor<T>(this T eventSource, Func<DateTime> utcNow = null)
+    public static IMonitor<T> Monitor<T>(this T eventSource, Action<EventMonitorOptions> configureOptions)
     {
-        return new EventMonitor<T>(eventSource, utcNow ?? (() => DateTime.UtcNow));
+        Guard.ThrowIfArgumentIsNull(configureOptions, nameof(configureOptions));
+
+        var options = new EventMonitorOptions();
+        configureOptions(options);
+        return new EventMonitor<T>(eventSource, options);
     }
 
 #endif
