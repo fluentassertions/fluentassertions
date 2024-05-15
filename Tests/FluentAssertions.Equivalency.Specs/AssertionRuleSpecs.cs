@@ -245,6 +245,72 @@ public class AssertionRuleSpecs
         act.Should().Throw<XunitException>().WithMessage("*ConcreteClassEqualityComparer*");
     }
 
+    [Fact]
+    public void When_the_compile_time_type_is_nullable_but_the_equality_comparer_type_is_not_it_should_use_the_default_mechanics()
+    {
+        // Arrange
+        var subject = new { Timestamp = (DateTime?)22.March(2020) };
+
+        var expectation = new { Timestamp = (DateTime?)1.January(2020) };
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(expectation,
+            opt => opt.Using(new DateTimeByYearComparer()));
+
+        // Assert
+        act.Should().Throw<XunitException>().WithMessage("Expected*Timestamp*2020*");
+    }
+
+    [Fact]
+    public void When_the_compile_time_type_is_not_nullable_but_the_equality_comparer_type_is_it_should_use_the_default_mechanics()
+    {
+        // Arrange
+        var subject = new { Timestamp = 22.March(2020) };
+
+        var expectation = new { Timestamp = 1.January(2020) };
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(expectation,
+            opt => opt.Using(new NullableDateTimeByYearComparer()));
+
+        // Assert
+        act.Should().Throw<XunitException>().WithMessage("Expected*Timestamp*2020*");
+    }
+
+    [Fact]
+    public void When_the_runtime_time_type_match_the_equality_comparer_type_it_should_use_the_comparer()
+    {
+        // Arrange
+        var subject = new { Timestamp = (DateTime?)22.March(2020) };
+
+        var expectation = new { Timestamp = (DateTime?)1.January(2020) };
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt
+            .RespectingRuntimeTypes()
+            .Using(new DateTimeByYearComparer()));
+
+        // Assert
+        act.Should().NotThrow();
+    }
+
+    [Fact]
+    public void When_the_runtime_type_differs_from_the_equality_comparer_type_because_of_nullability_it_should_use_the_default_mechanics()
+    {
+        // Arrange
+        var subject = new { Timestamp = (DateTime?)22.March(2020) };
+
+        var expectation = new { Timestamp = (DateTime?)1.January(2020) };
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt
+            .RespectingRuntimeTypes()
+            .Using(new NullableDateTimeByYearComparer()));
+
+        // Assert
+        act.Should().Throw<XunitException>().WithMessage("Expected*Timestamp*2020*");
+    }
+
     private interface IInterface;
 
     private class ConcreteClass : IInterface
@@ -267,5 +333,15 @@ public class AssertionRuleSpecs
         }
 
         public int GetHashCode(ConcreteClass obj) => obj.GetProperty().GetHashCode();
+    }
+
+    private class NullableDateTimeByYearComparer : IEqualityComparer<DateTime?>
+    {
+        public bool Equals(DateTime? x, DateTime? y)
+        {
+            return x?.Year == y?.Year;
+        }
+
+        public int GetHashCode(DateTime? obj) => obj?.GetHashCode() ?? 0;
     }
 }
