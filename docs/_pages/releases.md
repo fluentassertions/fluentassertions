@@ -75,7 +75,7 @@ sidebar:
   * `IEquivalencyAssertionOptions` to `IEquivalencyOptions`
   * `SelfReferenceEquivalencyAssertionOptions<TSelf>` to `SelfReferenceEquivalencyOptions<TSelf>`
 * Allow fluently calling `WithoutMatchingRules` and `WithoutSelectionRules` while using `BeEquivalentTo` - [#2457](https://github.com/fluentassertions/fluentassertions/pull/2457)
-* Removed `utcNow` overload for `.Monitor<T>()` - [#1954](https://github.com/fluentassertions/fluentassertions/pull/1954)
+* Removed `utcNow` overload for `.Monitor<T>()` - [#2629](https://github.com/fluentassertions/fluentassertions/pull/2629)
 
 ### Breaking Changes (for extensions)
 * Add `ForConstraint` to `IAssertionsScope` to support chaining `.ForConstraint()` after `.Then` - [#2324](https://github.com/fluentassertions/fluentassertions/pull/2324)

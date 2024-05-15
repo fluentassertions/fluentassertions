@@ -873,8 +873,6 @@ public static class AssertionExtensions
     /// Starts monitoring <paramref name="eventSource"/> for its events.
     /// </summary>
     /// <param name="eventSource">The object for which to monitor the events.</param>
-    /// An optional delegate that returns the current date and time in UTC format.
-    /// Will revert to <see cref="DateTime.UtcNow"/> if no delegate was provided.
     /// <exception cref="ArgumentNullException"><paramref name="eventSource"/> is <see langword="null"/>.</exception>
     public static IMonitor<T> Monitor<T>(this T eventSource)
     {
@@ -888,7 +886,7 @@ public static class AssertionExtensions
     /// <param name="configureOptions">
     /// Options to configure the EventMonitor.
     /// </param>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eventSource"/> is <see langword="null"/>.</exception>
     public static IMonitor<T> Monitor<T>(this T eventSource, Action<EventMonitorOptions> configureOptions)
     {
         Guard.ThrowIfArgumentIsNull(configureOptions, nameof(configureOptions));
