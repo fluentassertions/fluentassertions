@@ -246,7 +246,7 @@ public class AssertionRuleSpecs
     }
 
     [Fact]
-    public void When_the_compile_time_type_is_nullable_but_the_equality_comparer_type_is_not_it_should_use_the_default_mechanics()
+    public void An_equality_comparer_of_non_nullable_type_is_not_invoked_on_nullable_member()
     {
         // Arrange
         var subject = new { Timestamp = (DateTime?)22.March(2020) };
@@ -262,7 +262,7 @@ public class AssertionRuleSpecs
     }
 
     [Fact]
-    public void When_the_compile_time_type_is_not_nullable_but_the_equality_comparer_type_is_it_should_use_the_default_mechanics()
+    public void An_equality_comparer_of_nullable_type_is_not_invoked_on_non_nullable_member()
     {
         // Arrange
         var subject = new { Timestamp = 22.March(2020) };
@@ -278,7 +278,7 @@ public class AssertionRuleSpecs
     }
 
     [Fact]
-    public void When_the_runtime_time_type_match_the_equality_comparer_type_it_should_use_the_comparer()
+    public void An_equality_comparer_of_non_nullable_type_is_invoked_on_non_nullable_data()
     {
         // Arrange
         var subject = new { Timestamp = (DateTime?)22.March(2020) };
@@ -286,16 +286,13 @@ public class AssertionRuleSpecs
         var expectation = new { Timestamp = (DateTime?)1.January(2020) };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt
+        subject.Should().BeEquivalentTo(expectation, opt => opt
             .RespectingRuntimeTypes()
             .Using(new DateTimeByYearComparer()));
-
-        // Assert
-        act.Should().NotThrow();
     }
 
     [Fact]
-    public void When_the_runtime_type_differs_from_the_equality_comparer_type_because_of_nullability_it_should_use_the_default_mechanics()
+    public void An_equality_comparer_of_nullable_type_is_not_invoked_on_non_nullable_data()
     {
         // Arrange
         var subject = new { Timestamp = (DateTime?)22.March(2020) };
