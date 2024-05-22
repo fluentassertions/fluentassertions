@@ -667,7 +667,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     public AndConstraint<TAssertions> BeSubsetOf(IEnumerable<T> expectedSuperset, string because = "",
         params object[] becauseArgs)
     {
-        AssertBeSubsetOf(expectedSuperset, "subset", because, becauseArgs);
+        AssertBeSubsetOf(expectedSuperset.ConvertOrCastToSet(), "subset", because, becauseArgs);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -711,9 +711,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     public AndConstraint<TAssertions> BeProperSubsetOf(IEnumerable<T> expectedProperSuperset, string because = "",
         params object[] becauseArgs)
     {
-        AssertBeSubsetOf(expectedProperSuperset, "proper subset", because, becauseArgs);
-
         ISet<T> expectedItems = expectedProperSuperset.ConvertOrCastToSet();
+        AssertBeSubsetOf(expectedItems, "proper subset", because, becauseArgs);
 
         if (expectedItems.Intersect(Subject).Count() == expectedItems.Count)
         {
@@ -743,16 +742,17 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     public AndConstraint<TAssertions> BeProperSupersetOf(IEnumerable<T> expectedProperSubset, string because = "",
         params object[] becauseArgs)
     {
-        AssertContainment(expectedProperSubset, "be a proper superset of", because, becauseArgs);
+        ICollection<T> expectedProperSubsetItems = expectedProperSubset.ConvertOrCastToCollection();
+        AssertContainment(expectedProperSubsetItems, "be a proper superset of", because, becauseArgs);
 
         ISet<T> actualItems = Subject.ConvertOrCastToSet();
 
-        if (actualItems.Intersect(expectedProperSubset).Count() == actualItems.Count)
+        if (actualItems.Intersect(expectedProperSubsetItems).Count() == actualItems.Count)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:collection} to be a proper superset of {0}{reason}, but items {1} are equivalent to the superset",
-                    actualItems, expectedProperSubset);
+                    actualItems, expectedProperSubsetItems);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -3521,7 +3521,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return index < (collection.Count - 1) ? collection[index + 1] : default;
     }
 
-    private void AssertBeSubsetOf(IEnumerable<T> expectedSuperset, string subsetType, string because = "",
+    private void AssertBeSubsetOf(ISet<T> expectedSuperset, string subsetType, string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expectedSuperset, nameof(expectedSuperset),
