@@ -667,6 +667,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     public AndConstraint<TAssertions> BeSubsetOf(IEnumerable<T> expectedSuperset, string because = "",
         params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(expectedSuperset, nameof(expectedSuperset), "Cannot verify a subset against a <null> collection.");
         AssertBeSubsetOf(expectedSuperset.ConvertOrCastToSet(), "subset", because, becauseArgs);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -711,6 +712,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     public AndConstraint<TAssertions> BeProperSubsetOf(IEnumerable<T> expectedProperSuperset, string because = "",
         params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(expectedProperSuperset, nameof(expectedProperSuperset), "Cannot verify a proper subset against a <null> collection.");
         ISet<T> expectedItems = expectedProperSuperset.ConvertOrCastToSet();
         AssertBeSubsetOf(expectedItems, "proper subset", because, becauseArgs);
 
@@ -3524,9 +3526,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     private void AssertBeSubsetOf(ISet<T> expectedSuperset, string subsetType, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expectedSuperset, nameof(expectedSuperset),
-    "Cannot verify a " + subsetType + " against a <null> collection.");
-
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected {context:collection} to be a " + subsetType + " of {0}{reason}, ", expectedSuperset)
