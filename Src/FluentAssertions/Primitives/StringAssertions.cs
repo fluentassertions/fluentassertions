@@ -1884,9 +1884,9 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     public AndConstraint<TAssertions> BeUpperCased(string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(Subject?.All(char.IsUpper) == true)
+            .ForCondition(Subject is not null && !Subject.Any(char.IsLower))
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected all characters in {context:string} to be upper cased{reason}, but found {0}.", Subject);
+            .FailWith("Expected all alpha characters in {context:string} to be upper-case{reason}, but found {0}.", Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1904,9 +1904,9 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     public AndConstraint<TAssertions> NotBeUpperCased(string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(Subject is null || Subject.Any(ch => !char.IsUpper(ch)))
+            .ForCondition(Subject is null || HasMixedOrNoCase(Subject))
             .BecauseOf(because, becauseArgs)
-            .FailWith("Did not expect any characters in {context:string} to be upper cased{reason}.");
+            .FailWith("Expected some characters in {context:string} to be lower-case{reason}.");
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1929,9 +1929,9 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     public AndConstraint<TAssertions> BeLowerCased(string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(Subject?.All(char.IsLower) == true)
+            .ForCondition(Subject is not null && !Subject.Any(char.IsUpper))
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected all characters in {context:string} to be lower cased{reason}, but found {0}.", Subject);
+            .FailWith("Expected all alpha characters in {context:string} to be lower cased{reason}, but found {0}.", Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1949,11 +1949,30 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     public AndConstraint<TAssertions> NotBeLowerCased(string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(Subject is null || Subject.Any(ch => !char.IsLower(ch)))
+            .ForCondition(Subject is null || HasMixedOrNoCase(Subject))
             .BecauseOf(because, becauseArgs)
-            .FailWith("Did not expect any characters in {context:string} to be lower cased{reason}.");
+            .FailWith("Expected some characters in {context:string} to be upper-case{reason}.");
 
         return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    private static bool HasMixedOrNoCase(string value)
+    {
+        var hasUpperCase = false;
+        var hasLowerCase = false;
+
+        foreach (var ch in value)
+        {
+            hasUpperCase |= char.IsUpper(ch);
+            hasLowerCase |= char.IsLower(ch);
+
+            if (hasUpperCase && hasLowerCase)
+            {
+                return true;
+            }
+        }
+
+        return !hasUpperCase && !hasLowerCase;
     }
 
     internal AndConstraint<TAssertions> Be(string expected,

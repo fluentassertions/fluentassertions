@@ -129,6 +129,16 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
+        public void When_an_empty_string_is_not_supposed_to_be_lowered_it_should_succeed()
+        {
+            // Arrange
+            string actual = "";
+
+            // Act / Assert
+            actual.Should().NotBeLowerCased();
+        }
+
+        [Fact]
         public void When_a_lower_string_is_not_supposed_to_be_lowered_it_should_throw()
         {
             // Arrange
@@ -152,17 +162,20 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_a_string_in_which_all_alpha_chars_are_lower_is_not_supposed_to_be_lowered_only_it_should_throw()
+        public void When_a_string_in_which_all_alpha_chars_are_lower_is_not_supposed_to_be_lowered_it_should_throw()
         {
             // Arrange
             string actual = "a1b!";
 
-            // Act / Assert
-            actual.Should().NotBeLowerCased();
+            // Act
+            Action act = () => actual.Should().NotBeLowerCased();
+
+            // Assert
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
-        public void When_a_string_with_caseless_chars_is_not_supposed_to_be_lowered_it_should_succeed()
+        public void When_a_string_with_only_caseless_chars_is_not_supposed_to_be_lowered_it_should_succeed()
         {
             // Arrange
             string actual = "1!漢字";
@@ -182,7 +195,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected some charatcers in actual to be upper-case because we want to test the failure message.");
+                "Expected some characters in actual to be upper-case because we want to test the failure message.");
         }
     }
 }
