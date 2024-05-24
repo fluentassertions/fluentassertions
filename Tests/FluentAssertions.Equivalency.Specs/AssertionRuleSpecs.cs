@@ -245,67 +245,70 @@ public class AssertionRuleSpecs
         act.Should().Throw<XunitException>().WithMessage("*ConcreteClassEqualityComparer*");
     }
 
-    [Fact]
-    public void An_equality_comparer_of_non_nullable_type_is_not_invoked_on_nullable_member()
+    public class BeEquivalentTo
     {
-        // Arrange
-        var subject = new { Timestamp = (DateTime?)22.March(2020) };
+        [Fact]
+        public void An_equality_comparer_of_non_nullable_type_is_not_invoked_on_nullable_member()
+        {
+            // Arrange
+            var subject = new { Timestamp = (DateTime?)22.March(2020) };
 
-        var expectation = new { Timestamp = (DateTime?)1.January(2020) };
+            var expectation = new { Timestamp = (DateTime?)1.January(2020) };
 
-        // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation,
-            opt => opt.Using(new DateTimeByYearComparer()));
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
+                opt => opt.Using(new DateTimeByYearComparer()));
 
-        // Assert
-        act.Should().Throw<XunitException>().WithMessage("Expected*Timestamp*2020*");
-    }
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected*Timestamp*2020*");
+        }
 
-    [Fact]
-    public void An_equality_comparer_of_nullable_type_is_not_invoked_on_non_nullable_member()
-    {
-        // Arrange
-        var subject = new { Timestamp = 22.March(2020) };
+        [Fact]
+        public void An_equality_comparer_of_nullable_type_is_not_invoked_on_non_nullable_member()
+        {
+            // Arrange
+            var subject = new { Timestamp = 22.March(2020) };
 
-        var expectation = new { Timestamp = 1.January(2020) };
+            var expectation = new { Timestamp = 1.January(2020) };
 
-        // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation,
-            opt => opt.Using(new NullableDateTimeByYearComparer()));
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation,
+                opt => opt.Using(new NullableDateTimeByYearComparer()));
 
-        // Assert
-        act.Should().Throw<XunitException>().WithMessage("Expected*Timestamp*2020*");
-    }
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected*Timestamp*2020*");
+        }
 
-    [Fact]
-    public void An_equality_comparer_of_non_nullable_type_is_invoked_on_non_nullable_data()
-    {
-        // Arrange
-        var subject = new { Timestamp = (DateTime?)22.March(2020) };
+        [Fact]
+        public void An_equality_comparer_of_non_nullable_type_is_invoked_on_non_nullable_data()
+        {
+            // Arrange
+            var subject = new { Timestamp = (DateTime?)22.March(2020) };
 
-        var expectation = new { Timestamp = (DateTime?)1.January(2020) };
+            var expectation = new { Timestamp = (DateTime?)1.January(2020) };
 
-        // Act
-        subject.Should().BeEquivalentTo(expectation, opt => opt
-            .RespectingRuntimeTypes()
-            .Using(new DateTimeByYearComparer()));
-    }
+            // Act
+            subject.Should().BeEquivalentTo(expectation, opt => opt
+                .RespectingRuntimeTypes()
+                .Using(new DateTimeByYearComparer()));
+        }
 
-    [Fact]
-    public void An_equality_comparer_of_nullable_type_is_not_invoked_on_non_nullable_data()
-    {
-        // Arrange
-        var subject = new { Timestamp = (DateTime?)22.March(2020) };
+        [Fact]
+        public void An_equality_comparer_of_nullable_type_is_not_invoked_on_non_nullable_data()
+        {
+            // Arrange
+            var subject = new { Timestamp = (DateTime?)22.March(2020) };
 
-        var expectation = new { Timestamp = (DateTime?)1.January(2020) };
+            var expectation = new { Timestamp = (DateTime?)1.January(2020) };
 
-        // Act
-        Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt
-            .RespectingRuntimeTypes()
-            .Using(new NullableDateTimeByYearComparer()));
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt
+                .RespectingRuntimeTypes()
+                .Using(new NullableDateTimeByYearComparer()));
 
-        // Assert
-        act.Should().Throw<XunitException>().WithMessage("Expected*Timestamp*2020*");
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected*Timestamp*2020*");
+        }
     }
 
     private interface IInterface;
