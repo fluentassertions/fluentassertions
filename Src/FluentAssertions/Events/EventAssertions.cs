@@ -123,7 +123,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
                     Monitor.Subject, PropertyChangedEventName, propertyName, actualPropertyNames);
         }
 
-        return recording;
+        return recording.WithPropertyChanged(propertyName);
     }
 
     /// <summary>
