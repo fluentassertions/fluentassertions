@@ -540,6 +540,37 @@ public class EventAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected*property*SomeProperty*but*OtherProperty1*OtherProperty2*");
         }
+
+        [Fact]
+        public void
+            The_number_of_property_changed_recorded_for_a_target_property_matches_the_number_of_time_it_was_raised_specifically()
+        {
+            // Arrange
+            var subject = new EventRaisingClass();
+            using var monitor = subject.Monitor();
+            subject.RaiseEventWithSenderAndPropertyName(nameof(EventRaisingClass.SomeProperty));
+            subject.RaiseEventWithSenderAndPropertyName(nameof(EventRaisingClass.SomeProperty));
+            subject.RaiseEventWithSenderAndPropertyName(nameof(EventRaisingClass.SomeOtherProperty));
+
+            // Act
+            monitor.Should().RaisePropertyChangeFor(x => x.SomeProperty).Count().Should().Be(2);
+        }
+
+        [Fact]
+        public void
+            The_number_of_property_changed_recorded_for_a_target_property_matches_the_number_of_time_it_was_raised_including_unspecified_property()
+        {
+            // Arrange
+            var subject = new EventRaisingClass();
+            using var monitor = subject.Monitor();
+            subject.RaiseEventWithSenderAndPropertyName(nameof(EventRaisingClass.SomeProperty));
+            subject.RaiseEventWithSenderAndPropertyName(nameof(EventRaisingClass.SomeOtherProperty));
+            subject.RaiseEventWithSenderAndPropertyName(null);
+            subject.RaiseEventWithSenderAndPropertyName(string.Empty);
+
+            // Act
+            monitor.Should().RaisePropertyChangeFor(x => x.SomeProperty).Count().Should().Be(3);
+        }
     }
 
     public class ShouldNotRaisePropertyChanged
