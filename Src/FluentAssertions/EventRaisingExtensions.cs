@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
@@ -144,5 +145,14 @@ public static class EventRaisingExtensions
         }
 
         return new FilteredEventRecording(eventRecording, eventsWithMatchingPredicate);
+    }
+
+    internal static IEventRecording WithPropertyChanged(this IEventRecording eventRecording, string propertyName)
+    {
+        var eventsForPropertyName = eventRecording.Where(@event =>
+            @event.Parameters.OfType<PropertyChangedEventArgs>()
+                .Any(e => string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName)).ToList();
+
+        return new FilteredEventRecording(eventRecording, eventsForPropertyName);
     }
 }
