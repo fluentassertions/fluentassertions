@@ -16,7 +16,9 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
-        if (comparands.GetExpectedType(context.Options) != typeof(T))
+        var expectedType = context.Options.UseRuntimeTyping ? comparands.RuntimeType : comparands.CompileTimeType;
+
+        if (expectedType != typeof(T))
         {
             return EquivalencyResult.ContinueWithNext;
         }
