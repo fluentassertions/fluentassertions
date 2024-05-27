@@ -31,6 +31,7 @@ sidebar:
 * Ensured that nested calls to `AssertionScope(context)` create a chained context - [#2607](https://github.com/fluentassertions/fluentassertions/pull/2607)
 * One overload of the `AssertionScope` constructor would not create an actual scope associated with the thread - [#2607](https://github.com/fluentassertions/fluentassertions/pull/2607)
 * Fixed `ThrowWithinAsync` not respecting `OperationCanceledException` - [#2614](https://github.com/fluentassertions/fluentassertions/pull/2614)
+* Fixed using `BeEquivalentTo` with an `IEqualityComparer` targeting nullable types - [#2648](https://github.com/fluentassertions/fluentassertions/pull/2648)
 
 ## 6.12.0
 
