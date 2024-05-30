@@ -112,8 +112,7 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> Match(Expression<Func<T?, bool>> predicate,
-        string because = "",
-        params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(predicate);
 

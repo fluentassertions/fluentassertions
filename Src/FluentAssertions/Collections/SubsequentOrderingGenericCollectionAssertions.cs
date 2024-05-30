@@ -137,7 +137,7 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAsse
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
         SortOrder direction,
-        string because,
+        [StringSyntax("CompositeFormat")] string because,
         object[] becauseArgs)
     {
         subsequentOrdering = true;

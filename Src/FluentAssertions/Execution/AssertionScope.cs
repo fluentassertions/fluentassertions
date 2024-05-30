@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -177,7 +178,7 @@ public sealed class AssertionScope : IAssertionScope
     }
 
     /// <inheritdoc cref="IAssertionScope.BecauseOf(string, object[])"/>
-    public AssertionScope BecauseOf(string because, params object[] becauseArgs)
+    public AssertionScope BecauseOf([StringSyntax("CompositeFormat")] string because, params object[] becauseArgs)
     {
         reason = () =>
         {
@@ -466,7 +467,7 @@ public sealed class AssertionScope : IAssertionScope
 
     IAssertionScope IAssertionScope.ForConstraint(OccurrenceConstraint constraint, int actualOccurrences) => ForConstraint(constraint, actualOccurrences);
 
-    IAssertionScope IAssertionScope.BecauseOf(string because, params object[] becauseArgs) => BecauseOf(because, becauseArgs);
+    IAssertionScope IAssertionScope.BecauseOf([StringSyntax("CompositeFormat")] string because, params object[] becauseArgs) => BecauseOf(because, becauseArgs);
 
     IAssertionScope IAssertionScope.WithExpectation(string message, params object[] args) => WithExpectation(message, args);
 

@@ -170,7 +170,8 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     }
 
     private ExceptionAssertions<TException> AssertThrows<TException>(
-        Exception exception, TimeSpan timeSpan, string because, object[] becauseArgs)
+        Exception exception, TimeSpan timeSpan,
+        [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
         where TException : Exception
     {
         TException[] expectedExceptions = Extractor.OfType<TException>(exception).ToArray();

@@ -340,7 +340,7 @@ public static class NumericAssertionsExtensions
 
     private static void FailIfValueOutsideBounds<TValue, TDelta>(bool valueWithinBounds,
         TValue nearbyValue, TDelta delta, TValue actualValue,
-        string because, object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(valueWithinBounds)
@@ -681,7 +681,7 @@ public static class NumericAssertionsExtensions
     private static void FailIfValueInsideBounds<TValue, TDelta>(
         bool valueOutsideBounds,
         TValue distantValue, TDelta delta, TValue actualValue,
-        string because, object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(valueOutsideBounds)
@@ -1083,7 +1083,7 @@ public static class NumericAssertionsExtensions
     private static void FailIfDifferenceOutsidePrecision<T>(
         bool differenceWithinPrecision,
         NumericAssertions<T> parent, T expectedValue, T precision, T actualDifference,
-        string because, object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
         where T : struct, IComparable<T>
     {
         Execute.Assertion
@@ -1470,7 +1470,7 @@ public static class NumericAssertionsExtensions
     private static void FailIfDifferenceWithinPrecision<T>(
         NumericAssertions<T> parent, bool differenceOutsidePrecision,
         T unexpectedValue, T precision, T actualDifference,
-        string because, object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
         where T : struct, IComparable<T>
     {
         Execute.Assertion

@@ -3298,7 +3298,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
         SortOrder direction,
-        string because,
+        [StringSyntax("CompositeFormat")] string because,
         object[] becauseArgs)
     {
         if (IsValidProperty(propertyExpression, because, becauseArgs))
@@ -3511,8 +3511,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return collectionFailures;
     }
 
-    private bool IsValidProperty<TSelector>(Expression<Func<T, TSelector>> propertyExpression, string because,
-        object[] becauseArgs)
+    private bool IsValidProperty<TSelector>(Expression<Func<T, TSelector>> propertyExpression,
+        [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(propertyExpression, nameof(propertyExpression),
             "Cannot assert collection ordering without specifying a property.");
@@ -3530,7 +3530,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
         SortOrder direction,
-        string because,
+        [StringSyntax("CompositeFormat")] string because,
         object[] becauseArgs)
     {
         if (IsValidProperty(propertyExpression, because, becauseArgs))

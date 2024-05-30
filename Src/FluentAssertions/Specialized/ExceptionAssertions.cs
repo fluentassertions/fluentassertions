@@ -263,7 +263,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     {
         private const string Context = "exception message";
 
-        public static void Execute(IEnumerable<string> messages, string expectation, string because, params object[] becauseArgs)
+        public static void Execute(IEnumerable<string> messages, string expectation, [StringSyntax("CompositeFormat")] string because, params object[] becauseArgs)
         {
             using var _ = new AssertionScope();
             var results = new AssertionResultSet();
