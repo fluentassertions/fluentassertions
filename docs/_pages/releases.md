@@ -16,6 +16,7 @@ sidebar:
 * Add support for NUnit 4 - [#2483](https://github.com/fluentassertions/fluentassertions/pull/2483)
 * Added `NotBeIn` to check if a `DateTime` is not in a given `DateTimeKind` - [#2536](https://github.com/fluentassertions/fluentassertions/pull/2536)
 * Added `BeNaN` and `NotBeNaN` for assertions on `float` and `double` - [#2606](https://github.com/fluentassertions/fluentassertions/pull/2606)
+* Added option for event monitoring to ignore failing event accessors - [#2629](https://github.com/fluentassertions/fluentassertions/pull/2629)
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
@@ -46,6 +47,7 @@ sidebar:
 * Ensured that nested calls to `AssertionScope(context)` create a chained context - [#2607](https://github.com/fluentassertions/fluentassertions/pull/2607)
 * One overload of the `AssertionScope` constructor would not create an actual scope associated with the thread - [#2607](https://github.com/fluentassertions/fluentassertions/pull/2607)
 * Fixed `ThrowWithinAsync` not respecting `OperationCanceledException` - [#2614](https://github.com/fluentassertions/fluentassertions/pull/2614)
+* Fixed using `BeEquivalentTo` with an `IEqualityComparer` targeting nullable types - [#2648](https://github.com/fluentassertions/fluentassertions/pull/2648)
 
 ### Breaking Changes (for users)
 * Moved support for `DataSet`, `DataTable`, `DataRow` and `DataColumn` into a new package `FluentAssertions.DataSet` - [#2267](https://github.com/fluentassertions/fluentassertions/pull/2267)
@@ -74,6 +76,7 @@ sidebar:
   * `IEquivalencyAssertionOptions` to `IEquivalencyOptions`
   * `SelfReferenceEquivalencyAssertionOptions<TSelf>` to `SelfReferenceEquivalencyOptions<TSelf>`
 * Allow fluently calling `WithoutMatchingRules` and `WithoutSelectionRules` while using `BeEquivalentTo` - [#2457](https://github.com/fluentassertions/fluentassertions/pull/2457)
+* Removed `utcNow` overload for `.Monitor<T>()` - [#2629](https://github.com/fluentassertions/fluentassertions/pull/2629)
 * The semantics of `BeLowerCased`/`BeUpperCased` have been changed to align with the behavior of `ToLower`/`ToUpper` - [#2660](https://github.com/fluentassertions/fluentassertions/pull/2660)
 
 ### Breaking Changes (for extensions)
