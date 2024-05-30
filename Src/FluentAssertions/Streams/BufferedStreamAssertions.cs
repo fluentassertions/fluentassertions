@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 #if NET6_0_OR_GREATER || NETSTANDARD2_1
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Execution;
 #endif
 
