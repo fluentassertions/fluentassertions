@@ -39,3 +39,6 @@ exclude:
   - name: PossibleMultipleEnumeration
     paths:
       - Tests
+  - name: FormatStringProblem
+    paths:
+      - Tests
