@@ -152,6 +152,7 @@ public partial class AssertionScopeSpecs
     {
         // Act
         object[] becauseArgs = null;
+        // ReSharper disable once FormatStringProblem
         Action act = () => 1.Should().Be(2, "it should still work", becauseArgs);
 
         // Assert
@@ -164,6 +165,7 @@ public partial class AssertionScopeSpecs
     {
         // Act
 #pragma warning disable CA2241
+        // ReSharper disable once FormatStringProblem
         Action act = () => 1.Should().Be(2, "use of {} is okay if there are no because arguments");
 #pragma warning restore CA2241
 
@@ -177,6 +179,7 @@ public partial class AssertionScopeSpecs
     {
         // Act
 #pragma warning disable CA2241
+        // ReSharper disable once FormatStringProblem
         Action act = () => 1.Should().Be(2, "use of {} is considered invalid in because parameter with becauseArgs",
             "additional becauseArgs argument");
 #pragma warning restore CA2241
