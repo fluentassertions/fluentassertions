@@ -39,7 +39,7 @@ characters in the string are upper-case characters, for example, you can use a c
 the string:
 
 ```csharp
-theString.Should().OnlyContain(c => char.IsUpper(c));
+theString.Should().OnlyContain(char.IsUpper);
 ```
 
 Obviously you'll find all the methods you would expect for string assertions.
