@@ -35,8 +35,10 @@ public partial class CollectionAssertionSpecs
 
             // Act
 #pragma warning disable CA2241
-            // ReSharper disable once FormatStringProblem
+            // ReSharper disable FormatStringProblem
             Action act = () => collection.Should().EndWith("mike", "of some reason {0,abc}", 1, 2);
+
+            // ReSharper restore FormatStringProblem
 #pragma warning restore CA2241
 
             // Assert
