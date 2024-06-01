@@ -152,6 +152,7 @@ public partial class AssertionScopeSpecs
     {
         // Act
         object[] becauseArgs = null;
+
         // ReSharper disable once FormatStringProblem
         Action act = () => 1.Should().Be(2, "it should still work", becauseArgs);
 
