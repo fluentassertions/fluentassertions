@@ -12,7 +12,7 @@ public partial class StringAssertionSpecs
     public class BeUpperCased
     {
         [Fact]
-        public void When_an_upper_case_string_is_supposed_to_be_in_upper_case_only_it_should_not_throw()
+        public void Upper_case_characters_are_okay()
         {
             // Arrange
             string actual = "ABC";
@@ -22,7 +22,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_an_empty_string_is_supposed_to_be_upper_it_should_succeed()
+        public void The_empty_string_is_okay()
         {
             // Arrange
             string actual = "";
@@ -32,7 +32,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_a_lower_case_string_is_supposed_to_be_upper_it_should_throw()
+        public void A_lower_case_string_is_not_okay()
         {
             // Arrange
             string actual = "abc";
@@ -45,7 +45,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_an_upper_case_string_with_non_alplha_chars_is_supposed_to_be_in_upper_case_only_it_should_succeed()
+        public void Upper_case_and_caseless_characters_are_ok()
         {
             // Arrange
             string actual = "A1!";
@@ -55,7 +55,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_a_string_with_caseless_chars_is_supposed_to_be_upper_it_should_succeed()
+        public void Caseless_characters_are_okay()
         {
             // Arrange
             string actual = "1!漢字";
@@ -65,7 +65,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_a_non_upper_string_is_supposed_to_be_upper_it_should_fail_with_descriptive_message()
+        public void The_assertion_fails_with_a_descriptive_message()
         {
             // Arrange
             string actual = "abc";
@@ -79,7 +79,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_checking_for_an_upper_string_and_it_is_null_it_should_throw()
+        public void The_null_string_is_not_okay()
         {
             // Arrange
             string nullString = null;
@@ -96,7 +96,7 @@ public partial class StringAssertionSpecs
     public class NotBeUpperCased
     {
         [Fact]
-        public void When_a_mixed_case_string_is_not_supposed_to_be_uppered_it_should_succeed()
+        public void A_mixed_case_string_is_okay()
         {
             // Arrange
             string actual = "aBc";
@@ -106,7 +106,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_a_null_string_is_not_supposed_to_be_upper_it_should_succeed()
+        public void The_null_string_is_okay()
         {
             // Arrange
             string actual = null;
@@ -116,7 +116,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_an_empty_string_is_not_supposed_to_be_upper_it_should_succeed()
+        public void The_empty_string_is_okay()
         {
             // Arrange
             string actual = "";
@@ -126,7 +126,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_an_upper_string_is_not_supposed_to_be_upper_it_should_throw()
+        public void A_string_of_all_upper_case_characters_is_not_okay()
         {
             // Arrange
             string actual = "ABC";
@@ -139,7 +139,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_a_string_containing_lower_chars_is_not_supposed_to_be_uppered_it_should_succeed()
+        public void Upper_case_characters_with_lower_case_characters_are_okay()
         {
             // Arrange
             string actual = "Ab1!";
@@ -149,7 +149,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_a_string_in_which_all_alpha_chars_are_upper_is_not_supposed_to_be_uppered_only_it_should_throw()
+        public void All_cased_characters_being_upper_case_is_not_okay()
         {
             // Arrange
             string actual = "A1B!";
@@ -162,7 +162,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_a_string_with_only_caseless_chars_is_not_supposed_to_be_uppered_it_should_succeed()
+        public void Caseless_characters_are_okay()
         {
             // Arrange
             string actual = "1!漢字";
@@ -172,7 +172,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_an_upper_string_is_not_supposed_to_be_upper_it_should_fail_with_descriptive_message()
+        public void The_assertion_fails_with_a_descriptive_message()
         {
             // Arrange
             string actual = "ABC";

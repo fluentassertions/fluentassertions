@@ -1886,15 +1886,19 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Execute.Assertion
             .ForCondition(Subject is not null && !Subject.Any(char.IsLower))
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected all alpha characters in {context:string} to be upper-case{reason}, but found {0}.", Subject);
+            .FailWith("Expected all alphabetic characters in {context:string} to be upper-case{reason}, but found {0}.", Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     /// <summary>
-    /// Asserts that all of the cased characters in a string some are not upper-case. That is, the string could not be the result
-    /// of a call to <see cref="string.ToUpperInvariant()"/>.
+    /// Asserts that of all the cased characters in a string, some are not upper-case. That is, the string could not be
+    /// the result of a call to <see cref="string.ToUpperInvariant()"/>.
     /// </summary>
+    /// <remarks>
+    /// Numbers, special characters, and many Asian character don't have casing, so <see cref="NotBeUpperCased"/>
+    /// will ignore these and will fail only if the string contains cased characters and they are all upper-case.
+    /// </remarks>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -1932,15 +1936,19 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Execute.Assertion
             .ForCondition(Subject is not null && !Subject.Any(char.IsUpper))
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected all alpha characters in {context:string} to be lower cased{reason}, but found {0}.", Subject);
+            .FailWith("Expected all alphabetic characters in {context:string} to be lower cased{reason}, but found {0}.", Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     /// <summary>
-    /// Asserts that all of the cased characters in a string some are not lower-case. That is, the string could not be the result
-    /// of a call to <see cref="string.ToLowerInvariant()"/>.
+    /// Asserts that of all the cased characters in a string, some are not lower-case. That is, the string could not be
+    /// the result of a call to <see cref="string.ToLowerInvariant()"/>.
     /// </summary>
+    /// <remarks>
+    /// Numbers, special characters, and many Asian character don't have casing, so <see cref="NotBeLowerCased"/>
+    /// will ignore these and will fail only if the string contains cased characters and they are all lower-case.
+    /// </remarks>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.

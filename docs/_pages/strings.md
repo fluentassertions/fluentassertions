@@ -20,7 +20,7 @@ theString.Should().BeNullOrWhiteSpace(); // either null, empty or whitespace onl
 theString.Should().NotBeNullOrWhiteSpace();
 ```
 
-To ensure that the characters with case in a string are all (not) upper or lower cased, you can use the following assertions.
+To ensure that the characters with case in a string are all upper or lower cased (or the opposite), you can use the following assertions.
 
 ```csharp
 theString.Should().BeUpperCased();
