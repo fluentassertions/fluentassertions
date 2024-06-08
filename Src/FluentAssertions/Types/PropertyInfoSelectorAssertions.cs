@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
@@ -43,7 +44,7 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> BeVirtual(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> BeVirtual([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         PropertyInfo[] nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
 
@@ -67,7 +68,7 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> NotBeVirtual([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         PropertyInfo[] virtualProperties = GetAllVirtualPropertiesFromSelection();
 
@@ -91,7 +92,7 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> BeWritable(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> BeWritable([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         PropertyInfo[] readOnlyProperties = GetAllReadOnlyPropertiesFromSelection();
 
@@ -115,7 +116,7 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> NotBeWritable(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> NotBeWritable([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         PropertyInfo[] writableProperties = GetAllWritablePropertiesFromSelection();
 
@@ -159,8 +160,8 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         PropertyInfo[] propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
@@ -186,8 +187,8 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         PropertyInfo[] propertiesWithAttribute = GetPropertiesWith<TAttribute>();

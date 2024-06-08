@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
@@ -92,8 +93,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return BeEquivalentTo(expectation, config => config, because, becauseArgs);
     }
@@ -121,8 +122,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation,
-        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config, string because = "",
-        params object[] becauseArgs)
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
@@ -160,7 +161,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     public AndConstraint<TAssertions> AllBe(string expectation,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return AllBe(expectation, options => options, because, becauseArgs);
     }
@@ -185,8 +186,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> AllBe(string expectation,
         Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
-        string because = "",
-        params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
@@ -239,8 +239,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
-    public AndWhichConstraint<TAssertions, string> ContainMatch(string wildcardPattern, string because = "",
-        params object[] becauseArgs)
+    public AndWhichConstraint<TAssertions, string> ContainMatch(string wildcardPattern,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
             "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the Contain method.");
@@ -324,8 +324,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
-    public AndConstraint<TAssertions> NotContainMatch(string wildcardPattern, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotContainMatch(string wildcardPattern,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
             "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the NotContain method.");

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Http;
 using FluentAssertions.Execution;
@@ -39,7 +40,7 @@ public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpR
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeSuccessful(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeSuccessful([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -67,7 +68,7 @@ public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpR
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeRedirection(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeRedirection([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -95,7 +96,7 @@ public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpR
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveError(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> HaveError([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -123,7 +124,7 @@ public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpR
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveClientError(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> HaveClientError([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -151,7 +152,7 @@ public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpR
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveServerError(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> HaveServerError([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -180,7 +181,8 @@ public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpR
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveStatusCode(HttpStatusCode expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> HaveStatusCode(HttpStatusCode expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -209,8 +211,8 @@ public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpR
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> NotHaveStatusCode(HttpStatusCode unexpected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotHaveStatusCode(HttpStatusCode unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var success = Execute.Assertion
             .ForCondition(Subject is not null)

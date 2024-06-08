@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -8,7 +9,7 @@ internal class StringValidator
     private readonly IStringComparisonStrategy comparisonStrategy;
     private IAssertionScope assertion;
 
-    public StringValidator(IStringComparisonStrategy comparisonStrategy, string because, object[] becauseArgs)
+    public StringValidator(IStringComparisonStrategy comparisonStrategy, [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
     {
         this.comparisonStrategy = comparisonStrategy;
         assertion = Execute.Assertion.BecauseOf(because, becauseArgs);

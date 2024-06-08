@@ -1,4 +1,6 @@
-﻿namespace FluentAssertions.Execution;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace FluentAssertions.Execution;
 
 /// <summary>
 /// Represents assertion fail reason. Contains the message and arguments for message's numbered placeholders.
@@ -27,7 +29,7 @@ public class FailReason
     /// <remarks>
     /// <inheritdoc cref="FailReason"/>
     /// </remarks>
-    public FailReason(string message, params object[] args)
+    public FailReason([StringSyntax("CompositeFormat")] string message, params object[] args)
     {
         Message = message;
         Args = args;

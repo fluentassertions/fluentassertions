@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
@@ -37,7 +38,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> HaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject.HasValue)
@@ -57,7 +58,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeNull([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return HaveValue(because, becauseArgs);
     }
@@ -72,7 +73,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotHaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(!Subject.HasValue)
@@ -92,7 +93,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeNull([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return NotHaveValue(because, becauseArgs);
     }
@@ -108,7 +109,8 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> Be(bool? expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> Be(bool? expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject == expected)
@@ -129,7 +131,8 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBe(bool? unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBe(bool? unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject != unexpected)
@@ -149,7 +152,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeFalse(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeFalse([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject is not false)
@@ -169,7 +172,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeTrue(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeTrue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject is not true)

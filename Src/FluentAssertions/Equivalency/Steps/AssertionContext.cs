@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace FluentAssertions.Equivalency.Steps;
 
 internal sealed class AssertionContext<TSubject> : IAssertionContext<TSubject>
 {
-    private AssertionContext(INode currentNode, TSubject subject, TSubject expectation, string because,
-        object[] becauseArgs)
+    private AssertionContext(INode currentNode, TSubject subject, TSubject expectation,
+        [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
     {
         SelectedNode = currentNode;
         Subject = subject;

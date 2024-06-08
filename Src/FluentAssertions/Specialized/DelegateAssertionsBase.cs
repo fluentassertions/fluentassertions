@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -29,7 +30,8 @@ public abstract class DelegateAssertionsBase<TDelegate, TAssertions>
     private protected IClock Clock { get; }
 
     protected ExceptionAssertions<TException> ThrowInternal<TException>(
-        Exception exception, string because, object[] becauseArgs)
+        Exception exception,
+        [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
         where TException : Exception
     {
         TException[] expectedExceptions = Extractor.OfType<TException>(exception).ToArray();
@@ -50,7 +52,7 @@ public abstract class DelegateAssertionsBase<TDelegate, TAssertions>
         return new ExceptionAssertions<TException>(expectedExceptions);
     }
 
-    protected AndConstraint<TAssertions> NotThrowInternal(Exception exception, string because, object[] becauseArgs)
+    protected AndConstraint<TAssertions> NotThrowInternal(Exception exception, [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(exception is null)
@@ -60,7 +62,7 @@ public abstract class DelegateAssertionsBase<TDelegate, TAssertions>
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
-    protected AndConstraint<TAssertions> NotThrowInternal<TException>(Exception exception, string because, object[] becauseArgs)
+    protected AndConstraint<TAssertions> NotThrowInternal<TException>(Exception exception, [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
         where TException : Exception
     {
         IEnumerable<TException> exceptions = Extractor.OfType<TException>(exception);

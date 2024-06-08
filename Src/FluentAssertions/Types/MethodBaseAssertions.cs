@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
@@ -35,7 +36,8 @@ public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAs
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
     /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
     public AndConstraint<TAssertions> HaveAccessModifier(
-        CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+        CSharpAccessModifier accessModifier,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
@@ -71,8 +73,8 @@ public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAs
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
     /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
-    public AndConstraint<TAssertions> NotHaveAccessModifier(CSharpAccessModifier accessModifier, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotHaveAccessModifier(CSharpAccessModifier accessModifier,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 

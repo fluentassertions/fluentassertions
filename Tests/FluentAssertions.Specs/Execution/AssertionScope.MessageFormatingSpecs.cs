@@ -152,6 +152,8 @@ public partial class AssertionScopeSpecs
     {
         // Act
         object[] becauseArgs = null;
+
+        // ReSharper disable once FormatStringProblem
         Action act = () => 1.Should().Be(2, "it should still work", becauseArgs);
 
         // Assert
@@ -163,7 +165,10 @@ public partial class AssertionScopeSpecs
     public void Because_reason_should_threat_parentheses_as_literals_if_no_arguments_are_defined()
     {
         // Act
+#pragma warning disable CA2241
+        // ReSharper disable once FormatStringProblem
         Action act = () => 1.Should().Be(2, "use of {} is okay if there are no because arguments");
+#pragma warning restore CA2241
 
         // Assert
         act.Should().Throw<XunitException>()
@@ -174,8 +179,11 @@ public partial class AssertionScopeSpecs
     public void Because_reason_should_inform_about_invalid_parentheses_with_a_default_message()
     {
         // Act
+#pragma warning disable CA2241
+        // ReSharper disable once FormatStringProblem
         Action act = () => 1.Should().Be(2, "use of {} is considered invalid in because parameter with becauseArgs",
             "additional becauseArgs argument");
+#pragma warning restore CA2241
 
         // Assert
         act.Should().Throw<XunitException>()

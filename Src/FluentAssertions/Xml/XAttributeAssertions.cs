@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Linq;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -30,7 +31,8 @@ public class XAttributeAssertions : ReferenceTypeAssertions<XAttribute, XAttribu
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<XAttributeAssertions> Be(XAttribute expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<XAttributeAssertions> Be(XAttribute expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject?.Name == expected?.Name && Subject?.Value == expected?.Value)
@@ -52,7 +54,8 @@ public class XAttributeAssertions : ReferenceTypeAssertions<XAttribute, XAttribu
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<XAttributeAssertions> NotBe(XAttribute unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<XAttributeAssertions> NotBe(XAttribute unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(!(Subject?.Name == unexpected?.Name && Subject?.Value == unexpected?.Value))
@@ -73,7 +76,8 @@ public class XAttributeAssertions : ReferenceTypeAssertions<XAttribute, XAttribu
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<XAttributeAssertions> HaveValue(string expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<XAttributeAssertions> HaveValue(string expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)

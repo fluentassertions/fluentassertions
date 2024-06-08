@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 
@@ -62,8 +63,8 @@ public class DateTimeOffsetRangeAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> Before(DateTimeOffset target, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> Before(DateTimeOffset target,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .ForCondition(subject.HasValue)
@@ -100,7 +101,8 @@ public class DateTimeOffsetRangeAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> After(DateTimeOffset target, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> After(DateTimeOffset target,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .ForCondition(subject.HasValue)
