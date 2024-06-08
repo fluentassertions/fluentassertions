@@ -1871,7 +1871,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <see cref="string.ToUpperInvariant()"/>.
     /// </summary>
     /// <remarks>
-    /// Numbers, special characters, and many Asian character don't have casing, so <see cref="BeUpperCased"/>
+    /// Numbers, special characters, and many Asian characters don't have casing, so <see cref="BeUpperCased"/>
     /// will ignore these and will fail only in the presence of lower-case characters.
     /// </remarks>
     /// <param name="because">
@@ -1896,7 +1896,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// the result of a call to <see cref="string.ToUpperInvariant()"/>.
     /// </summary>
     /// <remarks>
-    /// Numbers, special characters, and many Asian character don't have casing, so <see cref="NotBeUpperCased"/>
+    /// Numbers, special characters, and many Asian characters don't have casing, so <see cref="NotBeUpperCased"/>
     /// will ignore these and will fail only if the string contains cased characters and they are all upper-case.
     /// </remarks>
     /// <param name="because">
@@ -1921,7 +1921,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <see cref="string.ToLowerInvariant()"/>,
     /// </summary>
     /// <remarks>
-    /// Numbers, special characters, and many Asian character don't have casing, so <see cref="BeLowerCased"/>
+    /// Numbers, special characters, and many Asian characters don't have casing, so <see cref="BeLowerCased"/>
     /// will ignore these and will fail only in the presence of upper-case characters.
     /// </remarks>
     /// <param name="because">
@@ -1946,7 +1946,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// the result of a call to <see cref="string.ToLowerInvariant()"/>.
     /// </summary>
     /// <remarks>
-    /// Numbers, special characters, and many Asian character don't have casing, so <see cref="NotBeLowerCased"/>
+    /// Numbers, special characters, and many Asian characters don't have casing, so <see cref="NotBeLowerCased"/>
     /// will ignore these and will fail only if the string contains cased characters and they are all lower-case.
     /// </remarks>
     /// <param name="because">
