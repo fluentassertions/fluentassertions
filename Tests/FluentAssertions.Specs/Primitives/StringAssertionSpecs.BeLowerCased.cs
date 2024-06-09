@@ -88,7 +88,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected all alpha characters in actual to be lower cased because we want to test the failure message, but found \"ABC\".");
+                "Expected all alphabetic characters in actual to be lower cased because we want to test the failure message, but found \"ABC\".");
         }
 
         [Fact]
@@ -102,7 +102,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected all alpha characters in nullString to be lower cased because strings should never be null, but found <null>.");
+                "Expected all alphabetic characters in nullString to be lower cased because strings should never be null, but found <null>.");
         }
     }
 
