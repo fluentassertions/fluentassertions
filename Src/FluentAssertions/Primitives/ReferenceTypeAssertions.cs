@@ -443,7 +443,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
             .Then
             .ForCondition(Subject is T)
             .WithDefaultIdentifier(Identifier)
-            .FailWith("Expected {context:object} to be assignable to {0}{reason}, but {1} is not.", typeof(T), Subject!.GetType());
+            .FailWith("Expected {context:object} to be assignable to {0}{reason}, but {1} is not.", typeof(T), Subject?.GetType());
 
         if (success)
         {
