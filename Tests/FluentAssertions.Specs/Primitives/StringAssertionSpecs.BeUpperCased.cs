@@ -89,7 +89,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected all alphabeticc characters in nullString to be upper-case because strings should never be null, but found <null>.");
+                "Expected all alphabetic characters in nullString to be upper-case because strings should never be null, but found <null>.");
         }
     }
 
