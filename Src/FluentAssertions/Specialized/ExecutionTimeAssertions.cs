@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -68,8 +69,8 @@ public class ExecutionTimeAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<ExecutionTimeAssertions> BeLessThanOrEqualTo(TimeSpan maxDuration, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<ExecutionTimeAssertions> BeLessThanOrEqualTo(TimeSpan maxDuration,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         (bool isRunning, TimeSpan elapsed) = PollUntil(duration => duration <= maxDuration, expectedResult: false, rate: maxDuration);
 
@@ -99,8 +100,8 @@ public class ExecutionTimeAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<ExecutionTimeAssertions> BeLessThan(TimeSpan maxDuration, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<ExecutionTimeAssertions> BeLessThan(TimeSpan maxDuration,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         (bool isRunning, TimeSpan elapsed) = PollUntil(duration => duration < maxDuration, expectedResult: false, rate: maxDuration);
 
@@ -129,8 +130,8 @@ public class ExecutionTimeAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<ExecutionTimeAssertions> BeGreaterThanOrEqualTo(TimeSpan minDuration, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<ExecutionTimeAssertions> BeGreaterThanOrEqualTo(TimeSpan minDuration,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         (bool isRunning, TimeSpan elapsed) = PollUntil(duration => duration >= minDuration, expectedResult: true, rate: minDuration);
 
@@ -160,8 +161,8 @@ public class ExecutionTimeAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<ExecutionTimeAssertions> BeGreaterThan(TimeSpan minDuration, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<ExecutionTimeAssertions> BeGreaterThan(TimeSpan minDuration,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         (bool isRunning, TimeSpan elapsed) = PollUntil(duration => duration > minDuration, expectedResult: true, rate: minDuration);
 
@@ -195,8 +196,8 @@ public class ExecutionTimeAssertions
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
-    public AndConstraint<ExecutionTimeAssertions> BeCloseTo(TimeSpan expectedDuration, TimeSpan precision, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<ExecutionTimeAssertions> BeCloseTo(TimeSpan expectedDuration, TimeSpan precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 

@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -30,7 +31,7 @@ internal class MessageBuilder
     }
 
     // SMELL: Too many parameters.
-    public string Build(string message, object[] messageArgs, string reason, ContextDataItems contextData, string identifier,
+    public string Build([StringSyntax("CompositeFormat")] string message, object[] messageArgs, string reason, ContextDataItems contextData, string identifier,
         string fallbackIdentifier)
     {
         message = message.Replace("{reason}", SanitizeReason(reason), StringComparison.Ordinal);
@@ -89,7 +90,7 @@ internal class MessageBuilder
         });
     }
 
-    private string FormatArgumentPlaceholders(string failureMessage, object[] failureArgs)
+    private string FormatArgumentPlaceholders([StringSyntax("CompositeFormat")] string failureMessage, object[] failureArgs)
     {
         string[] values = failureArgs.Select(a => Formatter.ToString(a, formattingOptions)).ToArray();
 

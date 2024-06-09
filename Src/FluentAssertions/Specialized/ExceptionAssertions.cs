@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
@@ -71,8 +72,8 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     /// </item>
     /// </list>
     /// </remarks>
-    public virtual ExceptionAssertions<TException> WithMessage(string expectedWildcardPattern, string because = "",
-        params object[] becauseArgs)
+    public virtual ExceptionAssertions<TException> WithMessage(string expectedWildcardPattern,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         AssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs).UsingLineBreaks;
 
@@ -97,8 +98,8 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public virtual ExceptionAssertions<TInnerException> WithInnerException<TInnerException>(string because = "",
-        params object[] becauseArgs)
+    public virtual ExceptionAssertions<TInnerException> WithInnerException<TInnerException>(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TInnerException : Exception
     {
         var expectedInnerExceptions = AssertInnerExceptions(typeof(TInnerException), because, becauseArgs);
@@ -116,8 +117,8 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public ExceptionAssertions<Exception> WithInnerException(Type innerException, string because = "",
-        params object[] becauseArgs)
+    public ExceptionAssertions<Exception> WithInnerException(Type innerException,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(innerException);
 
@@ -135,7 +136,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public virtual ExceptionAssertions<TInnerException> WithInnerExceptionExactly<TInnerException>(string because = "",
+    public virtual ExceptionAssertions<TInnerException> WithInnerExceptionExactly<TInnerException>([StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
         where TInnerException : Exception
     {
@@ -154,8 +155,8 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public ExceptionAssertions<Exception> WithInnerExceptionExactly(Type innerException, string because = "",
-        params object[] becauseArgs)
+    public ExceptionAssertions<Exception> WithInnerExceptionExactly(Type innerException,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(innerException);
 
@@ -177,7 +178,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="exceptionExpression"/> is <see langword="null"/>.</exception>
     public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(exceptionExpression);
 
@@ -193,8 +194,8 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
         return this;
     }
 
-    private IEnumerable<Exception> AssertInnerExceptionExactly(Type innerException, string because = "",
-        params object[] becauseArgs)
+    private IEnumerable<Exception> AssertInnerExceptionExactly(Type innerException,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -213,8 +214,8 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
         return expectedExceptions;
     }
 
-    private IEnumerable<Exception> AssertInnerExceptions(Type innerException, string because = "",
-        params object[] becauseArgs)
+    private IEnumerable<Exception> AssertInnerExceptions(Type innerException,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -262,7 +263,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     {
         private const string Context = "exception message";
 
-        public static void Execute(IEnumerable<string> messages, string expectation, string because, params object[] becauseArgs)
+        public static void Execute(IEnumerable<string> messages, string expectation, [StringSyntax("CompositeFormat")] string because, params object[] becauseArgs)
         {
             using var _ = new AssertionScope();
             var results = new AssertionResultSet();

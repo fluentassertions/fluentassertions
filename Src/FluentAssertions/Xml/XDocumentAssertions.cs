@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
@@ -37,7 +38,8 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<XDocumentAssertions> Be(XDocument expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<XDocumentAssertions> Be(XDocument expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Equals(Subject, expected))
@@ -59,7 +61,8 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<XDocumentAssertions> NotBe(XDocument unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<XDocumentAssertions> NotBe(XDocument unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -81,7 +84,8 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<XDocumentAssertions> BeEquivalentTo(XDocument expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<XDocumentAssertions> BeEquivalentTo(XDocument expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         using (XmlReader subjectReader = Subject?.CreateReader())
         using (XmlReader otherReader = expected?.CreateReader())
@@ -105,8 +109,8 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<XDocumentAssertions> NotBeEquivalentTo(XDocument unexpected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<XDocumentAssertions> NotBeEquivalentTo(XDocument unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         using (XmlReader subjectReader = Subject?.CreateReader())
         using (XmlReader otherReader = unexpected?.CreateReader())
@@ -131,8 +135,8 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
-    public AndWhichConstraint<XDocumentAssertions, XElement> HaveRoot(string expected, string because = "",
-        params object[] becauseArgs)
+    public AndWhichConstraint<XDocumentAssertions, XElement> HaveRoot(string expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
             "Cannot assert the document has a root element if the expected name is <null>.");
@@ -153,8 +157,8 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
-    public AndWhichConstraint<XDocumentAssertions, XElement> HaveRoot(XName expected, string because = "",
-        params object[] becauseArgs)
+    public AndWhichConstraint<XDocumentAssertions, XElement> HaveRoot(XName expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         if (Subject is null)
         {
@@ -192,8 +196,8 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
-    public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(string expected, string because = "",
-        params object[] becauseArgs)
+    public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(string expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
             "Cannot assert the document has an element if the expected name is <null>.");
@@ -220,7 +224,8 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<XDocumentAssertions, IEnumerable<XElement>> HaveElement(string expected,
-        OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
+        OccurrenceConstraint occurrenceConstraint,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
             "Cannot assert the document has an element if the expected name is <null>.");
@@ -243,8 +248,8 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
-    public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(XName expected, string because = "",
-        params object[] becauseArgs)
+    public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(XName expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         if (Subject is null)
         {
@@ -297,8 +302,8 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<XDocumentAssertions, IEnumerable<XElement>> HaveElement(XName expected,
-        OccurrenceConstraint occurrenceConstraint, string because = "",
-        params object[] becauseArgs)
+        OccurrenceConstraint occurrenceConstraint,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
             "Cannot assert the document has an element count if the element name is <null>.");

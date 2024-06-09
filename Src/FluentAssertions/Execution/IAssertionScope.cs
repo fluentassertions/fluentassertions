@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FluentAssertions.Execution;
 
@@ -134,7 +135,7 @@ public interface IAssertionScope : IDisposable
     /// <param name="becauseArgs">
     /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
     /// </param>
-    IAssertionScope BecauseOf(string because, params object[] becauseArgs);
+    IAssertionScope BecauseOf([StringSyntax("CompositeFormat")] string because, params object[] becauseArgs);
 
     /// <summary>
     /// Clears the expectation set by <see cref="WithExpectation"/>.

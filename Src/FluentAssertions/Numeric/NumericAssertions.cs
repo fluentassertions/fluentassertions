@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
@@ -54,7 +55,7 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> Be(T expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> Be(T expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject?.CompareTo(expected) == 0)
@@ -76,7 +77,7 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> Be(T? expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> Be(T? expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(expected is { } value ? Subject?.CompareTo(value) == 0 : !Subject.HasValue)
@@ -98,7 +99,7 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBe(T unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBe(T unexpected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject?.CompareTo(unexpected) != 0)
@@ -119,7 +120,7 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBe(T? unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBe(T? unexpected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(unexpected is { } value ? Subject?.CompareTo(value) != 0 : Subject.HasValue)
@@ -139,7 +140,7 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BePositive(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BePositive([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject?.CompareTo(default) > 0)
@@ -159,7 +160,7 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeNegative(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeNegative([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject is { } value && !IsNaN(value) && value.CompareTo(default) < 0)
@@ -180,7 +181,7 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeLessThan(T expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeLessThan(T expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         if (IsNaN(expected))
         {
@@ -207,8 +208,8 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeLessThanOrEqualTo(T expected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeLessThanOrEqualTo(T expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         if (IsNaN(expected))
         {
@@ -236,8 +237,8 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeGreaterThan(T expected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeGreaterThan(T expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         if (IsNaN(expected))
         {
@@ -265,8 +266,8 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeGreaterThanOrEqualTo(T expected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeGreaterThanOrEqualTo(T expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         if (IsNaN(expected))
         {
@@ -302,8 +303,8 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeInRange(T minimumValue, T maximumValue, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeInRange(T minimumValue, T maximumValue,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         if (IsNaN(minimumValue) || IsNaN(maximumValue))
         {
@@ -338,8 +339,8 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeInRange(T minimumValue, T maximumValue, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeInRange(T minimumValue, T maximumValue,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         if (IsNaN(minimumValue) || IsNaN(maximumValue))
         {
@@ -379,8 +380,8 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeOneOf(IEnumerable<T> validValues, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeOneOf(IEnumerable<T> validValues,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject is { } value && validValues.Contains(value))
@@ -404,7 +405,7 @@ public class NumericAssertions<T, TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expectedType"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> BeOfType(Type expectedType, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeOfType(Type expectedType, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expectedType);
 
@@ -436,7 +437,7 @@ public class NumericAssertions<T, TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="unexpectedType"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> NotBeOfType(Type unexpectedType, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeOfType(Type unexpectedType, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpectedType);
 
@@ -468,8 +469,7 @@ public class NumericAssertions<T, TAssertions>
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> Match(Expression<Func<T, bool>> predicate,
-        string because = "",
-        params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(predicate);
 

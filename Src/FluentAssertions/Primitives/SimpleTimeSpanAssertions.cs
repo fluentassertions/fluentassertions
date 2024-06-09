@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -46,7 +47,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BePositive(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BePositive([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -66,7 +67,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeNegative(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeNegative([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -88,7 +89,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> Be(TimeSpan expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> Be(TimeSpan expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -110,7 +112,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBe(TimeSpan unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBe(TimeSpan unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(unexpected != Subject)
@@ -132,7 +135,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeLessThan(TimeSpan expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeLessThan(TimeSpan expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -154,7 +158,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeLessThanOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeLessThanOrEqualTo(TimeSpan expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -176,7 +181,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeGreaterThan(TimeSpan expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeGreaterThan(TimeSpan expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -198,8 +204,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeGreaterThanOrEqualTo(TimeSpan expected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeGreaterThanOrEqualTo(TimeSpan expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -231,8 +237,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
-    public AndConstraint<TAssertions> BeCloseTo(TimeSpan nearbyTime, TimeSpan precision, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeCloseTo(TimeSpan nearbyTime, TimeSpan precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
@@ -271,8 +277,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
-    public AndConstraint<TAssertions> NotBeCloseTo(TimeSpan distantTime, TimeSpan precision, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeCloseTo(TimeSpan distantTime, TimeSpan precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 

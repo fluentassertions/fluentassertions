@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
@@ -40,7 +41,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public IEventRecording Raise(string eventName, string because = "", params object[] becauseArgs)
+    public IEventRecording Raise(string eventName, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         IEventRecording recording = Monitor.GetRecordingFor(eventName);
 
@@ -67,7 +68,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public void NotRaise(string eventName, string because = "", params object[] becauseArgs)
+    public void NotRaise(string eventName, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         IEventRecording events = Monitor.GetRecordingFor(eventName);
 
@@ -94,7 +95,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     public IEventRecording RaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         string propertyName = propertyExpression?.GetPropertyInfo().Name;
 
@@ -139,7 +140,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     public void NotRaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         IEventRecording recording = Monitor.GetRecordingFor(PropertyChangedEventName);
 

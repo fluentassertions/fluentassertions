@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -34,7 +35,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute> BeDecoratedWith<TAttribute>(
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         return BeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
@@ -51,7 +52,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         return NotBeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
@@ -74,7 +75,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute> BeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
@@ -120,7 +121,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
