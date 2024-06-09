@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
@@ -40,7 +41,8 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAsse
     /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
     /// </remarks>
     public AndConstraint<SubsequentOrderingAssertions<T>> ThenBeInAscendingOrder<TSelector>(
-        Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
+        Expression<Func<T, TSelector>> propertyExpression,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return ThenBeInAscendingOrder(propertyExpression, GetComparer<TSelector>(), because, becauseArgs);
     }
@@ -67,8 +69,8 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAsse
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
     public AndConstraint<SubsequentOrderingAssertions<T>> ThenBeInAscendingOrder<TSelector>(
-        Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "",
-        params object[] becauseArgs)
+        Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
@@ -94,7 +96,8 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAsse
     /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
     /// </remarks>
     public AndConstraint<SubsequentOrderingAssertions<T>> ThenBeInDescendingOrder<TSelector>(
-        Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
+        Expression<Func<T, TSelector>> propertyExpression,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return ThenBeInDescendingOrder(propertyExpression, GetComparer<TSelector>(), because, becauseArgs);
     }
@@ -121,8 +124,8 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAsse
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
     public AndConstraint<SubsequentOrderingAssertions<T>> ThenBeInDescendingOrder<TSelector>(
-        Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "",
-        params object[] becauseArgs)
+        Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
@@ -134,7 +137,7 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAsse
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
         SortOrder direction,
-        string because,
+        [StringSyntax("CompositeFormat")] string because,
         object[] becauseArgs)
     {
         subsequentOrdering = true;

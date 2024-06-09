@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -35,7 +36,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeNull([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject is null)
@@ -56,7 +57,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeNull([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject is not null)
@@ -78,7 +79,8 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> BeSameAs(TSubject expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeSameAs(TSubject expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .UsingLineBreaks
@@ -101,7 +103,8 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> NotBeSameAs(TSubject unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeSameAs(TSubject unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .UsingLineBreaks
@@ -124,7 +127,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndWhichConstraint<TAssertions, T> BeOfType<T>(string because = "", params object[] becauseArgs)
+    public AndWhichConstraint<TAssertions, T> BeOfType<T>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         BeOfType(typeof(T), because, becauseArgs);
 
@@ -149,7 +152,8 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expectedType"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> BeOfType(Type expectedType, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeOfType(Type expectedType,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expectedType);
 
@@ -187,7 +191,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeOfType<T>(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeOfType<T>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         NotBeOfType(typeof(T), because, becauseArgs);
 
@@ -208,7 +212,8 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="unexpectedType"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> NotBeOfType(Type unexpectedType, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeOfType(Type unexpectedType,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpectedType);
 
@@ -247,7 +252,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <returns>An <see cref="AndWhichConstraint{TAssertions, T}"/> which can be used to chain assertions.</returns>
-    public AndWhichConstraint<TAssertions, T> BeAssignableTo<T>(string because = "", params object[] becauseArgs)
+    public AndWhichConstraint<TAssertions, T> BeAssignableTo<T>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -284,7 +289,8 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// </param>
     /// <returns>An <see cref="AndConstraint{TAssertions}"/> which can be used to chain assertions.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> BeAssignableTo(Type type, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeAssignableTo(Type type,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(type);
 
@@ -324,7 +330,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <returns>An <see cref="AndConstraint{TAssertions}"/> which can be used to chain assertions.</returns>
-    public AndConstraint<TAssertions> NotBeAssignableTo<T>(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeAssignableTo<T>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return NotBeAssignableTo(typeof(T), because, becauseArgs);
     }
@@ -342,7 +348,8 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// </param>
     /// <returns>An <see cref="AndConstraint{TAssertions}"/> which can be used to chain assertions.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> NotBeAssignableTo(Type type, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeAssignableTo(Type type,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(type);
 
@@ -381,8 +388,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// </param>
     /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
     public AndConstraint<TAssertions> Match(Expression<Func<TSubject, bool>> predicate,
-        string because = "",
-        params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return Match<TSubject>(predicate, because, becauseArgs);
     }
@@ -401,8 +407,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> Match<T>(Expression<Func<T, bool>> predicate,
-        string because = "",
-        params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where T : TSubject
     {
         Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate), "Cannot match an object against a <null> predicate.");

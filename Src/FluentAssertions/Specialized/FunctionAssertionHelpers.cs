@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -6,7 +7,7 @@ namespace FluentAssertions.Specialized;
 
 internal static class FunctionAssertionHelpers
 {
-    internal static T NotThrow<T>(Func<T> subject, string because, object[] becauseArgs)
+    internal static T NotThrow<T>(Func<T> subject, [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
     {
         try
         {
@@ -23,7 +24,7 @@ internal static class FunctionAssertionHelpers
     }
 
     internal static TResult NotThrowAfter<TResult>(Func<TResult> subject, IClock clock, TimeSpan waitTime, TimeSpan pollInterval,
-        string because, object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(waitTime);
         Guard.ThrowIfArgumentIsNegative(pollInterval);

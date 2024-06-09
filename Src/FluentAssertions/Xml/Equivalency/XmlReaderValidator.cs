@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Xml;
 using FluentAssertions.Execution;
@@ -15,7 +16,7 @@ internal class XmlReaderValidator
     private XmlIterator expectationIterator;
     private Node currentNode = Node.CreateRoot();
 
-    public XmlReaderValidator(XmlReader subjectReader, XmlReader expectationReader, string because, object[] becauseArgs)
+    public XmlReaderValidator(XmlReader subjectReader, XmlReader expectationReader, [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
     {
         assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
 

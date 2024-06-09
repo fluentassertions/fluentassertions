@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using FluentAssertions.Primitives;
 using FluentAssertions.Xml.Equivalency;
@@ -41,7 +42,8 @@ public class XmlNodeAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeEquivalentTo(XmlNode expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeEquivalentTo(XmlNode expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         using (var subjectReader = new XmlNodeReader(Subject))
         using (var expectedReader = new XmlNodeReader(expected))
@@ -65,7 +67,8 @@ public class XmlNodeAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeEquivalentTo(XmlNode unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeEquivalentTo(XmlNode unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         using (var subjectReader = new XmlNodeReader(Subject))
         using (var unexpectedReader = new XmlNodeReader(unexpected))

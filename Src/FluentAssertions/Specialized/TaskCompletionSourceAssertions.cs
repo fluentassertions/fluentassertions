@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -36,7 +37,7 @@ public class TaskCompletionSourceAssertions : TaskCompletionSourceAssertionsBase
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public async Task<AndConstraint<TaskCompletionSourceAssertions>> CompleteWithinAsync(
-        TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        TimeSpan timeSpan, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var success = Execute.Assertion
             .ForCondition(subject is not null)
@@ -67,7 +68,7 @@ public class TaskCompletionSourceAssertions : TaskCompletionSourceAssertionsBase
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public async Task<AndConstraint<TaskCompletionSourceAssertions>> NotCompleteWithinAsync(
-        TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        TimeSpan timeSpan, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var success = Execute.Assertion
             .ForCondition(subject is not null)
@@ -115,7 +116,7 @@ public class TaskCompletionSourceAssertions<T> : TaskCompletionSourceAssertionsB
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public async Task<AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>> CompleteWithinAsync(
-        TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        TimeSpan timeSpan, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var success = Execute.Assertion
             .ForCondition(subject is not null)
@@ -152,7 +153,7 @@ public class TaskCompletionSourceAssertions<T> : TaskCompletionSourceAssertionsB
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public async Task<AndConstraint<TaskCompletionSourceAssertions<T>>> NotCompleteWithinAsync(
-        TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        TimeSpan timeSpan, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var success = Execute.Assertion
             .ForCondition(subject is not null)

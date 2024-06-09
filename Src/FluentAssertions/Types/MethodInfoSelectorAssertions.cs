@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -44,7 +45,7 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> BeVirtual(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> BeVirtual([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         MethodInfo[] nonVirtualMethods = GetAllNonVirtualMethodsFromSelection();
 
@@ -71,7 +72,7 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> NotBeVirtual([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         MethodInfo[] virtualMethods = GetAllVirtualMethodsFromSelection();
 
@@ -108,7 +109,7 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> BeAsync(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> BeAsync([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         MethodInfo[] nonAsyncMethods = SubjectMethods.Where(method => !method.IsAsync()).ToArray();
 
@@ -135,7 +136,7 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> NotBeAsync(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> NotBeAsync([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         MethodInfo[] asyncMethods = SubjectMethods.Where(method => method.IsAsync()).ToArray();
 
@@ -162,8 +163,8 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         return BeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
@@ -185,7 +186,8 @@ public class MethodInfoSelectorAssertions
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(
-        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
@@ -215,8 +217,8 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         return NotBeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
@@ -238,7 +240,8 @@ public class MethodInfoSelectorAssertions
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(
-        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
@@ -269,8 +272,8 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> Be(CSharpAccessModifier accessModifier, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> Be(CSharpAccessModifier accessModifier,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var methods = SubjectMethods.Where(pi => pi.GetCSharpAccessModifier() != accessModifier).ToArray();
 
@@ -296,8 +299,8 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> NotBe(CSharpAccessModifier accessModifier, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> NotBe(CSharpAccessModifier accessModifier,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var methods = SubjectMethods.Where(pi => pi.GetCSharpAccessModifier() == accessModifier).ToArray();
 

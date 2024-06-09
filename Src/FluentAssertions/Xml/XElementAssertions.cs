@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
@@ -38,7 +39,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<XElementAssertions> Be(XElement expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<XElementAssertions> Be(XElement expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(XNode.DeepEquals(Subject, expected))
@@ -61,7 +63,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<XElementAssertions> NotBe(XElement unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<XElementAssertions> NotBe(XElement unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition((Subject is null && unexpected is not null) || !XNode.DeepEquals(Subject, unexpected))
@@ -84,8 +87,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<XElementAssertions> BeEquivalentTo(XElement expected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<XElementAssertions> BeEquivalentTo(XElement expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         using (XmlReader subjectReader = Subject?.CreateReader())
         using (XmlReader expectedReader = expected?.CreateReader())
@@ -110,8 +113,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<XElementAssertions> NotBeEquivalentTo(XElement unexpected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<XElementAssertions> NotBeEquivalentTo(XElement unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         using (XmlReader subjectReader = Subject?.CreateReader())
         using (XmlReader otherReader = unexpected?.CreateReader())
@@ -134,7 +137,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<XElementAssertions> HaveValue(string expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<XElementAssertions> HaveValue(string expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -169,8 +173,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expectedName"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="expectedName"/> is empty.</exception>
-    public AndConstraint<XElementAssertions> HaveAttribute(string expectedName, string expectedValue, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<XElementAssertions> HaveAttribute(string expectedName, string expectedValue,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNullOrEmpty(expectedName);
 
@@ -191,8 +195,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expectedName"/> is <see langword="null"/>.</exception>
-    public AndConstraint<XElementAssertions> HaveAttribute(XName expectedName, string expectedValue, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<XElementAssertions> HaveAttribute(XName expectedName, string expectedValue,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expectedName);
 
@@ -245,8 +249,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
-    public AndWhichConstraint<XElementAssertions, XElement> HaveElement(string expected, string because = "",
-        params object[] becauseArgs)
+    public AndWhichConstraint<XElementAssertions, XElement> HaveElement(string expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNullOrEmpty(expected);
 
@@ -266,8 +270,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
-    public AndWhichConstraint<XElementAssertions, XElement> HaveElement(XName expected, string because = "",
-        params object[] becauseArgs)
+    public AndWhichConstraint<XElementAssertions, XElement> HaveElement(XName expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected);
 
@@ -314,8 +318,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<XElementAssertions, IEnumerable<XElement>> HaveElement(XName expected,
-        OccurrenceConstraint occurrenceConstraint, string because = "",
-        params object[] becauseArgs)
+        OccurrenceConstraint occurrenceConstraint,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
             "Cannot assert the element has an element count if the element name is <null>.");
@@ -365,7 +369,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<XElementAssertions, IEnumerable<XElement>> HaveElement(string expected,
-        OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
+        OccurrenceConstraint occurrenceConstraint,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
             "Cannot assert the element has an element if the expected name is <null>.");
