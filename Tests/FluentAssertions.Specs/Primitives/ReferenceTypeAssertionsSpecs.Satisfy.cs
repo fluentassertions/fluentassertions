@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
@@ -269,45 +270,115 @@ public partial class ReferenceTypeAssertionsSpecs
                 .WithMessage("Expected dto.Address to be assignable to *AddressDto, but found <null>.");
         }
 
-        private class PersonDto
+        [Fact]
+        public void Using_nested_assertion_scope()
         {
-            public string Name { get; init; }
+            // Arrange
+            var complexDto = new PersonAndAddressDto
+            {
+                Person = new PersonDto
+                {
+                    Name = "Buford Howard Tannen",
+                },
+                Address = null,
+            };
 
-            public DateTime Birthdate { get; init; }
+            // Act
+            Action act = () => complexDto.Should().Satisfy<PersonAndAddressDto>(dto =>
+            {
+                dto.Person.Name.Should().Be("Buford Howard Tannen");
 
-            public int Age => DateTime.UtcNow.Subtract(Birthdate).Days / 365;
+                using (new AssertionScope())
+                {
+                    dto.Address.Should().Satisfy<AddressDto>(address => address.City.Should().Be("Hill Valley"));
+                }
+            });
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected dto.Address to be assignable to *AddressDto, but found <null>.");
         }
 
-        private class PersonAndAddressDto
+        [Fact]
+        public void Using_assertion_scope_with_null_subject()
         {
-            public PersonDto Person { get; init; }
+            // Arrange
+            object subject = null;
 
-            public AddressDto Address { get; init; }
+            // Act
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    subject.Should().Satisfy<object>(x => x.Should().NotBeNull());
+                }
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected subject to be assignable to System.Object, but found <null>.");
         }
 
-        private class AddressDto
+        [Fact]
+        public void Using_assertion_scope_with_subject_satisfied_against_incorrect_type_throws()
         {
-            public string Street { get; init; }
+            // Arrange
+            var personDto = new PersonDto();
 
-            public string Number { get; init; }
+            // Act
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    personDto.Should().Satisfy<AddressDto>(dto => dto.Should().NotBeNull());
+                }
+            };
 
-            public string City { get; init; }
-
-            public string PostalCode { get; init; }
-
-            public string Country { get; init; }
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    $"Expected {nameof(personDto)} to be assignable to {typeof(AddressDto)}, but {typeof(PersonDto)} is not.");
         }
+    }
 
-        private class BaseClass
-        {
-            public int Number { get; init; }
+    private class PersonDto
+    {
+        public string Name { get; init; }
 
-            public DateTime Date { get; init; }
-        }
+        public DateTime Birthdate { get; init; }
 
-        private sealed class SubClass : BaseClass
-        {
-            public string Text { get; init; }
-        }
+        public int Age => DateTime.UtcNow.Subtract(Birthdate).Days / 365;
+    }
+
+    private class PersonAndAddressDto
+    {
+        public PersonDto Person { get; init; }
+
+        public AddressDto Address { get; init; }
+    }
+
+    private class AddressDto
+    {
+        public string Street { get; init; }
+
+        public string Number { get; init; }
+
+        public string City { get; init; }
+
+        public string PostalCode { get; init; }
+
+        public string Country { get; init; }
+    }
+
+    private class BaseClass
+    {
+        public int Number { get; init; }
+
+        public DateTime Date { get; init; }
+    }
+
+    private sealed class SubClass : BaseClass
+    {
+        public string Text { get; init; }
     }
 }

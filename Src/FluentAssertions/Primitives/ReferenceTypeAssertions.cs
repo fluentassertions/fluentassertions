@@ -436,7 +436,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     {
         Guard.ThrowIfArgumentIsNull(assertion, nameof(assertion), "Cannot verify an object against a <null> inspector.");
 
-        Execute.Assertion
+        var success = Execute.Assertion
             .ForCondition(Subject is not null)
             .WithDefaultIdentifier(Identifier)
             .FailWith("Expected {context:object} to be assignable to {0}{reason}, but found <null>.", typeof(T))
@@ -445,23 +445,26 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
             .WithDefaultIdentifier(Identifier)
             .FailWith("Expected {context:object} to be assignable to {0}{reason}, but {1} is not.", typeof(T), Subject!.GetType());
 
-        string[] failuresFromInspector;
-
-        using (var assertionScope = new AssertionScope())
+        if (success)
         {
-            assertion((T)Subject);
-            failuresFromInspector = assertionScope.Discard();
-        }
+            string[] failuresFromInspector;
 
-        if (failuresFromInspector.Length > 0)
-        {
-            string failureMessage = Environment.NewLine
-                + string.Join(Environment.NewLine, failuresFromInspector.Select(x => x.IndentLines()));
+            using (var assertionScope = new AssertionScope())
+            {
+                assertion((T)Subject);
+                failuresFromInspector = assertionScope.Discard();
+            }
 
-            Execute.Assertion
-                .WithDefaultIdentifier(Identifier)
-                .WithExpectation("Expected {context:object} to match inspector, but the inspector was not satisfied:", Subject)
-                .FailWithPreFormatted(failureMessage);
+            if (failuresFromInspector.Length > 0)
+            {
+                string failureMessage = Environment.NewLine
+                    + string.Join(Environment.NewLine, failuresFromInspector.Select(x => x.IndentLines()));
+
+                Execute.Assertion
+                    .WithDefaultIdentifier(Identifier)
+                    .WithExpectation("Expected {context:object} to match inspector, but the inspector was not satisfied:", Subject)
+                    .FailWithPreFormatted(failureMessage);
+            }
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
