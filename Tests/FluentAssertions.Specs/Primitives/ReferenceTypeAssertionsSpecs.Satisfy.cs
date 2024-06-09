@@ -267,7 +267,11 @@ public partial class ReferenceTypeAssertionsSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected dto.Address to be assignable to *AddressDto, but found <null>.");
+                .WithMessage(
+                    $"""
+                    Expected {nameof(complexDto)} to match inspector, but the inspector was not satisfied:
+                    *Expected dto.Address to be assignable to {typeof(AddressDto)}, but found <null>.
+                    """);
         }
 
         [Fact]
@@ -296,7 +300,11 @@ public partial class ReferenceTypeAssertionsSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected dto.Address to be assignable to *AddressDto, but found <null>.");
+                .WithMessage(
+                    $"""
+                     Expected {nameof(complexDto)} to match inspector, but the inspector was not satisfied:
+                     *Expected dto.Address to be assignable to {typeof(AddressDto)}, but found <null>.
+                     """);
         }
 
         [Fact]
