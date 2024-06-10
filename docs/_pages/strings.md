@@ -20,7 +20,7 @@ theString.Should().BeNullOrWhiteSpace(); // either null, empty or whitespace onl
 theString.Should().NotBeNullOrWhiteSpace();
 ```
 
-To ensure the characters in a string are all (not) upper or lower cased, you can use the following assertions.
+To ensure that the characters with case in a string are all upper or lower cased (or the opposite), you can use the following assertions.
 
 ```csharp
 theString.Should().BeUpperCased();
@@ -29,9 +29,20 @@ theString.Should().BeLowerCased();
 theString.Should().NotBeLowerCased();
 ```
 
-However, be careful that numbers and special characters don't have casing, so `BeUpperCased` and `BeLowerCased` will always fail on a string that contains anything but alphabetic characters. In those cases, we recommend using `NotBeUpperCased` or `NotBeLowerCased`.
+Note that numbers, special characters, and some alphabets don't have casing, so `BeUpperCased` and `BeLowerCased` will
+ignore these characters. In other words, `BeUpperCased` will succeed if the string is a possible output of
+`ToUpperInvariant`, and likewise for `BeLowerCased`. `NotBeUpperCased` will fail only if the string contains characters
+with case, and all those characters are upper-case, and likewise for `NotBeLowerCased`.
 
-Obviously you’ll find all the methods you would expect for string assertions.
+The semantics of these assertions changed in FluentAssertions v7.0. For the previous semantics, asserting that all
+characters in the string are upper-case characters, for example, you can use a collection assertion on the characters of
+the string:
+
+```csharp
+theString.Should().OnlyContain(char.IsUpper);
+```
+
+Obviously you'll find all the methods you would expect for string assertions.
 
 ```csharp
 theString = "This is a String";
