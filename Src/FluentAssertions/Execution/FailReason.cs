@@ -1,5 +1,3 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
 namespace FluentAssertions.Execution;
 
 /// <summary>
@@ -29,7 +27,7 @@ public class FailReason
     /// <remarks>
     /// <inheritdoc cref="FailReason"/>
     /// </remarks>
-    public FailReason([StringSyntax("CompositeFormat")] string message, params object[] args)
+    public FailReason(string message, params object[] args)
     {
         Message = message;
         Args = args;
