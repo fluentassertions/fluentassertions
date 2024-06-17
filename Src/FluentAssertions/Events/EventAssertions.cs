@@ -144,13 +144,29 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     {
         IEventRecording recording = Monitor.GetRecordingFor(PropertyChangedEventName);
 
-        string propertyName = propertyExpression.GetPropertyInfo().Name;
+        string propertyName = propertyExpression?.GetPropertyInfo().Name;
 
-        if (recording.Any(@event => GetAffectedPropertyName(@event) == propertyName))
+        if (string.IsNullOrEmpty(propertyName))
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect object {0} to raise the {1} event for property {2}{reason}, but it did.",
+                .ForCondition(!recording.Any())
+                .FailWith(
+                    "Did not expect object {0} to raise the {1} event{reason}, but it did.",
+                    Monitor.Subject, PropertyChangedEventName);
+        }
+        else
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(!recording.Any(@event =>
+                {
+                    var affectedPropertyName = GetAffectedPropertyName(@event);
+
+                    return string.IsNullOrEmpty(affectedPropertyName) || affectedPropertyName == propertyName;
+                }))
+                .FailWith(
+                    "Did not expect object {0} to raise the {1} event for property {2}{reason}, but it did.",
                     Monitor.Subject, PropertyChangedEventName, propertyName);
         }
     }

@@ -543,7 +543,7 @@ public class EventAssertionSpecs
 
         [Fact]
         public void
-            The_number_of_property_changed_recorded_for_a_target_property_matches_the_number_of_time_it_was_raised_specifically()
+            The_number_of_property_changed_recorded_for_a_specific_property_matches_the_number_of_time_it_was_raised_specifically()
         {
             // Arrange
             var subject = new EventRaisingClass();
@@ -558,7 +558,7 @@ public class EventAssertionSpecs
 
         [Fact]
         public void
-            The_number_of_property_changed_recorded_for_a_target_property_matches_the_number_of_time_it_was_raised_including_unspecified_property()
+            The_number_of_property_changed_recorded_for_a_specific_property_matches_the_number_of_time_it_was_raised_including_agnostic_property()
         {
             // Arrange
             var subject = new EventRaisingClass();
@@ -570,6 +570,22 @@ public class EventAssertionSpecs
 
             // Act
             monitor.Should().RaisePropertyChangeFor(x => x.SomeProperty).Count().Should().Be(3);
+        }
+
+        [Fact]
+        public void
+            The_number_of_property_changed_recorded_matches_the_number_of_time_it_was_raised()
+        {
+            // Arrange
+            var subject = new EventRaisingClass();
+            using var monitor = subject.Monitor();
+            subject.RaiseEventWithSenderAndPropertyName(nameof(EventRaisingClass.SomeProperty));
+            subject.RaiseEventWithSenderAndPropertyName(nameof(EventRaisingClass.SomeOtherProperty));
+            subject.RaiseEventWithSenderAndPropertyName(null);
+            subject.RaiseEventWithSenderAndPropertyName(string.Empty);
+
+            // Act
+            monitor.Should().RaisePropertyChangeFor(null).Count().Should().Be(4);
         }
     }
 
@@ -620,6 +636,40 @@ public class EventAssertionSpecs
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Throw_for_an_agnostic_property_when_any_property_changed_is_recorded()
+        {
+            // Arrange
+            var subject = new EventRaisingClass();
+            using var monitor = subject.Monitor();
+            subject.RaiseEventWithSenderAndPropertyName(nameof(EventRaisingClass.SomeOtherProperty));
+
+            // Act
+            Action act = () => monitor.Should().NotRaisePropertyChangeFor(null);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect object " + Formatter.ToString(subject) +
+                " to raise the \"PropertyChanged\" event, but it did.");
+        }
+
+        [Fact]
+        public void Throw_for_a_specific_property_when_an_agnostic_property_changed_is_recorded()
+        {
+            // Arrange
+            var subject = new EventRaisingClass();
+            using var monitor = subject.Monitor();
+            subject.RaiseEventWithSenderAndPropertyName(null);
+
+            // Act
+            Action act = () => monitor.Should().NotRaisePropertyChangeFor(x => x.SomeProperty);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect object " + Formatter.ToString(subject) +
+                " to raise the \"PropertyChanged\" event for property \"SomeProperty\", but it did.");
         }
     }
 

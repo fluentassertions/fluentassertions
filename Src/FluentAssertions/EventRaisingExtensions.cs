@@ -149,6 +149,11 @@ public static class EventRaisingExtensions
 
     internal static IEventRecording WithPropertyChanged(this IEventRecording eventRecording, string propertyName)
     {
+        if (string.IsNullOrEmpty(propertyName))
+        {
+            return eventRecording;
+        }
+
         var eventsForPropertyName = eventRecording.Where(@event =>
             @event.Parameters.OfType<PropertyChangedEventArgs>()
                 .Any(e => string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName)).ToList();
