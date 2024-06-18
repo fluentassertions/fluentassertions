@@ -1469,6 +1469,8 @@ namespace FluentAssertions.Formatting
         public int MaxDepth { get; set; }
         public int MaxLines { get; set; }
         public bool UseLineBreaks { get; set; }
+        public void AddFormatter(FluentAssertions.Formatting.IValueFormatter formatter) { }
+        public void RemoveFormatter(FluentAssertions.Formatting.IValueFormatter formatter) { }
     }
     public class GuidValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
