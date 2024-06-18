@@ -18,6 +18,7 @@ sidebar:
 * Introduced a new `Satisfy` method available to all reference types to allow for nested assertions - [#2597](https://github.com/fluentassertions/fluentassertions/pull/2597)
 * Added `BeNaN` and `NotBeNaN` for assertions on `float` and `double` - [#2606](https://github.com/fluentassertions/fluentassertions/pull/2606)
 * Added option for event monitoring to ignore failing event accessors - [#2629](https://github.com/fluentassertions/fluentassertions/pull/2629)
+* Added the capability of associating `IValueFormatter`s to a (nested) `AssertionScope` - [#2676](https://github.com/fluentassertions/fluentassertions/pull/2676)
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
