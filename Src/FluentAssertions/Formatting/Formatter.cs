@@ -10,12 +10,11 @@ using FluentAssertions.Xml;
 namespace FluentAssertions.Formatting;
 
 /// <summary>
-/// Provides services for formatting an object being used in an assertion in a human readable format.
+/// Provides services for formatting an object being used in an assertion in a human-readable format.
 /// </summary>
 public static class Formatter
 {
     #region Private Definitions
-
     private static readonly List<IValueFormatter> CustomFormatters = [];
 
     private static readonly List<IValueFormatter> DefaultFormatters =
@@ -70,7 +69,10 @@ public static class Formatter
     /// <summary>
     /// A list of objects responsible for formatting the objects represented by placeholders.
     /// </summary>
-    public static IEnumerable<IValueFormatter> Formatters => CustomFormatters.Concat(DefaultFormatters);
+    public static IEnumerable<IValueFormatter> Formatters =>
+        AssertionScope.Current.FormattingOptions.ScopedFormatters
+            .Concat(CustomFormatters)
+            .Concat(DefaultFormatters);
 
     /// <summary>
     /// Returns a human-readable representation of a particular object.
