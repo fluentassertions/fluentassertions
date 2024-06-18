@@ -14,19 +14,19 @@ To facilitate the need for those developers which ideas don't end up in the libr
 As an example, let's create an extension method on `DirectoryInfo` like this
 
 ```csharp
-public static class DirectoryInfoExtensions 
+public static class DirectoryInfoExtensions
 {
     public static DirectoryInfoAssertions Should(this DirectoryInfo instance)
     {
-      return new DirectoryInfoAssertions(instance); 
-    } 
+      return new DirectoryInfoAssertions(instance);
+    }
 }
 ```
 
 It's the returned assertions class that provides the actual assertion methods. You don't need to, but if you sub-class the self-referencing generic class `ReferenceTypeAssertions<TSubject, TSelf>`, you'll already get methods like `BeNull`, `BeSameAs` and `Match` for free. Assuming you did, and you provided an override of the `Identifier` property so that these methods know that we're dealing with a directory, it's time for the the next step. Let's add an extension that allows you to assert that the involved directory contains a particular file.
 
 ```csharp
-public class DirectoryInfoAssertions : 
+public class DirectoryInfoAssertions :
     ReferenceTypeAssertions<DirectoryInfo, DirectoryInfoAssertions>
 {
     public DirectoryInfoAssertions(DirectoryInfo instance)
@@ -46,7 +46,7 @@ public class DirectoryInfoAssertions :
             .Then
             .Given(() => Subject.GetFiles())
             .ForCondition(files => files.Any(fileInfo => fileInfo.Name.Equals(filename)))
-            .FailWith("Expected {context:directory} to contain {0}{reason}, but found {1}.", 
+            .FailWith("Expected {context:directory} to contain {0}{reason}, but found {1}.",
                 _ => filename, files => files.Select(file => file.Name));
 
         return new AndConstraint<DirectoryInfoAssertions>(this);
@@ -104,7 +104,7 @@ void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext
 
 Next to the actual value that needs rendering, this method accepts a couple of parameters worth mentioning.
 
-* `formattedGraph` is the object that collects the textual representation of the entire graph. It supports adding fragments of text, full lines and deals with automatic indentation using its `WithIndentation` method. It also protects the performance of the rendering by throwing a `MaxLinesExceededException` when the textual representation has exceeded the configured maximum.  
+* `formattedGraph` is the object that collects the textual representation of the entire graph. It supports adding fragments of text, full lines and deals with automatic indentation using its `WithIndentation` method. It also protects the performance of the rendering by throwing a `MaxLinesExceededException` when the textual representation has exceeded the configured maximum.
 * `context.UseLineBreaks` denotes that the value should be prefixed by a newline. It is used by some assertion code to force displaying the various elements of the failure message on a separate line.
 * `formatChild` is used when rendering a complex object that would involve multiple, potentially recursive, nested calls through `Formatter`.
 
@@ -169,6 +169,53 @@ class EnumerableCustomClassFormatter : EnumerableValueFormatter
 }
 ```
 
+### Scoped `IValueFormatter`s
+
+You can add a custom value formatter inside a scope to selectively customize formatting of an object based on the context of the test.
+To achieve that, you can do following:
+
+```csharp
+using var scope = new AssertionScope();
+
+var formatter = new CustomFormatter();
+scope.FormattingOptions.AddFormatter(formatter);
+```
+
+You can even add formatters to nested assertion scopes and the nested scope will pick up all previously defined formatters:
+
+```csharp
+using var outerScope = new AssertionScope();
+
+var outerFormatter = new OuterFormatter();
+var innerFormatter = new InnerFormatter();
+outerScope.FormattingOptions.AddFormatter(outerFormatter);
+
+using var innerScope = new AssertionScope();
+innerScope.FormattingOptions.AddFormatter(innerFormatter);
+
+// At this point outerFormatter and innerFormatter will be available
+```
+
+**Note:** If you modify the scoped formatters inside the nested scope, it won't touch the scoped formatters from the outer scope:
+
+```csharp
+using var outerScope = new AssertionScope();
+
+var outerFormatter = new OuterFormatter();
+var innerFormatter = new InnerFormatter();
+outerScope.FormattingOptions.AddFormatter(outerFormatter);
+
+using (var innerScope = new AssertionScope())
+{
+  innerScope.FormattingOptions.AddFormatter(innerFormatter);
+  innerScope.FormattingOptions.RemoveFormatter(outerFormatter);
+
+  // innerScope only contains innerFormatter
+}
+
+// outerScope still contains outerFormatter
+```
+
 ## To be or not to be a value type
 
 The structural equivalency API provided by `Should().BeEquivalentTo` and is arguably the most powerful, but also the most complicated part of Fluent Assertions. And to make things worse, you can extend and adapt the default behavior quite extensively.
@@ -228,7 +275,7 @@ internal class AllPublicPropertiesSelectionRule : IMemberSelectionRule
 {
     public bool IncludesMembers => false;
 
-    public IEnumerable<IMember> SelectMembers(INode currentNode 
+    public IEnumerable<IMember> SelectMembers(INode currentNode
         IEnumerable<IMember> selectedMembers, MemberSelectionContext context)
     {
             IEnumerable<IMember> selectedNonPrivateProperties = context.Type
@@ -253,8 +300,8 @@ The final interface, the `IOrderingRule`, is used to determine whether FA should
 
 ## Thread Safety
 
-The classes `AssertionOptions` and `Formatter` control the global configuration by having static state, so one must be careful when they are mutated. 
-They are both designed to be configured from a single setup point in your test project and not from within individual unit tests. 
+The classes `AssertionOptions` and `Formatter` control the global configuration by having static state, so one must be careful when they are mutated.
+They are both designed to be configured from a single setup point in your test project and not from within individual unit tests.
 Not following this could change the outcome of tests depending on the order they are run in or throw unexpected exceptions when run parallel.
 
 In order to ensure they are configured exactly once, a test framework specific solution might be required depending on the version of .NET you are using.
@@ -275,7 +322,7 @@ internal static class Initializer
 }
 ```
 
-Unfortunately, this only works for .NET 5 and higher. That's why Fluent Assertions supports its own "module initializer" through the `[AssertionEngineInitializer]` attribute. It can be used multiple times. 
+Unfortunately, this only works for .NET 5 and higher. That's why Fluent Assertions supports its own "module initializer" through the `[AssertionEngineInitializer]` attribute. It can be used multiple times.
 
 ```csharp
 [assembly: AssertionEngineInitializer(typeof(Initializer), nameof(Initializer.Initialize))]
