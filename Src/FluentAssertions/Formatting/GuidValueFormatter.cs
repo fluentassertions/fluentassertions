@@ -18,6 +18,6 @@ public class GuidValueFormatter : IValueFormatter
 
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
     {
-        formattedGraph.AddFragment("{" + value + "}");
+        formattedGraph.AddFragment($"{{{value}}}");
     }
 }
