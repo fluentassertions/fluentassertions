@@ -16,7 +16,9 @@ public class StringValueFormatter : IValueFormatter
 
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
     {
-        string result = "\"" + value + "\"";
+        string result = $"""
+                         "{value}"
+                         """;
 
         formattedGraph.AddFragment(result);
     }
