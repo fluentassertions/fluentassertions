@@ -101,7 +101,7 @@ public class FormattedObjectGraph
     {
         if (lineBuilder.Length > 0)
         {
-            AppendSafely(lineBuilderWhitespace + lineBuilder);
+            AppendSafely($"{lineBuilderWhitespace}{lineBuilder}");
 
             lineBuilder.Clear();
             lineBuilderWhitespace = Whitespace;
@@ -247,24 +247,6 @@ public class FormattedObjectGraph
             else
             {
                 parentGraph.AddFragmentOnNewLine(fragment);
-            }
-        }
-
-        /// <summary>
-        /// Write the fragment.  If more lines have been added since this instance was
-        /// created then also flush the line and indent the next line.
-        /// </summary>
-        internal void AddEndingLineOrFragment(string fragment)
-        {
-            if (FormatOnSingleLine)
-            {
-                parentGraph.AddFragment(fragment);
-            }
-            else
-            {
-                parentGraph.AddFragment(fragment);
-                parentGraph.FlushCurrentLine();
-                parentGraph.lineBuilderWhitespace += MakeWhitespace(1);
             }
         }
 
