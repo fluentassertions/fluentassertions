@@ -43,7 +43,7 @@ public class FormattingOptions
     public int MaxLines { get; set; } = 100;
 
     /// <summary>
-    /// Removes a scoped formatter that was previously added though <see cref="AddFormatter"/>.
+    /// Removes a scoped formatter that was previously added through <see cref="FormattingOptions.AddFormatter"/>.
     /// </summary>
     /// <param name="formatter">A custom implementation of <see cref="IValueFormatter"/></param>
     public void RemoveFormatter(IValueFormatter formatter)
