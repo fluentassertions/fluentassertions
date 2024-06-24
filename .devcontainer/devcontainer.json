@@ -1,0 +1,19 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+  "ghcr.io/elanhasson/devcontainer-features/dotnet-aspire-daily:1": {"ghcr.io/flexwie/devcontainer-features/op:1": {}
+  
+  }" 
+    "ghcr.io/itsmechlark/features/1password:1":
+    
+    {"ghcr.io/wxw-matt/devcontainer-features/script_runner:0": {"ghcr.io/devcontainers-contrib/features/amplify-cli:2": {}}
+
+}"ghcr.io/wxw-matt/devcontainer-features/command_runner:0": "ghcr.io/devcontainers-contrib/features/amplify-cli:2": {"ghcr.io/bartventer/arch-devcontainer-features/aws-cli:1": {}
+
+}{"ghcr.io/joshuanianji/devcontainer-features/aws-cli-persistence:1": {"ghcr.io/jsburckhardt/devcontainer-features/zarf:1": {"ghcr.io/devcontainers-contrib/features/surge-cli:1": 
+    "ghcr.io/paul-gilber/devcontainer-features/eksctl-homebrew:1": {"ghcr.io/nordcominc/devcontainer-features/android-sdk:1": {}}
+    {"ghcr.io/devcontainers-contrib/features/airplane-cli:1": {"ghcr.io/devcontainers-contrib/features/activemq-sdkman:2": {}}}
+}}}
+
+  
+}
