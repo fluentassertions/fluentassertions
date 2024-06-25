@@ -92,14 +92,7 @@ public class DateTimeOffsetValueFormatter : IValueFormatter
 
         if (!hasDate && !hasTime)
         {
-            if (HasMilliSeconds(dateTimeOffset))
-            {
-                formattedGraph.AddFragment("0001-01-01 00:00:00." + dateTimeOffset.ToString("fff", CultureInfo.InvariantCulture));
-            }
-            else
-            {
-                formattedGraph.AddFragment("0001-01-01 00:00:00.000");
-            }
+            formattedGraph.AddFragment("0001-01-01 00:00:00.000");
         }
 
         formattedGraph.AddFragment(">");
