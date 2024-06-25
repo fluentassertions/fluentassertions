@@ -128,5 +128,37 @@ public partial class NumericAssertionSpecs
                 .Should().Throw<XunitException>()
                 .WithMessage("*null*");
         }
+
+        [Theory]
+        [InlineData(5, -1)]
+        [InlineData(10, 5)]
+        [InlineData(10, -1)]
+        public void To_test_the_remaining_paths_for_difference_on_int(int subject, int expectation)
+        {
+            // Arrange
+            // Act
+            Action act = () => subject.Should().BeLessThan(expectation);
+
+            // Assert
+            act
+                .Should().Throw<XunitException>()
+                .Which.Message.Should().NotMatch("*(difference of 0)*");
+        }
+
+        [Theory]
+        [InlineData(5L, -1L)]
+        [InlineData(10L, 5L)]
+        [InlineData(10L, -1L)]
+        public void To_test_the_remaining_paths_for_difference_on_long(long subject, long expectation)
+        {
+            // Arrange
+            // Act
+            Action act = () => subject.Should().BeLessThan(expectation);
+
+            // Assert
+            act
+                .Should().Throw<XunitException>()
+                .Which.Message.Should().NotMatch("*(difference of 0)*");
+        }
     }
 }
