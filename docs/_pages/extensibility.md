@@ -36,6 +36,7 @@ public class DirectoryInfoAssertions :
 
     protected override string Identifier => "directory";
 
+    [CustomAssertion]
     public AndConstraint<DirectoryInfoAssertions> ContainFile(
         string filename, string because = "", params object[] becauseArgs)
     {
