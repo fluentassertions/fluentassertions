@@ -1,5 +1,7 @@
 using System;
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace FluentAssertions.Execution;
 
 /// <summary>
