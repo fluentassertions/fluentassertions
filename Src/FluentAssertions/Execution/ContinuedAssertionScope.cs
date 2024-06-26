@@ -100,7 +100,7 @@ public sealed class ContinuedAssertionScope : IAssertionScope
     }
 
     /// <inheritdoc/>
-    public IAssertionScope BecauseOf(string because, params object[] becauseArgs)
+    public IAssertionScope BecauseOf([StringSyntax("CompositeFormat")] string because, params object[] becauseArgs)
     {
         if (continueAsserting)
         {
