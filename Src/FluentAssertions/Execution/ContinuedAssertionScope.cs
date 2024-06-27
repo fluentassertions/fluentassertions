@@ -88,7 +88,7 @@ public sealed class ContinuedAssertionScope : IAssertionScope
     }
 
     /// <inheritdoc/>
-    public Continuation FailWith([StringSyntax("CompositeFormat")] string message, params object[] args)
+    public Continuation FailWith(string message, params object[] args)
     {
         if (continueAsserting)
         {
@@ -118,7 +118,7 @@ public sealed class ContinuedAssertionScope : IAssertionScope
     }
 
     /// <inheritdoc/>
-    public IAssertionScope WithExpectation([StringSyntax("CompositeFormat")] string message, params object[] args)
+    public IAssertionScope WithExpectation(string message, params object[] args)
     {
         if (continueAsserting)
         {
