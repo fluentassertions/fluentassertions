@@ -65,7 +65,7 @@ This chaining can make your unit tests a lot easier to read.
 
 ## Global Configurations
 
-Fluent Assertions `AssertionOptions` has several methods and properties that can be used to change the way it executes assertions or the defaults it will use for comparing object graphs. Changing those settings at the right time can be difficult, depending on the test framework. That's why Fluent Assertions offers a special assembly-level attribute that can be used to have some code executed _before_ the first assertion is executed. It will be called only once per test run, but you can use the attribute multiple times. 
+Fluent Assertions `AssertionOptions` has several methods and properties that can be used to change the way it executes assertions or the defaults it will use for comparing object graphs. Changing those settings at the right time can be difficult, depending on the test framework. That's why Fluent Assertions offers a special assembly-level attribute that can be used to have some code executed _before_ the first assertion is executed. It will be called only once per test run, but you can use the attribute multiple times.
 
 ```csharp
 [assembly: AssertionEngineInitializer(typeof(Initializer), nameof(Initializer.Initialize))]
@@ -170,3 +170,49 @@ Expected string to be "Expected" with a length of 8, but "Actual" has a length o
 
 For more information take a look at the [AssertionScopeSpecs.cs](https://github.com/fluentassertions/fluentassertions/blob/master/Tests/FluentAssertions.Specs/Execution/AssertionScopeSpecs.cs) in Unit Tests.
 
+### Scoped `IValueFormatter`s
+
+You can add a custom value formatter inside a scope to selectively customize formatting of an object based on the context of the test.
+To achieve that, you can do following:
+
+```csharp
+using var scope = new AssertionScope();
+
+var formatter = new CustomFormatter();
+scope.FormattingOptions.AddFormatter(formatter);
+```
+
+You can even add formatters to nested assertion scopes and the nested scope will pick up all previously defined formatters:
+
+```csharp
+using var outerScope = new AssertionScope();
+
+var outerFormatter = new OuterFormatter();
+var innerFormatter = new InnerFormatter();
+outerScope.FormattingOptions.AddFormatter(outerFormatter);
+
+using var innerScope = new AssertionScope();
+innerScope.FormattingOptions.AddFormatter(innerFormatter);
+
+// At this point outerFormatter and innerFormatter will be available
+```
+
+**Note:** If you modify the scoped formatters inside the nested scope, it won't touch the scoped formatters from the outer scope:
+
+```csharp
+using var outerScope = new AssertionScope();
+
+var outerFormatter = new OuterFormatter();
+var innerFormatter = new InnerFormatter();
+outerScope.FormattingOptions.AddFormatter(outerFormatter);
+
+using (var innerScope = new AssertionScope())
+{
+  innerScope.FormattingOptions.AddFormatter(innerFormatter);
+  innerScope.FormattingOptions.RemoveFormatter(outerFormatter);
+
+  // innerScope only contains innerFormatter
+}
+
+// outerScope still contains outerFormatter
+```

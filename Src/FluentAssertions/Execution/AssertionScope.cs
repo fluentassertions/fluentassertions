@@ -14,7 +14,7 @@ namespace FluentAssertions.Execution;
 /// Represents an implicit or explicit scope within which multiple assertions can be collected.
 /// </summary>
 /// <remarks>
-/// This class is supposed to have a very short life time and is not safe to be used in assertion that cross thread-boundaries
+/// This class is supposed to have a very short lifetime and is not safe to be used in assertions that cross thread-boundaries
 /// such as when using <see langword="async"/> or <see langword="await"/>.
 /// </remarks>
 public sealed class AssertionScope : IAssertionScope
@@ -109,6 +109,7 @@ public sealed class AssertionScope : IAssertionScope
             reason = parent.reason;
             callerIdentityProvider = parent.callerIdentityProvider;
             FormattingOptions = parent.FormattingOptions.Clone();
+            FormattingOptions.ScopedFormatters.AddRange(parent.FormattingOptions.ScopedFormatters);
             Context = JoinContexts(parent.Context, context);
         }
         else
@@ -407,6 +408,7 @@ public sealed class AssertionScope : IAssertionScope
     public void Dispose()
     {
         SetCurrentAssertionScope(parent);
+        FormattingOptions.ScopedFormatters.Clear();
 
         if (parent is not null)
         {
@@ -465,9 +467,11 @@ public sealed class AssertionScope : IAssertionScope
 
     IAssertionScope IAssertionScope.ForCondition(bool condition) => ForCondition(condition);
 
-    IAssertionScope IAssertionScope.ForConstraint(OccurrenceConstraint constraint, int actualOccurrences) => ForConstraint(constraint, actualOccurrences);
+    IAssertionScope IAssertionScope.ForConstraint(OccurrenceConstraint constraint, int actualOccurrences) =>
+        ForConstraint(constraint, actualOccurrences);
 
-    IAssertionScope IAssertionScope.BecauseOf([StringSyntax("CompositeFormat")] string because, params object[] becauseArgs) => BecauseOf(because, becauseArgs);
+    IAssertionScope IAssertionScope.BecauseOf([StringSyntax("CompositeFormat")] string because, params object[] becauseArgs) =>
+        BecauseOf(because, becauseArgs);
 
     IAssertionScope IAssertionScope.WithExpectation(string message, params object[] args) => WithExpectation(message, args);
 
