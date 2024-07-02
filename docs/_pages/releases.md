@@ -12,6 +12,7 @@ sidebar:
 ### What's new
 
 * Introduced a new assembly-level attribute that you can use to initialize Fluent Assertions before the first assertion - [#2292](https://github.com/fluentassertions/fluentassertions/pull/2292)
+* Introduced new collection assertions methods `BeProperSubsetOf`, `BeProperSupersetOf` and `BeSupersetOf` - [#2432](https://github.com/fluentassertions/fluentassertions/pull/2432)
 * Ensure compatibility with .NET 8 - [#2466](https://github.com/fluentassertions/fluentassertions/pull/2466)
 * Add support for NUnit 4 - [#2483](https://github.com/fluentassertions/fluentassertions/pull/2483)
 * Added `NotBeIn` to check if a `DateTime` is not in a given `DateTimeKind` - [#2536](https://github.com/fluentassertions/fluentassertions/pull/2536)

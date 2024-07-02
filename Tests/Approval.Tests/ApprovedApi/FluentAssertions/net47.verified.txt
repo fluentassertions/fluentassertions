@@ -413,7 +413,10 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> BeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> BeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNullOrEmpty(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeProperSubsetOf(System.Collections.Generic.IEnumerable<T> expectedProperSuperset, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeProperSupersetOf(System.Collections.Generic.IEnumerable<T> expectedProperSubset, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeSubsetOf(System.Collections.Generic.IEnumerable<T> expectedSuperset, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeSupersetOf(System.Collections.Generic.IEnumerable<T> expectedSubset, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Contain(System.Collections.Generic.IEnumerable<T> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, T> Contain(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, T> Contain(T expected, string because = "", params object[] becauseArgs) { }
