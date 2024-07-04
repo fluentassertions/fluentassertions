@@ -58,6 +58,7 @@ public class DirectoryInfoAssertions :
 This is quite an elaborate example which shows some of the more advanced extensibility features. Let me highlight some things:
 
 * The `Subject` property is used to give the base-class extensions access to the current `DirectoryInfo` object.
+* `[CustomAssertion]` attribute enables correct subject identification, allowing Fluent Assertions to render more meaningful test fail messages
 * `Execute.Assertion` is the point of entrance into the internal fluent assertion API.
 * The optional `because` parameter can contain `string.Format` style place holders which will be filled using the values provided to the `becauseArgs`. They can be used by the caller to provide a reason why the assertion should succeed. By passing those into the `BecauseOf` method, you can refer to the expanded result using the `{reason}` tag in the `FailWith` method.
 * The `Then` property is just there to chain multiple assertions together. You can have more than one.
