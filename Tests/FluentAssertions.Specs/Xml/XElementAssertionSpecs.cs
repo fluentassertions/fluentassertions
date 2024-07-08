@@ -1429,4 +1429,217 @@ public class XElementAssertionSpecs
                 "Expected* to have an element with count of *, but the element itself is <null>.");
         }
     }
+
+    public class HaveElementWithValue
+    {
+        [Fact]
+        public void The_element_cannot_be_null()
+        {
+            // Arrange
+            XElement element = null;
+
+            // Act
+            Action act = () => element.Should().HaveElementWithValue("child", "b");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*child*b*element itself is <null>*");
+        }
+
+        [Fact]
+        public void Has_element_with_specified_value()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act / Assert
+            element.Should().HaveElementWithValue("child", "b");
+        }
+
+        [Fact]
+        public void Throws_when_element_is_not_found()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => element.Should().HaveElementWithValue("c", "f");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*c*f*element*isn't found*");
+        }
+
+        [Fact]
+        public void Throws_when_element_found_but_value_does_not_match()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => element.Should().HaveElementWithValue("child", "c");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*child*c*element*does not have such a value*");
+        }
+
+        [Fact]
+        public void Throws_when_expected_element_is_null()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => element.Should().HaveElementWithValue(null, "a");
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage("*expectedElement*");
+        }
+
+        [Fact]
+        public void Throws_when_expected_element_is_null_with_namespace()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => element.Should().HaveElementWithValue((XName)null, "a");
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage("*expectedElement*");
+        }
+
+        [Fact]
+        public void Throws_when_expected_value_is_null()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => element.Should().HaveElementWithValue("child", null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage("*expectedValue*");
+        }
+
+        [Fact]
+        public void Throws_when_expected_value_is_null_with_namespace()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => element.Should().HaveElementWithValue(XNamespace.None + "child", null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage("*expectedValue*");
+        }
+
+        [Fact]
+        public void The_element_cannot_be_null_and_searching_with_namespace()
+        {
+            // Arrange
+            XElement element = null;
+
+            // Act
+            Action act = () => element.Should().HaveElementWithValue(XNamespace.None + "child", "b", "we want to test the {0} message", "failure");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*child*b*failure message*element itself is <null>*");
+        }
+
+        [Fact]
+        public void Has_element_with_specified_value_with_namespace()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act / Assert
+            element.Should().HaveElementWithValue(XNamespace.None + "child", "b");
+        }
+
+        [Fact]
+        public void Throws_when_element_with_namespace_not_found()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => element.Should().HaveElementWithValue(XNamespace.None + "c", "f");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*c*f*element*isn't found*");
+        }
+
+        [Fact]
+        public void Throws_when_element_with_namespace_found_but_value_does_not_match()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => element.Should().HaveElementWithValue(XNamespace.None + "child", "c");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*child*c*element*does not have such a value*");
+        }
+    }
 }

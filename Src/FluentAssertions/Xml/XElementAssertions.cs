@@ -379,6 +379,84 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     }
 
     /// <summary>
+    /// Asserts that the <see cref="XElement"/> of the current <see cref="XElement"/> has the specified child element
+    /// with the specified <paramref name="expectedValue"/> name.
+    /// </summary>
+    /// <param name="expectedElement">
+    /// The name of the expected child element of the current element's <see cref="XElement"/>.
+    /// </param>
+    /// <param name="expectedValue">
+    /// The expected value of this particular element.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndWhichConstraint<XElementAssertions, XElement> HaveElementWithValue(string expectedElement,
+        string expectedValue, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(expectedElement, nameof(expectedElement));
+        Guard.ThrowIfArgumentIsNull(expectedValue, nameof(expectedValue));
+
+        return HaveElementWithValue(XNamespace.None + expectedElement, expectedValue, because, becauseArgs);
+    }
+
+    /// <summary>
+    /// Asserts that the <see cref="XElement"/> of the current <see cref="XElement"/> has the specified child element
+    /// with the specified <paramref name="expectedValue"/> name.
+    /// </summary>
+    /// <param name="expectedElement">
+    /// The full name <see cref="XName"/> of the expected child element of the current element's <see cref="XElement"/>.
+    /// </param>
+    /// <param name="expectedValue">
+    /// The expected value of this particular element.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndWhichConstraint<XElementAssertions, XElement> HaveElementWithValue(XName expectedElement,
+        string expectedValue, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(expectedElement, nameof(expectedElement));
+        Guard.ThrowIfArgumentIsNull(expectedValue, nameof(expectedValue));
+
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith(
+                "Expected {context:subject} to have an element {0} with value {1}{reason}, but the element itself is <null>.",
+                expectedElement.ToString(), expectedValue);
+
+        XElement xElement = null;
+
+        if (success)
+        {
+            xElement = Subject!.Elements(expectedElement).FirstOrDefault(e => e.Value == expectedValue);
+
+            Execute.Assertion
+                .WithExpectation("Expected {context:subject} to have an element {0} with value {1}{reason}, ",
+                    expectedElement, expectedValue)
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject!.Elements(expectedElement).Any())
+                .FailWith("but the element {0} isn't found.", expectedElement)
+                .Then
+                .ForCondition(xElement is not null)
+                .FailWith("but the element {0} does not have such a value.", expectedElement)
+                .Then
+                .ClearExpectation();
+        }
+
+        return new AndWhichConstraint<XElementAssertions, XElement>(this, xElement);
+    }
+
+    /// <summary>
     /// Returns the type of the subject the assertion applies on.
     /// </summary>
     protected override string Identifier => "XML element";
