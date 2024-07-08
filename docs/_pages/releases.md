@@ -20,6 +20,8 @@ sidebar:
 * Added option for event monitoring to ignore failing event accessors - [#2629](https://github.com/fluentassertions/fluentassertions/pull/2629)
 * Added the capability of associating `IValueFormatter`s to a (nested) `AssertionScope` - [#2676](https://github.com/fluentassertions/fluentassertions/pull/2676)
 * Added support for throwing TUnit exceptions when using TUnit as your testing framework - [#2758](https://github.com/fluentassertions/fluentassertions/pull/2758)
+* Added a few more assertions on `XElement` - [#2690](https://github.com/fluentassertions/fluentassertions/pull/2690)
+  * `HaveElementWithValue`
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
@@ -56,7 +58,6 @@ sidebar:
 * Fixed `RaisePropertyChangeFor` to return a filtered list of events - [#2677](https://github.com/fluentassertions/fluentassertions/pull/2677)
 
 ### Breaking Changes (for users)
-* Replaced `Execute.Assertion` with `AssertionChain.GetOrCreate()` - [2539](https://github.com/fluentassertions/pull/2539)
 * Moved support for `DataSet`, `DataTable`, `DataRow` and `DataColumn` into a new package `FluentAssertions.DataSet` - [#2267](https://github.com/fluentassertions/fluentassertions/pull/2267)
 * Removed obsolete `...OrEqualTo` methods - [#2269](https://github.com/fluentassertions/fluentassertions/pull/2269)
   * `GenericCollectionAssertions`
@@ -85,22 +86,14 @@ sidebar:
 * Allow fluently calling `WithoutMatchingRules` and `WithoutSelectionRules` while using `BeEquivalentTo` - [#2457](https://github.com/fluentassertions/fluentassertions/pull/2457)
 * Removed `utcNow` overload for `.Monitor<T>()` - [#2629](https://github.com/fluentassertions/fluentassertions/pull/2629)
 * The semantics of `BeLowerCased`/`BeUpperCased` have been changed to align with the behavior of `ToLower`/`ToUpper` - [#2660](https://github.com/fluentassertions/fluentassertions/pull/2660)
-* Simplified the inheritance of `SubsequentOrderingAssertions` by removing the class `SubsequentOrderingGenericCollectionAssertions` - [#2439](https://github.com/fluentassertions/fluentassertions/pull/2439)
 
 ### Breaking Changes (for extensions)
-* Introduced a new `AssertionChain` class whose `GetOrCreate` is used to replace `Execute.Assertion` when writing custom assertions - [2539](https://github.com/fluentassertions/fluentassertions/pull/2539)
-* Removed `ClearExpectation` and made `WithExpectation` a scoped operation that takes a nested `AssertionChain` - [2539](https://github.com/fluentassertions/fluentassertions/pull/2539)
-* `AndWhichConstraint` now takes an `AssertionChain` instance and a postfix to improve the caller identifier in chained constructs - [2539](https://github.com/fluentassertions/pull/2539)
 * Add `ForConstraint` to `IAssertionsScope` to support chaining `.ForConstraint()` after `.Then` - [#2324](https://github.com/fluentassertions/fluentassertions/pull/2324)
 * Refactored `AsyncFunctionAssertions` into real base class - [#2359](https://github.com/fluentassertions/fluentassertions/pull/2359)
   * Its constructor has been made `protected`.
   * Unused constructors have been removed.
   * Methods overwritten in `GenericAsyncFunctionAssertions` has been moved to `NonGenericAsyncFunctionAssertions`.
 * Moved the non-generic `NotThrow` and `NotThrowAfter` from `DelegateAssertions<TDelegate, TAssertions>` to `ActionAssertions` - [#2371](https://github.com/fluentassertions/fluentassertions/pull/2371)
-* Renamed `EquivalencyResult.AssertionCompleted` to `EquivalencyProven` - [#2745](https://github.com/fluentassertions/fluentassertions/pull/2745)
-* Renamed `IEquivalencyValidator` to `IValidateChildNodeEquivalency`, and its method `RecursivelyAssertEquality` to `AssertEquivalencyOf` - [#2745](https://github.com/fluentassertions/fluentassertions/pull/2745)
-* Made `Node`, `Property` and `Field` internal - [#2745](https://github.com/fluentassertions/fluentassertions/pull/2745)
-
 
 ## 6.12.0
 
