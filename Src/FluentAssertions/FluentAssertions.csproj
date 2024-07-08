@@ -72,7 +72,7 @@
         <Compile Remove="SystemExtensions.cs" />
       </ItemGroup>
       <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
       </ItemGroup>
     </When>
     <When Condition="'$(TargetFramework)' == 'netstandard2.1'">
@@ -90,7 +90,7 @@
         <Compile Remove="EventRaisingExtensions.cs" />
       </ItemGroup>
       <ItemGroup>
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
       </ItemGroup>
     </When>
     <When Condition="'$(TargetFramework)' == 'net47'">
@@ -98,7 +98,7 @@
         <Compile Remove="Common/NullConfigurationStore.cs" />
       </ItemGroup>
       <ItemGroup>
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
         <TfmSpecificFrameworkAssemblyReferences Include="System.Net.Http">
           <TargetFramework>$(TargetFramework)</TargetFramework>
         </TfmSpecificFrameworkAssemblyReferences>
