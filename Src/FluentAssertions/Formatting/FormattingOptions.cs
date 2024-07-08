@@ -1,12 +1,17 @@
-﻿namespace FluentAssertions.Formatting;
+﻿using System.Collections.Generic;
+using FluentAssertions.Execution;
+
+namespace FluentAssertions.Formatting;
 
 public class FormattingOptions
 {
+    internal List<IValueFormatter> ScopedFormatters { get; private set; } = [];
+
     /// <summary>
     /// Indicates whether the formatter should use line breaks when the <see cref="IValueFormatter"/> supports it.
     /// </summary>
     /// <remarks>
-    /// This value should not changed on <see cref="AssertionOptions.FormattingOptions"/> from within a unit test.
+    /// This value should not be changed on <see cref="AssertionOptions.FormattingOptions"/> from within a unit test.
     /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
     /// </remarks>
     public bool UseLineBreaks { get; set; }
@@ -15,7 +20,7 @@ public class FormattingOptions
     /// Determines the depth until which the library should try to render an object graph.
     /// </summary>
     /// <remarks>
-    /// This value should not changed on <see cref="AssertionOptions.FormattingOptions"/> from within a unit test.
+    /// This value should not be changed on <see cref="AssertionOptions.FormattingOptions"/> from within a unit test.
     /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
     /// </remarks>
     /// <value>
@@ -31,11 +36,33 @@ public class FormattingOptions
     /// Because of technical reasons, the actual output may be one or two lines longer.
     /// </para>
     /// <para>
-    /// This value should not changed on <see cref="AssertionOptions.FormattingOptions"/> from within a unit test.
+    /// This value should not be changed on <see cref="AssertionOptions.FormattingOptions"/> from within a unit test.
     /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
     /// </para>
     /// </remarks>
     public int MaxLines { get; set; } = 100;
+
+    /// <summary>
+    /// Removes a scoped formatter that was previously added through <see cref="FormattingOptions.AddFormatter"/>.
+    /// </summary>
+    /// <param name="formatter">A custom implementation of <see cref="IValueFormatter"/></param>
+    public void RemoveFormatter(IValueFormatter formatter)
+    {
+        ScopedFormatters.Remove(formatter);
+    }
+
+    /// <summary>
+    /// Ensures a scoped formatter is included in the chain, which is executed before the static custom formatters and the default formatters.
+    /// This also lasts only for the current <see cref="AssertionScope"/> until disposal.
+    /// </summary>
+    /// <param name="formatter">A custom implementation of <see cref="IValueFormatter"/></param>
+    public void AddFormatter(IValueFormatter formatter)
+    {
+        if (!ScopedFormatters.Contains(formatter))
+        {
+            ScopedFormatters.Insert(0, formatter);
+        }
+    }
 
     internal FormattingOptions Clone()
     {
@@ -43,7 +70,8 @@ public class FormattingOptions
         {
             UseLineBreaks = UseLineBreaks,
             MaxDepth = MaxDepth,
-            MaxLines = MaxLines
+            MaxLines = MaxLines,
+            ScopedFormatters = [..ScopedFormatters]
         };
     }
 }
