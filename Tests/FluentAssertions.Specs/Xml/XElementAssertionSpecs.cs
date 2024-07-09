@@ -1346,6 +1346,209 @@ public class XElementAssertionSpecs
         }
     }
 
+    public class NotHaveAttributeWithValue
+    {
+        [Fact]
+        public void Passes_when_attribute_does_not_fit()
+        {
+            // Arrange
+            var element = XElement.Parse(@"<user name=""martin"" />");
+
+            // Act / Assert
+            element.Should().NotHaveAttributeWithValue("surname", "martin");
+        }
+
+        [Fact]
+        public void Passes_when_attribute_does_not_fit_with_namespace()
+        {
+            // Arrange
+            var element = XElement.Parse("""<user xmlns:a="http://www.example.com/2012/test" a:name="martin" />""");
+
+            // Act / Assert
+            element.Should().NotHaveAttributeWithValue(XName.Get("surname", "http://www.example.com/2012/test"), "martin");
+        }
+
+        [Fact]
+        public void Passes_when_attribute_and_value_does_not_fit()
+        {
+            // Arrange
+            var element = XElement.Parse(@"<user name=""martin"" />");
+
+            // Act / Assert
+            element.Should().NotHaveAttributeWithValue("surname", "mike");
+        }
+
+        [Fact]
+        public void Passes_when_attribute_and_value_does_not_fit_with_namespace()
+        {
+            // Arrange
+            var element = XElement.Parse("""<user xmlns:a="http://www.example.com/2012/test" a:name="martin" />""");
+
+            // Act / Assert
+            element.Should().NotHaveAttributeWithValue(XName.Get("surname", "http://www.example.com/2012/test"), "mike");
+        }
+
+        [Fact]
+        public void Passes_when_attribute_fits_and_value_does_not()
+        {
+            // Arrange
+            var element = XElement.Parse(@"<user name=""martin"" />");
+
+            // Act / Assert
+            element.Should().NotHaveAttributeWithValue("name", "mike");
+        }
+
+        [Fact]
+        public void Passes_when_attribute_fits_and_value_does_not_with_namespace()
+        {
+            // Arrange
+            var element = XElement.Parse("""<user xmlns:a="http://www.example.com/2012/test" a:name="martin" />""");
+
+            // Act / Assert
+            element.Should().NotHaveAttributeWithValue(XName.Get("name", "http://www.example.com/2012/test"), "mike");
+        }
+
+        [Fact]
+        public void Throws_when_attribute_and_name_fits()
+        {
+            // Arrange
+            var theElement = XElement.Parse("""<user name="martin" />""");
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+
+                theElement.Should()
+                    .NotHaveAttributeWithValue("name", "martin", "because we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect theElement to have attribute \"name\" with value \"martin\" because we want to test the failure message,"
+                + " but found such attribute in <user name=\"martin\" />*");
+        }
+
+        [Fact]
+        public void Throws_when_attribute_and_name_fits_with_namespace()
+        {
+            // Arrange
+            var theElement = XElement.Parse("""<user xmlns:a="http://www.example.com/2012/test" a:name="martin" />""");
+
+            // Act
+            Action act = () =>
+                theElement.Should().NotHaveAttributeWithValue(XName.Get("name", "http://www.example.com/2012/test"), "martin",
+                    "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect theElement to have attribute \"{http://www.example.com/2012/test}name\" with value \"martin\""
+                + " because we want to test the failure message,"
+                + " but found such attribute in <user xmlns:a=\"http://www.example.com/2012/test\" a:name=\"martin\" />*");
+        }
+
+        [Fact]
+        public void Throws_when_element_is_null()
+        {
+            XElement theElement = null;
+
+            // Act
+            Action act = () =>
+                theElement.Should().NotHaveAttributeWithValue("name", "value", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Did not expect attribute \"name\" in element to have value \"value\"*failure message*, but theElement is <null>.");
+        }
+
+        [Fact]
+        public void Throws_when_element_is_null_with_namespace()
+        {
+            XElement theElement = null;
+
+            // Act
+            Action act = () =>
+                theElement.Should()
+                    .NotHaveAttributeWithValue((XName)"name", "value", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Did not expect attribute \"name\" in element to have value \"value\"*failure message*, but theElement is <null>.");
+        }
+
+        [Fact]
+        public void Throws_when_expected_is_null()
+        {
+            XElement theElement = new("element");
+
+            // Act
+            Action act = () =>
+                theElement.Should().NotHaveAttributeWithValue(null, "value");
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("unexpectedName");
+        }
+
+        [Fact]
+        public void Throws_when_expected_is_null_with_namespace()
+        {
+            XElement theElement = new("element");
+
+            // Act
+            Action act = () =>
+                theElement.Should().NotHaveAttributeWithValue((XName)null, "value");
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("unexpectedName");
+        }
+
+        [Fact]
+        public void Throws_when_expected_attribute_is_something_but_value_is_null()
+        {
+            XElement theElement = new("element");
+
+            // Act
+            Action act = () =>
+                theElement.Should().NotHaveAttributeWithValue("some", null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("unexpectedValue");
+        }
+
+        [Fact]
+        public void Throws_when_expected_attribute_is_something_but_value_is_null_with_namespace()
+        {
+            XElement theElement = new("element");
+
+            // Act
+            Action act = () =>
+                theElement.Should().NotHaveAttributeWithValue((XName)"some", null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("unexpectedValue");
+        }
+
+        [Fact]
+        public void Throws_when_expected_is_empty()
+        {
+            XElement theElement = new("element");
+
+            // Act
+            Action act = () =>
+                theElement.Should().NotHaveAttributeWithValue(string.Empty, "value");
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentException>()
+                .WithParameterName("unexpectedName");
+        }
+    }
+
     public class HaveElement
     {
         [Fact]

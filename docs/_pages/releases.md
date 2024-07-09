@@ -24,6 +24,7 @@ sidebar:
   * `[Not]HaveElementWithValue`
   * `NotHaveElement`
   * `[Not]HaveAttribute`
+  * `NotHaveAttributeWithValue`
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)

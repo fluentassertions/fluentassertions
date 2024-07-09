@@ -2576,6 +2576,8 @@ namespace FluentAssertions.Xml
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotBeEquivalentTo(System.Xml.Linq.XElement unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotHaveAttribute(string unexpectedName, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotHaveAttribute(System.Xml.Linq.XName unexpectedName, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotHaveAttributeWithValue(string unexpectedName, string unexpectedValue, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotHaveAttributeWithValue(System.Xml.Linq.XName unexpectedName, string unexpectedValue, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotHaveElement(string unexpectedElement, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotHaveElement(System.Xml.Linq.XName unexpectedElement, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> NotHaveElementWithValue(string unexpectedElement, string unexpectedValue, string because = "", params object[] becauseArgs) { }
