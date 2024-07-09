@@ -23,7 +23,7 @@ sidebar:
 * Added a few more assertions on `XElement` - [#2690](https://github.com/fluentassertions/fluentassertions/pull/2690)
   * `[Not]HaveElementWithValue`
   * `NotHaveElement`
-  * `HaveAttribute`
+  * `[Not]HaveAttribute`
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
