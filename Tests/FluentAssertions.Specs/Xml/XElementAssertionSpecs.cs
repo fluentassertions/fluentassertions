@@ -846,7 +846,7 @@ public class XElementAssertionSpecs
         }
     }
 
-    public class HaveAttribute
+    public class HaveAttributeWithValue
     {
         [Fact]
         public void When_asserting_element_has_attribute_with_specific_value_and_it_does_it_should_succeed()
@@ -856,7 +856,7 @@ public class XElementAssertionSpecs
 
             // Act
             Action act = () =>
-                element.Should().HaveAttribute("name", "martin");
+                element.Should().HaveAttributeWithValue("name", "martin");
 
             // Assert
             act.Should().NotThrow();
@@ -870,7 +870,7 @@ public class XElementAssertionSpecs
 
             // Act
             Action act = () =>
-                element.Should().HaveAttribute(XName.Get("name", "http://www.example.com/2012/test"), "martin");
+                element.Should().HaveAttributeWithValue(XName.Get("name", "http://www.example.com/2012/test"), "martin");
 
             // Assert
             act.Should().NotThrow();
@@ -884,7 +884,7 @@ public class XElementAssertionSpecs
 
             // Act
             Action act = () =>
-                theElement.Should().HaveAttribute("age", "36");
+                theElement.Should().HaveAttributeWithValue("age", "36");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -899,7 +899,7 @@ public class XElementAssertionSpecs
 
             // Act
             Action act = () =>
-                theElement.Should().HaveAttribute(XName.Get("age", "http://www.example.com/2012/test"), "36");
+                theElement.Should().HaveAttributeWithValue(XName.Get("age", "http://www.example.com/2012/test"), "36");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -918,7 +918,7 @@ public class XElementAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                theElement.Should().HaveAttribute("age", "36", "because we want to test the failure {0}", "message");
+                theElement.Should().HaveAttributeWithValue("age", "36", "because we want to test the failure {0}", "message");
             };
 
             // Assert
@@ -936,7 +936,7 @@ public class XElementAssertionSpecs
 
             // Act
             Action act = () =>
-                theElement.Should().HaveAttribute(XName.Get("age", "http://www.example.com/2012/test"), "36",
+                theElement.Should().HaveAttributeWithValue(XName.Get("age", "http://www.example.com/2012/test"), "36",
                     "because we want to test the failure {0}", "message");
 
             // Assert
@@ -954,7 +954,7 @@ public class XElementAssertionSpecs
 
             // Act
             Action act = () =>
-                theElement.Should().HaveAttribute("name", "dennis");
+                theElement.Should().HaveAttributeWithValue("name", "dennis");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -970,7 +970,7 @@ public class XElementAssertionSpecs
 
             // Act
             Action act = () =>
-                theElement.Should().HaveAttribute(XName.Get("name", "http://www.example.com/2012/test"), "dennis");
+                theElement.Should().HaveAttributeWithValue(XName.Get("name", "http://www.example.com/2012/test"), "dennis");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -986,7 +986,7 @@ public class XElementAssertionSpecs
 
             // Act
             Action act = () =>
-                theElement.Should().HaveAttribute("name", "dennis", "because we want to test the failure {0}", "message");
+                theElement.Should().HaveAttributeWithValue("name", "dennis", "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1003,7 +1003,7 @@ public class XElementAssertionSpecs
 
             // Act
             Action act = () =>
-                theElement.Should().HaveAttribute(XName.Get("name", "http://www.example.com/2012/test"), "dennis",
+                theElement.Should().HaveAttributeWithValue(XName.Get("name", "http://www.example.com/2012/test"), "dennis",
                     "because we want to test the failure {0}", "message");
 
             // Assert
@@ -1019,7 +1019,7 @@ public class XElementAssertionSpecs
 
             // Act
             Action act = () =>
-                theElement.Should().HaveAttribute("name", "value", "we want to test the failure {0}", "message");
+                theElement.Should().HaveAttributeWithValue("name", "value", "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1035,7 +1035,7 @@ public class XElementAssertionSpecs
 
             // Act
             Action act = () =>
-                theElement.Should().HaveAttribute((XName)"name", "value", "we want to test the failure {0}", "message");
+                theElement.Should().HaveAttributeWithValue((XName)"name", "value", "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1051,7 +1051,7 @@ public class XElementAssertionSpecs
 
             // Act
             Action act = () =>
-                theElement.Should().HaveAttribute(null, "value");
+                theElement.Should().HaveAttributeWithValue(null, "value");
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
@@ -1065,7 +1065,7 @@ public class XElementAssertionSpecs
 
             // Act
             Action act = () =>
-                theElement.Should().HaveAttribute((XName)null, "value");
+                theElement.Should().HaveAttributeWithValue((XName)null, "value");
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
@@ -1079,7 +1079,7 @@ public class XElementAssertionSpecs
 
             // Act
             Action act = () =>
-                theElement.Should().HaveAttribute(string.Empty, "value");
+                theElement.Should().HaveAttributeWithValue(string.Empty, "value");
 
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
@@ -1226,7 +1226,7 @@ public class XElementAssertionSpecs
 
             // Assert
             matchedElement.Should().BeOfType<XElement>()
-                .And.HaveAttribute("attr", "1");
+                .And.HaveAttributeWithValue("attr", "1");
 
             matchedElement.Name.Should().Be(XName.Get("child"));
         }

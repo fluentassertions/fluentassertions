@@ -173,12 +173,12 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expectedName"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="expectedName"/> is empty.</exception>
-    public AndConstraint<XElementAssertions> HaveAttribute(string expectedName, string expectedValue,
+    public AndConstraint<XElementAssertions> HaveAttributeWithValue(string expectedName, string expectedValue,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNullOrEmpty(expectedName);
 
-        return HaveAttribute(XNamespace.None + expectedName, expectedValue, because, becauseArgs);
+        return HaveAttributeWithValue(XNamespace.None + expectedName, expectedValue, because, becauseArgs);
     }
 
     /// <summary>
@@ -195,7 +195,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expectedName"/> is <see langword="null"/>.</exception>
-    public AndConstraint<XElementAssertions> HaveAttribute(XName expectedName, string expectedValue,
+    public AndConstraint<XElementAssertions> HaveAttributeWithValue(XName expectedName, string expectedValue,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expectedName);
