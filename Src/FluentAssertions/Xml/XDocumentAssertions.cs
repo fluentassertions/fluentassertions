@@ -349,6 +349,58 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     }
 
     /// <summary>
+    /// Asserts that the <see cref="XDocument.Root"/> of the current <see cref="XDocument"/> doesn't have the specified child element.
+    /// </summary>
+    /// <param name="unexpectedElement">
+    /// The name of the expected child element of the current element's <see cref="XDocument"/>.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<XDocumentAssertions> NotHaveElement(string unexpectedElement,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(unexpectedElement, nameof(unexpectedElement));
+
+        return NotHaveElement(XNamespace.None + unexpectedElement, because, becauseArgs);
+    }
+
+    /// <summary>
+    /// Asserts that the <see cref="XDocument.Root"/> of the current <see cref="XDocument"/> doesn't have the specified child element.
+    /// </summary>
+    /// <param name="unexpectedElement">
+    /// The full name <see cref="XName"/> of the expected child element of the current element's <see cref="XDocument"/>.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<XDocumentAssertions> NotHaveElement(XName unexpectedElement,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(unexpectedElement, nameof(unexpectedElement));
+
+        assertionChain
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Did not expect {context:subject} to have an element {0}{reason}, ", unexpectedElement, chain =>
+                chain
+                    .ForCondition(Subject is not null)
+                    .FailWith("but the element itself is <null>.")
+                    .Then
+                    .ForCondition(!Subject!.Root!.Elements(unexpectedElement).Any())
+                    .FailWith(" but the element {0} was found.", unexpectedElement));
+
+        return new AndConstraint<XDocumentAssertions>(this);
+    }
+
+    /// <summary>
     /// Asserts that the <see cref="XDocument.Root"/> of the current <see cref="XDocument"/> has the specified child element
     /// with the specified <paramref name="expectedValue"/> name.
     /// </summary>

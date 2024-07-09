@@ -1661,4 +1661,124 @@ public class XDocumentAssertionSpecs
                 "Cannot assert the count if the document itself is <null>.");
         }
     }
+
+    public class NotHaveElement
+    {
+        [Fact]
+        public void The_document_cannot_be_null()
+        {
+            // Arrange
+            XDocument document = null;
+
+            // Act
+            Action act = () => document.Should().NotHaveElement("child");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*child*b*element itself is <null>*");
+        }
+
+        [Fact]
+        public void The_document_does_not_have_this_element()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act / Assert
+            document.Should().NotHaveElement("c");
+        }
+
+        [Fact]
+        public void Throws_when_element_found_but_expected_to_be_absent()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => document.Should().NotHaveElement("child");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*Did not*child*element*was found*");
+        }
+
+        [Fact]
+        public void Throws_when_unexpected_element_is_null()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => document.Should().NotHaveElement(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage("*unexpectedElement*");
+        }
+
+        [Fact]
+        public void Throws_when_unexpected_element_is_null_with_namespace()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => document.Should().NotHaveElement((XName)null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage("*unexpectedElement*");
+        }
+
+        [Fact]
+        public void Throws_when_null_with_namespace()
+        {
+            // Arrange
+            XDocument document = null;
+
+            // Act
+            Action act = () =>
+                document.Should()
+                    .NotHaveElement(XNamespace.None + "child", "we want to test the {0} message", "failure");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*child*failure message*element itself is <null>*");
+        }
+
+        [Fact]
+        public void Not_have_element_with_with_namespace()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act / Assert
+            document.Should().NotHaveElement(XNamespace.None + "c");
+        }
+    }
 }
