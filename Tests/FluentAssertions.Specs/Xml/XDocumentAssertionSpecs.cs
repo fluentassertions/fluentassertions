@@ -1193,7 +1193,7 @@ public class XDocumentAssertionSpecs
             XElement matchedElement = document.Should().HaveElement("child").Subject;
 
             // Assert
-            matchedElement.Should().BeOfType<XElement>().And.HaveAttribute("attr", "1");
+            matchedElement.Should().BeOfType<XElement>().And.HaveAttributeWithValue("attr", "1");
             matchedElement.Name.Should().Be(XName.Get("child"));
         }
 

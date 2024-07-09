@@ -176,12 +176,12 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expectedName"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="expectedName"/> is empty.</exception>
-    public AndConstraint<XElementAssertions> HaveAttribute(string expectedName, string expectedValue,
+    public AndConstraint<XElementAssertions> HaveAttributeWithValue(string expectedName, string expectedValue,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNullOrEmpty(expectedName);
 
-        return HaveAttribute(XNamespace.None + expectedName, expectedValue, because, becauseArgs);
+        return HaveAttributeWithValue(XNamespace.None + expectedName, expectedValue, because, becauseArgs);
     }
 
     /// <summary>
@@ -198,7 +198,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expectedName"/> is <see langword="null"/>.</exception>
-    public AndConstraint<XElementAssertions> HaveAttribute(XName expectedName, string expectedValue,
+    public AndConstraint<XElementAssertions> HaveAttributeWithValue(XName expectedName, string expectedValue,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expectedName);
@@ -207,33 +207,27 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
 
         assertionChain
             .BecauseOf(because, becauseArgs)
-            .ForCondition(Subject is not null)
-            .FailWith(
-                "Expected attribute {0} in element to have value {1}{reason}, but {context:member} is <null>.",
-                expectedText, expectedValue);
-
-        if (assertionChain.Succeeded)
-        {
-            XAttribute attribute = Subject!.Attribute(expectedName);
-
-            assertionChain
-                .ForCondition(attribute is not null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:subject} to have attribute {0} with value {1}{reason},"
-                    + " but found no such attribute in {2}",
-                    expectedText, expectedValue, Subject);
-
-            if (assertionChain.Succeeded)
-            {
-                assertionChain
-                    .ForCondition(attribute!.Value == expectedValue)
+            .WithExpectation("Expected attribute {0} in element to have value {1}{reason}, ",
+                expectedText, expectedValue,
+                chain => chain
+                    .ForCondition(Subject is not null)
+                    .FailWith("but {context:member} is <null>."))
+            .Then
+            .WithExpectation("Expected {context:subject} to have attribute {0} with value {1}{reason}, ",
+                expectedText, expectedValue,
+                chain => chain
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(
-                        "Expected attribute {0} in {context:subject} to have value {1}{reason}, but found {2}.",
-                        expectedText, expectedValue, attribute.Value);
-            }
-        }
+                    .Given(() => Subject!.Attribute(expectedName))
+                    .ForCondition(attr => attr is not null)
+                    .FailWith("but found no such attribute in {0}", Subject))
+            .Then
+            .WithExpectation("Expected attribute {0} in {context:subject} to have value {1}{reason}, ",
+                expectedText, expectedValue,
+                chain => chain
+                    .BecauseOf(because, becauseArgs)
+                    .Given(() => Subject!.Attribute(expectedName))
+                    .ForCondition(attr => attr!.Value == expectedValue)
+                    .FailWith("but found {0}.", attr => attr.Value));
 
         return new AndConstraint<XElementAssertions>(this);
     }
