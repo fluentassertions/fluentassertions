@@ -1268,6 +1268,221 @@ public class XDocumentAssertionSpecs
         }
     }
 
+    public class HaveElementWithValue
+    {
+        [Fact]
+        public void The_document_cannot_be_null()
+        {
+            // Arrange
+            XDocument document = null;
+
+            // Act
+            Action act = () => document.Should().HaveElementWithValue("child", "b");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*child*b*element itself is <null>*");
+        }
+
+        [Fact]
+        public void The_expected_element_with_the_expected_value_is_valid()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act / Assert
+            document.Should().HaveElementWithValue("child", "b");
+        }
+
+        [Fact]
+        public void Throws_when_element_is_not_found()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => document.Should().HaveElementWithValue("grandchild", "f");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*grandchild*f*element*isn't found*");
+        }
+
+        [Fact]
+        public void Throws_when_element_found_but_value_does_not_match()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => document.Should().HaveElementWithValue("child", "c");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*child*c*element*does not have such a value*");
+        }
+
+        [Fact]
+        public void Throws_when_expected_element_is_null()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => document.Should().HaveElementWithValue(null, "a");
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage("*expectedElement*");
+        }
+
+        [Fact]
+        public void Throws_when_expected_element_with_namespace_is_null()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => document.Should().HaveElementWithValue((XName)null, "a");
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage("*expectedElement*");
+        }
+
+        [Fact]
+        public void Throws_when_expected_value_is_null()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => document.Should().HaveElementWithValue("child", null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage("*expectedValue*");
+        }
+
+        [Fact]
+        public void Throws_when_expected_value_is_null_and_searching_with_namespace()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => document.Should().HaveElementWithValue(XNamespace.None + "child", null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage("*expectedValue*");
+        }
+
+        [Fact]
+        public void The_document_cannot_be_null_and_using_a_namespace()
+        {
+            // Arrange
+            XDocument document = null;
+
+            // Act
+            Action act = () =>
+                document.Should()
+                    .HaveElementWithValue(XNamespace.None + "child", "b", "we want to test the {0} message", "failure");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*child*b*failure message*element itself is <null>*");
+        }
+
+        [Fact]
+        public void Has_element_with_namespace_and_specified_value()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act / Assert
+            document.Should().HaveElementWithValue(XNamespace.None + "child", "b");
+        }
+
+        [Fact]
+        public void Throws_when_element_with_namespace_is_not_found()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => document.Should().HaveElementWithValue(XNamespace.None + "grandchild", "f");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*grandchild*f*element*isn't found*");
+        }
+
+        [Fact]
+        public void Throws_when_element_with_namespace_found_but_value_does_not_match()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child>a</child>
+                    <child>b</child>
+                </parent>
+                """);
+
+            // Act
+            Action act = () => document.Should().HaveElementWithValue(XNamespace.None + "child", "c");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*child*c*element*does not have such a value*");
+        }
+    }
+
     public class HaveElementWithOccurrence
     {
         [Fact]

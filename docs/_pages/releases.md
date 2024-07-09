@@ -25,6 +25,8 @@ sidebar:
   * `NotHaveElement`
   * `[Not]HaveAttribute`
   * `NotHaveAttributeWithValue`
+* Added a few more assertions on `XDocument` - [#2690](https://github.com/fluentassertions/fluentassertions/pull/2690)
+    * `HaveElementWithValue`
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
