@@ -22,6 +22,7 @@ sidebar:
 * Added support for throwing TUnit exceptions when using TUnit as your testing framework - [#2758](https://github.com/fluentassertions/fluentassertions/pull/2758)
 * Added a few more assertions on `XElement` - [#2690](https://github.com/fluentassertions/fluentassertions/pull/2690)
   * `[Not]HaveElementWithValue`
+  * `NotHaveElement`
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)

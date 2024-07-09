@@ -382,6 +382,64 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     }
 
     /// <summary>
+    /// Asserts that the <see cref="XElement"/> of the current <see cref="XElement"/> doesn't have the specified child element.
+    /// </summary>
+    /// <param name="unexpectedElement">
+    /// The name of the expected child element of the current element's <see cref="XElement"/>.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<XElementAssertions> NotHaveElement(string unexpectedElement,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(unexpectedElement, nameof(unexpectedElement));
+
+        return NotHaveElement(XNamespace.None + unexpectedElement, because, becauseArgs);
+    }
+
+    /// <summary>
+    /// Asserts that the <see cref="XElement"/> of the current <see cref="XElement"/> doesn't have the specified child element.
+    /// </summary>
+    /// <param name="unexpectedElement">
+    /// The full name <see cref="XName"/> of the expected child element of the current element's <see cref="XElement"/>.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<XElementAssertions> NotHaveElement(XName unexpectedElement,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(unexpectedElement, nameof(unexpectedElement));
+
+        assertionChain
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith(
+                "Did not expect {context:subject} to have an element {0}{reason}, but the element itself is <null>.",
+                unexpectedElement.ToString());
+
+        if (assertionChain.Succeeded)
+        {
+            assertionChain
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(!Subject!.Elements(unexpectedElement).Any())
+                .FailWith("Did not expect {context:subject} to have an element {0}{reason}, " +
+                    "but the element {0} was found.", unexpectedElement);
+        }
+
+        return new AndConstraint<XElementAssertions>(this);
+    }
+
+    /// <summary>
     /// Asserts that the <see cref="XElement"/> of the current <see cref="XElement"/> has the specified child element
     /// with the specified <paramref name="expectedValue"/> name.
     /// </summary>
