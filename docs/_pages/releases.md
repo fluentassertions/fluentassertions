@@ -7,6 +7,12 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 6.12.1
+
+### Improvements
+
+### Fixes
+
 ## 6.12.0
 
 ### What's new
