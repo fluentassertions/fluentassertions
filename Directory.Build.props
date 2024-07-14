@@ -2,6 +2,7 @@
   <PropertyGroup>
     <LangVersion>11.0</LangVersion>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1902;NU1903</WarningsNotAsErrors> <!-- disable EOL warnings -->
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
