@@ -123,7 +123,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_non_empty_collection_is_empty_it_should_enumerate_only_once()
         {
             // Arrange
-            var collection = new CountingGenericEnumerable<int>([1, 2, 3]);
+            var collection = new CountingGenericEnumerable<int>(new[] { 1, 2, 3 });
 
             // Act
             Action act = () => collection.Should().BeEmpty();
