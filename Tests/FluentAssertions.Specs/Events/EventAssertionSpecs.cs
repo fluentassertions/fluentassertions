@@ -543,7 +543,7 @@ public class EventAssertionSpecs
 
         [Fact]
         public void
-            The_number_of_property_changed_recorded_for_a_specific_property_matches_the_number_of_time_it_was_raised_specifically()
+            The_number_of_property_changed_recorded_for_a_specific_property_matches_the_number_of_times_it_was_raised_specifically()
         {
             // Arrange
             var subject = new EventRaisingClass();
@@ -558,7 +558,7 @@ public class EventAssertionSpecs
 
         [Fact]
         public void
-            The_number_of_property_changed_recorded_for_a_specific_property_matches_the_number_of_time_it_was_raised_including_agnostic_property()
+            The_number_of_property_changed_recorded_for_a_specific_property_matches_the_number_of_times_it_was_raised_including_agnostic_property()
         {
             // Arrange
             var subject = new EventRaisingClass();
@@ -574,7 +574,7 @@ public class EventAssertionSpecs
 
         [Fact]
         public void
-            The_number_of_property_changed_recorded_matches_the_number_of_time_it_was_raised()
+            The_number_of_property_changed_recorded_matches_the_number_of_times_it_was_raised()
         {
             // Arrange
             var subject = new EventRaisingClass();
