@@ -543,7 +543,7 @@ public class EventAssertionSpecs
 
         [Fact]
         public void
-            The_number_of_property_changed_recorded_for_a_specific_property_matches_the_number_of_time_it_was_raised_specifically()
+            The_number_of_property_changed_recorded_for_a_specific_property_matches_the_number_of_times_it_was_raised_specifically()
         {
             // Arrange
             var subject = new EventRaisingClass();
@@ -553,12 +553,12 @@ public class EventAssertionSpecs
             subject.RaiseEventWithSenderAndPropertyName(nameof(EventRaisingClass.SomeOtherProperty));
 
             // Act
-            monitor.Should().RaisePropertyChangeFor(x => x.SomeProperty).Count().Should().Be(2);
+            monitor.Should().RaisePropertyChangeFor(x => x.SomeProperty).Should().HaveCount(2);
         }
 
         [Fact]
         public void
-            The_number_of_property_changed_recorded_for_a_specific_property_matches_the_number_of_time_it_was_raised_including_agnostic_property()
+            The_number_of_property_changed_recorded_for_a_specific_property_matches_the_number_of_times_it_was_raised_including_agnostic_property()
         {
             // Arrange
             var subject = new EventRaisingClass();
@@ -569,12 +569,12 @@ public class EventAssertionSpecs
             subject.RaiseEventWithSenderAndPropertyName(string.Empty);
 
             // Act
-            monitor.Should().RaisePropertyChangeFor(x => x.SomeProperty).Count().Should().Be(3);
+            monitor.Should().RaisePropertyChangeFor(x => x.SomeProperty).Should().HaveCount(3);
         }
 
         [Fact]
         public void
-            The_number_of_property_changed_recorded_matches_the_number_of_time_it_was_raised()
+            The_number_of_property_changed_recorded_matches_the_number_of_times_it_was_raised()
         {
             // Arrange
             var subject = new EventRaisingClass();
@@ -585,7 +585,7 @@ public class EventAssertionSpecs
             subject.RaiseEventWithSenderAndPropertyName(string.Empty);
 
             // Act
-            monitor.Should().RaisePropertyChangeFor(null).Count().Should().Be(4);
+            monitor.Should().RaisePropertyChangeFor(null).Should().HaveCount(4);
         }
     }
 
