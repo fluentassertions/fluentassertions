@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Xunit;
+using Xunit.Sdk;
 
 namespace XUnit2.Specs;
 
@@ -13,7 +14,6 @@ public class FrameworkSpecs
         Action act = () => 0.Should().Be(1);
 
         // Assert
-        Exception exception = act.Should().Throw<Exception>().Which;
-        exception.GetType().FullName.Should().ContainEquivalentOf("xunit");
+        act.Should().Throw<XunitException>();
     }
 }

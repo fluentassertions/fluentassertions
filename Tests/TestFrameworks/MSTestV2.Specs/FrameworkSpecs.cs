@@ -14,9 +14,6 @@ public class FrameworkSpecs
         Action act = () => 0.Should().Be(1);
 
         // Assert
-        Exception exception = act.Should().Throw<Exception>().Which;
-        exception.GetType()
-            .FullName.Should()
-            .ContainEquivalentOf("Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException");
+        act.Should().Throw<AssertFailedException>();
     }
 }

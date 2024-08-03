@@ -14,9 +14,6 @@ public class FrameworkSpecs
         Action act = () => 0.Should().Be(1);
 
         // Assert
-        Exception exception = act.Should().Throw<Exception>().Which;
-        exception.GetType()
-            .FullName.Should()
-            .ContainEquivalentOf("NUnit.Framework.AssertionException");
+        act.Should().Throw<AssertionException>();
     }
 }
