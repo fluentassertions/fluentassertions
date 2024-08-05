@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
@@ -144,5 +145,32 @@ public static class EventRaisingExtensions
         }
 
         return new FilteredEventRecording(eventRecording, eventsWithMatchingPredicate);
+    }
+
+    /// <summary>
+    /// Asserts that all occurrences of the events has arguments of type <see cref="PropertyChangedEventArgs"/>
+    /// and are for property <paramref name="propertyName"/>.
+    /// </summary>
+    /// <param name="propertyName">
+    /// The property name for which the property changed events should have been raised.
+    /// </param>
+    /// <returns>
+    /// Returns only the property changed events affecting the particular property name.
+    /// </returns>
+    /// <remarks>
+    /// If a <see langword="null"/> or string.Empty is provided as property name, the events are return as-is.
+    /// </remarks>
+    internal static IEventRecording WithPropertyChangeFor(this IEventRecording eventRecording, string propertyName)
+    {
+        if (string.IsNullOrEmpty(propertyName))
+        {
+            return eventRecording;
+        }
+
+        IEnumerable<OccurredEvent> eventsForPropertyName =
+            eventRecording.Where(@event => @event.IsAffectingPropertyName(propertyName))
+                          .ToList();
+
+        return new FilteredEventRecording(eventRecording, eventsForPropertyName);
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Linq;
 
 namespace FluentAssertions.Events;
 
@@ -26,4 +28,19 @@ public class OccurredEvent
     /// The order in which this event was raised on the monitored object.
     /// </summary>
     public int Sequence { get; set; }
+
+    /// <summary>
+    /// Verifies if a property changed event is affecting a particular property.
+    /// </summary>
+    /// <param name="propertyName">
+    /// The property name for which the property changed event should have been raised.
+    /// </param>
+    /// <returns>
+    /// Returns <see langword="true"/> if the event is affecting the property specified, <see langword="false"/> otherwise.
+    /// </returns>
+    internal bool IsAffectingPropertyName(string propertyName)
+    {
+        return Parameters.OfType<PropertyChangedEventArgs>()
+                         .Any(e => string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName);
+    }
 }
