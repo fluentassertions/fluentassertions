@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions.Execution;
 using FluentAssertions.Types;
 using Xunit;
 using Xunit.Sdk;
@@ -295,7 +296,7 @@ public class PropertyInfoSelectorAssertionSpecs
         public void When_accidentally_using_equals_it_should_throw_a_helpful_error()
         {
             // Arrange
-            var someObject = new PropertyInfoSelectorAssertions();
+            var someObject = new PropertyInfoSelectorAssertions(AssertionChain.GetOrCreate());
 
             // Act
             var action = () => someObject.Equals(null);

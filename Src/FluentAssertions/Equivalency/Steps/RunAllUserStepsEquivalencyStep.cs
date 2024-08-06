@@ -1,4 +1,6 @@
-﻿namespace FluentAssertions.Equivalency.Steps;
+﻿using FluentAssertions.Execution;
+
+namespace FluentAssertions.Equivalency.Steps;
 
 /// <summary>
 /// Represents a composite equivalency step that passes the execution to all user-supplied steps that can handle the
@@ -6,14 +8,14 @@
 /// </summary>
 public class RunAllUserStepsEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, AssertionChain assertionChain, IEquivalencyValidationContext context,
+        IValidateChildNodeEquivalency nestedValidator)
     {
         foreach (IEquivalencyStep step in context.Options.UserEquivalencySteps)
         {
-            if (step.Handle(comparands, context, nestedValidator) == EquivalencyResult.AssertionCompleted)
+            if (step.Handle(comparands, assertionChain, context, nestedValidator) == EquivalencyResult.EquivalencyProven)
             {
-                return EquivalencyResult.AssertionCompleted;
+                return EquivalencyResult.EquivalencyProven;
             }
         }
 

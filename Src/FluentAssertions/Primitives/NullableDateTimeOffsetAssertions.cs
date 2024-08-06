@@ -15,9 +15,12 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class NullableDateTimeOffsetAssertions : NullableDateTimeOffsetAssertions<NullableDateTimeOffsetAssertions>
 {
-    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected)
-        : base(expected)
+    private readonly AssertionChain assertionChain;
+
+    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected, AssertionChain assertionChain)
+        : base(expected, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 }
 
@@ -32,9 +35,12 @@ public class NullableDateTimeOffsetAssertions : NullableDateTimeOffsetAssertions
 public class NullableDateTimeOffsetAssertions<TAssertions> : DateTimeOffsetAssertions<TAssertions>
     where TAssertions : NullableDateTimeOffsetAssertions<TAssertions>
 {
-    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected)
-        : base(expected)
+    private readonly AssertionChain assertionChain;
+
+    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected, AssertionChain assertionChain)
+        : base(expected, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -49,7 +55,7 @@ public class NullableDateTimeOffsetAssertions<TAssertions> : DateTimeOffsetAsser
     /// </param>
     public AndConstraint<TAssertions> HaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:variable} to have a value{reason}, but found {0}", Subject);
@@ -85,7 +91,7 @@ public class NullableDateTimeOffsetAssertions<TAssertions> : DateTimeOffsetAsser
     public AndConstraint<TAssertions> NotHaveValue([StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:variable} to have a value{reason}, but found {0}", Subject);

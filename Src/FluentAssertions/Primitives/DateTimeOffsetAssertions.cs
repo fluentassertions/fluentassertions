@@ -19,9 +19,12 @@ namespace FluentAssertions.Primitives;
 public class DateTimeOffsetAssertions
     : DateTimeOffsetAssertions<DateTimeOffsetAssertions>
 {
-    public DateTimeOffsetAssertions(DateTimeOffset? value)
-        : base(value)
+    private readonly AssertionChain assertionChain;
+
+    public DateTimeOffsetAssertions(DateTimeOffset? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 }
 
@@ -38,8 +41,11 @@ public class DateTimeOffsetAssertions
 public class DateTimeOffsetAssertions<TAssertions>
     where TAssertions : DateTimeOffsetAssertions<TAssertions>
 {
-    public DateTimeOffsetAssertions(DateTimeOffset? value)
+    private readonly AssertionChain assertionChain;
+
+    public DateTimeOffsetAssertions(DateTimeOffset? value, AssertionChain assertionChain)
     {
+        this.assertionChain = assertionChain;
         Subject = value;
     }
 
@@ -62,7 +68,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> Be(DateTimeOffset expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected {context:the date and time} to represent the same point in time as {0}{reason}, ",
                 expected)
@@ -71,8 +77,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject == expected)
             .FailWith("but {0} does not.", Subject)
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -93,14 +98,14 @@ public class DateTimeOffsetAssertions<TAssertions>
     {
         if (!expected.HasValue)
         {
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!Subject.HasValue)
                 .FailWith("Expected {context:the date and time} to be <null>{reason}, but it was {0}.", Subject);
         }
         else
         {
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:the date and time} to represent the same point in time as {0}{reason}, ",
                     expected)
@@ -108,9 +113,7 @@ public class DateTimeOffsetAssertions<TAssertions>
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject == expected)
-                .FailWith("but {0} does not.", Subject)
-                .Then
-                .ClearExpectation();
+                .FailWith("but {0} does not.", Subject);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -130,7 +133,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> NotBe(DateTimeOffset unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject != unexpected)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -154,7 +157,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> NotBe(DateTimeOffset? unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject != unexpected)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -178,7 +181,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> BeExactly(DateTimeOffset expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected {context:the date and time} to be exactly {0}{reason}, ", expected)
             .ForCondition(Subject.HasValue)
@@ -186,8 +189,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.EqualsExact(expected))
             .FailWith("but it was {0}.", Subject)
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -209,23 +211,21 @@ public class DateTimeOffsetAssertions<TAssertions>
     {
         if (!expected.HasValue)
         {
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!Subject.HasValue)
                 .FailWith("Expected {context:the date and time} to be <null>{reason}, but it was {0}.", Subject);
         }
         else
         {
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:the date and time} to be exactly {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
                 .ForCondition(Subject.Value.EqualsExact(expected.Value))
-                .FailWith("but it was {0}.", Subject)
-                .Then
-                .ClearExpectation();
+                .FailWith("but it was {0}.", Subject);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -246,7 +246,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> NotBeExactly(DateTimeOffset unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject?.EqualsExact(unexpected) != true)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:the date and time} to be exactly {0}{reason}, but it was.", unexpected);
@@ -268,7 +268,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> NotBeExactly(DateTimeOffset? unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(!((Subject == null && unexpected == null) ||
                 (Subject != null && unexpected != null && Subject.Value.EqualsExact(unexpected.Value))))
             .BecauseOf(because, becauseArgs)
@@ -312,7 +312,7 @@ public class DateTimeOffsetAssertions<TAssertions>
 
         TimeSpan? difference = (Subject - nearbyTime)?.Duration();
 
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected {context:the date and time} to be within {0} from {1}{reason}", precision, nearbyTime)
             .ForCondition(Subject is not null)
@@ -320,8 +320,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject >= minimumValue && Subject <= maximumValue)
             .FailWith(", but {0} was off by {1}.", Subject, difference)
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -359,7 +358,7 @@ public class DateTimeOffsetAssertions<TAssertions>
         long distanceToMaxInTicks = (DateTimeOffset.MaxValue - distantTime).Ticks;
         DateTimeOffset maximumValue = distantTime.AddTicks(Math.Min(precision.Ticks, distanceToMaxInTicks));
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject < minimumValue || Subject > maximumValue)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -384,7 +383,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> BeBefore(DateTimeOffset expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject < expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the date and time} to be before {0}{reason}, but it was {1}.", expected,
@@ -424,7 +423,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> BeOnOrBefore(DateTimeOffset expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject <= expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the date and time} to be on or before {0}{reason}, but it was {1}.", expected,
@@ -464,7 +463,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> BeAfter(DateTimeOffset expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject > expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the date and time} to be after {0}{reason}, but it was {1}.", expected,
@@ -504,7 +503,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> BeOnOrAfter(DateTimeOffset expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject >= expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the date and time} to be on or after {0}{reason}, but it was {1}.", expected,
@@ -544,7 +543,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> HaveYear(int expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected the year part of {context:the date} to be {0}{reason}, ", expected)
             .ForCondition(Subject.HasValue)
@@ -552,8 +551,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Year == expected)
             .FailWith("but it was {0}.", Subject.Value.Year)
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -572,7 +570,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> NotHaveYear(int unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Did not expect the year part of {context:the date} to be {0}{reason}, ", unexpected)
             .ForCondition(Subject.HasValue)
@@ -580,8 +578,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Year != unexpected)
             .FailWith("but it was.")
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -600,7 +597,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> HaveMonth(int expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected the month part of {context:the date} to be {0}{reason}, ", expected)
             .ForCondition(Subject.HasValue)
@@ -608,8 +605,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Month == expected)
             .FailWith("but it was {0}.", Subject.Value.Month)
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -628,7 +624,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> NotHaveMonth(int unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Did not expect the month part of {context:the date} to be {0}{reason}, ", unexpected)
             .ForCondition(Subject.HasValue)
@@ -636,8 +632,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Month != unexpected)
             .FailWith("but it was.")
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -656,7 +651,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> HaveDay(int expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected the day part of {context:the date} to be {0}{reason}, ", expected)
             .ForCondition(Subject.HasValue)
@@ -664,8 +659,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Day == expected)
             .FailWith("but it was {0}.", Subject.Value.Day)
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -684,7 +678,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> NotHaveDay(int unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Did not expect the day part of {context:the date} to be {0}{reason}, ", unexpected)
             .ForCondition(Subject.HasValue)
@@ -692,8 +686,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Day != unexpected)
             .FailWith("but it was.")
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -712,7 +705,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> HaveHour(int expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected the hour part of {context:the time} to be {0}{reason}, ", expected)
             .ForCondition(Subject.HasValue)
@@ -720,8 +713,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Hour == expected)
             .FailWith("but it was {0}.", Subject.Value.Hour)
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -740,7 +732,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> NotHaveHour(int unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Did not expect the hour part of {context:the time} to be {0}{reason}, ", unexpected)
             .ForCondition(Subject.HasValue)
@@ -748,8 +740,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Hour != unexpected)
             .FailWith("but it was.")
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -768,7 +759,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> HaveMinute(int expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected the minute part of {context:the time} to be {0}{reason}, ", expected)
             .ForCondition(Subject.HasValue)
@@ -776,8 +767,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Minute == expected)
             .FailWith("but it was {0}.", Subject.Value.Minute)
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -796,7 +786,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> NotHaveMinute(int unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Did not expect the minute part of {context:the time} to be {0}{reason}, ", unexpected)
             .ForCondition(Subject.HasValue)
@@ -804,8 +794,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Minute != unexpected)
             .FailWith("but it was.")
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -824,7 +813,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> HaveSecond(int expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected the seconds part of {context:the time} to be {0}{reason}, ", expected)
             .ForCondition(Subject.HasValue)
@@ -832,8 +821,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Second == expected)
             .FailWith("but it was {0}.", Subject.Value.Second)
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -852,7 +840,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> NotHaveSecond(int unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Did not expect the seconds part of {context:the time} to be {0}{reason}, ", unexpected)
             .ForCondition(Subject.HasValue)
@@ -860,8 +848,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Second != unexpected)
             .FailWith("but it was.")
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -880,7 +867,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> HaveOffset(TimeSpan expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected the offset of {context:the date} to be {0}{reason}, ", expected)
             .ForCondition(Subject.HasValue)
@@ -888,8 +875,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Offset == expected)
             .FailWith("but it was {0}.", Subject.Value.Offset)
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -908,7 +894,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> NotHaveOffset(TimeSpan unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Did not expect the offset of {context:the date} to be {0}{reason}, ", unexpected)
             .ForCondition(Subject.HasValue)
@@ -916,8 +902,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Offset != unexpected)
             .FailWith("but it was.")
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -931,7 +916,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     /// </param>
     public DateTimeOffsetRangeAssertions<TAssertions> BeMoreThan(TimeSpan timeSpan)
     {
-        return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, Subject, TimeSpanCondition.MoreThan, timeSpan);
+        return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, assertionChain, Subject, TimeSpanCondition.MoreThan, timeSpan);
     }
 
     /// <summary>
@@ -944,7 +929,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     /// </param>
     public DateTimeOffsetRangeAssertions<TAssertions> BeAtLeast(TimeSpan timeSpan)
     {
-        return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, Subject, TimeSpanCondition.AtLeast, timeSpan);
+        return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, assertionChain, Subject, TimeSpanCondition.AtLeast, timeSpan);
     }
 
     /// <summary>
@@ -956,7 +941,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     /// </param>
     public DateTimeOffsetRangeAssertions<TAssertions> BeExactly(TimeSpan timeSpan)
     {
-        return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, Subject, TimeSpanCondition.Exactly, timeSpan);
+        return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, assertionChain, Subject, TimeSpanCondition.Exactly, timeSpan);
     }
 
     /// <summary>
@@ -968,7 +953,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     /// </param>
     public DateTimeOffsetRangeAssertions<TAssertions> BeWithin(TimeSpan timeSpan)
     {
-        return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, Subject, TimeSpanCondition.Within, timeSpan);
+        return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, assertionChain, Subject, TimeSpanCondition.Within, timeSpan);
     }
 
     /// <summary>
@@ -980,7 +965,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     /// </param>
     public DateTimeOffsetRangeAssertions<TAssertions> BeLessThan(TimeSpan timeSpan)
     {
-        return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, Subject, TimeSpanCondition.LessThan, timeSpan);
+        return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, assertionChain, Subject, TimeSpanCondition.LessThan, timeSpan);
     }
 
     /// <summary>
@@ -999,7 +984,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     {
         DateTime expectedDate = expected.Date;
 
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected the date part of {context:the date and time} to be {0}{reason}, ", expectedDate)
             .ForCondition(Subject.HasValue)
@@ -1007,8 +992,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Date == expectedDate)
             .FailWith("but it was {0}.", Subject.Value.Date)
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1029,7 +1013,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     {
         DateTime unexpectedDate = unexpected.Date;
 
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Did not expect the date part of {context:the date and time} to be {0}{reason}, ", unexpectedDate)
             .ForCondition(Subject.HasValue)
@@ -1037,8 +1021,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Date != unexpectedDate)
             .FailWith("but it was.")
-            .Then
-            .ClearExpectation();
+            ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1100,7 +1083,7 @@ public class DateTimeOffsetAssertions<TAssertions>
     public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateTimeOffset?> validValues,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(validValues.Contains(Subject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the date and time} to be one of {0}{reason}, but it was {1}.", validValues, Subject);

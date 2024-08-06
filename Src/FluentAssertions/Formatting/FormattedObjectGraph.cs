@@ -101,7 +101,7 @@ public class FormattedObjectGraph
     {
         if (lineBuilder.Length > 0)
         {
-            AppendSafely($"{lineBuilderWhitespace}{lineBuilder}");
+            AppendSafely(lineBuilderWhitespace + lineBuilder);
 
             lineBuilder.Clear();
             lineBuilderWhitespace = Whitespace;

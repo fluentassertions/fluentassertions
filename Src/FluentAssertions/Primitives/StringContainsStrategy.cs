@@ -17,11 +17,11 @@ internal class StringContainsStrategy : IStringComparisonStrategy
 
     public string ExpectationDescription => "Expected {context:string} to contain the equivalent of ";
 
-    public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
+    public void ValidateAgainstMismatch(AssertionChain assertionChain, string subject, string expected)
     {
         int actual = subject.CountSubstring(expected, comparer);
 
-        assertion
+        assertionChain
             .ForConstraint(occurrenceConstraint, actual)
             .FailWith(
                 $"Expected {{context:string}} {{0}} to contain the equivalent of {{1}} {{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",

@@ -127,6 +127,12 @@ internal static class StringExtensions
             .Replace("\r", "\n", StringComparison.Ordinal);
     }
 
+    public static string RemoveTrailingWhitespaceFromLines(this string input)
+    {
+        // This regex matches whitespace characters (\s) that are followed by a line ending (\r?\n)
+        return Regex.Replace(input, @"[ \t]+(?=\r?\n)", string.Empty);
+    }
+
     /// <summary>
     /// Counts the number of times the <paramref name="substring"/> appears within a string by using the specified <paramref name="comparer"/>.
     /// </summary>

@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
@@ -7,8 +8,8 @@ namespace FluentAssertions.Equivalency.Steps;
 /// </summary>
 public class ValueTypeEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, AssertionChain assertionChain, IEquivalencyValidationContext context,
+        IValidateChildNodeEquivalency nestedValidator)
     {
         Type expectationType = comparands.GetExpectedType(context.Options);
         EqualityStrategy strategy = context.Options.GetEqualityStrategy(expectationType);
@@ -28,7 +29,7 @@ public class ValueTypeEquivalencyStep : IEquivalencyStep
 
             comparands.Subject.Should().Be(comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
 
-            return EquivalencyResult.AssertionCompleted;
+            return EquivalencyResult.EquivalencyProven;
         }
 
         return EquivalencyResult.ContinueWithNext;

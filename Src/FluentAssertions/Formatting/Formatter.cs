@@ -214,7 +214,7 @@ public static class Formatter
 
             string fullPath = GetFullPath();
             var reference = new ObjectReference(value, fullPath);
-            return !tracker.IsCyclicReference(reference, CyclicReferenceHandling.Ignore);
+            return !tracker.IsCyclicReference(reference);
         }
 
         private string GetFullPath() => string.Join(".", pathStack.Reverse());

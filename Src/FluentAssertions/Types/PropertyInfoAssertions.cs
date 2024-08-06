@@ -13,9 +13,12 @@ namespace FluentAssertions.Types;
 [DebuggerNonUserCode]
 public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, PropertyInfoAssertions>
 {
-    public PropertyInfoAssertions(PropertyInfo propertyInfo)
-        : base(propertyInfo)
+    private readonly AssertionChain assertionChain;
+
+    public PropertyInfoAssertions(PropertyInfo propertyInfo, AssertionChain assertionChain)
+        : base(propertyInfo, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -31,14 +34,14 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     public AndConstraint<PropertyInfoAssertions> BeVirtual(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected property to be virtual{reason}, but {context:property} is <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .ForCondition(Subject.IsVirtual())
                 .BecauseOf(because, becauseArgs)
                 .FailWith($"Expected property {GetDescriptionFor(Subject)} to be virtual{{reason}}, but it is not.");
@@ -59,14 +62,14 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// </param>
     public AndConstraint<PropertyInfoAssertions> NotBeVirtual([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected property not to be virtual{reason}, but {context:property} is <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .ForCondition(!Subject.IsVirtual())
                 .BecauseOf(because, becauseArgs)
                 .FailWith($"Expected property {GetDescriptionFor(Subject)} not to be virtual{{reason}}, but it is.");
@@ -88,14 +91,14 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     public AndConstraint<PropertyInfoAssertions> BeWritable(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected property to have a setter{reason}, but {context:property} is <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .ForCondition(Subject!.CanWrite)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -124,21 +127,21 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith($"Expected {Identifier} to be {accessModifier}{{reason}}, but {{context:property}} is <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            success = Execute.Assertion
+            assertionChain
                 .ForCondition(Subject!.CanWrite)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:property} {0} to have a setter{reason}.",
                     Subject);
 
-            if (success)
+            if (assertionChain.Succeeded)
             {
                 Subject!.GetSetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
             }
@@ -160,14 +163,14 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     public AndConstraint<PropertyInfoAssertions> NotBeWritable(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected property not to have a setter{reason}, but {context:property} is <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .ForCondition(!Subject!.CanWrite)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -190,14 +193,14 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// </param>
     public AndConstraint<PropertyInfoAssertions> BeReadable([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected property to have a getter{reason}, but {context:property} is <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion.ForCondition(Subject!.CanRead)
+            assertionChain.ForCondition(Subject!.CanRead)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected property " + Subject.Name + " to have a getter{reason}, but it does not.");
         }
@@ -223,18 +226,18 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith($"Expected {Identifier} to be {accessModifier}{{reason}}, but {{context:property}} is <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            success = Execute.Assertion.ForCondition(Subject!.CanRead)
+            assertionChain.ForCondition(Subject!.CanRead)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected property " + Subject.Name + " to have a getter{reason}, but it does not.");
 
-            if (success)
+            if (assertionChain.Succeeded)
             {
                 Subject!.GetGetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
             }
@@ -256,14 +259,14 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     public AndConstraint<PropertyInfoAssertions> NotBeReadable(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected property not to have a getter{reason}, but {context:property} is <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .ForCondition(!Subject!.CanRead)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -291,14 +294,14 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     {
         Guard.ThrowIfArgumentIsNull(propertyType);
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected type of property to be {0}{reason}, but {context:property} is <null>.", propertyType);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion.ForCondition(Subject!.PropertyType == propertyType)
+            assertionChain.ForCondition(Subject!.PropertyType == propertyType)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected Type of property " + Subject.Name + " to be {0}{reason}, but it is {1}.",
                     propertyType, Subject.PropertyType);
@@ -340,14 +343,14 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     {
         Guard.ThrowIfArgumentIsNull(propertyType);
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected type of property not to be {0}{reason}, but {context:property} is <null>.", propertyType);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .ForCondition(Subject!.PropertyType != propertyType)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected Type of property " + Subject.Name + " not to be {0}{reason}, but it is.", propertyType);

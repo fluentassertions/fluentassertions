@@ -15,9 +15,12 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class DateOnlyAssertions : DateOnlyAssertions<DateOnlyAssertions>
 {
-    public DateOnlyAssertions(DateOnly? value)
-        : base(value)
+    private readonly AssertionChain assertionChain;
+
+    public DateOnlyAssertions(DateOnly? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 }
 
@@ -30,8 +33,11 @@ public class DateOnlyAssertions : DateOnlyAssertions<DateOnlyAssertions>
 public class DateOnlyAssertions<TAssertions>
     where TAssertions : DateOnlyAssertions<TAssertions>
 {
-    public DateOnlyAssertions(DateOnly? value)
+    private readonly AssertionChain assertionChain;
+
+    public DateOnlyAssertions(DateOnly? value, AssertionChain assertionChain)
     {
+        this.assertionChain = assertionChain;
         Subject = value;
     }
 
@@ -53,7 +59,7 @@ public class DateOnlyAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> Be(DateOnly expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:date} to be {0}{reason}, but found {1}.",
@@ -75,7 +81,7 @@ public class DateOnlyAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> Be(DateOnly? expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:date} to be {0}{reason}, but found {1}.",
@@ -98,7 +104,7 @@ public class DateOnlyAssertions<TAssertions>
     public AndConstraint<TAssertions> NotBe(DateOnly unexpected, [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject != unexpected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:date} not to be {0}{reason}, but it is.", unexpected);
@@ -120,7 +126,7 @@ public class DateOnlyAssertions<TAssertions>
     public AndConstraint<TAssertions> NotBe(DateOnly? unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject != unexpected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:date} not to be {0}{reason}, but it is.", unexpected);
@@ -142,7 +148,7 @@ public class DateOnlyAssertions<TAssertions>
     public AndConstraint<TAssertions> BeBefore(DateOnly expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject < expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:date} to be before {0}{reason}, but found {1}.", expected,
@@ -182,7 +188,7 @@ public class DateOnlyAssertions<TAssertions>
     public AndConstraint<TAssertions> BeOnOrBefore(DateOnly expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject <= expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:date} to be on or before {0}{reason}, but found {1}.", expected,
@@ -222,7 +228,7 @@ public class DateOnlyAssertions<TAssertions>
     public AndConstraint<TAssertions> BeAfter(DateOnly expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject > expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:date} to be after {0}{reason}, but found {1}.", expected,
@@ -262,7 +268,7 @@ public class DateOnlyAssertions<TAssertions>
     public AndConstraint<TAssertions> BeOnOrAfter(DateOnly expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject >= expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:date} to be on or after {0}{reason}, but found {1}.", expected,
@@ -301,7 +307,7 @@ public class DateOnlyAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> HaveYear(int expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected the year part of {context:the date} to be {0}{reason}", expected)
             .ForCondition(Subject.HasValue)
@@ -309,8 +315,7 @@ public class DateOnlyAssertions<TAssertions>
             .Then
             .ForCondition(Subject.Value.Year == expected)
             .FailWith(", but found {0}.", Subject.Value.Year)
-            .Then
-            .ClearExpectation();
+ ;
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -328,7 +333,7 @@ public class DateOnlyAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> NotHaveYear(int unexpected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject.HasValue)
             .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but found a <null> DateOnly.",
@@ -354,16 +359,14 @@ public class DateOnlyAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> HaveMonth(int expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected the month part of {context:the date} to be {0}{reason}", expected)
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateOnly.")
             .Then
             .ForCondition(Subject.Value.Month == expected)
-            .FailWith(", but found {0}.", Subject.Value.Month)
-            .Then
-            .ClearExpectation();
+            .FailWith(", but found {0}.", Subject.Value.Month);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -381,16 +384,14 @@ public class DateOnlyAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> NotHaveMonth(int unexpected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Did not expect the month part of {context:the date} to be {0}{reason}", unexpected)
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateOnly.")
             .Then
             .ForCondition(Subject.Value.Month != unexpected)
-            .FailWith(", but it was.")
-            .Then
-            .ClearExpectation();
+            .FailWith(", but it was.");
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -408,16 +409,14 @@ public class DateOnlyAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> HaveDay(int expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected the day part of {context:the date} to be {0}{reason}", expected)
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateOnly.")
             .Then
             .ForCondition(Subject.Value.Day == expected)
-            .FailWith(", but found {0}.", Subject.Value.Day)
-            .Then
-            .ClearExpectation();
+            .FailWith(", but found {0}.", Subject.Value.Day);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -435,16 +434,14 @@ public class DateOnlyAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> NotHaveDay(int unexpected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Did not expect the day part of {context:the date} to be {0}{reason}", unexpected)
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateOnly.")
             .Then
             .ForCondition(Subject.Value.Day != unexpected)
-            .FailWith(", but it was.")
-            .Then
-            .ClearExpectation();
+            .FailWith(", but it was.");
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -505,7 +502,7 @@ public class DateOnlyAssertions<TAssertions>
     public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateOnly?> validValues,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(validValues.Contains(Subject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:date} to be one of {0}{reason}, but found {1}.", validValues, Subject);
