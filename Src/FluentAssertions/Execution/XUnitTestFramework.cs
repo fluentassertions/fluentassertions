@@ -1,37 +1,16 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-
 namespace FluentAssertions.Execution;
 
-/// <summary>
-/// Implements the XUnit (version 2 and 3) test framework adapter.
-/// </summary>
-internal class XUnitTestFramework(string assemblyName) : ITestFramework
+internal abstract class XUnitTestFramework : LateBoundTestFramework
 {
-    private Type exceptionType;
+    protected override string ExceptionFullName => "Xunit.Sdk.XunitException";
+}
 
-    public bool IsAvailable
-    {
-        get
-        {
-            try
-            {
-                // For netfx the assembly is not in AppDomain by default, so we can't just scan AppDomain.CurrentDomain
-                exceptionType = Assembly.Load(new AssemblyName(assemblyName)).GetType("Xunit.Sdk.XunitException");
+internal class XUnit2TestFramework : XUnitTestFramework
+{
+    protected internal override string AssemblyName => "xunit.assert";
+}
 
-                return exceptionType is not null;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-    }
-
-    [DoesNotReturn]
-    public void Throw(string message)
-    {
-        throw (Exception)Activator.CreateInstance(exceptionType, message);
-    }
+internal class XUnit3TestFramework : XUnitTestFramework
+{
+    protected internal override string AssemblyName => "xunit.v3.assert";
 }
