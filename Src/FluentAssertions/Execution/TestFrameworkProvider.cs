@@ -18,7 +18,8 @@ internal class TestFrameworkProvider
         ["mspec"] = new MSpecFramework(),
         ["nunit"] = new NUnitTestFramework(),
         ["mstestv2"] = new MSTestFrameworkV2(),
-        ["xunit2"] = new XUnit2TestFramework() // Keep this the last one as it uses a try/catch approach
+        ["xunit2"] = new XUnit2TestFramework(),
+        ["xunit3"] = new XUnit3TestFramework(),
     };
 
     private readonly Configuration configuration;
