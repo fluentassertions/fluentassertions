@@ -84,7 +84,6 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .UsingLineBreaks
             .ForCondition(ReferenceEquals(Subject, expected))
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
@@ -108,7 +107,6 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .UsingLineBreaks
             .ForCondition(!ReferenceEquals(Subject, unexpected))
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
