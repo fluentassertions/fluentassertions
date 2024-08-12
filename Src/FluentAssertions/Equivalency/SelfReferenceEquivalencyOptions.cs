@@ -100,7 +100,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         matchingRules.AddRange(defaults.MatchingRules);
         OrderingRules = new OrderingRuleCollection(defaults.OrderingRules);
 
-        TraceWriter = defaults.TraceWriter;
+        TraceWriter = defaults.TraceWriter?.NewInstance();
 
         RemoveSelectionRule<AllPropertiesSelectionRule>();
         RemoveSelectionRule<AllFieldsSelectionRule>();

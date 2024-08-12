@@ -161,6 +161,35 @@ public class AssertionOptionsSpecs
     }
 
     [Collection("AssertionOptionsSpecs")]
+    public class When_using_global_tracing : Given_temporary_global_assertion_options
+    {
+        public When_using_global_tracing()
+        {
+            When(() => AssertionOptions.AssertEquivalencyUsing(e => e.WithTracing()));
+        }
+
+        [Fact]
+        public void It_does_not_throw_an_argument_out_of_rage_exception()
+        {
+            Action act = () =>
+            {
+                Parallel.For(1, 10_000, (_, _) =>
+                {
+                    try
+                    {
+                        new { A = "a" }.Should().BeEquivalentTo(new { A = "b" });
+                    }
+                    catch (XunitException)
+                    {
+                    }
+                });
+            };
+
+            act.Should().NotThrow<ArgumentOutOfRangeException>();
+        }
+    }
+
+    [Collection("AssertionOptionsSpecs")]
     public class When_assertion_doubles_should_always_allow_small_deviations : Given_temporary_global_assertion_options
     {
         public When_assertion_doubles_should_always_allow_small_deviations()
