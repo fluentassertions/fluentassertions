@@ -81,7 +81,6 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     public AndConstraint<TAssertions> BeSameAs(TSubject expected, string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .UsingLineBreaks
             .ForCondition(ReferenceEquals(Subject, expected))
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
@@ -104,7 +103,6 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     public AndConstraint<TAssertions> NotBeSameAs(TSubject unexpected, string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .UsingLineBreaks
             .ForCondition(!ReferenceEquals(Subject, unexpected))
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
