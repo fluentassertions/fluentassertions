@@ -14,5 +14,6 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
     <PackageReference Include="Machine.Specifications" Version="1.1.2" />
     <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.10.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 </Project>

@@ -14,5 +14,6 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.3.1" />
     <PackageReference Include="MSTest.TestFramework" Version="3.3.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 </Project>
