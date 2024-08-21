@@ -1,7 +1,6 @@
 ﻿using System;
 using FluentAssertions;
 using Xunit;
-using Xunit.Sdk;
 
 namespace XUnit2.Specs;
 
@@ -14,6 +13,10 @@ public class FrameworkSpecs
         Action act = () => 0.Should().Be(1);
 
         // Assert
-        act.Should().Throw<XunitException>();
+        Exception exception = act.Should().Throw<Exception>().Which;
+
+        // Don't reference the exception type explicitly like this: act.Should().Throw<XunitException>()
+        // It could cause this specs project to load the assembly containing the exception (this actually happens for xUnit)
+        exception.GetType().FullName.Should().Be("Xunit.Sdk.XunitException");
     }
 }
