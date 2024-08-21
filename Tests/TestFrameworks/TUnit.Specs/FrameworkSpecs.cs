@@ -14,8 +14,8 @@ public class FrameworkSpecs
         // Assert
         Exception exception = act.Should().Throw<Exception>().Which;
 
-        exception.GetType()
-            .FullName.Should()
-            .ContainEquivalentOf("TUnit.Assertions.Exceptions.AssertionException");
+        // Don't reference the exception type explicitly like this: act.Should().Throw<AssertionException>()
+        // It could cause this specs project to load the assembly containing the exception (this actually happens for xUnit)
+        exception.GetType().FullName.Should().Be("TUnit.Assertions.Exceptions.AssertionException");
     }
 }
