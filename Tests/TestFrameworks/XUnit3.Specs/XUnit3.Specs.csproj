@@ -9,6 +9,7 @@
     <ProjectReference Include="..\..\..\Src\FluentAssertions\FluentAssertions.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
     <PackageReference Include="xunit.v3" Version="0.3.0-pre.18" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.0.0-pre.30" PrivateAssets="all" />
