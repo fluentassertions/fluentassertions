@@ -10,6 +10,7 @@ using AssemblyB;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using FluentAssertions.Primitives;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Sdk;
 
@@ -1494,11 +1495,13 @@ public class ObjectAssertionSpecs
 
     internal class NonPublicClass
     {
+        [UsedImplicitly]
         public string Name { get; set; }
     }
 
     public class XmlSerializableClass
     {
+        [UsedImplicitly]
         public string Name { get; set; }
 
         public int Id;
@@ -1506,6 +1509,7 @@ public class ObjectAssertionSpecs
 
     public class XmlSerializableClassNotRestoringAllProperties : IXmlSerializable
     {
+        [UsedImplicitly]
         public string Name { get; set; }
 
         public DateTime BirthDay { get; set; }
@@ -1627,6 +1631,7 @@ public class ObjectAssertionSpecs
 
     public class DataContractSerializableClass
     {
+        [UsedImplicitly]
         public string Name { get; set; }
 
         public int Id;

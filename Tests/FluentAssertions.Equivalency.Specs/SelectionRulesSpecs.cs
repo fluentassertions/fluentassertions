@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using FluentAssertions.Common;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Sdk;
 
@@ -60,7 +61,7 @@ public class SelectionRulesSpecs
 
         private class ClassWithFieldInLowerCase
         {
-            [JetBrains.Annotations.UsedImplicitly]
+            [UsedImplicitly]
 #pragma warning disable SA1307
             public string name;
 #pragma warning restore SA1307
@@ -68,7 +69,7 @@ public class SelectionRulesSpecs
 
         private class ClassWithFieldInUpperCase
         {
-            [JetBrains.Annotations.UsedImplicitly]
+            [UsedImplicitly]
             public string Name;
         }
 
@@ -95,6 +96,7 @@ public class SelectionRulesSpecs
 
         public class ClassWithIndexer
         {
+            [UsedImplicitly]
             public object Foo { get; set; }
 
             public string this[int n] =>
@@ -289,8 +291,10 @@ public class SelectionRulesSpecs
 
         internal class BaseClassPointingToClassWithoutProperties
         {
+            [UsedImplicitly]
             public string Name { get; set; }
 
+            [UsedImplicitly]
             public ClassWithoutProperty ClassWithoutProperty { get; } = new();
         }
 
@@ -453,6 +457,7 @@ public class SelectionRulesSpecs
 
         public class CustomType
         {
+            [UsedImplicitly]
             public string Name { get; set; }
         }
 
@@ -1360,10 +1365,13 @@ public class SelectionRulesSpecs
 
         private class ClassWithInternalProperty
         {
+            [UsedImplicitly]
             public string PublicProperty { get; set; }
 
+            [UsedImplicitly]
             internal string InternalProperty { get; set; }
 
+            [UsedImplicitly]
             protected internal string ProtectedInternalProperty { get; set; }
         }
 
@@ -1416,10 +1424,13 @@ public class SelectionRulesSpecs
 
         private class ClassWithInternalField
         {
+            [UsedImplicitly]
             public string PublicField;
 
+            [UsedImplicitly]
             internal string InternalField;
 
+            [UsedImplicitly]
             protected internal string ProtectedInternalField;
         }
 
@@ -1464,8 +1475,10 @@ public class SelectionRulesSpecs
                 Value = value;
             }
 
+            [UsedImplicitly]
             public string Name { get; }
 
+            [UsedImplicitly]
             private protected int Value { get; }
         }
 
@@ -1488,8 +1501,10 @@ public class SelectionRulesSpecs
                 this.value = value;
             }
 
+            [UsedImplicitly]
             public string Name;
 
+            [UsedImplicitly]
             private protected int value;
         }
     }
@@ -1632,26 +1647,31 @@ public class SelectionRulesSpecs
 
         private class BaseWithProperty
         {
+            [UsedImplicitly]
             public object Property { get; set; }
         }
 
         private class SubclassAHidingProperty<T> : BaseWithProperty
         {
+            [UsedImplicitly]
             public new T Property { get; set; }
         }
 
         private class BaseWithStringProperty
         {
+            [UsedImplicitly]
             public string Property { get; set; }
         }
 
         private class SubclassHidingStringProperty : BaseWithStringProperty
         {
+            [UsedImplicitly]
             public new string Property { get; set; }
         }
 
         private class AnotherBaseWithProperty
         {
+            [UsedImplicitly]
             public object Property { get; set; }
         }
 
@@ -1780,21 +1800,25 @@ public class SelectionRulesSpecs
 
         private class BaseWithField
         {
+            [UsedImplicitly]
             public string Field;
         }
 
         private class SubclassAHidingField : BaseWithField
         {
+            [UsedImplicitly]
             public new string Field;
         }
 
         private class AnotherBaseWithField
         {
+            [UsedImplicitly]
             public string Field;
         }
 
         private class SubclassBHidingField : AnotherBaseWithField
         {
+            [UsedImplicitly]
             public new string Field;
         }
     }
@@ -2233,11 +2257,13 @@ public class SelectionRulesSpecs
 
         private class BaseWithProperty
         {
+            [UsedImplicitly]
             public string BaseProperty { get; set; }
         }
 
         private class DerivedWithProperty : BaseWithProperty
         {
+            [UsedImplicitly]
             public string DerivedProperty { get; set; }
         }
 
@@ -2250,6 +2276,7 @@ public class SelectionRulesSpecs
         {
             public override DerivedWithProperty Property { get; }
 
+            [UsedImplicitly]
             public string OtherProp { get; set; }
 
             public DerivedWithCovariantOverride(DerivedWithProperty prop)
@@ -2797,45 +2824,59 @@ public class SelectionRulesSpecs
 
         private class ClassWithNonBrowsableMembers
         {
+            [UsedImplicitly]
             public int BrowsableField = -1;
 
+            [UsedImplicitly]
             public int BrowsableProperty { get; set; }
 
+            [UsedImplicitly]
             [EditorBrowsable(EditorBrowsableState.Always)]
             public int ExplicitlyBrowsableField = -1;
 
+            [UsedImplicitly]
             [EditorBrowsable(EditorBrowsableState.Always)]
             public int ExplicitlyBrowsableProperty { get; set; }
 
+            [UsedImplicitly]
             [EditorBrowsable(EditorBrowsableState.Advanced)]
             public int AdvancedBrowsableField = -1;
 
+            [UsedImplicitly]
             [EditorBrowsable(EditorBrowsableState.Advanced)]
             public int AdvancedBrowsableProperty { get; set; }
 
+            [UsedImplicitly]
             [EditorBrowsable(EditorBrowsableState.Never)]
             public int NonBrowsableField = -1;
 
+            [UsedImplicitly]
             [EditorBrowsable(EditorBrowsableState.Never)]
             public int NonBrowsableProperty { get; set; }
         }
 
         private class ClassWhereMemberThatCouldBeNonBrowsableIsBrowsable
         {
+            [UsedImplicitly]
             public int BrowsableProperty { get; set; }
 
+            [UsedImplicitly]
             public int FieldThatMightBeNonBrowsable = -1;
 
+            [UsedImplicitly]
             public int PropertyThatMightBeNonBrowsable { get; set; }
         }
 
         private class ClassWhereMemberThatCouldBeNonBrowsableIsNonBrowsable
         {
+            [UsedImplicitly]
             public int BrowsableProperty { get; set; }
 
+            [UsedImplicitly]
             [EditorBrowsable(EditorBrowsableState.Never)]
             public int FieldThatMightBeNonBrowsable = -1;
 
+            [UsedImplicitly]
             [EditorBrowsable(EditorBrowsableState.Never)]
             public int PropertyThatMightBeNonBrowsable { get; set; }
         }
