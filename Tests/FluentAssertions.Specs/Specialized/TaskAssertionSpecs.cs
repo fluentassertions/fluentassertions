@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
-using FluentAssertions.Specialized;
 using Xunit;
 using Xunit.Sdk;
 
