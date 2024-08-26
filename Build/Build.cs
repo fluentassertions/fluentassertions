@@ -113,12 +113,13 @@ class Build : NukeBuild
 
     Target Compile => _ => _
         .DependsOn(Restore)
+        .DependsOn(CalculateNugetVersion)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
             ReportSummary(s => s
-                .WhenNotNull(GitVersion, (v, o) => v
-                    .AddPair("Version", o.SemVer)));
+                .WhenNotNull(SemVer, (summary, semVer) => summary
+                    .AddPair("Version", semVer)));
 
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
@@ -128,6 +129,7 @@ class Build : NukeBuild
                 )
                 .EnableNoLogo()
                 .EnableNoRestore()
+                .SetVersion(SemVer)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion));
@@ -305,7 +307,6 @@ class Build : NukeBuild
         .DependsOn(TestFrameworks)
         .DependsOn(UnitTests)
         .DependsOn(CodeCoverage)
-        .DependsOn(CalculateNugetVersion)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
