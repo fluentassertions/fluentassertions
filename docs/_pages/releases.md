@@ -91,6 +91,7 @@ sidebar:
 * Moved the non-generic `NotThrow` and `NotThrowAfter` from `DelegateAssertions<TDelegate, TAssertions>` to `ActionAssertions` - [#2371](https://github.com/fluentassertions/fluentassertions/pull/2371)
 * Renamed `EquivalencyResult.AssertionCompleted` to `EquivalencyProven` - [#2745](https://github.com/fluentassertions/fluentassertions/pull/2745)
 * Renamed `IEquivalencyValidator` to `IValidateChildNodeEquivalency`, and its method `RecursivelyAssertEquality` to `AssertEquivalencyOf` - [#2745](https://github.com/fluentassertions/fluentassertions/pull/2745)
+* Made `Node`, `Property` and `Field` internal - [#2745](https://github.com/fluentassertions/fluentassertions/pull/2745)
 
 ## 6.12.0
 

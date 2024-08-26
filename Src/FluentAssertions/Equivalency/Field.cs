@@ -8,7 +8,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// A specialized type of <see cref="INode  "/> that represents a field of an object in a structural equivalency assertion.
 /// </summary>
-public class Field : Node, IMember
+internal class Field : Node, IMember
 {
     private readonly FieldInfo fieldInfo;
     private bool? isBrowsable;
