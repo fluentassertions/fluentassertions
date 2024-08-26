@@ -331,6 +331,10 @@ resharper_parentheses_redundancy_style = remove_if_not_clarifies_precedence
 
 dotnet_analyzer_diagnostic.category-roslynator.severity = error
 
+# Purpose: Remove trailing white-space
+# Reason: It also complains about this when pressing enter to start a new empty line. 
+dotnet_diagnostic.RCS1037.severity = none
+
 # Remove suffix 'Async' from non-asynchronous method name. Disabled because we like that suffix for now.
 dotnet_diagnostic.RCS1047.severity = none
 
