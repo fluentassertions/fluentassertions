@@ -14,7 +14,7 @@ namespace FluentAssertions.Equivalency.Steps;
 public class AutoConversionStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+        IValidateChildNodeEquivalency valueChildNodes)
     {
         if (!context.Options.ConversionSelector.RequiresConversion(comparands, context.CurrentNode))
         {

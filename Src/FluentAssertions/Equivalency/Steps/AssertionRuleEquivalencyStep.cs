@@ -23,7 +23,7 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
     }
 
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+        IValidateChildNodeEquivalency valueChildNodes)
     {
         bool success = false;
 
@@ -41,7 +41,7 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
             {
                 // Convert into a child context
                 context = context.Clone();
-                converter.Handle(comparands, context, nestedValidator);
+                converter.Handle(comparands, context, valueChildNodes);
                 converted = true;
             }
 
@@ -59,7 +59,7 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
             }
         }
 
-        return success ? EquivalencyResult.AssertionCompleted : EquivalencyResult.ContinueWithNext;
+        return success ? EquivalencyResult.EquivalencyProven : EquivalencyResult.ContinueWithNext;
     }
 
     private bool AppliesTo(Comparands comparands, INode currentNode) => predicate(new ObjectInfo(comparands, currentNode));

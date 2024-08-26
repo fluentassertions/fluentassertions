@@ -3,10 +3,10 @@
 public class ReferenceEqualityEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+        IValidateChildNodeEquivalency valueChildNodes)
     {
         return ReferenceEquals(comparands.Subject, comparands.Expectation)
-            ? EquivalencyResult.AssertionCompleted
+            ? EquivalencyResult.EquivalencyProven
             : EquivalencyResult.ContinueWithNext;
     }
 }

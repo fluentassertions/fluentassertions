@@ -7,13 +7,13 @@
 public class RunAllUserStepsEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+        IValidateChildNodeEquivalency valueChildNodes)
     {
         foreach (IEquivalencyStep step in context.Options.UserEquivalencySteps)
         {
-            if (step.Handle(comparands, context, nestedValidator) == EquivalencyResult.AssertionCompleted)
+            if (step.Handle(comparands, context, valueChildNodes) == EquivalencyResult.EquivalencyProven)
             {
-                return EquivalencyResult.AssertionCompleted;
+                return EquivalencyResult.EquivalencyProven;
             }
         }
 

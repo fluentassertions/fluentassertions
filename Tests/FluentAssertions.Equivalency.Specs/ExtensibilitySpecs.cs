@@ -627,7 +627,7 @@ public class ExtensibilitySpecs
     private class AlwaysFailOnDateTimesEquivalencyStep : IEquivalencyStep
     {
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator nestedValidator)
+            IValidateChildNodeEquivalency valueChildNodes)
         {
             if (comparands.Expectation is DateTime)
             {
@@ -641,13 +641,13 @@ public class ExtensibilitySpecs
     private class RelaxingDateTimeEquivalencyStep : IEquivalencyStep
     {
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator nestedValidator)
+            IValidateChildNodeEquivalency valueChildNodes)
         {
             if (comparands.Expectation is DateTime time)
             {
                 ((DateTime)comparands.Subject).Should().BeCloseTo(time, 1.Minutes());
 
-                return EquivalencyResult.AssertionCompleted;
+                return EquivalencyResult.EquivalencyProven;
             }
 
             return EquivalencyResult.ContinueWithNext;
@@ -812,7 +812,7 @@ public class ExtensibilitySpecs
         where TException : Exception, new()
     {
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator nestedValidator)
+            IValidateChildNodeEquivalency valueChildNodes)
         {
             throw new TException();
         }
@@ -821,16 +821,16 @@ public class ExtensibilitySpecs
     private class AlwaysHandleEquivalencyStep : IEquivalencyStep
     {
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator nestedValidator)
+            IValidateChildNodeEquivalency valueChildNodes)
         {
-            return EquivalencyResult.AssertionCompleted;
+            return EquivalencyResult.EquivalencyProven;
         }
     }
 
     private class NeverHandleEquivalencyStep : IEquivalencyStep
     {
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator nestedValidator)
+            IValidateChildNodeEquivalency valueChildNodes)
         {
             return EquivalencyResult.ContinueWithNext;
         }
@@ -839,10 +839,10 @@ public class ExtensibilitySpecs
     private class EqualityEquivalencyStep : IEquivalencyStep
     {
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator nestedValidator)
+            IValidateChildNodeEquivalency valueChildNodes)
         {
             comparands.Subject.Should().Be(comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
-            return EquivalencyResult.AssertionCompleted;
+            return EquivalencyResult.EquivalencyProven;
         }
     }
 
@@ -856,10 +856,10 @@ public class ExtensibilitySpecs
         }
 
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator nestedValidator)
+            IValidateChildNodeEquivalency valueChildNodes)
         {
             doAction();
-            return EquivalencyResult.AssertionCompleted;
+            return EquivalencyResult.EquivalencyProven;
         }
     }
 

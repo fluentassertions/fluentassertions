@@ -11,7 +11,7 @@ namespace FluentAssertions.Equivalency.Steps;
 public class EnumEqualityStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+        IValidateChildNodeEquivalency valueChildNodes)
     {
         if (!comparands.GetExpectedType(context.Options).IsEnum)
         {
@@ -48,7 +48,7 @@ public class EnumEqualityStep : IEquivalencyStep
             }
         }
 
-        return EquivalencyResult.AssertionCompleted;
+        return EquivalencyResult.EquivalencyProven;
     }
 
     private static void HandleByValue(Comparands comparands, Reason reason)
