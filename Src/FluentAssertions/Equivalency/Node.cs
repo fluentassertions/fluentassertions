@@ -6,7 +6,7 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;
 
-public class Node : INode
+internal class Node : INode
 {
     private static readonly Regex MatchFirstIndex = new(@"^\[[0-9]+\]$");
 
