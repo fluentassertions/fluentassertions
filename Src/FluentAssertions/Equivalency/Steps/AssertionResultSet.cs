@@ -29,7 +29,7 @@ internal class AssertionResultSet
     /// The closest match is the set that contains the least amount of failures, or no failures at all, and preferably
     /// the set that is identified by the <paramref name="key"/>.
     /// </remarks>
-    public string[] SelectClosestMatchFor(object key = null)
+    public string[] GetTheFailuresForTheSetWithTheFewestFailures(object key = null)
     {
         if (ContainsSuccessfulSet())
         {

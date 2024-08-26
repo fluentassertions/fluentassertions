@@ -183,7 +183,7 @@ internal class EnumerableEquivalencyValidator
             unmatchedSubjectIndexes.RemoveAt(indexToBeRemoved);
         }
 
-        foreach (string failure in results.SelectClosestMatchFor(expectationIndex))
+        foreach (string failure in results.GetTheFailuresForTheSetWithTheFewestFailures(expectationIndex))
         {
             AssertionScope.Current.AddPreFormattedFailure(failure);
         }
