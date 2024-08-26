@@ -117,8 +117,8 @@ class Build : NukeBuild
         .Executes(() =>
         {
             ReportSummary(s => s
-                .WhenNotNull(GitVersion, (v, o) => v
-                    .AddPair("Version", o.SemVer)));
+                .WhenNotNull(GitVersion, (summary, gitVersion) => summary
+                    .AddPair("Version", gitVersion.SemVer)));
 
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
