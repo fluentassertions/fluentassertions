@@ -22,7 +22,7 @@ public sealed class AssertionScope : IAssertionScope
     #region Private Definitions
 
     private readonly IAssertionStrategy assertionStrategy;
-    private readonly ContextDataItems contextData = new();
+    private readonly ContextDataDictionary contextData = new();
     private readonly StringBuilder tracing = new();
 
     private Func<string> reason;
@@ -219,8 +219,8 @@ public sealed class AssertionScope : IAssertionScope
 
     internal void TrackComparands(object subject, object expectation)
     {
-        contextData.Add(new ContextDataItems.DataItem("subject", subject, reportable: false, requiresFormatting: true));
-        contextData.Add(new ContextDataItems.DataItem("expectation", expectation, reportable: false, requiresFormatting: true));
+        contextData.Add(new ContextDataDictionary.DataItem("subject", subject, reportable: false, requiresFormatting: true));
+        contextData.Add(new ContextDataDictionary.DataItem("expectation", expectation, reportable: false, requiresFormatting: true));
     }
 
     /// <inheritdoc/>
@@ -359,7 +359,7 @@ public sealed class AssertionScope : IAssertionScope
     /// </summary>
     public void AddNonReportable(string key, object value)
     {
-        contextData.Add(new ContextDataItems.DataItem(key, value, reportable: false, requiresFormatting: false));
+        contextData.Add(new ContextDataDictionary.DataItem(key, value, reportable: false, requiresFormatting: false));
     }
 
     /// <summary>
@@ -368,7 +368,7 @@ public sealed class AssertionScope : IAssertionScope
     /// </summary>
     public void AddReportable(string key, string value)
     {
-        contextData.Add(new ContextDataItems.DataItem(key, value, reportable: true, requiresFormatting: false));
+        contextData.Add(new ContextDataDictionary.DataItem(key, value, reportable: true, requiresFormatting: false));
     }
 
     /// <summary>
@@ -377,7 +377,7 @@ public sealed class AssertionScope : IAssertionScope
     /// </summary>
     public void AddReportable(string key, Func<string> valueFunc)
     {
-        contextData.Add(new ContextDataItems.DataItem(key, new DeferredReportable(valueFunc), reportable: true,
+        contextData.Add(new ContextDataDictionary.DataItem(key, new DeferredReportable(valueFunc), reportable: true,
             requiresFormatting: false));
     }
 
