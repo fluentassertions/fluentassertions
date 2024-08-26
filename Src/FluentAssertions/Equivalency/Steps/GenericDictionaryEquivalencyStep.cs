@@ -11,13 +11,13 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
 {
 #pragma warning disable SA1110 // Allow opening parenthesis on new line to reduce line length
     private static readonly MethodInfo AssertDictionaryEquivalenceMethod =
-        new Action<EquivalencyValidationContext, IEquivalencyValidator, IEquivalencyOptions,
+        new Action<EquivalencyValidationContext, IValidateChildNodeEquivalency, IEquivalencyOptions,
                 IDictionary<object, object>, IDictionary<object, object>>
             (AssertDictionaryEquivalence).GetMethodInfo().GetGenericMethodDefinition();
 #pragma warning restore SA1110
 
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+        IValidateChildNodeEquivalency valueChildNodes)
     {
         if (comparands.Expectation is null)
         {
@@ -40,10 +40,10 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         if (IsNotNull(comparands.Subject)
             && EnsureSubjectIsOfTheExpectedDictionaryType(comparands, expectedDictionary) is { } actualDictionary)
         {
-            AssertDictionaryEquivalence(comparands, context, nestedValidator, actualDictionary, expectedDictionary);
+            AssertDictionaryEquivalence(comparands, context, valueChildNodes, actualDictionary, expectedDictionary);
         }
 
-        return EquivalencyResult.AssertionCompleted;
+        return EquivalencyResult.EquivalencyProven;
     }
 
     private static bool IsNonGenericDictionary(object subject)
@@ -148,7 +148,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
     }
 
     private static void AssertDictionaryEquivalence(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator parent, DictionaryInterfaceInfo actualDictionary, DictionaryInterfaceInfo expectedDictionary)
+        IValidateChildNodeEquivalency parent, DictionaryInterfaceInfo actualDictionary, DictionaryInterfaceInfo expectedDictionary)
     {
         AssertDictionaryEquivalenceMethod
             .MakeGenericMethod(actualDictionary.Key, actualDictionary.Value, expectedDictionary.Key, expectedDictionary.Value)
@@ -157,7 +157,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
 
     private static void AssertDictionaryEquivalence<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
         EquivalencyValidationContext context,
-        IEquivalencyValidator parent,
+        IValidateChildNodeEquivalency parent,
         IEquivalencyOptions options,
         IDictionary<TSubjectKey, TSubjectValue> subject,
         IDictionary<TExpectedKey, TExpectedValue> expectation)
@@ -180,7 +180,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
                         {
                             var nestedComparands = new Comparands(subject[key], expectation[key], typeof(TExpectedValue));
 
-                            parent.RecursivelyAssertEquality(nestedComparands,
+                            parent.AssertEquivalencyOf(nestedComparands,
                                 context.AsDictionaryItem<TExpectedKey, TExpectedValue>(key));
                         }
                     }

@@ -11,7 +11,7 @@ namespace FluentAssertions.Equivalency;
 internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+        IValidateChildNodeEquivalency valueChildNodes)
     {
         if (comparands.Expectation is not Array expectationAsArray || expectationAsArray.Rank == 1)
         {
@@ -22,7 +22,7 @@ internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
         {
             if (expectationAsArray.Length == 0)
             {
-                return EquivalencyResult.AssertionCompleted;
+                return EquivalencyResult.EquivalencyProven;
             }
 
             Digit digit = BuildDigitsRepresentingAllIndices(expectationAsArray);
@@ -36,12 +36,12 @@ internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
 
                 IEquivalencyValidationContext itemContext = context.AsCollectionItem<object>(listOfIndices);
 
-                nestedValidator.RecursivelyAssertEquality(new Comparands(subject, expectation, typeof(object)), itemContext);
+                valueChildNodes.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(object)), itemContext);
             }
             while (digit.Increment());
         }
 
-        return EquivalencyResult.AssertionCompleted;
+        return EquivalencyResult.EquivalencyProven;
     }
 
     private static Digit BuildDigitsRepresentingAllIndices(Array subjectAsArray)

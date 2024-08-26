@@ -16,7 +16,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
 #pragma warning restore SA1110
 
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+        IValidateChildNodeEquivalency valueChildNodes)
     {
         Type expectedType = comparands.GetExpectedType(context.Options);
 
@@ -35,7 +35,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
 
         if (AssertSubjectIsCollection(comparands.Subject))
         {
-            var validator = new EnumerableEquivalencyValidator(nestedValidator, context)
+            var validator = new EnumerableEquivalencyValidator(valueChildNodes, context)
             {
                 Recursive = context.CurrentNode.IsRoot || context.Options.IsRecursive,
                 OrderingRules = context.Options.OrderingRules
@@ -56,7 +56,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
             }
         }
 
-        return EquivalencyResult.AssertionCompleted;
+        return EquivalencyResult.EquivalencyProven;
     }
 
     private static void HandleImpl<T>(EnumerableEquivalencyValidator validator, object[] subject, IEnumerable<T> expectation) =>

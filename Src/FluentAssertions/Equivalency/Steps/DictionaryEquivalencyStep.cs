@@ -9,7 +9,7 @@ public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
 {
     [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
     protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+        IValidateChildNodeEquivalency nested)
     {
         var subject = comparands.Subject as IDictionary;
         var expectation = comparands.Expectation as IDictionary;
@@ -23,7 +23,7 @@ public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
                     context.Tracer.WriteLine(member =>
                         Invariant($"Recursing into dictionary item {key} at {member.Description}"));
 
-                    nestedValidator.RecursivelyAssertEquality(new Comparands(subject[key], expectation[key], typeof(object)),
+                    nested.AssertEquivalencyOf(new Comparands(subject[key], expectation[key], typeof(object)),
                         context.AsDictionaryItem<object, IDictionary>(key));
                 }
                 else
@@ -37,7 +37,7 @@ public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
             }
         }
 
-        return EquivalencyResult.AssertionCompleted;
+        return EquivalencyResult.EquivalencyProven;
     }
 
     private static bool PreconditionsAreMet(IDictionary expectation, IDictionary subject)

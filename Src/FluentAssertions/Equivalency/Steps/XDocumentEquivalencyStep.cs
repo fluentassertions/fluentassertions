@@ -5,13 +5,13 @@ namespace FluentAssertions.Equivalency.Steps;
 public class XDocumentEquivalencyStep : EquivalencyStep<XDocument>
 {
     protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+        IValidateChildNodeEquivalency nested)
     {
         var subject = (XDocument)comparands.Subject;
         var expectation = (XDocument)comparands.Expectation;
 
         subject.Should().BeEquivalentTo(expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
 
-        return EquivalencyResult.AssertionCompleted;
+        return EquivalencyResult.EquivalencyProven;
     }
 }

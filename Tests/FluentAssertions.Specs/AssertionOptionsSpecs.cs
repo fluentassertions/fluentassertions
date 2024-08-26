@@ -419,11 +419,11 @@ public class AssertionOptionsSpecs
     internal class MyEquivalencyStep : IEquivalencyStep
     {
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator nestedValidator)
+            IValidateChildNodeEquivalency valueChildNodes)
         {
             Execute.Assertion.FailWith(GetType().FullName);
 
-            return EquivalencyResult.AssertionCompleted;
+            return EquivalencyResult.EquivalencyProven;
         }
     }
 }

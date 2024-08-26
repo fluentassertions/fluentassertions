@@ -242,7 +242,7 @@ Primitive types are never compared by their members and trying to call e.g. `Com
 The entire structural equivalency API is built around the concept of a plan containing equivalency steps that are run in a predefined order. Each step is an implementation of the `IEquivalencyStep` which exposes a single method `Handle`. You can pass your own implementation to a particular assertion call by passing it into the `Using` method (which puts it behind the final default step) or directly tweak the global `AssertionOptions.EquivalencyPlan`. Checkout the underlying `EquivalencyPlan` to see how it relates your custom step to the other steps. That said, the `Handle` method has the following signature:
 
 ```csharp
-EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator);
+EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IValidateChildNodeEquivalency nestedValidator);
 ```
 
 It provides you with a couple of parameters. The `comparands` gives you access to the subject-under-test and the expectation. The `context` provides some additional information such as where you are in a deeply nested structure (the `CurrentNode`), or the effective configuration that should apply to the current assertion call (the `Options`). The `nestedValidator` allows you to perform nested assertions like the `StructuralEqualityEquivalencyStep` is doing. Using this knowledge, the simplest built-in step looks like this:
@@ -250,13 +250,13 @@ It provides you with a couple of parameters. The `comparands` gives you access t
 ```csharp
 public class SimpleEqualityEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IValidateChildNodeEquivalency nestedValidator)
     {
         if (!context.Options.IsRecursive && !context.CurrentNode.IsRoot)
         {
             comparands.Subject.Should().Be(comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
 
-            return EquivalencyResult.AssertionCompleted;
+            return EquivalencyResult.EquivalencyProven;
         }
 
         return EquivalencyResult.ContinueWithNext;
