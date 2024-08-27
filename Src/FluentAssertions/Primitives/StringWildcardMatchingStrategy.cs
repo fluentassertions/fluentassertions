@@ -19,11 +19,11 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
 
         if (Negate)
         {
-            assertionChain.FailWith(ExpectationDescription + "but {1} matches.", expected, subject);
+            assertionChain.FailWith($"{ExpectationDescription}but {{1}} matches.", expected, subject);
         }
         else
         {
-            assertionChain.FailWith(ExpectationDescription + "but {1} does not.", expected, subject);
+            assertionChain.FailWith($"{ExpectationDescription}but {{1}} does not.", expected, subject);
         }
     }
 

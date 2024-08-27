@@ -42,7 +42,7 @@ internal class StringValidator
             return true;
         }
 
-        assertionChain.FailWith(comparisonStrategy.ExpectationDescription + "{0}{reason}, but found {1}.", expected, subject);
+        assertionChain.FailWith($"{comparisonStrategy.ExpectationDescription}{{0}}{{reason}}, but found {{1}}.", expected, subject);
         return false;
     }
 }
