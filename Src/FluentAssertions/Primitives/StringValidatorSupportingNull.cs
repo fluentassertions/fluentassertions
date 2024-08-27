@@ -17,11 +17,6 @@ internal class StringValidatorSupportingNull
 
     public void Validate(string subject, string expected)
     {
-        if (expected is null && subject is null)
-        {
-            return;
-        }
-
         if (expected?.IsLongOrMultiline() == true ||
             subject?.IsLongOrMultiline() == true)
         {
