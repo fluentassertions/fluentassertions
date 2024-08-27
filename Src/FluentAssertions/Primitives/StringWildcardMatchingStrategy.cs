@@ -19,11 +19,11 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
 
         if (Negate)
         {
-            assertion.FailWith(ExpectationDescription + "but {1} matches.", expected, subject);
+            assertion.FailWith($"{ExpectationDescription}but {{1}} matches.", expected, subject);
         }
         else
         {
-            assertion.FailWith(ExpectationDescription + "but {1} does not.", expected, subject);
+            assertion.FailWith($"{ExpectationDescription}but {{1}} does not.", expected, subject);
         }
     }
 
@@ -41,11 +41,9 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
 
     private static string ConvertWildcardToRegEx(string wildcardExpression)
     {
-        return "^"
-            + Regex.Escape(wildcardExpression)
-                .Replace("\\*", ".*", StringComparison.Ordinal)
-                .Replace("\\?", ".", StringComparison.Ordinal)
-            + "$";
+        return $"^{Regex.Escape(wildcardExpression)
+            .Replace("\\*", ".*", StringComparison.Ordinal)
+            .Replace("\\?", ".", StringComparison.Ordinal)}$";
     }
 
     private string CleanNewLines(string input)

@@ -15,13 +15,13 @@ internal class StringEndStrategy : IStringComparisonStrategy
         this.predicateDescription = predicateDescription;
     }
 
-    public string ExpectationDescription => "Expected {context:string} to " + predicateDescription + " ";
+    public string ExpectationDescription => $"Expected {{context:string}} to {predicateDescription} ";
 
     public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {
         if (!assertion
                 .ForCondition(subject!.Length >= expected.Length)
-                .FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", expected, subject))
+                .FailWith($"{ExpectationDescription}{{0}}{{reason}}, but {{1}} is too short.", expected, subject))
         {
             return;
         }
@@ -34,8 +34,7 @@ internal class StringEndStrategy : IStringComparisonStrategy
         }
 
         assertion.FailWith(
-            ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) +
-            ".",
+            $"{ExpectationDescription}{{0}}{{reason}}, but {{1}} differs near {subject.IndexedSegmentAt(indexOfMismatch)}.",
             expected, subject);
     }
 }
