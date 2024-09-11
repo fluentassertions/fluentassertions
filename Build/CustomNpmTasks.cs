@@ -145,9 +145,8 @@ public static class CustomNpmTasks
             npmExecutable.SetExecutable();
 
             Information("Linking binaries...");
-            Tool ln = ToolResolver.GetPathTool("ln");
-            ln($"-sf {npmExecutable} npm", workingDirectory: WorkingDirectory);
-            ln($"-sf {npmNodeModules} node_modules", workingDirectory: WorkingDirectory);
+            npmExecutable.AddUnixSymlink(WorkingDirectory / "npm", force: true);
+            npmNodeModules.AddUnixSymlink(WorkingDirectory / "node_modules", force: true);
 
             npmExecutable = WorkingDirectory / "npm";
         }
