@@ -23,6 +23,8 @@ public static class CustomNpmTasks
 
     static string Version;
 
+    static Func<string, bool> GetCachedNodeModules;
+
     public static bool HasCachedNodeModules;
 
     public static void Initialize(AbsolutePath root)
@@ -31,7 +33,7 @@ public static class CustomNpmTasks
         NodeDir = RootDirectory / ".nuke" / "temp";
 
         Version = (RootDirectory / "NodeVersion").ReadAllText().Trim();
-        HasCachedNodeModules = NodeDir.GlobFiles($"node*{Version}*/**/node*", $"node*{Version}*/**/npm*").Count != 0;
+        GetCachedNodeModules = os => NodeDir.GlobFiles($"node*{Version}-{os}*/**/node*", $"node*{Version}-{os}*/**/npm*").Count != 0;
     }
 
     public static void NpmFetchRuntime()
@@ -71,6 +73,8 @@ public static class CustomNpmTasks
             EnvironmentInfo.Is64Bit ? "x64" : "x86";
 
         os = $"{os}-{architecture}";
+
+        HasCachedNodeModules = GetCachedNodeModules(os);
 
         if (!HasCachedNodeModules)
         {
