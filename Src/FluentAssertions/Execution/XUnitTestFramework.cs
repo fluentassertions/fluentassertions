@@ -1,15 +1,15 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace FluentAssertions.Execution;
 
 /// <summary>
-/// Implements the XUnit (version 2) test framework adapter.
+/// Implements the xUnit (version 2 and 3) test framework adapter.
 /// </summary>
-internal class XUnit2TestFramework : ITestFramework
+internal class XUnitTestFramework(string assemblyName) : ITestFramework
 {
-    private Assembly assembly;
+    private Type exceptionType;
 
     public bool IsAvailable
     {
@@ -18,9 +18,9 @@ internal class XUnit2TestFramework : ITestFramework
             try
             {
                 // For netfx the assembly is not in AppDomain by default, so we can't just scan AppDomain.CurrentDomain
-                assembly = Assembly.Load(new AssemblyName("xunit.assert"));
+                exceptionType = Assembly.Load(new AssemblyName(assemblyName)).GetType("Xunit.Sdk.XunitException");
 
-                return assembly is not null;
+                return exceptionType is not null;
             }
             catch
             {
@@ -32,9 +32,6 @@ internal class XUnit2TestFramework : ITestFramework
     [DoesNotReturn]
     public void Throw(string message)
     {
-        Type exceptionType = assembly.GetType("Xunit.Sdk.XunitException")
-            ?? throw new NotSupportedException("Failed to create the XUnit assertion type");
-
         throw (Exception)Activator.CreateInstance(exceptionType, message);
     }
 }
