@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
 using FluentAssertions.Common;
+#if NET6_0_OR_GREATER
+using FluentAssertions.Json;
+#endif
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Specialized;
@@ -713,6 +716,38 @@ public static class AssertionExtensions
     {
         return new StringAssertions(actualValue);
     }
+
+#if NET6_0_OR_GREATER
+    /// <summary>
+    /// Returns an <see cref="JsonElementAssertions"/> object that can be used to assert the
+    /// root element of the current <see cref="System.Text.Json.JsonDocument"/>.
+    /// </summary>
+    [Pure]
+    public static JsonElementAssertions Should(this System.Text.Json.JsonDocument actualValue)
+    {
+        return new JsonElementAssertions(actualValue.RootElement);
+    }
+
+    /// <summary>
+    /// Returns an <see cref="JsonElementAssertions"/> object that can be used to assert the
+    /// current <see cref="System.Text.Json.JsonElement"/>.
+    /// </summary>
+    [Pure]
+    public static JsonElementAssertions Should(this System.Text.Json.JsonElement? actualValue)
+    {
+        return new JsonElementAssertions(actualValue);
+    }
+
+    /// <summary>
+    /// Returns an <see cref="JsonElementAssertions"/> object that can be used to assert the
+    /// current <see cref="System.Text.Json.JsonElement"/>.
+    /// </summary>
+    [Pure]
+    public static JsonElementAssertions Should(this System.Text.Json.JsonElement actualValue)
+    {
+        return new JsonElementAssertions(actualValue);
+    }
+#endif
 
     /// <summary>
     /// Returns an <see cref="SimpleTimeSpanAssertions"/> object that can be used to assert the
