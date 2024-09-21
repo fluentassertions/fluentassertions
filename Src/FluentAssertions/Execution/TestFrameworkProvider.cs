@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -18,7 +18,10 @@ internal class TestFrameworkProvider
         ["mspec"] = new MSpecFramework(),
         ["nunit"] = new NUnitTestFramework(),
         ["mstestv2"] = new MSTestFrameworkV2(),
-        ["xunit2"] = new XUnit2TestFramework() // Keep this the last one as it uses a try/catch approach
+
+        // Keep XUnitTestFramework last as it uses a try/catch approach
+        ["xunit2"] = new XUnitTestFramework("xunit.assert"),
+        ["xunit3"] = new XUnitTestFramework("xunit.v3.assert"),
     };
 
     private readonly Configuration configuration;
