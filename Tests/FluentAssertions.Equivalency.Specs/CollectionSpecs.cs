@@ -2698,7 +2698,9 @@ public class CollectionSpecs
     [Theory]
     [MemberData(nameof(ArrayTestData))]
     public void When_two_unordered_lists_contain_empty_objects_they_should_still_be_structurally_equivalent<TActual,
+#pragma warning disable xUnit1039
         TExpected>(TActual[] actual, TExpected[] expected)
+#pragma warning restore xUnit1039
     {
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expected);
@@ -2725,17 +2727,26 @@ public class CollectionSpecs
         act.Should().Throw<NotImplementedException>().And.TargetSite.Should().Be(expectedTargetSite);
     }
 
-    public static IEnumerable<object[]> ArrayTestData()
+    public static TheoryData<object, object> ArrayTestData()
     {
         var arrays = new object[]
         {
             new int?[] { null, 1 }, new int?[] { 1, null }, new object[] { null, 1 }, new object[] { 1, null }
         };
 
-        return
+        var pairs =
             from x in arrays
             from y in arrays
-            select new[] { x, y };
+            select (x, y);
+
+        var data = new TheoryData<object, object>();
+
+        foreach (var (x, y) in pairs)
+        {
+            data.Add(x, y);
+        }
+
+        return data;
     }
 
     [Fact]

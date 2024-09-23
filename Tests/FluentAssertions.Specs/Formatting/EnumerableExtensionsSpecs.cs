@@ -1,23 +1,22 @@
-﻿using System.Collections.Generic;
-using FluentAssertions.Formatting;
+﻿using FluentAssertions.Formatting;
 using Xunit;
 
 namespace FluentAssertions.Specs.Formatting;
 
 public class EnumerableExtensionsSpecs
 {
-    public static TheoryData<IEnumerable<object>, string> JoinUsingWritingStyleTestCases => new()
+    public static TheoryData<string[], string> JoinUsingWritingStyleTestCases => new()
     {
-        { new object[0], "" },
-        { new object[] { "test" }, "test" },
-        { new object[] { "test", "test2" }, "test and test2" },
-        { new object[] { "test", "test2", "test3" }, "test, test2 and test3" },
-        { new object[] { "test", "test2", "test3", "test4" }, "test, test2, test3 and test4" }
+        { [], "" },
+        { ["test"], "test" },
+        { ["test", "test2"], "test and test2" },
+        { ["test", "test2", "test3"], "test, test2 and test3" },
+        { ["test", "test2", "test3", "test4"], "test, test2, test3 and test4" }
     };
 
     [Theory]
     [MemberData(nameof(JoinUsingWritingStyleTestCases))]
-    public void JoinUsingWritingStyle_should_format_correctly(IEnumerable<object> input, string expectation)
+    public void JoinUsingWritingStyle_should_format_correctly(string[] input, string expectation)
     {
         // Act
         var result = input.JoinUsingWritingStyle();
