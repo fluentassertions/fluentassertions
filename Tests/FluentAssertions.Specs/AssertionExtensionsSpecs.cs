@@ -38,8 +38,8 @@ public class AssertionExtensionsSpecs
         return equals is not null;
     }
 
-    public static TheoryData<object> ClassesWithGuardEquals => new()
-    {
+    public static TheoryData<object> ClassesWithGuardEquals =>
+    [
         new ObjectAssertions<object, ObjectAssertions>(default),
         new BooleanAssertions<BooleanAssertions>(default),
         new DateTimeAssertions<DateTimeAssertions>(default),
@@ -59,7 +59,7 @@ public class AssertionExtensionsSpecs
         new DateOnlyAssertions<DateOnlyAssertions>(default),
         new TimeOnlyAssertions<TimeOnlyAssertions>(default),
 #endif
-    };
+    ];
 
     [Theory]
     [MemberData(nameof(ClassesWithGuardEquals))]
@@ -174,9 +174,9 @@ public class AssertionExtensionsSpecs
         notNullAttribute.Should().BeNull();
     }
 
-    public static IEnumerable<object[]> GetShouldMethods(bool referenceTypes)
+    public static TheoryData<MethodInfo> GetShouldMethods(bool referenceTypes)
     {
-        return AllTypes.From(typeof(FluentAssertions.AssertionExtensions).Assembly)
+        return new(AllTypes.From(typeof(FluentAssertions.AssertionExtensions).Assembly)
             .ThatAreClasses()
             .ThatAreStatic()
             .Where(t => t.IsPublic)
@@ -184,8 +184,7 @@ public class AssertionExtensionsSpecs
             .Where(m => m.Name == "Should"
                 && !IsGuardOverload(m)
                 && m.GetParameters().Length == 1
-                && (referenceTypes ? ReturnsReferenceTypeAssertions(m) : !ReturnsReferenceTypeAssertions(m)))
-            .Select(m => new object[] { m });
+                && (referenceTypes ? ReturnsReferenceTypeAssertions(m) : !ReturnsReferenceTypeAssertions(m))));
     }
 
     private static bool ReturnsReferenceTypeAssertions(MethodInfo m) =>
