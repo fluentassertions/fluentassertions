@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions;
-using TUnit.Assertions.Exceptions;
 
 namespace TUnit.Specs;
 
@@ -12,7 +11,11 @@ public class FrameworkSpecs
         // Act
         Action act = () => 0.Should().Be(1);
 
+        Exception exception = act.Should().Throw<Exception>().Which;
+
         // Assert
-        act.Should().Throw<AssertionException>();
+        exception.GetType()
+            .FullName.Should()
+            .ContainEquivalentOf("TUnit.Assertions.Exceptions.AssertionException");
     }
 }
