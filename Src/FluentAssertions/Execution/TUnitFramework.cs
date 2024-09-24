@@ -1,6 +1,6 @@
 ﻿namespace FluentAssertions.Execution;
 
-internal class TUnitFramework : LateBoundTestFramework
+internal class TUnitFramework : LoadableTestFramework
 {
     protected override string ExceptionFullName => "TUnit.Assertions.Exceptions.AssertionException";
 
