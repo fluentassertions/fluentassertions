@@ -273,8 +273,7 @@ class Build : NukeBuild
                 Solution.TestFrameworks.MSTestV2_Specs,
                 Solution.TestFrameworks.NUnit3_Specs,
                 Solution.TestFrameworks.NUnit4_Specs,
-                Solution.TestFrameworks.XUnit2_Specs,
-                Solution.TestFrameworks.TUnit_Specs
+                Solution.TestFrameworks.XUnit2_Specs
             ];
 
             var testCombinations =
@@ -303,9 +302,48 @@ class Build : NukeBuild
             ReportTestOutcome(projects.Select(p => $"*{p.Name}*.trx").ToArray());
         });
 
+    Target TestingPlatformFrameworks => _ => _
+        .DependsOn(Compile)
+        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
+        .Executes(() =>
+        {
+            Project[] projects =
+            [
+                Solution.TestFrameworks.TUnit_Specs
+            ];
+
+            var testCombinations =
+                from project in projects
+                let frameworks = project.GetTargetFrameworks()
+                from framework in frameworks
+                select new { project, framework };
+
+            DotNetTest(s => s
+                .SetConfiguration(Configuration.Debug)
+                .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
+                .EnableNoBuild()
+                .CombineWith(
+                    testCombinations,
+                    (settings, v) => settings
+                        .SetProjectFile(v.project)
+                        .SetFramework(v.framework)
+                        .SetProcessArgumentConfigurator(args => args
+                            .Add("--")
+                            .Add("--coverage")
+                            .Add("--report-trx")
+                            .Add("--report-trx-filename", $"{v.project.Name}_{v.framework}.trx")
+                            .Add("--results-directory", TestResultsDirectory)
+                        )
+                    )
+                );
+
+            ReportTestOutcome(projects.Select(p => $"*{p.Name}*.trx").ToArray());
+        });
+
     Target Pack => _ => _
         .DependsOn(ApiChecks)
         .DependsOn(TestFrameworks)
+        .DependsOn(TestingPlatformFrameworks)
         .DependsOn(UnitTests)
         .DependsOn(CodeCoverage)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
