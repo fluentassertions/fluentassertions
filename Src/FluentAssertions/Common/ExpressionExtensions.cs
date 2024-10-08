@@ -20,7 +20,7 @@ internal static class ExpressionExtensions
 
         if (memberInfo is not PropertyInfo propertyInfo)
         {
-            throw new ArgumentException("Cannot use <" + expression.Body + "> when a property expression is expected.",
+            throw new ArgumentException($"Cannot use <{expression.Body}> when a property expression is expected.",
                 nameof(expression));
         }
 
@@ -77,7 +77,7 @@ internal static class ExpressionExtensions
                     var indexExpression = (ConstantExpression)binaryExpression.Right;
                     node = binaryExpression.Left;
 
-                    segments.Add("[" + indexExpression.Value + "]");
+                    segments.Add($"[{indexExpression.Value}]");
                     break;
 
                 case ExpressionType.Parameter:
@@ -93,7 +93,7 @@ internal static class ExpressionExtensions
                     }
 
                     node = methodCallExpression.Object;
-                    segments.Add("[" + argumentExpression.Value + "]");
+                    segments.Add($"[{argumentExpression.Value}]");
                     break;
 
                 default:
