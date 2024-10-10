@@ -19,6 +19,14 @@ sidebar:
 * Added `BeNaN` and `NotBeNaN` for assertions on `float` and `double` - [#2606](https://github.com/fluentassertions/fluentassertions/pull/2606)
 * Added option for event monitoring to ignore failing event accessors - [#2629](https://github.com/fluentassertions/fluentassertions/pull/2629)
 * Added the capability of associating `IValueFormatter`s to a (nested) `AssertionScope` - [#2676](https://github.com/fluentassertions/fluentassertions/pull/2676)
+* Added a few more assertions on `XElement` - [#2690](https://github.com/fluentassertions/fluentassertions/pull/2690)
+  * `[Not]HaveElementWithValue`
+  * `NotHaveElement`
+  * `[Not]HaveAttribute`
+  * `NotHaveAttributeWithValue`
+* Added a few more assertions on `XDocument` - [#2690](https://github.com/fluentassertions/fluentassertions/pull/2690)
+    * `[Not]HaveElementWithValue`
+    * `NotHaveElement`
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
@@ -81,6 +89,7 @@ sidebar:
 * Allow fluently calling `WithoutMatchingRules` and `WithoutSelectionRules` while using `BeEquivalentTo` - [#2457](https://github.com/fluentassertions/fluentassertions/pull/2457)
 * Removed `utcNow` overload for `.Monitor<T>()` - [#2629](https://github.com/fluentassertions/fluentassertions/pull/2629)
 * The semantics of `BeLowerCased`/`BeUpperCased` have been changed to align with the behavior of `ToLower`/`ToUpper` - [#2660](https://github.com/fluentassertions/fluentassertions/pull/2660)
+* Renamed `HaveAttribute` to `HaveAttributeWithValue` on `XElement` - [#2690](https://github.com/fluentassertions/fluentassertions/pull/2690)
 
 ### Breaking Changes (for extensions)
 * Add `ForConstraint` to `IAssertionsScope` to support chaining `.ForConstraint()` after `.Then` - [#2324](https://github.com/fluentassertions/fluentassertions/pull/2324)
