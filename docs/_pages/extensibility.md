@@ -18,20 +18,27 @@ public static class DirectoryInfoExtensions
 {
     public static DirectoryInfoAssertions Should(this DirectoryInfo instance)
     {
-      return new DirectoryInfoAssertions(instance);
+      return new DirectoryInfoAssertions(instance, AssertionChain.GetOrCreate());
     }
 }
 ```
 
-It's the returned assertions class that provides the actual assertion methods. You don't need to, but if you sub-class the self-referencing generic class `ReferenceTypeAssertions<TSubject, TSelf>`, you'll already get methods like `BeNull`, `BeSameAs` and `Match` for free. Assuming you did, and you provided an override of the `Identifier` property so that these methods know that we're dealing with a directory, it's time for the the next step. Let's add an extension that allows you to assert that the involved directory contains a particular file.
+It's the returned assertions class that provides the actual assertion methods. The `AssertionChain.GetOrCreate()` method is used to start a potential chain of assertions that can be used to support chained constructs using `Which`. 
+
+You don't need to, but if you sub-class the self-referencing generic class `ReferenceTypeAssertions<TSubject, TSelf>`, you'll already get methods like `BeNull`, `BeSameAs` and `Match` for free. Assuming you did, and you provided an override of the `Identifier` property so that these methods know that we're dealing with a directory, it's time for the the next step. 
+
+Let's add an extension that allows you to assert that the involved directory contains a particular file.
 
 ```csharp
 public class DirectoryInfoAssertions :
     ReferenceTypeAssertions<DirectoryInfo, DirectoryInfoAssertions>
 {
-    public DirectoryInfoAssertions(DirectoryInfo instance)
+    private AssertionChain chain;
+
+    public DirectoryInfoAssertions(DirectoryInfo instance, AssertionChain chain)
         : base(instance)
     {
+        this.chain = chain;
     }
 
     protected override string Identifier => "directory";
@@ -40,7 +47,7 @@ public class DirectoryInfoAssertions :
     public AndConstraint<DirectoryInfoAssertions> ContainFile(
         string filename, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        chain
             .BecauseOf(because, becauseArgs)
             .ForCondition(!string.IsNullOrEmpty(filename))
             .FailWith("You can't assert a file exist if you don't pass a proper name")
@@ -59,12 +66,45 @@ This is quite an elaborate example which shows some of the more advanced extensi
 
 * The `Subject` property is used to give the base-class extensions access to the current `DirectoryInfo` object.
 * `[CustomAssertion]` attribute enables correct subject identification, allowing Fluent Assertions to render more meaningful test fail messages
-* `Execute.Assertion` is the point of entrance into the internal fluent assertion API.
+* The variable `chain` of type `AssertionChain` is the point of entrance into the internal fluent API.
 * The optional `because` parameter can contain `string.Format` style place holders which will be filled using the values provided to the `becauseArgs`. They can be used by the caller to provide a reason why the assertion should succeed. By passing those into the `BecauseOf` method, you can refer to the expanded result using the `{reason}` tag in the `FailWith` method.
-* The `Then` property is just there to chain multiple assertions together. You can have more than one.
+* The `Then` property is just there to chain multiple assertions together. You can have more than one. However, if the first assertion fails, then the successive assertions will not be evaluated anymore.
 * The `Given` method allows you to perform a lazily evaluated projection on whatever you want. In this case I use it to get a list of `FileInfo` objects from the current directory. Notice that the resulting expression is not evaluated until the final call to `FailWith`.
 * `FailWith` will evaluate the condition, and raise the appropriate exception specific for the detected test framework. It again can contain numbered placeholders as well as the special named placeholders `{context}` and `{reason}`. I'll explain the former in a minute, but suffice to say that it displays the text "directory" at that point. The remainder of the place holders will be filled by applying the appropriate type-specific value formatter for the provided arguments. If those arguments involve a non-primitive type such as a collection or complex type, the formatters will use recursion to always use the appropriate formatter.
 * Since we used the `Given` construct to create a projection, the parameters of `FailWith` are formed by a `params` array of `Func<T, object>` that give you access to the projection (such as the `FileInfo[]` in this particular case). But normally, it's just a `params array` of objects.
+
+## Supporting chaining
+Imagine that you want to have your custom `ContainFile` assertion support chaining additional assertions like this:
+
+```csharp
+directoryInfo.Should().ContainFile("trace.dmp").Which.Path.Should().BeginWith("c:\\files");
+```
+
+You can support that by replacing the `AndConstraint` your assertion returns by a generic `AndWhichConstraint` and passing the `FileInfo` instance that was found by `ContainFile`, as well as the `AssertionChain` to its constructor. `AndWhichConstraint` has a property called `Which` which (no pun intended) will provide access to the `FileInfo` instance. 
+
+Then, if the first part succeeds, but the second part fails, you'll get something like:
+
+    Expected directoryInfo.Path to begin with "c:\files", but it didn't.
+
+Notice the `directoryInfo` part that the caller identification logic picks up? You can overrule that by using `AssertionChain.OverrideCallerIdentifier` before you pass it to the constructor of `AndWhichConstraint`. Alternatively, you can also use `WithCallerPostFix`. Check out `GenericCollectionAssertions.Contain` for an example of that.
+
+## Reusing expectations
+A common situation is that you want to execute more than one assertion in a chain, where the first part of the failure message is the same. Instead of repeating this first part, you can use `WithExpectation` to reuse that message in all nested calls to `FailWith` like this:
+
+```csharp
+assertionChain
+    .BecauseOf(because, becauseArgs)
+    .WithExpectation("Expected the month part of {context:the date} to be {0}{reason}", expected, chain => chain
+        .ForCondition(Subject.HasValue)
+        .FailWith(", but found a <null> DateOnly.")
+        .Then
+        .ForCondition(Subject.Value.Month == expected)
+        .FailWith(", but found {0}.", Subject.Value.Month));
+```
+
+If the first assertion fails, you'll get something like this:
+
+    Expected the month part of the date to be January, but found a <null> DateOnly.
 
 ## Scoping your extensions
 
@@ -86,11 +126,13 @@ public AndConstraint<DirectoryInfoAssertions> ContainFileInAllSubdirectories(
 }
 ```
 
-Whatever you pass into its constructor will be used to overwrite the default `{context}` passed to `FailWith`.
+Whatever you pass into its constructor will be used to overwrite the default `{context}` passed to `FailWith`:
 
 ```csharp
     .FailWith("Expected {context:directory} to contain {0}{reason}, but found {1}.",
 ```
+
+If you don't, `{context}` will be replaced with the variable on which `Should()` is invoked, or, if caller identification failed somehow, with `"directory"`.
 
 So in this case, our nicely created `ContainFile` extension method will display the directory that it used to assert that file existed. You can do a lot more advanced stuff if you want. Just check out the code that is used by the structural equivalency API.
 
@@ -171,7 +213,7 @@ class EnumerableCustomClassFormatter : EnumerableValueFormatter
 }
 ```
 
-### Scoped `IValueFormatter`s
+## Scoped `IValueFormatter`s
 
 You can add a custom value formatter inside a scope to selectively customize formatting of an object based on the context of the test.
 To achieve that, you can do following:

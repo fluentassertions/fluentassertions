@@ -7,12 +7,13 @@ namespace FluentAssertions.Primitives;
 internal class StringValidatorSupportingNull
 {
     private readonly IStringComparisonStrategy comparisonStrategy;
-    private IAssertionScope assertion;
+    private AssertionChain assertionChain;
 
-    public StringValidatorSupportingNull(IStringComparisonStrategy comparisonStrategy, [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
+    public StringValidatorSupportingNull(AssertionChain assertionChain, IStringComparisonStrategy comparisonStrategy,
+        [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
     {
         this.comparisonStrategy = comparisonStrategy;
-        assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
+        this.assertionChain = assertionChain.BecauseOf(because, becauseArgs);
     }
 
     public void Validate(string subject, string expected)
@@ -25,9 +26,9 @@ internal class StringValidatorSupportingNull
         if (expected?.IsLongOrMultiline() == true ||
             subject?.IsLongOrMultiline() == true)
         {
-            assertion = assertion.UsingLineBreaks;
+            assertionChain = assertionChain.UsingLineBreaks;
         }
 
-        comparisonStrategy.ValidateAgainstMismatch(assertion, subject, expected);
+        comparisonStrategy.ValidateAgainstMismatch(assertionChain, subject, expected);
     }
 }

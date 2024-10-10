@@ -18,7 +18,7 @@ internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
             return EquivalencyResult.ContinueWithNext;
         }
 
-        if (AreComparable(comparands, expectationAsArray))
+        if (AreComparable(comparands, expectationAsArray, AssertionChain.GetOrCreate().For(context)))
         {
             if (expectationAsArray.Length == 0)
             {
@@ -36,7 +36,8 @@ internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
 
                 IEquivalencyValidationContext itemContext = context.AsCollectionItem<object>(listOfIndices);
 
-                valueChildNodes.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(object)), itemContext);
+                valueChildNodes.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(object)),
+                    itemContext);
             }
             while (digit.Increment());
         }
@@ -52,25 +53,27 @@ internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
             .Aggregate((Digit)null, (next, rank) => new Digit(subjectAsArray.GetLength(rank), next));
     }
 
-    private static bool AreComparable(Comparands comparands, Array expectationAsArray)
+    private static bool AreComparable(Comparands comparands, Array expectationAsArray, AssertionChain assertionChain)
     {
         return
-            IsArray(comparands.Subject) &&
-            HaveSameRank(comparands.Subject, expectationAsArray) &&
-            HaveSameDimensions(comparands.Subject, expectationAsArray);
+            IsArray(comparands.Subject, assertionChain) &&
+            HaveSameRank(comparands.Subject, expectationAsArray, assertionChain) &&
+            HaveSameDimensions(comparands.Subject, expectationAsArray, assertionChain);
     }
 
-    private static bool IsArray(object type)
+    private static bool IsArray(object type, AssertionChain assertionChain)
     {
-        return AssertionScope.Current
+        assertionChain
             .ForCondition(type is not null)
             .FailWith("Cannot compare a multi-dimensional array to <null>.")
             .Then
             .ForCondition(type is Array)
             .FailWith("Cannot compare a multi-dimensional array to something else.");
+
+        return assertionChain.Succeeded;
     }
 
-    private static bool HaveSameDimensions(object subject, Array expectation)
+    private static bool HaveSameDimensions(object subject, Array expectation, AssertionChain assertionChain)
     {
         bool sameDimensions = true;
 
@@ -79,22 +82,26 @@ internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
             int actualLength = ((Array)subject).GetLength(dimension);
             int expectedLength = expectation.GetLength(dimension);
 
-            sameDimensions &= AssertionScope.Current
+            assertionChain
                 .ForCondition(expectedLength == actualLength)
                 .FailWith("Expected dimension {0} to contain {1} item(s), but found {2}.", dimension, expectedLength,
                     actualLength);
+
+            sameDimensions &= assertionChain.Succeeded;
         }
 
         return sameDimensions;
     }
 
-    private static bool HaveSameRank(object subject, Array expectation)
+    private static bool HaveSameRank(object subject, Array expectation, AssertionChain assertionChain)
     {
         var subjectAsArray = (Array)subject;
 
-        return AssertionScope.Current
+        assertionChain
             .ForCondition(subjectAsArray.Rank == expectation.Rank)
             .FailWith("Expected {context:array} to have {0} dimension(s), but it has {1}.", expectation.Rank,
                 subjectAsArray.Rank);
+
+        return assertionChain.Succeeded;
     }
 }

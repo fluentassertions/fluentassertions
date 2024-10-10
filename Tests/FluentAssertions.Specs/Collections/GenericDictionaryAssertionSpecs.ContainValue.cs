@@ -28,6 +28,23 @@ public partial class GenericDictionaryAssertionSpecs
         }
 
         [Fact]
+        public void Can_continue_asserting_on_a_single_matching_item()
+        {
+            // Arrange
+            var dictionary = new Dictionary<int, string>
+            {
+                [1] = "One",
+                [2] = "Two"
+            };
+
+            // Act
+            Action act = () => dictionary.Should().ContainValue("One").Which.Should().Be("Two");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*Expected dictionary[1] to be*Two*, but*One*differs*");
+        }
+
+        [Fact]
         public void Null_dictionaries_do_not_contain_any_values()
         {
             // Arrange
@@ -80,30 +97,6 @@ public partial class GenericDictionaryAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected*greater*0*0*");
-        }
-
-        [Fact]
-        public void When_multiple_matches_for_the_specified_value_exist_continuation_using_the_matched_value_should_fail()
-        {
-            // Arrange
-            var myClass = new MyClass { SomeProperty = 0 };
-
-            var dictionary = new Dictionary<int, MyClass>
-            {
-                [1] = myClass,
-                [2] = new() { SomeProperty = 0 }
-            };
-
-            // Act
-            Action act =
-                () =>
-                    dictionary.Should()
-                        .ContainValue(new MyClass { SomeProperty = 0 })
-                        .Which.Should()
-                        .BeSameAs(myClass);
-
-            // Assert
-            act.Should().Throw<XunitException>();
         }
 
         [Fact]

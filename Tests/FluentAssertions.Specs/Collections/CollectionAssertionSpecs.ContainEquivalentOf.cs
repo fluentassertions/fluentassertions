@@ -46,6 +46,21 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void Can_chain_a_successive_assertion_on_the_matching_item()
+        {
+            // Arrange
+            char[] collection = "abc123ab".ToCharArray();
+            char item = 'c';
+
+            // Act
+            var act = () => collection.Should().ContainEquivalentOf(item).Which.Should().Be('C');
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection[2] to be equal to C, but found c.");
+        }
+
+        [Fact]
         public void When_string_collection_does_contain_same_string_with_other_case_it_should_throw()
         {
             // Arrange
@@ -398,17 +413,17 @@ public partial class CollectionAssertionSpecs
             // Act
             Action act = () =>
             {
-                using (new AssertionScope())
-                {
-                    collection.Should().NotContainEquivalentOf(another, "because we want to test {0}", "first message")
-                        .And
-                        .HaveCount(4, "because we want to test {0}", "second message");
-                }
+                using var _ = new AssertionScope();
+
+                collection.Should()
+                    .NotContainEquivalentOf(another, "because we want to test {0}", "first message")
+                    .And
+                    .HaveCount(4, "because we want to test {0}", "second message");
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected collection*not to contain*first message*but*.\n" +
-                "Expected*4 item(s)*because*second message*but*.");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection*not to contain*first message*but found one at index 2.*");
         }
     }
 }

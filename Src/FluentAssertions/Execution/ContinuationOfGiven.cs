@@ -1,15 +1,12 @@
-namespace FluentAssertions.Execution;
+﻿namespace FluentAssertions.Execution;
 
 /// <summary>
-/// Enables chaining multiple assertions from a <see cref="AssertionScope.Given{T}"/> call.
+/// Enables chaining multiple assertions from a <see cref="AssertionChain.Given{T}"/> call.
 /// </summary>
 public class ContinuationOfGiven<TSubject>
 {
-    private readonly bool succeeded;
-
-    internal ContinuationOfGiven(GivenSelector<TSubject> parent, bool succeeded)
+    internal ContinuationOfGiven(GivenSelector<TSubject> parent)
     {
-        this.succeeded = succeeded;
         Then = parent;
     }
 
@@ -18,11 +15,5 @@ public class ContinuationOfGiven<TSubject>
     /// </summary>
     public GivenSelector<TSubject> Then { get; }
 
-    /// <summary>
-    /// Provides back-wards compatibility for code that expects <see cref="AssertionScope.FailWith(string, object[])"/> to return a boolean.
-    /// </summary>
-    public static implicit operator bool(ContinuationOfGiven<TSubject> continuationOfGiven)
-    {
-        return continuationOfGiven.succeeded;
-    }
+    public bool Succeeded => Then.Succeeded;
 }

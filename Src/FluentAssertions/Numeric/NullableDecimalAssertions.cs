@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Numeric;
 
@@ -10,8 +11,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class NullableDecimalAssertions : NullableNumericAssertions<decimal>
 {
-    internal NullableDecimalAssertions(decimal? value)
-        : base(value)
+    internal NullableDecimalAssertions(decimal? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 

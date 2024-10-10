@@ -31,6 +31,21 @@ public partial class TypeAssertionSpecs
         }
 
         [Fact]
+        public void The_name_of_the_property_is_passed_to_the_chained_assertion()
+        {
+            // Arrange
+            var type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () => type
+                .Should().HaveProperty(typeof(string), "PrivateWriteProtectedReadProperty")
+                .Which.Should().NotBeWritable();
+
+            // Assert
+            act.Should().Throw<XunitException>("Expected property PrivateWriteProtectedReadProperty not to have a setter.");
+        }
+
+        [Fact]
         public void When_asserting_a_type_has_a_property_which_it_does_not_it_fails()
         {
             // Arrange
@@ -42,7 +57,7 @@ public partial class TypeAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected String *ClassWithNoMembers.PublicProperty to exist *failure message*, but it does not.");
+                .WithMessage("Expected ClassWithNoMembers to have a property PublicProperty of type String because we want to test the failure message, but it does not.");
         }
 
         [Fact]
@@ -58,9 +73,8 @@ public partial class TypeAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected String *.ClassWithMembers.PrivateWriteProtectedReadProperty to be of type System.Int32 " +
-                    "*failure message*, but it is not.");
+                .WithMessage("Expected property PrivateWriteProtectedReadProperty " +
+                    "to be of type System.Int32 because we want to test the failure message, but it is not.");
         }
 
         [Fact]
@@ -75,7 +89,7 @@ public partial class TypeAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected String type.PublicProperty to exist *failure message*, but type is <null>.");
+                .WithMessage("Cannot determine if a type has a property named PublicProperty if the type is <null>.");
         }
 
         [Fact]
@@ -184,8 +198,7 @@ public partial class TypeAssertionSpecs
             var type = typeof(ClassWithoutMembers);
 
             // Act
-            Action act = () =>
-                type.Should().NotHaveProperty("Property");
+            Action act = () => type.Should().NotHaveProperty("Property");
 
             // Assert
             act.Should().NotThrow();
@@ -203,9 +216,7 @@ public partial class TypeAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected String *.ClassWithMembers.PrivateWriteProtectedReadProperty to not exist *failure message*" +
-                    ", but it does.");
+                .WithMessage("Did not expect ClassWithMembers to have a property PrivateWriteProtectedReadProperty because we want to test the failure message, but it does.");
         }
 
         [Fact]
@@ -220,7 +231,7 @@ public partial class TypeAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type.PublicProperty to not exist *failure message*, but type is <null>.");
+                .WithMessage("Cannot determine if a type has an unexpected property named PublicProperty if the type is <null>.");
         }
 
         [Fact]

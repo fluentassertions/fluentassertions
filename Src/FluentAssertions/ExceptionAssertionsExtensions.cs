@@ -167,7 +167,8 @@ public static class ExceptionAssertionsExtensions
         params object[] becauseArgs)
         where TException : ArgumentException
     {
-        Execute.Assertion
+        AssertionChain
+            .GetOrCreate()
             .ForCondition(parent.Which.ParamName == paramName)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected exception with parameter name {0}{reason}, but found {1}.", paramName, parent.Which.ParamName);

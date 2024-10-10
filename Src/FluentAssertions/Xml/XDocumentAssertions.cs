@@ -18,12 +18,15 @@ namespace FluentAssertions.Xml;
 [DebuggerNonUserCode]
 public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentAssertions>
 {
+    private readonly AssertionChain assertionChain;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="XDocumentAssertions" /> class.
     /// </summary>
-    public XDocumentAssertions(XDocument document)
-        : base(document)
+    public XDocumentAssertions(XDocument document, AssertionChain assertionChain)
+        : base(document, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -41,7 +44,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     public AndConstraint<XDocumentAssertions> Be(XDocument expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Equals(Subject, expected))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:subject} to be {0}{reason}, but found {1}.", expected, Subject);
@@ -64,7 +67,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     public AndConstraint<XDocumentAssertions> NotBe(XDocument unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(!Equals(Subject, unexpected))
             .FailWith("Did not expect {context:subject} to be {0}{reason}.", unexpected);
@@ -90,7 +93,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
         using (XmlReader subjectReader = Subject?.CreateReader())
         using (XmlReader otherReader = expected?.CreateReader())
         {
-            var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
+            var xmlReaderValidator = new XmlReaderValidator(assertionChain, subjectReader, otherReader, because, becauseArgs);
             xmlReaderValidator.Validate(shouldBeEquivalent: true);
         }
 
@@ -115,7 +118,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
         using (XmlReader subjectReader = Subject?.CreateReader())
         using (XmlReader otherReader = unexpected?.CreateReader())
         {
-            var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
+            var xmlReaderValidator = new XmlReaderValidator(assertionChain, subjectReader, otherReader, because, becauseArgs);
             xmlReaderValidator.Validate(shouldBeEquivalent: false);
         }
 
@@ -171,14 +174,14 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
 
         XElement root = Subject.Root;
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(root is not null && root.Name == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected {context:subject} to have root element {0}{reason}, but found {1}.",
                 expected.ToString(), Subject);
 
-        return new AndWhichConstraint<XDocumentAssertions, XElement>(this, root);
+        return new AndWhichConstraint<XDocumentAssertions, XElement>(this, root, assertionChain, $"/{expected}");
     }
 
     /// <summary>
@@ -259,7 +262,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
             "Cannot assert the document has an element if the expected name is <null>.");
 
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject.Root is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -268,11 +271,11 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
 
         XElement xElement = null;
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             xElement = Subject.Root!.Element(expected);
 
-            Execute.Assertion
+            assertionChain
                 .ForCondition(xElement is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -280,7 +283,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
                     expected.ToString());
         }
 
-        return new AndWhichConstraint<XDocumentAssertions, XElement>(this, xElement);
+        return new AndWhichConstraint<XDocumentAssertions, XElement>(this, xElement, assertionChain, "/" + expected);
     }
 
     /// <summary>
@@ -308,30 +311,30 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
             "Cannot assert the document has an element count if the element name is <null>.");
 
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Cannot assert the count if the document itself is <null>.");
 
         IEnumerable<XElement> xElements = [];
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             var root = Subject!.Root;
 
-            success = Execute.Assertion
+            assertionChain
                 .ForCondition(root is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} to have root element containing a child {0}{reason}, but it has no root element.",
                     expected.ToString());
 
-            if (success)
+            if (assertionChain.Succeeded)
             {
                 xElements = root!.Elements(expected);
                 int actual = xElements.Count();
 
-                Execute.Assertion
+                assertionChain
                     .ForConstraint(occurrenceConstraint, actual)
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
@@ -341,7 +344,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
             }
         }
 
-        return new AndWhichConstraint<XDocumentAssertions, IEnumerable<XElement>>(this, xElements);
+        return new AndWhichConstraint<XDocumentAssertions, IEnumerable<XElement>>(this, xElements, assertionChain, "/" + expected);
     }
 
     /// <summary>

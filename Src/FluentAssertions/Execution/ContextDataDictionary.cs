@@ -44,7 +44,6 @@ internal class ContextDataDictionary
     public void Add(DataItem item)
     {
         int existingItemIndex = items.FindIndex(i => i.Key == item.Key);
-
         if (existingItemIndex >= 0)
         {
             items[existingItemIndex] = item;
@@ -55,13 +54,7 @@ internal class ContextDataDictionary
         }
     }
 
-    public T Get<T>(string key)
-    {
-        DataItem item = items.SingleOrDefault(i => i.Key == key);
-        return (T)(item?.Value ?? default(T));
-    }
-
-    internal class DataItem(string key, object value, bool reportable, bool requiresFormatting)
+    public class DataItem(string key, object value, bool reportable, bool requiresFormatting)
     {
         public string Key { get; } = key;
 
