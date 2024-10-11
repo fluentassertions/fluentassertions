@@ -61,6 +61,7 @@
         "Restore",
         "SpellCheck",
         "TestFrameworks",
+        "TestingPlatformFrameworks",
         "UnitTests",
         "UnitTestsNet47",
         "UnitTestsNet6OrGreater"

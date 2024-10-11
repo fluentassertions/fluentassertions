@@ -331,8 +331,8 @@ class Build : NukeBuild
                             .Add("--")
                             .Add("--coverage")
                             .Add("--report-trx")
-                            .Add("--report-trx-filename", $"{v.project.Name}_{v.framework}.trx")
-                            .Add("--results-directory", TestResultsDirectory)
+                            .Add($"--report-trx-filename {v.project.Name}_{v.framework}.trx")
+                            .Add($"--results-directory {TestResultsDirectory}")
                         )
                     )
                 );
