@@ -4,6 +4,10 @@ using System.Reflection;
 
 namespace FluentAssertions.Execution;
 
+/// <summary>
+/// This attempts to load the assembly into the App Domain.
+/// If it isn't loadable, then IsAvailable will return false
+/// </summary>
 internal abstract class LoadableTestFramework : ITestFramework
 {
     private Assembly assembly;
