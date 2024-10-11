@@ -130,8 +130,8 @@ public partial class GenericDictionaryAssertionSpecs
             act.Should().Throw<XunitException>();
         }
 
-        public static IEnumerable<object[]> SingleDictionaryData() =>
-            Dictionaries().Select(x => new[] { x });
+        public static TheoryData<object> SingleDictionaryData() =>
+            new(Dictionaries());
 
         public static object[] Dictionaries()
         {
@@ -143,12 +143,21 @@ public partial class GenericDictionaryAssertionSpecs
             ];
         }
 
-        public static IEnumerable<object[]> DictionariesData()
+        public static TheoryData<object, object> DictionariesData()
         {
-            return
+            var pairs =
                 from x in Dictionaries()
                 from y in Dictionaries()
-                select new[] { x, y };
+                select (x, y);
+
+            var data = new TheoryData<object, object>();
+
+            foreach (var (x, y) in pairs)
+            {
+                data.Add(x, y);
+            }
+
+            return data;
         }
     }
 
