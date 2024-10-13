@@ -347,7 +347,6 @@ class Build : NukeBuild
     Target Pack => _ => _
         .DependsOn(ApiChecks)
         .DependsOn(TestFrameworks)
-        .DependsOn(TestingPlatformFrameworks)
         .DependsOn(UnitTests)
         .DependsOn(CodeCoverage)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
