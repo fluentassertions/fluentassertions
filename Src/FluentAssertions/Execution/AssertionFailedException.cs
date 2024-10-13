@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
 namespace FluentAssertions.Execution;
@@ -16,6 +17,7 @@ public class AssertionFailedException : Exception
     {
     }
 
+    [ExcludeFromCodeCoverage]
     protected AssertionFailedException(SerializationInfo info, StreamingContext context)
         : base(info, context)
     {

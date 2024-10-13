@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FluentAssertions.Formatting;
 
+[ExcludeFromCodeCoverage]
 public class MaxLinesExceededException : Exception
 {
     public MaxLinesExceededException(string message, Exception innerException)
