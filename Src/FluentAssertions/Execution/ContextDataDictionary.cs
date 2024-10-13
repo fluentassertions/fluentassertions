@@ -7,7 +7,7 @@ namespace FluentAssertions.Execution;
 /// <summary>
 /// Represents a collection of data items that are associated with an <see cref="AssertionScope"/>.
 /// </summary>
-internal class ContextDataItems
+internal class ContextDataDictionary
 {
     private readonly List<DataItem> items = [];
 
@@ -33,9 +33,9 @@ internal class ContextDataItems
         return null;
     }
 
-    public void Add(ContextDataItems contextDataItems)
+    public void Add(ContextDataDictionary contextDataDictionary)
     {
-        foreach (DataItem item in contextDataItems.items)
+        foreach (DataItem item in contextDataDictionary.items)
         {
             Add(item.Clone());
         }
@@ -61,28 +61,20 @@ internal class ContextDataItems
         return (T)(item?.Value ?? default(T));
     }
 
-    internal class DataItem
+    internal class DataItem(string key, object value, bool reportable, bool requiresFormatting)
     {
-        public DataItem(string key, object value, bool reportable, bool requiresFormatting)
-        {
-            Key = key;
-            Value = value;
-            Reportable = reportable;
-            RequiresFormatting = requiresFormatting;
-        }
+        public string Key { get; } = key;
 
-        public string Key { get; }
+        public object Value { get; } = value;
 
-        public object Value { get; }
+        public bool Reportable { get; } = reportable;
 
-        public bool Reportable { get; }
-
-        public bool RequiresFormatting { get; }
+        public bool RequiresFormatting { get; } = requiresFormatting;
 
         public DataItem Clone()
         {
-            object value = Value is ICloneable2 cloneable ? cloneable.Clone() : Value;
-            return new DataItem(Key, value, Reportable, RequiresFormatting);
+            object clone = Value is ICloneable2 cloneable ? cloneable.Clone() : Value;
+            return new DataItem(Key, clone, Reportable, RequiresFormatting);
         }
     }
 }

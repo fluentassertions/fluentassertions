@@ -8,7 +8,7 @@ namespace FluentAssertions.Equivalency.Steps;
 public class StructuralEqualityEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+        IValidateChildNodeEquivalency valueChildNodes)
     {
         if (!context.CurrentNode.IsRoot && !context.Options.IsRecursive)
         {
@@ -45,15 +45,15 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
 
             foreach (IMember selectedMember in selectedMembers)
             {
-                AssertMemberEquality(comparands, context, nestedValidator, selectedMember, context.Options);
+                AssertMemberEquality(comparands, context, valueChildNodes, selectedMember, context.Options);
             }
         }
 
-        return EquivalencyResult.AssertionCompleted;
+        return EquivalencyResult.EquivalencyProven;
     }
 
     private static void AssertMemberEquality(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator parent, IMember selectedMember, IEquivalencyOptions options)
+        IValidateChildNodeEquivalency parent, IMember selectedMember, IEquivalencyOptions options)
     {
         IMember matchingMember = FindMatchFor(selectedMember, context.CurrentNode, comparands.Subject, options);
 
@@ -73,7 +73,7 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
                 selectedMember.Name = matchingMember.Name;
             }
 
-            parent.RecursivelyAssertEquality(nestedComparands, context.AsNestedMember(selectedMember));
+            parent.AssertEquivalencyOf(nestedComparands, context.AsNestedMember(selectedMember));
         }
     }
 

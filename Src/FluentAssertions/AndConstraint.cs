@@ -3,15 +3,15 @@ using System.Diagnostics;
 namespace FluentAssertions;
 
 [DebuggerNonUserCode]
-public class AndConstraint<T>
+public class AndConstraint<TParent>
 {
-    public T And { get; }
+    public TParent And { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AndConstraint{T}"/> class.
     /// </summary>
-    public AndConstraint(T parentConstraint)
+    public AndConstraint(TParent parent)
     {
-        And = parentConstraint;
+        And = parent;
     }
 }

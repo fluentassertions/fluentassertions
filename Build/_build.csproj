@@ -6,6 +6,7 @@
     <NoWarn>CS0649;CS0169</NoWarn>
     <NukeRootDirectory>..\</NukeRootDirectory>
     <NukeScriptDirectory>..\</NukeScriptDirectory>
+    <NukeVersion>8.1.1</NukeVersion>
   </PropertyGroup>
   <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
     <DefineConstants>OS_WINDOWS</DefineConstants>
@@ -17,12 +18,12 @@
     <DefineConstants>OS_MAC</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageDownload Include="GitVersion.Tool" Version="[5.10.0]" />
+    <PackageDownload Include="GitVersion.Tool" Version="[6.0.2]" />
     <PackageDownload Include="ReportGenerator" Version="[5.2.0]" />
-    <PackageDownload Include="xunit.runner.console" Version="[2.9.0]" />
+    <PackageDownload Include="xunit.runner.console" Version="[2.9.2]" />
     <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
-    <PackageReference Include="Nuke.Common" Version="8.0.0" />
-    <PackageReference Include="Nuke.Components" Version="8.0.0" />
-    <PackageReference Include="SharpCompress" Version="0.37.2" />
+    <PackageReference Include="Nuke.Common" Version="$(NukeVersion)" />
+    <PackageReference Include="Nuke.Components" Version="$(NukeVersion)" />
+    <PackageReference Include="SharpCompress" Version="0.38.0" />
   </ItemGroup>
 </Project>

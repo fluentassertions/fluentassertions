@@ -10,10 +10,10 @@ namespace FluentAssertions
         public System.Collections.Generic.IEnumerable<T> OfType<T>(System.Exception actualException)
             where T : System.Exception { }
     }
-    public class AndConstraint<T>
+    public class AndConstraint<TParent>
     {
-        public AndConstraint(T parentConstraint) { }
-        public T And { get; }
+        public AndConstraint(TParent parent) { }
+        public TParent And { get; }
     }
     public class AndWhichConstraint<TParentConstraint, TMatchedElement> : FluentAssertions.AndConstraint<TParentConstraint>
     {
@@ -699,13 +699,13 @@ namespace FluentAssertions.Equivalency
     public enum EquivalencyResult
     {
         ContinueWithNext = 0,
-        AssertionCompleted = 1,
+        EquivalencyProven = 1,
     }
     public abstract class EquivalencyStep<T> : FluentAssertions.Equivalency.IEquivalencyStep
     {
         protected EquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-        protected abstract FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator);
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
+        protected abstract FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nested);
     }
     public class EquivalencyValidationContext : FluentAssertions.Equivalency.IEquivalencyValidationContext
     {
@@ -722,23 +722,11 @@ namespace FluentAssertions.Equivalency
         public bool IsCyclicReference(object expectation) { }
         public override string ToString() { }
     }
-    public class EquivalencyValidator : FluentAssertions.Equivalency.IEquivalencyValidator
+    public class EquivalencyValidator : FluentAssertions.Equivalency.IValidateChildNodeEquivalency
     {
         public EquivalencyValidator() { }
         public void AssertEquality(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.EquivalencyValidationContext context) { }
-        public void RecursivelyAssertEquality(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context) { }
-    }
-    public class Field : FluentAssertions.Equivalency.Node, FluentAssertions.Equivalency.IMember, FluentAssertions.Equivalency.INode
-    {
-        public Field(System.Reflection.FieldInfo fieldInfo, FluentAssertions.Equivalency.INode parent) { }
-        public Field(System.Type reflectedType, System.Reflection.FieldInfo fieldInfo, FluentAssertions.Equivalency.INode parent) { }
-        public System.Type DeclaringType { get; set; }
-        public override string Description { get; }
-        public FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
-        public bool IsBrowsable { get; }
-        public System.Type ReflectedType { get; }
-        public FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
-        public object GetValue(object obj) { }
+        public void AssertEquivalencyOf(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context) { }
     }
     public delegate string GetSubjectId();
     public interface IAssertionContext<TSubject>
@@ -775,7 +763,7 @@ namespace FluentAssertions.Equivalency
     }
     public interface IEquivalencyStep
     {
-        FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator);
+        FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes);
     }
     public interface IEquivalencyValidationContext
     {
@@ -788,10 +776,6 @@ namespace FluentAssertions.Equivalency
         FluentAssertions.Equivalency.IEquivalencyValidationContext AsNestedMember(FluentAssertions.Equivalency.IMember expectationMember);
         FluentAssertions.Equivalency.IEquivalencyValidationContext Clone();
         bool IsCyclicReference(object expectation);
-    }
-    public interface IEquivalencyValidator
-    {
-        void RecursivelyAssertEquality(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context);
     }
     public interface IMember : FluentAssertions.Equivalency.INode
     {
@@ -846,6 +830,10 @@ namespace FluentAssertions.Equivalency
     {
         FluentAssertions.Equivalency.OrderStrictness Evaluate(FluentAssertions.Equivalency.IObjectInfo objectInfo);
     }
+    public interface IValidateChildNodeEquivalency
+    {
+        void AssertEquivalencyOf(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context);
+    }
     public static class MemberFactory
     {
         public static FluentAssertions.Equivalency.IMember Create(System.Reflection.MemberInfo memberInfo, FluentAssertions.Equivalency.INode parent) { }
@@ -870,26 +858,6 @@ namespace FluentAssertions.Equivalency
         public FluentAssertions.Equivalency.EquivalencyOptions<TExpectation> Exclude(System.Linq.Expressions.Expression<System.Func<TCurrent, object>> expression) { }
         public FluentAssertions.Equivalency.NestedExclusionOptionBuilder<TExpectation, TNext> For<TNext>(System.Linq.Expressions.Expression<System.Func<TCurrent, System.Collections.Generic.IEnumerable<TNext>>> expression) { }
     }
-    public class Node : FluentAssertions.Equivalency.INode
-    {
-        public Node() { }
-        public int Depth { get; }
-        public virtual string Description { get; }
-        public FluentAssertions.Equivalency.GetSubjectId GetSubjectId { get; set; }
-        public bool IsRoot { get; }
-        public string Name { get; set; }
-        public System.Type ParentType { get; set; }
-        public string Path { get; set; }
-        public string PathAndName { get; }
-        public bool RootIsCollection { get; set; }
-        public System.Type Type { get; set; }
-        public override bool Equals(object obj) { }
-        public override int GetHashCode() { }
-        public override string ToString() { }
-        public static FluentAssertions.Equivalency.INode From<T>(FluentAssertions.Equivalency.GetSubjectId getSubjectId) { }
-        public static FluentAssertions.Equivalency.INode FromCollectionItem<T>(string index, FluentAssertions.Equivalency.INode parent) { }
-        public static FluentAssertions.Equivalency.INode FromDictionaryItem<T>(object key, FluentAssertions.Equivalency.INode parent) { }
-    }
     public enum OrderStrictness
     {
         Strict = 0,
@@ -903,18 +871,6 @@ namespace FluentAssertions.Equivalency
         public void Add(FluentAssertions.Equivalency.IOrderingRule rule) { }
         public System.Collections.Generic.IEnumerator<FluentAssertions.Equivalency.IOrderingRule> GetEnumerator() { }
         public bool IsOrderingStrictFor(FluentAssertions.Equivalency.IObjectInfo objectInfo) { }
-    }
-    public class Property : FluentAssertions.Equivalency.Node, FluentAssertions.Equivalency.IMember, FluentAssertions.Equivalency.INode
-    {
-        public Property(System.Reflection.PropertyInfo propertyInfo, FluentAssertions.Equivalency.INode parent) { }
-        public Property(System.Type reflectedType, System.Reflection.PropertyInfo propertyInfo, FluentAssertions.Equivalency.INode parent) { }
-        public System.Type DeclaringType { get; }
-        public override string Description { get; }
-        public FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
-        public bool IsBrowsable { get; }
-        public System.Type ReflectedType { get; }
-        public FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
-        public object GetValue(object obj) { }
     }
     public abstract class SelfReferenceEquivalencyOptions<TSelf> : FluentAssertions.Equivalency.IEquivalencyOptions
         where TSelf : FluentAssertions.Equivalency.SelfReferenceEquivalencyOptions<TSelf>
@@ -1004,90 +960,90 @@ namespace FluentAssertions.Equivalency.Steps
     public class AssertionRuleEquivalencyStep<TSubject> : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public AssertionRuleEquivalencyStep(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate, System.Action<FluentAssertions.Equivalency.IAssertionContext<TSubject>> assertion) { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
         public override string ToString() { }
     }
     public class AutoConversionStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public AutoConversionStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
         public override string ToString() { }
     }
     public class DictionaryEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Collections.IDictionary>
     {
         public DictionaryEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nested) { }
     }
     public class EnumEqualityStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public EnumEqualityStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
     public class EnumerableEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public EnumerableEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
     public class EqualityComparerEquivalencyStep<T> : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public EqualityComparerEquivalencyStep(System.Collections.Generic.IEqualityComparer<T> comparer) { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
         public override string ToString() { }
     }
     public class GenericDictionaryEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public GenericDictionaryEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
     public class GenericEnumerableEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public GenericEnumerableEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
     public class ReferenceEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public ReferenceEqualityEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
     public class RunAllUserStepsEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public RunAllUserStepsEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
     public class SimpleEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public SimpleEqualityEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
     public class StringEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public StringEqualityEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
     public class StructuralEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public StructuralEqualityEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
     public class ValueTypeEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public ValueTypeEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
     public class XAttributeEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Xml.Linq.XAttribute>
     {
         public XAttributeEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nested) { }
     }
     public class XDocumentEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Xml.Linq.XDocument>
     {
         public XDocumentEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nested) { }
     }
     public class XElementEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Xml.Linq.XElement>
     {
         public XElementEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nested) { }
     }
 }
 namespace FluentAssertions.Equivalency.Tracing

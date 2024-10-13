@@ -7,7 +7,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Is responsible for validating the equivalency of a subject with another object.
 /// </summary>
-public class EquivalencyValidator : IEquivalencyValidator
+public class EquivalencyValidator : IValidateChildNodeEquivalency
 {
     private const int MaxDepth = 10;
 
@@ -19,7 +19,7 @@ public class EquivalencyValidator : IEquivalencyValidator
         scope.AddReportable("configuration", () => context.Options.ToString());
         scope.BecauseOf(context.Reason);
 
-        RecursivelyAssertEquality(comparands, context);
+        RecursivelyAssertEquivalencyOf(comparands, context);
 
         if (context.TraceWriter is not null)
         {
@@ -27,7 +27,12 @@ public class EquivalencyValidator : IEquivalencyValidator
         }
     }
 
-    public void RecursivelyAssertEquality(Comparands comparands, IEquivalencyValidationContext context)
+    private void RecursivelyAssertEquivalencyOf(Comparands comparands, IEquivalencyValidationContext context)
+    {
+        AssertEquivalencyOf(comparands, context);
+    }
+
+    public void AssertEquivalencyOf(Comparands comparands, IEquivalencyValidationContext context)
     {
         var scope = AssertionScope.Current;
 
@@ -69,7 +74,7 @@ public class EquivalencyValidator : IEquivalencyValidator
         foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
         {
             var result = step.Handle(comparands, context, this);
-            if (result == EquivalencyResult.AssertionCompleted)
+            if (result == EquivalencyResult.EquivalencyProven)
             {
                 context.Tracer.WriteLine(GetMessage(step));
 

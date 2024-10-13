@@ -30,7 +30,7 @@ internal class MessageBuilder
     }
 
     // SMELL: Too many parameters.
-    public string Build(string message, object[] messageArgs, string reason, ContextDataItems contextData, string identifier,
+    public string Build(string message, object[] messageArgs, string reason, ContextDataDictionary contextData, string identifier,
         string fallbackIdentifier)
     {
         message = message.Replace("{reason}", SanitizeReason(reason), StringComparison.Ordinal);
@@ -75,7 +75,7 @@ internal class MessageBuilder
         return message.TrimStart();
     }
 
-    private static string SubstituteContextualTags(string message, ContextDataItems contextData)
+    private static string SubstituteContextualTags(string message, ContextDataDictionary contextData)
     {
         const string pattern = @"(?<!\{)\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}(?!\})";
 
