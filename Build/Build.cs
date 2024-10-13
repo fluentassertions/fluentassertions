@@ -262,7 +262,7 @@ class Build : NukeBuild
             Information($"Code coverage report: \x1b]8;;file://{link.Replace('\\', '/')}\x1b\\{link}\x1b]8;;\x1b\\");
         });
 
-    Target TestFrameworks => _ => _
+    Target VSTestFrameworks => _ => _
         .DependsOn(Compile)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
@@ -339,6 +339,10 @@ class Build : NukeBuild
 
             ReportTestOutcome(projects.Select(p => $"*{p.Name}*.trx").ToArray());
         });
+
+    Target TestFrameworks => _ => _
+        .DependsOn(VSTestFrameworks)
+        .DependsOn(TestingPlatformFrameworks);
 
     Target Pack => _ => _
         .DependsOn(ApiChecks)

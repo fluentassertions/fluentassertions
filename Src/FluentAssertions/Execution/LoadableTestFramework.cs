@@ -36,7 +36,7 @@ internal abstract class LoadableTestFramework : ITestFramework
         Type exceptionType = assembly.GetType(ExceptionFullName)
             ?? throw new NotSupportedException($"Failed to create {ExceptionFullName}");
 
-        throw (Exception)Activator.CreateInstance(exceptionType, message);
+        throw (Exception)Activator.CreateInstance(exceptionType, message)!;
     }
 
     protected internal abstract string AssemblyName { get; }
