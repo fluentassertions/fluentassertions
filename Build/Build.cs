@@ -150,8 +150,6 @@ class Build : NukeBuild
                 .CombineWith(cc => cc
                     .SetProjectFile(project)
                     .AddLoggers($"trx;LogFileName={project.Name}.trx")), completeOnFailure: true);
-
-            ReportTestOutcome(globFilters: $"*{project.Name}.trx");
         });
 
     Project[] Projects =>
@@ -211,35 +209,11 @@ class Build : NukeBuild
                             )
                     ), completeOnFailure: true
             );
-
-            ReportTestOutcome(globFilters: $"*[!*{net47}].trx");
         });
 
     Target UnitTests => _ => _
         .DependsOn(UnitTestsNet47)
         .DependsOn(UnitTestsNet6OrGreater);
-
-    static string[] Outcomes(AbsolutePath path)
-        => XmlTasks.XmlPeek(
-            path,
-            "/xn:TestRun/xn:Results/xn:UnitTestResult/@outcome",
-            ("xn", "http://microsoft.com/schemas/VisualStudio/TeamTest/2010")).ToArray();
-
-    void ReportTestOutcome(params string[] globFilters)
-    {
-        var resultFiles = TestResultsDirectory.GlobFiles(globFilters);
-        var outcomes = resultFiles.SelectMany(Outcomes).ToList();
-        var passedTests = outcomes.Count(outcome => outcome is "Passed");
-        var failedTests = outcomes.Count(outcome => outcome is "Failed");
-        var skippedTests = outcomes.Count(outcome => outcome is "NotExecuted");
-
-        ReportSummary(_ => _
-            .When(failedTests > 0, c => c
-                .AddPair("Failed", failedTests.ToString()))
-            .AddPair("Passed", passedTests.ToString())
-            .When(skippedTests > 0, c => c
-                .AddPair("Skipped", skippedTests.ToString())));
-    }
 
     Target CodeCoverage => _ => _
         .DependsOn(TestFrameworks)
@@ -298,8 +272,6 @@ class Build : NukeBuild
                         .SetProjectFile(v.project)
                         .SetFramework(v.framework)
                         .AddLoggers($"trx;LogFileName={v.project.Name}_{v.framework}.trx")), completeOnFailure: true);
-
-            ReportTestOutcome(projects.Select(p => $"*{p.Name}*.trx").ToArray());
         });
 
     Target Pack => _ => _
