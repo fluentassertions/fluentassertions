@@ -336,8 +336,6 @@ class Build : NukeBuild
                         )
                     )
                 );
-
-            ReportTestOutcome(projects.Select(p => $"*{p.Name}*.trx").ToArray());
         });
 
     Target TestFrameworks => _ => _
