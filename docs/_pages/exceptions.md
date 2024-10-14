@@ -28,7 +28,7 @@ act.Should().Throw<InvalidOperationException>()
 Notice that the example also verifies that the exception has a particular inner exception with a specific message. In fact, you can even check the individual properties of the exception instance using the And property.
 
 ```csharp
-Action act = () => subject.Foo(null);
+var act = () => subject.Foo(null);
 
 act.Should().Throw<ArgumentNullException>()
     .WithParameterName("message");
@@ -37,7 +37,7 @@ act.Should().Throw<ArgumentNullException>()
 An alternative syntax for doing the same is by chaining one or more calls to the `Where()` method:
 
 ```csharp
-Action act = () => subject.Foo(null);
+var act = () => subject.Foo(null);
 act.Should().Throw<ArgumentNullException>().Where(e => e.Message.StartsWith("did"));
 ```
 
@@ -53,7 +53,7 @@ The following wildcard specifiers are permitted in the pattern:
 | ? (question mark) | Exactly one character in that position.   |
 
 ```csharp
-Action act = () => subject.Foo(null);
+var act = () => subject.Foo(null);
 act
   .Should().Throw<ArgumentNullException>()
   .WithMessage("?did*");
@@ -62,7 +62,7 @@ act
 On the other hand, you may want to verify that no exceptions were thrown.
 
 ```csharp
-Action act = () => subject.Foo("Hello");
+var act = () => subject.Foo("Hello");
 act.Should().NotThrow();
 ```
 
@@ -71,14 +71,14 @@ We know that a unit test will fail anyhow if an exception was thrown, but this s
 If you want to verify that a specific exception is not thrown, and want to ignore others, you can do that using an overload:
 
 ```csharp
-Action act = () => subject.Foo("Hello");
+var act = () => subject.Foo("Hello");
 act.Should().NotThrow<InvalidOperationException>();
 ```
 
 Sometimes you may want to retry an assertion until it either succeeds or a given time elapses. For instance, you could be testing a network service which should become available after a certain time, say, 10 seconds:
 
 ```csharp
-Action act = () => service.IsReady().Should().BeTrue();
+var act = () => service.IsReady().Should().BeTrue();
 act.Should().NotThrowAfter(10.Seconds(), 100.Milliseconds());
 ```
 
@@ -107,7 +107,7 @@ However, if you really want to be explicit about the exact type of exception, yo
 Talking about the `async` keyword, you can also verify that an asynchronously executed method throws or doesn't throw an exception:
 
 ```csharp
-Func<Task> act = () => asyncObject.ThrowAsync<ArgumentException>();
+var act = () => asyncObject.ThrowAsync<ArgumentException>();
 await act.Should().ThrowAsync<InvalidOperationException>();
 await act.Should().NotThrowAsync();
 ```
@@ -115,7 +115,7 @@ await act.Should().NotThrowAsync();
 Alternatively, you can use the `Awaiting` method like this:
 
 ```csharp
-Func<Task> act = asyncObject.Awaiting(x => x.ThrowAsync<ArgumentException>());
+var act = asyncObject.Awaiting(x => x.ThrowAsync<ArgumentException>());
 await act.Should().ThrowAsync<ArgumentException>();
 ```
 
@@ -125,7 +125,7 @@ As for synchronous methods, you can also check that an asynchronously executed m
 
 ```csharp
 Stopwatch watch = Stopwatch.StartNew();
-Func<Task> act = async () =>
+var act = async () =>
 {
     if (watch.ElapsedMilliseconds <= 1000)
     {

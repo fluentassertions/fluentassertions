@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Reports;

@@ -12,8 +12,8 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class HttpResponseMessageAssertions : HttpResponseMessageAssertions<HttpResponseMessageAssertions>
 {
-    public HttpResponseMessageAssertions(HttpResponseMessage value)
-        : base(value)
+    public HttpResponseMessageAssertions(HttpResponseMessage value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 }
@@ -25,9 +25,12 @@ public class HttpResponseMessageAssertions : HttpResponseMessageAssertions<HttpR
 public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpResponseMessage, TAssertions>
     where TAssertions : HttpResponseMessageAssertions<TAssertions>
 {
-    protected HttpResponseMessageAssertions(HttpResponseMessage value)
-        : base(value)
+    private readonly AssertionChain assertionChain;
+
+    protected HttpResponseMessageAssertions(HttpResponseMessage value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -42,14 +45,14 @@ public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpR
     /// </param>
     public AndConstraint<TAssertions> BeSuccessful([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        var success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected HttpStatusCode to be successful (2xx){reason}, but HttpResponseMessage was <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .ForCondition(Subject!.IsSuccessStatusCode)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected HttpStatusCode to be successful (2xx){reason}, but found {0}.", Subject.StatusCode);
@@ -70,14 +73,14 @@ public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpR
     /// </param>
     public AndConstraint<TAssertions> BeRedirection([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        var success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected HttpStatusCode to be redirection (3xx){reason}, but HttpResponseMessage was <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .ForCondition((int)Subject!.StatusCode is >= 300 and <= 399)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected HttpStatusCode to be redirection (3xx){reason}, but found {0}.", Subject.StatusCode);
@@ -98,14 +101,14 @@ public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpR
     /// </param>
     public AndConstraint<TAssertions> HaveError([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        var success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected HttpStatusCode to be an error{reason}, but HttpResponseMessage was <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .ForCondition(IsClientError() || IsServerError())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected HttpStatusCode to be an error{reason}, but found {0}.", Subject.StatusCode);
@@ -126,14 +129,14 @@ public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpR
     /// </param>
     public AndConstraint<TAssertions> HaveClientError([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        var success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected HttpStatusCode to be client error (4xx){reason}, but HttpResponseMessage was <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .ForCondition(IsClientError())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected HttpStatusCode to be client error (4xx){reason}, but found {0}.", Subject.StatusCode);
@@ -154,14 +157,14 @@ public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpR
     /// </param>
     public AndConstraint<TAssertions> HaveServerError([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        var success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected HttpStatusCode to be server error (5xx){reason}, but HttpResponseMessage was <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .ForCondition(IsServerError())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected HttpStatusCode to be server error (5xx){reason}, but found {0}.", Subject.StatusCode);
@@ -184,14 +187,14 @@ public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpR
     public AndConstraint<TAssertions> HaveStatusCode(HttpStatusCode expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        var success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected HttpStatusCode to be {0}{reason}, but HttpResponseMessage was <null>.", expected);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .ForCondition(Subject!.StatusCode == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected HttpStatusCode to be {0}{reason}, but found {1}.", expected, Subject.StatusCode);
@@ -214,14 +217,14 @@ public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpR
     public AndConstraint<TAssertions> NotHaveStatusCode(HttpStatusCode unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        var success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected HttpStatusCode not to be {0}{reason}, but HttpResponseMessage was <null>.", unexpected);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .ForCondition(Subject!.StatusCode != unexpected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected HttpStatusCode not to be {0}{reason}, but found {1}.", unexpected, Subject.StatusCode);

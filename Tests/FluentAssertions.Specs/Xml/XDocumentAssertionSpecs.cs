@@ -991,6 +991,25 @@ public class XDocumentAssertionSpecs
         }
 
         [Fact]
+        public void Can_chain_another_assertion_on_the_root_element()
+        {
+            // Arrange
+            var theDocument = XDocument.Parse(
+                """
+                <parent>
+                    <child />
+                </parent>
+                """);
+
+            // Act
+            Action act = () => theDocument.Should().HaveRoot("parent").Which.Should().HaveElement("unknownChild");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theDocument/parent to have child element*unknownChild*");
+        }
+
+        [Fact]
         public void When_asserting_document_has_root_element_with_ns_but_it_does_not_it_should_fail_with_descriptive_message()
         {
             // Arrange
@@ -1034,6 +1053,24 @@ public class XDocumentAssertionSpecs
 
             // Assert
             element.Should().BeSameAs(document.Element("parent").Element("child"));
+        }
+
+        [Fact]
+        public void Can_chain_another_assertion_on_the_root_element()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                """
+                <parent>
+                    <child />
+                </parent>
+                """);
+
+            // Act
+            var act = () => document.Should().HaveElement("child").Which.Should().HaveElement("grandChild");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected document/child to have child element*grandChild*");
         }
 
         [Fact]

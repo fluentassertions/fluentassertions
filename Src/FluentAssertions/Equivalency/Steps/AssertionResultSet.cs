@@ -22,7 +22,7 @@ internal class AssertionResultSet
     }
 
     /// <summary>
-    /// Returns  the closest match compared to the set identified by the provided <paramref name="key"/> or
+    /// Returns the closest match compared to the set identified by the provided <paramref name="key"/> or
     /// an empty array if one of the results represents a successful assertion.
     /// </summary>
     /// <remarks>

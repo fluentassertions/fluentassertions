@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using JetBrains.Annotations;
 using Xunit;
@@ -141,7 +142,8 @@ public class ExtensibilitySpecs
 
     internal class ForeignKeyMatchingRule : IMemberMatchingRule
     {
-        public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options)
+        public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options,
+            AssertionChain assertionChain)
         {
             string name = expectedMember.Name;
 
@@ -296,7 +298,7 @@ public class ExtensibilitySpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("*Id*from subject*System.String*System.Double*Id*from expectation*System.String*System.Double*");
+            .WithMessage("*Id*from subject*System.String*System.Double*");
     }
 
     [Fact]
@@ -335,13 +337,13 @@ public class ExtensibilitySpecs
             Id = null as double?,
         };
 
-        var other = new
+        var expectation = new
         {
             Id = "bar",
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(other,
+        Action act = () => subject.Should().BeEquivalentTo(expectation,
             o => o
                 .Using<string>(c => c.Subject.Should().Be(c.Expectation))
                 .When(si => si.Path == "Id"));

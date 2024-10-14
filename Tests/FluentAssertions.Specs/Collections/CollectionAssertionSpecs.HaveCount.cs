@@ -62,7 +62,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_a_collection_with_incorrect_predicates_in_assertion_scope_all_are_reported()
+        public void Even_with_an_assertion_scope_only_the_first_failure_in_a_chained_call_is_reported()
         {
             // Arrange
             int[] collection = [1, 2, 3];
@@ -75,8 +75,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "*to have a count (c > 3)*to have a count (c < 3)*");
+            act.Should().Throw<XunitException>().WithMessage("*count (c > 3), but count is 3: {1, 2, 3}.");
         }
 
         [Fact]

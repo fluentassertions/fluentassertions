@@ -14,36 +14,37 @@ using Xunit.Sdk;
 // ReSharper disable RedundantStringInterpolation
 namespace FluentAssertions.Specs.Execution
 {
-    public class CallerIdentifierSpecs
+    public class CallerIdentificationSpecs
     {
         [Fact]
-        public void When_namespace_is_exactly_System_caller_should_be_unknown()
+        public void Types_in_the_system_namespace_are_excluded_from_identification()
         {
             // Act
-            Action act = () => SystemNamespaceClass.DetermineCallerIdentityInNamespace();
+            Action act = () => SystemNamespaceClass.AssertAgainstFailure();
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected function to be*");
+            act.Should().Throw<XunitException>().WithMessage("Expected object*",
+                "because a subject in a system namespace should not be ignored by caller identification");
         }
 
         [Fact]
-        public void When_namespace_is_nested_under_System_caller_should_be_unknown()
+        public void Types_in_a_namespace_nested_under_system_are_excluded_from_identification()
         {
             // Act
-            Action act = () => System.Data.NestedSystemNamespaceClass.DetermineCallerIdentityInNamespace();
+            Action act = () => System.Data.NestedSystemNamespaceClass.AssertAgainstFailure();
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected function to be*");
+            act.Should().Throw<XunitException>().WithMessage("Expected object*");
         }
 
         [Fact]
-        public void When_namespace_is_prefixed_with_System_caller_should_be_known()
+        public void Types_in_a_namespace_prefixed_with_system_are_excluded_from_identification()
         {
             // Act
-            Action act = () => SystemPrefixed.SystemPrefixedNamespaceClass.DetermineCallerIdentityInNamespace();
+            Action act = () => SystemPrefixed.SystemPrefixedNamespaceClass.AssertAgainstFailure();
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected actualCaller to be*");
+            act.Should().Throw<XunitException>().WithMessage("Expected actualCaller*");
         }
 
         [Fact]
@@ -570,7 +571,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [CustomAssertion]
-        private string GetSubjectId() => AssertionScope.Current.CallerIdentity;
+        private string GetSubjectId() => AssertionChain.GetOrCreate().CallerIdentifier;
     }
 
 #pragma warning disable IDE0060, RCS1163 // Remove unused parameter
@@ -605,10 +606,10 @@ namespace System
 {
     public static class SystemNamespaceClass
     {
-        public static void DetermineCallerIdentityInNamespace()
+        public static void AssertAgainstFailure()
         {
-            Func<string> actualCaller = () => AssertionScope.Current.CallerIdentity;
-            actualCaller.Should().BeNull("we want this check to fail for the test");
+            object actualCaller = null;
+            actualCaller.Should().NotBeNull("because we want this to fail and not return the name of the subject");
         }
     }
 }
@@ -617,10 +618,10 @@ namespace SystemPrefixed
 {
     public static class SystemPrefixedNamespaceClass
     {
-        public static void DetermineCallerIdentityInNamespace()
+        public static void AssertAgainstFailure()
         {
-            Func<string> actualCaller = () => AssertionScope.Current.CallerIdentity;
-            actualCaller.Should().BeNull("we want this check to fail for the test");
+            object actualCaller = null;
+            actualCaller.Should().NotBeNull("because we want this to fail and return the name of the subject");
         }
     }
 }
@@ -629,10 +630,10 @@ namespace System.Data
 {
     public static class NestedSystemNamespaceClass
     {
-        public static void DetermineCallerIdentityInNamespace()
+        public static void AssertAgainstFailure()
         {
-            Func<string> actualCaller = () => AssertionScope.Current.CallerIdentity;
-            actualCaller.Should().BeNull("we want this check to fail for the test");
+            object actualCaller = null;
+            actualCaller.Should().NotBeNull("because we want this to fail and not return the name of the subject");
         }
     }
 }

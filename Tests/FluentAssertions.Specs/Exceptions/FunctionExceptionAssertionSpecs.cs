@@ -435,29 +435,6 @@ public class FunctionExceptionAssertionSpecs
             .WithMessage("*no*exception*that's what he told me*but*ArgumentNullException*");
     }
 
-    [Fact]
-    public void When_an_assertion_fails_on_NotThrow_succeeding_message_should_be_included()
-    {
-        // Arrange
-        Func<int> throwingFunction = () => throw new Exception();
-
-        // Act
-        Action act = () =>
-        {
-            using var _ = new AssertionScope();
-
-            throwingFunction.Should().NotThrow()
-                .And.BeNull();
-        };
-
-        // Assert
-        act.Should().Throw<XunitException>()
-            .WithMessage(
-                "*Did not expect any exception*" +
-                "*to be <null>*"
-            );
-    }
-
     #endregion
 
     #region NotThrowAfter
@@ -594,10 +571,10 @@ public class FunctionExceptionAssertionSpecs
 
         // Act
         Action act = () => throwShorterThanWaitTime.Should(clock).NotThrowAfter(waitTime, pollInterval)
-            .Which.Should().Be(42);
+            .Which.Should().Be(43);
 
         // Assert
-        act.Should().NotThrow();
+        act.Should().Throw<XunitException>().WithMessage("Expected throwShorterThanWaitTime.Result to be 43*");
     }
 
     [Fact]
@@ -619,10 +596,7 @@ public class FunctionExceptionAssertionSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage(
-                "*Did not expect any exceptions after*" +
-                "*to be <null>*"
-            );
+            .WithMessage("*Did not expect any exceptions after*");
     }
 
     #endregion

@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
@@ -25,6 +26,10 @@ public class ValueTypeEquivalencyStep : IEquivalencyStep
 
                 return $"Treating {member.Description} as a value type because {strategyName}.";
             });
+
+            AssertionChain.GetOrCreate()
+                .For(context)
+                .ReuseOnce();
 
             comparands.Subject.Should().Be(comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
 

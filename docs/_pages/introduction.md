@@ -36,30 +36,38 @@ numbers.Should().OnlyContain(n => n > 0);
 numbers.Should().HaveCount(4, "because we thought we put four items in the collection");
 ```
 
-The nice thing about the second failing example is that it will throw an exception with the message
+The nice thing about the second failing example is that it will throw an exception with the message (and notice that it uses the name of the variable `numbers`):
 
-> "Expected numbers to contain 4 item(s) because we thought we put four items in the collection, but found 3."
+    Expected numbers to contain 4 item(s) because we thought we put four items in the collection, but found 3.
 
-To verify that a particular business rule is enforced using exceptions.
+To verify that a particular business rule is enforced using exceptions:
 
 ```csharp
 var recipe = new RecipeBuilder()
-                    .With(new IngredientBuilder().For("Milk").WithQuantity(200, Unit.Milliliters))
-                    .Build();
-Action action = () => recipe.AddIngredient("Milk", 100, Unit.Spoon);
+  .With(new IngredientBuilder().For("Milk").WithQuantity(200, Unit.Milliliters))
+  .Build();
+                    
+var action = () => recipe.AddIngredient("Milk", 100, Unit.Spoon);
+
 action
-                    .Should().Throw<RuleViolationException>()
-                    .WithMessage("*change the unit of an existing ingredient*")
-                    .And.Violations.Should().Contain(BusinessRule.CannotChangeIngredientQuantity);
+  .Should().Throw<RuleViolationException>()
+  .WithMessage("*change the unit of an existing ingredient*")
+  .And.Violations.Should().Contain(BusinessRule.CannotChangeIngredientQuantity);
 ```
 
 One neat feature is the ability to chain a specific assertion on top of an assertion that acts on a collection or graph of objects.
 
 ```csharp
 dictionary.Should().ContainValue(myClass).Which.SomeProperty.Should().BeGreaterThan(0);
+
 someObject.Should().BeOfType<Exception>().Which.Message.Should().Be("Other Message");
+
 xDocument.Should().HaveElement("child").Which.Should().BeOfType<XElement>().And.HaveAttribute("attr", "1");
 ```
+
+If the first one fails, you will get a message like:
+
+    Expected dictionary["key"].SomeProperty to be greater than 0, but found -2
 
 This chaining can make your unit tests a lot easier to read.
 
@@ -108,7 +116,7 @@ username.Should().Be("jonas");
 
 This will throw a test framework-specific exception with the following message:
 
-`Expected username to be "jonas" with a length of 5, but "dennis" has a length of 6, differs near "den" (index 0).`
+    Expected username to be "jonas" with a length of 5, but "dennis" has a length of 6, differs near "den" (index 0).
 
 The way this works is that Fluent Assertions will try to traverse the current stack trace to find the line and column numbers as well as the full path to the source file. Since it needs the debug symbols for that, this will require you to compile the unit test projects in debug mode, even on your build servers.
 Also, this does not work with [`PathMap`](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/advanced#pathmap) for unit test projects as it assumes that source files are present on the path returned from [`StackFrame.GetFileName()`](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.stackframe.getfilename).
@@ -145,7 +153,7 @@ Alternatively, you can add the `[assembly:CustomAssertionsAssembly]` attribute t
 
 ## Assertion Scopes
 
-You can batch multiple assertions into an `AssertionScope` so that FluentAssertions throws one exception at the end of the scope with all failures.
+You can batch multiple assertions into an `AssertionScope` so that Fluent Assertions throws one exception at the end of the scope with all failures.
 
 E.g.
 
@@ -162,13 +170,39 @@ The above will batch the two failures, and throw an exception at the point of di
 E.g. Exception thrown at point of dispose contains:
 
 ```text
-Expected value to be 10, but found 5.
+Expected value to be 100, but found 95 (difference of -5).
 Expected string to be "Expected" with a length of 8, but "Actual" has a length of 6, differs near "Act" (index 0).
-
-    at........
 ```
 
-For more information take a look at the [AssertionScopeSpecs.cs](https://github.com/fluentassertions/fluentassertions/blob/master/Tests/FluentAssertions.Specs/Execution/AssertionScopeSpecs.cs) in Unit Tests.
+You can even nest two of those scopes and give them suitable names:
+
+```csharp
+using var outerScope = new AssertionScope("Test1");
+using var innerScope = new AssertionScope("Test2");
+nonEmptyList.Should().BeEmpty();
+```
+
+This will give you:
+
+      Expected Test1/Test2/nonEmptyList to be empty, but found at least one item {1}.
+
+
+In more sophisticated scenarios, you might want to intercept the assertion raised within an `AssertionScope` and prevent it from throwing an exception.
+
+```csharp
+using (var scope = new AssertionScope())
+{
+    5.Should().Be(10);
+    // other assertion left out for brevity...
+
+    // Collect all the failure messages that occurred up to this point
+    string[] failures = scope.Discard();
+
+    // The closing brace will not throw any exceptions anymore
+}
+```
+
+For more examples take a look at the [AssertionScopeSpecs.cs](https://github.com/fluentassertions/fluentassertions/blob/master/Tests/FluentAssertions.Specs/Execution/AssertionScopeSpecs.cs) in Unit Tests.
 
 ### Scoped `IValueFormatter`s
 

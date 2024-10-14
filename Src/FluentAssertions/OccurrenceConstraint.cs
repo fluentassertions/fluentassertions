@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions.Common;
-using FluentAssertions.Execution;
 
 namespace FluentAssertions;
 
@@ -22,8 +21,8 @@ public abstract class OccurrenceConstraint
 
     internal abstract bool Assert(int actual);
 
-    internal void RegisterReportables(AssertionScope scope)
+    internal void RegisterContextData(Action<string, object> register)
     {
-        scope.AddReportable("expectedOccurrence", $"{Mode} {ExpectedCount.Times()}");
+        register("expectedOccurrence", $"{Mode} {ExpectedCount.Times()}");
     }
 }

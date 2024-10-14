@@ -13,13 +13,16 @@ namespace FluentAssertions.Xml;
 [DebuggerNonUserCode]
 public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAssertions>
 {
+    private readonly AssertionChain assertionChain;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="XmlElementAssertions"/> class.
     /// </summary>
     /// <param name="xmlElement"></param>
-    public XmlElementAssertions(XmlElement xmlElement)
-        : base(xmlElement)
+    public XmlElementAssertions(XmlElement xmlElement, AssertionChain assertionChain)
+        : base(xmlElement, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -37,7 +40,7 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
     public AndConstraint<XmlElementAssertions> HaveInnerText(string expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject.InnerText == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -94,7 +97,7 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
             (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : $"{{{expectedNamespace}}}")
             + expectedName;
 
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(attribute is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -102,9 +105,9 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
                 + " with value {1}{reason}, but found no such attribute in {2}",
                 expectedFormattedName, expectedValue, Subject);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .ForCondition(attribute!.Value == expectedValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -158,14 +161,14 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
             (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : $"{{{expectedNamespace}}}")
             + expectedName;
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(element is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected {context:subject} to have child element {0}{reason}, but no such child element was found.",
                 expectedFormattedName.EscapePlaceholders());
 
-        return new AndWhichConstraint<XmlElementAssertions, XmlElement>(this, element);
+        return new AndWhichConstraint<XmlElementAssertions, XmlElement>(this, element, assertionChain, "/" + expectedName);
     }
 
     protected override string Identifier => "XML element";

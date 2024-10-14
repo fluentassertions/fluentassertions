@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Formatting;
@@ -127,6 +128,12 @@ internal static class StringExtensions
             .Replace("\r", "\n", StringComparison.Ordinal);
     }
 
+    public static string RemoveTrailingWhitespaceFromLines(this string input)
+    {
+        // This regex matches whitespace characters (\s) that are followed by a line ending (\r?\n)
+        return Regex.Replace(input, @"[ \t]+(?=\r?\n)", string.Empty);
+    }
+
     /// <summary>
     /// Counts the number of times the <paramref name="substring"/> appears within a string by using the specified <paramref name="comparer"/>.
     /// </summary>
@@ -155,5 +162,10 @@ internal static class StringExtensions
     {
         const int humanReadableLength = 8;
         return value.Length > humanReadableLength || value.Contains(Environment.NewLine, StringComparison.Ordinal);
+    }
+
+    public static bool IsNullOrEmpty([NotNullWhen(false)] this string value)
+    {
+        return string.IsNullOrEmpty(value);
     }
 }
