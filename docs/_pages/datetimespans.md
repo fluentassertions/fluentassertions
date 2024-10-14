@@ -60,6 +60,7 @@ theDatetime.Should().HaveYear(2010);
 theDatetime.Should().HaveHour(22);
 theDatetime.Should().HaveMinute(15);
 theDatetime.Should().HaveSecond(0);
+theDatetime.Should().HaveMillisecond(999);
 
 theDatetime.Should().NotHaveDay(2);
 theDatetime.Should().NotHaveMonth(4);
@@ -67,6 +68,7 @@ theDatetime.Should().NotHaveYear(2011);
 theDatetime.Should().NotHaveHour(23);
 theDatetime.Should().NotHaveMinute(16);
 theDatetime.Should().NotHaveSecond(1);
+theDatetime.Should().NotHaveMillisecond(999);
 
 var theDatetimeOffset = 1.March(2010).AsUtc().WithOffset(2.Hours());
 

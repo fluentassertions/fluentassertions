@@ -867,6 +867,62 @@ public class DateTimeOffsetAssertions<TAssertions>
     }
 
     /// <summary>
+    /// Asserts that the current <see cref="DateTimeOffset"/> has the <paramref name="expected"/> millisecond.
+    /// </summary>
+    /// <param name="expected">The expected milliseconds of the current value.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> HaveMillisecond(int expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected the milliseconds part of {context:the time} to be {0}{reason}, ", expected)
+            .ForCondition(Subject.HasValue)
+            .FailWith("but found a <null> DateTimeOffset.")
+            .Then
+            .ForCondition(Subject.Value.Millisecond == expected)
+            .FailWith("but it was {0}.", Subject.Value.Millisecond)
+            .Then
+            .ClearExpectation();
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that the current <see cref="DateTimeOffset"/> does not have the <paramref name="unexpected"/> second.
+    /// </summary>
+    /// <param name="unexpected">The second that should not be in the current value.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotHaveMillisecond(int unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Did not expect the milliseconds part of {context:the time} to be {0}{reason}, ", unexpected)
+            .ForCondition(Subject.HasValue)
+            .FailWith("but found a <null> DateTimeOffset.")
+            .Then
+            .ForCondition(Subject.Value.Millisecond != unexpected)
+            .FailWith("but it was.")
+            .Then
+            .ClearExpectation();
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
     /// Asserts that the current <see cref="DateTimeOffset"/> has the <paramref name="expected"/> offset.
     /// </summary>
     /// <param name="expected">The expected offset of the current value.</param>
