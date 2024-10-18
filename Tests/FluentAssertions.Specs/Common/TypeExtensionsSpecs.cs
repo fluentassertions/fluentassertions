@@ -7,9 +7,9 @@ using System.Text;
 using FluentAssertions.Common;
 using Xunit;
 
-namespace FluentAssertions.Specs.Types;
+namespace FluentAssertions.Specs.Common;
 
-public class TypeExtensionsSpecs
+public partial class TypeExtensionsSpecs
 {
     [Fact]
     public void When_comparing_types_and_types_are_same_it_should_return_true()
