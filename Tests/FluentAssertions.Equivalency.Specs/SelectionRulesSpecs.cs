@@ -301,6 +301,36 @@ public class SelectionRulesSpecs
         internal class ClassWithoutProperty
         {
         }
+
+#if NETCOREAPP3_0_OR_GREATER
+        [Fact]
+        public void Will_include_default_interface_properties_in_the_comparison()
+        {
+            var lista = new List<ITest>
+            {
+                new Test { Name = "Test" }
+            };
+
+            List<ITest> listb = new()
+            {
+                new Test { Name = "Test" }
+            };
+
+            lista.Should().BeEquivalentTo(listb);
+        }
+
+        private class Test : ITest
+        {
+            public string Name { get; set; }
+        }
+
+        private interface ITest
+        {
+            public string Name { get; }
+
+            public int NameLength => Name.Length;
+        }
+#endif
     }
 
     public class Including
@@ -607,6 +637,63 @@ public class SelectionRulesSpecs
             // Assert
             act.Should().Throw<XunitException>().Which.Message.Should().Contain("Field1").And.Contain("Property1");
         }
+
+#if NETCOREAPP3_0_OR_GREATER
+        [Fact]
+        public void Can_include_a_default_interface_property_using_an_expression()
+        {
+            // Arrange
+            IHaveDefaultProperty subject = new ClassReceivedDefaultInterfaceProperty
+            {
+                NormalProperty = "Value"
+            };
+
+            IHaveDefaultProperty expectation = new ClassReceivedDefaultInterfaceProperty
+            {
+                NormalProperty = "Another Value"
+            };
+
+            // Act
+            var act = () => subject.Should().BeEquivalentTo(expectation, x => x.Including(p => p.DefaultProperty));
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected property subject.DefaultProperty to be 13, but found 5.*");
+        }
+
+        [Fact]
+        public void Can_include_a_default_interface_property_using_a_name()
+        {
+            // Arrange
+            IHaveDefaultProperty subject = new ClassReceivedDefaultInterfaceProperty
+            {
+                NormalProperty = "Value"
+            };
+
+            IHaveDefaultProperty expectation = new ClassReceivedDefaultInterfaceProperty
+            {
+                NormalProperty = "Another Value"
+            };
+
+            // Act
+            var act = () => subject.Should().BeEquivalentTo(expectation,
+                x => x.Including(p => p.Name.Contains("DefaultProperty")));
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected property subject.DefaultProperty to be 13, but found 5.*");
+        }
+
+        private class ClassReceivedDefaultInterfaceProperty : IHaveDefaultProperty
+        {
+            public string NormalProperty { get; set; }
+        }
+
+        private interface IHaveDefaultProperty
+        {
+            string NormalProperty { get; set; }
+
+            int DefaultProperty => NormalProperty.Length;
+        }
+#endif
     }
 
     public class Excluding
@@ -1236,6 +1323,65 @@ public class SelectionRulesSpecs
                 .Excluding(o => o.VirtualProperty)
                 .Excluding(o => o.DerivedProperty2));
         }
+
+#if NETCOREAPP3_0_OR_GREATER
+        [Fact]
+        public void Can_exclude_a_default_interface_property_using_an_expression()
+        {
+            // Arrange
+            IHaveDefaultProperty subject = new ClassReceivedDefaultInterfaceProperty
+            {
+                NormalProperty = "Value"
+            };
+
+            IHaveDefaultProperty expectation = new ClassReceivedDefaultInterfaceProperty
+            {
+                NormalProperty = "Another Value"
+            };
+
+            // Act
+            var act = () => subject.Should().BeEquivalentTo(expectation,
+                x => x.Excluding(p => p.DefaultProperty));
+
+            // Assert
+            act.Should().Throw<XunitException>().Which.Message.Should().NotContain("subject.DefaultProperty");
+        }
+
+        [Fact]
+        public void Can_exclude_a_default_interface_property_using_a_name()
+        {
+            // Arrange
+            IHaveDefaultProperty subject = new ClassReceivedDefaultInterfaceProperty
+            {
+                NormalProperty = "Value"
+            };
+
+            IHaveDefaultProperty expectation = new ClassReceivedDefaultInterfaceProperty
+            {
+                NormalProperty = "Another Value"
+            };
+
+            // Act
+            var act = () => subject.Should().BeEquivalentTo(expectation,
+                x => x.Excluding(info => info.Name.Contains("DefaultProperty")));
+
+            // Assert
+            act.Should().Throw<XunitException>().Which.Message.Should().NotContain("subject.DefaultProperty");
+        }
+
+        private class ClassReceivedDefaultInterfaceProperty : IHaveDefaultProperty
+        {
+            public string NormalProperty { get; set; }
+        }
+
+        private interface IHaveDefaultProperty
+        {
+            string NormalProperty { get; set; }
+
+            int DefaultProperty => NormalProperty.Length;
+        }
+#endif
+
     }
 
     public class Accessibility
@@ -1918,7 +2064,8 @@ public class SelectionRulesSpecs
         }
 
         [Fact]
-        public void Explicitly_implemented_read_only_subject_properties_are_ignored_if_a_normal_property_exists_with_the_same_name()
+        public void
+            Explicitly_implemented_read_only_subject_properties_are_ignored_if_a_normal_property_exists_with_the_same_name()
         {
             // Arrange
             IReadOnlyVehicle subject = new ExplicitReadOnlyVehicle(explicitValue: 1)
@@ -1980,6 +2127,34 @@ public class SelectionRulesSpecs
                 .IncludingFields()
                 .ExcludingProperties()
                 .ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Normal_properties_have_priority_over_explicitly_implemented_properties()
+        {
+            var instance = new MyClass
+            {
+                MyError = 42,
+            };
+
+            var other = new MyClass
+            {
+                MyError = 42,
+            };
+
+            instance.Should().BeEquivalentTo(other);
+        }
+
+        private class MyClass : Exception, IMyInterface
+        {
+            public int MyError { get; set; }
+
+            int IMyInterface.Message => MyError;
+        }
+
+        private interface IMyInterface
+        {
+            int Message { get; }
         }
 
         [Fact]
@@ -2547,7 +2722,8 @@ public class SelectionRulesSpecs
             };
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expectation, config => config.IgnoringNonBrowsableMembersOnSubject());
+            Action action = () =>
+                subject.Should().BeEquivalentTo(expectation, config => config.IgnoringNonBrowsableMembersOnSubject());
 
             // Assert
             action.Should().Throw<XunitException>();

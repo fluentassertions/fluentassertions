@@ -17,7 +17,7 @@ internal class MustMatchByNameRule : IMemberMatchingRule
         {
             PropertyInfo propertyInfo = subject.GetType().FindProperty(
                 expectedMember.Name,
-                options.IncludedProperties | MemberVisibility.ExplicitlyImplemented);
+                options.IncludedProperties | MemberVisibility.ExplicitlyImplemented | MemberVisibility.DefaultInterfaceProperties);
 
             subjectMember = propertyInfo is not null && !propertyInfo.IsIndexer() ? new Property(propertyInfo, parent) : null;
         }

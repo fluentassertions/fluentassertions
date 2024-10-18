@@ -11,159 +11,137 @@ namespace FluentAssertions.Common;
 /// </summary>
 internal sealed class TypeMemberReflector
 {
-    private const BindingFlags AllInstanceMembersFlag =
-        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+    private readonly HashSet<string> collectedPropertyNames = new();
+    private readonly HashSet<string> collectedFields = new();
+    private readonly List<FieldInfo> fields = new();
+    private List<PropertyInfo> properties = new();
 
     public TypeMemberReflector(Type typeToReflect, MemberVisibility visibility)
     {
-        Properties = LoadProperties(typeToReflect, visibility);
-        Fields = LoadFields(typeToReflect, visibility);
-        Members = Properties.Concat<MemberInfo>(Fields).ToArray();
+        LoadProperties(typeToReflect, visibility);
+        LoadFields(typeToReflect, visibility);
+
+        Members = properties.Concat<MemberInfo>(fields).ToArray();
     }
 
-    public MemberInfo[] Members { get; }
-
-    public PropertyInfo[] Properties { get; }
-
-    public FieldInfo[] Fields { get; }
-
-    private static PropertyInfo[] LoadProperties(Type typeToReflect, MemberVisibility visibility)
+#pragma warning disable MA0051
+    private void LoadProperties(Type typeToReflect, MemberVisibility visibility)
+#pragma warning restore MA0051
     {
-        List<PropertyInfo> query = GetPropertiesFromHierarchy(typeToReflect, visibility);
-
-        return query.ToArray();
-    }
-
-    private static List<PropertyInfo> GetPropertiesFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
-    {
-        bool includeInternal = memberVisibility.HasFlag(MemberVisibility.Internal);
-        bool includeExplicitlyImplemented = memberVisibility.HasFlag(MemberVisibility.ExplicitlyImplemented);
-
-        return GetMembersFromHierarchy(typeToReflect, type =>
+        while (typeToReflect is not null && typeToReflect != typeof(object))
         {
-            return
-                from p in type.GetProperties(AllInstanceMembersFlag | BindingFlags.DeclaredOnly)
-                where p.GetMethod is { } getMethod
-                    && (IsPublic(getMethod) || (includeExplicitlyImplemented && IsExplicitlyImplemented(getMethod)))
-                    && (includeInternal || !IsInternal(getMethod))
-                    && !p.IsIndexer()
-                orderby IsExplicitImplementation(p)
-                select p;
-        });
-    }
+            PropertyInfo[] allProperties = typeToReflect.GetProperties(
+                BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic);
 
-    private static bool IsPublic(MethodBase getMethod) =>
-        !getMethod.IsPrivate && !getMethod.IsFamily && !getMethod.IsFamilyAndAssembly;
+            AddNormalProperties(visibility, allProperties);
 
-    private static bool IsExplicitlyImplemented(MethodBase getMethod) =>
-        getMethod.IsPrivate && getMethod.IsFinal;
+            AddExplicitlyImplementedProperties(visibility, allProperties);
 
-    private static bool IsInternal(MethodBase getMethod) =>
-        getMethod.IsAssembly || getMethod.IsFamilyOrAssembly;
+            AddInterfaceProperties(typeToReflect, visibility);
 
-    private static bool IsExplicitImplementation(PropertyInfo property)
-    {
-        return property.GetMethod!.IsPrivate &&
-            property.SetMethod?.IsPrivate != false &&
-            property.Name.Contains('.', StringComparison.Ordinal);
-    }
-
-    private static FieldInfo[] LoadFields(Type typeToReflect, MemberVisibility visibility)
-    {
-        List<FieldInfo> query = GetFieldsFromHierarchy(typeToReflect, visibility);
-
-        return query.ToArray();
-    }
-
-    private static List<FieldInfo> GetFieldsFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
-    {
-        bool includeInternal = memberVisibility.HasFlag(MemberVisibility.Internal);
-
-        return GetMembersFromHierarchy(typeToReflect, type =>
-        {
-            return type
-                .GetFields(AllInstanceMembersFlag)
-                .Where(field => IsPublic(field))
-                .Where(field => includeInternal || !IsInternal(field));
-        });
-    }
-
-    private static bool IsPublic(FieldInfo field) =>
-        !field.IsPrivate && !field.IsFamily && !field.IsFamilyAndAssembly;
-
-    private static bool IsInternal(FieldInfo field)
-    {
-        return field.IsAssembly || field.IsFamilyOrAssembly;
-    }
-
-    private static List<TMemberInfo> GetMembersFromHierarchy<TMemberInfo>(
-        Type typeToReflect,
-        Func<Type, IEnumerable<TMemberInfo>> getMembers)
-        where TMemberInfo : MemberInfo
-    {
-        if (typeToReflect.IsInterface)
-        {
-            return GetInterfaceMembers(typeToReflect, getMembers);
-        }
-
-        return GetClassMembers(typeToReflect, getMembers);
-    }
-
-    private static List<TMemberInfo> GetInterfaceMembers<TMemberInfo>(Type typeToReflect,
-        Func<Type, IEnumerable<TMemberInfo>> getMembers)
-        where TMemberInfo : MemberInfo
-    {
-        List<TMemberInfo> members = new();
-
-        var considered = new List<Type>();
-        var queue = new Queue<Type>();
-        considered.Add(typeToReflect);
-        queue.Enqueue(typeToReflect);
-
-        while (queue.Count > 0)
-        {
-            Type subType = queue.Dequeue();
-
-            foreach (Type subInterface in subType.GetInterfaces())
-            {
-                if (considered.Contains(subInterface))
-                {
-                    continue;
-                }
-
-                considered.Add(subInterface);
-                queue.Enqueue(subInterface);
-            }
-
-            IEnumerable<TMemberInfo> typeMembers = getMembers(subType);
-
-            IEnumerable<TMemberInfo> newPropertyInfos = typeMembers.Where(x => !members.Contains(x));
-
-            members.InsertRange(0, newPropertyInfos);
-        }
-
-        return members;
-    }
-
-    private static List<TMemberInfo> GetClassMembers<TMemberInfo>(Type typeToReflect,
-        Func<Type, IEnumerable<TMemberInfo>> getMembers)
-        where TMemberInfo : MemberInfo
-    {
-        List<TMemberInfo> members = new();
-
-        while (typeToReflect != null)
-        {
-            foreach (var memberInfo in getMembers(typeToReflect))
-            {
-                if (members.TrueForAll(mi => mi.Name != memberInfo.Name))
-                {
-                    members.Add(memberInfo);
-                }
-            }
-
+            // Move to the base type
             typeToReflect = typeToReflect.BaseType;
         }
 
-        return members;
+        properties = properties.Where(x => !x.IsIndexer()).ToList();
     }
+
+    private void AddNormalProperties(MemberVisibility visibility, PropertyInfo[] allProperties)
+    {
+        if (visibility.HasFlag(MemberVisibility.Public) || visibility.HasFlag(MemberVisibility.Internal) ||
+            visibility.HasFlag(MemberVisibility.ExplicitlyImplemented))
+        {
+            foreach (PropertyInfo property in allProperties)
+            {
+                if (!collectedPropertyNames.Contains(property.Name) && !IsExplicitlyImplemented(property) &&
+                    HasVisibility(visibility, property))
+                {
+                    properties.Add(property);
+                    collectedPropertyNames.Add(property.Name);
+                }
+            }
+        }
+    }
+
+    private static bool HasVisibility(MemberVisibility visibility, PropertyInfo prop) =>
+        (visibility.HasFlag(MemberVisibility.Public) && prop.GetMethod?.IsPublic is true) ||
+        (visibility.HasFlag(MemberVisibility.Internal) &&
+            (prop.GetMethod?.IsAssembly is true || prop.GetMethod?.IsFamilyOrAssembly is true));
+
+    private void AddExplicitlyImplementedProperties(MemberVisibility visibility, PropertyInfo[] allProperties)
+    {
+        if (visibility.HasFlag(MemberVisibility.ExplicitlyImplemented))
+        {
+            foreach (var p in allProperties)
+            {
+                if (IsExplicitlyImplemented(p))
+                {
+                    var name = p.Name.Split('.').Last();
+
+                    if (!collectedPropertyNames.Contains(name))
+                    {
+                        properties.Add(p);
+                        collectedPropertyNames.Add(name);
+                    }
+                }
+            }
+        }
+    }
+
+    private void AddInterfaceProperties(Type typeToReflect, MemberVisibility visibility)
+    {
+        if (visibility.HasFlag(MemberVisibility.DefaultInterfaceProperties) || typeToReflect.IsInterface)
+        {
+            // Add explicitly implemented interface properties (not included above)
+            var interfaces = typeToReflect.GetInterfaces();
+
+            foreach (var iface in interfaces)
+            {
+                foreach (var prop in iface.GetProperties())
+                {
+                    if (!collectedPropertyNames.Contains(prop.Name) && (!prop.GetMethod!.IsAbstract || typeToReflect.IsInterface))
+                    {
+                        properties.Add(prop);
+                        collectedPropertyNames.Add(prop.Name);
+                    }
+                }
+            }
+        }
+    }
+
+    private static bool IsExplicitlyImplemented(PropertyInfo prop)
+    {
+        return prop.Name.Contains('.', StringComparison.OrdinalIgnoreCase);
+    }
+
+    private void LoadFields(Type typeToReflect, MemberVisibility visibility)
+    {
+        while (typeToReflect is not null && typeToReflect != typeof(object))
+        {
+            FieldInfo[] files = typeToReflect.GetFields(
+                BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic);
+
+            foreach (var field in files)
+            {
+                if (!collectedFields.Contains(field.Name) && HasVisibility(visibility, field))
+                {
+                    fields.Add(field);
+                    collectedFields.Add(field.Name);
+                }
+            }
+
+            // Move to the base type
+            typeToReflect = typeToReflect.BaseType;
+        }
+    }
+
+    private static bool HasVisibility(MemberVisibility visibility, FieldInfo field) =>
+        (visibility.HasFlag(MemberVisibility.Public) && field.IsPublic) ||
+        (visibility.HasFlag(MemberVisibility.Internal) && (field.IsAssembly || field.IsFamilyOrAssembly));
+
+    public MemberInfo[] Members { get; }
+
+    public PropertyInfo[] Properties => properties.ToArray();
+
+    public FieldInfo[] Fields => fields.ToArray();
 }
