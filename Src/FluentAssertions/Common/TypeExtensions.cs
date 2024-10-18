@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using FluentAssertions.Equivalency;
+using Reflectify;
 
 namespace FluentAssertions.Common;
 
@@ -21,9 +22,6 @@ internal static class TypeExtensions
     private static readonly ConcurrentDictionary<Type, bool> HasValueSemanticsCache = new();
     private static readonly ConcurrentDictionary<Type, bool> TypeIsRecordCache = new();
     private static readonly ConcurrentDictionary<Type, bool> TypeIsCompilerGeneratedCache = new();
-
-    private static readonly ConcurrentDictionary<(Type Type, MemberVisibility Visibility), TypeMemberReflector>
-        TypeMemberReflectorsCache = new();
 
     public static bool IsDecoratedWith<TAttribute>(this Type type)
         where TAttribute : Attribute
@@ -184,7 +182,7 @@ internal static class TypeExtensions
     /// </returns>
     public static PropertyInfo FindProperty(this Type type, string propertyName, MemberVisibility memberVisibility)
     {
-        var properties = type.GetProperties(memberVisibility);
+        var properties = type.GetProperties(memberVisibility.ToMemberKind());
 
         return Array.Find(properties, p =>
             p.Name == propertyName || p.Name.EndsWith("." + propertyName, StringComparison.Ordinal));
@@ -198,30 +196,9 @@ internal static class TypeExtensions
     /// </returns>
     public static FieldInfo FindField(this Type type, string fieldName, MemberVisibility memberVisibility)
     {
-        var fields = type.GetFields(memberVisibility);
+        var fields = type.GetFields(memberVisibility.ToMemberKind());
 
         return Array.Find(fields, p => p.Name == fieldName);
-    }
-
-    public static MemberInfo[] GetMembers(this Type typeToReflect, MemberVisibility visibility)
-    {
-        return GetTypeReflectorFor(typeToReflect, visibility).Members;
-    }
-
-    public static PropertyInfo[] GetProperties(this Type typeToReflect, MemberVisibility visibility)
-    {
-        return GetTypeReflectorFor(typeToReflect, visibility).Properties;
-    }
-
-    public static FieldInfo[] GetFields(this Type typeToReflect, MemberVisibility visibility)
-    {
-        return GetTypeReflectorFor(typeToReflect, visibility).Fields;
-    }
-
-    private static TypeMemberReflector GetTypeReflectorFor(Type typeToReflect, MemberVisibility visibility)
-    {
-        return TypeMemberReflectorsCache.GetOrAdd((typeToReflect, visibility),
-            static key => new TypeMemberReflector(key.Type, key.Visibility));
     }
 
     /// <summary>

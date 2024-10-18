@@ -988,6 +988,7 @@ namespace FluentAssertions.Equivalency
         Internal = 1,
         Public = 2,
         ExplicitlyImplemented = 4,
+        DefaultInterfaceProperties = 8,
     }
     public class NestedExclusionOptionBuilder<TExpectation, TCurrent>
     {

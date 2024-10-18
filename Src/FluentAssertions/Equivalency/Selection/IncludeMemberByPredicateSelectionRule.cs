@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using FluentAssertions.Common;
+using Reflectify;
 
 namespace FluentAssertions.Equivalency.Selection;
 
@@ -27,8 +28,8 @@ internal class IncludeMemberByPredicateSelectionRule : IMemberSelectionRule
     {
         var members = new List<IMember>(selectedMembers);
 
-        foreach (MemberInfo memberInfo in currentNode.Type.GetMembers(MemberVisibility.Public |
-                     MemberVisibility.Internal))
+        foreach (MemberInfo memberInfo in currentNode.Type.GetMembers(MemberKind.Public |
+                     MemberKind.Internal))
         {
             IMember member = MemberFactory.Create(memberInfo, currentNode);
 
