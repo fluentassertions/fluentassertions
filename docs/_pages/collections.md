@@ -40,7 +40,17 @@ collection.Should().StartWith(new[] { 1, 2 });
 collection.Should().EndWith(8);
 collection.Should().EndWith(new[] { 5, 8 });
 
+// Should be contained or equivalent to the superset. In mathematical notation, A ⊆ B.
 collection.Should().BeSubsetOf(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, });
+
+// Should be contained but not equivalent to the superset. In mathematical notation, A ⊂ B.
+collection.Should().BeProperSubsetOf(new[] { 1, 2, 5, 6, 7, 8 }); 
+
+// Should contain or be equivalent to the subset. In mathematical notation, A ⊇ B.
+collection.Should().BeSupersetOf(new[] { 1, 2, 5, 8 });
+
+// Should contain but not be equivalent to the subset. In mathematical notation, A ⊃ B.
+collection.Should().BeProperSupersetOf(new[] { 1, 5, 2 });
 
 collection.Should().ContainSingle();
 collection.Should().ContainSingle(x => x > 3);
