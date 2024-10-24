@@ -54,6 +54,7 @@ Fluent Assertions supports the following unit test frameworks:
 * [NUnit](http://www.nunit.org/)
 * [XUnit2](https://github.com/xunit/xunit/releases)
 * [MSpec](https://github.com/machine/machine.specifications)
+* [TUnit](https://github.com/thomhurst/TUnit)
 
 ## Coding by Example
 

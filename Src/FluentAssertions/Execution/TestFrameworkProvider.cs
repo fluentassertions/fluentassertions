@@ -20,6 +20,7 @@ internal class TestFrameworkProvider
         ["mstestv2"] = new MSTestFrameworkV2(),
 
         // Keep XUnitTestFramework last as they use a try/catch approach
+        ["tunit"] = new TUnitFramework(),
         ["xunit2"] = new XUnitTestFramework("xunit.assert"),
         ["xunit3"] = new XUnitTestFramework("xunit.v3.assert"),
     };

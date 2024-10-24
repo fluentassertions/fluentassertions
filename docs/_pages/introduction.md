@@ -72,7 +72,7 @@ If, for some unknown reason, Fluent Assertions fails to find the assembly, and y
 ```xml
 <configuration>
   <appSettings>
-    <!-- Supported values: nunit, xunit2, xunit3, mstestv2 and mspec -->
+    <!-- Supported values: nunit, xunit2, xunit3, mstestv2, mspec and tunit -->
     <add key="FluentAssertions.TestFramework" value="nunit"/>
   </appSettings>
 </configuration>

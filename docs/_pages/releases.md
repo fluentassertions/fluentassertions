@@ -12,6 +12,7 @@ sidebar:
 ### Improvements
 
 * Added compatibility with xUnit.net v3 - [#2970](https://github.com/fluentassertions/fluentassertions/issues/2970)
+* Added support for throwing TUnit exceptions when using TUnit as your testing framework - [#2971](https://github.com/fluentassertions/fluentassertions/pull/2971)
 
 ## 7.0.0
 

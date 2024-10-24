@@ -48,6 +48,10 @@ internal abstract class LateBoundTestFramework : ITestFramework
             {
                 return null;
             }
+            catch (FileLoadException)
+            {
+                return null;
+            }
         }
 
         return assembly;
