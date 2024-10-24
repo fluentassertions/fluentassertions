@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -87,6 +88,22 @@ public partial class StringAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with \"ABCDEF\", but \"ABC\" is too short.");
+        }
+
+        [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
+        public void When_wrapped_in_an_assertion_scope_it_throws_with_both_messages()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                "ABC".Should().StartWith("ABCDEF").And.StartWith("FEDCBA");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*\"ABCDEF\"*");
         }
 
         [Fact]

@@ -1165,6 +1165,7 @@ namespace FluentAssertions.Execution
     public class AssertionFailedException : System.Exception
     {
         public AssertionFailedException(string message) { }
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
         protected AssertionFailedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) { }
     }
     public sealed class AssertionScope : System.IDisposable
@@ -1448,6 +1449,7 @@ namespace FluentAssertions.Formatting
         public bool CanHandle(object value) { }
         public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public class MaxLinesExceededException : System.Exception
     {
         public MaxLinesExceededException() { }

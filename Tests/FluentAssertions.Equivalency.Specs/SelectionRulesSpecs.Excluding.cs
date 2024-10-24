@@ -666,5 +666,26 @@ public partial class SelectionRulesSpecs
                 .Excluding(o => o.VirtualProperty)
                 .Excluding(o => o.DerivedProperty2));
         }
+
+        [Fact]
+        public void Selecting_with_an_unsupported_expression_throws_the_appropriate_exception()
+        {
+            var obj1 = new Derived
+            {
+                DerivedProperty1 = "Something",
+                DerivedProperty2 = "A"
+            };
+
+            var obj2 = new Derived
+            {
+                DerivedProperty1 = "Something",
+                DerivedProperty2 = "B"
+            };
+
+            Action act = () => obj1.Should().BeEquivalentTo(obj2, opt => opt
+                .Excluding(o => o.AbstractProperty + "B"));
+
+            act.Should().Throw<ArgumentException>().WithMessage("*(o.AbstractProperty + \"B\")*cannot be used to select a member*");
+        }
     }
 }
