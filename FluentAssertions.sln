@@ -57,6 +57,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleExtensions", "Tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentAssertions.Extensibility.Specs", "Tests\FluentAssertions.Extensibility.Specs\FluentAssertions.Extensibility.Specs.csproj", "{450FC408-A4E2-4483-B064-2007024D6CF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TUnit.Specs", "Tests\TestFrameworks\TUnit.Specs\TUnit.Specs.csproj", "{6540564E-9B6E-4E1E-8881-6F0DD0F35576}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CI|Any CPU = CI|Any CPU
@@ -165,6 +167,12 @@ Global
 		{450FC408-A4E2-4483-B064-2007024D6CF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{450FC408-A4E2-4483-B064-2007024D6CF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{450FC408-A4E2-4483-B064-2007024D6CF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6540564E-9B6E-4E1E-8881-6F0DD0F35576}.CI|Any CPU.ActiveCfg = Debug|Any CPU
+		{6540564E-9B6E-4E1E-8881-6F0DD0F35576}.CI|Any CPU.Build.0 = Debug|Any CPU
+		{6540564E-9B6E-4E1E-8881-6F0DD0F35576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6540564E-9B6E-4E1E-8881-6F0DD0F35576}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6540564E-9B6E-4E1E-8881-6F0DD0F35576}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6540564E-9B6E-4E1E-8881-6F0DD0F35576}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -187,6 +195,7 @@ Global
 		{0A69DC62-CA14-44E5-BAF9-2EB2E2E2CADF} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{8DF4A6FE-AAD0-41E5-B2F4-34166D1B139C} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{450FC408-A4E2-4483-B064-2007024D6CF1} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{6540564E-9B6E-4E1E-8881-6F0DD0F35576} = {4D8FA213-8724-4C43-B68A-F018148D238C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {75DDA3D8-9D6F-4865-93F4-DDE11DEE8290}

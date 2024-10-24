@@ -60,6 +60,8 @@
         "Push",
         "Restore",
         "SpellCheck",
+        "VSTestFrameworks",
+        "TestingPlatformFrameworks",
         "TestFrameworks",
         "UnitTests",
         "UnitTestsNet47",
