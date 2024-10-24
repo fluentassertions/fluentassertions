@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>TUnit.Specs</RootNamespace>
+    <AssemblyName>TUnit.Specs</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Src\FluentAssertions\FluentAssertions.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="TUnit" Version="0.6.33" />
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="1.5.1" />
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.13.1" />
+  </ItemGroup>
+
+</Project>

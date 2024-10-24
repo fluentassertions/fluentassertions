@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnit3.Specs", "Tests\TestF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnit3Core.Specs", "Tests\TestFrameworks\XUnit3Core.Specs\XUnit3Core.Specs.csproj", "{FCD60E63-F1DC-4DF0-AB75-69CCB6931FF7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TUnit.Specs", "Tests\TestFrameworks\TUnit.Specs\TUnit.Specs.csproj", "{61DC52C4-C0EF-4059-B634-A8FC6826EFA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CI|Any CPU = CI|Any CPU
@@ -157,6 +159,12 @@ Global
 		{FCD60E63-F1DC-4DF0-AB75-69CCB6931FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCD60E63-F1DC-4DF0-AB75-69CCB6931FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCD60E63-F1DC-4DF0-AB75-69CCB6931FF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61DC52C4-C0EF-4059-B634-A8FC6826EFA1}.CI|Any CPU.ActiveCfg = Debug|Any CPU
+		{61DC52C4-C0EF-4059-B634-A8FC6826EFA1}.CI|Any CPU.Build.0 = Debug|Any CPU
+		{61DC52C4-C0EF-4059-B634-A8FC6826EFA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61DC52C4-C0EF-4059-B634-A8FC6826EFA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61DC52C4-C0EF-4059-B634-A8FC6826EFA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61DC52C4-C0EF-4059-B634-A8FC6826EFA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -178,6 +186,7 @@ Global
 		{0A69DC62-CA14-44E5-BAF9-2EB2E2E2CADF} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{60335A74-208E-4B33-BA4F-70A36541705E} = {4D8FA213-8724-4C43-B68A-F018148D238C}
 		{FCD60E63-F1DC-4DF0-AB75-69CCB6931FF7} = {4D8FA213-8724-4C43-B68A-F018148D238C}
+		{61DC52C4-C0EF-4059-B634-A8FC6826EFA1} = {4D8FA213-8724-4C43-B68A-F018148D238C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {75DDA3D8-9D6F-4865-93F4-DDE11DEE8290}

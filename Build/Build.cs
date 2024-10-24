@@ -261,7 +261,7 @@ class Build : NukeBuild
             Information($"Code coverage report: \x1b]8;;file://{link.Replace('\\', '/')}\x1b\\{link}\x1b]8;;\x1b\\");
         });
 
-    Target TestFrameworks => _ => _
+    Target VSTestFrameworks => _ => _
         .DependsOn(Compile)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
@@ -301,6 +301,46 @@ class Build : NukeBuild
 
             ReportTestOutcome(projects.Select(p => $"*{p.Name}*.trx").ToArray());
         });
+
+    Target TestingPlatformFrameworks => _ => _
+        .DependsOn(Compile)
+        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
+        .Executes(() =>
+        {
+            Project[] projects =
+            [
+                Solution.TestFrameworks.TUnit_Specs
+            ];
+
+            var testCombinations =
+                from project in projects
+                let frameworks = project.GetTargetFrameworks()
+                from framework in frameworks
+                select new { project, framework };
+
+            DotNetTest(s => s
+                .SetConfiguration(Configuration.Debug)
+                .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
+                .EnableNoBuild()
+                .CombineWith(
+                    testCombinations,
+                    (settings, v) => settings
+                        .SetProjectFile(v.project)
+                        .SetFramework(v.framework)
+                        .SetProcessAdditionalArguments(
+                            "--",
+                            "--coverage",
+                            "--report-trx",
+                            $"--report-trx-filename {v.project.Name}_{v.framework}.trx",
+                            $"--results-directory {TestResultsDirectory}"
+                        )
+                )
+            );
+        });
+
+    Target TestFrameworks => _ => _
+        .DependsOn(VSTestFrameworks)
+        .DependsOn(TestingPlatformFrameworks);
 
     Target Pack => _ => _
         .DependsOn(ApiChecks)
