@@ -85,6 +85,7 @@ sidebar:
 * Allow fluently calling `WithoutMatchingRules` and `WithoutSelectionRules` while using `BeEquivalentTo` - [#2457](https://github.com/fluentassertions/fluentassertions/pull/2457)
 * Removed `utcNow` overload for `.Monitor<T>()` - [#2629](https://github.com/fluentassertions/fluentassertions/pull/2629)
 * The semantics of `BeLowerCased`/`BeUpperCased` have been changed to align with the behavior of `ToLower`/`ToUpper` - [#2660](https://github.com/fluentassertions/fluentassertions/pull/2660)
+* Simplified the inheritance of `SubsequentOrderingAssertions` by removing the class `SubsequentOrderingGenericCollectionAssertions` - [#2439](https://github.com/fluentassertions/fluentassertions/pull/2439)
 
 ### Breaking Changes (for extensions)
 * Introduced a new `AssertionChain` class whose `GetOrCreate` is used to replace `Execute.Assertion` when writing custom assertions - [2539](https://github.com/fluentassertions/fluentassertions/pull/2539)
