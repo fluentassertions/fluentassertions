@@ -84,6 +84,21 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
+        public void Correctly_stop_further_execution_when_inside_assertion_scope()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                "ABC".Should().EndWith("00ABC").And.EndWith("CBA00");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*\"00ABC\"*");
+        }
+
+        [Fact]
         public void When_string_ending_is_compared_and_actual_value_is_null_then_it_should_throw()
         {
             // Arrange
