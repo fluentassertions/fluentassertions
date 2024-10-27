@@ -60,12 +60,12 @@
         "Push",
         "Restore",
         "SpellCheck",
-        "VSTestFrameworks",
-        "TestingPlatformFrameworks",
         "TestFrameworks",
+        "TestingPlatformFrameworks",
         "UnitTests",
         "UnitTestsNet47",
-        "UnitTestsNet6OrGreater"
+        "UnitTestsNet6OrGreater",
+        "VSTestFrameworks"
       ]
     },
     "Verbosity": {

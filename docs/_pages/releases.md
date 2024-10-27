@@ -20,6 +20,7 @@ sidebar:
 * Added option for event monitoring to ignore failing event accessors - [#2629](https://github.com/fluentassertions/fluentassertions/pull/2629)
 * Added the capability of associating `IValueFormatter`s to a (nested) `AssertionScope` - [#2676](https://github.com/fluentassertions/fluentassertions/pull/2676)
 * Added support for throwing TUnit exceptions when using TUnit as your testing framework - [#2758](https://github.com/fluentassertions/fluentassertions/pull/2758)
+* Added support for xUnit.net v3 - [#2718](https://github.com/fluentassertions/fluentassertions/issues/2718)
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
