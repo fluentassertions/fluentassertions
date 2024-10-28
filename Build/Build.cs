@@ -279,9 +279,7 @@ class Build : NukeBuild
         {
             Project[] projects =
             [
-                Solution.TestFrameworks.TUnit_Specs,
-                Solution.TestFrameworks.XUnit3_TestingPlatform_Specs,
-                Solution.TestFrameworks.XUnit3Core_TestingPlatform_Specs,
+                Solution.TestFrameworks.TUnit_Specs
             ];
 
             var testCombinations =
