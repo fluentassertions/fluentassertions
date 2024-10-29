@@ -141,7 +141,7 @@ public class DateTimeAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/>  is within the specified time
+    /// Asserts that the current <see cref="DateTime"/> is within the specified time
     /// from the specified <paramref name="nearbyTime"/> value.
     /// </summary>
     /// <remarks>
@@ -189,7 +189,7 @@ public class DateTimeAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/>  is not within the specified time
+    /// Asserts that the current <see cref="DateTime"/> is not within the specified time
     /// from the specified <paramref name="distantTime"/> value.
     /// </summary>
     /// <remarks>
@@ -233,9 +233,9 @@ public class DateTimeAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/>  is before the specified value.
+    /// Asserts that the current <see cref="DateTime"/> is before the specified value.
     /// </summary>
-    /// <param name="expected">The <see cref="DateTime"/>  that the current value is expected to be before.</param>
+    /// <param name="expected">The <see cref="DateTime"/> that the current value is expected to be before.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -256,9 +256,9 @@ public class DateTimeAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/>  is not before the specified value.
+    /// Asserts that the current <see cref="DateTime"/> is not before the specified value.
     /// </summary>
-    /// <param name="unexpected">The <see cref="DateTime"/>  that the current value is not expected to be before.</param>
+    /// <param name="unexpected">The <see cref="DateTime"/> that the current value is not expected to be before.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -273,9 +273,9 @@ public class DateTimeAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/>  is either on, or before the specified value.
+    /// Asserts that the current <see cref="DateTime"/> is either on, or before the specified value.
     /// </summary>
-    /// <param name="expected">The <see cref="DateTime"/>  that the current value is expected to be on or before.</param>
+    /// <param name="expected">The <see cref="DateTime"/> that the current value is expected to be on or before.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -296,9 +296,9 @@ public class DateTimeAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/>  is neither on, nor before the specified value.
+    /// Asserts that the current <see cref="DateTime"/> is neither on, nor before the specified value.
     /// </summary>
-    /// <param name="unexpected">The <see cref="DateTime"/>  that the current value is not expected to be on nor before.</param>
+    /// <param name="unexpected">The <see cref="DateTime"/> that the current value is not expected to be on nor before.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -313,9 +313,9 @@ public class DateTimeAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/>  is after the specified value.
+    /// Asserts that the current <see cref="DateTime"/> is after the specified value.
     /// </summary>
-    /// <param name="expected">The <see cref="DateTime"/>  that the current value is expected to be after.</param>
+    /// <param name="expected">The <see cref="DateTime"/> that the current value is expected to be after.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -336,9 +336,9 @@ public class DateTimeAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/>  is not after the specified value.
+    /// Asserts that the current <see cref="DateTime"/> is not after the specified value.
     /// </summary>
-    /// <param name="unexpected">The <see cref="DateTime"/>  that the current value is not expected to be after.</param>
+    /// <param name="unexpected">The <see cref="DateTime"/> that the current value is not expected to be after.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -353,9 +353,9 @@ public class DateTimeAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/>  is either on, or after the specified value.
+    /// Asserts that the current <see cref="DateTime"/> is either on, or after the specified value.
     /// </summary>
-    /// <param name="expected">The <see cref="DateTime"/>  that the current value is expected to be on or after.</param>
+    /// <param name="expected">The <see cref="DateTime"/> that the current value is expected to be on or after.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -376,9 +376,9 @@ public class DateTimeAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/>  is neither on, nor after the specified value.
+    /// Asserts that the current <see cref="DateTime"/> is neither on, nor after the specified value.
     /// </summary>
-    /// <param name="unexpected">The <see cref="DateTime"/>  that the current value is expected not to be on nor after.</param>
+    /// <param name="unexpected">The <see cref="DateTime"/> that the current value is expected not to be on nor after.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -412,7 +412,7 @@ public class DateTimeAssertions<TAssertions>
                 .ForCondition(Subject.HasValue)
                 .FailWith(", but found <null>.")
                 .Then
-                .ForCondition(Subject.Value.Year == expected)
+                .ForCondition(Subject!.Value.Year == expected)
                 .FailWith(", but found {0}.", Subject.Value.Year));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -438,7 +438,7 @@ public class DateTimeAssertions<TAssertions>
             .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but found a <null> DateTime.",
                 unexpected)
             .Then
-            .ForCondition(Subject.Value.Year != unexpected)
+            .ForCondition(Subject!.Value.Year != unexpected)
             .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but it was.", unexpected,
                 Subject.Value.Year);
 
@@ -465,7 +465,7 @@ public class DateTimeAssertions<TAssertions>
                 .ForCondition(Subject.HasValue)
                 .FailWith(", but found a <null> DateTime.")
                 .Then
-                .ForCondition(Subject.Value.Month == expected)
+                .ForCondition(Subject!.Value.Month == expected)
                 .FailWith(", but found {0}.", Subject.Value.Month));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -491,14 +491,14 @@ public class DateTimeAssertions<TAssertions>
                 .ForCondition(Subject.HasValue)
                 .FailWith(", but found a <null> DateTime.")
                 .Then
-                .ForCondition(Subject.Value.Month != unexpected)
+                .ForCondition(Subject!.Value.Month != unexpected)
                 .FailWith(", but it was."));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/>  has the <paramref name="expected"/> day.
+    /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> day.
     /// </summary>
     /// <param name="expected">The expected day of the current value.</param>
     /// <param name="because">
@@ -517,7 +517,7 @@ public class DateTimeAssertions<TAssertions>
                 .ForCondition(Subject.HasValue)
                 .FailWith(", but found a <null> DateTime.")
                 .Then
-                .ForCondition(Subject.Value.Day == expected)
+                .ForCondition(Subject!.Value.Day == expected)
                 .FailWith(", but found {0}.", Subject.Value.Day));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -543,14 +543,14 @@ public class DateTimeAssertions<TAssertions>
                 .ForCondition(Subject.HasValue)
                 .FailWith(", but found a <null> DateTime.")
                 .Then
-                .ForCondition(Subject.Value.Day != unexpected)
+                .ForCondition(Subject!.Value.Day != unexpected)
                 .FailWith(", but it was."));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/>  has the <paramref name="expected"/> hour.
+    /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> hour.
     /// </summary>
     /// <param name="expected">The expected hour of the current value.</param>
     /// <param name="because">
@@ -569,7 +569,7 @@ public class DateTimeAssertions<TAssertions>
                 .ForCondition(Subject.HasValue)
                 .FailWith(", but found a <null> DateTime.")
                 .Then
-                .ForCondition(Subject.Value.Hour == expected)
+                .ForCondition(Subject!.Value.Hour == expected)
                 .FailWith(", but found {0}.", Subject.Value.Hour));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -595,14 +595,14 @@ public class DateTimeAssertions<TAssertions>
                 .ForCondition(Subject.HasValue)
                 .FailWith(", but found a <null> DateTime.", unexpected)
                 .Then
-                .ForCondition(Subject.Value.Hour != unexpected)
+                .ForCondition(Subject!.Value.Hour != unexpected)
                 .FailWith(", but it was.", unexpected, Subject.Value.Hour));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/>  has the <paramref name="expected"/> minute.
+    /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> minute.
     /// </summary>
     /// <param name="expected">The expected minutes of the current value.</param>
     /// <param name="because">
@@ -621,7 +621,7 @@ public class DateTimeAssertions<TAssertions>
                 .ForCondition(Subject.HasValue)
                 .FailWith(", but found a <null> DateTime.")
                 .Then
-                .ForCondition(Subject.Value.Minute == expected)
+                .ForCondition(Subject!.Value.Minute == expected)
                 .FailWith(", but found {0}.", Subject.Value.Minute));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -647,14 +647,14 @@ public class DateTimeAssertions<TAssertions>
                 .ForCondition(Subject.HasValue)
                 .FailWith(", but found a <null> DateTime.", unexpected)
                 .Then
-                .ForCondition(Subject.Value.Minute != unexpected)
+                .ForCondition(Subject!.Value.Minute != unexpected)
                 .FailWith(", but it was.", unexpected, Subject.Value.Minute));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/>  has the <paramref name="expected"/> second.
+    /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> second.
     /// </summary>
     /// <param name="expected">The expected seconds of the current value.</param>
     /// <param name="because">
@@ -673,7 +673,7 @@ public class DateTimeAssertions<TAssertions>
                 .ForCondition(Subject.HasValue)
                 .FailWith(", but found a <null> DateTime.")
                 .Then
-                .ForCondition(Subject.Value.Second == expected)
+                .ForCondition(Subject!.Value.Second == expected)
                 .FailWith(", but found {0}.", Subject.Value.Second));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -699,16 +699,16 @@ public class DateTimeAssertions<TAssertions>
                 .ForCondition(Subject.HasValue)
                 .FailWith(", but found a <null> DateTime.")
                 .Then
-                .ForCondition(Subject.Value.Second != unexpected)
+                .ForCondition(Subject!.Value.Second != unexpected)
                 .FailWith(", but it was."));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/>  has the <paramref name="expected"/> millisecond.
+    /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> milliseconds.
     /// </summary>
-    /// <param name="expected">The expected milliseconds of the current value.</param>
+    /// <param name="expected">The expected number of milliseconds of the current value.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -716,27 +716,25 @@ public class DateTimeAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveMillisecond(int expected,
+    public AndConstraint<TAssertions> HaveMilliseconds(int expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected the milliseconds part of {context:the time} to be {0}{reason}", expected)
+            .WithExpectation("Expected the milliseconds part of {context:the time} to be {0}{reason}", expected, chain => chain
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.")
             .Then
-            .ForCondition(Subject.Value.Millisecond == expected)
-            .FailWith(", but found {0}.", Subject.Value.Millisecond)
-            .Then
-            .ClearExpectation();
+            .ForCondition(Subject!.Value.Millisecond == expected)
+            .FailWith(", but found {0}.", Subject.Value.Millisecond));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="DateTime"/> does not have the <paramref name="unexpected"/> millisecond.
+    /// Asserts that the current <see cref="DateTime"/> does not have the <paramref name="unexpected"/> milliseconds.
     /// </summary>
-    /// <param name="unexpected">The millisecond that should not be in the current value.</param>
+    /// <param name="unexpected">The number of milliseconds that should not be in the current value.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -744,19 +742,18 @@ public class DateTimeAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotHaveMillisecond(int unexpected,
+    public AndConstraint<TAssertions> NotHaveMilliseconds(int unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Did not expect the milliseconds part of {context:the time} to be {0}{reason}", unexpected)
+            .WithExpectation("Did not expect the milliseconds part of {context:the time} to be {0}{reason}", unexpected,
+            chain => chain
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.")
             .Then
-            .ForCondition(Subject.Value.Millisecond != unexpected)
-            .FailWith(", but it was.")
-            .Then
-            .ClearExpectation();
+            .ForCondition(Subject!.Value.Millisecond != unexpected)
+            .FailWith(", but it was."));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -766,7 +763,7 @@ public class DateTimeAssertions<TAssertions>
     /// exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
     /// </summary>
     /// <param name="timeSpan">
-    /// The amount of time that the current <see cref="DateTime"/>  should exceed compared to another <see cref="DateTime"/>.
+    /// The amount of time that the current <see cref="DateTime"/> should exceed compared to another <see cref="DateTime"/>.
     /// </param>
     public DateTimeRangeAssertions<TAssertions> BeMoreThan(TimeSpan timeSpan)
     {
@@ -779,7 +776,7 @@ public class DateTimeAssertions<TAssertions>
     /// is equal to or exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
     /// </summary>
     /// <param name="timeSpan">
-    /// The amount of time that the current <see cref="DateTime"/>  should be equal or exceed compared to
+    /// The amount of time that the current <see cref="DateTime"/> should be equal or exceed compared to
     /// another <see cref="DateTime"/>.
     /// </param>
     public DateTimeRangeAssertions<TAssertions> BeAtLeast(TimeSpan timeSpan)
@@ -793,7 +790,7 @@ public class DateTimeAssertions<TAssertions>
     /// differs exactly the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
     /// </summary>
     /// <param name="timeSpan">
-    /// The amount of time that the current <see cref="DateTime"/>  should differ exactly compared to another <see cref="DateTime"/>.
+    /// The amount of time that the current <see cref="DateTime"/> should differ exactly compared to another <see cref="DateTime"/>.
     /// </param>
     public DateTimeRangeAssertions<TAssertions> BeExactly(TimeSpan timeSpan)
     {
@@ -806,7 +803,7 @@ public class DateTimeAssertions<TAssertions>
     /// is within the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
     /// </summary>
     /// <param name="timeSpan">
-    /// The amount of time that the current <see cref="DateTime"/>  should be within another <see cref="DateTime"/>.
+    /// The amount of time that the current <see cref="DateTime"/> should be within another <see cref="DateTime"/>.
     /// </param>
     public DateTimeRangeAssertions<TAssertions> BeWithin(TimeSpan timeSpan)
     {
@@ -819,7 +816,7 @@ public class DateTimeAssertions<TAssertions>
     /// differs at maximum the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
     /// </summary>
     /// <param name="timeSpan">
-    /// The maximum amount of time that the current <see cref="DateTime"/>  should differ compared to another <see cref="DateTime"/>.
+    /// The maximum amount of time that the current <see cref="DateTime"/> should differ compared to another <see cref="DateTime"/>.
     /// </param>
     public DateTimeRangeAssertions<TAssertions> BeLessThan(TimeSpan timeSpan)
     {
@@ -850,7 +847,7 @@ public class DateTimeAssertions<TAssertions>
                     .ForCondition(Subject.HasValue)
                     .FailWith(", but found a <null> DateTime.", expectedDate)
                     .Then
-                    .ForCondition(Subject.Value.Date == expectedDate)
+                    .ForCondition(Subject!.Value.Date == expectedDate)
                     .FailWith(", but found {1}.", expectedDate, Subject.Value));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -879,7 +876,7 @@ public class DateTimeAssertions<TAssertions>
                     .ForCondition(Subject.HasValue)
                     .FailWith(", but found a <null> DateTime.")
                     .Then
-                    .ForCondition(Subject.Value.Date != unexpectedDate)
+                    .ForCondition(Subject!.Value.Date != unexpectedDate)
                     .FailWith(", but it was."));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -972,7 +969,7 @@ public class DateTimeAssertions<TAssertions>
                 .ForCondition(Subject.HasValue)
                 .FailWith(", but found a <null> DateTime.")
                 .Then
-                .ForCondition(Subject.Value.Kind == expectedKind)
+                .ForCondition(Subject!.Value.Kind == expectedKind)
                 .FailWith(", but found " + Subject.Value.Kind + "."));
 
         return new AndConstraint<TAssertions>((TAssertions)this);

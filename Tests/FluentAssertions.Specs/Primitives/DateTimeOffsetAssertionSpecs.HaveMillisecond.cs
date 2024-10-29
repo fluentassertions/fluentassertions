@@ -9,28 +9,28 @@ public partial class DateTimeOffsetAssertionSpecs
     public class HaveMillisecond
     {
         [Fact]
-        public void When_asserting_subject_datetimeoffset_should_have_milliseconds_with_the_same_value_it_should_succeed()
+        public void Same_milliseconds_value_succeeds()
         {
             // Arrange
             DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 999), TimeSpan.Zero);
             int expectation = 999;
 
             // Act
-            Action act = () => subject.Should().HaveMillisecond(expectation);
+            Action act = () => subject.Should().HaveMilliseconds(expectation);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_should_have_milliseconds_with_different_value_it_should_throw()
+        public void Different_milliseconds_value_throws()
         {
             // Arrange
             DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 999), TimeSpan.Zero);
             int expectation = 1;
 
             // Act
-            Action act = () => subject.Should().HaveMillisecond(expectation);
+            Action act = () => subject.Should().HaveMilliseconds(expectation);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -38,14 +38,14 @@ public partial class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_null_datetimeoffset_should_have_millisecond_should_throw()
+        public void Null_datetimeoffset_throws()
         {
             // Arrange
             DateTimeOffset? subject = null;
             int expectation = 22;
 
             // Act
-            Action act = () => subject.Should().HaveMillisecond(expectation);
+            Action act = () => subject.Should().HaveMilliseconds(expectation);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -56,14 +56,14 @@ public partial class DateTimeOffsetAssertionSpecs
     public class NotHaveMillisecond
     {
         [Fact]
-        public void When_asserting_subject_datetimeoffset_should_not_have_milliseconds_with_the_same_value_it_should_throw()
+        public void Same_milliseconds_value_throws()
         {
             // Arrange
             DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 999), TimeSpan.Zero);
             int expectation = 999;
 
             // Act
-            Action act = () => subject.Should().NotHaveMillisecond(expectation);
+            Action act = () => subject.Should().NotHaveMilliseconds(expectation);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -71,28 +71,28 @@ public partial class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_should_not_have_milliseconds_with_different_value_it_should_succeed()
+        public void Different_milliseconds_value_succeeds()
         {
             // Arrange
             DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 999), TimeSpan.Zero);
             int expectation = 1;
 
             // Act
-            Action act = () => subject.Should().NotHaveMillisecond(expectation);
+            Action act = () => subject.Should().NotHaveMilliseconds(expectation);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_asserting_subject_null_datetimeoffset_should_not_have_millisecond_should_throw()
+        public void Null_datetimeoffset_throws()
         {
             // Arrange
             DateTimeOffset? subject = null;
             int expectation = 22;
 
             // Act
-            Action act = () => subject.Should().NotHaveMillisecond(expectation);
+            Action act = () => subject.Should().NotHaveMilliseconds(expectation);
 
             // Assert
             act.Should().Throw<XunitException>()
