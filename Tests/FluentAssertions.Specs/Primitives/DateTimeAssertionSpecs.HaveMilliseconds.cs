@@ -4,15 +4,15 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Primitives;
 
-public partial class DateTimeOffsetAssertionSpecs
+public partial class DateTimeAssertionSpecs
 {
-    public class HaveMillisecond
+    public class HaveMilliseconds
     {
         [Fact]
         public void Same_milliseconds_value_succeeds()
         {
             // Arrange
-            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 999), TimeSpan.Zero);
+            DateTime subject = new(2009, 12, 31, 23, 59, 00, 999);
             int expectation = 999;
 
             // Act
@@ -26,7 +26,7 @@ public partial class DateTimeOffsetAssertionSpecs
         public void Different_milliseconds_value_throws()
         {
             // Arrange
-            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 999), TimeSpan.Zero);
+            DateTime subject = new(2009, 12, 31, 23, 59, 00, 999);
             int expectation = 1;
 
             // Act
@@ -34,14 +34,14 @@ public partial class DateTimeOffsetAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected the milliseconds part of subject to be 1, but it was 999.");
+                .WithMessage("Expected the milliseconds part of subject to be 1, but found 999.");
         }
 
         [Fact]
-        public void Null_datetimeoffset_throws()
+        public void Null_datetime_throws()
         {
             // Arrange
-            DateTimeOffset? subject = null;
+            DateTime? subject = null;
             int expectation = 22;
 
             // Act
@@ -49,17 +49,17 @@ public partial class DateTimeOffsetAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected the milliseconds part of subject to be 22, but found a <null> DateTimeOffset.");
+                .WithMessage("Expected the milliseconds part of subject to be 22, but found a <null> DateTime.");
         }
     }
 
-    public class NotHaveMillisecond
+    public class NotHaveMilliseconds
     {
         [Fact]
         public void Same_milliseconds_value_throws()
         {
             // Arrange
-            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 999), TimeSpan.Zero);
+            DateTime subject = new(2009, 12, 31, 23, 59, 00, 999);
             int expectation = 999;
 
             // Act
@@ -74,7 +74,7 @@ public partial class DateTimeOffsetAssertionSpecs
         public void Different_milliseconds_value_succeeds()
         {
             // Arrange
-            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 999), TimeSpan.Zero);
+            DateTime subject = new(2009, 12, 31, 23, 59, 00, 999);
             int expectation = 1;
 
             // Act
@@ -85,10 +85,10 @@ public partial class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void Null_datetimeoffset_throws()
+        public void Null_datetime_throws()
         {
             // Arrange
-            DateTimeOffset? subject = null;
+            DateTime? subject = null;
             int expectation = 22;
 
             // Act
@@ -96,7 +96,7 @@ public partial class DateTimeOffsetAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect the milliseconds part of subject to be 22, but found a <null> DateTimeOffset.");
+                .WithMessage("Did not expect the milliseconds part of subject to be 22, but found a <null> DateTime.");
         }
     }
 }
