@@ -156,7 +156,7 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.TaskCompletionSourceAssertions<T> Should<T>(this System.Threading.Tasks.TaskCompletionSource<T> tcs) { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
-        public static void Should<TSubject, TAssertions>(this FluentAssertions.Numeric.NumericAssertions<TSubject, TAssertions> _)
+        public static void Should<TSubject, TAssertions>(this FluentAssertions.Numeric.NumericAssertionsBase<TSubject, TSubject, TAssertions> _)
             where TSubject :  struct, System.IComparable<TSubject>
             where TAssertions : FluentAssertions.Numeric.NumericAssertions<TSubject, TAssertions> { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
@@ -1588,29 +1588,25 @@ namespace FluentAssertions.Numeric
     {
         public NullableNumericAssertions(T? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
-    public class NullableNumericAssertions<T, TAssertions> : FluentAssertions.Numeric.NumericAssertions<T, TAssertions>
+    public class NullableNumericAssertions<T, TAssertions> : FluentAssertions.Numeric.NumericAssertionsBase<T, T?, TAssertions>
         where T :  struct, System.IComparable<T>
         where TAssertions : FluentAssertions.Numeric.NullableNumericAssertions<T, TAssertions>
     {
         public NullableNumericAssertions(T? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
+        public override T? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Match(System.Linq.Expressions.Expression<System.Func<T?, bool>> predicate, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
     }
-    public class NumericAssertions<T> : FluentAssertions.Numeric.NumericAssertions<T, FluentAssertions.Numeric.NumericAssertions<T>>
+    public abstract class NumericAssertionsBase<T, TSubject, TAssertions>
         where T :  struct, System.IComparable<T>
+        where TAssertions : FluentAssertions.Numeric.NumericAssertionsBase<T, TSubject, TAssertions>
     {
-        public NumericAssertions(T value, FluentAssertions.Execution.AssertionChain assertionChain) { }
-    }
-    public class NumericAssertions<T, TAssertions>
-        where T :  struct, System.IComparable<T>
-        where TAssertions : FluentAssertions.Numeric.NumericAssertions<T, TAssertions>
-    {
-        public NumericAssertions(T value, FluentAssertions.Execution.AssertionChain assertionChain) { }
+        protected NumericAssertionsBase(FluentAssertions.Execution.AssertionChain assertionChain) { }
         public FluentAssertions.Execution.AssertionChain CurrentAssertionChain { get; }
-        public T? Subject { get; }
+        public abstract TSubject Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(T? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeGreaterThan(T expected, string because = "", params object[] becauseArgs) { }
@@ -1629,6 +1625,18 @@ namespace FluentAssertions.Numeric
         public FluentAssertions.AndConstraint<TAssertions> NotBe(T? unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeInRange(T minimumValue, T maximumValue, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeOfType(System.Type unexpectedType, string because = "", params object[] becauseArgs) { }
+    }
+    public class NumericAssertions<T> : FluentAssertions.Numeric.NumericAssertions<T, FluentAssertions.Numeric.NumericAssertions<T>>
+        where T :  struct, System.IComparable<T>
+    {
+        public NumericAssertions(T value, FluentAssertions.Execution.AssertionChain assertionChain) { }
+    }
+    public class NumericAssertions<T, TAssertions> : FluentAssertions.Numeric.NumericAssertionsBase<T, T, TAssertions>
+        where T :  struct, System.IComparable<T>
+        where TAssertions : FluentAssertions.Numeric.NumericAssertions<T, TAssertions>
+    {
+        public NumericAssertions(T value, FluentAssertions.Execution.AssertionChain assertionChain) { }
+        public override T Subject { get; }
     }
 }
 namespace FluentAssertions.Primitives
