@@ -31,24 +31,14 @@ This is a special set of tests that use the [Verify](https://github.com/VerifyTe
 
 If you've verified the changes and decided they are valid, you can accept them  using `AcceptApiChanges.ps1` or `AcceptApiChanges.sh`. Alternatively, you can use the [Verify Support](https://plugins.jetbrains.com/plugin/17240-verify-support) plug-in to compare the changes and accept them right from inside Rider. See also the [Contribution Guidelines](CONTRIBUTING.md).
 
-# Sponsors
-<a href="https://www.swyfft.com/"><img src="docs/assets/images/swyfft.jpg" style="width:55px"/></a>&nbsp;
+# Powered By
 <a href="https://www.infosupport.com/"><img src="docs/assets/images/info-support.jpg" style="width:100px"/></a>&nbsp;
 <a href="https://www.jetbrains.com/rider/"><img src="docs/assets/images/jetbrainsrider.svg" style="width:150px"/></a>&nbsp;
 
 With support from the following public [sponsors](https://github.com/sponsors/fluentassertions)  
-
-<a href="https://github.com/jfoshee"><img src="https://avatars.githubusercontent.com/u/480334?s=52&v=4"/></a>
-<a href="https://github.com/Alexei000"><img src="https://avatars.githubusercontent.com/u/12892366?s=52&v=4" style="width:52px"/></a>
-<a href="https://github.com/mediaclip"><img src="https://avatars.githubusercontent.com/u/6798228?s=52&v=4"/></a>
-<a href="https://github.com/DerAlbertCom"><img src="https://avatars.githubusercontent.com/u/136992?s=52&v=4"/></a>
-<a href="https://github.com/waywedo"><img src="https://avatars.githubusercontent.com/u/20328638?s=52&v=4"/></a>
-<a href="https://github.com/hassanhabib"><img src="https://avatars.githubusercontent.com/u/1453985?s=52&v=4"/></a>
+<a href="https://github.com/BestKru"><img src="https://avatars.githubusercontent.com/u/159320286?s=52&v=4"/></a>
+<a href="https://github.com/Infra-Workleap"><img src="https://avatars.githubusercontent.com/u/53535748?s=52&v=4"/></a>
+<a href="https://github.com/ken-swyfft"><img src="https://avatars.githubusercontent.com/u/65305317?s=52&v=4"/></a>
 <a href="https://github.com/MGundersen"><img src="https://avatars.githubusercontent.com/u/15629960?s=52&v=4"/></a>
-<a href="https://github.com/Jonathan-Hickey"><img src="https://avatars.githubusercontent.com/u/5510103?s=52&v=4"/></a>
-<a href="https://github.com/DevJonny"><img src="https://avatars.githubusercontent.com/u/779133?s=52&v=4"/></a>
-<a href="https://github.com/wilsonneto-dev"><img src="https://avatars.githubusercontent.com/u/20674439?s=52&v=4"/></a>
-<a href="https://github.com/danielrmay"><img src="https://avatars.githubusercontent.com/u/237782?s=52&v=4"/></a>
-<a href="https://github.com/StrawbrryFlurry"><img src="https://avatars.githubusercontent.com/u/44098020?s=52&v=4"/></a>
-
-
+<a href="https://github.com/mediaclip"><img src="https://avatars.githubusercontent.com/u/6798228?s=52&v=4"/></a>
+<a href="https://github.com/hassanhabib"><img src="https://avatars.githubusercontent.com/u/1453985?s=52&v=4"/></a>
