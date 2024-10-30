@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
@@ -9,24 +10,21 @@ public partial class DateTimeAssertionSpecs
     public class HaveMilliseconds
     {
         [Fact]
-        public void Same_milliseconds_value_succeeds()
+        public void Same_value_succeeds()
         {
             // Arrange
-            DateTime subject = new(2009, 12, 31, 23, 59, 00, 999);
+            DateTime subject = 31.December(2009).At(23, 59, 59, 999);
             int expectation = 999;
 
-            // Act
-            Action act = () => subject.Should().HaveMilliseconds(expectation);
-
-            // Assert
-            act.Should().NotThrow();
+            // Act & Assert
+            subject.Should().HaveMilliseconds(expectation);
         }
 
         [Fact]
-        public void Different_milliseconds_value_throws()
+        public void Different_value_throws()
         {
             // Arrange
-            DateTime subject = new(2009, 12, 31, 23, 59, 00, 999);
+            DateTime subject = 31.December(2009).At(23, 59, 59, 999);
             int expectation = 1;
 
             // Act
@@ -38,7 +36,22 @@ public partial class DateTimeAssertionSpecs
         }
 
         [Fact]
-        public void Null_datetime_throws()
+        public void Different_value_throws_with_reason()
+        {
+            // Arrange
+            DateTime subject = 31.December(2009).At(23, 59, 59, 999);
+            int expectation = 1;
+
+            // Act
+            Action act = () => subject.Should().HaveMilliseconds(expectation, "because we want to test the failure case with {0} and {1}", expectation, subject.Millisecond);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the milliseconds part of subject to be 1 because we want to test the failure case with 1 and 999, but found 999.");
+        }
+
+        [Fact]
+        public void Null_subject_throws()
         {
             // Arrange
             DateTime? subject = null;
@@ -56,10 +69,10 @@ public partial class DateTimeAssertionSpecs
     public class NotHaveMilliseconds
     {
         [Fact]
-        public void Same_milliseconds_value_throws()
+        public void Same_value_throws()
         {
             // Arrange
-            DateTime subject = new(2009, 12, 31, 23, 59, 00, 999);
+            DateTime subject = 31.December(2009).At(23, 59, 59, 999);
             int expectation = 999;
 
             // Act
@@ -71,21 +84,33 @@ public partial class DateTimeAssertionSpecs
         }
 
         [Fact]
-        public void Different_milliseconds_value_succeeds()
+        public void Same_value_throws_with_reason()
         {
             // Arrange
-            DateTime subject = new(2009, 12, 31, 23, 59, 00, 999);
-            int expectation = 1;
+            DateTime subject = 31.December(2009).At(23, 59, 59, 999);
+            int expectation = 999;
 
             // Act
-            Action act = () => subject.Should().NotHaveMilliseconds(expectation);
+            Action act = () => subject.Should().NotHaveMilliseconds(expectation, "because we want to test the failure case with {0} and {1}", expectation, subject.Millisecond);
 
             // Assert
-            act.Should().NotThrow();
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect the milliseconds part of subject to be 999 because we want to test the failure case with 999 and 999, but it was.");
         }
 
         [Fact]
-        public void Null_datetime_throws()
+        public void Different_value_succeeds()
+        {
+            // Arrange
+            DateTime subject = 31.December(2009).At(23, 59, 59, 999);
+            int expectation = 1;
+
+            // Act & Assert
+            subject.Should().NotHaveMilliseconds(expectation);
+        }
+
+        [Fact]
+        public void Null_subject_throws()
         {
             // Arrange
             DateTime? subject = null;
