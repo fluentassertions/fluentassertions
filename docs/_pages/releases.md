@@ -102,6 +102,13 @@ sidebar:
   * Methods overwritten in `GenericAsyncFunctionAssertions` has been moved to `NonGenericAsyncFunctionAssertions`.
 * Moved the non-generic `NotThrow` and `NotThrowAfter` from `DelegateAssertions<TDelegate, TAssertions>` to `ActionAssertions` - [#2371](https://github.com/fluentassertions/fluentassertions/pull/2371)
 
+
+## 6.12.1
+
+### Improvements
+
+### Fixes
+
 ## 6.12.0
 
 ### What's new
