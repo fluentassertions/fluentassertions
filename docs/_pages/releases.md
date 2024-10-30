@@ -102,6 +102,13 @@ sidebar:
 * Made `Node`, `Property` and `Field` internal - [#2745](https://github.com/fluentassertions/fluentassertions/pull/2745)
 
 
+
+## 6.12.1
+
+### Improvements
+
+### Fixes
+
 ## 6.12.0
 
 ### What's new
