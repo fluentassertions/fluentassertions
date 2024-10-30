@@ -83,7 +83,6 @@ public class AssertionExtensionsSpecs
     [InlineData(typeof(ExecutionTimeAssertions))]
     [InlineData(typeof(GuidAssertions<GuidAssertions>))]
     [InlineData(typeof(MethodInfoSelectorAssertions))]
-    [InlineData(typeof(NumericAssertions<int, NumericAssertions<int>>))]
     [InlineData(typeof(PropertyInfoSelectorAssertions))]
     [InlineData(typeof(SimpleTimeSpanAssertions<SimpleTimeSpanAssertions>))]
     [InlineData(typeof(TaskCompletionSourceAssertionsBase))]
