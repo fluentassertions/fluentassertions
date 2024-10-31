@@ -311,38 +311,27 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
             "Cannot assert the document has an element count if the element name is <null>.");
 
+        IEnumerable<XElement> xElements = [];
+
         assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Cannot assert the count if the document itself is <null>.");
-
-        IEnumerable<XElement> xElements = [];
-
-        if (assertionChain.Succeeded)
-        {
-            var root = Subject!.Root;
-
-            assertionChain
-                .ForCondition(root is not null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:subject} to have root element containing a child {0}{reason}, but it has no root element.",
-                    expected.ToString());
-
-            if (assertionChain.Succeeded)
-            {
-                xElements = root!.Elements(expected);
-                int actual = xElements.Count();
-
-                assertionChain
-                    .ForConstraint(occurrenceConstraint, actual)
+            .FailWith("Cannot assert the count if the document itself is <null>.")
+            .Then
+            .WithExpectation("Expected {context:subject} to have a root element containing a child {0}",
+                expected.ToString(), chain => chain
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(
-                        "Expected {context:subject} to have a root element containing a child {0} " +
-                        $"{{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
-                        expected.ToString());
-            }
-        }
+                    .Given(() => Subject.Root)
+                    .ForCondition(root => root is not null)
+                    .FailWith("{reason}, but it has no root element.", expected.ToString())
+                    .Then
+                    .Given(root =>
+                    {
+                        xElements = root.Elements(expected);
+                        return xElements.Count();
+                    })
+                    .ForConstraint(occurrenceConstraint, actual => actual)
+                    .FailWith(actual => $"{{expectedOccurrence}}{{reason}}, but found it {actual.Times()}."));
 
         return new AndWhichConstraint<XDocumentAssertions, IEnumerable<XElement>>(this, xElements, assertionChain,
             "/" + expected);

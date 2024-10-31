@@ -45,6 +45,18 @@ public class GivenSelector<T>
         return this;
     }
 
+    public GivenSelector<T> ForConstraint(OccurrenceConstraint constraint, Func<T, int> func)
+    {
+        Guard.ThrowIfArgumentIsNull(func);
+
+        if (assertionChain.Succeeded)
+        {
+            assertionChain.ForConstraint(constraint, func(selector));
+        }
+
+        return this;
+    }
+
     public GivenSelector<TOut> Given<TOut>(Func<T, TOut> selector)
     {
         Guard.ThrowIfArgumentIsNull(selector);
@@ -71,6 +83,12 @@ public class GivenSelector<T>
     public ContinuationOfGiven<T> FailWith(string message, params object[] args)
     {
         assertionChain.FailWith(message, args);
+        return new ContinuationOfGiven<T>(this);
+    }
+
+    public ContinuationOfGiven<T> FailWith(Func<T, string> message)
+    {
+        assertionChain.FailWith(message(selector));
         return new ContinuationOfGiven<T>(this);
     }
 }

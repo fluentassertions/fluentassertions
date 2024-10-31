@@ -1174,10 +1174,12 @@ namespace FluentAssertions.Execution
     public class GivenSelector<T>
     {
         public bool Succeeded { get; }
+        public FluentAssertions.Execution.ContinuationOfGiven<T> FailWith(System.Func<T, string> message) { }
         public FluentAssertions.Execution.ContinuationOfGiven<T> FailWith(string message) { }
         public FluentAssertions.Execution.ContinuationOfGiven<T> FailWith(string message, params System.Func<T, object>[] args) { }
         public FluentAssertions.Execution.ContinuationOfGiven<T> FailWith(string message, params object[] args) { }
         public FluentAssertions.Execution.GivenSelector<T> ForCondition(System.Func<T, bool> predicate) { }
+        public FluentAssertions.Execution.GivenSelector<T> ForConstraint(FluentAssertions.OccurrenceConstraint constraint, System.Func<T, int> func) { }
         public FluentAssertions.Execution.GivenSelector<TOut> Given<TOut>(System.Func<T, TOut> selector) { }
     }
     public interface IAssertionStrategy
