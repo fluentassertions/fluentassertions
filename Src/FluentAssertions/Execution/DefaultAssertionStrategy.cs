@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution;
 
+[ExcludeFromCodeCoverage]
 internal class DefaultAssertionStrategy : IAssertionStrategy
 {
     /// <summary>

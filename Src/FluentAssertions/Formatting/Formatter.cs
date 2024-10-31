@@ -14,6 +14,7 @@ namespace FluentAssertions.Formatting;
 public static class Formatter
 {
     #region Private Definitions
+
     private static readonly List<IValueFormatter> CustomFormatters = [];
 
     private static readonly List<IValueFormatter> DefaultFormatters =

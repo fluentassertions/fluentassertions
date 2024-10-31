@@ -2,19 +2,6 @@
 
 namespace FluentAssertions.Formatting;
 
-public class MaxLinesExceededException : Exception
-{
-    public MaxLinesExceededException(string message, Exception innerException)
-        : base(message, innerException)
-    {
-    }
-
-    public MaxLinesExceededException(string message)
-        : base(message)
-    {
-    }
-
-    public MaxLinesExceededException()
-    {
-    }
-}
+#pragma warning disable RCS1194, CA1032 // Add constructors
+public class MaxLinesExceededException : Exception;
+#pragma warning restore CA1032, RCS1194
