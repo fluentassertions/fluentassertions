@@ -428,6 +428,10 @@
 
   a {
     color: inherit;
+    
+    &:hover {
+      color: #005fa3;
+    }
   }
 
   .active {
@@ -435,6 +439,12 @@
     padding-left: 0.5em;
     padding-right: 0.5em;
     font-weight: bold;
+    color: #007acc;
+    border-radius: 5px;
+
+    a {
+      color: #007acc !important;
+    }
   }
 
   @include breakpoint(max-width ($large - 1px)) {
