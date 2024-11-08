@@ -7,13 +7,18 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 6.12.2
+
+### Fixes
+* Better handling of normal vs explicitly implemented vs default interface properties - [2794](https://github.com/fluentassertions/fluentassertions/pull/2794)
+
 ## 6.12.1
 
 ### Improvements
 * Improve `BeEmpty()` and `BeNullOrEmpty()` performance for `IEnumerable<T>`, by materializing only the first item - [#2530](https://github.com/fluentassertions/fluentassertions/pull/2530)
 
 ### Fixes
-* Fixed formatting error when checking nullable `DateTimeOffset` with 
+* Fixed formatting error when checking nullable `DateTimeOffset` with
 `BeWithin(...).Before(...)` - [#2312](https://github.com/fluentassertions/fluentassertions/pull/2312)
 * `BeEquivalentTo` will now find and can map subject properties that are implemented through an explicitly-implemented interface - [#2152](https://github.com/fluentassertions/fluentassertions/pull/2152)
 * Fixed that the `because` and `becauseArgs` were not passed down the equivalency tree - [#2318](https://github.com/fluentassertions/fluentassertions/pull/2318)

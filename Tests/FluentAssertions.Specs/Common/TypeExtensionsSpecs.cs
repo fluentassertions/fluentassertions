@@ -7,7 +7,7 @@ using System.Text;
 using FluentAssertions.Common;
 using Xunit;
 
-namespace FluentAssertions.Specs.Types;
+namespace FluentAssertions.Specs.Common;
 
 public class TypeExtensionsSpecs
 {
