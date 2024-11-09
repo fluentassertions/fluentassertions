@@ -287,6 +287,36 @@ public partial class SelectionRulesSpecs
             ]);
         }
 
+#if NETCOREAPP3_0_OR_GREATER
+        [Fact]
+        public void Will_include_default_interface_properties_in_the_comparison()
+        {
+            var lista = new List<ITest>
+            {
+                new Test { Name = "Test" }
+            };
+
+            List<ITest> listb = new()
+            {
+                new Test { Name = "Test" }
+            };
+
+            lista.Should().BeEquivalentTo(listb);
+        }
+
+        private class Test : ITest
+        {
+            public string Name { get; set; }
+        }
+
+        private interface ITest
+        {
+            public string Name { get; }
+
+            public int NameLength => Name.Length;
+        }
+#endif
+
         internal class BaseClassPointingToClassWithoutProperties
         {
             [UsedImplicitly]

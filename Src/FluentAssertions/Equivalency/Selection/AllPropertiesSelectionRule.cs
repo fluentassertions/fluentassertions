@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Common;
+using Reflectify;
 
 namespace FluentAssertions.Equivalency.Selection;
 
@@ -14,8 +14,11 @@ internal class AllPropertiesSelectionRule : IMemberSelectionRule
     public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
         MemberSelectionContext context)
     {
+        MemberVisibility visibility = context.IncludedProperties | MemberVisibility.ExplicitlyImplemented |
+            MemberVisibility.DefaultInterfaceProperties;
+
         IEnumerable<IMember> selectedProperties = context.Type
-            .GetProperties(context.IncludedProperties)
+            .GetProperties(visibility.ToMemberKind())
             .Select(info => new Property(context.Type, info, currentNode));
 
         return selectedMembers.Union(selectedProperties).ToList();
