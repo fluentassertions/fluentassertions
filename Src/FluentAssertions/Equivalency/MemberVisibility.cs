@@ -12,5 +12,6 @@ public enum MemberVisibility
     None = 0,
     Internal = 1,
     Public = 2,
-    ExplicitlyImplemented = 4
+    ExplicitlyImplemented = 4,
+    DefaultInterfaceProperties = 8
 }

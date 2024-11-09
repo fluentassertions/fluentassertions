@@ -276,5 +276,33 @@ public partial class SelectionRulesSpecs
             [UsedImplicitly]
             private protected int value;
         }
+
+        [Fact]
+        public void Normal_properties_have_priority_over_explicitly_implemented_properties()
+        {
+            var instance = new MyClass
+            {
+                MyError = 42,
+            };
+
+            var other = new MyClass
+            {
+                MyError = 42,
+            };
+
+            instance.Should().BeEquivalentTo(other);
+        }
+
+        private class MyClass : Exception, IMyInterface
+        {
+            public int MyError { get; set; }
+
+            int IMyInterface.Message => MyError;
+        }
+
+        private interface IMyInterface
+        {
+            int Message { get; }
+        }
     }
 }

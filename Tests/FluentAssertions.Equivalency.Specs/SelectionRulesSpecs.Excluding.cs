@@ -687,5 +687,63 @@ public partial class SelectionRulesSpecs
 
             act.Should().Throw<ArgumentException>().WithMessage("*(o.AbstractProperty + \"B\")*cannot be used to select a member*");
         }
+
+#if NETCOREAPP3_0_OR_GREATER
+        [Fact]
+        public void Can_exclude_a_default_interface_property_using_an_expression()
+        {
+            // Arrange
+            IHaveDefaultProperty subject = new ClassReceivedDefaultInterfaceProperty
+            {
+                NormalProperty = "Value"
+            };
+
+            IHaveDefaultProperty expectation = new ClassReceivedDefaultInterfaceProperty
+            {
+                NormalProperty = "Another Value"
+            };
+
+            // Act
+            var act = () => subject.Should().BeEquivalentTo(expectation,
+                x => x.Excluding(p => p.DefaultProperty));
+
+            // Assert
+            act.Should().Throw<XunitException>().Which.Message.Should().NotContain("subject.DefaultProperty");
+        }
+
+        [Fact]
+        public void Can_exclude_a_default_interface_property_using_a_name()
+        {
+            // Arrange
+            IHaveDefaultProperty subject = new ClassReceivedDefaultInterfaceProperty
+            {
+                NormalProperty = "Value"
+            };
+
+            IHaveDefaultProperty expectation = new ClassReceivedDefaultInterfaceProperty
+            {
+                NormalProperty = "Another Value"
+            };
+
+            // Act
+            var act = () => subject.Should().BeEquivalentTo(expectation,
+                x => x.Excluding(info => info.Name.Contains("DefaultProperty")));
+
+            // Assert
+            act.Should().Throw<XunitException>().Which.Message.Should().NotContain("subject.DefaultProperty");
+        }
+
+        private class ClassReceivedDefaultInterfaceProperty : IHaveDefaultProperty
+        {
+            public string NormalProperty { get; set; }
+        }
+
+        private interface IHaveDefaultProperty
+        {
+            string NormalProperty { get; set; }
+
+            int DefaultProperty => NormalProperty.Length;
+        }
+#endif
     }
 }

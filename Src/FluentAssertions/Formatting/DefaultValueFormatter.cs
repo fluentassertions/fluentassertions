@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
-using FluentAssertions.Equivalency;
+using Reflectify;
 
 namespace FluentAssertions.Formatting;
 
@@ -50,7 +50,7 @@ public class DefaultValueFormatter : IValueFormatter
     /// <remarks>The default is all non-private members.</remarks>
     protected virtual MemberInfo[] GetMembers(Type type)
     {
-        return type.GetMembers(MemberVisibility.Public);
+        return type.GetMembers(MemberKind.Public);
     }
 
     private static bool HasCompilerGeneratedToStringImplementation(object value)

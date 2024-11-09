@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Common;
+using Reflectify;
 
 namespace FluentAssertions.Equivalency.Selection;
 
@@ -15,7 +15,7 @@ internal class AllFieldsSelectionRule : IMemberSelectionRule
         MemberSelectionContext context)
     {
         IEnumerable<IMember> selectedFields = context.Type
-            .GetFields(context.IncludedFields)
+            .GetFields(context.IncludedFields.ToMemberKind())
             .Select(info => new Field(info, currentNode));
 
         return selectedMembers.Union(selectedFields).ToList();
