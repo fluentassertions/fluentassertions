@@ -35,7 +35,11 @@ public class EquivalencyValidator : IEquivalencyValidator
         {
             TrackWhatIsNeededToProvideContextToFailures(scope, comparands, context.CurrentNode);
 
-            if (!context.IsCyclicReference(comparands.Expectation))
+            if (context.IsCyclicReference(comparands.Expectation))
+            {
+                AssertComparandsPointToActualObjects(comparands);
+            }
+            else
             {
                 TryToProveNodesAreEquivalent(comparands, context);
             }
@@ -60,6 +64,19 @@ public class EquivalencyValidator : IEquivalencyValidator
         scope.Context = new Lazy<string>(() => currentNode.Description);
 
         scope.TrackComparands(comparands.Subject, comparands.Expectation);
+    }
+
+    private static void AssertComparandsPointToActualObjects(Comparands comparands)
+    {
+        if (ReferenceEquals(comparands.Subject, comparands.Expectation))
+        {
+            return;
+        }
+
+        if (comparands.Subject is null)
+        {
+            comparands.Subject.Should().BeSameAs(comparands.Expectation);
+        }
     }
 
     private void TryToProveNodesAreEquivalent(Comparands comparands, IEquivalencyValidationContext context)
