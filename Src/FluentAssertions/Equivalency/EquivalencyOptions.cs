@@ -29,7 +29,11 @@ public class EquivalencyOptions<TExpectation>
     /// </summary>
     public EquivalencyOptions<TExpectation> Excluding(Expression<Func<TExpectation, object>> expression)
     {
-        AddSelectionRule(new ExcludeMemberByPathSelectionRule(expression.GetMemberPath()));
+        foreach (var memberPath in expression.GetMemberPaths())
+        {
+            AddSelectionRule(new ExcludeMemberByPathSelectionRule(memberPath));
+        }
+
         return this;
     }
 
@@ -40,9 +44,8 @@ public class EquivalencyOptions<TExpectation>
     public NestedExclusionOptionBuilder<TExpectation, TNext> For<TNext>(
         Expression<Func<TExpectation, IEnumerable<TNext>>> expression)
     {
-        var selectionRule = new ExcludeMemberByPathSelectionRule(expression.GetMemberPath());
-        AddSelectionRule(selectionRule);
-        return new NestedExclusionOptionBuilder<TExpectation, TNext>(this, selectionRule);
+        return new NestedExclusionOptionBuilder<TExpectation, TNext>(
+            this, new ExcludeMemberByPathSelectionRule(expression.GetMemberPath()));
     }
 
     /// <summary>
@@ -53,7 +56,11 @@ public class EquivalencyOptions<TExpectation>
     /// </remarks>
     public EquivalencyOptions<TExpectation> Including(Expression<Func<TExpectation, object>> expression)
     {
-        AddSelectionRule(new IncludeMemberByPathSelectionRule(expression.GetMemberPath()));
+        foreach (var memberPath in expression.GetMemberPaths())
+        {
+            AddSelectionRule(new IncludeMemberByPathSelectionRule(memberPath));
+        }
+
         return this;
     }
 
@@ -77,10 +84,12 @@ public class EquivalencyOptions<TExpectation>
         Expression<Func<TExpectation, object>> expression)
     {
         string expressionMemberPath = expression.GetMemberPath().ToString();
+
         OrderingRules.Add(new PathBasedOrderingRule(expressionMemberPath)
         {
             Invert = true
         });
+
         return this;
     }
 
