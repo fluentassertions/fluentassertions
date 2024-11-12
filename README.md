@@ -13,6 +13,7 @@
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/fluentassertions/fluentassertions)](https://github.com/fluentassertions/fluentassertions/graphs/commit-activity)
 [![open issues](https://img.shields.io/github/issues/fluentassertions/fluentassertions)](https://github.com/fluentassertions/fluentassertions/issues)
 ![](https://img.shields.io/badge/release%20strategy-githubflow-orange.svg)
+[![Gurubase](https://img.shields.io/badge/Gurubase-Ask%20Fluent%20Assertions%20Guru-006BFF)](https://gurubase.io/g/fluent-assertions)
 
 A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style unit tests. Works with .NET Standard 2.0 and higher, .NET Framework 4.7 and higher and .NET 6 and higher.
 
