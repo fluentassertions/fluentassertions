@@ -7,6 +7,12 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 6.12.3
+
+### Fixes
+
+* The expectation node identified as a cyclic reference is still compared to the subject node using simple equality - [2819](https://github.com/fluentassertions/fluentassertions/pull/2819)
+
 ## 6.12.2
 
 ### Fixes
