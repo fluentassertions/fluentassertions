@@ -28,21 +28,6 @@ public partial class DateTimeAssertionSpecs
             int expectation = 1;
 
             // Act
-            Action act = () => subject.Should().HaveMilliseconds(expectation);
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected the milliseconds part of subject to be 1, but found 999.");
-        }
-
-        [Fact]
-        public void Different_value_throws_with_reason()
-        {
-            // Arrange
-            DateTime subject = 31.December(2009).At(23, 59, 59, 999);
-            int expectation = 1;
-
-            // Act
             Action act = () => subject.Should().HaveMilliseconds(expectation, "because we want to test the failure case with {0} and {1}", expectation, subject.Millisecond);
 
             // Assert
@@ -70,21 +55,6 @@ public partial class DateTimeAssertionSpecs
     {
         [Fact]
         public void Same_value_throws()
-        {
-            // Arrange
-            DateTime subject = 31.December(2009).At(23, 59, 59, 999);
-            int expectation = 999;
-
-            // Act
-            Action act = () => subject.Should().NotHaveMilliseconds(expectation);
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect the milliseconds part of subject to be 999, but it was.");
-        }
-
-        [Fact]
-        public void Same_value_throws_with_reason()
         {
             // Arrange
             DateTime subject = 31.December(2009).At(23, 59, 59, 999);
