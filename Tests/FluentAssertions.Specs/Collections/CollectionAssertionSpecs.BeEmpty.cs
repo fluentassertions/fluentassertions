@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
@@ -35,7 +36,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*to be empty because that's what we expect, but found at least one item*1*");
+                .WithMessage("*to be empty because that's what we expect, but found {1, 2, 3}.");
         }
 
         [Fact]
@@ -130,8 +131,22 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*to be empty, but found at least one item {1}.");
+                .WithMessage("*to be empty, but found {1, 2, 3}.");
             collection.GetEnumeratorCallCount.Should().Be(1);
+        }
+
+        [Fact]
+        public void When_asserting_large_collection_is_empty_it_respects_limit_from_enumerable_formatter()
+        {
+            // Arrange
+            var collection = Enumerable.Range(0, 40);
+
+            // Act
+            Action act = () => collection.Should().BeEmpty();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*to be empty, but found {0, 1,*31, …more…}.");
         }
 
         [Fact]

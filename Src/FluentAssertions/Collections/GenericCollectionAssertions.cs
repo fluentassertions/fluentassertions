@@ -296,9 +296,19 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                 .FailWith("but found <null>.")
                 .Then
                 .ForCondition(!hasFirstItem.Value)
-                .FailWith("but found at least one item {0}.", () => new[] { enumerator.Current }));
+                .FailWith("but found {0}.", () => EnumerateWithSavedFirstItem(enumerator.Current, enumerator)));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    private static IEnumerable<T> EnumerateWithSavedFirstItem(T firstItem, IEnumerator<T> remaining)
+    {
+        yield return firstItem;
+
+        while (remaining.MoveNext())
+        {
+            yield return remaining.Current;
+        }
     }
 
     /// <summary>
