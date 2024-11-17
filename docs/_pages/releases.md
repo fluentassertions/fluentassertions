@@ -103,6 +103,12 @@ sidebar:
   * Methods overwritten in `GenericAsyncFunctionAssertions` has been moved to `NonGenericAsyncFunctionAssertions`.
 * Moved the non-generic `NotThrow` and `NotThrowAfter` from `DelegateAssertions<TDelegate, TAssertions>` to `ActionAssertions` - [#2371](https://github.com/fluentassertions/fluentassertions/pull/2371)
 
+## 6.12.3
+
+### Fixes
+
+* The expectation node identified as a cyclic reference is still compared to the subject node using simple equality - [2819](https://github.com/fluentassertions/fluentassertions/pull/2819)
+
 ## 6.12.2
 
 ### Fixes
@@ -115,7 +121,7 @@ sidebar:
 
 ### Fixes
 * Fixed formatting error when checking nullable `DateTimeOffset` with
-  `BeWithin(...).Before(...)` - [#2312](https://github.com/fluentassertions/fluentassertions/pull/2312)
+`BeWithin(...).Before(...)` - [#2312](https://github.com/fluentassertions/fluentassertions/pull/2312)
 * `BeEquivalentTo` will now find and can map subject properties that are implemented through an explicitly-implemented interface - [#2152](https://github.com/fluentassertions/fluentassertions/pull/2152)
 * Fixed that the `because` and `becauseArgs` were not passed down the equivalency tree - [#2318](https://github.com/fluentassertions/fluentassertions/pull/2318)
 * `BeEquivalentTo` can again compare a non-generic `IDictionary` with a generic one - [#2358](https://github.com/fluentassertions/fluentassertions/pull/2358)
@@ -182,7 +188,7 @@ sidebar:
 * Added `BeOneOf` methods for object comparisons and `IComparable`s - [#2028](https://github.com/fluentassertions/fluentassertions/pull/2028)
 * Added `BeCloseTo` and `NotBeCloseTo` to `TimeOnly` - [#2030](https://github.com/fluentassertions/fluentassertions/pull/2030)
 * Added new extension methods to be able to write `Exactly.Times(n)`, `AtLeast.Times(n)` and `AtMost.Times(n)` in a more fluent way - [#2047](https://github.com/fluentassertions/fluentassertions/pull/2047)
-* Changed `BeEquivalentTo` to treat `record struct`s like `record`s, thus comparing them by member by default - [#2009](https://github.com/fluentassertions/fluentassertions/pull/2009)
+* Changed `BeEquivalentTo` to treat record structs like records, thus comparing them by member by default - [#2009](https://github.com/fluentassertions/fluentassertions/pull/2009)
 
 ### Fixes
 * `PropertyInfoSelector.ThatArePublicOrInternal` now takes the setter into account when determining if a property is `public` or `internal` - [#2082](https://github.com/fluentassertions/fluentassertions/pull/2082)
