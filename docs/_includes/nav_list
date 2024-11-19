@@ -6,42 +6,50 @@
   <label for="ac-toc">{{ site.data.ui-text[site.locale].menu_label | default: "Toggle Menu" }}</label>
   <ul class="nav__items">
     {% for nav in navigation %}
-      <li>
-        {% if nav.url %}
-          {% comment %} internal/external URL check {% endcomment %}
+      {% assign is_active = "" %}
+      {% assign is_parent_active = false %}
+    
+      {% comment %} internal/external URL check {% endcomment %}
+      {% if nav.url %}
+        {% if nav.url == page.url %}
+          {% assign is_active = "active" %}
+        {% else %}
           {% if nav.url contains "://" %}
             {% assign nav_url = nav.url %}
           {% else %}
             {% assign nav_url = nav.url | relative_url %}
           {% endif %}
-
-          <a href="{{ nav_url }}"><span class="nav__sub-title">{{ nav.title }}</span></a>
-        {% else %}
-          <span class="nav__sub-title">{{ nav.title }}</span>
         {% endif %}
-
-        {% if nav.children != null %}
-        <ul>
-          {% for child in nav.children %}
-            {% comment %} internal/external URL check {% endcomment %}
-            {% if child.url contains "://" %}
-              {% assign child_url = child.url %}
-            {% else %}
-              {% assign child_url = child.url | relative_url %}
-            {% endif %}
-
-            {% comment %} set "active" class on current page {% endcomment %}
-            {% if child.url == page.url %}
-              {% assign active = "active" %}
-            {% else %}
-              {% assign active = "" %}
-            {% endif %}
-
-            <li><a href="{{ child_url }}" class="{{ active }}">{{ child.title }}</a></li>
-          {% endfor %}
-        </ul>
+      {% endif %}
+    
+      <li class="{% if is_active != "" %}active{% endif %}">
+        <a href="{{ nav_url }}" class="{{ is_active }}">
+          <span class="nav__sub-title">{{ nav.title }}</span>
+        </a>
+        
+        {% if nav.children %}
+          <ul>
+            {% for child in nav.children %}
+              {% assign child_active = "" %}
+              {% if child.url %}
+              {% comment %} internal/external URL check URL {% endcomment %}
+                {% if child.url == page.url %}
+                  {% assign child_active = "active" %}
+                  {% assign is_parent_active = true %}
+                {% else %}
+                {% comment %} use related ways for more flexible verification {% endcomment %}
+                  {% if page.url contains child.url %}
+                    {% assign child_active = "active" %}
+                  {% endif %}
+                {% endif %}
+                <li class="{% if child_active != "" %}active{% endif %}">
+                  <a href="{{ child.url | relative_url }}" class="{{ child_active }}">{{ child.title }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
         {% endif %}
       </li>
     {% endfor %}
-  </ul>
+  </ul>  
 </nav>

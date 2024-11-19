@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Sdk;
 
@@ -69,6 +70,73 @@ public class CyclicReferencesSpecs
     }
 
     [Fact]
+    public void The_cyclic_reference_itself_will_be_compared_using_simple_equality()
+    {
+        // Arrange
+        var expectedChild = new Child
+        {
+            Stuff = 1
+        };
+
+        var expectedParent = new Parent
+        {
+            Child1 = expectedChild
+        };
+
+        expectedChild.Parent = expectedParent;
+
+        var actualChild = new Child
+        {
+            Stuff = 1
+        };
+
+        var actualParent = new Parent
+        {
+            Child1 = actualChild
+        };
+
+        // Act
+        var act = () => actualParent.Should().BeEquivalentTo(expectedParent, options => options.IgnoringCyclicReferences());
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("Expected property actualParent.Child1.Parent to refer to*but found*null*");
+    }
+
+    [Fact]
+    public void The_cyclic_reference_can_be_ignored_if_the_comparands_point_to_the_same_object()
+    {
+        // Arrange
+        var expectedChild = new Child
+        {
+            Stuff = 1
+        };
+
+        var expectedParent = new Parent
+        {
+            Child1 = expectedChild
+        };
+
+        expectedChild.Parent = expectedParent;
+
+        var actualChild = new Child
+        {
+            Stuff = 1
+        };
+
+        var actualParent = new Parent
+        {
+            Child1 = actualChild
+        };
+
+        // Connect this child to the same parent as the expectation child
+        actualChild.Parent = expectedParent;
+
+        // Act
+        actualParent.Should().BeEquivalentTo(expectedParent, options => options.IgnoringCyclicReferences());
+    }
+
+    [Fact]
     public void Two_graphs_with_ignored_cyclic_references_can_be_compared()
     {
         // Arrange
@@ -93,20 +161,23 @@ public class CyclicReferencesSpecs
     {
         public Child Child1 { get; set; }
 
+        [UsedImplicitly]
         public Child Child2 { get; set; }
     }
 
     private class Child
     {
-        public Child(Parent parent, int stuff = 0)
+        public Child(Parent parent = null, int stuff = 0)
         {
             Parent = parent;
             Stuff = stuff;
         }
 
-        public Parent Parent { get; }
+        [UsedImplicitly]
+        public Parent Parent { get; set; }
 
-        public int Stuff { get; }
+        [UsedImplicitly]
+        public int Stuff { get; set; }
     }
 
     [Fact]
@@ -216,7 +287,7 @@ public class CyclicReferencesSpecs
 
         // Act / Assert
         recursiveClass1.Should().NotBeEquivalentTo(recursiveClass2,
-                options => options.AllowingInfiniteRecursion());
+            options => options.AllowingInfiniteRecursion());
     }
 
     [Fact]

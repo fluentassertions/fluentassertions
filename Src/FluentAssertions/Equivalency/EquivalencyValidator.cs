@@ -42,11 +42,11 @@ public class EquivalencyValidator : IValidateChildNodeEquivalency
             }
             else if (context.Options.CyclicReferenceHandling == CyclicReferenceHandling.ThrowException)
             {
-                assertionChain.FailWith("Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference.");
+                assertionChain.FailWith("Expected {context:subject} to be {0}{reason}, but it contains a cyclic reference.", comparands.Expectation);
             }
             else
             {
-                // If cyclic references are allowed, we consider the objects to be equivalent
+                AssertEquivalencyForCyclicReference(comparands, assertionChain);
             }
         }
     }
@@ -55,6 +55,7 @@ public class EquivalencyValidator : IValidateChildNodeEquivalency
         AssertionChain assertionChain)
     {
         bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth <= MaxDepth;
+
         if (!shouldRecurse)
         {
             // This will throw, unless we're inside an AssertionScope
@@ -64,6 +65,29 @@ public class EquivalencyValidator : IValidateChildNodeEquivalency
         return shouldRecurse;
     }
 
+    private static void AssertEquivalencyForCyclicReference(Comparands comparands, AssertionChain assertionChain)
+    {
+        // We know that at this point the expectation is a non-null cyclic reference, so we don't want to continue the recursion.
+        // We still want to compare the subject with the expectation though.
+
+        // If they point at the same object, then equality is proven, and it doesn't matter that there's a cyclic reference.
+        if (ReferenceEquals(comparands.Subject, comparands.Expectation))
+        {
+            return;
+        }
+
+        // If the expectation is non-null and the subject isn't, they would never be equivalent, regardless of how we deal with cyclic references,
+        // so we can just throw an exception here.
+        if (comparands.Subject is null)
+        {
+            assertionChain.ReuseOnce();
+            comparands.Subject.Should().BeSameAs(comparands.Expectation);
+        }
+
+        // If they point at different objects, and the expectation is a cyclic reference, we would never be
+        // able to prove that they are equal. And since we're supposed to ignore cyclic references, we can just return here.
+    }
+
     private void TryToProveNodesAreEquivalent(Comparands comparands, IEquivalencyValidationContext context)
     {
         using var _ = context.Tracer.WriteBlock(node => node.Description);
@@ -71,6 +95,7 @@ public class EquivalencyValidator : IValidateChildNodeEquivalency
         foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
         {
             var result = step.Handle(comparands, context, this);
+
             if (result == EquivalencyResult.EquivalencyProven)
             {
                 context.Tracer.WriteLine(GetMessage(step));
