@@ -1717,6 +1717,7 @@ namespace FluentAssertions.Primitives
         public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveDay(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveHour(int expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveMilliseconds(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveMinute(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveMonth(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveSecond(int expected, string because = "", params object[] becauseArgs) { }
@@ -1732,6 +1733,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBeSameDateAs(System.DateTime unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveDay(int unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveHour(int unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveMilliseconds(int unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveMinute(int unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveMonth(int unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveSecond(int unexpected, string because = "", params object[] becauseArgs) { }
@@ -1768,6 +1770,7 @@ namespace FluentAssertions.Primitives
         public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveDay(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveHour(int expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveMilliseconds(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveMinute(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveMonth(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveOffset(System.TimeSpan expected, string because = "", params object[] becauseArgs) { }
@@ -1785,6 +1788,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBeSameDateAs(System.DateTimeOffset unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveDay(int unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveHour(int unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveMilliseconds(int unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveMinute(int unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveMonth(int unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveOffset(System.TimeSpan unexpected, string because = "", params object[] becauseArgs) { }
