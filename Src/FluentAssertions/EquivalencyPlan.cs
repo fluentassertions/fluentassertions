@@ -148,6 +148,9 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
             new XDocumentEquivalencyStep(),
             new XElementEquivalencyStep(),
             new XAttributeEquivalencyStep(),
+#if NET6_0_OR_GREATER
+            new JsonElementEquivalencyStep(),
+#endif
             new DictionaryEquivalencyStep(),
             new MultiDimensionalArrayEquivalencyStep(),
             new GenericEnumerableEquivalencyStep(),

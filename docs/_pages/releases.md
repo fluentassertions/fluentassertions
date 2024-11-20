@@ -28,6 +28,7 @@ sidebar:
 * Added a few more assertions on `XDocument` - [#2690](https://github.com/fluentassertions/fluentassertions/pull/2690)
     * `[Not]HaveElementWithValue`
     * `NotHaveElement`
+* Added `IEquivalencyStep` for `JsonElement`, `JsonDocument` and `JsonNode` so that parsed json can be compared with `BeEquivalentTo` - [#2576](https://github.com/fluentassertions/fluentassertions/pull/2576)
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
