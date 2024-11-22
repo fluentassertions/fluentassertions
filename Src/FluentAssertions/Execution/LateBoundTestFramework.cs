@@ -25,9 +25,11 @@ internal abstract class LateBoundTestFramework : ITestFramework
         {
             var assembly = FindExceptionAssembly();
             var exceptionType = assembly?.GetType(ExceptionFullName);
+
             exceptionFactory = exceptionType != null
                 ? message => (Exception)Activator.CreateInstance(exceptionType, message)
                 : _ => throw new InvalidOperationException($"{GetType().Name} is not available");
+
             return exceptionType is not null;
         }
     }
@@ -35,6 +37,7 @@ internal abstract class LateBoundTestFramework : ITestFramework
     private Assembly FindExceptionAssembly()
     {
         var assembly = Array.Find(AppDomain.CurrentDomain.GetAssemblies(), a => a.GetName().Name == AssemblyName);
+
         if (assembly is null && loadAssembly)
         {
             try
