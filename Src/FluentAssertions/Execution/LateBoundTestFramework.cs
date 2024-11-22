@@ -23,7 +23,7 @@ internal abstract class LateBoundTestFramework : ITestFramework
     {
         get
         {
-            var assembly = GetAssembly();
+            var assembly = FindExceptionAssembly();
             var exceptionType = assembly?.GetType(ExceptionFullName);
             exceptionFactory = exceptionType != null
                 ? message => (Exception)Activator.CreateInstance(exceptionType, message)
@@ -32,7 +32,7 @@ internal abstract class LateBoundTestFramework : ITestFramework
         }
     }
 
-    private Assembly GetAssembly()
+    private Assembly FindExceptionAssembly()
     {
         var assembly = Array.Find(AppDomain.CurrentDomain.GetAssemblies(), a => a.GetName().Name == AssemblyName);
         if (assembly is null && loadAssembly)
