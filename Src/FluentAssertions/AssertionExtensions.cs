@@ -1004,7 +1004,7 @@ public static class AssertionExtensions
 
     /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
     [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
-    public static void Should<TSubject, TAssertions>(this NumericAssertions<TSubject, TAssertions> _)
+    public static void Should<TSubject, TAssertions>(this NumericAssertionsBase<TSubject, TSubject, TAssertions> _)
         where TSubject : struct, IComparable<TSubject>
         where TAssertions : NumericAssertions<TSubject, TAssertions>
     {

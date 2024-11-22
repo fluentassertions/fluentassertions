@@ -20,7 +20,7 @@ internal static class ExpressionExtensions
 
         if (memberInfo is not PropertyInfo propertyInfo)
         {
-            throw new ArgumentException("Cannot use <" + expression.Body + "> when a property expression is expected.",
+            throw new ArgumentException($"Cannot use <{expression.Body}> when a property expression is expected.",
                 nameof(expression));
         }
 
@@ -31,21 +31,22 @@ internal static class ExpressionExtensions
         (((expression.Body as UnaryExpression)?.Operand ?? expression.Body) as MemberExpression)?.Member;
 
     /// <summary>
-    /// Gets a dotted path of property names representing the property expression, including the declaring type.
+    /// Gets one or more dotted paths of property names representing the property expression, including the declaring type.
     /// </summary>
     /// <example>
-    /// E.g. Parent.Child.Sibling.Name.
+    /// E.g. ["Parent.Child.Sibling.Name"] or ["A.Dotted.Path1", "A.Dotted.Path2"].
     /// </example>
     /// <exception cref="ArgumentNullException"><paramref name="expression"/> is <see langword="null"/>.</exception>
 #pragma warning disable MA0051
-    public static MemberPath GetMemberPath<TDeclaringType, TPropertyType>(
+    public static IEnumerable<MemberPath> GetMemberPaths<TDeclaringType, TPropertyType>(
         this Expression<Func<TDeclaringType, TPropertyType>> expression)
 #pragma warning restore MA0051
     {
         Guard.ThrowIfArgumentIsNull(expression, nameof(expression), "Expected an expression, but found <null>.");
 
-        var segments = new List<string>();
-        var declaringTypes = new List<Type>();
+        string singlePath = null;
+        List<string> selectors = [];
+        List<Type> declaringTypes = [];
         Expression node = expression;
 
         while (node is not null)
@@ -68,7 +69,7 @@ internal static class ExpressionExtensions
                     var memberExpression = (MemberExpression)node;
                     node = memberExpression.Expression;
 
-                    segments.Add(memberExpression.Member.Name);
+                    singlePath = $"{memberExpression.Member.Name}.{singlePath}";
                     declaringTypes.Add(memberExpression.Member.DeclaringType);
                     break;
 
@@ -77,7 +78,7 @@ internal static class ExpressionExtensions
                     var indexExpression = (ConstantExpression)binaryExpression.Right;
                     node = binaryExpression.Left;
 
-                    segments.Add("[" + indexExpression.Value + "]");
+                    singlePath = $"[{indexExpression.Value}].{singlePath}";
                     break;
 
                 case ExpressionType.Parameter:
@@ -87,13 +88,26 @@ internal static class ExpressionExtensions
                 case ExpressionType.Call:
                     var methodCallExpression = (MethodCallExpression)node;
 
-                    if (methodCallExpression is not { Method.Name: "get_Item", Arguments: [ConstantExpression argumentExpression] })
+                    if (methodCallExpression is not
+                        { Method.Name: "get_Item", Arguments: [ConstantExpression argumentExpression] })
                     {
                         throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
                     }
 
                     node = methodCallExpression.Object;
-                    segments.Add("[" + argumentExpression.Value + "]");
+                    singlePath = $"[{argumentExpression.Value}].{singlePath}";
+                    break;
+                case ExpressionType.New:
+                    var newExpression = (NewExpression)node;
+
+                    foreach (Expression member in newExpression.Arguments)
+                    {
+                        var expr = member.ToString();
+                        selectors.Add(expr[expr.IndexOf('.', StringComparison.Ordinal)..]);
+                        declaringTypes.Add(((MemberExpression)member).Member.DeclaringType);
+                    }
+
+                    node = null;
                     break;
 
                 default:
@@ -101,14 +115,36 @@ internal static class ExpressionExtensions
             }
         }
 
-        // If any members were accessed in the expression, the first one found is the last member.
         Type declaringType = declaringTypes.FirstOrDefault() ?? typeof(TDeclaringType);
 
-        IEnumerable<string> reversedSegments = segments.AsEnumerable().Reverse();
-        string segmentPath = string.Join(".", reversedSegments);
+        if (singlePath is null)
+        {
+#if NET47 || NETSTANDARD2_0
+            return selectors.Select(selector =>
+                GetNewInstance<TDeclaringType>(declaringType, selector)).ToList();
+#else
+            return selectors.ConvertAll(selector =>
+                GetNewInstance<TDeclaringType>(declaringType, selector));
+#endif
+        }
 
-        return new MemberPath(typeof(TDeclaringType), declaringType, segmentPath.Replace(".[", "[", StringComparison.Ordinal));
+        return [GetNewInstance<TDeclaringType>(declaringType, singlePath)];
     }
+
+    private static MemberPath GetNewInstance<TReflectedType>(Type declaringType, string dottedPath) =>
+        new(typeof(TReflectedType), declaringType, dottedPath.Trim('.').Replace(".[", "[", StringComparison.Ordinal));
+
+    /// <summary>
+    /// Gets the first dotted path of property names collected by <see cref="GetMemberPaths{TDeclaringType,TPropertyType}"/>
+    /// from a given property expression, including the declaring type.
+    /// </summary>
+    /// <example>
+    /// E.g. Parent.Child.Sibling.Name.
+    /// </example>
+    /// <exception cref="ArgumentNullException"><paramref name="expression"/> is <see langword="null"/>.</exception>
+    public static MemberPath GetMemberPath<TDeclaringType, TPropertyType>(
+        this Expression<Func<TDeclaringType, TPropertyType>> expression) =>
+        expression.GetMemberPaths().First();
 
     /// <summary>
     /// Validates that the expression can be used to construct a <see cref="MemberPath"/>.

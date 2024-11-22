@@ -1,31 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "properties": {
-    "Configuration": {
-      "type": "string",
-      "description": "The solution configuration to build. Default is 'Debug' (local) or 'CI' (server)",
-      "enum": [
-        "CI",
-        "Debug"
-      ]
-    },
-    "GenerateBinLog": {
-      "type": [
-        "boolean",
-        "null"
-      ],
-      "description": "Use this parameter if you encounter build problems in any way, to generate a .binlog file which holds some useful information"
-    },
-    "NuGetApiKey": {
-      "type": "string",
-      "description": "The key to push to Nuget",
-      "default": "Secrets must be entered via 'nuke :secrets [profile]'"
-    },
-    "Solution": {
-      "type": "string",
-      "description": "Path to a solution file that is automatically loaded"
-    }
-  },
   "definitions": {
     "Host": {
       "type": "string",
@@ -136,5 +110,37 @@
       }
     }
   },
-  "$ref": "#/definitions/NukeBuild"
+  "allOf": [
+    {
+      "properties": {
+        "Configuration": {
+          "type": "string",
+          "description": "The solution configuration to build. Default is 'Debug' (local) or 'CI' (server)",
+          "enum": [
+            "CI",
+            "Debug"
+          ]
+        },
+        "GenerateBinLog": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Use this parameter if you encounter build problems in any way, to generate a .binlog file which holds some useful information"
+        },
+        "NuGetApiKey": {
+          "type": "string",
+          "description": "The key to push to Nuget",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+        },
+        "Solution": {
+          "type": "string",
+          "description": "Path to a solution file that is automatically loaded"
+        }
+      }
+    },
+    {
+      "$ref": "#/definitions/NukeBuild"
+    }
+  ]
 }

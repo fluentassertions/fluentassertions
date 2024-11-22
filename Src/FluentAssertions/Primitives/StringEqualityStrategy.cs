@@ -44,9 +44,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
             }
 
             assertionChain.FailWith(
-                ExpectationDescription + "the same string{reason}, but they differ " + locationDescription + ":" +
-                Environment.NewLine
-                + GetMismatchSegmentForLongStrings(subject, expected, indexOfMismatch) + ".");
+                $"{ExpectationDescription}the same string{{reason}}, but they differ {locationDescription}:{Environment.NewLine}{GetMismatchSegmentForLongStrings(subject, expected, indexOfMismatch)}.");
         }
         else if (ValidateAgainstLengthDifferences(assertionChain, subject, expected))
         {
@@ -55,23 +53,23 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
             if (indexOfMismatch != -1)
             {
                 assertionChain.FailWith(
-                    ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) +
+                    $"{ExpectationDescription}{{0}}{{reason}}, but {{1}} differs near " + subject.IndexedSegmentAt(indexOfMismatch) +
                     ".",
                     expected, subject);
             }
         }
     }
 
-    public string ExpectationDescription => "Expected {context:string} to " + predicateDescription + " ";
+    public string ExpectationDescription => $"Expected {{context:string}} to {predicateDescription} ";
 
     private void ValidateAgainstSuperfluousWhitespace(AssertionChain assertion, string subject, string expected)
     {
         assertion
             .ForCondition(!(expected.Length > subject.Length && comparer.Equals(expected.TrimEnd(), subject)))
-            .FailWith(ExpectationDescription + "{0}{reason}, but it misses some extra whitespace at the end.", expected)
+            .FailWith($"{ExpectationDescription}{{0}}{{reason}}, but it misses some extra whitespace at the end.", expected)
             .Then
             .ForCondition(!(subject.Length > expected.Length && comparer.Equals(subject.TrimEnd(), expected)))
-            .FailWith(ExpectationDescription + "{0}{reason}, but it has unexpected whitespace at the end.", expected);
+            .FailWith($"{ExpectationDescription}{{0}}{{reason}}, but it has unexpected whitespace at the end.", expected);
     }
 
     private bool ValidateAgainstLengthDifferences(AssertionChain assertion, string subject, string expected)
@@ -82,8 +80,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
             {
                 string mismatchSegment = GetMismatchSegmentForStringsOfDifferentLengths(subject, expected);
 
-                string message = ExpectationDescription +
-                    "{0} with a length of {1}{reason}, but {2} has a length of {3}, differs near " + mismatchSegment + ".";
+                string message = $"{ExpectationDescription}{{0}} with a length of {{1}}{{reason}}, but {{2}} has a length of {{3}}, differs near " + mismatchSegment + ".";
 
                 return new FailReason(message, expected, expected.Length, subject, subject.Length);
             });

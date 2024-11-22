@@ -226,6 +226,7 @@ class Build : NukeBuild
                     ReportTypes.lcov,
                     ReportTypes.HtmlInline_AzurePipelines_Dark)
                 .AddFileFilters("-*.g.cs")
+                .AddFileFilters("-*.nuget*")
                 .SetAssemblyFilters("+FluentAssertions"));
 
             string link = TestResultsDirectory / "reports" / "index.html";

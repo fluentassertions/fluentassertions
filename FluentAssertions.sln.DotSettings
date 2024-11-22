@@ -168,10 +168,10 @@
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=012E3B0572DEF2448B0B5D9AA88E6210/Shortcut/@EntryValue">aaa</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=012E3B0572DEF2448B0B5D9AA88E6210/Description/@EntryValue">Arrange-Act-Assert</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=012E3B0572DEF2448B0B5D9AA88E6210/Text/@EntryValue">[Fact]
-public void $END$()
+public void $Fact$()
 {
     // Arrange
-    
+    $END$
 
     // Act
 
