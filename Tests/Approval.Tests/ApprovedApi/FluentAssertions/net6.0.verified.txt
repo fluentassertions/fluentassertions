@@ -1313,11 +1313,9 @@ namespace FluentAssertions.Events
 }
 namespace FluentAssertions.Execution
 {
-    [System.Serializable]
     public class AssertionFailedException : System.Exception
     {
         public AssertionFailedException(string message) { }
-        protected AssertionFailedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) { }
     }
     public sealed class AssertionScope : FluentAssertions.Execution.IAssertionScope, System.IDisposable
     {
