@@ -14,7 +14,7 @@
 [![open issues](https://img.shields.io/github/issues/fluentassertions/fluentassertions)](https://github.com/fluentassertions/fluentassertions/issues)
 ![](https://img.shields.io/badge/release%20strategy-githubflow-orange.svg)
 
-A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style unit tests. Targets .NET Framework 4.7, as well as .NET Core 2.1, .NET Core 3.0, .NET 6, .NET Standard 2.0 and 2.1.
+A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style unit tests. Targets .NET Framework 4.7, as well as .NET 6, .NET Standard 2.0 and 2.1.
 
 See https://www.fluentassertions.com for [background information](https://fluentassertions.com/about/), [usage documentation](https://fluentassertions.com/introduction), an [extensibility guide](https://fluentassertions.com/extensibility/), support information and more [tips & tricks](https://fluentassertions.com/tips/).
 
@@ -35,7 +35,7 @@ If you've verified the changes and decided they are valid, you can accept them  
 <a href="https://www.infosupport.com/"><img src="docs/assets/images/info-support.jpg" style="width:100px"/></a>&nbsp;
 <a href="https://www.jetbrains.com/rider/"><img src="docs/assets/images/jetbrainsrider.svg" style="width:150px"/></a>&nbsp;
 
-With support from the following public [sponsors](https://github.com/sponsors/fluentassertions)  
+With support from the following public [sponsors](https://github.com/sponsors/fluentassertions)
 <a href="https://github.com/BestKru"><img src="https://avatars.githubusercontent.com/u/159320286?s=52&v=4"/></a>
 <a href="https://github.com/Infra-Workleap"><img src="https://avatars.githubusercontent.com/u/53535748?s=52&v=4"/></a>
 <a href="https://github.com/ken-swyfft"><img src="https://avatars.githubusercontent.com/u/65305317?s=52&v=4"/></a>

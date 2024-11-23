@@ -60,9 +60,6 @@ class Build : NukeBuild
     [GitRepository]
     readonly GitRepository GitRepository;
 
-    [NuGetPackage("nspec", "NSpecRunner.exe", Version = "3.1.0")]
-    Tool NSpec3;
-
 #if OS_WINDOWS
     [NuGetPackage("Node.js.redist", "node.exe", Version = "16.20.0", Framework = "win-x64")]
 #elif OS_MAC
@@ -301,11 +298,6 @@ class Build : NukeBuild
                         .SetProjectFile(v.project)
                         .SetFramework(v.framework)
                         .AddLoggers($"trx;LogFileName={v.project.Name}_{v.framework}.trx")), completeOnFailure: true);
-
-            if (EnvironmentInfo.IsWin)
-            {
-                NSpec3($"{Solution.TestFrameworks.NSpec3_Net47_Specs.Directory / "bin" / "Debug" / "net47" / "NSpec3.Specs.dll"}");
-            }
 
             ReportTestOutcome(projects.Select(p => $"*{p.Name}*.trx").ToArray());
         });

@@ -39,12 +39,12 @@ will fail with:
 
 ## Supported Frameworks and Libraries
 
-Fluent Assertions cross-compiles to .NET Framework 4.7, as well as .NET Core 2.1 and 3.0, .NET 6, .NET Standard 2.0 and 2.1.
+Fluent Assertions cross-compiles to .NET Framework 4.7, as well as .NET 6, .NET Standard 2.0 and 2.1.
 
 Because of that Fluent Assertions supports the following minimum platforms.
 
-* .NET Core 2.1 and 3.0
 * .NET Framework 4.7 and later
+* .NET 6 and later
 * Mono 5.4, Xamarin.iOS 10.14, Xamarin.Mac 3.8 and Xamarin.Android 8.0
 * Universal Windows Platform 10.0.16299 and later
 
@@ -53,7 +53,6 @@ Fluent Assertions supports the following unit test frameworks:
 * [MSTest V2](https://github.com/Microsoft/testfx) (Visual Studio 2017, Visual Studio 2019)
 * [NUnit](http://www.nunit.org/)
 * [XUnit2](https://github.com/xunit/xunit/releases)
-* [NSpec](http://nspec.org/)
 * [MSpec](https://github.com/machine/machine.specifications)
 
 ## Coding by Example
