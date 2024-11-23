@@ -371,6 +371,4 @@ public class StringComparisonSpecs
 
 // Due to CulturedTheory changing CultureInfo
 [CollectionDefinition(nameof(StringComparisonSpecs), DisableParallelization = true)]
-public class StringComparisonDefinition
-{
-}
+public class StringComparisonDefinition;

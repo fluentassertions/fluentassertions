@@ -51,9 +51,7 @@ public class FormatterSpecs
         exception.Message.Should().NotContainEquivalentOf("cyclic");
     }
 
-    private class A
-    {
-    }
+    private class A;
 
     private class B
     {
@@ -1095,17 +1093,11 @@ public class FormatterSpecs
         }
     }
 
-    public class SomeClassInheritedFromClassWithCustomFormatterLvl1 : SomeClassWithCustomFormatter
-    {
-    }
+    public class SomeClassInheritedFromClassWithCustomFormatterLvl1 : SomeClassWithCustomFormatter;
 
-    public class SomeClassInheritedFromClassWithCustomFormatterLvl2 : SomeClassInheritedFromClassWithCustomFormatterLvl1
-    {
-    }
+    public class SomeClassInheritedFromClassWithCustomFormatterLvl2 : SomeClassInheritedFromClassWithCustomFormatterLvl1;
 
-    public class SomeClassInheritedFromClassWithCustomFormatterLvl3 : SomeClassInheritedFromClassWithCustomFormatterLvl2
-    {
-    }
+    public class SomeClassInheritedFromClassWithCustomFormatterLvl3 : SomeClassInheritedFromClassWithCustomFormatterLvl2;
 
     public static class CustomFormatter
     {
@@ -1231,9 +1223,7 @@ public class FormatterSpecs
 
 // Due to the tests that call Configuration.Current
 [CollectionDefinition("FormatterSpecs", DisableParallelization = true)]
-public class FormatterSpecsDefinition
-{
-}
+public class FormatterSpecsDefinition;
 
 internal class ExceptionThrowingClass
 {

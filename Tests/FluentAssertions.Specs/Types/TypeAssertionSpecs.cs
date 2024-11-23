@@ -6,28 +6,18 @@ namespace FluentAssertions.Specs.Types
     /// <summary>
     /// Type assertion specs.
     /// </summary>
-    public partial class TypeAssertionSpecs
-    {
-    }
+    public partial class TypeAssertionSpecs;
 
     #region Internal classes used in unit tests
 
     [DummyClass("Expected", true)]
-    public class ClassWithAttribute
-    {
-    }
+    public class ClassWithAttribute;
 
-    public class ClassWithInheritedAttribute : ClassWithAttribute
-    {
-    }
+    public class ClassWithInheritedAttribute : ClassWithAttribute;
 
-    public class ClassWithoutAttribute
-    {
-    }
+    public class ClassWithoutAttribute;
 
-    public class OtherClassWithoutAttribute
-    {
-    }
+    public class OtherClassWithoutAttribute;
 
     [AttributeUsage(AttributeTargets.Class)]
     public class DummyClassAttribute : Attribute
@@ -43,29 +33,17 @@ namespace FluentAssertions.Specs.Types
         }
     }
 
-    public interface IDummyInterface
-    {
-    }
+    public interface IDummyInterface;
 
-    public interface IDummyInterface<T>
-    {
-    }
+    public interface IDummyInterface<T>;
 
-    public class ClassThatImplementsInterface : IDummyInterface, IDummyInterface<IDummyInterface>
-    {
-    }
+    public class ClassThatImplementsInterface : IDummyInterface, IDummyInterface<IDummyInterface>;
 
-    public class ClassThatDoesNotImplementInterface
-    {
-    }
+    public class ClassThatDoesNotImplementInterface;
 
-    public class DummyBaseType<T> : IDummyInterface<IDummyInterface>
-    {
-    }
+    public class DummyBaseType<T> : IDummyInterface<IDummyInterface>;
 
-    public class ClassWithGenericBaseType : DummyBaseType<ClassWithGenericBaseType>
-    {
-    }
+    public class ClassWithGenericBaseType : DummyBaseType<ClassWithGenericBaseType>;
 
     public class ClassWithMembers
     {
@@ -132,25 +110,15 @@ namespace FluentAssertions.Specs.Types
         void ExplicitImplicitMethod(string overload);
     }
 
-    public class ClassWithoutMembers
-    {
-    }
+    public class ClassWithoutMembers;
 
-    public interface IPublicInterface
-    {
-    }
+    public interface IPublicInterface;
 
-    internal interface IInternalInterface
-    {
-    }
+    internal interface IInternalInterface;
 
-    internal class InternalClass
-    {
-    }
+    internal class InternalClass;
 
-    internal struct InternalStruct
-    {
-    }
+    internal struct InternalStruct;
 
     internal enum InternalEnum
     {
@@ -160,23 +128,15 @@ namespace FluentAssertions.Specs.Types
 
     internal class Nested
     {
-        private class PrivateClass
-        {
-        }
+        private class PrivateClass;
 
-        protected enum ProtectedEnum { }
+        protected enum ProtectedEnum;
 
-        public interface IPublicInterface
-        {
-        }
+        public interface IPublicInterface;
 
-        internal class InternalClass
-        {
-        }
+        internal class InternalClass;
 
-        protected internal interface IProtectedInternalInterface
-        {
-        }
+        protected internal interface IProtectedInternalInterface;
     }
 
     internal readonly struct TypeWithConversionOperators
@@ -195,31 +155,19 @@ namespace FluentAssertions.Specs.Types
             (byte)typeWithConversionOperators.value;
     }
 
-    internal sealed class Sealed
-    {
-    }
+    internal sealed class Sealed;
 
-    internal abstract class Abstract
-    {
-    }
+    internal abstract class Abstract;
 
-    internal static class Static
-    {
-    }
+    internal static class Static;
 
-    internal struct Struct
-    {
-    }
+    internal struct Struct;
 
     public delegate void ExampleDelegate();
 
-    internal class ClassNotInDummyNamespace
-    {
-    }
+    internal class ClassNotInDummyNamespace;
 
-    internal class OtherClassNotInDummyNamespace
-    {
-    }
+    internal class OtherClassNotInDummyNamespace;
 
     #endregion
 }
@@ -232,9 +180,7 @@ namespace AssemblyB
     /// A class that intentionally has the exact same name and namespace as the ClassC from the AssemblyB
     /// assembly. This class is used to test the behavior of comparisons on such types.
     /// </summary>
-    internal class ClassC
-    {
-    }
+    internal class ClassC;
 
 #pragma warning restore 436
 }
@@ -243,23 +189,17 @@ namespace AssemblyB
 
 namespace DummyNamespace
 {
-    internal class ClassInDummyNamespace
-    {
-    }
+    internal class ClassInDummyNamespace;
 
     namespace InnerDummyNamespace
     {
-        internal class ClassInInnerDummyNamespace
-        {
-        }
+        internal class ClassInInnerDummyNamespace;
     }
 }
 
 namespace DummyNamespaceTwo
 {
-    internal class ClassInDummyNamespaceTwo
-    {
-    }
+    internal class ClassInDummyNamespaceTwo;
 }
 
 #endregion

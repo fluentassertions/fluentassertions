@@ -143,13 +143,15 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                @"Expected collection to satisfy all predicates because we want to test formatting (args), but:
-*The following predicates did not have matching elements:
-*(element.Text == ""two"") AndAlso (element.Number == 2)
-*The following elements did not match any predicate:
-*Index: 0, Element:*FluentAssertions.Specs.Collections.CollectionAssertionSpecs+SomeClass*{*Number = 1*Text = ""one""*}
-*Index: 1, Element:*FluentAssertions.Specs.Collections.CollectionAssertionSpecs+SomeClass*{*Number = 3*Text = ""two""*}
-*Index: 2, Element:*FluentAssertions.Specs.Collections.CollectionAssertionSpecs+SomeClass*{*Number = 3*Text = ""three""*}");
+                """
+                Expected collection to satisfy all predicates because we want to test formatting (args), but:
+                *The following predicates did not have matching elements:
+                *(element.Text == "two") AndAlso (element.Number == 2)
+                *The following elements did not match any predicate:
+                *Index: 0, Element:*FluentAssertions.Specs.Collections.CollectionAssertionSpecs+SomeClass*{*Number = 1*Text = "one"*}
+                *Index: 1, Element:*FluentAssertions.Specs.Collections.CollectionAssertionSpecs+SomeClass*{*Number = 3*Text = "two"*}
+                *Index: 2, Element:*FluentAssertions.Specs.Collections.CollectionAssertionSpecs+SomeClass*{*Number = 3*Text = "three"*}
+                """);
         }
 
         [Fact]

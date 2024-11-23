@@ -1647,9 +1647,7 @@ public class ObjectAssertionSpecs
     }
 }
 
-internal class DummyBaseClass
-{
-}
+internal class DummyBaseClass;
 
 internal sealed class DummyImplementingClass : DummyBaseClass, IDisposable
 {

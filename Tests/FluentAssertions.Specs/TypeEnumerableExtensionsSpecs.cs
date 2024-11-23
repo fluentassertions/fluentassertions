@@ -198,57 +198,35 @@ namespace FluentAssertions.Specs
 
 namespace TypeEnumerableExtensionsSpecs.BaseNamespace
 {
-    internal class BaseNamespaceClass
-    {
-    }
+    internal class BaseNamespaceClass;
 }
 
 namespace TypeEnumerableExtensionsSpecs.BaseNamespace.Nested
 {
-    internal class NestedNamespaceClass
-    {
-    }
+    internal class NestedNamespaceClass;
 }
 
 namespace TypeEnumerableExtensionsSpecs.Internal
 {
-    internal interface IJustAnInterface
-    {
-    }
+    internal interface IJustAnInterface;
 
-    internal class JustAClass
-    {
-    }
+    internal class JustAClass;
 
-    internal static class AStaticClass
-    {
-    }
+    internal static class AStaticClass;
 
-    internal class SomeBaseClass
-    {
-    }
+    internal class SomeBaseClass;
 
-    internal class SomeClassDerivedFromSomeBaseClass : SomeBaseClass
-    {
-    }
+    internal class SomeClassDerivedFromSomeBaseClass : SomeBaseClass;
 
-    internal class ClassImplementingJustAnInterface : IJustAnInterface
-    {
-    }
+    internal class ClassImplementingJustAnInterface : IJustAnInterface;
 
     [Some]
-    internal class ClassWithSomeAttribute
-    {
-    }
+    internal class ClassWithSomeAttribute;
 
-    internal class ClassDerivedFromClassWithSomeAttribute : ClassWithSomeAttribute
-    {
-    }
+    internal class ClassDerivedFromClassWithSomeAttribute : ClassWithSomeAttribute;
 
     [AttributeUsage(AttributeTargets.Class)]
-    internal class SomeAttribute : Attribute
-    {
-    }
+    internal class SomeAttribute : Attribute;
 }
 
 #endregion

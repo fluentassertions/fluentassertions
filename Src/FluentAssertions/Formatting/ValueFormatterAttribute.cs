@@ -7,6 +7,4 @@ namespace FluentAssertions.Formatting;
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
 #pragma warning disable CA1813 // Avoid unsealed attributes. This type has shipped.
-public class ValueFormatterAttribute : Attribute
-{
-}
+public class ValueFormatterAttribute : Attribute;

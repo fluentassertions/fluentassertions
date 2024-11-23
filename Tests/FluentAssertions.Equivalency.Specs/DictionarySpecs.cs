@@ -1121,12 +1121,14 @@ public class DictionarySpecs
     public void When_a_nested_dictionary_value_doesnt_match_it_should_throw()
     {
         // Arrange
-        const string json = @"{
-                ""NestedDictionary"": {
-                    ""StringProperty"": ""string"",
-                    ""IntProperty"": 123
-                }
-            }";
+        const string json = """
+                            {
+                                            "NestedDictionary": {
+                                                "StringProperty": "string",
+                                                "IntProperty": 123
+                                            }
+                                        }
+                            """;
 
         var expectedResult = new Dictionary<string, object>
         {
