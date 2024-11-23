@@ -244,7 +244,9 @@ class Build : NukeBuild
                 Solution.TestFrameworks.MSTestV2_Specs,
                 Solution.TestFrameworks.NUnit3_Specs,
                 Solution.TestFrameworks.NUnit4_Specs,
-                Solution.TestFrameworks.XUnit2_Specs
+                Solution.TestFrameworks.XUnit2_Specs,
+                Solution.TestFrameworks.XUnit3_Specs,
+                Solution.TestFrameworks.XUnit3Core_Specs,
             ];
 
             var testCombinations =
