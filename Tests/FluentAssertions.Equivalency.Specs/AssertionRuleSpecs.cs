@@ -311,9 +311,7 @@ public class AssertionRuleSpecs
         }
     }
 
-    private interface IInterface
-    {
-    }
+    private interface IInterface;
 
     private class ConcreteClass : IInterface
     {

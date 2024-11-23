@@ -33,6 +33,4 @@ public class ConfigurationSpecs
 
 // Due to tests that call Configuration.Current
 [CollectionDefinition("ConfigurationSpecs", DisableParallelization = true)]
-public class ConfigurationSpecsDefinition
-{
-}
+public class ConfigurationSpecsDefinition;

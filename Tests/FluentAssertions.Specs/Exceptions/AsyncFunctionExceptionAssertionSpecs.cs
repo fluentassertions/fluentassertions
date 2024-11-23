@@ -1022,6 +1022,8 @@ public class AsyncFunctionExceptionAssertionSpecs
         await action.Should().ThrowAsync<XunitException>().WithMessage("*InvalidOperation*Argument*");
     }
 
+#pragma warning disable MA0147
+
     [Fact]
     public void When_asserting_async_void_method_should_throw_it_should_fail()
     {
@@ -1077,6 +1079,8 @@ public class AsyncFunctionExceptionAssertionSpecs
         // Assert
         action.Should().Throw<InvalidOperationException>("*async*void*");
     }
+
+#pragma warning restore MA0147
 
     [Fact]
     public async Task When_a_method_throws_with_a_matching_parameter_name_it_should_succeed()

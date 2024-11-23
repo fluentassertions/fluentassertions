@@ -21,7 +21,6 @@ internal static class TypeExtensions
 
     private static readonly ConcurrentDictionary<Type, bool> HasValueSemanticsCache = new();
     private static readonly ConcurrentDictionary<Type, bool> TypeIsRecordCache = new();
-    private static readonly ConcurrentDictionary<Type, bool> TypeIsCompilerGeneratedCache = new();
 
     public static bool IsDecoratedWith<TAttribute>(this Type type)
         where TAttribute : Attribute
@@ -392,23 +391,6 @@ internal static class TypeExtensions
             !t.IsAnonymous() &&
             !t.IsTuple() &&
             !IsKeyValuePair(t));
-    }
-
-    public static bool IsCompilerGenerated(this Type type)
-    {
-        return TypeIsCompilerGeneratedCache.GetOrAdd(type, static t =>
-            t.IsRecord() ||
-            t.IsAnonymous() ||
-            t.IsTuple());
-    }
-
-    /// <summary>
-    /// Check if the type has a human-readable name.
-    /// </summary>
-    /// <returns>false for compiler generated type names, otherwise true.</returns>
-    public static bool HasFriendlyName(this Type type)
-    {
-        return !type.IsAnonymous() && !type.IsTuple();
     }
 
     private static bool IsTuple(this Type type)

@@ -315,9 +315,7 @@ public class NestedPropertiesSpecs
         orig.Should().BeEquivalentTo(expectation);
     }
 
-    public class Inner
-    {
-    }
+    public class Inner;
 
     public class OuterWithObject
     {

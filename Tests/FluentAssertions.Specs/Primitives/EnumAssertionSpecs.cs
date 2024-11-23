@@ -811,7 +811,7 @@ public class EnumAssertionSpecs
         public void A_valid_entry_of_an_enum_is_defined()
         {
             // Arrange
-            var dayOfWeek = (DayOfWeek)1;
+            var dayOfWeek = DayOfWeek.Monday;
 
             // Act / Assert
             dayOfWeek.Should().BeDefined();
@@ -862,7 +862,7 @@ public class EnumAssertionSpecs
         public void A_valid_entry_of_an_enum_is_not_defined_fails()
         {
             // Arrange
-            var dayOfWeek = (DayOfWeek)1;
+            var dayOfWeek = DayOfWeek.Monday;
 
             // Act
             Action act = () => dayOfWeek.Should().NotBeDefined();

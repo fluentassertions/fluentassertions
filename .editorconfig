@@ -329,6 +329,10 @@ resharper_parentheses_redundancy_style = remove_if_not_clarifies_precedence
 
 dotnet_analyzer_diagnostic.category-roslynator.severity = error
 
+# Purpose: Remove trailing white-space
+# Reason: It also complains about this when pressing enter to start a new empty line. 
+dotnet_diagnostic.RCS1037.severity = none
+
 # Remove suffix 'Async' from non-asynchronous method name. Disabled because we like that suffix for now.
 dotnet_diagnostic.RCS1047.severity = none
 
@@ -365,6 +369,13 @@ dotnet_diagnostic.RCS1186.severity = none
 
 # Use bit shift operator.
 dotnet_diagnostic.RCS1237.severity = none
+
+# RCS1228: Unused element in documentation comment. (Equivalent to SA1614)
+dotnet_diagnostic.RCS1228.severity = suggestion
+
+# Purpose: Use element access 
+# Reason: Don't want to force this in this branch
+dotnet_diagnostic.RCS1246.severity = suggestion
 
 # Use an overload that has a IEqualityComparer<string> or IComparer<string> parameter
 dotnet_diagnostic.MA0002.severity = suggestion

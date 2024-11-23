@@ -298,9 +298,7 @@ public class SelectionRulesSpecs
             public ClassWithoutProperty ClassWithoutProperty { get; } = new();
         }
 
-        internal class ClassWithoutProperty
-        {
-        }
+        internal class ClassWithoutProperty;
 
 #if NETCOREAPP3_0_OR_GREATER
         [Fact]
@@ -2363,9 +2361,7 @@ public class SelectionRulesSpecs
             public int Value2 { get; set; }
         }
 
-        public class DerivedClassImplementingInterface : BaseProvidingSamePropertiesAsInterface, IInterfaceWithTwoProperties
-        {
-        }
+        public class DerivedClassImplementingInterface : BaseProvidingSamePropertiesAsInterface, IInterfaceWithTwoProperties;
     }
 
 #if NET5_0_OR_GREATER

@@ -537,8 +537,7 @@ internal class ClassWithCustomEqualMethod
     }
 }
 
-public abstract class SimpleComplexBase
-{ }
+public abstract class SimpleComplexBase;
 
 public class Simple : SimpleComplexBase
 {

@@ -22,9 +22,11 @@ public class XElementFormatterSpecs
     {
         // Act
         var element = XElement.Parse(
-            @"<person name=""Martin"" age=""36"">
-                      <child name=""Laura"" />
-                  </person>");
+            """
+            <person name="Martin" age="36">
+                                  <child name="Laura" />
+                              </person>
+            """);
 
         string result = Formatter.ToString(element);
 

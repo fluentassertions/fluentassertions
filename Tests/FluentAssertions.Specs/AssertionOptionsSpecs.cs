@@ -16,9 +16,7 @@ public class AssertionOptionsSpecs
 {
     // Due to tests that call AssertionOptions
     [CollectionDefinition("AssertionOptionsSpecs", DisableParallelization = true)]
-    public class AssertionOptionsSpecsDefinition
-    {
-    }
+    public class AssertionOptionsSpecsDefinition;
 
     public abstract class Given_temporary_global_assertion_options : GivenWhenThen
     {
