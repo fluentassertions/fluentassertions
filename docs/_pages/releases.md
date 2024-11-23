@@ -7,6 +7,12 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 7.1.0
+
+### Improvements
+
+* Added compatibility with xUnit.net v3 - [#2970](https://github.com/fluentassertions/fluentassertions/issues/2970)
+
 ## 7.0.0
 
 ### Breaking Changes
