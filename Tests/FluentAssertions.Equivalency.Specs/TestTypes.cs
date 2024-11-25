@@ -37,7 +37,7 @@ public class ClassTwo
     public int ValTwo { get; set; } = 3;
 }
 
-public class ClassWithWriteOnlyProperty
+public class ClassWithWriteOnlyProperty : IHaveWriteOnlyProperty
 {
     private int writeOnlyPropertyValue;
 
@@ -47,6 +47,11 @@ public class ClassWithWriteOnlyProperty
     }
 
     public string SomeOtherProperty { get; set; }
+}
+
+public interface IHaveWriteOnlyProperty
+{
+    int WriteOnlyProperty { set; }
 }
 
 internal enum EnumOne

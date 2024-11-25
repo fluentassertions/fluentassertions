@@ -1388,13 +1388,13 @@ public class SelectionRulesSpecs
         public void When_a_property_is_write_only_it_should_be_ignored()
         {
             // Arrange
-            var subject = new ClassWithWriteOnlyProperty
+            var expected = new ClassWithWriteOnlyProperty
             {
                 WriteOnlyProperty = 123,
                 SomeOtherProperty = "whatever"
             };
 
-            var expected = new
+            var subject = new
             {
                 SomeOtherProperty = "whatever"
             };
