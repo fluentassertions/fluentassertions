@@ -1255,6 +1255,8 @@ public class ObjectAssertionSpecs
         }
     }
 
+#if !NET8_0_OR_GREATER
+
     public class BeBinarySerializable
     {
         [Fact]
@@ -1374,6 +1376,8 @@ public class ObjectAssertionSpecs
             act.Should().NotThrow();
         }
     }
+
+#endif
 
     internal class UnserializableClass
     {

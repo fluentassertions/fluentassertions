@@ -255,7 +255,7 @@ public static class CallerIdentifier
     private static StackFrame[] GetFrames(StackTrace stack)
     {
         var frames = stack.GetFrames();
-#if !NETCOREAPP2_1_OR_GREATER
+#if !NET6_0_OR_GREATER
         if (frames == null)
         {
             return Array.Empty<StackFrame>();

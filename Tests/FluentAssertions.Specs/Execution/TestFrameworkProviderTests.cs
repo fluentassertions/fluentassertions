@@ -60,25 +60,6 @@ public class TestFrameworkProviderTests
     }
 
     [Fact]
-    public void When_running_test_with_direct_bound_but_unavailable_test_framework_it_should_throw()
-    {
-        // Arrange
-        var configuration = new Configuration(new TestConfigurationStore())
-        {
-            TestFrameworkName = "nspec3"
-        };
-
-        var testFrameworkProvider = new TestFrameworkProvider(configuration);
-
-        // Act
-        Action act = () => testFrameworkProvider.Throw("MyMessage");
-
-        // Assert
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage("*test framework 'nspec3' but it could not be found*");
-    }
-
-    [Fact]
     public void When_running_test_with_late_bound_but_unavailable_test_framework_it_should_throw()
     {
         // Arrange

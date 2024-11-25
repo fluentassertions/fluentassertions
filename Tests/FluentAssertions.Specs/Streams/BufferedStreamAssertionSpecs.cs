@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1
+﻿#if NET6_0_OR_GREATER || NETSTANDARD2_1
 using System;
 using System.IO;
 using FluentAssertions.Execution;
@@ -10,7 +10,7 @@ namespace FluentAssertions.Specs.Streams;
 
 public class BufferedStreamAssertionSpecs
 {
-#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1
+#if NET6_0_OR_GREATER || NETSTANDARD2_1
     public class HaveBufferSize
     {
         [Fact]

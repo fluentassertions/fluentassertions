@@ -3,7 +3,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace></RootNamespace>
-    <NoWarn>CS0649;CS0169</NoWarn>
+    <NoWarn>CS0649;CS0169;NU1903</NoWarn>
     <NukeRootDirectory>..\</NukeRootDirectory>
     <NukeScriptDirectory>..\</NukeScriptDirectory>
   </PropertyGroup>
@@ -18,7 +18,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageDownload Include="GitVersion.Tool" Version="[5.12.0]" />
-    <PackageDownload Include="NSpec" Version="[3.1.0]" />
     <PackageDownload Include="ReportGenerator" Version="[5.1.23]" />
     <PackageDownload Include="xunit.runner.console" Version="[2.5.0]" />
     <PackageDownload Include="Node.js.redist" Version="[16.20.0]" />

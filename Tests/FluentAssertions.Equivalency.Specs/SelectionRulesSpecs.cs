@@ -300,7 +300,7 @@ public class SelectionRulesSpecs
 
         internal class ClassWithoutProperty;
 
-#if NETCOREAPP3_0_OR_GREATER
+#if NET6_0_OR_GREATER
         [Fact]
         public void Will_include_default_interface_properties_in_the_comparison()
         {
@@ -636,7 +636,7 @@ public class SelectionRulesSpecs
             act.Should().Throw<XunitException>().Which.Message.Should().Contain("Field1").And.Contain("Property1");
         }
 
-#if NETCOREAPP3_0_OR_GREATER
+#if NET6_0_OR_GREATER
         [Fact]
         public void Can_include_a_default_interface_property_using_an_expression()
         {
@@ -1322,7 +1322,7 @@ public class SelectionRulesSpecs
                 .Excluding(o => o.DerivedProperty2));
         }
 
-#if NETCOREAPP3_0_OR_GREATER
+#if NET6_0_OR_GREATER
         [Fact]
         public void Can_exclude_a_default_interface_property_using_an_expression()
         {

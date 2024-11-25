@@ -16,7 +16,6 @@ internal class TestFrameworkProvider
     private static readonly Dictionary<string, ITestFramework> Frameworks = new(StringComparer.OrdinalIgnoreCase)
     {
         ["mspec"] = new MSpecFramework(),
-        ["nspec3"] = new NSpecFramework(),
         ["nunit"] = new NUnitTestFramework(),
         ["mstestv2"] = new MSTestFrameworkV2(),
         ["xunit2"] = new XUnit2TestFramework() // Keep this the last one as it uses a try/catch approach

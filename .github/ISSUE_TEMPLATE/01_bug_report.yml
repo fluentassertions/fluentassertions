@@ -1,12 +1,12 @@
 name: 🐞 Bug Report
-description: Create a report to help us improve 
+description: Create a report to help us improve
 labels: ["bug", "triage"]
 body:
   - type: markdown
     attributes:
       value: |
         We welcome bug reports! Please see our [contribution guidelines](https://github.com/fluentassertions/fluentassertions/blob/develop/CONTRIBUTING.md#writing-a-good-bug-report) for more information on writing a good bug report.
-        
+
         **Before continuing, have you:**
 
           * Tried upgrading to newest version of Fluent Assertions, to see if your issue has already been resolved and released?
@@ -88,7 +88,7 @@ body:
       description: |
         Please provide more information on your .NET configuration:
           * Which version of Fluent Assertions are you using?
-          * Which .NET runtime and version are you targeting? E.g. .NET framework 4.6.1 or .NET Core 2.1.
+          * Which .NET runtime and version are you targeting? E.g. .NET framework 4.7.1 or .NET 6.
       placeholder: Configuration
     validations:
       required: false
