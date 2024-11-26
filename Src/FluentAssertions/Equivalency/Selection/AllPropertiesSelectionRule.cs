@@ -19,6 +19,7 @@ internal class AllPropertiesSelectionRule : IMemberSelectionRule
 
         IEnumerable<IMember> selectedProperties = context.Type
             .GetProperties(visibility.ToMemberKind())
+            .Where(property => property.GetMethod?.IsPrivate == false)
             .Select(info => new Property(context.Type, info, currentNode));
 
         return selectedMembers.Union(selectedProperties).ToList();
