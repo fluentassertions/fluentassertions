@@ -202,7 +202,7 @@ using (var scope = new AssertionScope())
 }
 ```
 
-For more examples take a look at the [AssertionScopeSpecs.cs](https://github.com/fluentassertions/fluentassertions/blob/master/Tests/FluentAssertions.Specs/Execution/AssertionScopeSpecs.cs) in Unit Tests.
+For more examples take a look at the [AssertionScopeSpecs.cs](https://github.com/fluentassertions/fluentassertions/blob/main/Tests/FluentAssertions.Specs/Execution/AssertionScopeSpecs.cs) in Unit Tests.
 
 ### Scoped `IValueFormatter`s
 
