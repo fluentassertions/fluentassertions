@@ -59,7 +59,7 @@ Fluent Assertions supports the following unit test frameworks:
 
 As you may have noticed, the purpose of this open-source project is to not only be the best assertion framework in the .NET realm, but to also demonstrate high-quality code.
 We heavily practice Test Driven Development and one of the promises TDD makes is that unit tests can be treated as your API's documentation.
-So although you are free to go through the many examples here, please consider to analyze the many [unit tests](https://github.com/fluentassertions/fluentassertions/tree/master/Tests/FluentAssertions.Specs).
+So although you are free to go through the many examples here, please consider to analyze the many [unit tests](https://github.com/fluentassertions/fluentassertions/tree/main/Tests/FluentAssertions.Specs).
 
 ## Who is behind this project
 
