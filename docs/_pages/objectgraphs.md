@@ -405,7 +405,7 @@ For instance, to always compare enumerations by name, use the following statemen
 
 ```csharp
 AssertionOptions.AssertEquivalencyUsing(options => 
-   options.ComparingEnumsByName);
+   options.ComparingEnumsByName());
 ```
 
 All the options available to an individual call to `Should().BeEquivalentTo` are supported, with the exception of some of the overloads that are specific to the type of the subject (for obvious reasons).
