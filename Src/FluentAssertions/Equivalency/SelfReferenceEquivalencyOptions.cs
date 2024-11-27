@@ -273,7 +273,8 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// </remarks>
     public TSelf IncludingProperties()
     {
-        includedProperties = MemberVisibility.Public;
+        includedProperties = MemberVisibility.Public | MemberVisibility.ExplicitlyImplemented |
+            MemberVisibility.DefaultInterfaceProperties;
         return (TSelf)this;
     }
 
@@ -282,7 +283,8 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// </summary>
     public TSelf IncludingInternalProperties()
     {
-        includedProperties = MemberVisibility.Public | MemberVisibility.Internal;
+        includedProperties = MemberVisibility.Public | MemberVisibility.Internal | MemberVisibility.ExplicitlyImplemented |
+            MemberVisibility.DefaultInterfaceProperties;
         return (TSelf)this;
     }
 
@@ -295,6 +297,15 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     public TSelf ExcludingProperties()
     {
         includedProperties = MemberVisibility.None;
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Excludes properties that are explicitly implemented from the equivalency comparison.
+    /// </summary>
+    public TSelf ExcludingExplicitlyImplementedProperties()
+    {
+        includedProperties &= ~MemberVisibility.ExplicitlyImplemented;
         return (TSelf)this;
     }
 

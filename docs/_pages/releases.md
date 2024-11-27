@@ -7,7 +7,7 @@ sidebar:
   nav: "sidebar"
 ---
 
-## 7.0 Alpha X
+## 8.0 Alpha X
 
 ### What's new
 
@@ -41,6 +41,7 @@ sidebar:
 * All assertions that support chaining using the `.Which` construct will now amend the caller identifier - [2539](https://github.com/fluentassertions/pull/2539)
 * Introduced a `MethodInfoFormatter` and improved the `PropertyInfoFormatter` - [2539](https://github.com/fluentassertions/pull/2539)
 * `Excluding()` / `For().Exclude()` and `Including()` on `BeEquivalentTo()` now also accepts an anonymous object to include/exclude multiple members at once - [#2488](https://github.com/fluentassertions/fluentassertions/pull/2488)
+* You can exclude explicitly implemented properties from `BeEquivalentTo` via `ExcludingExplicitlyImplementedProperties` - [9999](https://github.com/fluentassertions/pull/9999)
 
 ### Fixes
 * Fixed formatting error when checking nullable `DateTimeOffset` with

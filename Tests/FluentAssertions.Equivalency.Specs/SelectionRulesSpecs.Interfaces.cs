@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Sdk;
 
@@ -291,6 +292,28 @@ public partial class SelectionRulesSpecs
             person.Should().BeEquivalentTo(new { Name = "Bob" });
         }
 
+        [Fact]
+        public void Can_exclude_explicitly_implemented_properties()
+        {
+            // Arrange
+            var subject = new Person
+            {
+                NormalProperty = "Normal",
+            };
+
+            ((IPerson)subject).Name = "Bob";
+
+            var expectation = new Person
+            {
+                NormalProperty = "Normal",
+            };
+
+            ((IPerson)expectation).Name = "Jim";
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, options => options.ExcludingExplicitlyImplementedProperties());
+        }
+
         private interface IPerson
         {
             string Name { get; set; }
@@ -298,6 +321,9 @@ public partial class SelectionRulesSpecs
 
         private class Person : IPerson
         {
+            [UsedImplicitly]
+            public string NormalProperty { get; set; }
+
             string IPerson.Name { get; set; }
         }
 
