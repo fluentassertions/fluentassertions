@@ -10,7 +10,7 @@ internal static class AssertionChainExtensions
     /// </summary>
     public static AssertionChain For(this AssertionChain chain, IEquivalencyValidationContext context)
     {
-        chain.OverrideCallerIdentifier(() => context.CurrentNode.Description);
+        chain.OverrideCallerIdentifier(() => context.CurrentNode.Subject.Description);
 
         return chain
             .WithReportable("configuration", () => context.Options.ToString())

@@ -33,7 +33,7 @@ internal class MappedMemberMatchingRule<TExpectation, TSubject> : IMemberMatchin
     public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options, AssertionChain assertionChain)
     {
         if (parent.Type.IsSameOrInherits(typeof(TExpectation)) && subject is TSubject &&
-            expectedMember.Name == expectationMemberName)
+            expectedMember.Subject.Name == expectationMemberName)
         {
             var member = MemberFactory.Find(subject, subjectMemberName, parent);
 

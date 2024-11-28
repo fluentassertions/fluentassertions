@@ -1,5 +1,4 @@
 using System;
-using JetBrains.Annotations;
 
 namespace FluentAssertions.Equivalency;
 
@@ -16,14 +15,6 @@ public interface INode
     GetSubjectId GetSubjectId { get; }
 
     /// <summary>
-    /// Gets the name of this node.
-    /// </summary>
-    /// <example>
-    /// "Property2"
-    /// </example>
-    string Name { get; set; }
-
-    /// <summary>
     /// Gets the type of this node, e.g. the type of the field or property, or the type of the collection item.
     /// </summary>
     Type Type { get; }
@@ -34,24 +25,17 @@ public interface INode
     /// <value>
     /// Is <see langword="null"/> for the root object.
     /// </value>
-    [CanBeNull]
     Type ParentType { get; }
 
     /// <summary>
-    /// Gets the path from the root object UNTIL the current node, separated by dots or index/key brackets.
+    /// Gets the path from the root of the subject upto and including the current node.
     /// </summary>
-    /// <example>
-    /// "Parent[0].Property2"
-    /// </example>
-    string Path { get; }
+    Pathway Subject { get; internal set; }
 
     /// <summary>
-    /// Gets the full path from the root object up to and including the name of the node.
+    /// Gets the path from the root of the expectation upto and including the current node.
     /// </summary>
-    /// <example>
-    /// "Parent[0]"
-    /// </example>
-    string PathAndName { get; }
+    Pathway Expectation { get; }
 
     /// <summary>
     /// Gets a zero-based number representing the depth within the object graph
@@ -63,14 +47,6 @@ public interface INode
     int Depth { get; }
 
     /// <summary>
-    /// Gets the path including the description of the subject.
-    /// </summary>
-    /// <example>
-    /// "property subject.Parent[0].Property2"
-    /// </example>
-    string Description { get; }
-
-    /// <summary>
     /// Gets a value indicating whether the current node is the root.
     /// </summary>
     bool IsRoot { get; }
@@ -79,4 +55,14 @@ public interface INode
     /// Gets a value indicating if the root of this graph is a collection.
     /// </summary>
     bool RootIsCollection { get; }
+
+    /// <summary>
+    /// Adjusts the current node to reflect a remapped subject member during a structural equivalency check.
+    /// Ensures that assertion failures report the correct subject member name when the matching process selects
+    /// a different member in the subject compared to the expectation.
+    /// </summary>
+    /// <param name="subjectMember">
+    /// The specific member in the subject that the current node should be remapped to.
+    /// </param>
+    void AdjustForRemappedSubject(IMember subjectMember);
 }

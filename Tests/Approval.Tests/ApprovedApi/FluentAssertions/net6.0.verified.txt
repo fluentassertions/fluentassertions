@@ -805,15 +805,14 @@ namespace FluentAssertions.Equivalency
     public interface INode
     {
         int Depth { get; }
-        string Description { get; }
+        FluentAssertions.Equivalency.Pathway Expectation { get; }
         FluentAssertions.Equivalency.GetSubjectId GetSubjectId { get; }
         bool IsRoot { get; }
-        string Name { get; set; }
         System.Type ParentType { get; }
-        string Path { get; }
-        string PathAndName { get; }
         bool RootIsCollection { get; }
+        FluentAssertions.Equivalency.Pathway Subject { get; }
         System.Type Type { get; }
+        void AdjustForRemappedSubject(FluentAssertions.Equivalency.IMember subjectMember);
     }
     public interface IObjectInfo
     {
@@ -870,6 +869,17 @@ namespace FluentAssertions.Equivalency
         public void Add(FluentAssertions.Equivalency.IOrderingRule rule) { }
         public System.Collections.Generic.IEnumerator<FluentAssertions.Equivalency.IOrderingRule> GetEnumerator() { }
         public bool IsOrderingStrictFor(FluentAssertions.Equivalency.IObjectInfo objectInfo) { }
+    }
+    public class Pathway : System.IEquatable<FluentAssertions.Equivalency.Pathway>
+    {
+        public Pathway(FluentAssertions.Equivalency.Pathway parent, string name, FluentAssertions.Equivalency.Pathway.GetDescription getDescription) { }
+        public Pathway(string path, string name, FluentAssertions.Equivalency.Pathway.GetDescription getDescription) { }
+        public string Description { get; }
+        public string Name { get; }
+        public string Path { get; }
+        public string PathAndName { get; }
+        public override string ToString() { }
+        public delegate string GetDescription(string pathAndName);
     }
     public abstract class SelfReferenceEquivalencyOptions<TSelf> : FluentAssertions.Equivalency.IEquivalencyOptions
         where TSelf : FluentAssertions.Equivalency.SelfReferenceEquivalencyOptions<TSelf>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FluentAssertions.Equivalency.Matching;
 using FluentAssertions.Equivalency.Ordering;
 using FluentAssertions.Equivalency.Selection;

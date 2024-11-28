@@ -229,7 +229,7 @@ public class NestedPropertiesSpecs
         // Assert
         act
             .Should().Throw<XunitException>()
-            .WithMessage("Expectation has property subject.Level.OtherProperty that the other object does not have*");
+            .WithMessage("Expectation has property Level.OtherProperty that the other object does not have*");
     }
 
     [Fact]

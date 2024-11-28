@@ -236,7 +236,7 @@ public class ComparableSpecs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expectation has property subject.SomeOtherProperty*that the other object does not have*");
+                    "Expectation has property SomeOtherProperty*that the other object does not have*");
         }
     }
 
