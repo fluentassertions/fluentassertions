@@ -137,6 +137,38 @@ public class TaskCompletionSourceAssertionSpecs
         }
 
         [Fact]
+        public async Task Canceled_tasks_do_not_return_default_value()
+        {
+            // Arrange
+            var subject = new TaskCompletionSource<bool>();
+            var timer = new FakeClock();
+
+            // Act
+            Func<Task> action = () => subject.Should(timer).CompleteWithinAsync(1.Seconds()).WithResult(false);
+            subject.SetCanceled();
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<OperationCanceledException>();
+        }
+
+        [Fact]
+        public async Task Exception_throwing_tasks_do_not_cause_a_default_value_to_be_returned()
+        {
+            // Arrange
+            var subject = new TaskCompletionSource<bool>();
+            var timer = new FakeClock();
+
+            // Act
+            Func<Task> action = () => subject.Should(timer).CompleteWithinAsync(1.Seconds()).WithResult(false);
+            subject.SetException(new InvalidOperationException("CustomMessage"));
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<InvalidOperationException>().WithMessage("CustomMessage");
+        }
+
+        [Fact]
         public async Task When_it_completes_in_time_and_result_is_expected_it_should_succeed()
         {
             // Arrange
