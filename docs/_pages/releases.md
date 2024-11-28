@@ -9,6 +9,10 @@ sidebar:
 
 ## 7.0.0
 
+### Fixes
+
+* Fixed a regression in which `CompleteWithinAsync` treated a canceled task as an exception - [#2853](https://github.com/fluentassertions/fluentassertions/pull/2853)
+
 ### Breaking Changes
 
 * Dropped direct support for .NET Core 2.x and .NET Core 3.x - [#2302](https://github.com/fluentassertions/fluentassertions/pull/2302)
