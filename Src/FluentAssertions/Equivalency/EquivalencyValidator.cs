@@ -90,7 +90,7 @@ internal class EquivalencyValidator : IValidateChildNodeEquivalency
 
     private void TryToProveNodesAreEquivalent(Comparands comparands, IEquivalencyValidationContext context)
     {
-        using var _ = context.Tracer.WriteBlock(node => node.Description);
+        using var _ = context.Tracer.WriteBlock(node => node.Expectation.Description);
 
         foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
         {

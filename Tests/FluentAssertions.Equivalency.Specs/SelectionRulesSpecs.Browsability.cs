@@ -248,7 +248,7 @@ public partial class SelectionRulesSpecs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expectation has * subject.*ThatMightBeNonBrowsable that is non-browsable in the other object, and non-browsable " +
+                "Expectation has*ThatMightBeNonBrowsable that is non-browsable in the other object, and non-browsable " +
                 "members on the subject are ignored with the current configuration*");
         }
 

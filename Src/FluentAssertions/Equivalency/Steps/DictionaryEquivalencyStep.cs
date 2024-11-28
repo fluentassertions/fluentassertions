@@ -25,7 +25,7 @@ public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
                 if (context.Options.IsRecursive)
                 {
                     context.Tracer.WriteLine(member =>
-                        Invariant($"Recursing into dictionary item {key} at {member.Description}"));
+                        Invariant($"Recursing into dictionary item {key} at {member.Expectation}"));
 
                     nestedValidator.AssertEquivalencyOf(new Comparands(subject[key], expectation[key], typeof(object)), context.AsDictionaryItem<object, IDictionary>(key));
                 }
@@ -33,7 +33,7 @@ public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
                 {
                     context.Tracer.WriteLine(member =>
                         Invariant(
-                            $"Comparing dictionary item {key} at {member.Description} between subject and expectation"));
+                            $"Comparing dictionary item {key} at {member.Expectation} between subject and expectation"));
 
                     assertionChain.WithCallerPostfix($"[{key.ToFormattedString()}]").ReuseOnce();
                     subject[key].Should().Be(expectation[key], context.Reason.FormattedMessage, context.Reason.Arguments);

@@ -79,7 +79,7 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
         if (onlyOneNull)
         {
             assertionChain.FailWith(
-                $"Expected {currentNode.Description} to be {{0}}{{reason}}, but found {{1}}.", expected, subject);
+                $"Expected {currentNode.Subject.Description} to be {{0}}{{reason}}, but found {{1}}.", expected, subject);
 
             return false;
         }

@@ -24,7 +24,14 @@ jobs:
         language: [ 'csharp' ]
 
     steps:
+    - name: Setup .NET SDKs
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          8.0.x
+
     - name: Checkout repository
+
       uses: actions/checkout@v4
 
     # Initializes the CodeQL tools for scanning.
