@@ -60,7 +60,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
 
             if (success)
             {
-                bool completesWithinTimeout = await CompletesWithinTimeoutAsync(task, remainingTime);
+                bool completesWithinTimeout = await CompletesWithinTimeoutAsync(task, remainingTime, _ => Task.CompletedTask);
 
                 Execute.Assertion
                     .ForCondition(completesWithinTimeout)
@@ -97,7 +97,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
 
             if (remainingTime >= TimeSpan.Zero)
             {
-                bool completesWithinTimeout = await CompletesWithinTimeoutAsync(task, remainingTime);
+                bool completesWithinTimeout = await CompletesWithinTimeoutAsync(task, remainingTime, _ => Task.CompletedTask);
 
                 Execute.Assertion
                     .ForCondition(!completesWithinTimeout)
@@ -271,7 +271,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
                 // Here we do not need to know whether the task completes (successfully) in timeout
                 // or does not complete. We are only interested in the exception which is thrown, not returned.
                 // So, we can ignore the result.
-                _ = await CompletesWithinTimeoutAsync(task, remainingTime);
+                _ = await CompletesWithinTimeoutAsync(task, remainingTime, cancelledTask => cancelledTask);
             }
 
             return null;
@@ -431,7 +431,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <summary>
     ///     Monitors the specified task whether it completes withing the remaining time span.
     /// </summary>
-    private protected async Task<bool> CompletesWithinTimeoutAsync(Task target, TimeSpan remainingTime)
+    private protected async Task<bool> CompletesWithinTimeoutAsync(Task target, TimeSpan remainingTime, Func<Task, Task> onTaskCanceled)
     {
         using var delayCancellationTokenSource = new CancellationTokenSource();
 
@@ -452,8 +452,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
 
         if (target.IsCanceled)
         {
-            // Rethrow the exception causing the task be canceled.
-            await target;
+            await onTaskCanceled(target);
         }
 
         // The monitored task is completed, we shall cancel the clock.
