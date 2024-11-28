@@ -76,7 +76,7 @@ public class ExtensibilitySpecs
         public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
             MemberSelectionContext context)
         {
-            return selectedMembers.Where(pi => !pi.Name.EndsWith("Id", StringComparison.Ordinal)).ToArray();
+            return selectedMembers.Where(pi => !pi.Subject.Name.EndsWith("Id", StringComparison.Ordinal)).ToArray();
         }
 
         bool IMemberSelectionRule.IncludesMembers
@@ -145,7 +145,7 @@ public class ExtensibilitySpecs
         public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options,
             AssertionChain assertionChain)
         {
-            string name = expectedMember.Name;
+            string name = expectedMember.Subject.Name;
 
             if (name.EndsWith("Id", StringComparison.Ordinal))
             {
