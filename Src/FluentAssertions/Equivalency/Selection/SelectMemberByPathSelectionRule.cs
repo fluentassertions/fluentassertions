@@ -11,7 +11,7 @@ internal abstract class SelectMemberByPathSelectionRule : IMemberSelectionRule
     public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
         MemberSelectionContext context)
     {
-        var currentPath = RemoveRootIndexQualifier(currentNode.PathAndName);
+        var currentPath = RemoveRootIndexQualifier(currentNode.Expectation.PathAndName);
         var members = selectedMembers.ToList();
         AddOrRemoveMembersFrom(members, currentNode, currentPath, context);
 

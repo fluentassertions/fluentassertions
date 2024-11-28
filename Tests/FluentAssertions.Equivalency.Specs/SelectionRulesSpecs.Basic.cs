@@ -31,7 +31,7 @@ public partial class SelectionRulesSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expectation*subject.name**other*not have*");
+                "Expectation*name**other*not have*");
         }
 
         [Fact]
@@ -53,7 +53,7 @@ public partial class SelectionRulesSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expectation*subject.name**other*not have*");
+                "Expectation*name**other*not have*");
         }
 
         private class ClassWithFieldInLowerCase
@@ -120,7 +120,7 @@ public partial class SelectionRulesSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expectation has property subject.City that the other object does not have*");
+                "Expectation has property City that the other object does not have*");
         }
 
         [Fact]

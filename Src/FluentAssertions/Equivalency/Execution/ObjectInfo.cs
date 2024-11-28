@@ -8,7 +8,7 @@ internal class ObjectInfo : IObjectInfo
     {
         Type = currentNode.Type;
         ParentType = currentNode.ParentType;
-        Path = currentNode.PathAndName;
+        Path = currentNode.Expectation.PathAndName;
         CompileTimeType = comparands.CompileTimeType;
         RuntimeType = comparands.RuntimeType;
     }

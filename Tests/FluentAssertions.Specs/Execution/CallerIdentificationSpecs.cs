@@ -567,7 +567,7 @@ namespace FluentAssertions.Specs.Execution
             var node = Node.From<Foo>(GetSubjectId);
 
             // Assert
-            node.Description.Should().StartWith("node.Description");
+            node.Subject.Description.Should().StartWith("node.Subject.Description");
         }
 
         [CustomAssertion]
