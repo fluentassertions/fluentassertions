@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Text.RegularExpressions;
-using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;
 
@@ -12,10 +11,9 @@ internal class Node : INode
 
     private GetSubjectId subjectIdProvider;
 
-    private string path;
-    private string name;
-    private string pathAndName;
     private string cachedSubjectId;
+    private Pathway subject;
+    private Pathway expectation;
 
     public GetSubjectId GetSubjectId
     {
@@ -27,29 +25,20 @@ internal class Node : INode
 
     public Type ParentType { get; protected set; }
 
-    public string Path
+    public Pathway Subject
     {
-        get => path;
-        protected set
-        {
-            path = value;
-            pathAndName = null;
-        }
-    }
-
-    public string PathAndName => pathAndName ??= Path.Combine(Name);
-
-    public string Name
-    {
-        get => name;
+        get => subject;
         set
         {
-            name = value;
-            pathAndName = null;
+            subject = value;
+            if (expectation is null)
+            {
+                expectation = new Pathway(Subject);
+            }
         }
     }
 
-    public virtual string Description => $"{GetSubjectId().Combine(PathAndName)}";
+    public Pathway Expectation { get; protected set; }
 
     public bool IsRoot
     {
@@ -57,11 +46,11 @@ internal class Node : INode
         {
             // If the root is a collection, we need treat the objects in that collection as the root of the graph because all options
             // refer to the type of the collection items.
-            return PathAndName.Length == 0 || (RootIsCollection && IsFirstIndex);
+            return Subject.PathAndName.Length == 0 || (RootIsCollection && IsFirstIndex);
         }
     }
 
-    private bool IsFirstIndex => MatchFirstIndex.IsMatch(PathAndName);
+    private bool IsFirstIndex => MatchFirstIndex.IsMatch(Subject.PathAndName);
 
     public bool RootIsCollection { get; protected set; }
 
@@ -70,7 +59,7 @@ internal class Node : INode
         get
         {
             const char memberSeparator = '.';
-            return PathAndName.Count(chr => chr == memberSeparator);
+            return Subject.PathAndName.Count(chr => chr == memberSeparator);
         }
     }
 
@@ -84,8 +73,7 @@ internal class Node : INode
         return new Node
         {
             subjectIdProvider = () => getSubjectId() ?? "root",
-            Name = string.Empty,
-            Path = string.Empty,
+            Subject = new Pathway(),
             Type = typeof(T),
             ParentType = null,
             RootIsCollection = IsCollection(typeof(T))
@@ -98,8 +86,8 @@ internal class Node : INode
         {
             Type = typeof(T),
             ParentType = parent.Type,
-            Name = "[" + index + "]",
-            Path = parent.PathAndName,
+            Subject = new Pathway(parent.Subject, "[" + index + "]"),
+            Expectation = new Pathway(parent.Expectation, "[" + index + "]"),
             GetSubjectId = parent.GetSubjectId,
             RootIsCollection = parent.RootIsCollection
         };
@@ -111,8 +99,8 @@ internal class Node : INode
         {
             Type = typeof(T),
             ParentType = parent.Type,
-            Name = "[" + key + "]",
-            Path = parent.PathAndName,
+            Subject = new Pathway(parent.Subject, "[" + key + "]"),
+            Expectation = new Pathway(parent.Expectation, "[" + key + "]"),
             GetSubjectId = parent.GetSubjectId,
             RootIsCollection = parent.RootIsCollection
         };
@@ -138,7 +126,7 @@ internal class Node : INode
         return Equals((Node)obj);
     }
 
-    private bool Equals(Node other) => (Type, Name, Path) == (other.Type, other.Name, other.Path);
+    private bool Equals(Node other) => (Type, Subject.Name, Subject.Path) == (other.Type, other.Subject.Name, other.Subject.Path);
 
     public override int GetHashCode()
     {
@@ -146,11 +134,11 @@ internal class Node : INode
         {
 #pragma warning disable CA1307
             int hashCode = Type.GetHashCode();
-            hashCode = (hashCode * 397) + Path.GetHashCode();
-            hashCode = (hashCode * 397) + Name.GetHashCode();
+            hashCode = (hashCode * 397) + Subject.Path.GetHashCode();
+            hashCode = (hashCode * 397) + Subject.Name.GetHashCode();
             return hashCode;
         }
     }
 
-    public override string ToString() => Description;
+    public override string ToString() => Subject.Description;
 }
