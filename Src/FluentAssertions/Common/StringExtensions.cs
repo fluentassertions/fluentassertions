@@ -60,12 +60,6 @@ internal static class StringExtensions
         value.Replace("{", "{{", StringComparison.Ordinal).Replace("}", "}}", StringComparison.Ordinal);
 
     /// <summary>
-    /// Replaces all characters that might conflict with formatting placeholders with their escaped counterparts.
-    /// </summary>
-    internal static string UnescapePlaceholders(this string value) =>
-        value.Replace("{{", "{", StringComparison.Ordinal).Replace("}}", "}", StringComparison.Ordinal);
-
-    /// <summary>
     /// Joins a string with one or more other strings using a specified separator.
     /// </summary>
     /// <remarks>
@@ -76,11 +70,6 @@ internal static class StringExtensions
         if (@this.Length == 0)
         {
             return other.Length != 0 ? other : string.Empty;
-        }
-
-        if (other.Length == 0)
-        {
-            return @this;
         }
 
         if (other.StartsWith('['))

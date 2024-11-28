@@ -20,7 +20,7 @@ internal class MemberPath
     private static readonly MemberPathSegmentEqualityComparer MemberPathSegmentEqualityComparer = new();
 
     public MemberPath(IMember member, string parentPath)
-        : this(member.ReflectedType, member.DeclaringType, parentPath.Combine(member.Name))
+        : this(member.ReflectedType, member.DeclaringType, parentPath.Combine(member.Expectation.Name))
     {
     }
 

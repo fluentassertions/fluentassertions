@@ -24,10 +24,10 @@ internal class Property : Node, IMember
         ReflectedType = reflectedType;
         this.propertyInfo = propertyInfo;
         DeclaringType = propertyInfo.DeclaringType;
-        Name = propertyInfo.Name;
+        Subject = new Pathway(parent.Subject.PathAndName, propertyInfo.Name,  pathAndName => $"property {parent.GetSubjectId().Combine(pathAndName)}");
+        Expectation = new Pathway(parent.Expectation.PathAndName, propertyInfo.Name, pathAndName => $"property {pathAndName}");
         Type = propertyInfo.PropertyType;
         ParentType = propertyInfo.DeclaringType;
-        Path = parent.PathAndName;
         GetSubjectId = parent.GetSubjectId;
         RootIsCollection = parent.RootIsCollection;
     }
@@ -40,8 +40,6 @@ internal class Property : Node, IMember
     public Type DeclaringType { get; }
 
     public Type ReflectedType { get; }
-
-    public override string Description => $"property {GetSubjectId().Combine(PathAndName)}";
 
     public CSharpAccessModifier GetterAccessibility => propertyInfo.GetGetMethod(nonPublic: true).GetCSharpAccessModifier();
 
