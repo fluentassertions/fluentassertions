@@ -705,12 +705,6 @@ namespace FluentAssertions.Equivalency
         public bool IsCyclicReference(object expectation) { }
         public override string ToString() { }
     }
-    public class EquivalencyValidator : FluentAssertions.Equivalency.IValidateChildNodeEquivalency
-    {
-        public EquivalencyValidator() { }
-        public void AssertEquality(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.EquivalencyValidationContext context) { }
-        public void AssertEquivalencyOf(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context) { }
-    }
     public delegate string GetSubjectId();
     public interface IAssertionContext<TSubject>
     {
