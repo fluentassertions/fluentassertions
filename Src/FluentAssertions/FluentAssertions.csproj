@@ -64,7 +64,7 @@
         <Compile Remove="Common/NullConfigurationStore.cs" />
       </ItemGroup>
       <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
       </ItemGroup>
     </When>
     <When Condition="'$(TargetFramework)' == 'netstandard2.1'">
