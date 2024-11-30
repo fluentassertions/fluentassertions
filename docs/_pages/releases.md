@@ -13,6 +13,7 @@ sidebar:
 
 * Dropped direct support for .NET Core 2.x and .NET Core 3.x - [#2302](https://github.com/fluentassertions/fluentassertions/pull/2302)
 * Dropped support for `NSpec3` test framework - [#2356](https://github.com/fluentassertions/fluentassertions/pull/2356)
+* Raised dependencies on `System.Configuration.ConfigurationManager` to 6.0.0 and `System.Threading.Tasks.Extensions` to 4.5.4 - [#2673](https://github.com/fluentassertions/fluentassertions/pull/2673) and [#2855](https://github.com/fluentassertions/fluentassertions/pull/2855)
 
 ### Fixes
 
