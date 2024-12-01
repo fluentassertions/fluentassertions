@@ -6,7 +6,6 @@ using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Nuke.Common.Utilities;
 using Nuke.Common.Utilities.Collections;
-using NukeDictionaryExtensions = Nuke.Common.Utilities.Collections.DictionaryExtensions;
 using static Serilog.Log;
 
 public static class CustomNpmTasks
@@ -167,9 +166,9 @@ public static class CustomNpmTasks
 
     static void SetEnvVars()
     {
-        NpmEnvironmentVariables = NukeDictionaryExtensions.AsReadOnly(EnvironmentInfo.Variables
+        NpmEnvironmentVariables = EnvironmentInfo.Variables
             .ToDictionary(x => x.Key, x => x.Value)
-            .SetKeyValue("path", WorkingDirectory));
+            .SetKeyValue("path", WorkingDirectory).AsReadOnly();
     }
 
     public static void NpmInstall(bool silent = false, string workingDirectory = null)

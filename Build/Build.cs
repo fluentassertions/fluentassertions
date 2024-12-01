@@ -13,12 +13,14 @@ using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.ReportGenerator;
 using Nuke.Common.Tools.Xunit;
 using Nuke.Common.Utilities.Collections;
-using Nuke.Components;
+using Nuke.Common.Utilities;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 using static Nuke.Common.Tools.Xunit.XunitTasks;
 using static Serilog.Log;
 using static CustomNpmTasks;
+// ReSharper disable AllUnderscoreLocalParameterName
+// ReSharper disable VariableLengthStringHexEscapeSequence
 
 [UnsetVisualStudioEnvironmentVariables]
 [DotNetVerbosityMapping]
@@ -62,6 +64,7 @@ class Build : NukeBuild
     [Required]
     [GitRepository]
     readonly GitRepository GitRepository;
+
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
     AbsolutePath TestResultsDirectory => RootDirectory / "TestResults";
@@ -198,7 +201,7 @@ class Build : NukeBuild
                         (settings, project) => settings
                             .SetProjectFile(project)
                             .CombineWith(
-                                project.GetTargetFrameworks().Except([net47]),
+                                (project.GetTargetFrameworks() ?? []).Except([net47]),
                                 (frameworkSettings, framework) => frameworkSettings
                                     .SetFramework(framework)
                                     .AddLoggers($"trx;LogFileName={project.Name}_{framework}.trx")
@@ -298,15 +301,14 @@ class Build : NukeBuild
                     (settings, v) => settings
                         .SetProjectFile(v.project)
                         .SetFramework(v.framework)
-                        .SetProcessArgumentConfigurator(args => args
-                            .Add("--")
-                            .Add("--coverage")
-                            .Add("--report-trx")
-                            .Add($"--report-trx-filename {v.project.Name}_{v.framework}.trx")
-                            .Add($"--results-directory {TestResultsDirectory}")
-                        )
-                    )
-                );
+                        .SetProcessAdditionalArguments(
+                            "--",
+                            "--coverage",
+                            "--report-trx",
+                            $"--report-trx-filename {v.project.Name}_{v.framework}.trx",
+                            $"--results-directory {TestResultsDirectory}")
+                )
+            );
         });
 
     Target TestFrameworks => _ => _
