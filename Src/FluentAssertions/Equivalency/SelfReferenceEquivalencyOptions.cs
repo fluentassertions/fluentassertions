@@ -49,8 +49,6 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
 
     private EnumEquivalencyHandling enumEquivalencyHandling;
 
-    private bool useRuntimeTyping;
-
     private MemberVisibility includedProperties;
     private MemberVisibility includedFields;
     private bool ignoreNonBrowsableOnSubject;
@@ -83,7 +81,6 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         cyclicReferenceHandling = defaults.CyclicReferenceHandling;
         allowInfiniteRecursion = defaults.AllowInfiniteRecursion;
         enumEquivalencyHandling = defaults.EnumEquivalencyHandling;
-        useRuntimeTyping = defaults.UseRuntimeTyping;
         includedProperties = defaults.IncludedProperties;
         includedFields = defaults.IncludedFields;
         ignoreNonBrowsableOnSubject = defaults.IgnoreNonBrowsableOnSubject;
@@ -171,8 +168,6 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
 
     EnumEquivalencyHandling IEquivalencyOptions.EnumEquivalencyHandling => enumEquivalencyHandling;
 
-    bool IEquivalencyOptions.UseRuntimeTyping => useRuntimeTyping;
-
     MemberVisibility IEquivalencyOptions.IncludedProperties => includedProperties;
 
     MemberVisibility IEquivalencyOptions.IncludedFields => includedFields;
@@ -204,8 +199,6 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// </remarks>
     public TSelf IncludingAllDeclaredProperties()
     {
-        RespectingDeclaredTypes();
-
         ExcludingFields();
         IncludingProperties();
 
@@ -222,8 +215,6 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// </remarks>
     public TSelf IncludingAllRuntimeProperties()
     {
-        RespectingRuntimeTypes();
-
         ExcludingFields();
         IncludingProperties();
 
@@ -327,24 +318,6 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     public TSelf IgnoringNonBrowsableMembersOnSubject()
     {
         ignoreNonBrowsableOnSubject = true;
-        return (TSelf)this;
-    }
-
-    /// <summary>
-    /// Instructs the comparison to respect the expectation's runtime type.
-    /// </summary>
-    public TSelf RespectingRuntimeTypes()
-    {
-        useRuntimeTyping = true;
-        return (TSelf)this;
-    }
-
-    /// <summary>
-    /// Instructs the comparison to respect the expectation's declared type.
-    /// </summary>
-    public TSelf RespectingDeclaredTypes()
-    {
-        useRuntimeTyping = false;
         return (TSelf)this;
     }
 
@@ -777,10 +750,6 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     public override string ToString()
     {
         var builder = new StringBuilder();
-
-        builder.Append("- Use ")
-            .Append(useRuntimeTyping ? "runtime" : "declared")
-            .AppendLine(" types and members");
 
         if (ignoreNonBrowsableOnSubject)
         {

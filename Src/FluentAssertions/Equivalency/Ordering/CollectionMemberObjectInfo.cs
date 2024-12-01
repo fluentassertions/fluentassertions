@@ -14,7 +14,6 @@ internal class CollectionMemberObjectInfo : IObjectInfo
 
         ParentType = context.ParentType;
         RuntimeType = context.RuntimeType;
-        CompileTimeType = context.CompileTimeType;
     }
 
     private static string GetAdjustedPropertyPath(string propertyPath)
@@ -27,8 +26,6 @@ internal class CollectionMemberObjectInfo : IObjectInfo
     public Type ParentType { get; }
 
     public string Path { get; set; }
-
-    public Type CompileTimeType { get; }
 
     public Type RuntimeType { get; }
 }

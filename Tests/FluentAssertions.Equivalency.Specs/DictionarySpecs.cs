@@ -471,7 +471,7 @@ public class DictionarySpecs
         object object2 = new Dictionary<string, string> { ["greeting"] = "hello" };
 
         // Act
-        Action act = () => object1.Should().BeEquivalentTo(object2, opts => opts.RespectingRuntimeTypes());
+        Action act = () => object1.Should().BeEquivalentTo(object2);
 
         // Assert
         act.Should().NotThrow("the runtime type is a dictionary and the dictionaries are equivalent");
@@ -500,7 +500,7 @@ public class DictionarySpecs
         object object2 = new NonGenericDictionary { ["greeting"] = "hello" };
 
         // Act
-        Action act = () => object1.Should().BeEquivalentTo(object2, opts => opts.RespectingRuntimeTypes());
+        Action act = () => object1.Should().BeEquivalentTo(object2);
 
         // Assert
         act.Should().NotThrow("the runtime type is a dictionary and the dictionaries are equivalent");
@@ -516,7 +516,7 @@ public class DictionarySpecs
         var traceWriter = new StringBuilderTraceWriter();
 
         // Act
-        object1.Should().BeEquivalentTo(object2, opts => opts.RespectingRuntimeTypes().WithTracing(traceWriter));
+        object1.Should().BeEquivalentTo(object2, opts => opts.WithTracing(traceWriter));
 
         // Assert
         string trace = traceWriter.ToString();
@@ -563,8 +563,7 @@ public class DictionarySpecs
         // Act
         Action act =
             () =>
-                dictionary1.Should().BeEquivalentTo(dictionary2,
-                    opts => opts.RespectingRuntimeTypes());
+                dictionary1.Should().BeEquivalentTo(dictionary2);
 
         // Assert
         act.Should().Throw<XunitException>("the types have different properties");
@@ -634,7 +633,6 @@ public class DictionarySpecs
         Action act =
             () =>
                 actual.Should().BeEquivalentTo(expectation, opts => opts
-                    .RespectingRuntimeTypes()
                     .ComparingByMembers<CustomerType>()
                 );
 

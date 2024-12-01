@@ -13,7 +13,7 @@ public class EnumEqualityStep : IEquivalencyStep
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency valueChildNodes)
     {
-        if (!comparands.GetExpectedType(context.Options).IsEnum)
+        if (!comparands.GetExpectedType().IsEnum)
         {
             return EquivalencyResult.ContinueWithNext;
         }

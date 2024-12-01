@@ -11,7 +11,7 @@ public class ValueTypeEquivalencyStep : IEquivalencyStep
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency valueChildNodes)
     {
-        Type expectationType = comparands.GetExpectedType(context.Options);
+        Type expectationType = comparands.GetExpectedType();
         EqualityStrategy strategy = context.Options.GetEqualityStrategy(expectationType);
 
         bool canHandle = strategy is EqualityStrategy.Equals or EqualityStrategy.ForceEquals;

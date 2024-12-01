@@ -57,16 +57,14 @@ public class Comparands
     }
 
     /// <summary>
-    /// Returns either the run-time or compile-time type of the expectation based on the options provided by the caller.
+    /// Returns the run-time of the expectation.
     /// </summary>
     /// <remarks>
     /// If the expectation is a nullable type, it should return the type of the wrapped object.
     /// </remarks>
-    public Type GetExpectedType(IEquivalencyOptions options)
+    public Type GetExpectedType()
     {
-        Type type = options.UseRuntimeTyping ? RuntimeType : CompileTimeType;
-
-        return type.NullableOrActualType();
+        return RuntimeType.NullableOrActualType();
     }
 
     public override string ToString()

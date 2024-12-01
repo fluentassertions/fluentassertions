@@ -206,7 +206,7 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingDeclaredTypes());
+            Action action = () => subject.Should().BeEquivalentTo(expected);
 
             // Assert
             action.Should().NotThrow();
@@ -229,7 +229,7 @@ public partial class SelectionRulesSpecs
             subject.VehicleId = 1; // interface member
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingRuntimeTypes());
+            Action action = () => subject.Should().BeEquivalentTo(expected);
 
             // Assert
             action.Should().Throw<XunitException>();
@@ -252,7 +252,7 @@ public partial class SelectionRulesSpecs
             };
 
             // Act
-            Action action = () => subject.Should().BeEquivalentTo(expected, opt => opt.RespectingRuntimeTypes());
+            Action action = () => subject.Should().BeEquivalentTo(expected);
 
             // Assert
             action.Should().Throw<XunitException>();
@@ -351,8 +351,7 @@ public partial class SelectionRulesSpecs
 
             // Act / Assert
             actual.Should().BeEquivalentTo(expected, options => options
-                .Excluding(a => a.Value1)
-                .RespectingRuntimeTypes());
+                .Excluding(a => a.Value1));
         }
 
         [Fact]
@@ -379,8 +378,7 @@ public partial class SelectionRulesSpecs
 
             // Act / Assert
             actual.Should().BeEquivalentTo(expected, options => options
-                .Including(a => a.Value2)
-                .RespectingRuntimeTypes());
+                .Including(a => a.Value2));
         }
 
         public interface IInterfaceWithTwoProperties

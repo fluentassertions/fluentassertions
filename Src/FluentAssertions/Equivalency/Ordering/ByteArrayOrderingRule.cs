@@ -11,7 +11,7 @@ internal class ByteArrayOrderingRule : IOrderingRule
 {
     public OrderStrictness Evaluate(IObjectInfo objectInfo)
     {
-        return objectInfo.CompileTimeType.IsSameOrInherits(typeof(IEnumerable<byte>))
+        return objectInfo.RuntimeType.IsSameOrInherits(typeof(IEnumerable<byte>))
             ? OrderStrictness.Strict
             : OrderStrictness.Irrelevant;
     }

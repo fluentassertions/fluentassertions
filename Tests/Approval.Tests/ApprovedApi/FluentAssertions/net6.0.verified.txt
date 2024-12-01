@@ -651,7 +651,7 @@ namespace FluentAssertions.Equivalency
         public object Expectation { get; set; }
         public System.Type RuntimeType { get; }
         public object Subject { get; set; }
-        public System.Type GetExpectedType(FluentAssertions.Equivalency.IEquivalencyOptions options) { }
+        public System.Type GetExpectedType() { }
         public override string ToString() { }
     }
     public class ConversionSelector
@@ -761,7 +761,6 @@ namespace FluentAssertions.Equivalency
         FluentAssertions.Equivalency.OrderingRuleCollection OrderingRules { get; }
         System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IMemberSelectionRule> SelectionRules { get; }
         FluentAssertions.Equivalency.Tracing.ITraceWriter TraceWriter { get; }
-        bool UseRuntimeTyping { get; }
         System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IEquivalencyStep> UserEquivalencySteps { get; }
         FluentAssertions.Equivalency.EqualityStrategy GetEqualityStrategy(System.Type type);
     }
@@ -823,7 +822,6 @@ namespace FluentAssertions.Equivalency
     }
     public interface IObjectInfo
     {
-        System.Type CompileTimeType { get; }
         System.Type ParentType { get; }
         string Path { get; set; }
         System.Type RuntimeType { get; }
@@ -844,7 +842,7 @@ namespace FluentAssertions.Equivalency
     }
     public class MemberSelectionContext
     {
-        public MemberSelectionContext(System.Type compileTimeType, System.Type runtimeType, FluentAssertions.Equivalency.IEquivalencyOptions options) { }
+        public MemberSelectionContext(System.Type runtimeType, FluentAssertions.Equivalency.IEquivalencyOptions options) { }
         public FluentAssertions.Equivalency.MemberVisibility IncludedFields { get; }
         public FluentAssertions.Equivalency.MemberVisibility IncludedProperties { get; }
         public System.Type Type { get; }
@@ -922,8 +920,6 @@ namespace FluentAssertions.Equivalency
         public TSelf IncludingInternalProperties() { }
         public TSelf IncludingNestedObjects() { }
         public TSelf IncludingProperties() { }
-        public TSelf RespectingDeclaredTypes() { }
-        public TSelf RespectingRuntimeTypes() { }
         public TSelf ThrowingOnMissingMembers() { }
         public override string ToString() { }
         public TSelf Using(FluentAssertions.Equivalency.IEquivalencyStep equivalencyStep) { }

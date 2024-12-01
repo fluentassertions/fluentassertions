@@ -106,7 +106,7 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
         foreach (IMemberSelectionRule rule in options.SelectionRules)
         {
             members = rule.SelectMembers(currentNode, members,
-                new MemberSelectionContext(comparands.CompileTimeType, comparands.RuntimeType, options));
+                new MemberSelectionContext(comparands.RuntimeType, options));
         }
 
         return members;

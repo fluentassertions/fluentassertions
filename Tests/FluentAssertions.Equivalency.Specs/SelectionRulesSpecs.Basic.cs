@@ -259,7 +259,7 @@ public partial class SelectionRulesSpecs
 
             // Act
             Action act =
-                () => class1.Should().BeEquivalentTo(class2, opts => opts.RespectingRuntimeTypes());
+                () => class1.Should().BeEquivalentTo(class2);
 
             // Assert
             act.Should().Throw<XunitException>().Which.Message.Should().Contain("Field1").And.Contain("Property1");

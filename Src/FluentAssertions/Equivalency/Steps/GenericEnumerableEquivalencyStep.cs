@@ -18,7 +18,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency valueChildNodes)
     {
-        Type expectedType = comparands.GetExpectedType(context.Options);
+        Type expectedType = comparands.GetExpectedType();
 
         if (comparands.Expectation is null || !IsGenericCollection(expectedType))
         {

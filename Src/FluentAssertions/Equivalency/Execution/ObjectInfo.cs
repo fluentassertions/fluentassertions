@@ -9,7 +9,6 @@ internal class ObjectInfo : IObjectInfo
         Type = currentNode.Type;
         ParentType = currentNode.ParentType;
         Path = currentNode.PathAndName;
-        CompileTimeType = comparands.CompileTimeType;
         RuntimeType = comparands.RuntimeType;
     }
 
@@ -18,8 +17,6 @@ internal class ObjectInfo : IObjectInfo
     public Type ParentType { get; }
 
     public string Path { get; set; }
-
-    public Type CompileTimeType { get; }
 
     public Type RuntimeType { get; }
 }

@@ -8,7 +8,7 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency valueChildNodes)
     {
-        Type expectationType = comparands.GetExpectedType(context.Options);
+        Type expectationType = comparands.GetExpectedType();
 
         if (expectationType is null || expectationType != typeof(string))
         {

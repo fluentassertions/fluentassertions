@@ -10,7 +10,7 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency valueChildNodes)
     {
-        if (!IsCollection(comparands.GetExpectedType(context.Options)))
+        if (!IsCollection(comparands.GetExpectedType()))
         {
             return EquivalencyResult.ContinueWithNext;
         }

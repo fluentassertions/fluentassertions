@@ -8,14 +8,12 @@ namespace FluentAssertions.Equivalency;
 /// </summary>
 public class MemberSelectionContext
 {
-    private readonly Type compileTimeType;
     private readonly Type runtimeType;
     private readonly IEquivalencyOptions options;
 
-    public MemberSelectionContext(Type compileTimeType, Type runtimeType, IEquivalencyOptions options)
+    public MemberSelectionContext(Type runtimeType, IEquivalencyOptions options)
     {
         this.runtimeType = runtimeType;
-        this.compileTimeType = compileTimeType;
         this.options = options;
     }
 
@@ -36,9 +34,7 @@ public class MemberSelectionContext
     {
         get
         {
-            Type type = options.UseRuntimeTyping ? runtimeType : compileTimeType;
-
-            return type.NullableOrActualType();
+            return runtimeType.NullableOrActualType();
         }
     }
 }

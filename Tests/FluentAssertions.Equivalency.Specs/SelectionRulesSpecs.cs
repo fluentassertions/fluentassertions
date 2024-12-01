@@ -43,8 +43,6 @@ public partial class SelectionRulesSpecs
                 .IncludingInternalProperties()
                 .IncludingNestedObjects()
                 .IncludingProperties()
-                .RespectingDeclaredTypes()
-                .RespectingRuntimeTypes()
                 .ThrowingOnMissingMembers()
                 .Using(new ExtensibilitySpecs.DoEquivalencyStep(() => { }))
                 .Using(new MustMatchByNameRule())

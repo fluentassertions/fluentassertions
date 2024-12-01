@@ -58,11 +58,6 @@ public interface IEquivalencyOptions
     IEnumerable<IEquivalencyStep> UserEquivalencySteps { get; }
 
     /// <summary>
-    /// Gets a value indicating whether the runtime type of the expectation should be used rather than the declared type.
-    /// </summary>
-    bool UseRuntimeTyping { get; }
-
-    /// <summary>
     /// Gets a value indicating whether and which properties should be considered.
     /// </summary>
     MemberVisibility IncludedProperties { get; }

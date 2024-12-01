@@ -8,7 +8,7 @@ public abstract class EquivalencyStep<T> : IEquivalencyStep
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency valueChildNodes)
     {
-        if (!typeof(T).IsAssignableFrom(comparands.GetExpectedType(context.Options)))
+        if (!typeof(T).IsAssignableFrom(comparands.GetExpectedType()))
         {
             return EquivalencyResult.ContinueWithNext;
         }

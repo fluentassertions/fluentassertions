@@ -24,7 +24,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
             return EquivalencyResult.ContinueWithNext;
         }
 
-        Type expectationType = comparands.GetExpectedType(context.Options);
+        Type expectationType = comparands.GetExpectedType();
 
         if (DictionaryInterfaceInfo.FindFrom(expectationType, "expectation") is not { } expectedDictionary)
         {

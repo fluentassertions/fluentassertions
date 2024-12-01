@@ -56,8 +56,6 @@ internal class CollectionMemberOptionsDecorator : IEquivalencyOptions
 
     public EnumEquivalencyHandling EnumEquivalencyHandling => inner.EnumEquivalencyHandling;
 
-    public bool UseRuntimeTyping => inner.UseRuntimeTyping;
-
     public MemberVisibility IncludedProperties => inner.IncludedProperties;
 
     public MemberVisibility IncludedFields => inner.IncludedFields;
