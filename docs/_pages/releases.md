@@ -105,15 +105,18 @@ sidebar:
   * Methods overwritten in `GenericAsyncFunctionAssertions` has been moved to `NonGenericAsyncFunctionAssertions`.
 * Moved the non-generic `NotThrow` and `NotThrowAfter` from `DelegateAssertions<TDelegate, TAssertions>` to `ActionAssertions` - [#2371](https://github.com/fluentassertions/fluentassertions/pull/2371)
 
-### Fixes
-
-* Fixed a problem in `BeEquivalentTo` where write-only properties would cause a `NullReferenceException` - [#2836](https://github.com/fluentassertions/fluentassertions/pull/2836)
-
-## 6.12.3
+## 7.0.0
 
 ### Fixes
 
 * The expectation node identified as a cyclic reference is still compared to the subject node using simple equality - [2819](https://github.com/fluentassertions/fluentassertions/pull/2819)
+* Fixed a problem in `BeEquivalentTo` where write-only properties would cause a `NullReferenceException` - [#2836](https://github.com/fluentassertions/fluentassertions/pull/2836)
+
+### Breaking Changes
+
+* Dropped direct support for .NET Core 2.x and .NET Core 3.x - [#2302](https://github.com/fluentassertions/fluentassertions/pull/2302)
+* Dropped support for `NSpec3` test framework - [#2356](https://github.com/fluentassertions/fluentassertions/pull/2356)
+* Raised dependencies on `System.Configuration.ConfigurationManager` to 6.0.0 and `System.Threading.Tasks.Extensions` to 4.5.4 - [#2673](https://github.com/fluentassertions/fluentassertions/pull/2673) and [#2855](https://github.com/fluentassertions/fluentassertions/pull/2855)
 
 ## 6.12.2
 
