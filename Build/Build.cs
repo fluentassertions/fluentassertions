@@ -12,6 +12,7 @@ using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.ReportGenerator;
 using Nuke.Common.Tools.Xunit;
+using Nuke.Common.Utilities;
 using Nuke.Common.Utilities.Collections;
 using Nuke.Components;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
@@ -120,7 +121,7 @@ class Build : NukeBuild
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
-                .When(GenerateBinLog is true, c => c
+                .When(_ => GenerateBinLog is true, c => c
                     .SetBinaryLog(ArtifactsDirectory / $"{Solution.Core.FluentAssertions.Name}.binlog")
                 )
                 .EnableNoLogo()
@@ -298,12 +299,12 @@ class Build : NukeBuild
                     (settings, v) => settings
                         .SetProjectFile(v.project)
                         .SetFramework(v.framework)
-                        .SetProcessArgumentConfigurator(args => args
-                            .Add("--")
-                            .Add("--coverage")
-                            .Add("--report-trx")
-                            .Add($"--report-trx-filename {v.project.Name}_{v.framework}.trx")
-                            .Add($"--results-directory {TestResultsDirectory}")
+                        .SetProcessAdditionalArguments(
+                            "--",
+                            "--coverage",
+                            "--report-trx",
+                            $"--report-trx-filename {v.project.Name}_{v.framework}.trx",
+                            $"--results-directory {TestResultsDirectory}"
                         )
                     )
                 );
@@ -373,9 +374,15 @@ class Build : NukeBuild
 
             NpmFetchRuntime();
 
-            ReportSummary(s => s
-                .When(HasCachedNodeModules, conf => conf
-                    .AddPair("Skipped", "Downloading and extracting")));
+            ReportSummary(conf =>
+            {
+                if (HasCachedNodeModules)
+                {
+                    conf.AddPair("Skipped", "Downloading and extracting");
+                }
+
+                return conf;
+            });
         });
 
     bool HasDocumentationChanges => Changes.Any(x => IsDocumentation(x));
