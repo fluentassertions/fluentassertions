@@ -285,19 +285,30 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     public AndConstraint<TAssertions> BeEmpty([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        var singleItemArray = Subject?.Take(1).ToArray();
+        // make sure we don't enumerate more than once
+        var enumerator = Subject?.GetEnumerator();
+        var hasFirstItem = enumerator?.MoveNext();
 
         assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected {context:collection} to be empty{reason}, ", chain => chain
-                .Given(() => singleItemArray)
-                .ForCondition(subject => subject is not null)
+                .ForCondition(enumerator is not null)
                 .FailWith("but found <null>.")
                 .Then
-                .ForCondition(subject => subject.Length == 0)
-                .FailWith("but found at least one item {0}.", singleItemArray));
+                .ForCondition(!hasFirstItem.Value)
+                .FailWith("but found {0}.", () => EnumerateWithSavedFirstItem(enumerator.Current, enumerator)));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    private static IEnumerable<T> EnumerateWithSavedFirstItem(T firstItem, IEnumerator<T> remaining)
+    {
+        yield return firstItem;
+
+        while (remaining.MoveNext())
+        {
+            yield return remaining.Current;
+        }
     }
 
     /// <summary>
