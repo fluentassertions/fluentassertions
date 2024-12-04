@@ -104,6 +104,26 @@ public static class TaskAssertionSpecs
             // Assert
             await action.Should().ThrowAsync<XunitException>();
         }
+
+        [Fact]
+        public async Task Canceled_tasks_are_also_completed()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<bool>();
+
+            // Act
+            Func<Task> action = () => taskFactory
+                .Awaiting(t => (Task)t.Task)
+                .Should(timer)
+                .CompleteWithinAsync(100.Milliseconds());
+
+            taskFactory.SetCanceled();
+            timer.Complete();
+
+            // Assert
+            await action.Should().NotThrowAsync();
+        }
     }
 
     public class NotCompleteWithinAsync
