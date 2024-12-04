@@ -916,8 +916,8 @@ namespace FluentAssertions.Equivalency
         public TSelf IncludingInternalProperties() { }
         public TSelf IncludingNestedObjects() { }
         public TSelf IncludingProperties() { }
-        public TSelf RespectingDeclaredTypes() { }
-        public TSelf RespectingRuntimeTypes() { }
+        public TSelf PreferringDeclaredMemberTypes() { }
+        public TSelf PreferringRuntimeMemberTypes() { }
         public TSelf ThrowingOnMissingMembers() { }
         public override string ToString() { }
         public TSelf Using(FluentAssertions.Equivalency.IEquivalencyStep equivalencyStep) { }

@@ -640,7 +640,7 @@ public partial class SelectionRulesSpecs
 
             // Act
             Action act =
-                () => class1.Should().BeEquivalentTo(class2, opts => opts.ExcludingProperties().RespectingRuntimeTypes());
+                () => class1.Should().BeEquivalentTo(class2, opts => opts.ExcludingProperties().PreferringRuntimeMemberTypes());
 
             // Assert
             act.Should().NotThrow();

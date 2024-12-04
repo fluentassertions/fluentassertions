@@ -204,7 +204,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// </remarks>
     public TSelf IncludingAllDeclaredProperties()
     {
-        RespectingDeclaredTypes();
+        PreferringDeclaredMemberTypes();
 
         ExcludingFields();
         IncludingProperties();
@@ -222,7 +222,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// </remarks>
     public TSelf IncludingAllRuntimeProperties()
     {
-        RespectingRuntimeTypes();
+        PreferringRuntimeMemberTypes();
 
         ExcludingFields();
         IncludingProperties();
@@ -331,18 +331,24 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     }
 
     /// <summary>
-    /// Instructs the comparison to respect the expectation's runtime type.
+    /// Instructs the structural equality comparison to use the run-time types
+    /// of the members to drive the assertion.
     /// </summary>
-    public TSelf RespectingRuntimeTypes()
+    public TSelf PreferringRuntimeMemberTypes()
     {
         useRuntimeTyping = true;
         return (TSelf)this;
     }
 
     /// <summary>
-    /// Instructs the comparison to respect the expectation's declared type.
+    /// Instructs the structural equality comparison to prefer the declared types
+    /// of the members when executing assertions.
     /// </summary>
-    public TSelf RespectingDeclaredTypes()
+    /// <remarks>
+    /// In reality, the declared types of the members are only known for the members of the root object,
+    /// or the objects in a root collection. Beyond that, FluentAssertions only knows the run-time types of the members.
+    /// </remarks>
+    public TSelf PreferringDeclaredMemberTypes()
     {
         useRuntimeTyping = false;
         return (TSelf)this;
@@ -778,9 +784,9 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     {
         var builder = new StringBuilder();
 
-        builder.Append("- Use ")
+        builder.Append("- Prefer the ")
             .Append(useRuntimeTyping ? "runtime" : "declared")
-            .AppendLine(" types and members");
+            .AppendLine(" type of the members");
 
         if (ignoreNonBrowsableOnSubject)
         {

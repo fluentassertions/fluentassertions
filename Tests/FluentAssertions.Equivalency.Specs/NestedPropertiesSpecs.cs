@@ -118,7 +118,7 @@ public class NestedPropertiesSpecs
             .Should().Match(
                 @"Expected property subject.Level.Text to be ""Level2"", but ""Level1"" differs near ""1"" (index 5).*" +
                 "With configuration:*" +
-                "- Use declared types and members*" +
+                "- Prefer the declared type of the members*" +
                 "- Compare enums by value*" +
                 "- Compare tuples by their properties*" +
                 "- Compare anonymous types by their properties*" +

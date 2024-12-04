@@ -204,6 +204,6 @@ public class EquivalencyOptions : SelfReferenceEquivalencyOptions<EquivalencyOpt
         IncludingFields();
         IncludingProperties();
 
-        RespectingDeclaredTypes();
+        PreferringDeclaredMemberTypes();
     }
 }
