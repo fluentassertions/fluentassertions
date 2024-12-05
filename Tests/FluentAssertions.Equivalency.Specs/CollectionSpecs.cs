@@ -1099,7 +1099,7 @@ public class CollectionSpecs
 
         // Act
         Action act =
-            () => collection1.Should().BeEquivalentTo(collection2, opts => opts.RespectingRuntimeTypes());
+            () => collection1.Should().BeEquivalentTo(collection2, opts => opts.PreferringRuntimeMemberTypes());
 
         // Assert
         act.Should().Throw<XunitException>("the runtime type is assignable to two IEnumerable interfaces")
@@ -1131,7 +1131,7 @@ public class CollectionSpecs
 
         // Act
         Action act =
-            () => collection1.Should().BeEquivalentTo(collection2, opts => opts.RespectingRuntimeTypes());
+            () => collection1.Should().BeEquivalentTo(collection2, opts => opts.PreferringRuntimeMemberTypes());
 
         // Assert
         act.Should().Throw<XunitException>("the items have different runtime types");
@@ -1614,7 +1614,7 @@ public class CollectionSpecs
         Action act =
             () =>
                 collection1.Should().BeEquivalentTo(collection2,
-                    opts => opts.RespectingRuntimeTypes());
+                    opts => opts.PreferringRuntimeMemberTypes());
 
         // Assert
         act.Should().Throw<XunitException>("the types have different properties");

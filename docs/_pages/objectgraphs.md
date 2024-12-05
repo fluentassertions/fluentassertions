@@ -83,13 +83,13 @@ This behavior can be configured and you can choose to use run-time types if you 
 ```csharp
 Dto orderDto = new OrderDto();
 
-// Use runtime type information of orderDto
+// Use the runtime type of the members of orderDto
 orderDto.Should().BeEquivalentTo(order, options => 
-    options.RespectingRuntimeTypes());
+    options.PreferringRuntimeMemberTypes());
 
-// Use declared type information of orderDto
+// Use the declared type information of the members of orderDto
 orderDto.Should().BeEquivalentTo(order, options => 
-    options.RespectingDeclaredTypes());
+    options.PreferringDeclaredMemberTypes());
 ```
 
 One exception to this rule is when the declared type is `object`.

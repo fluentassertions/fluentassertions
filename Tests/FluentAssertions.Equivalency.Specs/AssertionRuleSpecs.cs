@@ -238,7 +238,7 @@ public class AssertionRuleSpecs
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt
-            .RespectingRuntimeTypes()
+            .PreferringRuntimeMemberTypes()
             .Using<ConcreteClass, ConcreteClassEqualityComparer>());
 
         // Assert
@@ -289,7 +289,7 @@ public class AssertionRuleSpecs
 
             // Act
             subject.Should().BeEquivalentTo(expectation, opt => opt
-                .RespectingRuntimeTypes()
+                .PreferringRuntimeMemberTypes()
                 .Using(new DateTimeByYearComparer()));
         }
 
@@ -303,7 +303,7 @@ public class AssertionRuleSpecs
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt
-                .RespectingRuntimeTypes()
+                .PreferringRuntimeMemberTypes()
                 .Using(new NullableDateTimeByYearComparer()));
 
             // Assert

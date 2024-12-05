@@ -96,7 +96,7 @@ public partial class SelectionRulesSpecs
             expectation.Property = "ExpectedBaseValue";
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expectation, o => o.RespectingRuntimeTypes());
+            subject.Should().BeEquivalentTo(expectation, o => o.PreferringRuntimeMemberTypes());
         }
 
         [Fact]
@@ -247,7 +247,7 @@ public partial class SelectionRulesSpecs
             expectation.Field = "ExpectedBaseValue";
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expectation, options => options.IncludingFields().RespectingRuntimeTypes());
+            subject.Should().BeEquivalentTo(expectation, options => options.IncludingFields().PreferringRuntimeMemberTypes());
         }
 
         [Fact]
