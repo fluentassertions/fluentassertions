@@ -60,7 +60,6 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
         var assertionChain = AssertionChain.GetOrCreate().For(context);
 
         IMember matchingMember = FindMatchFor(selectedMember, context.CurrentNode, comparands.Subject, options, assertionChain);
-
         if (matchingMember is not null)
         {
             var nestedComparands = new Comparands
@@ -70,11 +69,11 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
                 CompileTimeType = selectedMember.Type
             };
 
-            if (selectedMember.Name != matchingMember.Name)
+            if (matchingMember.Subject.Name != selectedMember.Subject.Name)
             {
                 // In case the matching process selected a different member on the subject,
                 // adjust the current member so that assertion failures report the proper name.
-                selectedMember.Name = matchingMember.Name;
+                selectedMember.Subject = matchingMember.Subject;
             }
 
             parent.AssertEquivalencyOf(nestedComparands, context.AsNestedMember(selectedMember));

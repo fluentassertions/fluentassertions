@@ -792,14 +792,16 @@ namespace FluentAssertions.Equivalency
     public interface INode
     {
         int Depth { get; }
-        string Description { get; }
+        string ExpectationDescription { get; }
+        string ExpectationName { get; set; }
+        string ExpectationPathAndName { get; }
         FluentAssertions.Equivalency.GetSubjectId GetSubjectId { get; }
         bool IsRoot { get; }
-        string Name { get; set; }
         System.Type ParentType { get; }
-        string Path { get; }
-        string PathAndName { get; }
         bool RootIsCollection { get; }
+        string SubjectDescription { get; }
+        string SubjectName { get; set; }
+        string SubjectPathAndName { get; }
         System.Type Type { get; }
     }
     public interface IObjectInfo

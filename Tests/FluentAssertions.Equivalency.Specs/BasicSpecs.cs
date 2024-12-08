@@ -580,7 +580,7 @@ public class BasicSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("Expectation has field onlyAProperty.Value that the other object does not have.*");
+            .WithMessage("Expectation has field Value that the other object does not have.*");
     }
 
     [Fact]
@@ -595,7 +595,7 @@ public class BasicSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("Expectation has property onlyAField.Value that the other object does not have*");
+            .WithMessage("Expectation has property Value that the other object does not have*");
     }
 
     [Fact]
