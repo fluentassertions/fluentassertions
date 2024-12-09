@@ -74,7 +74,7 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
         bool compareByMembers = expectation is not null && Options.GetEqualityStrategy(expectation.GetType())
             is EqualityStrategy.Members or EqualityStrategy.ForceMembers;
 
-        var reference = new ObjectReference(expectation, CurrentNode.PathAndName, compareByMembers);
+        var reference = new ObjectReference(expectation, CurrentNode.Subject.PathAndName, compareByMembers);
         return CyclicReferenceDetector.IsCyclicReference(reference);
     }
 
@@ -82,6 +82,6 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
 
     public override string ToString()
     {
-        return Invariant($"{{Path=\"{CurrentNode.Description}\"}}");
+        return Invariant($"{{Path=\"{CurrentNode.Subject.PathAndName}\"}}");
     }
 }

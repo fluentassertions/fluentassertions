@@ -138,7 +138,7 @@ internal static class TypeExtensions
     {
         return (property.DeclaringType.IsSameOrInherits(otherProperty.DeclaringType) ||
                 otherProperty.DeclaringType.IsSameOrInherits(property.DeclaringType)) &&
-            property.Name == otherProperty.Name;
+            property.Subject.Name == otherProperty.Subject.Name;
     }
 
     /// <summary>
