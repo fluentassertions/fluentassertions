@@ -37,14 +37,14 @@ public class AutoConversionStep : IEquivalencyStep
         if (TryChangeType(comparands.Subject, expectationType, out object convertedSubject))
         {
             context.Tracer.WriteLine(member =>
-                Invariant($"Converted subject {comparands.Subject} at {member.Description} to {expectationType}"));
+                Invariant($"Converted subject {comparands.Subject} at {member.Subject} to {expectationType}"));
 
             comparands.Subject = convertedSubject;
         }
         else
         {
             context.Tracer.WriteLine(member =>
-                Invariant($"Subject {comparands.Subject} at {member.Description} could not be converted to {expectationType}"));
+                Invariant($"Subject {comparands.Subject} at {member.Subject} could not be converted to {expectationType}"));
         }
 
         return EquivalencyResult.ContinueWithNext;

@@ -792,14 +792,12 @@ namespace FluentAssertions.Equivalency
     public interface INode
     {
         int Depth { get; }
-        string Description { get; }
+        FluentAssertions.Equivalency.Pathway Expectation { get; }
         FluentAssertions.Equivalency.GetSubjectId GetSubjectId { get; }
         bool IsRoot { get; }
-        string Name { get; set; }
         System.Type ParentType { get; }
-        string Path { get; }
-        string PathAndName { get; }
         bool RootIsCollection { get; }
+        FluentAssertions.Equivalency.Pathway Subject { get; set; }
         System.Type Type { get; }
     }
     public interface IObjectInfo
@@ -857,6 +855,18 @@ namespace FluentAssertions.Equivalency
         public void Add(FluentAssertions.Equivalency.IOrderingRule rule) { }
         public System.Collections.Generic.IEnumerator<FluentAssertions.Equivalency.IOrderingRule> GetEnumerator() { }
         public bool IsOrderingStrictFor(FluentAssertions.Equivalency.IObjectInfo objectInfo) { }
+    }
+    public class Pathway : System.IEquatable<FluentAssertions.Equivalency.Pathway>
+    {
+        public Pathway() { }
+        public Pathway(FluentAssertions.Equivalency.Pathway original) { }
+        public Pathway(FluentAssertions.Equivalency.Pathway parent, string name) { }
+        public Pathway(string path, string name, System.Func<string> getDescriptionPrefix) { }
+        public string Description { get; }
+        public string Name { get; set; }
+        public string Path { get; set; }
+        public string PathAndName { get; }
+        public override string ToString() { }
     }
     public abstract class SelfReferenceEquivalencyOptions<TSelf> : FluentAssertions.Equivalency.IEquivalencyOptions
         where TSelf : FluentAssertions.Equivalency.SelfReferenceEquivalencyOptions<TSelf>
