@@ -346,7 +346,7 @@ public partial class SelectionRulesSpecs
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected,
-                options => options.ExcludingNestedObjects().IncludingNestedObjects());
+                options => options.WithoutRecursing().IncludingNestedObjects());
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*Level.Level.Text*Level2*Mismatch*");

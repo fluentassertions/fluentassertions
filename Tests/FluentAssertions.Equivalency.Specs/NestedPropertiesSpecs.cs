@@ -71,7 +71,7 @@ public class NestedPropertiesSpecs
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected,
-            options => options.ExcludingNestedObjects());
+            options => options.WithoutRecursing());
 
         // Assert
         act.Should().NotThrow();
@@ -84,7 +84,7 @@ public class NestedPropertiesSpecs
         var item = new Item { Child = new Item() };
 
         // Act
-        Action act = () => item.Should().BeEquivalentTo(new Item(), options => options.ExcludingNestedObjects());
+        Action act = () => item.Should().BeEquivalentTo(new Item(), options => options.WithoutRecursing());
 
         // Assert
         act.Should().Throw<XunitException>()

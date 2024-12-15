@@ -1709,7 +1709,7 @@ public class CollectionSpecs
         IList<MyObject> expectationList = new List<MyObject> { expectation };
 
         // Act
-        Action act = () => actualList.Should().BeEquivalentTo(expectationList, opt => opt.ExcludingNestedObjects());
+        Action act = () => actualList.Should().BeEquivalentTo(expectationList, opt => opt.WithoutRecursing());
 
         // Assert
         act.Should().NotThrow();

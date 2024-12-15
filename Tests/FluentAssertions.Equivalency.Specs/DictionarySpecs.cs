@@ -587,7 +587,7 @@ public class DictionarySpecs
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(expected, options => options.ExcludingNestedObjects());
+        Action act = () => subject.Should().BeEquivalentTo(expected, options => options.WithoutRecursing());
 
         // Assert
         act.Should().Throw<XunitException>().WithMessage("Expected subject[\"Key2\"] to be \"Value2\", but found <null>*");
@@ -1262,7 +1262,7 @@ public class DictionarySpecs
             ["CustomerId"] = 33
         };
 
-        subject.Should().BeEquivalentTo(expected, opt => opt.ExcludingNestedObjects());
+        subject.Should().BeEquivalentTo(expected, opt => opt.WithoutRecursing());
     }
 
     [Fact]

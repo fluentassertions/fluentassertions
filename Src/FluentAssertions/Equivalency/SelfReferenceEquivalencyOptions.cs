@@ -413,7 +413,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// properties of any nested objects and objects in collections.
     /// </summary>
     /// <remarks>
-    /// This is the default behavior. You can override this using <see cref="ExcludingNestedObjects"/>.
+    /// This is the default behavior. You can override this using <see cref="WithoutRecursing"/>.
     /// </remarks>
     public TSelf IncludingNestedObjects()
     {
@@ -422,13 +422,13 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     }
 
     /// <summary>
-    /// Stops the structural equality check from recursively comparing the members any nested objects.
+    /// Stops the structural equality check from recursively comparing the members of any nested objects.
     /// </summary>
     /// <remarks>
     /// If a property or field points to a complex type or collection, a simple <see cref="object.Equals(object)"/> call will
-    /// be done instead of recursively looking at the properties or fields of the nested object.
+    /// be done instead of recursively looking at the members of the nested object.
     /// </remarks>
-    public TSelf ExcludingNestedObjects()
+    public TSelf WithoutRecursing()
     {
         isRecursive = false;
         return (TSelf)this;
