@@ -30,7 +30,7 @@ public partial class SelectionRulesSpecs
                 .Excluding(r => r.Level)
                 .ExcludingFields()
                 .ExcludingMissingMembers()
-                .ExcludingNestedObjects()
+                .WithoutRecursing()
                 .ExcludingNonBrowsableMembers()
                 .ExcludingProperties()
                 .IgnoringCyclicReferences()

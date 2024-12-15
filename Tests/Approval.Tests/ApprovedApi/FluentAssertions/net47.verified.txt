@@ -886,7 +886,6 @@ namespace FluentAssertions.Equivalency
         public TSelf ExcludingExplicitlyImplementedProperties() { }
         public TSelf ExcludingFields() { }
         public TSelf ExcludingMissingMembers() { }
-        public TSelf ExcludingNestedObjects() { }
         public TSelf ExcludingNonBrowsableMembers() { }
         public TSelf ExcludingProperties() { }
         public TSelf IgnoringCase() { }
@@ -923,6 +922,7 @@ namespace FluentAssertions.Equivalency
         public TSelf WithTracing(FluentAssertions.Equivalency.Tracing.ITraceWriter writer = null) { }
         public TSelf WithoutAutoConversionFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
         public TSelf WithoutMatchingRules() { }
+        public TSelf WithoutRecursing() { }
         public TSelf WithoutSelectionRules() { }
         public TSelf WithoutStrictOrdering() { }
         public TSelf WithoutStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }

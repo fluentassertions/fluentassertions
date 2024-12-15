@@ -97,6 +97,7 @@ sidebar:
 * The semantics of `BeLowerCased`/`BeUpperCased` have been changed to align with the behavior of `ToLower`/`ToUpper` - [#2660](https://github.com/fluentassertions/fluentassertions/pull/2660)
 * Renamed `HaveAttribute` to `HaveAttributeWithValue` on `XElement` - [#2690](https://github.com/fluentassertions/fluentassertions/pull/2690)
 * Renamed `RespectingRuntimeTypes` to `PreferringRuntimeMemberTypes` and `RespectingDeclaredTypes` to `PreferringDeclaredMemberTypes` - [#2866](https://github.com/fluentassertions/fluentassertions/pull/2866)
+* Renamed `ExcludingNestedObjects` to `WithoutRecursing` to better describe its purpose - [#2876](https://github.com/fluentassertions/fluentassertions/pull/2876)
 
 ### Breaking Changes (for extensions)
 * Add `ForConstraint` to `IAssertionsScope` to support chaining `.ForConstraint()` after `.Then` - [#2324](https://github.com/fluentassertions/fluentassertions/pull/2324)
