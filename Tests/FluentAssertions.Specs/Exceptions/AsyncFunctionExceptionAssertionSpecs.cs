@@ -1,4 +1,6 @@
-﻿using System;
+﻿// ReSharper disable AsyncVoidLambda
+
+using System;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
