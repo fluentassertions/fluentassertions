@@ -74,6 +74,38 @@ public class TaskCompletionSourceAssertionSpecs
         }
 
         [Fact]
+        public async Task When_it_is_canceled_before_completion_and_it_is_not_expected_it_should_fail()
+        {
+            // Arrange
+            var subject = new TaskCompletionSource();
+            var timer = new FakeClock();
+
+            // Act
+            Func<Task> action = () => subject.Should(timer).NotCompleteWithinAsync(1.Seconds());
+            subject.SetCanceled();
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>();
+        }
+
+        [Fact]
+        public async Task When_it_throws_before_completion_and_it_is_not_expected_it_should_fail()
+        {
+            // Arrange
+            var subject = new TaskCompletionSource();
+            var timer = new FakeClock();
+
+            // Act
+            Func<Task> action = () => subject.Should(timer).NotCompleteWithinAsync(1.Seconds());
+            subject.SetException(new OperationCanceledException());
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>();
+        }
+
+        [Fact]
         public async Task When_it_did_not_complete_in_time_and_it_is_not_expected_it_should_succeed()
         {
             // Arrange
@@ -114,6 +146,38 @@ public class TaskCompletionSourceAssertionSpecs
             // Assert
             await action.Should().ThrowAsync<NotSupportedException>()
                 .WithMessage("Equals is not part of Fluent Assertions. Did you mean CompleteWithinAsync() instead?");
+        }
+
+        [Fact]
+        public async Task Canceled_tasks_are_also_completed()
+        {
+            // Arrange
+            var subject = new TaskCompletionSource();
+            var timer = new FakeClock();
+
+            // Act
+            Func<Task> action = () => subject.Should(timer).CompleteWithinAsync(1.Seconds());
+            subject.SetCanceled();
+            timer.Complete();
+
+            // Assert
+            await action.Should().NotThrowAsync();
+        }
+
+        [Fact]
+        public async Task Excepted_tasks_unexpectedly_completed()
+        {
+            // Arrange
+            var subject = new TaskCompletionSource();
+            var timer = new FakeClock();
+
+            // Act
+            Func<Task> action = () => subject.Should(timer).CompleteWithinAsync(1.Seconds());
+            subject.SetException(new OperationCanceledException());
+            timer.Complete();
+
+            // Assert
+            await action.Should().NotThrowAsync();
         }
     }
 #endif
@@ -161,11 +225,11 @@ public class TaskCompletionSourceAssertionSpecs
 
             // Act
             Func<Task> action = () => subject.Should(timer).CompleteWithinAsync(1.Seconds()).WithResult(false);
-            subject.SetException(new InvalidOperationException("CustomMessage"));
+            subject.SetException(new OperationCanceledException());
             timer.Complete();
 
             // Assert
-            await action.Should().ThrowAsync<InvalidOperationException>().WithMessage("CustomMessage");
+            await action.Should().ThrowAsync<OperationCanceledException>();
         }
 
         [Fact]
@@ -281,6 +345,38 @@ public class TaskCompletionSourceAssertionSpecs
             // Assert
             await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Did not expect*to complete within*because test testArg*");
+        }
+
+        [Fact]
+        public async Task Canceled_tasks_are_also_completed()
+        {
+            // Arrange
+            var subject = new TaskCompletionSource<bool>();
+            var timer = new FakeClock();
+
+            // Act
+            Func<Task> action = () => subject.Should(timer).NotCompleteWithinAsync(1.Seconds());
+            subject.SetCanceled();
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>();
+        }
+
+        [Fact]
+        public async Task Excepted_tasks_unexpectedly_completed()
+        {
+            // Arrange
+            var subject = new TaskCompletionSource<bool>();
+            var timer = new FakeClock();
+
+            // Act
+            Func<Task> action = () => subject.Should(timer).NotCompleteWithinAsync(1.Seconds());
+            subject.SetException(new OperationCanceledException());
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>();
         }
 
         [Fact]

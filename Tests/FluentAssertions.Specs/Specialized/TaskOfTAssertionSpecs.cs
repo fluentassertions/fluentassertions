@@ -251,11 +251,11 @@ public static class TaskOfTAssertionSpecs
                 .CompleteWithinAsync(100.Milliseconds())
                 .WithResult(0);
 
-            taskFactory.SetException(new InvalidOperationException("CustomMessage"));
+            taskFactory.SetException(new OperationCanceledException());
             timer.Complete();
 
             // Assert
-            await action.Should().ThrowAsync<InvalidOperationException>().WithMessage("CustomMessage");
+            await action.Should().ThrowAsync<OperationCanceledException>();
         }
     }
 
