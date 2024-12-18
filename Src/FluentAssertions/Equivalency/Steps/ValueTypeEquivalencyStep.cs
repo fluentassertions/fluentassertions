@@ -24,7 +24,7 @@ public class ValueTypeEquivalencyStep : IEquivalencyStep
                     ? $"{expectationType} overrides Equals"
                     : "we are forced to use Equals";
 
-                return $"Treating {member.Description} as a value type because {strategyName}.";
+                return $"Treating {member.Expectation.Description} as a value type because {strategyName}.";
             });
 
             AssertionChain.GetOrCreate()

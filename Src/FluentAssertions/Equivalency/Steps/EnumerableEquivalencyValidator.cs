@@ -42,7 +42,7 @@ internal class EnumerableEquivalencyValidator
             if (Recursive)
             {
                 using var _ = context.Tracer.WriteBlock(member =>
-                    Invariant($"Structurally comparing {subject} and expectation {expectation} at {member.Description}"));
+                    Invariant($"Structurally comparing {subject} and expectation {expectation} at {member.Expectation}"));
 
                 AssertElementGraphEquivalency(subject, expectation, context.CurrentNode);
             }
@@ -50,7 +50,7 @@ internal class EnumerableEquivalencyValidator
             {
                 using var _ = context.Tracer.WriteBlock(member =>
                     Invariant(
-                        $"Comparing subject {subject} and expectation {expectation} at {member.Description} using simple value equality"));
+                        $"Comparing subject {subject} and expectation {expectation} at {member.Expectation} using simple value equality"));
 
                 subject.Should().BeEquivalentTo(expectation);
             }
@@ -102,7 +102,7 @@ internal class EnumerableEquivalencyValidator
 
             using var _ = context.Tracer.WriteBlock(member =>
                 Invariant(
-                    $"Strictly comparing expectation {expectation} at {member.Description} to item with index {index} in {subjects}"));
+                    $"Strictly comparing expectation {expectation} at {member.Expectation} to item with index {index} in {subjects}"));
 
             bool succeeded = StrictlyMatchAgainst(subjects, expectation, index);
             if (!succeeded)
@@ -111,7 +111,7 @@ internal class EnumerableEquivalencyValidator
                 if (failedCount >= FailedItemsFastFailThreshold)
                 {
                     context.Tracer.WriteLine(member =>
-                        $"Aborting strict order comparison of collections after {FailedItemsFastFailThreshold} items failed at {member.Description}");
+                        $"Aborting strict order comparison of collections after {FailedItemsFastFailThreshold} items failed at {member.Expectation}");
 
                     break;
                 }
@@ -129,7 +129,7 @@ internal class EnumerableEquivalencyValidator
 
             using var _ = context.Tracer.WriteBlock(member =>
                 Invariant(
-                    $"Finding the best match of {expectation} within all items in {subjects} at {member.Description}[{index}]"));
+                    $"Finding the best match of {expectation} within all items in {subjects} at {member.Expectation}[{index}]"));
 
             bool succeeded = LooselyMatchAgainst(subjects, expectation, index);
 
@@ -140,7 +140,7 @@ internal class EnumerableEquivalencyValidator
                 if (failedCount >= FailedItemsFastFailThreshold)
                 {
                     context.Tracer.WriteLine(member =>
-                        $"Fail failing loose order comparison of collection after {FailedItemsFastFailThreshold} items failed at {member.Description}");
+                        $"Fail failing loose order comparison of collection after {FailedItemsFastFailThreshold} items failed at {member.Expectation}");
 
                     break;
                 }
@@ -156,7 +156,7 @@ internal class EnumerableEquivalencyValidator
         int index = 0;
 
         GetTraceMessage getMessage = member =>
-            $"Comparing subject at {member.Description}[{index}] with the expectation at {member.Description}[{expectationIndex}]";
+            $"Comparing subject at {member.Subject}[{index}] with the expectation at {member.Expectation}[{expectationIndex}]";
 
         int indexToBeRemoved = -1;
 

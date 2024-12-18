@@ -139,7 +139,7 @@ public class MemberLessObjectsSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("Expectation has property subject.Age that the other object does not have*");
+            .WithMessage("Expectation has property Age that the other object does not have*");
     }
 
     [Fact]

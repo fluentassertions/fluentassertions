@@ -52,7 +52,7 @@ internal class MappedPathMatchingRule : IMemberMatchingRule
             path = path.WithCollectionAsRoot();
         }
 
-        if (path.IsEquivalentTo(expectedMember.PathAndName))
+        if (path.IsEquivalentTo(expectedMember.Expectation.PathAndName))
         {
             var member = MemberFactory.Find(subject, subjectPath.MemberName, parent);
 
