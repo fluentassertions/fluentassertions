@@ -57,7 +57,7 @@ class Build : NukeBuild
     readonly Solution Solution;
 
     [Required]
-    [GitVersion(Framework = "net6.0", NoCache = true, NoFetch = true)]
+    [GitVersion(Framework = "net8.0", NoCache = true, NoFetch = true)]
     readonly GitVersion GitVersion;
 
     [Required]
