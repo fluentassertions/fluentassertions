@@ -19,7 +19,7 @@
     <DefineConstants>OS_MAC</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageDownload Include="GitVersion.Tool" Version="[6.0.2]" />
+    <PackageDownload Include="GitVersion.Tool" Version="[6.1.0]" />
     <PackageDownload Include="ReportGenerator" Version="[5.4.1]" />
     <PackageDownload Include="xunit.runner.console" Version="[2.9.2]" />
     <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
