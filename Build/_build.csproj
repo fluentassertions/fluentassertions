@@ -22,7 +22,7 @@
     <PackageDownload Include="GitVersion.Tool" Version="[6.0.2]" />
     <PackageDownload Include="ReportGenerator" Version="[5.2.0]" />
     <PackageDownload Include="xunit.runner.console" Version="[2.9.2]" />
-    <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
+    <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
     <PackageReference Include="Nuke.Common" Version="$(NukeVersion)" />
     <PackageReference Include="Nuke.Components" Version="$(NukeVersion)" />
     <PackageReference Include="SharpCompress" Version="0.38.0" />
