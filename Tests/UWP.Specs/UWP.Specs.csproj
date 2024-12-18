@@ -22,6 +22,7 @@
     <IsTestProject>true</IsTestProject>
     <!-- EnableMSTestV2CopyResources is disabled due to https://github.com/microsoft/testfx/issues/4371 -->
     <EnableMSTestV2CopyResources>false</EnableMSTestV2CopyResources>
+    <UwpUnitTestSdkPkgVersion>17.3.3</UwpUnitTestSdkPkgVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
