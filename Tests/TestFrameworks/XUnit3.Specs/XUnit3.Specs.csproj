@@ -10,7 +10,7 @@
     <PackageReference Include="coverlet.collector" Version="6.0.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="xunit.v3" Version="1.0.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.0-pre.42" PrivateAssets="all" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.0" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
     <Reference Include="System.Net.Http" />
