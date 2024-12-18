@@ -220,7 +220,7 @@ class Build : NukeBuild
         {
             ReportGenerator(s => s
                 .SetProcessToolPath(NuGetToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.dll",
-                    framework: "net6.0"))
+                    framework: "net8.0"))
                 .SetTargetDirectory(TestResultsDirectory / "reports")
                 .AddReports(TestResultsDirectory / "**/coverage.cobertura.xml")
                 .AddReportTypes(
