@@ -11,7 +11,6 @@
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
     <PackageReference Include="Bogus" Version="35.6.1" />
-    <PackageReference Include="System.Collections" Version="4.3.0" />
     <!-- Resolve MSB3277 -->
     <PackageReference Include="System.Reflection.Metadata" Version="8.0.0" Condition="'$(TargetFramework)' == 'net472'" />
   </ItemGroup>
