@@ -11,18 +11,17 @@ jobs:
       DOTNET_NOLOGO: true
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Setup .NET SDKs
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
-          2.1.x
-          3.1.x
           6.0.x
           7.0.x
+          8.0.x
 
     - name: Run NUKE
       run: ./build.ps1
@@ -31,7 +30,7 @@ jobs:
 
     - name: Check for 'lcov.info' existence
       id: check_files
-      uses: andstor/file-existence-action@v2
+      uses: andstor/file-existence-action@v3
       with:
         files: "TestResults/reports/lcov.info"
 
@@ -43,30 +42,29 @@ jobs:
         file: TestResults/reports/lcov.info
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         path: ./Artifacts/*
   only-unit-tests:
 
     strategy:
       matrix:
-        os: [ubuntu-22.04, macos-12]
+        os: [ubuntu-24.04, macos-15]
 
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Setup .NET SDKs
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
-          2.1.x
-          3.1.x
           6.0.x
           7.0.x
+          8.0.x
 
     - name: Run NUKE
       run: ./build.sh UnitTests
