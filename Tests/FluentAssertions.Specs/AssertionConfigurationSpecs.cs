@@ -12,7 +12,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs;
 
-public class AssertionOptionsSpecs
+public class AssertionConfigurationSpecs
 {
     // Due to tests that call AssertionOptions
     [CollectionDefinition("AssertionOptionsSpecs", DisableParallelization = true)]
@@ -22,18 +22,18 @@ public class AssertionOptionsSpecs
     {
         protected override void Dispose(bool disposing)
         {
-            AssertionOptions.AssertEquivalencyUsing(_ => new EquivalencyOptions());
+            AssertionConfiguration.AssertEquivalencyUsing(_ => new Equivalency.EquivalencyOptions());
 
             base.Dispose(disposing);
         }
     }
 
     [Collection("AssertionOptionsSpecs")]
-    public class When_injecting_a_null_configurer : GivenSubject<EquivalencyOptions, Action>
+    public class When_injecting_a_null_configurer : GivenSubject<Equivalency.EquivalencyOptions, Action>
     {
         public When_injecting_a_null_configurer()
         {
-            When(() => () => AssertionOptions.AssertEquivalencyUsing(defaultsConfigurer: null));
+            When(() => () => AssertionConfiguration.AssertEquivalencyUsing(defaultsConfigurer: null));
         }
 
         [Fact]
@@ -45,14 +45,14 @@ public class AssertionOptionsSpecs
     }
 
     [Collection("AssertionOptionsSpecs")]
-    public class When_concurrently_getting_equality_strategy : GivenSubject<EquivalencyOptions, Action>
+    public class When_concurrently_getting_equality_strategy : GivenSubject<Equivalency.EquivalencyOptions, Action>
     {
         public When_concurrently_getting_equality_strategy()
         {
             When(() =>
             {
 #pragma warning disable CA1859 // https://github.com/dotnet/roslyn-analyzers/issues/6704
-                IEquivalencyOptions equivalencyOptions = new EquivalencyOptions();
+                IEquivalencyOptions equivalencyOptions = new Equivalency.EquivalencyOptions();
 #pragma warning restore CA1859
 
                 return () => Parallel.For(0, 10_000, new ParallelOptions { MaxDegreeOfParallelism = 8 },
@@ -80,7 +80,7 @@ public class AssertionOptionsSpecs
                 new MyValueType { Value = 1 }.Should().BeEquivalentTo(new MyValueType { Value = 2 });
             });
 
-            When(() => AssertionOptions.AssertEquivalencyUsing(o => o.ComparingByMembers<MyValueType>()));
+            When(() => AssertionConfiguration.AssertEquivalencyUsing(o => o.ComparingByMembers<MyValueType>()));
         }
 
         [Fact]
@@ -113,7 +113,7 @@ public class AssertionOptionsSpecs
                 new MyClass { Value = 1 }.Should().BeEquivalentTo(new MyClass { Value = 1 });
             });
 
-            When(() => AssertionOptions.AssertEquivalencyUsing(o => o.ComparingByValue<MyClass>()));
+            When(() => AssertionConfiguration.AssertEquivalencyUsing(o => o.ComparingByValue<MyClass>()));
         }
 
         [Fact]
@@ -138,7 +138,7 @@ public class AssertionOptionsSpecs
         {
             When(() =>
             {
-                AssertionOptions.AssertEquivalencyUsing(
+                AssertionConfiguration.AssertEquivalencyUsing(
                     options => options.ComparingByValue(typeof(Position)));
             });
         }
@@ -167,7 +167,7 @@ public class AssertionOptionsSpecs
         {
             When(() =>
             {
-                AssertionOptions.AssertEquivalencyUsing(options => options
+                AssertionConfiguration.AssertEquivalencyUsing(options => options
                     .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.01))
                     .WhenTypeIs<double>());
             });
@@ -199,7 +199,7 @@ public class AssertionOptionsSpecs
         {
             When(() =>
             {
-                AssertionOptions.AssertEquivalencyUsing(options => options
+                AssertionConfiguration.AssertEquivalencyUsing(options => options
                     .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.01))
                     .WhenTypeIs<double>());
             });
@@ -255,7 +255,7 @@ public class AssertionOptionsSpecs
 
         protected static EquivalencyPlan Plan
         {
-            get { return AssertionOptions.EquivalencyPlan; }
+            get { return AssertionConfiguration.EquivalencyPlan; }
         }
     }
 
@@ -388,13 +388,13 @@ public class AssertionOptionsSpecs
 
         public When_global_formatting_settings_are_modified()
         {
-            Given(() => oldSettings = AssertionOptions.FormattingOptions.Clone());
+            Given(() => oldSettings = AssertionConfiguration.FormattingOptions.Clone());
 
             When(() =>
             {
-                AssertionOptions.FormattingOptions.UseLineBreaks = true;
-                AssertionOptions.FormattingOptions.MaxDepth = 123;
-                AssertionOptions.FormattingOptions.MaxLines = 33;
+                AssertionConfiguration.FormattingOptions.UseLineBreaks = true;
+                AssertionConfiguration.FormattingOptions.MaxDepth = 123;
+                AssertionConfiguration.FormattingOptions.MaxLines = 33;
             });
         }
 
@@ -408,9 +408,9 @@ public class AssertionOptionsSpecs
 
         protected override void Dispose(bool disposing)
         {
-            AssertionOptions.FormattingOptions.MaxDepth = oldSettings.MaxDepth;
-            AssertionOptions.FormattingOptions.UseLineBreaks = oldSettings.UseLineBreaks;
-            AssertionOptions.FormattingOptions.MaxLines = oldSettings.MaxLines;
+            AssertionConfiguration.FormattingOptions.MaxDepth = oldSettings.MaxDepth;
+            AssertionConfiguration.FormattingOptions.UseLineBreaks = oldSettings.UseLineBreaks;
+            AssertionConfiguration.FormattingOptions.MaxLines = oldSettings.MaxLines;
 
             base.Dispose(disposing);
         }

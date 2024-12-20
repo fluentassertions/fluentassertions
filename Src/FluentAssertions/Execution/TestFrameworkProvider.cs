@@ -25,13 +25,13 @@ internal class TestFrameworkProvider
         ["xunit3"] = new XUnitTestFramework("xunit.v3.assert"),
     };
 
-    private readonly Configuration configuration;
+    private readonly Configuration.GlobalConfiguration configuration;
 
     private ITestFramework testFramework;
 
     #endregion
 
-    public TestFrameworkProvider(Configuration configuration)
+    public TestFrameworkProvider(Configuration.GlobalConfiguration configuration)
     {
         this.configuration = configuration;
     }

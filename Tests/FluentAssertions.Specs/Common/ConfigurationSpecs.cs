@@ -12,7 +12,7 @@ public class ConfigurationSpecs
     {
         // Arrange
         var store = new DummyConfigurationStore([]);
-        var sut = new Configuration(store);
+        var sut = new Configuration.GlobalConfiguration(store);
 
         // Act / Assert
         sut.ValueFormatterDetectionMode.Should().Be(ValueFormatterDetectionMode.Disabled);
@@ -27,7 +27,7 @@ public class ConfigurationSpecs
             { "valueFormattersAssembly", "foo" }
         });
 
-        var sut = new Configuration(store);
+        var sut = new Configuration.GlobalConfiguration(store);
 
         // Act / Assert
         sut.ValueFormatterDetectionMode.Should().Be(ValueFormatterDetectionMode.Specific);
@@ -42,7 +42,7 @@ public class ConfigurationSpecs
             { "valueFormatters", nameof(ValueFormatterDetectionMode.Scan) }
         });
 
-        var sut = new Configuration(store);
+        var sut = new Configuration.GlobalConfiguration(store);
 
         // Act / Assert
         sut.ValueFormatterDetectionMode.Should().Be(ValueFormatterDetectionMode.Scan);
@@ -57,7 +57,7 @@ public class ConfigurationSpecs
             { "valueFormatters", "foo" }
         });
 
-        var sut = new Configuration(store);
+        var sut = new Configuration.GlobalConfiguration(store);
 
         // Act
         var act = () => sut.ValueFormatterDetectionMode;

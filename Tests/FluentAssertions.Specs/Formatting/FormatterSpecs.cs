@@ -950,7 +950,7 @@ public class FormatterSpecs
     public void When_a_custom_formatter_exists_in_any_loaded_assembly_it_should_override_the_default_formatters()
     {
         // Arrange
-        Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
+        Configuration.GlobalConfiguration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
 
         var subject = new SomeClassWithCustomFormatter
         {
@@ -968,7 +968,7 @@ public class FormatterSpecs
     public void When_a_base_class_has_a_custom_formatter_it_should_override_the_default_formatters()
     {
         // Arrange
-        Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
+        Configuration.GlobalConfiguration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
 
         var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl1
         {
@@ -986,7 +986,7 @@ public class FormatterSpecs
     public void When_there_are_multiple_custom_formatters_it_should_select_a_more_specific_one()
     {
         // Arrange
-        Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
+        Configuration.GlobalConfiguration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
 
         var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl2
         {
@@ -1004,7 +1004,7 @@ public class FormatterSpecs
     public void When_a_base_class_has_multiple_custom_formatters_it_should_work_the_same_as_for_the_base_class()
     {
         // Arrange
-        Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
+        Configuration.GlobalConfiguration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
 
         var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl3
         {
@@ -1022,7 +1022,7 @@ public class FormatterSpecs
     public void When_no_custom_formatter_exists_in_the_specified_assembly_it_should_use_the_default()
     {
         // Arrange
-        Configuration.Current.ValueFormatterAssembly = "FluentAssertions";
+        Configuration.GlobalConfiguration.Current.ValueFormatterAssembly = "FluentAssertions";
 
         var subject = new SomeClassWithCustomFormatter
         {
@@ -1040,7 +1040,7 @@ public class FormatterSpecs
     public void When_formatter_scanning_is_disabled_it_should_use_the_default_formatters()
     {
         // Arrange
-        Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Disabled;
+        Configuration.GlobalConfiguration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Disabled;
 
         var subject = new SomeClassWithCustomFormatter
         {
@@ -1059,7 +1059,7 @@ public class FormatterSpecs
     {
         // Arrange
         Services.ResetToDefaults();
-        Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Disabled;
+        Configuration.GlobalConfiguration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Disabled;
 
         var subject = new SomeClassWithCustomFormatter
         {
