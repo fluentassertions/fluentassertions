@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using FluentAssertions.Common;
 using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using FluentAssertions.Specs.Common;
@@ -14,7 +12,7 @@ using Xunit.Sdk;
 namespace FluentAssertions.Specs.Formatting;
 
 [Collection("FormatterSpecs")]
-public class FormatterSpecs
+public sealed class FormatterSpecs : IDisposable
 {
     [Fact]
     public void When_value_contains_cyclic_reference_it_should_create_descriptive_error_message()
@@ -210,44 +208,44 @@ public class FormatterSpecs
         // Assert
         act.Should().Throw<XunitException>()
             .WithMessage(
-            """
-            Expected stuff to be equal to
-            {
-                FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
+                """
+                Expected stuff to be equal to
                 {
-                    Children = {1, 2, 3, 4},
-                    Description = "Stuff_1",
-                    StuffId = 1
-                },
-                FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
+                    FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
+                    {
+                        Children = {1, 2, 3, 4},
+                        Description = "Stuff_1",
+                        StuffId = 1
+                    },
+                    FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
+                    {
+                        Children = {1, 2, 3, 4},
+                        Description = "WRONG_DESCRIPTION",
+                        StuffId = 2
+                    }
+                }, but
                 {
-                    Children = {1, 2, 3, 4},
-                    Description = "WRONG_DESCRIPTION",
-                    StuffId = 2
-                }
-            }, but
-            {
-                FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
-                {
-                    Children = {1, 2, 3, 4},
-                    Description = "Stuff_1",
-                    StuffId = 1
-                },
-                FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
-                {
-                    Children = {1, 2, 3, 4},
-                    Description = "Stuff_2",
-                    StuffId = 2
-                }
-            } differs at index 1.
-            """);
+                    FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
+                    {
+                        Children = {1, 2, 3, 4},
+                        Description = "Stuff_1",
+                        StuffId = 1
+                    },
+                    FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
+                    {
+                        Children = {1, 2, 3, 4},
+                        Description = "Stuff_2",
+                        StuffId = 2
+                    }
+                } differs at index 1.
+                """);
     }
 
     [Fact]
     public void When_the_object_is_a_user_defined_type_it_should_show_the_name_on_the_initial_line()
     {
         // Arrange
-        var stuff = new StuffRecord(42, "description", new(24), [10, 20, 30, 40]);
+        var stuff = new StuffRecord(42, "description", new ChildRecord(24), [10, 20, 30, 40]);
 
         // Act
         Action act = () => stuff.Should().BeNull();
@@ -255,18 +253,18 @@ public class FormatterSpecs
         // Assert
         act.Should().Throw<XunitException>()
             .Which.Message.Should().Match(
-            """
-            Expected stuff to be <null>, but found FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord
-            {
-                RecordChildren = {10, 20, 30, 40},
-                RecordDescription = "description",
-                RecordId = 42,
-                SingleChild = FluentAssertions.Specs.Formatting.FormatterSpecs+ChildRecord
+                """
+                Expected stuff to be <null>, but found FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord
                 {
-                    ChildRecordId = 24
-                }
-            }.
-            """);
+                    RecordChildren = {10, 20, 30, 40},
+                    RecordDescription = "description",
+                    RecordId = 42,
+                    SingleChild = FluentAssertions.Specs.Formatting.FormatterSpecs+ChildRecord
+                    {
+                        ChildRecordId = 24
+                    }
+                }.
+                """);
     }
 
     [Fact]
@@ -292,28 +290,29 @@ public class FormatterSpecs
         // Assert
         act.Should().Throw<XunitException>()
             .Which.Message.Should().Be(
-            """
-            Expected stuff to be
-            {
-                Children = {10, 20, 30, 40},
-                SingleChild =
+                """
+                Expected stuff to be
                 {
-                    ChildId = 4
-                }
-            }, but found
-            {
-                Children = {1, 2, 3, 4},
-                Description = "absent",
-                SingleChild =
+                    Children = {10, 20, 30, 40},
+                    SingleChild =
+                    {
+                        ChildId = 4
+                    }
+                }, but found
                 {
-                    ChildId = 8
-                }
-            }.
-            """);
+                    Children = {1, 2, 3, 4},
+                    Description = "absent",
+                    SingleChild =
+                    {
+                        ChildId = 8
+                    }
+                }.
+                """);
     }
 
     [Fact]
-    public void When_the_object_is_a_list_of_anonymous_type_it_should_show_the_properties_recursively_with_newlines_and_indentation()
+    public void
+        When_the_object_is_a_list_of_anonymous_type_it_should_show_the_properties_recursively_with_newlines_and_indentation()
     {
         // Arrange
         var stuff = new[]
@@ -346,32 +345,32 @@ public class FormatterSpecs
         // Assert
         act.Should().Throw<XunitException>()
             .Which.Message.Should().Match(
-            """
-            Expected stuff to be a collection with 1 item(s), but*
-            {
+                """
+                Expected stuff to be a collection with 1 item(s), but*
                 {
-                    Description = "absent"
-                },*
-                {
-                    Description = "absent"
-                }
-            }
-            contains 1 item(s) more than
-
-            {
-                {
-                    ComplexChildren =*
                     {
-                        {
-                            Property = "hello"
-                        },*
-                        {
-                            Property = "goodbye"
-                        }
+                        Description = "absent"
+                    },*
+                    {
+                        Description = "absent"
                     }
                 }
-            }.*
-            """);
+                contains 1 item(s) more than
+
+                {
+                    {
+                        ComplexChildren =*
+                        {
+                            {
+                                Property = "hello"
+                            },*
+                            {
+                                Property = "goodbye"
+                            }
+                        }
+                    }
+                }.*
+                """);
     }
 
     [Fact]
@@ -404,19 +403,19 @@ public class FormatterSpecs
         // Assert
         act.Should().Throw<XunitException>()
             .Which.Message.Should().Match(
-            """
-            Expected stuff to be equal to*
-            {
-                Item1 = 2,*
-                Item2 = "WRONG_DESCRIPTION",*
-                Item3 = {4, 5, 6, 7}
-            }, but found*
-            {
-                Item1 = 1,*
-                Item2 = "description",*
-                Item3 = {1, 2, 3, 4}
-            }.*
-            """);
+                """
+                Expected stuff to be equal to*
+                {
+                    Item1 = 2,*
+                    Item2 = "WRONG_DESCRIPTION",*
+                    Item3 = {4, 5, 6, 7}
+                }, but found*
+                {
+                    Item1 = 1,*
+                    Item2 = "description",*
+                    Item3 = {1, 2, 3, 4}
+                }.*
+                """);
     }
 
     [Fact]
@@ -426,7 +425,7 @@ public class FormatterSpecs
         var stuff = new StuffRecord(
             RecordId: 9,
             RecordDescription: "descriptive",
-            SingleChild: new(ChildRecordId: 80),
+            SingleChild: new ChildRecord(ChildRecordId: 80),
             RecordChildren: [4, 5, 6, 7]);
 
         var expectedStuff = new
@@ -440,21 +439,21 @@ public class FormatterSpecs
         // Assert
         act.Should().Throw<XunitException>()
             .Which.Message.Should().Match(
-            """
-            Expected stuff to be*
-            {
-                RecordDescription = "WRONG_DESCRIPTION"
-            }, but found FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord
-            {
-                RecordChildren = {4, 5, 6, 7},*
-                RecordDescription = "descriptive",*
-                RecordId = 9,*
-                SingleChild = FluentAssertions.Specs.Formatting.FormatterSpecs+ChildRecord
+                """
+                Expected stuff to be*
                 {
-                    ChildRecordId = 80
-                }
-            }.
-            """);
+                    RecordDescription = "WRONG_DESCRIPTION"
+                }, but found FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord
+                {
+                    RecordChildren = {4, 5, 6, 7},*
+                    RecordDescription = "descriptive",*
+                    RecordId = 9,*
+                    SingleChild = FluentAssertions.Specs.Formatting.FormatterSpecs+ChildRecord
+                    {
+                        ChildRecordId = 80
+                    }
+                }.
+                """);
     }
 
     [Fact]
@@ -947,193 +946,6 @@ public class FormatterSpecs
     private record ChildRecord(int ChildRecordId);
 
     [Fact]
-    public void When_a_custom_formatter_exists_in_any_loaded_assembly_it_should_override_the_default_formatters()
-    {
-        // Arrange
-        Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
-
-        var subject = new SomeClassWithCustomFormatter
-        {
-            Property = "SomeValue"
-        };
-
-        // Act
-        string result = Formatter.ToString(subject);
-
-        // Assert
-        result.Should().Be("Property = SomeValue", "it should use my custom formatter");
-    }
-
-    [Fact]
-    public void When_a_base_class_has_a_custom_formatter_it_should_override_the_default_formatters()
-    {
-        // Arrange
-        Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
-
-        var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl1
-        {
-            Property = "SomeValue"
-        };
-
-        // Act
-        string result = Formatter.ToString(subject);
-
-        // Assert
-        result.Should().Be("Property = SomeValue", "it should use my custom formatter");
-    }
-
-    [Fact]
-    public void When_there_are_multiple_custom_formatters_it_should_select_a_more_specific_one()
-    {
-        // Arrange
-        Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
-
-        var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl2
-        {
-            Property = "SomeValue"
-        };
-
-        // Act
-        string result = Formatter.ToString(subject);
-
-        // Assert
-        result.Should().Be("Property is SomeValue", "it should use my custom formatter");
-    }
-
-    [Fact]
-    public void When_a_base_class_has_multiple_custom_formatters_it_should_work_the_same_as_for_the_base_class()
-    {
-        // Arrange
-        Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
-
-        var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl3
-        {
-            Property = "SomeValue"
-        };
-
-        // Act
-        string result = Formatter.ToString(subject);
-
-        // Assert
-        result.Should().Be("Property is SomeValue", "it should use my custom formatter");
-    }
-
-    [Fact]
-    public void When_no_custom_formatter_exists_in_the_specified_assembly_it_should_use_the_default()
-    {
-        // Arrange
-        Configuration.Current.ValueFormatterAssembly = "FluentAssertions";
-
-        var subject = new SomeClassWithCustomFormatter
-        {
-            Property = "SomeValue"
-        };
-
-        // Act
-        string result = Formatter.ToString(subject);
-
-        // Assert
-        result.Should().Be(subject.ToString());
-    }
-
-    [Fact]
-    public void When_formatter_scanning_is_disabled_it_should_use_the_default_formatters()
-    {
-        // Arrange
-        Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Disabled;
-
-        var subject = new SomeClassWithCustomFormatter
-        {
-            Property = "SomeValue"
-        };
-
-        // Act
-        string result = Formatter.ToString(subject);
-
-        // Assert
-        result.Should().Be(subject.ToString());
-    }
-
-    [Fact]
-    public void When_no_formatter_scanning_is_configured_it_should_use_the_default_formatters()
-    {
-        // Arrange
-        Services.ResetToDefaults();
-        Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Disabled;
-
-        var subject = new SomeClassWithCustomFormatter
-        {
-            Property = "SomeValue"
-        };
-
-        // Act
-        string result = Formatter.ToString(subject);
-
-        // Assert
-        result.Should().Be(subject.ToString());
-    }
-
-    public class SomeClassWithCustomFormatter
-    {
-        public string Property { get; set; }
-
-        public override string ToString()
-        {
-            return "The value of my property is " + Property;
-        }
-    }
-
-    public class SomeOtherClassWithCustomFormatter
-    {
-        public string Property { get; set; }
-
-        public override string ToString()
-        {
-            return "The value of my property is " + Property;
-        }
-    }
-
-    public class SomeClassInheritedFromClassWithCustomFormatterLvl1 : SomeClassWithCustomFormatter;
-
-    public class SomeClassInheritedFromClassWithCustomFormatterLvl2 : SomeClassInheritedFromClassWithCustomFormatterLvl1;
-
-    public class SomeClassInheritedFromClassWithCustomFormatterLvl3 : SomeClassInheritedFromClassWithCustomFormatterLvl2;
-
-    public static class CustomFormatter
-    {
-        [ValueFormatter]
-        public static int Bar(SomeClassWithCustomFormatter _)
-        {
-            return -1;
-        }
-
-        [ValueFormatter]
-        public static void Foo(SomeClassWithCustomFormatter value, FormattedObjectGraph output)
-        {
-            output.AddFragment("Property = " + value.Property);
-        }
-
-        [ValueFormatter]
-        [SuppressMessage("ReSharper", "CA1801")]
-        public static void Foo(SomeOtherClassWithCustomFormatter _, FormattedObjectGraph output)
-        {
-            throw new XunitException("Should never be called");
-        }
-
-        [ValueFormatter]
-        public static void Foo(SomeClassInheritedFromClassWithCustomFormatterLvl2 value, FormattedObjectGraph output)
-        {
-            output.AddFragment("Property is " + value.Property);
-        }
-
-        [ValueFormatter]
-        public static void Foo2(SomeClassInheritedFromClassWithCustomFormatterLvl2 value, FormattedObjectGraph output)
-        {
-            output.AddFragment("Property is " + value.Property);
-        }
-    }
-
-    [Fact]
     public void When_defining_a_custom_value_formatter_it_should_respect_the_overrides()
     {
         // Arrange
@@ -1217,11 +1029,9 @@ public class FormatterSpecs
 
         public void Dispose() => Formatter.RemoveFormatter(formatter);
     }
-}
 
-// Due to the tests that call Configuration.Current
-[CollectionDefinition("FormatterSpecs", DisableParallelization = true)]
-public class FormatterSpecsDefinition;
+    public void Dispose() => AssertionEngine.ResetToDefaults();
+}
 
 internal class ExceptionThrowingClass
 {

@@ -117,7 +117,7 @@ public class FormattedObjectGraph
 
             lines.Add(
                 $"(Output has exceeded the maximum of {maxLines} lines. " +
-                $"Increase {nameof(FormattingOptions)}.{nameof(FormattingOptions.MaxLines)} on {nameof(AssertionScope)} or {nameof(AssertionOptions)} to include more lines.)");
+                $"Increase {nameof(FormattingOptions)}.{nameof(FormattingOptions.MaxLines)} on {nameof(AssertionScope)} or {nameof(AssertionConfiguration)} to include more lines.)");
 
             throw new MaxLinesExceededException();
         }

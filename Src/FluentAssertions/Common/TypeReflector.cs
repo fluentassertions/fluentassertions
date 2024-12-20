@@ -6,9 +6,9 @@ using System.Reflection;
 
 namespace FluentAssertions.Common;
 
-internal class FullFrameworkReflector : IReflector
+internal static class TypeReflector
 {
-    public IEnumerable<Type> GetAllTypesFromAppDomain(Func<Assembly, bool> predicate)
+    public static IEnumerable<Type> GetAllTypesFromAppDomain(Func<Assembly, bool> predicate)
     {
         return AppDomain.CurrentDomain
             .GetAssemblies()
@@ -21,6 +21,7 @@ internal class FullFrameworkReflector : IReflector
         string assemblyName = ass.GetName().Name;
 
         return
+            assemblyName is not null &&
             !assemblyName.StartsWith("microsoft.", StringComparison.OrdinalIgnoreCase) &&
             !assemblyName.StartsWith("xunit", StringComparison.OrdinalIgnoreCase) &&
             !assemblyName.StartsWith("jetbrains.", StringComparison.OrdinalIgnoreCase) &&

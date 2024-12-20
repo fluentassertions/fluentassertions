@@ -150,7 +150,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+        EquivalencyOptions<string> options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<string>());
 
         var expectation = new StringValidator(assertionChain,
             new StringEqualityStrategy(options.GetStringComparerOrDefault(), "be equivalent to"),
@@ -473,7 +473,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
 
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+        EquivalencyOptions<string> options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<string>());
 
         var stringWildcardMatchingValidator = new StringValidator(assertionChain,
             new StringWildcardMatchingStrategy
@@ -598,7 +598,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
 
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+        EquivalencyOptions<string> options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<string>());
 
         var stringWildcardMatchingValidator = new StringValidator(assertionChain,
             new StringWildcardMatchingStrategy
@@ -987,7 +987,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string start equivalence with <null>.");
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+        EquivalencyOptions<string> options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<string>());
 
         var stringStartValidator = new StringValidator(assertionChain,
             new StringStartStrategy(options.GetStringComparerOrDefault(), "start with equivalent of"),
@@ -1182,7 +1182,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end equivalence with <null>.");
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+        EquivalencyOptions<string> options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<string>());
 
         var stringEndValidator = new StringValidator(assertionChain,
             new StringEndStrategy(options.GetStringComparerOrDefault(), "end with equivalent of"),
@@ -1419,7 +1419,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(occurrenceConstraint);
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+        EquivalencyOptions<string> options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<string>());
 
         var stringContainValidator = new StringValidatorSupportingNull(assertionChain,
             new StringContainsStrategy(options.GetStringComparerOrDefault(), occurrenceConstraint),
@@ -2009,7 +2009,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+        EquivalencyOptions<string> options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<string>());
 
         var expectation = new StringValidator(assertionChain,
             new StringEqualityStrategy(options.GetStringComparerOrDefault(), "be"),

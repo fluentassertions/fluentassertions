@@ -35,7 +35,7 @@ public static class AssertionExtensions
 
     static AssertionExtensions()
     {
-        Services.EnsureInitialized();
+        AssertionEngine.EnsureInitialized();
     }
 
     /// <summary>

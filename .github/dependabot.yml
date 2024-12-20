@@ -33,7 +33,6 @@ updates:
       timezone: "Europe/Copenhagen"
     ignore:
       - dependency-name: "System.Collections.Immutable"
-      - dependency-name: "System.Configuration.ConfigurationManager"
       - dependency-name: "System.Threading.Tasks.Extensions"
     groups:
       xunit:

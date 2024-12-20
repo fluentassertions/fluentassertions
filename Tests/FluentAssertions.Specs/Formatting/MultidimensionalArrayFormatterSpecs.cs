@@ -4,7 +4,6 @@ using Xunit;
 
 namespace FluentAssertions.Specs.Formatting;
 
-[Collection("FormatterSpecs")]
 public class MultidimensionalArrayFormatterSpecs
 {
     [Theory]

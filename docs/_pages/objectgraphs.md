@@ -59,7 +59,7 @@ actual.Should().BeEquivalentTo(expected, options => options
 Or  do the same using the global options:
 
 ```csharp
-AssertionOptions.AssertEquivalencyUsing(options => options
+AssertionConfiguration.Current.Equivalency.Modify(options => options
     .ComparingByValue<DirectoryInfo>());
 ```
 
@@ -340,7 +340,7 @@ orderDto.Should().BeEquivalentTo(expectation, options => options.WithStrictOrder
 In case you chose to use strict ordering by default you can still configure non-strict ordering in specific tests:
 
 ```csharp
-AssertionOptions.AssertEquivalencyUsing(options => options.WithStrictOrdering());
+AssertionConfiguration.Current.Equivalency.Modify(options => options.WithStrictOrdering());
 
 orderDto.Should().BeEquivalentTo(expectation, options => options.WithoutStrictOrdering());
 ```
@@ -418,12 +418,12 @@ Alternatively, you could write your own implementation of `ITraceWriter` for spe
 ### Global Configuration
 
 Even though the structural equivalency API is pretty flexible, you might want to change some of these options on a global scale.
-This is where the static class `AssertionOptions` comes into play.
+This is where the static class `AssertionConfiguration` comes into play.
 For instance, to always compare enumerations by name, use the following statement:
 
 ```csharp
-AssertionOptions.AssertEquivalencyUsing(options => 
+AssertionConfiguration.Current.Equivalency.Modify(options => 
    options.ComparingEnumsByName);
 ```
 
-All the options available to an individual call to `Should().BeEquivalentTo` are supported, with the exception of some of the overloads that are specific to the type of the subject (for obvious reasons).
+All the options available to an individual call to `Should().BeEquivalentTo` are supported, with the exception of some of the overloads that are specific to the type of the expectation (for obvious reasons).

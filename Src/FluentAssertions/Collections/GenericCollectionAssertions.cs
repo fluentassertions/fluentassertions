@@ -137,7 +137,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// and the result is equal.
     /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable{T}"/> and all
     /// items in the collection are structurally equal.
-    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionConfiguration"/>.
     /// </remarks>
     /// <param name="expectation">The expected element.</param>
     /// <param name="because">
@@ -162,14 +162,14 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// and the result is equal.
     /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable{T}"/> and all
     /// items in the collection are structurally equal.
-    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionConfiguration"/>.
     /// </remarks>
     /// <param name="expectation">The expected element.</param>
     /// <param name="config">
     /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
     /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
-    /// <see cref="AssertionOptions"/> class.
+    /// <see cref="AssertionConfiguration"/> class.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -309,7 +309,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// and the result is equal.
     /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable{T}"/> and all
     /// items in the collection are structurally equal.
-    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionConfiguration"/>.
     /// </remarks>
     /// <param name="expectation">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
     /// <param name="because">
@@ -334,14 +334,14 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// and the result is equal.
     /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable{T}"/> and all
     /// items in the collection are structurally equal.
-    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionConfiguration"/>.
     /// </remarks>
     /// <param name="expectation">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
     /// <param name="config">
     /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
     /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
-    /// <see cref="AssertionOptions"/> class.
+    /// <see cref="AssertionConfiguration"/> class.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -359,7 +359,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         Guard.ThrowIfArgumentIsNull(config);
 
         EquivalencyOptions<IEnumerable<TExpectation>> options =
-            config(AssertionOptions.CloneDefaults<TExpectation>()).AsCollection();
+            config(AssertionConfiguration.Current.Equivalency.CloneDefaults<TExpectation>()).AsCollection();
 
         var context =
             new EquivalencyValidationContext(
@@ -844,7 +844,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <para>
     /// By default, objects within the collection are seen as equivalent to the expected object when both object graphs have equally named properties with the same
     /// value, irrespective of the type of those objects.
-    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionConfiguration"/>.
     /// </para>
     /// </remarks>
     /// <param name="expectation">The expected element.</param>
@@ -873,7 +873,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <para>
     /// By default, objects within the collection are seen as equivalent to the expected object when both object graphs have equally named properties with the same
     /// value, irrespective of the type of those objects.
-    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionConfiguration"/>.
     /// </para>
     /// </remarks>
     /// <param name="expectation">The expected element.</param>
@@ -881,7 +881,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
     /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
-    /// <see cref="AssertionOptions"/> class.
+    /// <see cref="AssertionConfiguration"/> class.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -905,7 +905,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         if (assertionChain.Succeeded)
         {
-            EquivalencyOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
+            EquivalencyOptions<TExpectation> options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<TExpectation>());
 
             using var scope = new AssertionScope();
             assertionChain.AddReportable("configuration", () => options.ToString());
@@ -1849,7 +1849,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
     /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
-    /// <see cref="AssertionOptions"/> class.
+    /// <see cref="AssertionConfiguration"/> class.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -2339,7 +2339,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <para>
     /// By default, objects within the collection are seen as not equivalent to the expected object when both object graphs have unequally named properties with the same
     /// value, irrespective of the type of those objects.
-    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionConfiguration"/>.
     /// </para>
     /// </remarks>
     /// <param name="unexpected">The unexpected element.</param>
@@ -2368,7 +2368,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <para>
     /// By default, objects within the collection are seen as not equivalent to the expected object when both object graphs have unequally named properties with the same
     /// value, irrespective of the type of those objects.
-    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionConfiguration"/>.
     /// </para>
     /// </remarks>
     /// <param name="unexpected">The unexpected element.</param>
@@ -2376,7 +2376,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
     /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
-    /// <see cref="AssertionOptions"/> class.
+    /// <see cref="AssertionConfiguration"/> class.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -2402,7 +2402,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         if (assertionChain.Succeeded)
         {
-            EquivalencyOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
+            EquivalencyOptions<TExpectation> options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<TExpectation>());
 
             var foundIndices = new List<int>();
 

@@ -1,47 +1,44 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Configuration;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensibility;
 using JetBrains.Annotations;
 
-namespace FluentAssertions.Common;
+namespace FluentAssertions;
 
 /// <summary>
-/// Maintains the framework-specific services.
+/// Represents the run-time configuration of the assertion library.
 /// </summary>
-public static class Services
+public static class AssertionEngine
 {
     private static readonly object Lockable = new();
-    private static Configuration configuration;
     private static bool isInitialized;
 
-    static Services()
+    static AssertionEngine()
     {
         EnsureInitialized();
     }
 
-    public static IConfigurationStore ConfigurationStore { get; set; }
+    /// <summary>
+    /// Gets or sets the run-time test framework used for throwing assertion exceptions.
+    /// </summary>
+    public static ITestFramework TestFramework { get; set; }
 
-    public static Configuration Configuration
-    {
-        get
-        {
-            lock (Lockable)
-            {
-                return configuration ??= new Configuration(ConfigurationStore);
-            }
-        }
-    }
+    /// <summary>
+    /// Provides access to the global configuration and options to customize the behavior of FluentAssertions.
+    /// </summary>
+    public static GlobalConfiguration Configuration { get; private set; } = new();
 
-    public static Action<string> ThrowException { get; set; }
-
-    public static IReflector Reflector { get; set; }
-
+    /// <summary>
+    /// Resets the configuration to its default state and forces the engine to reinitialize the next time it is used.
+    /// </summary>
     [PublicAPI]
     public static void ResetToDefaults()
     {
         isInitialized = false;
+        Configuration = new();
         EnsureInitialized();
     }
 
@@ -58,13 +55,7 @@ public static class Services
             {
                 ExecuteCustomInitializers();
 
-                Reflector = new FullFrameworkReflector();
-#if NETFRAMEWORK || NET6_0_OR_GREATER
-                ConfigurationStore = new ConfigurationStoreExceptionInterceptor(new AppSettingsConfigurationStore());
-#else
-                ConfigurationStore = new NullConfigurationStore();
-#endif
-                ThrowException = new TestFrameworkProvider(Configuration).Throw;
+                TestFramework = TestFrameworkFactory.GetFramework(Configuration.TestFramework);
 
                 isInitialized = true;
             }

@@ -67,7 +67,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     /// <remarks>
     /// Objects are equivalent when both object graphs have equally named properties with the same value,
     /// irrespective of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
-    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionConfiguration"/>.
     /// </remarks>
     /// <param name="expectation">The expected element.</param>
     /// <param name="because">
@@ -95,7 +95,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
     /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
-    /// <see cref="AssertionOptions"/> class.
+    /// <see cref="AssertionConfiguration"/> class.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -111,7 +111,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     {
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
+        EquivalencyOptions<TExpectation> options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<TExpectation>());
 
         var context = new EquivalencyValidationContext(
             Node.From<TExpectation>(() => CurrentAssertionChain.CallerIdentifier), options)

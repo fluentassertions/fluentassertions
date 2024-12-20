@@ -140,7 +140,7 @@ public static class Formatter
             else if (graph.Depth > options.MaxDepth)
             {
                 output.AddLine($"Maximum recursion depth of {options.MaxDepth} was reached. " +
-                    $" Increase {nameof(FormattingOptions.MaxDepth)} on {nameof(AssertionScope)} or {nameof(AssertionOptions)} to get more details.");
+                    $" Increase {nameof(FormattingOptions.MaxDepth)} on {nameof(AssertionScope)} or {nameof(AssertionConfiguration)} to get more details.");
             }
             else
             {

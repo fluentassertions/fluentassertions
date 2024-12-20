@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
@@ -340,7 +339,7 @@ namespace FluentAssertions.Specs.Execution
                         }
                     }
 
-                    Services.ThrowException(builder.ToString());
+                    AssertionEngine.TestFramework.Throw(builder.ToString());
                 }
             }
 
@@ -355,7 +354,7 @@ namespace FluentAssertions.Specs.Execution
             public IEnumerable<string> FailureMessages => [];
 
             public void HandleFailure(string message) =>
-                Services.ThrowException("Good luck with understanding what's going on!");
+                AssertionEngine.TestFramework.Throw("Good luck with understanding what's going on!");
 
             public IEnumerable<string> DiscardFailures() => [];
 

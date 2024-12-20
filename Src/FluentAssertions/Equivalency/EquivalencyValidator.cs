@@ -92,7 +92,7 @@ internal class EquivalencyValidator : IValidateChildNodeEquivalency
     {
         using var _ = context.Tracer.WriteBlock(node => node.Expectation.Description);
 
-        foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
+        foreach (IEquivalencyStep step in AssertionConfiguration.Current.Equivalency.Plan)
         {
             var result = step.Handle(comparands, context, this);
 
