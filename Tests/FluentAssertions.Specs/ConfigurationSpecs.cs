@@ -21,8 +21,8 @@ public class ConfigurationSpecs
             },
             __ =>
             {
-                Configuration.Current.ValueFormatterAssembly = string.Empty;
-                _ = Configuration.Current.ValueFormatterDetectionMode;
+                Configuration.GlobalConfiguration.Current.ValueFormatterAssembly = string.Empty;
+                _ = Configuration.GlobalConfiguration.Current.ValueFormatterDetectionMode;
             }
         );
 

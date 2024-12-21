@@ -29,7 +29,7 @@ public class AttributeBasedFormatter : IValueFormatter
 
     private static bool IsScanningEnabled
     {
-        get { return Configuration.Current.ValueFormatterDetectionMode != ValueFormatterDetectionMode.Disabled; }
+        get { return Configuration.GlobalConfiguration.Current.ValueFormatterDetectionMode != ValueFormatterDetectionMode.Disabled; }
     }
 
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
@@ -71,9 +71,9 @@ public class AttributeBasedFormatter : IValueFormatter
 
     private void HandleValueFormatterDetectionModeChanges()
     {
-        if (detectionMode != Configuration.Current.ValueFormatterDetectionMode)
+        if (detectionMode != Configuration.GlobalConfiguration.Current.ValueFormatterDetectionMode)
         {
-            detectionMode = Configuration.Current.ValueFormatterDetectionMode;
+            detectionMode = Configuration.GlobalConfiguration.Current.ValueFormatterDetectionMode;
             formatters = null;
         }
     }
@@ -100,7 +100,7 @@ public class AttributeBasedFormatter : IValueFormatter
 
     private static bool Applicable(Assembly assembly)
     {
-        Configuration configuration = Configuration.Current;
+        Configuration.GlobalConfiguration configuration = Configuration.GlobalConfiguration.Current;
         ValueFormatterDetectionMode mode = configuration.ValueFormatterDetectionMode;
 
         return mode == ValueFormatterDetectionMode.Scan || (

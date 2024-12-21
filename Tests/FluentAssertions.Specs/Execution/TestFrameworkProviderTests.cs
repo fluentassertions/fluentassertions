@@ -12,7 +12,7 @@ public class TestFrameworkProviderTests
     public void When_running_xunit_test_implicitly_it_should_be_detected()
     {
         // Arrange
-        var configuration = new Configuration(new TestConfigurationStore());
+        var configuration = new Configuration.GlobalConfiguration(new TestConfigurationStore());
         var testFrameworkProvider = new TestFrameworkProvider(configuration);
 
         // Act
@@ -26,7 +26,7 @@ public class TestFrameworkProviderTests
     public void When_running_xunit_test_explicitly_it_should_be_detected()
     {
         // Arrange
-        var configuration = new Configuration(new TestConfigurationStore())
+        var configuration = new Configuration.GlobalConfiguration(new TestConfigurationStore())
         {
             TestFrameworkName = "xunit2"
         };
@@ -44,7 +44,7 @@ public class TestFrameworkProviderTests
     public void When_running_test_with_unknown_test_framework_it_should_throw()
     {
         // Arrange
-        var configuration = new Configuration(new TestConfigurationStore())
+        var configuration = new Configuration.GlobalConfiguration(new TestConfigurationStore())
         {
             TestFrameworkName = "foo"
         };
@@ -63,7 +63,7 @@ public class TestFrameworkProviderTests
     public void When_running_test_with_late_bound_but_unavailable_test_framework_it_should_throw()
     {
         // Arrange
-        var configuration = new Configuration(new TestConfigurationStore())
+        var configuration = new Configuration.GlobalConfiguration(new TestConfigurationStore())
         {
             TestFrameworkName = "nunit"
         };
