@@ -20,8 +20,6 @@
     <NoWarn>$(NoWarn);2008</NoWarn>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <IsTestProject>true</IsTestProject>
-    <!-- EnableMSTestV2CopyResources is disabled due to https://github.com/microsoft/testfx/issues/4371 -->
-    <EnableMSTestV2CopyResources>false</EnableMSTestV2CopyResources>
     <UwpUnitTestSdkPkgVersion>17.3.3</UwpUnitTestSdkPkgVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
@@ -90,10 +88,10 @@
       <Version>6.2.14</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
-      <Version>3.6.4</Version>
+      <Version>3.7.0</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestFramework">
-      <Version>3.6.4</Version>
+      <Version>3.7.0</Version>
     </PackageReference>
     <PackageReference Include="System.Xml.XPath.XmlDocument">
       <Version>4.7.0</Version>
