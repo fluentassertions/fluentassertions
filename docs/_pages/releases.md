@@ -36,7 +36,6 @@ sidebar:
   * This also adds the capability to ignore casing, leading or trailing whitespace on strings when using `BeEquivalentTo` on object graphs or collections.
   * Also adds the capability to ignore the newline style on strings - [#2565](https://github.com/fluentassertions/fluentassertions/pull/2565)
 * You can mark all assertions in an assembly as custom assertions using the `[CustomAssertionsAssembly]` attribute - [#2389](https://github.com/fluentassertions/fluentassertions/pull/2389)
-* Improve `BeEmpty()` and `BeNullOrEmpty()` performance for `IEnumerable<T>`, by materializing only the first item - [#2530](https://github.com/fluentassertions/fluentassertions/pull/2530)
 * All `Should()` methods on reference types are now annotated with the `[NotNull]` attribute for a better Fluent Assertions experience when nullable reference types are enabled - [#2380](https://github.com/fluentassertions/fluentassertions/pull/2380)
 * All assertions that support chaining using the `.Which` construct will now amend the caller identifier - [2539](https://github.com/fluentassertions/pull/2539)
 * Introduced a `MethodInfoFormatter` and improved the `PropertyInfoFormatter` - [2539](https://github.com/fluentassertions/pull/2539)
@@ -44,26 +43,7 @@ sidebar:
 * You can exclude explicitly implemented properties from `BeEquivalentTo` via `ExcludingExplicitlyImplementedProperties` - [2851](https://github.com/fluentassertions/pull/2851)
 
 ### Fixes
-* Fixed formatting error when checking nullable `DateTimeOffset` with
-`BeWithin(...).Before(...)` - [#2312](https://github.com/fluentassertions/fluentassertions/pull/2312)
-* `BeEquivalentTo` will now find and can map subject properties that are implemented through an explicitly-implemented interface - [#2152](https://github.com/fluentassertions/fluentassertions/pull/2152)
-* Fixed that the `because` and `becauseArgs` were not passed down the equivalency tree - [#2318](https://github.com/fluentassertions/fluentassertions/pull/2318)
-* `BeEquivalentTo` can again compare a non-generic `IDictionary` with a generic one - [#2358](https://github.com/fluentassertions/fluentassertions/pull/2358)
-* Fixed that the `FormattingOptions` were not respected in inner `AssertionScope` - [#2329](https://github.com/fluentassertions/fluentassertions/pull/2329)
-* Capitalize `true` and `false` in failure messages and make them formattable to a custom `BooleanFormatter` - [#2390](https://github.com/fluentassertions/fluentassertions/pull/2390), [#2393](https://github.com/fluentassertions/fluentassertions/pull/2393)
-* Improved the failure message for `NotBeOfType` when wrapped in an `AssertionScope` and the subject is null  - [#2399](https://github.com/fluentassertions/fluentassertions/pull/2399)
-* Improved the failure message for `BeWritable`/`BeReadable` when wrapped in an `AssertionScope` and the subject is read-only/write-only - [#2399](https://github.com/fluentassertions/fluentassertions/pull/2399)
-* Improved the failure message for `ThrowExactly[Async]` when wrapped in an `AssertionScope` and no exception is thrown - [#2398](https://github.com/fluentassertions/fluentassertions/pull/2398)
-* Improved the failure message for `[Not]HaveExplicitProperty` when wrapped in an `AssertionScope` and not implementing the interface - [#2403](https://github.com/fluentassertions/fluentassertions/pull/2403)
-* Improved the failure message for `[Not]HaveExplicitMethod` when wrapped in an `AssertionScope` and not implementing the interface - [#2403](https://github.com/fluentassertions/fluentassertions/pull/2403)
-* Changed `BeEquivalentTo` to exclude `private protected` members from the comparison - [#2417](https://github.com/fluentassertions/fluentassertions/pull/2417)
-* Fixed using `BeEquivalentTo` on an empty `ArraySegment` - [#2445](https://github.com/fluentassertions/fluentassertions/pull/2445), [#2511](https://github.com/fluentassertions/fluentassertions/pull/2511)
-* `BeEquivalentTo` with a custom comparer can now handle null values - [#2489](https://github.com/fluentassertions/fluentassertions/pull/2489)
 * Fixed incorrect treatment of "\\r\\n" as new line - [#2569](https://github.com/fluentassertions/fluentassertions/pull/2569)
-* Ensured that nested calls to `AssertionScope(context)` create a chained context - [#2607](https://github.com/fluentassertions/fluentassertions/pull/2607)
-* One overload of the `AssertionScope` constructor would not create an actual scope associated with the thread - [#2607](https://github.com/fluentassertions/fluentassertions/pull/2607)
-* Fixed `ThrowWithinAsync` not respecting `OperationCanceledException` - [#2614](https://github.com/fluentassertions/fluentassertions/pull/2614)
-* Fixed using `BeEquivalentTo` with an `IEqualityComparer` targeting nullable types - [#2648](https://github.com/fluentassertions/fluentassertions/pull/2648)
 * Fixed `RaisePropertyChangeFor` to return a filtered list of events - [#2677](https://github.com/fluentassertions/fluentassertions/pull/2677)
 * Including or excluding members did not work when `WithMapping` was used in `BeEquivalentTo` - [#2860](https://github.com/fluentassertions/fluentassertions/pull/2860) 
 
@@ -86,7 +66,6 @@ sidebar:
 * Dropped direct support for .NET Core 2.x and .NET Core 3.x - [#2302](https://github.com/fluentassertions/fluentassertions/pull/2302)
 * `AllSatisfy` now succeeds when asserting that an empty collection satisfies some predicates - [#2321](https://github.com/fluentassertions/fluentassertions/pull/2321)
 * `OnlyContain` now succeeds when asserting that an empty collection matches some predicates - [#2350](https://github.com/fluentassertions/fluentassertions/pull/2350)
-* Dropped support for `NSpec3` test framework - [#2356](https://github.com/fluentassertions/fluentassertions/pull/2356)
 * Dropped support for `BinaryFormatter` - [#2278](https://github.com/fluentassertions/fluentassertions/pull/2278)
 * Renamed "...AssertionOptions" to "...Options" - [#2414](https://github.com/fluentassertions/fluentassertions/pull/2414)
   * `EquivalencyAssertionOptions` to `EquivalencyOptions`
