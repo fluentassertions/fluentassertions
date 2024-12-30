@@ -90,10 +90,6 @@
       </ItemGroup>
       <ItemGroup>
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
-        <TfmSpecificFrameworkAssemblyReferences Include="System.Net.Http">
-          <TargetFramework>$(TargetFramework)</TargetFramework>
-        </TfmSpecificFrameworkAssemblyReferences>
-        <Reference Include="System.Net.Http" />
         <Reference Include="System.Configuration" />
         <Reference Include="System.Xml" />
         <Reference Include="System.Xml.Linq" />
