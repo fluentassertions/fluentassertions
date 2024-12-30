@@ -45,7 +45,7 @@ sidebar:
 ### Fixes
 * Fixed incorrect treatment of "\\r\\n" as new line - [#2569](https://github.com/fluentassertions/fluentassertions/pull/2569)
 * Fixed `RaisePropertyChangeFor` to return a filtered list of events - [#2677](https://github.com/fluentassertions/fluentassertions/pull/2677)
-* Including or excluding members did not work when `WithMapping` was used in `BeEquivalentTo` - [#2860](https://github.com/fluentassertions/fluentassertions/pull/2860) 
+* Including or excluding members did not work when `WithMapping` was used in `BeEquivalentTo` - [#2860](https://github.com/fluentassertions/fluentassertions/pull/2860)
 
 ### Breaking Changes (for users)
 * Moved support for `DataSet`, `DataTable`, `DataRow` and `DataColumn` into a new package `FluentAssertions.DataSet` - [#2267](https://github.com/fluentassertions/fluentassertions/pull/2267)
@@ -78,6 +78,7 @@ sidebar:
 * Renamed `HaveAttribute` to `HaveAttributeWithValue` on `XElement` - [#2690](https://github.com/fluentassertions/fluentassertions/pull/2690)
 * Renamed `RespectingRuntimeTypes` to `PreferringRuntimeMemberTypes` and `RespectingDeclaredTypes` to `PreferringDeclaredMemberTypes` - [#2866](https://github.com/fluentassertions/fluentassertions/pull/2866)
 * Renamed `ExcludingNestedObjects` to `WithoutRecursing` to better describe its purpose - [#2876](https://github.com/fluentassertions/fluentassertions/pull/2876)
+* Removed direct support for assertions on `HttpResponseMessage`. Use [FluentAssertions.Web](https://github.com/adrianiftode/FluentAssertions.Web) instead. - [#2909](https://github.com/fluentassertions/fluentassertions/pull/2909)
 
 ### Breaking Changes (for extensions)
 * Add `ForConstraint` to `IAssertionsScope` to support chaining `.ForConstraint()` after `.Then` - [#2324](https://github.com/fluentassertions/fluentassertions/pull/2324)
