@@ -1,6 +1,6 @@
 ---
-title: Upgrading to version 7.0
-permalink: /upgradingtov7
+title: Upgrading to version 8.0
+permalink: /upgradingtov8
 layout: single
 toc: true
 sidebar:
@@ -22,7 +22,7 @@ public static BooleanAssertions Should(this bool actualValue)
 }
 ```
 
-On turn, the `BooleanAssertions` would expose a `BeTrue` method 
+On turn, the `BooleanAssertions` would expose a `BeTrue` method
 
 ```csharp
 public AndConstraint<TAssertions> BeTrue(string because = "", params object[] becauseArgs)
@@ -45,7 +45,7 @@ public static BooleanAssertions Should(this bool actualValue)
 }
 ```
 
-Notice how we pass the call to `AssertionChain.GetOrCreate` to the assertions class? By default `GetOrCreate` will create a new instance of  `AssertionChain`. But if the previous assertion method uses `AssertionChain.ReuseOnce`, `GetOrCreate` will return that reused instance only once. 
+Notice how we pass the call to `AssertionChain.GetOrCreate` to the assertions class? By default `GetOrCreate` will create a new instance of  `AssertionChain`. But if the previous assertion method uses `AssertionChain.ReuseOnce`, `GetOrCreate` will return that reused instance only once.
 
 The new `BeTrue` now looks like:
 
@@ -61,7 +61,7 @@ public AndConstraint<TAssertions> BeTrue(string because = "", params object[] be
 }
 ```
 
-So all of the methods to build an assertion that used to live on the `AssertionScope` (which is what `Execute.Assertion` returned), have now moved to `AssertionChain`. This is great because it allows the second assertion to get access to the state of the first assertion. For instance, if the first assertion failed, any successive attempts to call `FailWith` will not do anything. 
+So all of the methods to build an assertion that used to live on the `AssertionScope` (which is what `Execute.Assertion` returned), have now moved to `AssertionChain`. This is great because it allows the second assertion to get access to the state of the first assertion. For instance, if the first assertion failed, any successive attempts to call `FailWith` will not do anything.
 
 ## No more `ClearExpectation`
 
@@ -80,7 +80,7 @@ Execute.Assertion
     .ClearExpectation();
 ```
 
-When using an `using new AssertionScope()` construct to wrap multiple assertions, all assertions executed within that scope will reuse the same instance of `AssertionScope` (which is what `Execute.Assertion` returned). The problem was that you had to explicitly call `ClearExpectation` to prevent the failure message passed to `WithExpectation` to leak into the next assertion within that scope. People often forgot that. 
+When using an `using new AssertionScope()` construct to wrap multiple assertions, all assertions executed within that scope will reuse the same instance of `AssertionScope` (which is what `Execute.Assertion` returned). The problem was that you had to explicitly call `ClearExpectation` to prevent the failure message passed to `WithExpectation` to leak into the next assertion within that scope. People often forgot that.
 
 We solved this in v7, by making `WithExpectation` use a nested construct. This is what it now looks like:
 
@@ -123,7 +123,7 @@ Now, in v7, it'll will return the following:
 
     Expected element/child to contain 1 item(s), but found 3: {<child />, <child />, <child />}.
 
-This is possible because `HaveElement` will pass the `AssertionChain` through `ReuseOnce` to the succeeding `HaveCount()` _and_ amend the automatically detected caller identifier `element` (the part on which the first `Should` is invoked) with `"/child"` using `WithCallerPostfix`. Since this is a common thing in v7, the `AndWhichConstraint` has a constructor that does most of that automatically. 
+This is possible because `HaveElement` will pass the `AssertionChain` through `ReuseOnce` to the succeeding `HaveCount()` _and_ amend the automatically detected caller identifier `element` (the part on which the first `Should` is invoked) with `"/child"` using `WithCallerPostfix`. Since this is a common thing in v7, the `AndWhichConstraint` has a constructor that does most of that automatically.
 
 This is what `HaveElement` looks like (with some details left out):
 
@@ -146,6 +146,11 @@ public AndWhichConstraint<XElementAssertions, XElement> HaveElement(XName expect
 
 Notice the last argument to the `AndWhichConstraint` constructor.
 
+## Drop direct support for assertions on `HttpResponseMessage`
+
+If you need to do so, please refer to [FluentAssertions.Web](https://github.com/adrianiftode/FluentAssertions.Web) which
+offers a bunch of extensions on the HTTP specific types.
+
 ## Other breaking changes
 
-Check out the [release notes](releases.md) for other changes that might affect the upgrade to v7.
+Check out the [release notes](releases.md) for other changes that might affect the upgrade to v8.
