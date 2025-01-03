@@ -105,5 +105,5 @@ sidebar:
         url: https://continuousimprover.com/2018/02/fluent-assertions-50-best-unit-test.html#upgrading-tips
       - title: Upgrading to 6.0
         url: /upgradingtov6
-      - title: Upgrading to 7.0
-        url: /upgradingtov7
+      - title: Upgrading to 8.0
+        url: /upgradingtov8

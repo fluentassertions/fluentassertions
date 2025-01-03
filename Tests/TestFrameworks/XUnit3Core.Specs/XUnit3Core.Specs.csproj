@@ -12,7 +12,4 @@
     <PackageReference Include="xunit.v3.core" Version="1.0.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.0.0" PrivateAssets="all" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
-    <Reference Include="System.Net.Http" />
-  </ItemGroup>
 </Project>

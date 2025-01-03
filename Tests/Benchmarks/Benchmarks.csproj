@@ -14,7 +14,4 @@
     <!-- Resolve MSB3277 -->
     <PackageReference Include="System.Reflection.Metadata" Version="9.0.0" Condition="'$(TargetFramework)' == 'net472'" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Net.Http" Condition="'$(TargetFramework)' == 'net472'" />
-  </ItemGroup>
 </Project>

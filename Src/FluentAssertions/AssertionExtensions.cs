@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq.Expressions;
-using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -305,16 +304,6 @@ public static class AssertionExtensions
     public static NullableBooleanAssertions Should(this bool? actualValue)
     {
         return new NullableBooleanAssertions(actualValue, AssertionChain.GetOrCreate());
-    }
-
-    /// <summary>
-    /// Returns an <see cref="HttpResponseMessageAssertions"/> object that can be used to assert the
-    /// current <see cref="HttpResponseMessage"/>.
-    /// </summary>
-    [Pure]
-    public static HttpResponseMessageAssertions Should([NotNull] this HttpResponseMessage actualValue)
-    {
-        return new HttpResponseMessageAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
