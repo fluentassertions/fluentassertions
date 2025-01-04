@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FluentAssertions.Configuration;
 using FluentAssertions.Execution;
 using Xunit;
 
@@ -31,7 +32,7 @@ public sealed class GlobalConfigurationSpecs : IDisposable
     }
 
     [Fact]
-    public void Can_override_the_runtime_test_framework()
+    public void Can_override_the_runtime_test_framework_implementation()
     {
         // Arrange
         AssertionEngine.TestFramework = new NotImplementedTestFramework();
@@ -41,6 +42,19 @@ public sealed class GlobalConfigurationSpecs : IDisposable
 
         // Assert
         act.Should().Throw<NotImplementedException>();
+    }
+
+    [Fact]
+    public void Can_override_the_runtime_test_framework()
+    {
+        // Arrange
+        AssertionEngine.Configuration.TestFramework = TestFramework.NUnit;
+
+        // Act
+        var act = () => 1.Should().Be(2);
+
+        // Assert
+        act.Should().Throw<InvalidOperationException>().WithMessage("*nunit.framework*");
     }
 
     private class NotImplementedTestFramework : ITestFramework
