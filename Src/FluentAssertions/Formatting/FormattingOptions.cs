@@ -71,7 +71,7 @@ public class FormattingOptions
             UseLineBreaks = UseLineBreaks,
             MaxDepth = MaxDepth,
             MaxLines = MaxLines,
-            ScopedFormatters = [..ScopedFormatters],
+            ScopedFormatters = [.. ScopedFormatters],
         };
     }
 }
