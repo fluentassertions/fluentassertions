@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
-using Chill;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Equivalency.Steps;
 using FluentAssertions.Execution;
@@ -14,77 +13,52 @@ namespace FluentAssertions.Specs.Configuration;
 
 public class EquivalencyOptionsSpecs
 {
-    [Collection("ConfigurationSpecs")]
-    public abstract class Given_temporary_global_assertion_options : GivenWhenThen
+    [Fact]
+    public void When_injecting_a_null_configurer_it_should_throw()
     {
-        protected override void Dispose(bool disposing)
-        {
-            AssertionConfiguration.Current.Equivalency.Modify(_ => new EquivalencyOptions());
+        // Arrange / Act
+        var action = () => AssertionConfiguration.Current.Equivalency.Modify(configureOptions: null);
 
-            base.Dispose(disposing);
-        }
+        // Assert
+        action.Should().ThrowExactly<ArgumentNullException>()
+            .WithParameterName("configureOptions");
     }
 
-    [Collection("ConfigurationSpecs")]
-    public class When_injecting_a_null_configurer : GivenSubject<EquivalencyOptions, Action>
+    [Fact]
+    public void When_concurrently_getting_equality_strategy_it_should_not_throw()
     {
-        public When_injecting_a_null_configurer()
+        // Arrange / Act
+        var action = () =>
         {
-            When(() => () => AssertionConfiguration.Current.Equivalency.Modify(configureOptions: null));
-        }
-
-        [Fact]
-        public void It_should_throw()
-        {
-            Result.Should().ThrowExactly<ArgumentNullException>()
-                .WithParameterName("configureOptions");
-        }
-    }
-
-    [Collection("ConfigurationSpecs")]
-
-    public class When_concurrently_getting_equality_strategy : GivenSubject<EquivalencyOptions, Action>
-    {
-        public When_concurrently_getting_equality_strategy()
-        {
-            When(() =>
-            {
 #pragma warning disable CA1859 // https://github.com/dotnet/roslyn-analyzers/issues/6704
-                IEquivalencyOptions equivalencyOptions = new EquivalencyOptions();
+            IEquivalencyOptions equivalencyOptions = new EquivalencyOptions();
 #pragma warning restore CA1859
 
-                return () => Parallel.For(0, 10_000, new ParallelOptions { MaxDegreeOfParallelism = 8 },
-                    _ => equivalencyOptions.GetEqualityStrategy(typeof(IEnumerable))
-                );
-            });
-        }
+            return () => Parallel.For(0, 10_000, new ParallelOptions { MaxDegreeOfParallelism = 8 },
+                _ => equivalencyOptions.GetEqualityStrategy(typeof(IEnumerable))
+            );
+        };
 
-        [Fact]
-        public void It_should_not_throw()
-        {
-            Result.Should().NotThrow();
-        }
+        // Assert
+        action.Should().NotThrow();
     }
 
-    public class When_modifying_global_reference_type_settings_a_previous_assertion_should_not_have_any_effect
-        : Given_temporary_global_assertion_options
+    [Collection("ConfigurationSpecs")]
+    public sealed class Given_temporary_global_assertion_options : IDisposable
     {
-        public When_modifying_global_reference_type_settings_a_previous_assertion_should_not_have_any_effect()
-        {
-            Given(() =>
-            {
-                // Trigger a first equivalency check using the default global settings
-                new MyValueType { Value = 1 }.Should().BeEquivalentTo(new MyValueType { Value = 2 });
-            });
-
-            When(() => AssertionConfiguration.Current.Equivalency.Modify(o => o.ComparingByMembers<MyValueType>()));
-        }
-
         [Fact]
-        public void It_should_try_to_compare_the_classes_by_member_semantics_and_thus_throw()
+        public void When_modifying_global_reference_type_settings_a_previous_assertion_should_not_have_any_effect_it_should_try_to_compare_the_classes_by_member_semantics_and_thus_throw()
         {
+            // Arrange
+            // Trigger a first equivalency check using the default global settings
+            new MyValueType { Value = 1 }.Should().BeEquivalentTo(new MyValueType { Value = 2 });
+
+            AssertionConfiguration.Current.Equivalency.Modify(o => o.ComparingByMembers<MyValueType>());
+
+            // Act
             Action act = () => new MyValueType { Value = 1 }.Should().BeEquivalentTo(new MyValueType { Value = 2 });
 
+            // Assert
             act.Should().Throw<XunitException>();
         }
 
@@ -96,29 +70,20 @@ public class EquivalencyOptionsSpecs
 
             public override int GetHashCode() => 0;
         }
-    }
-
-    public class When_modifying_global_value_type_settings_a_previous_assertion_should_not_have_any_effect
-        : Given_temporary_global_assertion_options
-    {
-        public When_modifying_global_value_type_settings_a_previous_assertion_should_not_have_any_effect()
-        {
-            Given(() =>
-            {
-                // Trigger a first equivalency check using the default global settings
-                new MyClass { Value = 1 }.Should().BeEquivalentTo(new MyClass { Value = 1 });
-            });
-
-            When(() => AssertionConfiguration.Current.Equivalency.Modify(o => o.ComparingByValue<MyClass>()));
-        }
 
         [Fact]
-        public void It_should_try_to_compare_the_classes_by_value_semantics_and_thus_throw()
+        public void When_modifying_global_value_type_settings_a_previous_assertion_should_not_have_any_effect_it_should_try_to_compare_the_classes_by_value_semantics_and_thus_throw()
         {
-            MyClass myClass = new() { Value = 1 };
+            // Arrange
+            // Trigger a first equivalency check using the default global settings
+            new MyClass { Value = 1 }.Should().BeEquivalentTo(new MyClass { Value = 1 });
 
-            Action act = () => myClass.Should().BeEquivalentTo(new MyClass { Value = 1 });
+            AssertionConfiguration.Current.Equivalency.Modify(o => o.ComparingByValue<MyClass>());
 
+            // Act
+            Action act = () => new MyClass() { Value = 1 }.Should().BeEquivalentTo(new MyClass { Value = 1 });
+
+            // Assert
             act.Should().Throw<XunitException>();
         }
 
@@ -126,22 +91,14 @@ public class EquivalencyOptionsSpecs
         {
             public int Value { get; set; }
         }
-    }
-
-    public class When_modifying_record_settings_globally : Given_temporary_global_assertion_options
-    {
-        public When_modifying_record_settings_globally()
-        {
-            When(() =>
-            {
-                AssertionConfiguration.Current.Equivalency.Modify(
-                    options => options.ComparingByValue(typeof(Position)));
-            });
-        }
 
         [Fact]
-        public void It_should_use_the_global_settings_for_comparing_records()
+        public void When_modifying_record_settings_globally_it_should_use_the_global_settings_for_comparing_records()
         {
+            // Arrange
+            AssertionConfiguration.Current.Equivalency.Modify(o => o.ComparingByValue(typeof(Position)));
+
+            // Act / Assert
             new Position(123).Should().BeEquivalentTo(new Position(123));
         }
 
@@ -155,23 +112,15 @@ public class EquivalencyOptionsSpecs
                 this.value = value;
             }
         }
-    }
-
-    public class When_assertion_doubles_should_always_allow_small_deviations : Given_temporary_global_assertion_options
-    {
-        public When_assertion_doubles_should_always_allow_small_deviations()
-        {
-            When(() =>
-            {
-                AssertionConfiguration.Current.Equivalency.Modify(options => options
-                    .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.01))
-                    .WhenTypeIs<double>());
-            });
-        }
 
         [Fact]
-        public void Then_it_should_ignore_small_differences_without_the_need_of_local_options()
+        public void When_assertion_doubles_should_always_allow_small_deviations_then_it_should_ignore_small_differences_without_the_need_of_local_options()
         {
+            // Arrange
+            AssertionConfiguration.Current.Equivalency.Modify(options => options
+                .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.01))
+                .WhenTypeIs<double>());
+
             var actual = new
             {
                 Value = 1D / 3D
@@ -182,27 +131,21 @@ public class EquivalencyOptionsSpecs
                 Value = 0.33D
             };
 
+            // Act
             Action act = () => actual.Should().BeEquivalentTo(expected);
 
+            // Assert
             act.Should().NotThrow();
-        }
-    }
-
-    public class When_local_similar_options_are_used : Given_temporary_global_assertion_options
-    {
-        public When_local_similar_options_are_used()
-        {
-            When(() =>
-            {
-                AssertionConfiguration.Current.Equivalency.Modify(options => options
-                    .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.01))
-                    .WhenTypeIs<double>());
-            });
         }
 
         [Fact]
-        public void Then_they_should_override_the_global_options()
+        public void When_local_similar_options_are_used_then_they_should_override_the_global_options()
         {
+            // Arrange
+            AssertionConfiguration.Current.Equivalency.Modify(options => options
+                .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.01))
+                .WhenTypeIs<double>());
+
             var actual = new
             {
                 Value = 1D / 3D
@@ -213,16 +156,23 @@ public class EquivalencyOptionsSpecs
                 Value = 0.33D
             };
 
+            // Act
             Action act = () => actual.Should().BeEquivalentTo(expected, options => options
                 .Using<double>(ctx => ctx.Subject.Should().Be(ctx.Expectation))
                 .WhenTypeIs<double>());
 
+            // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected*");
         }
 
         [Fact]
-        public void Then_they_should_not_affect_any_other_assertions()
+        public void When_local_similar_options_are_used_then_they_should_not_affect_any_other_assertions()
         {
+            // Arrange
+            AssertionConfiguration.Current.Equivalency.Modify(options => options
+                .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.01))
+                .WhenTypeIs<double>());
+
             var actual = new
             {
                 Value = 1D / 3D
@@ -233,150 +183,116 @@ public class EquivalencyOptionsSpecs
                 Value = 0.33D
             };
 
+            // Act
             Action act = () => actual.Should().BeEquivalentTo(expected);
 
+            // Assert
             act.Should().NotThrow();
         }
+
+        public void Dispose() =>
+            AssertionConfiguration.Current.Equivalency.Modify(_ => new EquivalencyOptions());
     }
 
     [Collection("ConfigurationSpecs")]
-    public class Given_self_resetting_equivalency_plan : GivenWhenThen
+    public sealed class Given_self_resetting_equivalency_plan : IDisposable
     {
-        protected override void Dispose(bool disposing)
-        {
-            Plan.Reset();
-            base.Dispose(disposing);
-        }
-
-        protected static EquivalencyPlan Plan
-        {
-            get { return AssertionConfiguration.Current.Equivalency.Plan; }
-        }
-    }
-
-    public class When_inserting_a_step : Given_self_resetting_equivalency_plan
-    {
-        public When_inserting_a_step()
-        {
-            When(() => Plan.Insert<MyEquivalencyStep>());
-        }
+        private static EquivalencyPlan Plan => AssertionConfiguration.Current.Equivalency.Plan;
 
         [Fact]
-        public void Then_it_should_precede_all_other_steps()
+        public void When_inserting_a_step_then_it_should_precede_all_other_steps()
         {
+            // Arrange / Act
+            Plan.Insert<MyEquivalencyStep>();
+
+            // Assert
             var addedStep = Plan.LastOrDefault(s => s is MyEquivalencyStep);
 
             Plan.Should().StartWith(addedStep);
         }
-    }
-
-    public class When_inserting_a_step_before_another : Given_self_resetting_equivalency_plan
-    {
-        public When_inserting_a_step_before_another()
-        {
-            When(() => Plan.InsertBefore<DictionaryEquivalencyStep, MyEquivalencyStep>());
-        }
 
         [Fact]
-        public void Then_it_should_precede_that_particular_step()
+        public void When_inserting_a_step_before_another_then_it_should_precede_that_particular_step()
         {
+            // Arrange / Act
+            Plan.InsertBefore<DictionaryEquivalencyStep, MyEquivalencyStep>();
+
+            // Assert
             var addedStep = Plan.LastOrDefault(s => s is MyEquivalencyStep);
             var successor = Plan.LastOrDefault(s => s is DictionaryEquivalencyStep);
 
             Plan.Should().HaveElementPreceding(successor, addedStep);
         }
-    }
-
-    public class When_appending_a_step : Given_self_resetting_equivalency_plan
-    {
-        public When_appending_a_step()
-        {
-            When(() => Plan.Add<MyEquivalencyStep>());
-        }
 
         [Fact]
-        public void Then_it_should_precede_the_final_builtin_step()
+        public void When_appending_a_step_then_it_should_precede_the_final_builtin_step()
         {
+            // Arrange / Act
+            Plan.Add<MyEquivalencyStep>();
+
+            // Assert
             var equivalencyStep = Plan.LastOrDefault(s => s is SimpleEqualityEquivalencyStep);
             var subjectStep = Plan.LastOrDefault(s => s is MyEquivalencyStep);
 
             Plan.Should().HaveElementPreceding(equivalencyStep, subjectStep);
         }
-    }
-
-    public class When_appending_a_step_after_another : Given_self_resetting_equivalency_plan
-    {
-        public When_appending_a_step_after_another()
-        {
-            When(() => Plan.AddAfter<DictionaryEquivalencyStep, MyEquivalencyStep>());
-        }
 
         [Fact]
-        public void Then_it_should_precede_the_final_builtin_step()
+        public void When_appending_a_step_after_another_then_it_should_precede_the_final_builtin_step()
         {
+            // Arrange / Act
+            Plan.AddAfter<DictionaryEquivalencyStep, MyEquivalencyStep>();
+
+            // Assert
             var addedStep = Plan.LastOrDefault(s => s is MyEquivalencyStep);
             var predecessor = Plan.LastOrDefault(s => s is DictionaryEquivalencyStep);
 
             Plan.Should().HaveElementSucceeding(predecessor, addedStep);
         }
-    }
-
-    public class When_appending_a_step_and_no_builtin_steps_are_there : Given_self_resetting_equivalency_plan
-    {
-        public When_appending_a_step_and_no_builtin_steps_are_there()
-        {
-            When(() =>
-            {
-                Plan.Clear();
-                Plan.Add<MyEquivalencyStep>();
-            });
-        }
 
         [Fact]
-        public void Then_it_should_precede_the_simple_equality_step()
+        public void When_appending_a_step_and_no_builtin_steps_are_there_then_it_should_precede_the_simple_equality_step()
         {
-            var subjectStep = Plan.LastOrDefault(s => s is MyEquivalencyStep);
+            // Arrange / Act
+            Plan.Clear();
+            Plan.Add<MyEquivalencyStep>();
 
+            // Assert
+            var subjectStep = Plan.LastOrDefault(s => s is MyEquivalencyStep);
             Plan.Should().EndWith(subjectStep);
         }
-    }
-
-    public class When_removing_a_specific_step : Given_self_resetting_equivalency_plan
-    {
-        public When_removing_a_specific_step()
-        {
-            When(() => Plan.Remove<SimpleEqualityEquivalencyStep>());
-        }
 
         [Fact]
-        public void Then_it_should_precede_the_simple_equality_step()
+        public void When_removing_a_specific_step_then_it_should_precede_the_simple_equality_step()
         {
+            // Arrange / Act
+            Plan.Remove<SimpleEqualityEquivalencyStep>();
+
+            // Assert
             Plan.Should().NotContain(s => s is SimpleEqualityEquivalencyStep);
         }
-    }
-
-    public class When_removing_a_specific_step_that_doesnt_exist : Given_self_resetting_equivalency_plan
-    {
-        public When_removing_a_specific_step_that_doesnt_exist()
-        {
-            WhenAction = () => Plan.Remove<MyEquivalencyStep>();
-        }
 
         [Fact]
-        public void Then_it_should_precede_the_simple_equality_step()
+        public void When_removing_a_specific_step_that_doesnt_exist_Then_it_should_precede_the_simple_equality_step()
         {
-            WhenAction.Should().NotThrow();
-        }
-    }
+            // Arrange / Act
+            var action = () => Plan.Remove<MyEquivalencyStep>();
 
-    private class MyEquivalencyStep : IEquivalencyStep
-    {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IValidateChildNodeEquivalency valueChildNodes)
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        private class MyEquivalencyStep : IEquivalencyStep
         {
-            AssertionChain.GetOrCreate().For(context).FailWith(GetType().FullName);
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+                IValidateChildNodeEquivalency valueChildNodes)
+            {
+                AssertionChain.GetOrCreate().For(context).FailWith(GetType().FullName);
 
-            return EquivalencyResult.EquivalencyProven;
+                return EquivalencyResult.EquivalencyProven;
+            }
         }
+
+        public void Dispose() => Plan.Reset();
     }
 }
