@@ -64,6 +64,7 @@ public class EquivalencyOptionsSpecs
 
         internal class MyValueType
         {
+            [UsedImplicitly]
             public int Value { get; set; }
 
             public override bool Equals(object obj) => true;
@@ -89,6 +90,7 @@ public class EquivalencyOptionsSpecs
 
         internal class MyClass
         {
+            [UsedImplicitly]
             public int Value { get; set; }
         }
 

@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Formatting;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Sdk;
 
@@ -161,6 +162,7 @@ public sealed class FormattingOptionsSpecs : IDisposable
 
     public class SomeOtherClassWithCustomFormatter
     {
+        [UsedImplicitly]
         public string Property { get; set; }
 
         public override string ToString()
