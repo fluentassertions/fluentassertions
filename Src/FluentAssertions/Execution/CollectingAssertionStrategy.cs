@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution;
 
@@ -44,7 +43,7 @@ internal class CollectingAssertionStrategy : IAssertionStrategy
                 }
             }
 
-            Services.ThrowException(builder.ToString());
+            AssertionEngine.TestFramework.Throw(builder.ToString());
         }
     }
 

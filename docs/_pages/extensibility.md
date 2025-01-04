@@ -271,7 +271,7 @@ The default behavior is to treat every type that overrides `Object.Equals` as on
 You can easily override this by using the `ComparingByValue<T>` options for individual assertion, or to do the same using the global options:
 
 ```csharp
-AssertionOptions.AssertEquivalencyUsing(options => options
+AssertionConfiguration.Current.Equivalency.Modify(options => options
     .ComparingByValue<DirectoryInfo>());
 ```
 
@@ -281,7 +281,7 @@ Primitive types are never compared by their members and trying to call e.g. `Com
 
 ## Equivalency assertion step by step
 
-The entire structural equivalency API is built around the concept of a plan containing equivalency steps that are run in a predefined order. Each step is an implementation of the `IEquivalencyStep` which exposes a single method `Handle`. You can pass your own implementation to a particular assertion call by passing it into the `Using` method (which puts it behind the final default step) or directly tweak the global `AssertionOptions.EquivalencyPlan`. Checkout the underlying `EquivalencyPlan` to see how it relates your custom step to the other steps. That said, the `Handle` method has the following signature:
+The entire structural equivalency API is built around the concept of a plan containing equivalency steps that are run in a predefined order. Each step is an implementation of the `IEquivalencyStep` which exposes a single method `Handle`. You can pass your own implementation to a particular assertion call by passing it into the `Using` method (which puts it behind the final default step) or directly tweak the global `AssertionConfiguration.Current.Equivalency.EquivalencyPlan`. Checkout the underlying `EquivalencyPlan` to see how it relates your custom step to the other steps. That said, the `Handle` method has the following signature:
 
 ```csharp
 EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IValidateChildNodeEquivalency nestedValidator);
@@ -310,7 +310,7 @@ Since `Should().Be()` internally uses the `{context}` placeholder I discussed at
 
 ## About selection, matching and ordering
 
-Next to tuning the value type evaluation and changing the internal execution plan of the equivalency API, there are a couple of more specific extension methods. They are internally used by some of the methods provided by the `options` parameter, but you can add your own by calling the appropriate overloads of the `Using` methods. You can even do this globally by using the static `AssertionOptions.AssertEquivalencyUsing` method.
+Next to tuning the value type evaluation and changing the internal execution plan of the equivalency API, there are a couple of more specific extension methods. They are internally used by some of the methods provided by the `options` parameter, but you can add your own by calling the appropriate overloads of the `Using` methods. You can even do this globally by using the static `AssertionConfiguration.Current.Equivalency.Modify` method.
 
 The interface `IMemberSelectionRule` defines an abstraction that defines what members (fields and properties) of the subject need to be included in the equivalency assertion operation. The main in-out parameter is a collection of `IMember` objects representing the fields and properties that need to be included. However, if your selection rule needs to start from scratch, you should override `IncludesMembers` and return `false`. As an example, the `AllPublicPropertiesSelectionRule` looks like this:
 
@@ -344,9 +344,7 @@ The final interface, the `IOrderingRule`, is used to determine whether FA should
 
 ## Thread Safety
 
-The classes `AssertionOptions` and `Formatter` control the global configuration by having static state, so one must be careful when they are mutated.
-They are both designed to be configured from a single setup point in your test project and not from within individual unit tests.
-Not following this could change the outcome of tests depending on the order they are run in or throw unexpected exceptions when run parallel.
+The classes `AssertionConfiguration` and `Formatter` control the global configuration by having static state, so one must be careful when they are mutated. They are both designed to be configured from a single setup point in your test project and not from within individual unit tests. Not following this could change the outcome of tests depending on the order they are run in or throw unexpected exceptions when run parallel.
 
 In order to ensure they are configured exactly once, a test framework specific solution might be required depending on the version of .NET you are using.
 
@@ -360,7 +358,7 @@ internal static class Initializer
     [ModuleInitializer]
     public static void SetDefaults()
     {
-        AssertionOptions.AssertEquivalencyUsing(
+        AssertionConfiguration.Current.Equivalency.Modify(
             options => { <configure here> });
     }
 }
@@ -375,7 +373,7 @@ public static class Initializer
 {
     public static void Initialize()
     {
-        AssertionOptions.AssertEquivalencyUsing(options => options
+        AssertionConfiguration.Current.Equivalency.Modify(options => options
           .ComparingByValue<DirectoryInfo>());
     }
 }
@@ -392,7 +390,7 @@ public static class TestInitializer
     [AssemblyInitialize]
     public static void SetDefaults(TestContext context)
     {
-        AssertionOptions.AssertEquivalencyUsing(
+        AssertionConfiguration.Current.Equivalency.Modify(
             options => { <configure here> });
     }
 }
@@ -414,7 +412,7 @@ namespace MyNamespace
         public MyFramework(IMessageSink messageSink)
             : base(messageSink)
         {
-            AssertionOptions.AssertEquivalencyUsing(
+            AssertionConfiguration.Current.Equivalency.Modify(
                 options => { <configure here> });
         }
     }
@@ -430,4 +428,4 @@ Add the assembly level attribute so that xUnit.net picks up your custom test fra
 Note:
 
 * The `nameof` operator cannot be used to reference the `MyFramework` class. If your global configuration doesn't work, ensure there is no typo in the assembly level attribute declaration and that the assembly containing the `MyFramework` class is referenced by the test assembly and gets copied to the output folder.
-* Because you have to add the assembly level attribute per assembly you can define different `AssertionOptions` per test assembly if required.
+* Because you have to add the assembly level attribute per assembly you can define different assertion options per test assembly if required.

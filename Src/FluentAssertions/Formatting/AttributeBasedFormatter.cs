@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
+using FluentAssertions.Configuration;
 
 namespace FluentAssertions.Formatting;
 
@@ -13,7 +14,7 @@ namespace FluentAssertions.Formatting;
 public class AttributeBasedFormatter : IValueFormatter
 {
     private Dictionary<Type, MethodInfo> formatters;
-    private ValueFormatterDetectionMode detectionMode = ValueFormatterDetectionMode.Disabled;
+    private ValueFormatterDetectionMode detectionMode;
 
     /// <summary>
     /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
@@ -27,10 +28,7 @@ public class AttributeBasedFormatter : IValueFormatter
         return IsScanningEnabled && value is not null && GetFormatter(value) is not null;
     }
 
-    private static bool IsScanningEnabled
-    {
-        get { return Configuration.Current.ValueFormatterDetectionMode != ValueFormatterDetectionMode.Disabled; }
-    }
+    private static bool IsScanningEnabled => AssertionConfiguration.Current.Formatting.ValueFormatterDetectionMode == ValueFormatterDetectionMode.Scan;
 
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
     {
@@ -71,9 +69,12 @@ public class AttributeBasedFormatter : IValueFormatter
 
     private void HandleValueFormatterDetectionModeChanges()
     {
-        if (detectionMode != Configuration.Current.ValueFormatterDetectionMode)
+        ValueFormatterDetectionMode configuredDetectionMode =
+            AssertionEngine.Configuration.Formatting.ValueFormatterDetectionMode;
+
+        if (detectionMode != configuredDetectionMode)
         {
-            detectionMode = Configuration.Current.ValueFormatterDetectionMode;
+            detectionMode = configuredDetectionMode;
             formatters = null;
         }
     }
@@ -81,7 +82,7 @@ public class AttributeBasedFormatter : IValueFormatter
     private static Dictionary<Type, MethodInfo> FindCustomFormatters()
     {
         var query =
-            from type in Services.Reflector.GetAllTypesFromAppDomain(Applicable)
+            from type in TypeReflector.GetAllTypesFromAppDomain(Applicable)
             where type is not null
             from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
             where method.IsStatic
@@ -100,11 +101,11 @@ public class AttributeBasedFormatter : IValueFormatter
 
     private static bool Applicable(Assembly assembly)
     {
-        Configuration configuration = Configuration.Current;
-        ValueFormatterDetectionMode mode = configuration.ValueFormatterDetectionMode;
+        GlobalFormattingOptions options = AssertionEngine.Configuration.Formatting;
+        ValueFormatterDetectionMode mode = options.ValueFormatterDetectionMode;
 
         return mode == ValueFormatterDetectionMode.Scan || (
             mode == ValueFormatterDetectionMode.Specific &&
-            assembly.FullName.Split(',')[0].Equals(configuration.ValueFormatterAssembly, StringComparison.OrdinalIgnoreCase));
+            assembly.FullName.Split(',')[0].Equals(options.ValueFormatterAssembly, StringComparison.OrdinalIgnoreCase));
     }
 }

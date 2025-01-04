@@ -5,13 +5,13 @@ namespace FluentAssertions.Formatting;
 
 public class FormattingOptions
 {
-    internal List<IValueFormatter> ScopedFormatters { get; private set; } = [];
+    internal List<IValueFormatter> ScopedFormatters { get; set; } = [];
 
     /// <summary>
     /// Indicates whether the formatter should use line breaks when the <see cref="IValueFormatter"/> supports it.
     /// </summary>
     /// <remarks>
-    /// This value should not be changed on <see cref="AssertionOptions.FormattingOptions"/> from within a unit test.
+    /// This property is not thread-safe and should not be modified through <see cref="AssertionConfiguration"/> from within a unit test.
     /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
     /// </remarks>
     public bool UseLineBreaks { get; set; }
@@ -20,7 +20,7 @@ public class FormattingOptions
     /// Determines the depth until which the library should try to render an object graph.
     /// </summary>
     /// <remarks>
-    /// This value should not be changed on <see cref="AssertionOptions.FormattingOptions"/> from within a unit test.
+    /// This property is not thread-safe and should not be modified through <see cref="AssertionConfiguration"/> from within a unit test.
     /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
     /// </remarks>
     /// <value>
@@ -36,7 +36,7 @@ public class FormattingOptions
     /// Because of technical reasons, the actual output may be one or two lines longer.
     /// </para>
     /// <para>
-    /// This value should not be changed on <see cref="AssertionOptions.FormattingOptions"/> from within a unit test.
+    /// This property is not thread-safe and should not be modified through <see cref="AssertionConfiguration"/> from within a unit test.
     /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
     /// </para>
     /// </remarks>
@@ -71,7 +71,7 @@ public class FormattingOptions
             UseLineBreaks = UseLineBreaks,
             MaxDepth = MaxDepth,
             MaxLines = MaxLines,
-            ScopedFormatters = [..ScopedFormatters]
+            ScopedFormatters = [..ScopedFormatters],
         };
     }
 }

@@ -130,7 +130,7 @@ public sealed class AssertionScope : IDisposable
     /// <summary>
     /// Exposes the options the scope will use for formatting objects in case an assertion fails.
     /// </summary>
-    public FormattingOptions FormattingOptions { get; } = AssertionOptions.FormattingOptions.Clone();
+    public FormattingOptions FormattingOptions { get; } = AssertionConfiguration.Current.Formatting.Clone();
 
     /// <summary>
     /// Adds a pre-formatted failure message to the current scope.

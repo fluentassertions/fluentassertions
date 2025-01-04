@@ -4,12 +4,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Equivalency;
 using FluentAssertions.Equivalency.Steps;
 
 #endregion
 
-namespace FluentAssertions;
+namespace FluentAssertions.Equivalency;
 
 /// <summary>
 /// Represents a mutable collection of equivalency steps that can be reordered and/or amended with additional
@@ -34,7 +33,7 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
     /// <see cref="SimpleEqualityEquivalencyStep"/>.
     /// </summary>
     /// <remarks>
-    /// This method is not thread-safe and should not be invoked on <see cref="AssertionOptions.EquivalencyPlan"/> from within a unit test.
+    /// This method is not thread-safe and should not be modified through  <see cref="AssertionConfiguration"/> from within a unit test.
     /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
     /// </remarks>
     public void Add<TStep>()
@@ -47,7 +46,7 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
     /// Adds a new <see cref="IEquivalencyStep"/> right after the specified <typeparamref name="TPredecessor"/>.
     /// </summary>
     /// <remarks>
-    /// This method is not thread-safe and should not be invoked on <see cref="AssertionOptions.EquivalencyPlan"/> from within a unit test.
+    /// This method is not thread-safe and should not be modified through  <see cref="AssertionConfiguration"/> from within a unit test.
     /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
     /// </remarks>
     public void AddAfter<TPredecessor, TStep>()
@@ -69,7 +68,7 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
     /// Inserts a new <see cref="IEquivalencyStep"/> before any of the built-in steps.
     /// </summary>
     /// <remarks>
-    /// This method is not thread-safe and should not be invoked on <see cref="AssertionOptions.EquivalencyPlan"/> from within a unit test.
+    /// This method is not thread-safe and should not be modified through  <see cref="AssertionConfiguration"/> from within a unit test.
     /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
     /// </remarks>
     public void Insert<TStep>()
@@ -82,7 +81,7 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
     /// Inserts a new <see cref="IEquivalencyStep"/> just before the <typeparamref name="TSuccessor"/>.
     /// </summary>
     /// <remarks>
-    /// This method is not thread-safe and should not be invoked on <see cref="AssertionOptions.EquivalencyPlan"/> from within a unit test.
+    /// This method is not thread-safe and should not be modified through <see cref="AssertionConfiguration"/> from within a unit test.
     /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
     /// </remarks>
     public void InsertBefore<TSuccessor, TStep>()
@@ -104,7 +103,7 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
     /// Removes all instances of the specified <typeparamref name="TStep"/> from the current step.
     /// </summary>
     /// <remarks>
-    /// This method is not thread-safe and should not be invoked on <see cref="AssertionOptions.EquivalencyPlan"/> from within a unit test.
+    /// This method is not thread-safe and should not be modified through  <see cref="AssertionConfiguration"/> from within a unit test.
     /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
     /// </remarks>
     public void Remove<TStep>()
@@ -117,7 +116,7 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
     /// Removes each and every built-in <see cref="IEquivalencyStep"/>.
     /// </summary>
     /// <remarks>
-    /// This method is not thread-safe and should not be invoked on <see cref="AssertionOptions.EquivalencyPlan"/> from within a unit test.
+    /// This method is not thread-safe and should not be modified through  <see cref="AssertionConfiguration"/> from within a unit test.
     /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
     /// </remarks>
     public void Clear()
@@ -129,7 +128,7 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
     /// Removes all custom <see cref="IEquivalencyStep"/>s.
     /// </summary>
     /// <remarks>
-    /// This method should not be invoked on <see cref="AssertionOptions.EquivalencyPlan"/> from within a unit test.
+    /// This method is not thread-safe and should not be modified through  <see cref="AssertionConfiguration"/> from within a unit test.
     /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
     /// </remarks>
     public void Reset()

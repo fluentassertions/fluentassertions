@@ -246,7 +246,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
             {
                 string thrownExceptions = BuildExceptionsString(Subject);
 
-                Services.ThrowException(
+                AssertionEngine.TestFramework.Throw(
                     $"More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{Environment.NewLine}{thrownExceptions}");
             }
 

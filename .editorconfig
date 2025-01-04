@@ -146,6 +146,11 @@ dotnet_diagnostic.CA1307.severity = error
 dotnet_diagnostic.CA1308.severity = error
 # CA1309: Use ordinal StringComparison
 dotnet_diagnostic.CA1309.severity = error
+
+# Purpose: Rename virtual/interface member ITestFramework.Throw(string) so that it no longer conflicts with the reserved language keyword 'Throw'
+# Reason: We don't care about other languages than C#
+dotnet_diagnostic.CA1716.severity = none
+
 # CA1724: Type names should not match namespaces
 dotnet_diagnostic.CA1724.severity = none
 # CA1819: Properties should not return arrays

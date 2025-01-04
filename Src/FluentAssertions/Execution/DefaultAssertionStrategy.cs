@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution;
 
@@ -17,7 +16,7 @@ internal class DefaultAssertionStrategy : IAssertionStrategy
     /// </summary>
     public void HandleFailure(string message)
     {
-        Services.ThrowException(message);
+        AssertionEngine.TestFramework.Throw(message);
     }
 
     /// <summary>

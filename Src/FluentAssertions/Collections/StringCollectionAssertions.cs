@@ -113,8 +113,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// <param name="config">
     /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
-    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
-    /// <see cref="AssertionOptions"/> class.
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults can be modified through
+    /// <see cref="AssertionConfiguration"/>.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -131,7 +131,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
         Guard.ThrowIfArgumentIsNull(config);
 
         EquivalencyOptions<IEnumerable<string>>
-            options = config(AssertionOptions.CloneDefaults<string>()).AsCollection();
+            options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<string>()).AsCollection();
 
         var context =
             new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => CurrentAssertionChain.CallerIdentifier), options)
@@ -177,7 +177,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
     /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
-    /// <see cref="AssertionOptions"/> class.
+    /// <see cref="AssertionConfiguration"/> class.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
