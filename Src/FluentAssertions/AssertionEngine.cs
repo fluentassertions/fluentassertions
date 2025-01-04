@@ -14,6 +14,7 @@ namespace FluentAssertions;
 public static class AssertionEngine
 {
     private static readonly object Lockable = new();
+    private static ITestFramework testFramework;
     private static bool isInitialized;
 
     static AssertionEngine()
@@ -24,7 +25,29 @@ public static class AssertionEngine
     /// <summary>
     /// Gets or sets the run-time test framework used for throwing assertion exceptions.
     /// </summary>
-    public static ITestFramework TestFramework { get; set; }
+    public static ITestFramework TestFramework
+    {
+        get
+        {
+            if (testFramework is not null)
+            {
+                return testFramework;
+            }
+
+            lock (Lockable)
+            {
+#pragma warning disable CA1508
+                if (testFramework is null)
+#pragma warning restore CA1508
+                {
+                    testFramework = TestFrameworkFactory.GetFramework(Configuration.TestFramework);
+                }
+            }
+
+            return testFramework;
+        }
+        set => testFramework = value;
+    }
 
     /// <summary>
     /// Provides access to the global configuration and options to customize the behavior of FluentAssertions.
@@ -39,6 +62,7 @@ public static class AssertionEngine
     {
         isInitialized = false;
         Configuration = new();
+        testFramework = null;
         EnsureInitialized();
     }
 
@@ -54,8 +78,6 @@ public static class AssertionEngine
             if (!isInitialized)
             {
                 ExecuteCustomInitializers();
-
-                TestFramework = TestFrameworkFactory.GetFramework(Configuration.TestFramework);
 
                 isInitialized = true;
             }
