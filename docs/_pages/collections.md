@@ -53,7 +53,7 @@ collection.Should().Contain(collection, "", 5, 6); // It should contain the orig
 
 collection.Should().OnlyContain(x => x < 10);
 collection.Should().ContainItemsAssignableTo<int>();
-collection.Should().NotContainItemsAssignableTo<string>()
+collection.Should().NotContainItemsAssignableTo<string>();
 
 collection.Should().ContainInOrder(new[] { 1, 5, 8 });
 collection.Should().NotContainInOrder(new[] { 5, 1, 2 });
