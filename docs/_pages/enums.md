@@ -39,7 +39,7 @@ MyEnum.One.Should().NotHaveSameNameAs(SameValueEnum.OneOne);
 MyEnum.One.Should().NotHaveSameValueAs(SameNameEnum.One);
 ```
 
-Lastly, if you want to verify than an enum has a specific integral value, you can use `HaveValue`.
+Lastly, if you want to verify that an enum has a specific integral value, you can use `HaveValue`.
 
 ```csharp
 MyEnum.One.Should().HaveValue(1);
