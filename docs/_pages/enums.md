@@ -16,9 +16,11 @@ The basic ones, `Be` and `HaveFlag`, just calls directly into `Enum.Equals` and 
 ```csharp
 enum MyEnum { One = 1, Two = 2, Three = 3}
 
-enum.Should().Be(MyEnum.One);
-enum.Should().NotBe(MyEnum.Two);
-enum.Should().BeOneOf(MyEnum.One, MyEnum.Two);
+myEnum = MyEnum.One;
+
+myEnum.Should().Be(MyEnum.One);
+myEnum.Should().NotBe(MyEnum.Two);
+myEnum.Should().BeOneOf(MyEnum.One, MyEnum.Two);
 
 regexOptions.Should().HaveFlag(RegexOptions.Global);
 regexOptions.Should().NotHaveFlag(RegexOptions.CaseInsensitive);
