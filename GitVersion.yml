@@ -1,20 +1,10 @@
-next-version: 7.0.0
-workflow: GitHubFlow/v1
+workflow: GitFlow/v1
+commit-message-incrementing: Disabled
 branches:
-  develop:
-    regex: ^dev(elop)?(ment)?$
-    label: alpha
-    increment: Minor
   release:
-    regex: releases?[/-]
     label: rc
-    increment: Patch
+    prevent-increment:
+      when-current-commit-tagged: true
   pull-request:
-    mode: ContinuousDelivery
     regex: ((pull|pull\-requests|pr)[/-]|[/-](merge))
     label: pr
-    label-number-pattern: '[/-]?(?<number>\d+)'
-    prevent-increment:
-      of-merged-branch: false
-ignore:
-  sha: []
