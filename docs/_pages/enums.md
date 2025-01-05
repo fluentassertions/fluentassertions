@@ -32,11 +32,11 @@ If you want to compare enums of different types, you can use `HaveSameValueAs` o
 enum SameNameEnum { One = 11 }
 enum SameValueEnum { OneOne = 1 }
 
-MyEnum.One.Should().HaveSameNameAs(SameNameEnum.One)
-MyEnum.One.Should().HaveSameValueAs(SameValueEnum.OneOne)
+MyEnum.One.Should().HaveSameNameAs(SameNameEnum.One);
+MyEnum.One.Should().HaveSameValueAs(SameValueEnum.OneOne);
 
-MyEnum.One.Should().NotHaveSameNameAs(SameValueEnum.OneOne)
-MyEnum.One.Should().NotHaveSameValueAs(SameNameEnum.One)
+MyEnum.One.Should().NotHaveSameNameAs(SameValueEnum.OneOne);
+MyEnum.One.Should().NotHaveSameValueAs(SameNameEnum.One);
 ```
 
 Lastly, if you want to verify than an enum has a specific integral value, you can use `HaveValue`.
