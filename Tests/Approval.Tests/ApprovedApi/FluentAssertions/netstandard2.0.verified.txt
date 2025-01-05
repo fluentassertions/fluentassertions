@@ -594,6 +594,7 @@ namespace FluentAssertions.Configuration
     {
         public GlobalEquivalencyOptions() { }
         public FluentAssertions.Equivalency.EquivalencyPlan Plan { get; }
+        public FluentAssertions.Equivalency.EquivalencyOptions<T> CloneDefaults<T>() { }
         public void Modify(System.Func<FluentAssertions.Equivalency.EquivalencyOptions, FluentAssertions.Equivalency.EquivalencyOptions> configureOptions) { }
     }
     public class GlobalFormattingOptions : FluentAssertions.Formatting.FormattingOptions

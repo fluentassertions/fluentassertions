@@ -1,6 +1,7 @@
 using System;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
+using JetBrains.Annotations;
 
 namespace FluentAssertions.Configuration;
 
@@ -39,7 +40,11 @@ public class GlobalEquivalencyOptions
     /// <summary>
     /// Creates a clone of the default options and allows the caller to modify them.
     /// </summary>
-    internal EquivalencyOptions<T> CloneDefaults<T>()
+    /// <remarks>
+    /// Can be used by external packages like FluentAssertions.DataSets to create a copy of the default equivalency options.
+    /// </remarks>
+    [PublicAPI]
+    public EquivalencyOptions<T> CloneDefaults<T>()
     {
         return new EquivalencyOptions<T>(defaults);
     }
