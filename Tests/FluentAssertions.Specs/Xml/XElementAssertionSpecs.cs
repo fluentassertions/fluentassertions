@@ -2081,7 +2081,11 @@ public class XElementAssertionSpecs
                 """);
 
             // Act
-            Action act = () => element.Should().HaveElementWithValue(XNamespace.None + "c", "f");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                element.Should().HaveElementWithValue(XNamespace.None + "c", "f");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*c*f*element*isn't found*");

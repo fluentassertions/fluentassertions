@@ -472,7 +472,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
                     .ForCondition(collection => collection.Any(e => e.Value == expectedValue))
                     .FailWith("but the element {0} does not have such a value.", expectedElement));
 
-        return new AndWhichConstraint<XDocumentAssertions, XElement>(this, xElements.First());
+        return new AndWhichConstraint<XDocumentAssertions, XElement>(this, xElements.FirstOrDefault());
     }
 
     /// <summary>
