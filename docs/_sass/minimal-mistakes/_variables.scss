@@ -8,6 +8,10 @@
 
 $doc-font-size: 16 !default;
 
+.archive__item-title {
+   color: #373737 !important;
+ }
+
 /* paragraph indention */
 $paragraph-indent: false !default; // true, false (default)
 $indent-var: 1.3em !default;
@@ -62,7 +66,7 @@ $border-color: $lighter-gray !default;
 $form-background-color: $lighter-gray !default;
 $footer-background-color: $lighter-gray !default;
 
-$primary-color: #7a8288 !default;
+$primary-color: #ff8c00 !default;
 $success-color: #62c462 !default;
 $warning-color: #f89406 !default;
 $danger-color: #ee5f5b !default;
