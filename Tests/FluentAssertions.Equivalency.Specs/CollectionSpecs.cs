@@ -1603,6 +1603,20 @@ public class CollectionSpecs
     }
 
     [Fact]
+    public void Can_request_strict_ordering_using_an_expression_that_points_to_the_collection_items()
+    {
+        // Arrange
+        var subject = new List<string> { "first", "second" };
+
+        var expectation = new List<string> { "second", "first" };
+
+        var act = () => subject.Should().BeEquivalentTo(expectation,
+            options => options.WithStrictOrderingFor(v => v));
+
+        act.Should().Throw<XunitException>().WithMessage("Expected*second*but*first*");
+    }
+
+    [Fact]
     public void
         When_asserting_equivalence_of_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
     {
@@ -2559,7 +2573,10 @@ public class CollectionSpecs
         // Arrange
         Customer[] subject =
         [
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
+            new()
+                { Name = "John", Age = 27, Id = 1 },
+            new()
+                { Name = "Jane", Age = 24, Id = 2 }
         ];
 
         var expectation = new Collection<Customer>
@@ -2583,7 +2600,10 @@ public class CollectionSpecs
         // Arrange
         Customer[] subject =
         [
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
+            new()
+                { Name = "John", Age = 27, Id = 1 },
+            new()
+                { Name = "Jane", Age = 24, Id = 2 }
         ];
 
         var expectation = new Collection<Customer>
@@ -2612,7 +2632,10 @@ public class CollectionSpecs
         // Arrange
         Customer[] subject =
         [
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
+            new()
+                { Name = "John", Age = 27, Id = 1 },
+            new()
+                { Name = "Jane", Age = 24, Id = 2 }
         ];
 
         var expectation = new Collection<Customer>
@@ -2635,7 +2658,10 @@ public class CollectionSpecs
         // Arrange
         Customer[] subject =
         [
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
+            new()
+                { Name = "John", Age = 27, Id = 1 },
+            new()
+                { Name = "Jane", Age = 24, Id = 2 }
         ];
 
         var expectation = new Collection<Customer>
