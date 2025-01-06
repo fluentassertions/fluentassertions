@@ -143,8 +143,10 @@ internal static class ExpressionExtensions
     /// </example>
     /// <exception cref="ArgumentNullException"><paramref name="expression"/> is <see langword="null"/>.</exception>
     public static MemberPath GetMemberPath<TDeclaringType, TPropertyType>(
-        this Expression<Func<TDeclaringType, TPropertyType>> expression) =>
-        expression.GetMemberPaths().First();
+        this Expression<Func<TDeclaringType, TPropertyType>> expression)
+    {
+        return expression.GetMemberPaths().FirstOrDefault() ?? new MemberPath("");
+    }
 
     /// <summary>
     /// Validates that the expression can be used to construct a <see cref="MemberPath"/>.
