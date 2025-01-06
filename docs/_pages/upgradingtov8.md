@@ -82,7 +82,7 @@ Execute.Assertion
 
 When using an `using new AssertionScope()` construct to wrap multiple assertions, all assertions executed within that scope will reuse the same instance of `AssertionScope` (which is what `Execute.Assertion` returned). The problem was that you had to explicitly call `ClearExpectation` to prevent the failure message passed to `WithExpectation` to leak into the next assertion within that scope. People often forgot that.
 
-We solved this in v7, by making `WithExpectation` use a nested construct. This is what it now looks like:
+We solved this in v8, by making `WithExpectation` use a nested construct. This is what it now looks like:
 
 ```csharp
 assertionChain
@@ -115,15 +115,15 @@ var element = XElement.Parse(
 element.Should().HaveElement("child", AtLeast.Twice()).Which.Should().HaveCount(1);
 ```
 
-Prior to version 7, if the `HaveElement` assertion succeeded, but the `NotBeNull` failed, you would get the following exception:
+Prior to version 8, if the `HaveElement` assertion succeeded, but the `NotBeNull` failed, you would get the following exception:
 
     Expected element to contain 1 item(s), but found 3: {<child />, <child />, <child />}.
 
-Now, in v7, it'll will return the following:
+Now, in v8, it'll will return the following:
 
     Expected element/child to contain 1 item(s), but found 3: {<child />, <child />, <child />}.
 
-This is possible because `HaveElement` will pass the `AssertionChain` through `ReuseOnce` to the succeeding `HaveCount()` _and_ amend the automatically detected caller identifier `element` (the part on which the first `Should` is invoked) with `"/child"` using `WithCallerPostfix`. Since this is a common thing in v7, the `AndWhichConstraint` has a constructor that does most of that automatically.
+This is possible because `HaveElement` will pass the `AssertionChain` through `ReuseOnce` to the succeeding `HaveCount()` _and_ amend the automatically detected caller identifier `element` (the part on which the first `Should` is invoked) with `"/child"` using `WithCallerPostfix`. Since this is a common thing in v8, the `AndWhichConstraint` has a constructor that does most of that automatically.
 
 This is what `HaveElement` looks like (with some details left out):
 
