@@ -690,7 +690,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
                     .ForCondition(elements => elements.Any(e => e.Value == expectedValue))
                     .FailWith("but the element {0} does not have such a value.", expectedElement));
 
-        return new AndWhichConstraint<XElementAssertions, XElement>(this, xElements.First());
+        return new AndWhichConstraint<XElementAssertions, XElement>(this, xElements.FirstOrDefault());
     }
 
     /// <summary>

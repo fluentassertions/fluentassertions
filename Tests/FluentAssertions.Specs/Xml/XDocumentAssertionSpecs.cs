@@ -1457,7 +1457,11 @@ public class XDocumentAssertionSpecs
                 """);
 
             // Act
-            Action act = () => document.Should().HaveElementWithValue(XNamespace.None + "grandchild", "f");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                document.Should().HaveElementWithValue(XNamespace.None + "grandchild", "f");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*grandchild*f*element*isn't found*");
