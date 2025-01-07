@@ -46,7 +46,7 @@ sidebar:
 * Fixed incorrect treatment of "\\r\\n" as new line - [#2569](https://github.com/fluentassertions/fluentassertions/pull/2569)
 * Fixed `RaisePropertyChangeFor` to return a filtered list of events - [#2677](https://github.com/fluentassertions/fluentassertions/pull/2677)
 * Including or excluding members did not work when `WithMapping` was used in `BeEquivalentTo` - [#2860](https://github.com/fluentassertions/fluentassertions/pull/2860)
-* Fix a crash when using `WithStrictOrderingFor(x => x)` with `BeEquivalentTo` - [#](https://github.com/fluentassertions/fluentassertions/pull/x)
+* Fix a crash when using `WithStrictOrderingFor(x => x)` with `BeEquivalentTo` - [#2932](https://github.com/fluentassertions/fluentassertions/pull/2932)
 
 ### Breaking Changes (for users)
 * Moved support for `DataSet`, `DataTable`, `DataRow` and `DataColumn` into a new package `FluentAssertions.DataSet` - [#2267](https://github.com/fluentassertions/fluentassertions/pull/2267)
