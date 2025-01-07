@@ -37,10 +37,10 @@ sidebar:
   * Also adds the capability to ignore the newline style on strings - [#2565](https://github.com/fluentassertions/fluentassertions/pull/2565)
 * You can mark all assertions in an assembly as custom assertions using the `[CustomAssertionsAssembly]` attribute - [#2389](https://github.com/fluentassertions/fluentassertions/pull/2389)
 * All `Should()` methods on reference types are now annotated with the `[NotNull]` attribute for a better Fluent Assertions experience when nullable reference types are enabled - [#2380](https://github.com/fluentassertions/fluentassertions/pull/2380)
-* All assertions that support chaining using the `.Which` construct will now amend the caller identifier - [2539](https://github.com/fluentassertions/pull/2539)
-* Introduced a `MethodInfoFormatter` and improved the `PropertyInfoFormatter` - [2539](https://github.com/fluentassertions/pull/2539)
+* All assertions that support chaining using the `.Which` construct will now amend the caller identifier - [#2539](https://github.com/fluentassertions/pull/2539)
+* Introduced a `MethodInfoFormatter` and improved the `PropertyInfoFormatter` - [#2539](https://github.com/fluentassertions/pull/2539)
 * `Excluding()` / `For().Exclude()` and `Including()` on `BeEquivalentTo()` now also accepts an anonymous object to include/exclude multiple members at once - [#2488](https://github.com/fluentassertions/fluentassertions/pull/2488)
-* You can exclude explicitly implemented properties from `BeEquivalentTo` via `ExcludingExplicitlyImplementedProperties` - [2851](https://github.com/fluentassertions/pull/2851)
+* You can exclude explicitly implemented properties from `BeEquivalentTo` via `ExcludingExplicitlyImplementedProperties` - [#2851](https://github.com/fluentassertions/pull/2851)
 
 ### Fixes
 * Fixed incorrect treatment of "\\r\\n" as new line - [#2569](https://github.com/fluentassertions/fluentassertions/pull/2569)
@@ -96,7 +96,7 @@ sidebar:
 
 ### Fixes
 
-* The expectation node identified as a cyclic reference is still compared to the subject node using simple equality - [2819](https://github.com/fluentassertions/fluentassertions/pull/2819)
+* The expectation node identified as a cyclic reference is still compared to the subject node using simple equality - [#2819](https://github.com/fluentassertions/fluentassertions/pull/2819)
 * Fixed a problem in `BeEquivalentTo` where write-only properties would cause a `NullReferenceException` - [#2836](https://github.com/fluentassertions/fluentassertions/pull/2836)
 
 ### Breaking Changes
@@ -108,7 +108,7 @@ sidebar:
 ## 6.12.2
 
 ### Fixes
-* Better handling of normal vs explicitly implemented vs default interface properties - [2794](https://github.com/fluentassertions/fluentassertions/pull/2794)
+* Better handling of normal vs explicitly implemented vs default interface properties - [#2794](https://github.com/fluentassertions/fluentassertions/pull/2794)
 
 ## 6.12.1
 
