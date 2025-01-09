@@ -15,22 +15,20 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Package info">
-    <Authors>Dennis Doomen;Jonas Nyrup</Authors>
+    <Authors>Dennis Doomen;Jonas Nyrup;Xceed</Authors>
     <PackageDescription>
       A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
       BDD-style unit tests. Works with .NET Standard 2.0 and higher, .NET Framework 4.7 and higher and .NET 6 and higher.
       Supports the unit test frameworks MSTest2, NUnit3, NUnit4, XUnit2, XUnit3, MSpec and TUnit.
-
-      Supported by InfoSupport B.V.
     </PackageDescription>
-    <PackageProjectUrl>https://www.fluentassertions.com</PackageProjectUrl>
+    <PackageProjectUrl>https://xceed.com/products/unit-testing/fluent-assertions/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fluentassertions/fluentassertions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>MSTest2;xUnit;NUnit;MSpec;TUnit;TDD;BDD;Fluent;netstandard;uwp</PackageTags>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>FluentAssertions.png</PackageIcon>
     <PackageReleaseNotes>See https://fluentassertions.com/releases/</PackageReleaseNotes>
-    <Copyright>Copyright Dennis Doomen 2010-$([System.DateTime]::Now.ToString(yyyy))</Copyright>
+    <Copyright>Copyright 2024-$([System.DateTime]::Now.ToString(yyyy)) Xceed Software Inc., all rights reserved</Copyright>
   </PropertyGroup>
 
   <ItemGroup Label="Internals visible to">
@@ -41,6 +39,8 @@
 
   <ItemGroup Label="Package files">
     <None Include="..\FluentAssertions.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="..\..\LICENSE.md" Pack="true" PackagePath=""/>
+    <None Include="..\init.ps1" Pack="true" PackagePath="tools"/>
   </ItemGroup>
 
   <ItemGroup>
