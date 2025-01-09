@@ -187,4 +187,5 @@ public void $Fact$()
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=012E3B0572DEF2448B0B5D9AA88E6210/Scope/=C3001E7C0DA78E4487072B7E050D86C5/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Comparands/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=enumerables/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UserDictionary/Words/=inequivalency/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=inequivalency/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=xceed/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
