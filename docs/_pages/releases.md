@@ -7,7 +7,10 @@ sidebar:
   nav: "sidebar"
 ---
 
-## 8.0 Alpha X
+## 8.0.0
+
+## License Change
+* Update ownership and license - [#2943](https://github.com/fluentassertions/fluentassertions/pull/2943)
 
 ### What's new
 
