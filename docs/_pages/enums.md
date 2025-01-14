@@ -16,9 +16,11 @@ The basic ones, `Be` and `HaveFlag`, just calls directly into `Enum.Equals` and 
 ```csharp
 enum MyEnum { One = 1, Two = 2, Three = 3}
 
-enum.Should().Be(MyEnum.One);
-enum.Should().NotBe(MyEnum.Two);
-enum.Should().BeOneOf(MyEnum.One, MyEnum.Two);
+myEnum = MyEnum.One;
+
+myEnum.Should().Be(MyEnum.One);
+myEnum.Should().NotBe(MyEnum.Two);
+myEnum.Should().BeOneOf(MyEnum.One, MyEnum.Two);
 
 regexOptions.Should().HaveFlag(RegexOptions.Global);
 regexOptions.Should().NotHaveFlag(RegexOptions.CaseInsensitive);
@@ -30,14 +32,14 @@ If you want to compare enums of different types, you can use `HaveSameValueAs` o
 enum SameNameEnum { One = 11 }
 enum SameValueEnum { OneOne = 1 }
 
-MyEnum.One.Should().HaveSameNameAs(SameNameEnum.One)
-MyEnum.One.Should().HaveSameValueAs(SameValueEnum.OneOne)
+MyEnum.One.Should().HaveSameNameAs(SameNameEnum.One);
+MyEnum.One.Should().HaveSameValueAs(SameValueEnum.OneOne);
 
-MyEnum.One.Should().NotHaveSameNameAs(SameValueEnum.OneOne)
-MyEnum.One.Should().NotHaveSameValueAs(SameNameEnum.One)
+MyEnum.One.Should().NotHaveSameNameAs(SameValueEnum.OneOne);
+MyEnum.One.Should().NotHaveSameValueAs(SameNameEnum.One);
 ```
 
-Lastly, if you want to verify than an enum has a specific integral value, you can use `HaveValue`.
+Lastly, if you want to verify that an enum has a specific integral value, you can use `HaveValue`.
 
 ```csharp
 MyEnum.One.Should().HaveValue(1);
