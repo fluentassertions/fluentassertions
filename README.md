@@ -1,4 +1,4 @@
-<a href="https://www.fluentassertions.com"><img src="docs/assets/images/fluent_assertions_large_horizontal.svg" style="width:400px"/></a>
+<a href="https://www.fluentassertions.com"><img src="docs/assets/images/FA_Partner_Logo.png" style="width:500px"/></a>
 
 # Extension methods to fluently assert the outcome of .NET tests
 [![](https://img.shields.io/github/actions/workflow/status/fluentassertions/fluentassertions/build.yml?branch=develop)](https://github.com/fluentassertions/fluentassertions/actions?query=branch%3Adevelop)
@@ -14,11 +14,14 @@
 [![open issues](https://img.shields.io/github/issues/fluentassertions/fluentassertions)](https://github.com/fluentassertions/fluentassertions/issues)
 ![](https://img.shields.io/badge/release%20strategy-githubflow-orange.svg)
 
-A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style unit tests. Works with .NET Standard 2.0 and higher, .NET Framework 4.7 and higher and .NET 6 and higher.
+Fluent Assertions provides a comprehensive set of extension methods that enable developers to express the expected outcomes of TDD (Test-Driven Development) and BDD (Behavior-Driven Development) unit tests in a natural, readable style. It is compatible with .NET Standard 2.0+, .NET Framework 4.7+, and .NET 6+.
 
-See https://www.fluentassertions.com for [background information](https://fluentassertions.com/about/), [usage documentation](https://fluentassertions.com/introduction), an [extensibility guide](https://fluentassertions.com/extensibility/), support information and more [tips & tricks](https://fluentassertions.com/tips/).
+Visit https://www.fluentassertions.com for [background information](https://fluentassertions.com/about/), [usage documentation](https://fluentassertions.com/introduction), an [extensibility guide](https://fluentassertions.com/extensibility/), support information and more [tips & tricks](https://fluentassertions.com/tips/).
 
 ![](https://repobeats.axiom.co/api/embed/282ed7bca0ede1ac7751ebde6b3ef091a0c6c52d.svg)
+
+# Xceed Partnership FAQ
+Xceed is now an official Partner to Fluent Assertions! [Learn what this partnership means for our users](https://xceed.com/fluent-assertions-faq/). After extensive discussions with the Fluent Assertions team, we are thrilled about the future of the product and look forward to its continued growth and development.
 
 # Who created this?
 Originally authored by Dennis Doomen with Jonas Nyrup as the productive side-kick. Notable contributions were provided by Artur Krajewski, Lukas Grützmacher and David Omid.
@@ -32,13 +35,4 @@ This is a special set of tests that use the [Verify](https://github.com/VerifyTe
 If you've verified the changes and decided they are valid, you can accept them  using `AcceptApiChanges.ps1` or `AcceptApiChanges.sh`. Alternatively, you can use the [Verify Support](https://plugins.jetbrains.com/plugin/17240-verify-support) plug-in to compare the changes and accept them right from inside Rider. See also the [Contribution Guidelines](CONTRIBUTING.md).
 
 # Powered By
-<a href="https://www.infosupport.com/"><img src="docs/assets/images/info-support.jpg" style="width:100px"/></a>&nbsp;
-<a href="https://www.jetbrains.com/rider/"><img src="docs/assets/images/jetbrainsrider.svg" style="width:150px"/></a>&nbsp;
-
-With support from the following public [sponsors](https://github.com/sponsors/fluentassertions)  
-<a href="https://github.com/BestKru"><img src="https://avatars.githubusercontent.com/u/159320286?s=52&v=4"/></a>
-<a href="https://github.com/Infra-Workleap"><img src="https://avatars.githubusercontent.com/u/53535748?s=52&v=4"/></a>
-<a href="https://github.com/ken-swyfft"><img src="https://avatars.githubusercontent.com/u/65305317?s=52&v=4"/></a>
-<a href="https://github.com/MGundersen"><img src="https://avatars.githubusercontent.com/u/15629960?s=52&v=4"/></a>
-<a href="https://github.com/mediaclip"><img src="https://avatars.githubusercontent.com/u/6798228?s=52&v=4"/></a>
-<a href="https://github.com/hassanhabib"><img src="https://avatars.githubusercontent.com/u/1453985?s=52&v=4"/></a>
+<a href="https://www.xceed.com"><img src="docs/assets/images/xceed_logo_whiteB.png" style="width:192px"/></a>
