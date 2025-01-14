@@ -21,11 +21,10 @@ public class XElementFormatterSpecs
     public void When_element_has_child_element_it_should_not_include_them_in_the_output()
     {
         // Act
-        var element = XElement.Parse(
-            """
+        var element = XElement.Parse("""
             <person name="Martin" age="36">
-                                  <child name="Laura" />
-                              </person>
+                <child name="Laura" />
+            </person>
             """);
 
         string result = Formatter.ToString(element);

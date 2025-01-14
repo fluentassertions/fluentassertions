@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using LibGit2Sharp;
 using Nuke.Common;
@@ -13,14 +12,14 @@ using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.ReportGenerator;
 using Nuke.Common.Tools.Xunit;
+using Nuke.Common.Utilities;
 using Nuke.Common.Utilities.Collections;
 using Nuke.Components;
-using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 using static Nuke.Common.Tools.Xunit.XunitTasks;
 using static Serilog.Log;
+using static CustomNpmTasks;
 
 [UnsetVisualStudioEnvironmentVariables]
 [DotNetVerbosityMapping]
@@ -43,6 +42,9 @@ class Build : NukeBuild
 
     string PullRequestBase => GitHubActions?.BaseRef;
 
+    [Parameter("The solution configuration to build. Default is 'Debug' (local) or 'CI' (server).")]
+    readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.CI;
+
     [Parameter("Use this parameter if you encounter build problems in any way, " +
         "to generate a .binlog file which holds some useful information.")]
     readonly bool? GenerateBinLog;
@@ -54,23 +56,13 @@ class Build : NukeBuild
     [Solution(GenerateProjects = true)]
     readonly Solution Solution;
 
-    [GitVersion(Framework = "net6.0")]
+    [Required]
+    [GitVersion(Framework = "net8.0", NoCache = true, NoFetch = true)]
     readonly GitVersion GitVersion;
 
+    [Required]
     [GitRepository]
     readonly GitRepository GitRepository;
-
-#if OS_WINDOWS
-    [NuGetPackage("Node.js.redist", "node.exe", Version = "16.20.0", Framework = "win-x64")]
-#elif OS_MAC
-    [NuGetPackage("Node.js.redist", "node", Version = "16.20.0", Framework = "osx-x64")]
-#else
-    [NuGetPackage("Node.js.redist", "node", Version = "16.20.0", Framework = "linux-x64")]
-#endif
-    Tool Node;
-
-    string YarnCli => $"{NuGetToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19")}";
-
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
     AbsolutePath TestResultsDirectory => RootDirectory / "TestResults";
@@ -90,13 +82,14 @@ class Build : NukeBuild
         .Executes(() =>
         {
             SemVer = GitVersion.SemVer;
+
             if (IsPullRequest)
             {
                 Information(
                     "Branch spec {branchspec} is a pull request. Adding build number {buildnumber}",
                     BranchSpec, BuildNumber);
 
-                SemVer = string.Join('.', GitVersion.SemVer.Split('.').Take(3).Union(new[] { BuildNumber }));
+                SemVer = string.Join('.', GitVersion.SemVer.Split('.').Take(3).Union([BuildNumber]));
             }
 
             Information("SemVer = {semver}", SemVer);
@@ -117,21 +110,23 @@ class Build : NukeBuild
 
     Target Compile => _ => _
         .DependsOn(Restore)
+        .DependsOn(CalculateNugetVersion)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
             ReportSummary(s => s
-                .WhenNotNull(GitVersion, (_, o) => _
-                    .AddPair("Version", o.SemVer)));
+                .WhenNotNull(SemVer, (summary, semVer) => summary
+                    .AddPair("Version", semVer)));
 
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
-                .SetConfiguration(Configuration.CI)
-                .When(GenerateBinLog is true, _ => _
+                .SetConfiguration(Configuration)
+                .When(_ => GenerateBinLog is true, c => c
                     .SetBinaryLog(ArtifactsDirectory / $"{Solution.Core.FluentAssertions.Name}.binlog")
                 )
                 .EnableNoLogo()
                 .EnableNoRestore()
+                .SetVersion(SemVer)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion));
@@ -145,35 +140,34 @@ class Build : NukeBuild
             Project project = Solution.Specs.Approval_Tests;
 
             DotNetTest(s => s
-                .SetConfiguration(Configuration.Release)
+                .SetConfiguration(Configuration == Configuration.Debug ? "Debug" : "Release")
                 .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                 .EnableNoBuild()
                 .SetResultsDirectory(TestResultsDirectory)
                 .CombineWith(cc => cc
                     .SetProjectFile(project)
                     .AddLoggers($"trx;LogFileName={project.Name}.trx")), completeOnFailure: true);
-
-            ReportTestOutcome(globFilters: $"*{project.Name}.trx");
         });
 
-    Project[] Projects => new[]
-    {
+    Project[] Projects =>
+    [
         Solution.Specs.FluentAssertions_Specs,
         Solution.Specs.FluentAssertions_Equivalency_Specs,
+        Solution.Specs.FluentAssertions_Extensibility_Specs,
         Solution.Specs.FSharp_Specs,
         Solution.Specs.VB_Specs
-    };
+    ];
 
-    Target UnitTestsNetFramework => _ => _
+    Target UnitTestsNet47 => _ => _
         .Unlisted()
         .DependsOn(Compile)
         .OnlyWhenDynamic(() => EnvironmentInfo.IsWin && (RunAllTargets || HasSourceChanges))
         .Executes(() =>
         {
             string[] testAssemblies = Projects
-                    .SelectMany(project => project.Directory.GlobFiles("bin/Debug/net47/*.Specs.dll"))
-                    .Select(_ => _.ToString())
-                    .ToArray();
+                .SelectMany(project => project.Directory.GlobFiles("bin/Debug/net47/*.Specs.dll"))
+                .Select(p => p.ToString())
+                .ToArray();
 
             Assert.NotEmpty(testAssemblies.ToList());
 
@@ -183,64 +177,40 @@ class Build : NukeBuild
             );
         });
 
-    Target UnitTestsNetCore => _ => _
+    Target UnitTestsNet6OrGreater => _ => _
         .Unlisted()
         .DependsOn(Compile)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
-            const string NET47 = "net47";
+            const string net47 = "net47";
 
             DotNetTest(s => s
-                .SetConfiguration(Configuration.Debug)
-                .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
-                .EnableNoBuild()
-                .SetDataCollector("XPlat Code Coverage")
-                .SetResultsDirectory(TestResultsDirectory)
-                .AddRunSetting(
-                    "DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.DoesNotReturnAttribute",
-                    "DoesNotReturnAttribute")
-                .CombineWith(
-                    Projects,
-                    (_, project) => _
-                        .SetProjectFile(project)
-                        .CombineWith(
-                            project.GetTargetFrameworks().Except(new[] { NET47 }),
-                            (_, framework) => _
-                                .SetFramework(framework)
-                                .AddLoggers($"trx;LogFileName={project.Name}_{framework}.trx")
-                        )
-                ), completeOnFailure: true
+                    .SetConfiguration(Configuration.Debug)
+                    .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
+                    .EnableNoBuild()
+                    .SetDataCollector("XPlat Code Coverage")
+                    .SetResultsDirectory(TestResultsDirectory)
+                    .AddRunSetting(
+                        "DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.DoesNotReturnAttribute",
+                        "DoesNotReturnAttribute")
+                    .CombineWith(
+                        Projects,
+                        (settings, project) => settings
+                            .SetProjectFile(project)
+                            .CombineWith(
+                                project.GetTargetFrameworks().Except([net47]),
+                                (frameworkSettings, framework) => frameworkSettings
+                                    .SetFramework(framework)
+                                    .AddLoggers($"trx;LogFileName={project.Name}_{framework}.trx")
+                            )
+                    ), completeOnFailure: true
             );
-
-            ReportTestOutcome(globFilters: $"*[!*{NET47}].trx");
         });
 
     Target UnitTests => _ => _
-        .DependsOn(UnitTestsNetFramework)
-        .DependsOn(UnitTestsNetCore);
-
-    static string[] Outcomes(AbsolutePath path)
-        => XmlTasks.XmlPeek(
-                path,
-                "/xn:TestRun/xn:Results/xn:UnitTestResult/@outcome",
-                ("xn", "http://microsoft.com/schemas/VisualStudio/TeamTest/2010")).ToArray();
-
-    void ReportTestOutcome(params string[] globFilters)
-    {
-        var resultFiles = TestResultsDirectory.GlobFiles(globFilters);
-        var outcomes = resultFiles.SelectMany(Outcomes).ToList();
-        var passedTests = outcomes.Count(outcome => outcome is "Passed");
-        var failedTests = outcomes.Count(outcome => outcome is "Failed");
-        var skippedTests = outcomes.Count(outcome => outcome is "NotExecuted");
-
-        ReportSummary(_ => _
-            .When(failedTests > 0, _ => _
-                .AddPair("Failed", failedTests.ToString()))
-            .AddPair("Passed", passedTests.ToString())
-            .When(skippedTests > 0, _ => _
-                .AddPair("Skipped", skippedTests.ToString())));
-    }
+        .DependsOn(UnitTestsNet47)
+        .DependsOn(UnitTestsNet6OrGreater);
 
     Target CodeCoverage => _ => _
         .DependsOn(TestFrameworks)
@@ -249,7 +219,8 @@ class Build : NukeBuild
         .Executes(() =>
         {
             ReportGenerator(s => s
-                .SetProcessToolPath(NuGetToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.dll", framework: "net6.0"))
+                .SetProcessToolPath(NuGetToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.dll",
+                    framework: "net8.0"))
                 .SetTargetDirectory(TestResultsDirectory / "reports")
                 .AddReports(TestResultsDirectory / "**/coverage.cobertura.xml")
                 .AddReportTypes(
@@ -263,23 +234,26 @@ class Build : NukeBuild
             Information($"Code coverage report: \x1b]8;;file://{link.Replace('\\', '/')}\x1b\\{link}\x1b]8;;\x1b\\");
         });
 
-    Target TestFrameworks => _ => _
+    Target VSTestFrameworks => _ => _
         .DependsOn(Compile)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
-            var projects = new[]
-            {
+            Project[] projects =
+            [
                 Solution.TestFrameworks.MSpec_Specs,
                 Solution.TestFrameworks.MSTestV2_Specs,
                 Solution.TestFrameworks.NUnit3_Specs,
-                Solution.TestFrameworks.XUnit2_Specs
-            };
+                Solution.TestFrameworks.NUnit4_Specs,
+                Solution.TestFrameworks.XUnit2_Specs,
+                Solution.TestFrameworks.XUnit3_Specs,
+                Solution.TestFrameworks.XUnit3Core_Specs,
+            ];
 
             var testCombinations =
                 from project in projects
                 let frameworks = project.GetTargetFrameworks()
-                let supportedFrameworks = EnvironmentInfo.IsWin ? frameworks : frameworks.Except(new[] { "net47" })
+                let supportedFrameworks = EnvironmentInfo.IsWin ? frameworks : frameworks.Except(["net47"])
                 from framework in supportedFrameworks
                 select new { project, framework };
 
@@ -294,31 +268,68 @@ class Build : NukeBuild
                     "DoesNotReturnAttribute")
                 .CombineWith(
                     testCombinations,
-                    (_, v) => _
+                    (settings, v) => settings
                         .SetProjectFile(v.project)
                         .SetFramework(v.framework)
                         .AddLoggers($"trx;LogFileName={v.project.Name}_{v.framework}.trx")), completeOnFailure: true);
-
-            ReportTestOutcome(projects.Select(p => $"*{p.Name}*.trx").ToArray());
         });
+
+    Target TestingPlatformFrameworks => _ => _
+        .DependsOn(Compile)
+        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
+        .Executes(() =>
+        {
+            Project[] projects =
+            [
+                Solution.TestFrameworks.TUnit_Specs
+            ];
+
+            var testCombinations =
+                from project in projects
+                let frameworks = project.GetTargetFrameworks()
+                from framework in frameworks
+                select new { project, framework };
+
+            DotNetTest(s => s
+                .SetConfiguration(Configuration.Debug)
+                .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
+                .EnableNoBuild()
+                .CombineWith(
+                    testCombinations,
+                    (settings, v) => settings
+                        .SetProjectFile(v.project)
+                        .SetFramework(v.framework)
+                        .SetProcessAdditionalArguments(
+                            "--",
+                            "--coverage",
+                            "--report-trx",
+                            $"--report-trx-filename {v.project.Name}_{v.framework}.trx",
+                            $"--results-directory {TestResultsDirectory}"
+                        )
+                    )
+                );
+        });
+
+    Target TestFrameworks => _ => _
+        .DependsOn(VSTestFrameworks)
+        .DependsOn(TestingPlatformFrameworks);
 
     Target Pack => _ => _
         .DependsOn(ApiChecks)
         .DependsOn(TestFrameworks)
         .DependsOn(UnitTests)
         .DependsOn(CodeCoverage)
-        .DependsOn(CalculateNugetVersion)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
             ReportSummary(s => s
-                .WhenNotNull(SemVer, (_, semVer) => _
+                .WhenNotNull(SemVer, (c, semVer) => c
                     .AddPair("Packed version", semVer)));
 
             DotNetPack(s => s
                 .SetProject(Solution.Core.FluentAssertions)
                 .SetOutputDirectory(ArtifactsDirectory)
-                .SetConfiguration(Configuration.Release)
+                .SetConfiguration(Configuration == Configuration.Debug ? "Debug" : "Release")
                 .EnableNoLogo()
                 .EnableNoRestore()
                 .EnableContinuousIntegrationBuild() // Necessary for deterministic builds
@@ -346,12 +357,32 @@ class Build : NukeBuild
 
     Target SpellCheck => _ => _
         .OnlyWhenDynamic(() => RunAllTargets || HasDocumentationChanges)
+        .DependsOn(InstallNode)
         .ProceedAfterFailure()
         .Executes(() =>
         {
-            Node($"{YarnCli} --silent install", workingDirectory: RootDirectory);
-            Node($"{YarnCli} --silent run cspell", workingDirectory: RootDirectory,
-                logger: (_, msg) => Error(msg));
+            NpmInstall(silent: true, workingDirectory: RootDirectory);
+            NpmRun("cspell", silent: true);
+        });
+
+    Target InstallNode => _ => _
+        .OnlyWhenDynamic(() => RunAllTargets || HasDocumentationChanges)
+        .ProceedAfterFailure()
+        .Executes(() =>
+        {
+            Initialize(RootDirectory);
+
+            NpmFetchRuntime();
+
+            ReportSummary(conf =>
+            {
+                if (HasCachedNodeModules)
+                {
+                    conf.AddPair("Skipped", "Downloading and extracting");
+                }
+
+                return conf;
+            });
         });
 
     bool HasDocumentationChanges => Changes.Any(x => IsDocumentation(x));
@@ -364,6 +395,7 @@ class Build : NukeBuild
         x.StartsWith("cSpell.json") ||
         x.StartsWith("LICENSE") ||
         x.StartsWith("package.json") ||
+        x.StartsWith("package-lock.json") ||
         x.StartsWith("README.md");
 
     string[] Changes =>

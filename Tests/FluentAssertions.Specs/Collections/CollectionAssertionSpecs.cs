@@ -12,13 +12,27 @@ namespace FluentAssertions.Specs.Collections;
 /// </summary>
 public partial class CollectionAssertionSpecs
 {
-    public class Chainings
+    public class Chaining
     {
+        [Fact]
+        public void Chaining_something_should_do_something()
+        {
+            // Arrange
+            var languages = new[] { "C#" };
+
+            // Act
+            var act = () => languages.Should().ContainSingle()
+                .Which.Should().EndWith("script");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected languages[0]*");
+        }
+
         [Fact]
         public void Should_support_chaining_constraints_with_and()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should()
@@ -33,13 +47,13 @@ public partial class CollectionAssertionSpecs
         public void When_the_collection_is_ordered_according_to_the_subsequent_ascending_assertion_it_should_succeed()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string)[] collection =
+            [
                 (1, "a"),
                 (2, "b"),
                 (2, "c"),
                 (3, "a")
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()
@@ -55,13 +69,13 @@ public partial class CollectionAssertionSpecs
         public void When_the_collection_is_not_ordered_according_to_the_subsequent_ascending_assertion_it_should_fail()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string)[] collection =
+            [
                 (1, "a"),
                 (2, "b"),
                 (2, "c"),
                 (3, "a")
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()
@@ -71,7 +85,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection * to be ordered \"by Item2\"*");
+                .WithMessage("Expected collection*to be ordered \"by Item2\"*");
         }
 
         [Fact]
@@ -79,13 +93,13 @@ public partial class CollectionAssertionSpecs
             When_the_collection_is_ordered_according_to_the_subsequent_ascending_assertion_with_comparer_it_should_succeed()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string)[] collection =
+            [
                 (1, "a"),
                 (2, "B"),
                 (2, "b"),
                 (3, "a")
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()
@@ -101,13 +115,13 @@ public partial class CollectionAssertionSpecs
         public void When_the_collection_is_ordered_according_to_the_multiple_subsequent_ascending_assertions_it_should_succeed()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string, double)[] collection =
+            [
                 (1, "a", 1.1),
                 (2, "b", 1.2),
                 (2, "c", 1.3),
                 (3, "a", 1.1)
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()
@@ -125,13 +139,13 @@ public partial class CollectionAssertionSpecs
         public void When_the_collection_is_ordered_according_to_the_subsequent_descending_assertion_it_should_succeed()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string)[] collection =
+            [
                 (3, "a"),
                 (2, "c"),
                 (2, "b"),
                 (1, "a")
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()
@@ -147,13 +161,13 @@ public partial class CollectionAssertionSpecs
         public void When_the_collection_is_not_ordered_according_to_the_subsequent_descending_assertion_it_should_fail()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string)[] collection =
+            [
                 (3, "a"),
                 (2, "c"),
                 (2, "b"),
                 (1, "a")
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()
@@ -163,7 +177,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection * to be ordered \"by Item2\"*");
+                .WithMessage("Expected collection*to be ordered \"by Item2\"*");
         }
 
         [Fact]
@@ -171,13 +185,13 @@ public partial class CollectionAssertionSpecs
             When_the_collection_is_ordered_according_to_the_subsequent_descending_assertion_with_comparer_it_should_succeed()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string)[] collection =
+            [
                 (3, "a"),
                 (2, "b"),
                 (2, "B"),
                 (1, "a")
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()
@@ -193,13 +207,13 @@ public partial class CollectionAssertionSpecs
         public void When_the_collection_is_ordered_according_to_the_multiple_subsequent_descending_assertions_it_should_succeed()
         {
             // Arrange
-            var collection = new[]
-            {
+            (int, string, double)[] collection =
+            [
                 (3, "a", 1.1),
                 (2, "c", 1.3),
                 (2, "b", 1.2),
                 (1, "a", 1.1)
-            };
+            ];
 
             // Act
             Action action = () => collection.Should()
@@ -218,7 +232,7 @@ public partial class CollectionAssertionSpecs
     {
         public int Compare(string x, string y)
         {
-            return x.Last().CompareTo(y.Last());
+            return Nullable.Compare(x?[^1], y?[^1]);
         }
     }
 }
@@ -295,12 +309,9 @@ internal class CountingGenericCollection<TElement> : ICollection<TElement>
 
 internal sealed class TrackingTestEnumerable : IEnumerable<int>
 {
-    private readonly int[] values;
-
     public TrackingTestEnumerable(params int[] values)
     {
-        this.values = values;
-        Enumerator = new TrackingEnumerator(this.values);
+        Enumerator = new TrackingEnumerator(values);
     }
 
     public TrackingEnumerator Enumerator { get; }

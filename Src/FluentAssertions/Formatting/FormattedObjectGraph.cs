@@ -18,7 +18,7 @@ namespace FluentAssertions.Formatting;
 public class FormattedObjectGraph
 {
     private readonly int maxLines;
-    private readonly List<string> lines = new();
+    private readonly List<string> lines = [];
     private readonly StringBuilder lineBuilder = new();
     private int indentation;
     private string lineBuilderWhitespace = string.Empty;
@@ -57,7 +57,7 @@ public class FormattedObjectGraph
     {
         FlushCurrentLine();
 
-        AppendSafely(Whitespace + line);
+        AppendWithoutExceedingMaximumLines(Whitespace + line);
     }
 
     /// <summary>
@@ -99,16 +99,17 @@ public class FormattedObjectGraph
 
     private void FlushCurrentLine()
     {
-        if (lineBuilder.Length > 0)
+        string line = lineBuilder.ToString().TrimEnd();
+        if (line.Length > 0)
         {
-            AppendSafely(lineBuilderWhitespace + lineBuilder);
-
-            lineBuilder.Clear();
-            lineBuilderWhitespace = Whitespace;
+            AppendWithoutExceedingMaximumLines(lineBuilderWhitespace + line);
         }
+
+        lineBuilder.Clear();
+        lineBuilderWhitespace = Whitespace;
     }
 
-    private void AppendSafely(string line)
+    private void AppendWithoutExceedingMaximumLines(string line)
     {
         if (lines.Count == maxLines)
         {
@@ -116,7 +117,7 @@ public class FormattedObjectGraph
 
             lines.Add(
                 $"(Output has exceeded the maximum of {maxLines} lines. " +
-                $"Increase {nameof(FormattingOptions)}.{nameof(FormattingOptions.MaxLines)} on {nameof(AssertionScope)} or {nameof(AssertionOptions)} to include more lines.)");
+                $"Increase {nameof(FormattingOptions)}.{nameof(FormattingOptions.MaxLines)} on {nameof(AssertionScope)} or {nameof(AssertionConfiguration)} to include more lines.)");
 
             throw new MaxLinesExceededException();
         }
@@ -148,7 +149,7 @@ public class FormattedObjectGraph
     /// </summary>
     public override string ToString()
     {
-        return string.Join(Environment.NewLine, lines.Concat(new[] { lineBuilder.ToString() }));
+        return string.Join(Environment.NewLine, lines.Concat([lineBuilder.ToString()]));
     }
 
     internal PossibleMultilineFragment KeepOnSingleLineAsLongAsPossible()
@@ -247,24 +248,6 @@ public class FormattedObjectGraph
             else
             {
                 parentGraph.AddFragmentOnNewLine(fragment);
-            }
-        }
-
-        /// <summary>
-        /// Write the fragment.  If more lines have been added since this instance was
-        /// created then also flush the line and indent the next line.
-        /// </summary>
-        internal void AddEndingLineOrFragment(string fragment)
-        {
-            if (FormatOnSingleLine)
-            {
-                parentGraph.AddFragment(fragment);
-            }
-            else
-            {
-                parentGraph.AddFragment(fragment);
-                parentGraph.FlushCurrentLine();
-                parentGraph.lineBuilderWhitespace += MakeWhitespace(1);
             }
         }
 

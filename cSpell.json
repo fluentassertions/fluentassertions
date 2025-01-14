@@ -4,21 +4,30 @@
     "words": [
         "browsable",
         "comparands",
-        "Doomen",
         "Faqt",
         "formattable",
+        "unformattable",
         "Guids",
         "LINQ",
         "MVVM",
         "parameterless",
         "refactorings",
-        "struct"
+        "struct",
+        "reportables",
+        "Gallio",
+        "plict",
+        "enumerables"
     ],
     "patterns": [
         {
             "name": "Markdown links",
-            "pattern": "\\((.*)\\)",
+            "pattern": "/\\[.*\\]\\((.*)\\)/",
             "description": ""
+        },
+        {
+            "name": "Contributors",
+            "pattern": "/\\@.*/g",
+            "description": "Exclude contributors e.g. from releases.md"
         },
         {
             "name": "Inline code blocks",
@@ -60,6 +69,7 @@
     ],
     "ignoreRegExpList": [
         "Markdown links",
+        "Contributors",
         "Markdown code blocks",
         "Inline code blocks",
         "Link contents",
@@ -70,7 +80,5 @@
         "Frontmatter",
         "Liquid Includes"
     ],
-    "ignorePaths": [
-        "docs/_pages/releases.md"
-    ]
+    "ignorePaths": []
 }

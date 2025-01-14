@@ -6,26 +6,21 @@ using FluentAssertions.Common;
 namespace FluentAssertions.Equivalency;
 
 /// <summary>
-/// A specialized type of <see cref="INode  "/> that represents a field of an object in a structural equivalency assertion.
+/// A specialized type of <see cref="INode"/> that represents a field of an object in a structural equivalency assertion.
 /// </summary>
-public class Field : Node, IMember
+internal class Field : Node, IMember
 {
     private readonly FieldInfo fieldInfo;
     private bool? isBrowsable;
 
     public Field(FieldInfo fieldInfo, INode parent)
-        : this(fieldInfo.ReflectedType, fieldInfo, parent)
-    {
-    }
-
-    public Field(Type reflectedType, FieldInfo fieldInfo, INode parent)
     {
         this.fieldInfo = fieldInfo;
         DeclaringType = fieldInfo.DeclaringType;
-        ReflectedType = reflectedType;
-        Path = parent.PathAndName;
+        ReflectedType = fieldInfo.ReflectedType;
+        Subject = new Pathway(parent.Subject.PathAndName, fieldInfo.Name,  pathAndName => $"field {parent.GetSubjectId().Combine(pathAndName)}");
+        Expectation = new Pathway(parent.Expectation.PathAndName, fieldInfo.Name, pathAndName => $"field {pathAndName}");
         GetSubjectId = parent.GetSubjectId;
-        Name = fieldInfo.Name;
         Type = fieldInfo.FieldType;
         ParentType = fieldInfo.DeclaringType;
         RootIsCollection = parent.RootIsCollection;
@@ -39,8 +34,6 @@ public class Field : Node, IMember
     }
 
     public Type DeclaringType { get; set; }
-
-    public override string Description => $"field {GetSubjectId().Combine(PathAndName)}";
 
     public CSharpAccessModifier GetterAccessibility => fieldInfo.GetCSharpAccessModifier();
 

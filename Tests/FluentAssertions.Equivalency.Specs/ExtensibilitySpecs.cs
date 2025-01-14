@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using JetBrains.Annotations;
 using Xunit;
@@ -75,7 +76,7 @@ public class ExtensibilitySpecs
         public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
             MemberSelectionContext context)
         {
-            return selectedMembers.Where(pi => !pi.Name.EndsWith("Id", StringComparison.Ordinal)).ToArray();
+            return selectedMembers.Where(pi => !pi.Subject.Name.EndsWith("Id", StringComparison.Ordinal)).ToArray();
         }
 
         bool IMemberSelectionRule.IncludesMembers
@@ -141,9 +142,10 @@ public class ExtensibilitySpecs
 
     internal class ForeignKeyMatchingRule : IMemberMatchingRule
     {
-        public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
+        public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options,
+            AssertionChain assertionChain)
         {
-            string name = expectedMember.Name;
+            string name = expectedMember.Subject.Name;
 
             if (name.EndsWith("Id", StringComparison.Ordinal))
             {
@@ -163,8 +165,8 @@ public class ExtensibilitySpecs
     public void When_an_ordering_rule_is_added_it_should_be_evaluated_after_all_existing_rules()
     {
         // Arrange
-        var subject = new[] { "First", "Second" };
-        var expected = new[] { "First", "Second" };
+        string[] subject = ["First", "Second"];
+        string[] expected = ["First", "Second"];
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(
@@ -179,8 +181,8 @@ public class ExtensibilitySpecs
     public void When_an_ordering_rule_is_added_it_should_appear_in_the_exception_message()
     {
         // Arrange
-        var subject = new[] { "First", "Second" };
-        var expected = new[] { "Second", "First" };
+        string[] subject = ["First", "Second"];
+        string[] expected = ["Second", "First"];
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(
@@ -296,7 +298,7 @@ public class ExtensibilitySpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("*Id*from subject*System.String*System.Double*Id*from expectation*System.String*System.Double*");
+            .WithMessage("*Id*from subject*System.String*System.Double*");
     }
 
     [Fact]
@@ -335,13 +337,13 @@ public class ExtensibilitySpecs
             Id = null as double?,
         };
 
-        var other = new
+        var expectation = new
         {
             Id = "bar",
         };
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(other,
+        Action act = () => subject.Should().BeEquivalentTo(expectation,
             o => o
                 .Using<string>(c => c.Subject.Should().Be(c.Expectation))
                 .When(si => si.Path == "Id"));
@@ -627,7 +629,7 @@ public class ExtensibilitySpecs
     private class AlwaysFailOnDateTimesEquivalencyStep : IEquivalencyStep
     {
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator nestedValidator)
+            IValidateChildNodeEquivalency valueChildNodes)
         {
             if (comparands.Expectation is DateTime)
             {
@@ -641,13 +643,13 @@ public class ExtensibilitySpecs
     private class RelaxingDateTimeEquivalencyStep : IEquivalencyStep
     {
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator nestedValidator)
+            IValidateChildNodeEquivalency valueChildNodes)
         {
             if (comparands.Expectation is DateTime time)
             {
                 ((DateTime)comparands.Subject).Should().BeCloseTo(time, 1.Minutes());
 
-                return EquivalencyResult.AssertionCompleted;
+                return EquivalencyResult.EquivalencyProven;
             }
 
             return EquivalencyResult.ContinueWithNext;
@@ -812,7 +814,7 @@ public class ExtensibilitySpecs
         where TException : Exception, new()
     {
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator nestedValidator)
+            IValidateChildNodeEquivalency valueChildNodes)
         {
             throw new TException();
         }
@@ -821,16 +823,16 @@ public class ExtensibilitySpecs
     private class AlwaysHandleEquivalencyStep : IEquivalencyStep
     {
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator nestedValidator)
+            IValidateChildNodeEquivalency valueChildNodes)
         {
-            return EquivalencyResult.AssertionCompleted;
+            return EquivalencyResult.EquivalencyProven;
         }
     }
 
     private class NeverHandleEquivalencyStep : IEquivalencyStep
     {
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator nestedValidator)
+            IValidateChildNodeEquivalency valueChildNodes)
         {
             return EquivalencyResult.ContinueWithNext;
         }
@@ -839,10 +841,10 @@ public class ExtensibilitySpecs
     private class EqualityEquivalencyStep : IEquivalencyStep
     {
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator nestedValidator)
+            IValidateChildNodeEquivalency valueChildNodes)
         {
             comparands.Subject.Should().Be(comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
-            return EquivalencyResult.AssertionCompleted;
+            return EquivalencyResult.EquivalencyProven;
         }
     }
 
@@ -856,10 +858,10 @@ public class ExtensibilitySpecs
         }
 
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator nestedValidator)
+            IValidateChildNodeEquivalency valueChildNodes)
         {
             doAction();
-            return EquivalencyResult.AssertionCompleted;
+            return EquivalencyResult.EquivalencyProven;
         }
     }
 

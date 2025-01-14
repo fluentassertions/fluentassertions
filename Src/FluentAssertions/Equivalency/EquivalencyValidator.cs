@@ -7,7 +7,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Is responsible for validating the equivalency of a subject with another object.
 /// </summary>
-public class EquivalencyValidator : IEquivalencyValidator
+internal class EquivalencyValidator : IValidateChildNodeEquivalency
 {
     private const int MaxDepth = 10;
 
@@ -15,11 +15,7 @@ public class EquivalencyValidator : IEquivalencyValidator
     {
         using var scope = new AssertionScope();
 
-        scope.AssumeSingleCaller();
-        scope.AddReportable("configuration", () => context.Options.ToString());
-        scope.BecauseOf(context.Reason);
-
-        RecursivelyAssertEquality(comparands, context);
+        RecursivelyAssertEquivalencyOf(comparands, context);
 
         if (context.TraceWriter is not null)
         {
@@ -27,66 +23,80 @@ public class EquivalencyValidator : IEquivalencyValidator
         }
     }
 
-    public void RecursivelyAssertEquality(Comparands comparands, IEquivalencyValidationContext context)
+    private void RecursivelyAssertEquivalencyOf(Comparands comparands, IEquivalencyValidationContext context)
     {
-        var scope = AssertionScope.Current;
+        AssertEquivalencyOf(comparands, context);
+    }
 
-        if (ShouldContinueThisDeep(context.CurrentNode, context.Options, scope))
+    public void AssertEquivalencyOf(Comparands comparands, IEquivalencyValidationContext context)
+    {
+        var assertionChain = AssertionChain.GetOrCreate()
+            .For(context)
+            .BecauseOf(context.Reason);
+
+        if (ShouldContinueThisDeep(context.CurrentNode, context.Options, assertionChain))
         {
-            TrackWhatIsNeededToProvideContextToFailures(scope, comparands, context.CurrentNode);
-
-            if (context.IsCyclicReference(comparands.Expectation))
+            if (!context.IsCyclicReference(comparands.Expectation))
             {
-                AssertComparandsPointToActualObjects(comparands);
+                TryToProveNodesAreEquivalent(comparands, context);
+            }
+            else if (context.Options.CyclicReferenceHandling == CyclicReferenceHandling.ThrowException)
+            {
+                assertionChain.FailWith("Expected {context:subject} to be {0}{reason}, but it contains a cyclic reference.", comparands.Expectation);
             }
             else
             {
-                TryToProveNodesAreEquivalent(comparands, context);
+                AssertEquivalencyForCyclicReference(comparands, assertionChain);
             }
         }
     }
 
-    private static bool ShouldContinueThisDeep(INode currentNode, IEquivalencyAssertionOptions options,
-        AssertionScope assertionScope)
+    private static bool ShouldContinueThisDeep(INode currentNode, IEquivalencyOptions options,
+        AssertionChain assertionChain)
     {
         bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth <= MaxDepth;
+
         if (!shouldRecurse)
         {
             // This will throw, unless we're inside an AssertionScope
-            assertionScope.FailWith($"The maximum recursion depth of {MaxDepth} was reached.  ");
+            assertionChain.FailWith($"The maximum recursion depth of {MaxDepth} was reached.  ");
         }
 
         return shouldRecurse;
     }
 
-    private static void TrackWhatIsNeededToProvideContextToFailures(AssertionScope scope, Comparands comparands, INode currentNode)
+    private static void AssertEquivalencyForCyclicReference(Comparands comparands, AssertionChain assertionChain)
     {
-        scope.Context = new Lazy<string>(() => currentNode.Description);
+        // We know that at this point the expectation is a non-null cyclic reference, so we don't want to continue the recursion.
+        // We still want to compare the subject with the expectation though.
 
-        scope.TrackComparands(comparands.Subject, comparands.Expectation);
-    }
-
-    private static void AssertComparandsPointToActualObjects(Comparands comparands)
-    {
+        // If they point at the same object, then equality is proven, and it doesn't matter that there's a cyclic reference.
         if (ReferenceEquals(comparands.Subject, comparands.Expectation))
         {
             return;
         }
 
+        // If the expectation is non-null and the subject isn't, they would never be equivalent, regardless of how we deal with cyclic references,
+        // so we can just throw an exception here.
         if (comparands.Subject is null)
         {
+            assertionChain.ReuseOnce();
             comparands.Subject.Should().BeSameAs(comparands.Expectation);
         }
+
+        // If they point at different objects, and the expectation is a cyclic reference, we would never be
+        // able to prove that they are equal. And since we're supposed to ignore cyclic references, we can just return here.
     }
 
     private void TryToProveNodesAreEquivalent(Comparands comparands, IEquivalencyValidationContext context)
     {
-        using var _ = context.Tracer.WriteBlock(node => node.Description);
+        using var _ = context.Tracer.WriteBlock(node => node.Expectation.Description);
 
-        foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
+        foreach (IEquivalencyStep step in AssertionConfiguration.Current.Equivalency.Plan)
         {
             var result = step.Handle(comparands, context, this);
-            if (result == EquivalencyResult.AssertionCompleted)
+
+            if (result == EquivalencyResult.EquivalencyProven)
             {
                 context.Tracer.WriteLine(GetMessage(step));
 

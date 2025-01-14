@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions.Execution;
-using FluentAssertions.Specialized;
 using Xunit;
 
 namespace FluentAssertions.Specs.Specialized;
@@ -8,32 +7,32 @@ namespace FluentAssertions.Specs.Specialized;
 public class DelegateAssertionSpecs
 {
     [Fact]
-    public void When_injecting_a_null_extractor_it_should_throw()
+    public void Null_clock_throws_exception()
     {
         // Arrange
-        Action subject = () => { };
+        Func<int> subject = () => 1;
 
         // Act
-        Func<ActionAssertions> act = () => new ActionAssertions(subject, extractor: null);
+        var act = void () => subject.Should(clock: null).NotThrow();
 
-        // Act
-        act.Should().ThrowExactly<ArgumentNullException>()
-            .WithParameterName("extractor");
-    }
-
-    [Fact]
-    public void When_injecting_a_null_clock_it_should_throw()
-    {
-        // Arrange
-        Action subject = () => { };
-        IExtractExceptions extractor = new AggregateExceptionExtractor();
-
-        // Act
-        Func<ActionAssertions> act = () => new ActionAssertions(subject, extractor, clock: null);
-
-        // Act
+        // Assert
         act.Should().ThrowExactly<ArgumentNullException>()
             .WithParameterName("clock");
+    }
+
+    public class Throw
+    {
+        [Fact]
+        public void Allow_additional_assertions_on_return_value()
+        {
+            // Arrange
+            var exception = new Exception("foo");
+            Action subject = () => throw exception;
+
+            // Act / Assert
+            subject.Should().Throw<Exception>()
+                .Which.Message.Should().Be("foo");
+        }
     }
 
     public class ThrowExactly

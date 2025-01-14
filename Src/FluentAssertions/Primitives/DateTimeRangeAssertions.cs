@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
@@ -22,6 +23,7 @@ public class DateTimeRangeAssertions<TAssertions>
     #region Private Definitions
 
     private readonly TAssertions parentAssertions;
+    private readonly AssertionChain assertionChain;
     private readonly TimeSpanPredicate predicate;
 
     private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new()
@@ -38,11 +40,13 @@ public class DateTimeRangeAssertions<TAssertions>
 
     #endregion
 
-    protected internal DateTimeRangeAssertions(TAssertions parentAssertions, DateTime? subject,
+    protected internal DateTimeRangeAssertions(TAssertions parentAssertions, AssertionChain assertionChain,
+        DateTime? subject,
         TimeSpanCondition condition,
         TimeSpan timeSpan)
     {
         this.parentAssertions = parentAssertions;
+        this.assertionChain = assertionChain;
         this.subject = subject;
         this.timeSpan = timeSpan;
 
@@ -62,21 +66,21 @@ public class DateTimeRangeAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> Before(DateTime target, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> Before(DateTime target,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText +
                 " {1} before {2}{reason}, but found a <null> DateTime.",
                 subject, timeSpan, target);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             TimeSpan actual = target - subject.Value;
 
-            Execute.Assertion
+            assertionChain
                 .ForCondition(predicate.IsMatchedBy(actual, timeSpan))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -101,21 +105,21 @@ public class DateTimeRangeAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> After(DateTime target, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> After(DateTime target,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText +
                 " {1} after {2}{reason}, but found a <null> DateTime.",
                 subject, timeSpan, target);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             TimeSpan actual = subject.Value - target;
 
-            Execute.Assertion
+            assertionChain
                 .ForCondition(predicate.IsMatchedBy(actual, timeSpan))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(

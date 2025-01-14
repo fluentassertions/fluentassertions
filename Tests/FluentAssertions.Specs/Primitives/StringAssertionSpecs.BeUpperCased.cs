@@ -12,7 +12,7 @@ public partial class StringAssertionSpecs
     public class BeUpperCased
     {
         [Fact]
-        public void When_an_upper_case_string_is_supposed_to_be_in_upper_case_only_it_should_not_throw()
+        public void Upper_case_characters_are_okay()
         {
             // Arrange
             string actual = "ABC";
@@ -22,7 +22,17 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_a_non_upper_string_is_supposed_to_be_upper_it_should_throw()
+        public void The_empty_string_is_okay()
+        {
+            // Arrange
+            string actual = "";
+
+            // Act / Assert
+            actual.Should().BeUpperCased();
+        }
+
+        [Fact]
+        public void A_lower_case_string_is_not_okay()
         {
             // Arrange
             string actual = "abc";
@@ -35,20 +45,27 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_an_upper_case_string_with_numbers_is_supposed_to_be_in_upper_case_only_it_should_throw()
+        public void Upper_case_and_caseless_characters_are_ok()
         {
             // Arrange
-            string actual = "A1";
+            string actual = "A1!";
 
-            // Act
-            Action act = () => actual.Should().BeUpperCased();
-
-            // Assert
-            act.Should().Throw<XunitException>();
+            // Act / Assert
+            actual.Should().BeUpperCased();
         }
 
         [Fact]
-        public void When_a_non_upper_string_is_supposed_to_be_upper_it_should_fail_with_descriptive_message()
+        public void Caseless_characters_are_okay()
+        {
+            // Arrange
+            string actual = "1!漢字";
+
+            // Act / Assert
+            actual.Should().BeUpperCased();
+        }
+
+        [Fact]
+        public void The_assertion_fails_with_a_descriptive_message()
         {
             // Arrange
             string actual = "abc";
@@ -58,11 +75,11 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                @"Expected all characters in actual to be upper cased because we want to test the failure message, but found ""abc"".");
+                "Expected all alphabetic characters in actual to be upper-case because we want to test the failure message, but found \"abc\".");
         }
 
         [Fact]
-        public void When_checking_for_an_upper_string_and_it_is_null_it_should_throw()
+        public void The_null_string_is_not_okay()
         {
             // Arrange
             string nullString = null;
@@ -72,24 +89,24 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected all characters in nullString to be upper cased because strings should never be null, but found <null>.");
+                "Expected all alphabetic characters in nullString to be upper-case because strings should never be null, but found <null>.");
         }
     }
 
     public class NotBeUpperCased
     {
         [Fact]
-        public void When_a_non_upper_string_is_supposed_to_be_non_upper_it_should_succeed()
+        public void A_mixed_case_string_is_okay()
         {
             // Arrange
-            string actual = "abc";
+            string actual = "aBc";
 
             // Act / Assert
             actual.Should().NotBeUpperCased();
         }
 
         [Fact]
-        public void When_a_null_string_is_not_supposed_to_be_upper_it_should_succeed()
+        public void The_null_string_is_okay()
         {
             // Arrange
             string actual = null;
@@ -99,7 +116,17 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_an_upper_string_is_not_supposed_to_be_upper_it_should_throw()
+        public void The_empty_string_is_okay()
+        {
+            // Arrange
+            string actual = "";
+
+            // Act / Assert
+            actual.Should().NotBeUpperCased();
+        }
+
+        [Fact]
+        public void A_string_of_all_upper_case_characters_is_not_okay()
         {
             // Arrange
             string actual = "ABC";
@@ -112,17 +139,40 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_an_upper_case_string_with_numbers_is_not_supposed_to_be_in_upper_case_only_it_should_succeed()
+        public void Upper_case_characters_with_lower_case_characters_are_okay()
         {
             // Arrange
-            string actual = "a1";
+            string actual = "Ab1!";
 
             // Act / Assert
             actual.Should().NotBeUpperCased();
         }
 
         [Fact]
-        public void When_an_upper_string_is_not_supposed_to_be_upper_it_should_fail_with_descriptive_message()
+        public void All_cased_characters_being_upper_case_is_not_okay()
+        {
+            // Arrange
+            string actual = "A1B!";
+
+            // Act
+            Action act = () => actual.Should().NotBeUpperCased();
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Caseless_characters_are_okay()
+        {
+            // Arrange
+            string actual = "1!漢字";
+
+            // Act / Assert
+            actual.Should().NotBeUpperCased();
+        }
+
+        [Fact]
+        public void The_assertion_fails_with_a_descriptive_message()
         {
             // Arrange
             string actual = "ABC";
@@ -132,7 +182,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Did not expect any characters in actual to be upper cased because we want to test the failure message.");
+                "Expected some characters in actual to be lower-case because we want to test the failure message.");
         }
     }
 }

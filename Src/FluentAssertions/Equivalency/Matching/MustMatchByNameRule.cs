@@ -9,14 +9,14 @@ namespace FluentAssertions.Equivalency.Matching;
 /// </summary>
 internal class MustMatchByNameRule : IMemberMatchingRule
 {
-    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
+    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options, AssertionChain assertionChain)
     {
         IMember subjectMember = null;
 
         if (options.IncludedProperties != MemberVisibility.None)
         {
             PropertyInfo propertyInfo = subject.GetType().FindProperty(
-                expectedMember.Name,
+                expectedMember.Subject.Name,
                 options.IncludedProperties | MemberVisibility.ExplicitlyImplemented | MemberVisibility.DefaultInterfaceProperties);
 
             subjectMember = propertyInfo is not null && !propertyInfo.IsIndexer() ? new Property(propertyInfo, parent) : null;
@@ -25,7 +25,7 @@ internal class MustMatchByNameRule : IMemberMatchingRule
         if (subjectMember is null && options.IncludedFields != MemberVisibility.None)
         {
             FieldInfo fieldInfo = subject.GetType().FindField(
-                expectedMember.Name,
+                expectedMember.Subject.Name,
                 options.IncludedFields);
 
             subjectMember = fieldInfo is not null ? new Field(fieldInfo, parent) : null;
@@ -33,13 +33,13 @@ internal class MustMatchByNameRule : IMemberMatchingRule
 
         if (subjectMember is null)
         {
-            Execute.Assertion.FailWith(
-                $"Expectation has {expectedMember.Description} that the other object does not have.");
+            assertionChain.FailWith(
+                $"Expectation has {expectedMember.Expectation} that the other object does not have.");
         }
         else if (options.IgnoreNonBrowsableOnSubject && !subjectMember.IsBrowsable)
         {
-            Execute.Assertion.FailWith(
-                $"Expectation has {expectedMember.Description} that is non-browsable in the other object, and non-browsable " +
+            assertionChain.FailWith(
+                $"Expectation has {expectedMember.Expectation} that is non-browsable in the other object, and non-browsable " +
                 "members on the subject are ignored with the current configuration");
         }
         else

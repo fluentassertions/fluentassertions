@@ -16,7 +16,7 @@ public partial class CollectionAssertionSpecs
         public void Should_succeed_when_asserting_collection_has_a_count_that_equals_the_number_of_items()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().HaveCount(3);
@@ -26,7 +26,7 @@ public partial class CollectionAssertionSpecs
         public void Should_fail_when_asserting_collection_has_a_count_that_is_different_from_the_number_of_items()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().HaveCount(4);
@@ -40,7 +40,7 @@ public partial class CollectionAssertionSpecs
             When_collection_has_a_count_that_is_different_from_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action action = () => collection.Should().HaveCount(4, "because we want to test the failure {0}", "message");
@@ -55,17 +55,17 @@ public partial class CollectionAssertionSpecs
         public void When_collection_has_a_count_larger_than_the_minimum_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().HaveCount(c => c >= 3);
         }
 
         [Fact]
-        public void When_asserting_a_collection_with_incorrect_predicates_in_assertion_scope_all_are_reported()
+        public void Even_with_an_assertion_scope_only_the_first_failure_in_a_chained_call_is_reported()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () =>
@@ -75,15 +75,14 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "*to have a count (c > 3)*to have a count (c < 3)*");
+            act.Should().Throw<XunitException>().WithMessage("*count (c > 3), but count is 3: {1, 2, 3}.");
         }
 
         [Fact]
         public void When_collection_has_a_count_that_not_matches_the_predicate_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().HaveCount(c => c >= 4, "a minimum of 4 is required");
@@ -97,7 +96,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_count_is_matched_against_a_null_predicate_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().HaveCount(null);
@@ -147,7 +146,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_count_is_matched_against_a_predicate_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().HaveCount(c => (c % 2) == 1);
@@ -160,7 +159,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_count_is_matched_against_a_predicate_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().HaveCount(c => (c % 2) == 0);
@@ -173,7 +172,7 @@ public partial class CollectionAssertionSpecs
         public void When_counting_generic_enumerable_it_should_enumerate()
         {
             // Arrange
-            var enumerable = new CountingGenericEnumerable<int>(new[] { 1, 2, 3 });
+            var enumerable = new CountingGenericEnumerable<int>([1, 2, 3]);
 
             // Act
             enumerable.Should().HaveCount(3);
@@ -186,7 +185,7 @@ public partial class CollectionAssertionSpecs
         public void When_counting_generic_collection_it_should_not_enumerate()
         {
             // Arrange
-            var collection = new CountingGenericCollection<int>(new[] { 1, 2, 3 });
+            var collection = new CountingGenericCollection<int>([1, 2, 3]);
 
             // Act
             collection.Should().HaveCount(3);
@@ -203,7 +202,7 @@ public partial class CollectionAssertionSpecs
         public void Should_succeed_when_asserting_collection_has_a_count_different_from_the_number_of_items()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().NotHaveCount(2);
@@ -213,7 +212,7 @@ public partial class CollectionAssertionSpecs
         public void Should_fail_when_asserting_collection_has_a_count_that_equals_the_number_of_items()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().NotHaveCount(3);
@@ -226,7 +225,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_has_a_count_that_equals_than_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action action = () => collection.Should().NotHaveCount(3, "because we want to test the failure {0}", "message");

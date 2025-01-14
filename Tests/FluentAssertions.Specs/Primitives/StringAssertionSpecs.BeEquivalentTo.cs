@@ -13,6 +13,77 @@ public partial class StringAssertionSpecs
     public class BeEquivalentTo
     {
         [Fact]
+        public void Succeed_for_different_strings_using_custom_matching_comparer()
+        {
+            // Arrange
+            var comparer = new AlwaysMatchingEqualityComparer();
+            string actual = "ABC";
+            string expect = "XYZ";
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expect, o => o.Using(comparer));
+        }
+
+        [Fact]
+        public void Fail_for_same_strings_using_custom_not_matching_comparer()
+        {
+            // Arrange
+            var comparer = new NeverMatchingEqualityComparer();
+            string actual = "ABC";
+            string expect = "ABC";
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expect, o => o.Using(comparer));
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_casing_while_comparing_strings_to_be_equivalent()
+        {
+            // Arrange
+            string actual = "test";
+            string expect = "TEST";
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expect, o => o.IgnoringCase());
+        }
+
+        [Fact]
+        public void Can_ignore_leading_whitespace_while_comparing_strings_to_be_equivalent()
+        {
+            // Arrange
+            string actual = "  test";
+            string expect = "test";
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expect, o => o.IgnoringLeadingWhitespace());
+        }
+
+        [Fact]
+        public void Can_ignore_trailing_whitespace_while_comparing_strings_to_be_equivalent()
+        {
+            // Arrange
+            string actual = "test  ";
+            string expect = "test";
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expect, o => o.IgnoringTrailingWhitespace());
+        }
+
+        [Fact]
+        public void Can_ignore_newline_style_while_comparing_strings_to_be_equivalent()
+        {
+            // Arrange
+            string actual = "A\nB\r\nC";
+            string expect = "A\r\nB\nC";
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expect, o => o.IgnoringNewlineStyle());
+        }
+
+        [Fact]
         public void When_strings_are_the_same_while_ignoring_case_it_should_not_throw()
         {
             // Arrange
@@ -108,6 +179,89 @@ public partial class StringAssertionSpecs
 
     public class NotBeEquivalentTo
     {
+        [Fact]
+        public void Succeed_for_same_strings_using_custom_not_matching_comparer()
+        {
+            // Arrange
+            var comparer = new NeverMatchingEqualityComparer();
+            string actual = "ABC";
+            string expect = "ABC";
+
+            // Act / Assert
+            actual.Should().NotBeEquivalentTo(expect, o => o.Using(comparer));
+        }
+
+        [Fact]
+        public void Fail_for_different_strings_using_custom_matching_comparer()
+        {
+            // Arrange
+            var comparer = new AlwaysMatchingEqualityComparer();
+            string actual = "ABC";
+            string expect = "XYZ";
+
+            // Act
+            Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.Using(comparer));
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_casing_while_comparing_strings_to_not_be_equivalent()
+        {
+            // Arrange
+            string actual = "test";
+            string expect = "TEST";
+
+            // Act
+            Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.IgnoringCase());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_leading_whitespace_while_comparing_strings_to_not_be_equivalent()
+        {
+            // Arrange
+            string actual = "  test";
+            string expect = "test";
+
+            // Act
+            Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.IgnoringLeadingWhitespace());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_trailing_whitespace_while_comparing_strings_to_not_be_equivalent()
+        {
+            // Arrange
+            string actual = "test  ";
+            string expect = "test";
+
+            // Act
+            Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.IgnoringTrailingWhitespace());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ignore_newline_style_while_comparing_strings_to_not_be_equivalent()
+        {
+            // Arrange
+            string actual = "\rA\nB\r\nC\n";
+            string expect = "\nA\r\nB\nC\r";
+
+            // Act
+            Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.IgnoringNewlineStyle());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
         [Fact]
         public void When_strings_are_the_same_while_ignoring_case_it_should_throw()
         {

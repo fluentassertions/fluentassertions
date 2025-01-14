@@ -14,8 +14,7 @@ internal class AllPropertiesSelectionRule : IMemberSelectionRule
     public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
         MemberSelectionContext context)
     {
-        MemberVisibility visibility = context.IncludedProperties | MemberVisibility.ExplicitlyImplemented |
-            MemberVisibility.DefaultInterfaceProperties;
+        MemberVisibility visibility = context.IncludedProperties;
 
         IEnumerable<IMember> selectedProperties = context.Type
             .GetProperties(visibility.ToMemberKind())

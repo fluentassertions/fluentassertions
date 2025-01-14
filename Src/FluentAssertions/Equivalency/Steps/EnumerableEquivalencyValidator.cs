@@ -16,13 +16,16 @@ internal class EnumerableEquivalencyValidator
 
     #region Private Definitions
 
-    private readonly IEquivalencyValidator parent;
+    private readonly AssertionChain assertionChain;
+    private readonly IValidateChildNodeEquivalency parent;
     private readonly IEquivalencyValidationContext context;
 
     #endregion
 
-    public EnumerableEquivalencyValidator(IEquivalencyValidator parent, IEquivalencyValidationContext context)
+    public EnumerableEquivalencyValidator(AssertionChain assertionChain, IValidateChildNodeEquivalency parent,
+        IEquivalencyValidationContext context)
     {
+        this.assertionChain = assertionChain;
         this.parent = parent;
         this.context = context;
         Recursive = false;
@@ -39,7 +42,7 @@ internal class EnumerableEquivalencyValidator
             if (Recursive)
             {
                 using var _ = context.Tracer.WriteBlock(member =>
-                    Invariant($"Structurally comparing {subject} and expectation {expectation} at {member.Description}"));
+                    Invariant($"Structurally comparing {subject} and expectation {expectation} at {member.Expectation}"));
 
                 AssertElementGraphEquivalency(subject, expectation, context.CurrentNode);
             }
@@ -47,37 +50,37 @@ internal class EnumerableEquivalencyValidator
             {
                 using var _ = context.Tracer.WriteBlock(member =>
                     Invariant(
-                        $"Comparing subject {subject} and expectation {expectation} at {member.Description} using simple value equality"));
+                        $"Comparing subject {subject} and expectation {expectation} at {member.Expectation} using simple value equality"));
 
                 subject.Should().BeEquivalentTo(expectation);
             }
         }
     }
 
-    private static bool AssertIsNotNull(object expectation, object[] subject)
+    private bool AssertIsNotNull(object expectation, object[] subject)
     {
-        return AssertionScope.Current
+        assertionChain
             .ForCondition(expectation is not null)
-            .FailWith("Expected {context:subject} to be <null>, but found {0}.", new object[] { subject });
+            .FailWith("Expected {context:subject} to be <null>, but found {0}.", [subject]);
+
+        return assertionChain.Succeeded;
     }
 
-    private static Continuation AssertCollectionsHaveSameCount<T>(ICollection<object> subject, ICollection<T> expectation)
+    private bool AssertCollectionsHaveSameCount<T>(ICollection<object> subject, ICollection<T> expectation)
     {
-        return AssertionScope.Current
-            .WithExpectation("Expected {context:subject} to be a collection with {0} item(s){reason}", expectation.Count)
+        assertionChain
             .AssertEitherCollectionIsNotEmpty(subject, expectation)
             .Then
             .AssertCollectionHasEnoughItems(subject, expectation)
             .Then
-            .AssertCollectionHasNotTooManyItems(subject, expectation)
-            .Then
-            .ClearExpectation();
+            .AssertCollectionHasNotTooManyItems(subject, expectation);
+
+        return assertionChain.Succeeded;
     }
 
     private void AssertElementGraphEquivalency<T>(object[] subjects, T[] expectations, INode currentNode)
     {
-        unmatchedSubjectIndexes = new List<int>(subjects.Length);
-        unmatchedSubjectIndexes.AddRange(Enumerable.Range(0, subjects.Length));
+        unmatchedSubjectIndexes = Enumerable.Range(0, subjects.Length).ToList();
 
         if (OrderingRules.IsOrderingStrictFor(new ObjectInfo(new Comparands(subjects, expectations, typeof(T[])), currentNode)))
         {
@@ -99,18 +102,16 @@ internal class EnumerableEquivalencyValidator
 
             using var _ = context.Tracer.WriteBlock(member =>
                 Invariant(
-                    $"Strictly comparing expectation {expectation} at {member.Description} to item with index {index} in {subjects}"));
+                    $"Strictly comparing expectation {expectation} at {member.Expectation} to item with index {index} in {subjects}"));
 
             bool succeeded = StrictlyMatchAgainst(subjects, expectation, index);
-
             if (!succeeded)
             {
                 failedCount++;
-
                 if (failedCount >= FailedItemsFastFailThreshold)
                 {
                     context.Tracer.WriteLine(member =>
-                        $"Aborting strict order comparison of collections after {FailedItemsFastFailThreshold} items failed at {member.Description}");
+                        $"Aborting strict order comparison of collections after {FailedItemsFastFailThreshold} items failed at {member.Expectation}");
 
                     break;
                 }
@@ -128,7 +129,7 @@ internal class EnumerableEquivalencyValidator
 
             using var _ = context.Tracer.WriteBlock(member =>
                 Invariant(
-                    $"Finding the best match of {expectation} within all items in {subjects} at {member.Description}[{index}]"));
+                    $"Finding the best match of {expectation} within all items in {subjects} at {member.Expectation}[{index}]"));
 
             bool succeeded = LooselyMatchAgainst(subjects, expectation, index);
 
@@ -139,7 +140,7 @@ internal class EnumerableEquivalencyValidator
                 if (failedCount >= FailedItemsFastFailThreshold)
                 {
                     context.Tracer.WriteLine(member =>
-                        $"Fail failing loose order comparison of collection after {FailedItemsFastFailThreshold} items failed at {member.Description}");
+                        $"Fail failing loose order comparison of collection after {FailedItemsFastFailThreshold} items failed at {member.Expectation}");
 
                     break;
                 }
@@ -155,7 +156,7 @@ internal class EnumerableEquivalencyValidator
         int index = 0;
 
         GetTraceMessage getMessage = member =>
-            $"Comparing subject at {member.Description}[{index}] with the expectation at {member.Description}[{expectationIndex}]";
+            $"Comparing subject at {member.Subject}[{index}] with the expectation at {member.Expectation}[{expectationIndex}]";
 
         int indexToBeRemoved = -1;
 
@@ -184,9 +185,9 @@ internal class EnumerableEquivalencyValidator
             unmatchedSubjectIndexes.RemoveAt(indexToBeRemoved);
         }
 
-        foreach (string failure in results.SelectClosestMatchFor(expectationIndex))
+        foreach (string failure in results.GetTheFailuresForTheSetWithTheFewestFailures(expectationIndex))
         {
-            AssertionScope.Current.AddPreFormattedFailure(failure);
+            assertionChain.AddPreFormattedFailure(failure);
         }
 
         return indexToBeRemoved != -1;
@@ -196,8 +197,7 @@ internal class EnumerableEquivalencyValidator
     {
         using var scope = new AssertionScope();
 
-        parent.RecursivelyAssertEquality(new Comparands(subject, expectation, typeof(T)),
-            context.AsCollectionItem<T>(expectationIndex));
+        parent.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(T)), context.AsCollectionItem<T>(expectationIndex));
 
         return scope.Discard();
     }
@@ -208,7 +208,7 @@ internal class EnumerableEquivalencyValidator
         object subject = subjects[expectationIndex];
         IEquivalencyValidationContext equivalencyValidationContext = context.AsCollectionItem<T>(expectationIndex);
 
-        parent.RecursivelyAssertEquality(new Comparands(subject, expectation, typeof(T)), equivalencyValidationContext);
+        parent.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(T)), equivalencyValidationContext);
 
         bool failed = scope.HasFailures();
         return !failed;

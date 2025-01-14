@@ -1,15 +1,15 @@
-﻿namespace FluentAssertions.Execution;
+namespace FluentAssertions.Execution;
 
 /// <summary>
-/// Represents assertion fail reason. Contains the message and arguments for message's numbered placeholders.
+/// Represents the assertion fail reason. Contains the message and arguments for message's numbered placeholders.
 /// </summary>
 /// <remarks>
 /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a
 /// few specialized placeholders as well. For instance, <em>{reason}</em> will be replaced with the reason of the
-/// assertion as passed to <see cref="AssertionScope.BecauseOf(string, object[])"/>.
+/// assertion as passed to <see cref="AssertionChain.BecauseOf(string, object[])"/>.
 /// <para>
 /// Other named placeholders will be replaced with the <see cref="AssertionScope.Current"/> scope data passed through
-/// <see cref="AssertionScope.AddNonReportable"/> and <see cref="AssertionScope.AddReportable(string,string)"/>.
+/// <see cref="AssertionChain.WithReportable"/>.
 /// </para>
 /// <para>
 /// Finally, a description of the current subject can be passed through the <em>{context:description}</em> placeholder.

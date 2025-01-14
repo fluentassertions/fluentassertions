@@ -9,27 +9,33 @@ namespace FluentAssertions.Equivalency;
 public class NestedExclusionOptionBuilder<TExpectation, TCurrent>
 {
     /// <summary>
-    /// The selected path starting at the first <see cref="EquivalencyAssertionOptions{TExpectation}.For{TNext}"/>.
+    /// The selected path starting at the first <see cref="EquivalencyOptions{TExpectation}.For{TNext}"/>.
     /// </summary>
     private readonly ExcludeMemberByPathSelectionRule currentPathSelectionRule;
 
-    private readonly EquivalencyAssertionOptions<TExpectation> capturedAssertionOptions;
+    private readonly EquivalencyOptions<TExpectation> capturedOptions;
 
-    internal NestedExclusionOptionBuilder(EquivalencyAssertionOptions<TExpectation> capturedAssertionOptions,
+    internal NestedExclusionOptionBuilder(EquivalencyOptions<TExpectation> capturedOptions,
         ExcludeMemberByPathSelectionRule currentPathSelectionRule)
     {
-        this.capturedAssertionOptions = capturedAssertionOptions;
+        this.capturedOptions = capturedOptions;
         this.currentPathSelectionRule = currentPathSelectionRule;
     }
 
     /// <summary>
     /// Selects a nested property to exclude. This ends the <see cref="For{TNext}"/> chain.
     /// </summary>
-    public EquivalencyAssertionOptions<TExpectation> Exclude(Expression<Func<TCurrent, object>> expression)
+    public EquivalencyOptions<TExpectation> Exclude(Expression<Func<TCurrent, object>> expression)
     {
-        var nextPath = expression.GetMemberPath();
-        currentPathSelectionRule.AppendPath(nextPath);
-        return capturedAssertionOptions;
+        var currentSelectionPath = currentPathSelectionRule.CurrentPath;
+
+        foreach (var path in expression.GetMemberPaths())
+        {
+            var newPath = currentSelectionPath.AsParentCollectionOf(path);
+            capturedOptions.AddSelectionRule(new ExcludeMemberByPathSelectionRule(newPath));
+        }
+
+        return capturedOptions;
     }
 
     /// <summary>
@@ -40,6 +46,6 @@ public class NestedExclusionOptionBuilder<TExpectation, TCurrent>
     {
         var nextPath = expression.GetMemberPath();
         currentPathSelectionRule.AppendPath(nextPath);
-        return new NestedExclusionOptionBuilder<TExpectation, TNext>(capturedAssertionOptions, currentPathSelectionRule);
+        return new NestedExclusionOptionBuilder<TExpectation, TNext>(capturedOptions, currentPathSelectionRule);
     }
 }

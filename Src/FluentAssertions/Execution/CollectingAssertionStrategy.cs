@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution;
 
 internal class CollectingAssertionStrategy : IAssertionStrategy
 {
-    private readonly List<string> failureMessages = new();
+    private readonly List<string> failureMessages = [];
 
     /// <summary>
     /// Returns the messages for the assertion failures that happened until now.
@@ -44,7 +43,7 @@ internal class CollectingAssertionStrategy : IAssertionStrategy
                 }
             }
 
-            Services.ThrowException(builder.ToString());
+            AssertionEngine.TestFramework.Throw(builder.ToString());
         }
     }
 

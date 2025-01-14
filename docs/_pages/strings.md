@@ -20,7 +20,7 @@ theString.Should().BeNullOrWhiteSpace(); // either null, empty or whitespace onl
 theString.Should().NotBeNullOrWhiteSpace();
 ```
 
-To ensure the characters in a string are all (not) upper or lower cased, you can use the following assertions.
+To ensure that the characters with case in a string are all upper or lower cased (or the opposite), you can use the following assertions.
 
 ```csharp
 theString.Should().BeUpperCased();
@@ -29,9 +29,20 @@ theString.Should().BeLowerCased();
 theString.Should().NotBeLowerCased();
 ```
 
-However, be careful that numbers and special characters don't have casing, so `BeUpperCased` and `BeLowerCased` will always fail on a string that contains anything but alphabetic characters. In those cases, we recommend using `NotBeUpperCased` or `NotBeLowerCased`.
+Note that numbers, special characters, and some alphabets don't have casing, so `BeUpperCased` and `BeLowerCased` will
+ignore these characters. In other words, `BeUpperCased` will succeed if the string is a possible output of
+`ToUpperInvariant`, and likewise for `BeLowerCased`. `NotBeUpperCased` will fail only if the string contains characters
+with case, and all those characters are upper-case, and likewise for `NotBeLowerCased`.
 
-Obviously you’ll find all the methods you would expect for string assertions.
+The semantics of these assertions changed in FluentAssertions v7.0. For the previous semantics, asserting that all
+characters in the string are upper-case characters, for example, you can use a collection assertion on the characters of
+the string:
+
+```csharp
+theString.Should().OnlyContain(char.IsUpper);
+```
+
+Obviously you'll find all the methods you would expect for string assertions.
 
 ```csharp
 theString = "This is a String";
@@ -73,6 +84,27 @@ theString.Should().EndWith("a String");
 theString.Should().NotEndWith("a String");
 theString.Should().EndWithEquivalentOf("a string");
 theString.Should().NotEndWithEquivalentOf("a string");
+```
+
+All equivalency methods which end with "EquivalentOf" can be fine-tuned in its behavior what differences to ignore.
+For instance, if you want to ignore leading whitespace, use this:
+
+```csharp
+theString.Should().BeEquivalentTo("This is a string", o => o.IgnoringLeadingWhitespace());
+```
+
+The supported options are:
+
+| Option                       | Behavior                                                                                          |
+| ---------------------------- | ------------------------------------------------------------------------------------------------- |
+| `IgnoringLeadingWhitespace`  | Ignores leading whitespace in the subject and the expectation.                                    |
+| `IgnoringTrailingWhitespace` | Ignores trailing whitespace in the subject and the expectation.                                   |
+| `IgnoringCase`               | Compares the strings case-insensitive.                                                            |
+| `IgnoringNewlineStyle`       | Replaces `"\r\n"` and `"\r"` with `"\n"` before comparing the subject and expectation.            |
+
+You can also specify a custom string comparer via
+```csharp
+theString.Should().BeEquivalentTo("THIS IS A STRING", o => o.Using(StringComparer.OrdinalIgnoreCase));
 ```
 
 For the `Match`, `NotMatch`, `MatchEquivalentOf`, and `NotMatchEquivalentOf` methods we support wildcards.

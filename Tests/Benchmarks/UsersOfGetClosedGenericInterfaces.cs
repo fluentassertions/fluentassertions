@@ -29,7 +29,7 @@ public class UsersOfGetClosedGenericInterfaces
         public INode CurrentNode { get; }
         public Reason Reason { get; }
         public Tracer Tracer { get; }
-        public IEquivalencyAssertionOptions Options { get; internal set; }
+        public IEquivalencyOptions Options { get; internal set; }
         public bool IsCyclicReference(object expectation) => throw new NotImplementedException();
 
         public IEquivalencyValidationContext AsNestedMember(IMember expectationMember) => throw new NotImplementedException();
@@ -42,7 +42,7 @@ public class UsersOfGetClosedGenericInterfaces
         public IEquivalencyValidationContext Clone() => throw new NotImplementedException();
     }
 
-    private class Config : IEquivalencyAssertionOptions
+    private class Config : IEquivalencyOptions
     {
         public IEnumerable<IMemberSelectionRule> SelectionRules => throw new NotImplementedException();
 
@@ -77,6 +77,14 @@ public class UsersOfGetClosedGenericInterfaces
         public ITraceWriter TraceWriter => throw new NotImplementedException();
 
         public EqualityStrategy GetEqualityStrategy(Type type) => throw new NotImplementedException();
+
+        public bool IgnoreLeadingWhitespace => throw new NotImplementedException();
+
+        public bool IgnoreTrailingWhitespace => throw new NotImplementedException();
+
+        public bool IgnoreCase => throw new NotImplementedException();
+
+        public bool IgnoreNewlineStyle => throw new NotImplementedException();
     }
 
     [Params(typeof(DBNull), typeof(bool), typeof(char), typeof(sbyte), typeof(byte), typeof(short), typeof(ushort),

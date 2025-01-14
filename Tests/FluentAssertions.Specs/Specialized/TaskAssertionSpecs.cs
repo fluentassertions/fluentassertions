@@ -5,7 +5,6 @@ using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
-
 using static FluentAssertions.FluentActions;
 
 namespace FluentAssertions.Specs.Specialized;
@@ -25,6 +24,38 @@ public static class TaskAssertionSpecs
 
             // Assert
             action.Should().NotThrow("the Subject should remain the same");
+        }
+    }
+
+    public class NotThrow
+    {
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            Func<Task<int>> subject = () => Task.FromResult(42);
+
+            // Act
+            Action action = () => subject.Should().Subject.As<object>().Should().BeSameAs(subject);
+
+            // Assert
+            action.Should().NotThrow("the Subject should remain the same").And.NotBeNull();
+        }
+    }
+
+    public class NotThrowAfter
+    {
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            Func<Task<int>> subject = () => Task.FromResult(42);
+
+            // Act
+            Action action = () => subject.Should().Subject.As<object>().Should().BeSameAs(subject);
+
+            // Assert
+            action.Should().NotThrowAfter(1.Seconds(), 1.Seconds()).And.NotBeNull();
         }
     }
 
@@ -99,6 +130,7 @@ public static class TaskAssertionSpecs
             // Act
             Func<Task> action = () =>
                 taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
+
             timer.Complete();
 
             // Assert
@@ -214,6 +246,7 @@ public static class TaskAssertionSpecs
             Func<Task> testAction = async () =>
             {
                 using var _ = new AssertionScope();
+
                 await action.Should().ThrowAsync<InvalidOperationException>(
                     "because we want to test the failure {0}", "message");
             };
@@ -231,7 +264,7 @@ public static class TaskAssertionSpecs
             {
                 return
                     Awaiting(() => Task.FromException(new InvalidOperationException("foo")))
-                    .Should().ThrowAsync<InvalidOperationException>();
+                        .Should().ThrowAsync<InvalidOperationException>();
             };
 
             // Assert
@@ -246,7 +279,7 @@ public static class TaskAssertionSpecs
             {
                 return
                     Awaiting(() => Task.FromException(new NotSupportedException("foo")))
-                    .Should().ThrowAsync<InvalidOperationException>();
+                        .Should().ThrowAsync<InvalidOperationException>();
             };
 
             // Assert
@@ -263,7 +296,7 @@ public static class TaskAssertionSpecs
             {
                 return
                     Awaiting(() => Task.CompletedTask)
-                    .Should().ThrowAsync<InvalidOperationException>();
+                        .Should().ThrowAsync<InvalidOperationException>();
             };
 
             // Assert
@@ -299,6 +332,7 @@ public static class TaskAssertionSpecs
             Func<Task> testAction = async () =>
             {
                 using var _ = new AssertionScope();
+
                 await action.Should().ThrowWithinAsync<InvalidOperationException>(
                     100.Milliseconds(), "because we want to test the failure {0}", "message");
             };
@@ -368,6 +402,7 @@ public static class TaskAssertionSpecs
                 return Awaiting(() => (Task)taskFactory.Task)
                     .Should(timer).ThrowWithinAsync<InvalidOperationException>(1.Seconds());
             };
+
             _ = action.Invoke();
             taskFactory.SetException(new InvalidOperationException("foo"));
 
@@ -390,6 +425,7 @@ public static class TaskAssertionSpecs
                     .Should(timer).ThrowWithinAsync<InvalidOperationException>(
                         100.Ticks(), "because we want to test the failure {0}", "message");
             };
+
             timer.Delay(101.Ticks());
 
             // Assert
@@ -413,6 +449,7 @@ public static class TaskAssertionSpecs
                     .Awaiting(t => (Task)t.Task)
                     .Should(timer).ThrowWithinAsync<InvalidOperationException>(100.Milliseconds());
             };
+
             taskFactory.SetResult(true);
             timer.Complete();
 
@@ -435,6 +472,7 @@ public static class TaskAssertionSpecs
                     .Awaiting(t => (Task)t.Task)
                     .Should(timer).ThrowWithinAsync<InvalidOperationException>(100.Milliseconds());
             };
+
             taskFactory.SetException(new NotSupportedException("foo"));
 
             // Assert
@@ -456,6 +494,7 @@ public static class TaskAssertionSpecs
                 return Awaiting(() => (Task)taskFactory.Task)
                     .Should(timer).ThrowWithinAsync<InvalidOperationException>(1.Seconds());
             };
+
             _ = action.Invoke();
             taskFactory.SetException(new NotSupportedException("foo"));
 

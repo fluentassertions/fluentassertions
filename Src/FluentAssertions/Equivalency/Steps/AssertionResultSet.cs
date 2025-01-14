@@ -10,7 +10,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// </summary>
 internal class AssertionResultSet
 {
-    private readonly Dictionary<object, string[]> set = new();
+    private readonly Dictionary<object, string[]> set = [];
 
     /// <summary>
     /// Adds the failures (if any) resulting from executing an assertion within a
@@ -22,18 +22,18 @@ internal class AssertionResultSet
     }
 
     /// <summary>
-    /// Returns  the closest match compared to the set identified by the provided <paramref name="key"/> or
+    /// Returns the closest match compared to the set identified by the provided <paramref name="key"/> or
     /// an empty array if one of the results represents a successful assertion.
     /// </summary>
     /// <remarks>
     /// The closest match is the set that contains the least amount of failures, or no failures at all, and preferably
     /// the set that is identified by the <paramref name="key"/>.
     /// </remarks>
-    public string[] SelectClosestMatchFor(object key = null)
+    public string[] GetTheFailuresForTheSetWithTheFewestFailures(object key = null)
     {
         if (ContainsSuccessfulSet())
         {
-            return Array.Empty<string>();
+            return [];
         }
 
         KeyValuePair<object, string[]>[] bestResultSets = GetBestResultSets();

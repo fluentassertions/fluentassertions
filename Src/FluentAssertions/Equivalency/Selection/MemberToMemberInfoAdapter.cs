@@ -14,9 +14,9 @@ internal class MemberToMemberInfoAdapter : IMemberInfo
     {
         this.member = member;
         DeclaringType = member.DeclaringType;
-        Name = member.Name;
+        Name = member.Expectation.Name;
         Type = member.Type;
-        Path = member.PathAndName;
+        Path = member.Expectation.PathAndName;
     }
 
     public string Name { get; }

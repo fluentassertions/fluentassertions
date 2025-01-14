@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -18,9 +19,12 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     where TSubject : MemberInfo
     where TAssertions : MemberInfoAssertions<TSubject, TAssertions>
 {
-    protected MemberInfoAssertions(TSubject subject)
-        : base(subject)
+    private readonly AssertionChain assertionChain;
+
+    protected MemberInfoAssertions(TSubject subject, AssertionChain assertionChain)
+        : base(subject, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -34,7 +38,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute> BeDecoratedWith<TAttribute>(
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         return BeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
@@ -51,7 +55,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         return NotBeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
@@ -74,25 +78,25 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute> BeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {Identifier} to be decorated with {typeof(TAttribute)}{{reason}}" +
                 ", but {context:member} is <null>.");
 
-        IEnumerable<TAttribute> attributes = Array.Empty<TAttribute>();
+        IEnumerable<TAttribute> attributes = [];
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
-            Execute.Assertion
+            assertionChain
                 .ForCondition(attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -120,23 +124,23 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {Identifier} to not be decorated with {typeof(TAttribute)}{{reason}}" +
                 ", but {context:member} is <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
-            Execute.Assertion
+            assertionChain
                 .ForCondition(!attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -149,5 +153,5 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
 
     protected override string Identifier => "member";
 
-    internal virtual string SubjectDescription => $"{Subject.DeclaringType}.{Subject.Name}";
+    private protected virtual string SubjectDescription => $"{Subject.DeclaringType}.{Subject.Name}";
 }

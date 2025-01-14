@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
 namespace FluentAssertions;
@@ -19,7 +20,7 @@ public static class EnumAssertionsExtensions
     public static EnumAssertions<TEnum> Should<TEnum>(this TEnum @enum)
         where TEnum : struct, Enum
     {
-        return new EnumAssertions<TEnum>(@enum);
+        return new EnumAssertions<TEnum>(@enum, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -30,6 +31,6 @@ public static class EnumAssertionsExtensions
     public static NullableEnumAssertions<TEnum> Should<TEnum>(this TEnum? @enum)
         where TEnum : struct, Enum
     {
-        return new NullableEnumAssertions<TEnum>(@enum);
+        return new NullableEnumAssertions<TEnum>(@enum, AssertionChain.GetOrCreate());
     }
 }

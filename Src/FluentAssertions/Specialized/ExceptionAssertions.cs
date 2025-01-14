@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
@@ -18,9 +19,12 @@ namespace FluentAssertions.Specialized;
 public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerable<TException>, ExceptionAssertions<TException>>
     where TException : Exception
 {
-    public ExceptionAssertions(IEnumerable<TException> exceptions)
-        : base(exceptions)
+    private readonly AssertionChain assertionChain;
+
+    public ExceptionAssertions(IEnumerable<TException> exceptions, AssertionChain assertionChain)
+        : base(exceptions, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -71,16 +75,16 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     /// </item>
     /// </list>
     /// </remarks>
-    public virtual ExceptionAssertions<TException> WithMessage(string expectedWildcardPattern, string because = "",
-        params object[] becauseArgs)
+    public virtual ExceptionAssertions<TException> WithMessage(string expectedWildcardPattern,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        AssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs).UsingLineBreaks;
-
-        assertion
+        assertionChain
+            .BecauseOf(because, becauseArgs)
+            .UsingLineBreaks
             .ForCondition(Subject.Any())
             .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedWildcardPattern);
 
-        ExceptionMessageAssertion.Execute(Subject.Select(exc => exc.Message), expectedWildcardPattern, because,
+        AssertExceptionMessage(Subject.Select(exc => exc.Message), expectedWildcardPattern, because,
             becauseArgs);
 
         return this;
@@ -102,7 +106,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
         where TInnerException : Exception
     {
         var expectedInnerExceptions = AssertInnerExceptions(typeof(TInnerException), because, becauseArgs);
-        return new ExceptionAssertions<TInnerException>(expectedInnerExceptions.Cast<TInnerException>());
+        return new ExceptionAssertions<TInnerException>(expectedInnerExceptions.Cast<TInnerException>(), assertionChain);
     }
 
     /// <summary>
@@ -121,7 +125,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     {
         Guard.ThrowIfArgumentIsNull(innerException);
 
-        return new ExceptionAssertions<Exception>(AssertInnerExceptions(innerException, because, becauseArgs));
+        return new ExceptionAssertions<Exception>(AssertInnerExceptions(innerException, because, becauseArgs), assertionChain);
     }
 
     /// <summary>
@@ -140,7 +144,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
         where TInnerException : Exception
     {
         var exceptionExpression = AssertInnerExceptionExactly(typeof(TInnerException), because, becauseArgs);
-        return new ExceptionAssertions<TInnerException>(exceptionExpression.Cast<TInnerException>());
+        return new ExceptionAssertions<TInnerException>(exceptionExpression.Cast<TInnerException>(), assertionChain);
     }
 
     /// <summary>
@@ -159,7 +163,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     {
         Guard.ThrowIfArgumentIsNull(innerException);
 
-        return new ExceptionAssertions<Exception>(AssertInnerExceptionExactly(innerException, because, becauseArgs));
+        return new ExceptionAssertions<Exception>(AssertInnerExceptionExactly(innerException, because, becauseArgs), assertionChain);
     }
 
     /// <summary>
@@ -183,7 +187,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
 
         Func<TException, bool> condition = exceptionExpression.Compile();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(condition(SingleSubject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected exception where {0}{reason}, but the condition was not met by:"
@@ -196,7 +200,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     private IEnumerable<Exception> AssertInnerExceptionExactly(Type innerException, string because = "",
         params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject.Any(e => e.InnerException is not null))
             .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.", innerException);
@@ -205,7 +209,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
             .Select(e => e.InnerException)
             .Where(e => e?.GetType() == innerException).ToArray();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(expectedExceptions.Length > 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected inner {0}{reason}, but found {1}.", innerException, SingleSubject.InnerException);
@@ -216,7 +220,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     private IEnumerable<Exception> AssertInnerExceptions(Type innerException, string because = "",
         params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject.Any(e => e.InnerException is not null))
             .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.", innerException);
@@ -226,7 +230,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
             .Where(e => e != null && e.GetType().IsSameOrInherits(innerException))
             .ToArray();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(expectedInnerExceptions.Length > 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected inner {0}{reason}, but found {1}.", innerException, SingleSubject.InnerException);
@@ -242,7 +246,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
             {
                 string thrownExceptions = BuildExceptionsString(Subject);
 
-                Services.ThrowException(
+                AssertionEngine.TestFramework.Throw(
                     $"More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{Environment.NewLine}{thrownExceptions}");
             }
 
@@ -258,39 +262,35 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
                     "\t" + Formatter.ToString(exception)));
     }
 
-    private static class ExceptionMessageAssertion
+    private void AssertExceptionMessage(IEnumerable<string> messages, string expectation, string because, params object[] becauseArgs)
     {
-        private const string Context = "exception message";
+        var results = new AssertionResultSet();
 
-        public static void Execute(IEnumerable<string> messages, string expectation, string because, params object[] becauseArgs)
+        foreach (string message in messages)
         {
-            using var _ = new AssertionScope();
-            var results = new AssertionResultSet();
-
-            foreach (string message in messages)
+            using (var scope = new AssertionScope())
             {
-                using (var scope = new AssertionScope())
-                {
-                    scope.Context = new Lazy<string>(() => Context);
+                var chain = AssertionChain.GetOrCreate();
+                chain.OverrideCallerIdentifier(() => "exception message");
+                chain.ReuseOnce();
 
-                    message.Should().MatchEquivalentOf(expectation, because, becauseArgs);
+                message.Should().MatchEquivalentOf(expectation, because, becauseArgs);
 
-                    results.AddSet(message, scope.Discard());
-                }
-
-                if (results.ContainsSuccessfulSet())
-                {
-                    break;
-                }
+                results.AddSet(message, scope.Discard());
             }
 
-            foreach (string failure in results.SelectClosestMatchFor())
+            if (results.ContainsSuccessfulSet())
             {
-                string replacedCurlyBraces =
-                    failure.EscapePlaceholders();
-
-                AssertionScope.Current.FailWith(replacedCurlyBraces);
+                break;
             }
+        }
+
+        foreach (string failure in results.GetTheFailuresForTheSetWithTheFewestFailures())
+        {
+            string replacedCurlyBraces =
+                failure.EscapePlaceholders();
+
+            assertionChain.FailWith(replacedCurlyBraces);
         }
     }
 }

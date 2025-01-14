@@ -67,6 +67,7 @@ Contributions must also satisfy the other published guidelines defined in this d
 Please do:
 
 * Target the [Pull Request](https://help.github.com/articles/using-pull-requests) at the `develop` branch.
+* Prefer rebase over merge when updating your local branch.
 * Follow the style presented in the [Coding Guidelines for C#](https://csharpcodingguidelines.com/).
 * Align with the [Design Principles](https://github.com/fluentassertions/fluentassertions/issues/1340)
 * Ensure that changes are covered by a new or existing set of unit tests which follow the Arrange-Act-Assert syntax such as is used [in this example](https://github.com/fluentassertions/fluentassertions/blob/daaf35b9b59b622c96d0c034e8972a020b2bee55/Tests/FluentAssertions.Shared.Specs/BasicEquivalencySpecs.cs#L33).

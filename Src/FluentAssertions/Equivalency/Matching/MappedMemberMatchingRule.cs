@@ -1,6 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Matching;
 
@@ -29,10 +30,10 @@ internal class MappedMemberMatchingRule<TExpectation, TSubject> : IMemberMatchin
         this.subjectMemberName = subjectMemberName;
     }
 
-    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
+    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options, AssertionChain assertionChain)
     {
         if (parent.Type.IsSameOrInherits(typeof(TExpectation)) && subject is TSubject &&
-            expectedMember.Name == expectationMemberName)
+            expectedMember.Subject.Name == expectationMemberName)
         {
             var member = MemberFactory.Find(subject, subjectMemberName, parent);
 

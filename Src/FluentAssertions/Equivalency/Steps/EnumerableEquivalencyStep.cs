@@ -8,16 +8,18 @@ namespace FluentAssertions.Equivalency.Steps;
 public class EnumerableEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+        IValidateChildNodeEquivalency valueChildNodes)
     {
         if (!IsCollection(comparands.GetExpectedType(context.Options)))
         {
             return EquivalencyResult.ContinueWithNext;
         }
 
-        if (AssertSubjectIsCollection(comparands.Subject))
+        var assertionChain = AssertionChain.GetOrCreate().For(context);
+
+        if (AssertSubjectIsCollection(assertionChain, comparands.Subject))
         {
-            var validator = new EnumerableEquivalencyValidator(nestedValidator, context)
+            var validator = new EnumerableEquivalencyValidator(assertionChain, valueChildNodes, context)
             {
                 Recursive = context.CurrentNode.IsRoot || context.Options.IsRecursive,
                 OrderingRules = context.Options.OrderingRules
@@ -26,23 +28,23 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
             validator.Execute(ToArray(comparands.Subject), ToArray(comparands.Expectation));
         }
 
-        return EquivalencyResult.AssertionCompleted;
+        return EquivalencyResult.EquivalencyProven;
     }
 
-    private static bool AssertSubjectIsCollection(object subject)
+    private static bool AssertSubjectIsCollection(AssertionChain assertionChain, object subject)
     {
-        bool conditionMet = AssertionScope.Current
+        assertionChain
             .ForCondition(subject is not null)
             .FailWith("Expected a collection, but {context:Subject} is <null>.");
 
-        if (conditionMet)
+        if (assertionChain.Succeeded)
         {
-            conditionMet = AssertionScope.Current
+            assertionChain
                 .ForCondition(IsCollection(subject.GetType()))
                 .FailWith("Expected a collection, but {context:Subject} is of a non-collection type.");
         }
 
-        return conditionMet;
+        return assertionChain.Succeeded;
     }
 
     private static bool IsCollection(Type type)
@@ -64,7 +66,7 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
         catch (InvalidOperationException) when (IsIgnorableArrayLikeType(value))
         {
             // This is probably a default ImmutableArray<T> or an empty ArraySegment.
-            return Array.Empty<object>();
+            return [];
         }
     }
 

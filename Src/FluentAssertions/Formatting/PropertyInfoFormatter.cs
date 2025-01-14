@@ -18,6 +18,13 @@ public class PropertyInfoFormatter : IValueFormatter
 
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
     {
-        formattedGraph.AddFragment(((PropertyInfo)value).Name);
+        if (value is not PropertyInfo property)
+        {
+            formattedGraph.AddFragment("<null>");
+        }
+        else
+        {
+            formattedGraph.AddFragment($"{property.DeclaringType?.Name ?? string.Empty}.{property.Name}");
+        }
     }
 }

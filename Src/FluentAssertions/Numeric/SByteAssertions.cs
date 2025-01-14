@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Numeric;
 
@@ -9,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class SByteAssertions : NumericAssertions<sbyte>
 {
-    internal SByteAssertions(sbyte value)
-        : base(value)
+    internal SByteAssertions(sbyte value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 

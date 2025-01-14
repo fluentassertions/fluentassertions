@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Sdk;
 
@@ -51,12 +52,12 @@ public class MemberMatchingSpecs
     public void Nested_properties_can_be_mapped_using_a_nested_expression()
     {
         // Arrange
-        var subject = new ParentOfSubjectWithProperty1(new[] { new SubjectWithProperty1 { Property1 = "Hello" } });
+        var subject = new ParentOfSubjectWithProperty1([new SubjectWithProperty1 { Property1 = "Hello" }]);
 
-        var expectation = new ParentOfExpectationWithProperty2(new[]
-        {
+        var expectation = new ParentOfExpectationWithProperty2(
+        [
             new ExpectationWithProperty2 { Property2 = "Hello" }
-        });
+        ]);
 
         // Act / Assert
         subject.Should()
@@ -70,12 +71,12 @@ public class MemberMatchingSpecs
     public void Nested_properties_can_be_mapped_using_a_nested_type_and_property_names()
     {
         // Arrange
-        var subject = new ParentOfSubjectWithProperty1(new[] { new SubjectWithProperty1 { Property1 = "Hello" } });
+        var subject = new ParentOfSubjectWithProperty1([new SubjectWithProperty1 { Property1 = "Hello" }]);
 
-        var expectation = new ParentOfExpectationWithProperty2(new[]
-        {
+        var expectation = new ParentOfExpectationWithProperty2(
+        [
             new ExpectationWithProperty2 { Property2 = "Hello" }
-        });
+        ]);
 
         // Act / Assert
         subject.Should()
@@ -87,14 +88,15 @@ public class MemberMatchingSpecs
     public void Nested_explicitly_implemented_properties_can_be_mapped_using_a_nested_type_and_property_names()
     {
         // Arrange
-        var subject = new ParentOfSubjectWithExplicitlyImplementedProperty(new[] { new SubjectWithExplicitImplementedProperty() });
+        var subject =
+            new ParentOfSubjectWithExplicitlyImplementedProperty(new[] { new SubjectWithExplicitImplementedProperty() });
 
         ((IProperty)subject.Children[0]).Property = "Hello";
 
-        var expectation = new ParentOfExpectationWithProperty2(new[]
-        {
+        var expectation = new ParentOfExpectationWithProperty2(
+        [
             new ExpectationWithProperty2 { Property2 = "Hello" }
-        });
+        ]);
 
         // Act / Assert
         subject.Should()
@@ -121,12 +123,12 @@ public class MemberMatchingSpecs
     public void Nested_properties_can_be_mapped_using_a_nested_type_and_a_property_expression()
     {
         // Arrange
-        var subject = new ParentOfSubjectWithProperty1(new[] { new SubjectWithProperty1 { Property1 = "Hello" } });
+        var subject = new ParentOfSubjectWithProperty1([new SubjectWithProperty1 { Property1 = "Hello" }]);
 
-        var expectation = new ParentOfExpectationWithProperty2(new[]
-        {
+        var expectation = new ParentOfExpectationWithProperty2(
+        [
             new ExpectationWithProperty2 { Property2 = "Hello" }
-        });
+        ]);
 
         // Act / Assert
         subject.Should()
@@ -405,12 +407,12 @@ public class MemberMatchingSpecs
     public void Nested_types_and_dotted_expectation_member_paths_cannot_be_combined()
     {
         // Arrange
-        var subject = new ParentOfSubjectWithProperty1(new[] { new SubjectWithProperty1 { Property1 = "Hello" } });
+        var subject = new ParentOfSubjectWithProperty1([new SubjectWithProperty1 { Property1 = "Hello" }]);
 
-        var expectation = new ParentOfExpectationWithProperty2(new[]
-        {
+        var expectation = new ParentOfExpectationWithProperty2(
+        [
             new ExpectationWithProperty2 { Property2 = "Hello" }
-        });
+        ]);
 
         // Act
         Action act = () => subject.Should()
@@ -427,12 +429,12 @@ public class MemberMatchingSpecs
     public void Nested_types_and_dotted_subject_member_paths_cannot_be_combined()
     {
         // Arrange
-        var subject = new ParentOfSubjectWithProperty1(new[] { new SubjectWithProperty1 { Property1 = "Hello" } });
+        var subject = new ParentOfSubjectWithProperty1([new SubjectWithProperty1 { Property1 = "Hello" }]);
 
-        var expectation = new ParentOfExpectationWithProperty2(new[]
-        {
+        var expectation = new ParentOfExpectationWithProperty2(
+        [
             new ExpectationWithProperty2 { Property2 = "Hello" }
-        });
+        ]);
 
         // Act
         Action act = () => subject.Should()
@@ -449,12 +451,12 @@ public class MemberMatchingSpecs
     public void The_member_name_on_a_nested_type_mapping_must_be_a_valid_member()
     {
         // Arrange
-        var subject = new ParentOfSubjectWithProperty1(new[] { new SubjectWithProperty1 { Property1 = "Hello" } });
+        var subject = new ParentOfSubjectWithProperty1([new SubjectWithProperty1 { Property1 = "Hello" }]);
 
-        var expectation = new ParentOfExpectationWithProperty2(new[]
-        {
+        var expectation = new ParentOfExpectationWithProperty2(
+        [
             new ExpectationWithProperty2 { Property2 = "Hello" }
-        });
+        ]);
 
         // Act
         Action act = () => subject.Should()
@@ -529,18 +531,174 @@ public class MemberMatchingSpecs
             Name = "Test"
         };
 
-        var entityCol = new[] { entity };
-        var dtoCol = new[] { dto };
+        Entity[] entityCol = [entity];
+        EntityDto[] dtoCol = [dto];
 
         // Act / Assert
         dtoCol.Should().BeEquivalentTo(entityCol, c =>
             c.WithMapping<EntityDto>(s => s.EntityId, d => d.Id));
     }
 
+    [Fact]
+    public void Can_explicitly_include_a_property_on_a_mapped_type()
+    {
+        // Arrange
+        var expectation = new CustomerWithPropertiesDto
+        {
+            AddressInformation = new CustomerWithPropertiesDto.ResidenceDto
+            {
+                Address = "123 Main St",
+                IsValidated = true,
+            },
+        };
+
+        var subject = new CustomerWithProperty
+        {
+            Address = new CustomerWithProperty.Residence
+            {
+                Address = "123 Main St",
+            },
+        };
+
+        // Act / Assert
+        subject.Should().BeEquivalentTo(expectation, o => o
+            .Including(r => r.AddressInformation.Address)
+            .WithMapping<CustomerWithPropertiesDto, CustomerWithProperty>(s => s.AddressInformation, d => d.Address));
+    }
+
+    [Fact]
+    public void Can_exclude_a_property_on_a_mapped_type()
+    {
+        // Arrange
+        var expectation = new CustomerWithPropertiesDto
+        {
+            AddressInformation = new CustomerWithPropertiesDto.ResidenceDto
+            {
+                Address = "123 Main St",
+                IsValidated = true,
+            },
+        };
+
+        var subject = new CustomerWithProperty
+        {
+            Address = new CustomerWithProperty.Residence
+            {
+                Address = "123 Main St",
+            },
+        };
+
+        // Act / Assert
+        subject.Should().BeEquivalentTo(expectation, o => o
+            .Excluding(r => r.AddressInformation.IsValidated)
+            .WithMapping<CustomerWithPropertiesDto, CustomerWithProperty>(s => s.AddressInformation, d => d.Address));
+    }
+
+    [Fact]
+    public void Can_explicitly_include_a_field_on_a_mapped_type()
+    {
+        // Arrange
+        var expectation = new CustomerWithFieldDto
+        {
+            AddressInformation = new CustomerWithFieldDto.ResidenceDto
+            {
+                Address = "123 Main St",
+                IsValidated = true,
+            },
+        };
+
+        var subject = new CustomerWithField
+        {
+            Address = new CustomerWithField.Residence
+            {
+                Address = "123 Main St",
+            },
+        };
+
+        // Act / Assert
+        subject.Should().BeEquivalentTo(expectation, o => o
+            .Including(r => r.AddressInformation.Address)
+            .WithMapping<CustomerWithFieldDto, CustomerWithField>(s => s.AddressInformation, d => d.Address));
+    }
+
+    [Fact]
+    public void Can_exclude_a_field_on_a_mapped_type()
+    {
+        // Arrange
+        var expectation = new CustomerWithFieldDto
+        {
+            AddressInformation = new CustomerWithFieldDto.ResidenceDto
+            {
+                Address = "123 Main St",
+                IsValidated = true,
+            },
+        };
+
+        var subject = new CustomerWithField
+        {
+            Address = new CustomerWithField.Residence
+            {
+                Address = "123 Main St",
+            },
+        };
+
+        // Act / Assert
+        subject.Should().BeEquivalentTo(expectation, o => o
+            .Excluding(r => r.AddressInformation.IsValidated)
+            .WithMapping<CustomerWithFieldDto, CustomerWithField>(s => s.AddressInformation, d => d.Address));
+    }
+
+    private class CustomerWithProperty
+    {
+        public Residence Address { get; set; }
+
+        public class Residence
+        {
+            [UsedImplicitly]
+            public string Address { get; set; }
+        }
+    }
+
+    private class CustomerWithPropertiesDto
+    {
+        public ResidenceDto AddressInformation { get; set; }
+
+        public class ResidenceDto
+        {
+            public string Address { get; set; }
+
+            public bool IsValidated { get; set; }
+        }
+    }
+
+    private class CustomerWithField
+    {
+        public Residence Address;
+
+        public class Residence
+        {
+            [UsedImplicitly]
+            public string Address;
+        }
+    }
+
+    private class CustomerWithFieldDto
+    {
+        public ResidenceDto AddressInformation;
+
+        public class ResidenceDto
+        {
+            public string Address;
+
+            [UsedImplicitly]
+            public bool IsValidated;
+        }
+    }
+
     private class Entity
     {
         public int EntityId { get; init; }
 
+        [UsedImplicitly]
         public string Name { get; init; }
     }
 
@@ -548,6 +706,7 @@ public class MemberMatchingSpecs
     {
         public int Id { get; init; }
 
+        [UsedImplicitly]
         public string Name { get; init; }
     }
 

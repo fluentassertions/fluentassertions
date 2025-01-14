@@ -9,9 +9,9 @@ public class RecordSpecs
     [Fact]
     public void When_the_subject_is_a_record_it_should_compare_it_by_its_members()
     {
-        var actual = new MyRecord { StringField = "foo", CollectionProperty = new[] { "bar", "zip", "foo" } };
+        var actual = new MyRecord { StringField = "foo", CollectionProperty = ["bar", "zip", "foo"] };
 
-        var expected = new MyRecord { StringField = "foo", CollectionProperty = new[] { "foo", "bar", "zip" } };
+        var expected = new MyRecord { StringField = "foo", CollectionProperty = ["foo", "bar", "zip"] };
 
         actual.Should().BeEquivalentTo(expected);
     }
@@ -19,9 +19,9 @@ public class RecordSpecs
     [Fact]
     public void When_the_subject_is_a_record_struct_it_should_compare_it_by_its_members()
     {
-        var actual = new MyRecordStruct("foo", new[] { "bar", "zip", "foo" });
+        var actual = new MyRecordStruct("foo", ["bar", "zip", "foo"]);
 
-        var expected = new MyRecordStruct("foo", new[] { "bar", "zip", "foo" });
+        var expected = new MyRecordStruct("foo", ["bar", "zip", "foo"]);
 
         actual.Should().BeEquivalentTo(expected);
     }
@@ -42,9 +42,9 @@ public class RecordSpecs
     [Fact]
     public void When_a_record_should_be_treated_as_a_value_type_it_should_use_its_equality_for_comparing()
     {
-        var actual = new MyRecord { StringField = "foo", CollectionProperty = new[] { "bar", "zip", "foo" } };
+        var actual = new MyRecord { StringField = "foo", CollectionProperty = ["bar", "zip", "foo"] };
 
-        var expected = new MyRecord { StringField = "foo", CollectionProperty = new[] { "foo", "bar", "zip" } };
+        var expected = new MyRecord { StringField = "foo", CollectionProperty = ["foo", "bar", "zip"] };
 
         Action act = () => actual.Should().BeEquivalentTo(expected, o => o
             .ComparingByValue<MyRecord>());
@@ -57,9 +57,9 @@ public class RecordSpecs
     [Fact]
     public void When_all_records_should_be_treated_as_value_types_it_should_use_equality_for_comparing()
     {
-        var actual = new MyRecord { StringField = "foo", CollectionProperty = new[] { "bar", "zip", "foo" } };
+        var actual = new MyRecord { StringField = "foo", CollectionProperty = ["bar", "zip", "foo"] };
 
-        var expected = new MyRecord { StringField = "foo", CollectionProperty = new[] { "foo", "bar", "zip" } };
+        var expected = new MyRecord { StringField = "foo", CollectionProperty = ["foo", "bar", "zip"] };
 
         Action act = () => actual.Should().BeEquivalentTo(expected, o => o
             .ComparingRecordsByValue());
@@ -73,9 +73,9 @@ public class RecordSpecs
     public void
         When_all_records_except_a_specific_type_should_be_treated_as_value_types_it_should_compare_that_specific_type_by_its_members()
     {
-        var actual = new MyRecord { StringField = "foo", CollectionProperty = new[] { "bar", "zip", "foo" } };
+        var actual = new MyRecord { StringField = "foo", CollectionProperty = ["bar", "zip", "foo"] };
 
-        var expected = new MyRecord { StringField = "foo", CollectionProperty = new[] { "foo", "bar", "zip" } };
+        var expected = new MyRecord { StringField = "foo", CollectionProperty = ["foo", "bar", "zip"] };
 
         actual.Should().BeEquivalentTo(expected, o => o
             .ComparingRecordsByValue()
@@ -85,9 +85,9 @@ public class RecordSpecs
     [Fact]
     public void When_global_record_comparing_options_are_chained_it_should_ensure_the_last_one_wins()
     {
-        var actual = new MyRecord { CollectionProperty = new[] { "bar", "zip", "foo" } };
+        var actual = new MyRecord { CollectionProperty = ["bar", "zip", "foo"] };
 
-        var expected = new MyRecord { CollectionProperty = new[] { "foo", "bar", "zip" } };
+        var expected = new MyRecord { CollectionProperty = ["foo", "bar", "zip"] };
 
         actual.Should().BeEquivalentTo(expected, o => o
             .ComparingRecordsByValue()

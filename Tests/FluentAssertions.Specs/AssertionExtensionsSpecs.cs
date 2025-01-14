@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Specialized;
@@ -32,33 +34,33 @@ public class AssertionExtensionsSpecs
     private static bool OverridesEquals(Type t)
     {
         MethodInfo equals = t.GetMethod("Equals", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public,
-            null, new[] { typeof(object) }, null);
+            null, [typeof(object)], null);
 
         return equals is not null;
     }
 
-    public static TheoryData<object> ClassesWithGuardEquals => new()
-    {
-        new ObjectAssertions<object, ObjectAssertions>(default),
-        new BooleanAssertions<BooleanAssertions>(default),
-        new DateTimeAssertions<DateTimeAssertions>(default),
-        new DateTimeRangeAssertions<DateTimeAssertions>(default, default, default, default),
-        new DateTimeOffsetAssertions<DateTimeOffsetAssertions>(default),
-        new DateTimeOffsetRangeAssertions<DateTimeOffsetAssertions>(default, default, default, default),
-        new ExecutionTimeAssertions(new ExecutionTime(() => { }, () => new StopwatchTimer())),
-        new GuidAssertions<GuidAssertions>(default),
-        new MethodInfoSelectorAssertions(),
-        new NumericAssertions<int, NumericAssertions<int>>(default),
-        new PropertyInfoSelectorAssertions(),
-        new SimpleTimeSpanAssertions<SimpleTimeSpanAssertions>(default),
-        new TaskCompletionSourceAssertions<int>(default),
-        new TypeSelectorAssertions(),
-        new EnumAssertions<StringComparison, EnumAssertions<StringComparison>>(default),
+    public static TheoryData<object> ClassesWithGuardEquals =>
+    [
+        new ObjectAssertions<object, ObjectAssertions>(default, AssertionChain.GetOrCreate()),
+        new BooleanAssertions<BooleanAssertions>(default, AssertionChain.GetOrCreate()),
+        new DateTimeAssertions<DateTimeAssertions>(default, AssertionChain.GetOrCreate()),
+        new DateTimeRangeAssertions<DateTimeAssertions>(default, AssertionChain.GetOrCreate(),  default, default, default),
+        new DateTimeOffsetAssertions<DateTimeOffsetAssertions>(default, AssertionChain.GetOrCreate()),
+        new DateTimeOffsetRangeAssertions<DateTimeOffsetAssertions>(default, AssertionChain.GetOrCreate(), default, default, default),
+        new ExecutionTimeAssertions(new ExecutionTime(() => { }, () => new StopwatchTimer()), AssertionChain.GetOrCreate()),
+        new GuidAssertions<GuidAssertions>(default, AssertionChain.GetOrCreate()),
+        new MethodInfoSelectorAssertions(AssertionChain.GetOrCreate()),
+        new NumericAssertions<int, NumericAssertions<int>>(default, AssertionChain.GetOrCreate()),
+        new PropertyInfoSelectorAssertions(AssertionChain.GetOrCreate()),
+        new SimpleTimeSpanAssertions<SimpleTimeSpanAssertions>(default, AssertionChain.GetOrCreate()),
+        new TaskCompletionSourceAssertions<int>(default, AssertionChain.GetOrCreate()),
+        new TypeSelectorAssertions(AssertionChain.GetOrCreate()),
+        new EnumAssertions<StringComparison, EnumAssertions<StringComparison>>(default, AssertionChain.GetOrCreate()),
 #if NET6_0_OR_GREATER
-        new DateOnlyAssertions<DateOnlyAssertions>(default),
-        new TimeOnlyAssertions<TimeOnlyAssertions>(default),
+        new DateOnlyAssertions<DateOnlyAssertions>(default, AssertionChain.GetOrCreate()),
+        new TimeOnlyAssertions<TimeOnlyAssertions>(default, AssertionChain.GetOrCreate()),
 #endif
-    };
+    ];
 
     [Theory]
     [MemberData(nameof(ClassesWithGuardEquals))]
@@ -81,7 +83,6 @@ public class AssertionExtensionsSpecs
     [InlineData(typeof(ExecutionTimeAssertions))]
     [InlineData(typeof(GuidAssertions<GuidAssertions>))]
     [InlineData(typeof(MethodInfoSelectorAssertions))]
-    [InlineData(typeof(NumericAssertions<int, NumericAssertions<int>>))]
     [InlineData(typeof(PropertyInfoSelectorAssertions))]
     [InlineData(typeof(SimpleTimeSpanAssertions<SimpleTimeSpanAssertions>))]
     [InlineData(typeof(TaskCompletionSourceAssertionsBase))]
@@ -108,7 +109,7 @@ public class AssertionExtensionsSpecs
         }
 
         // Act
-        Action act = () => fakeOverload.Invoke(null, new object[] { null });
+        Action act = () => fakeOverload.Invoke(null, [null]);
 
         // Assert
         act.Should()
@@ -129,21 +130,21 @@ public class AssertionExtensionsSpecs
             .Where(m => m.Name == "Should")
             .ToList();
 
-        List<Type> realOverloads = shouldOverloads
-            .Where(m => !IsGuardOverload(m))
-            .Select(t => GetMostParentType(t.ReturnType))
-            .Distinct()
-            .Concat(new[]
-            {
-                // @jnyrup: DateTimeRangeAssertions and DateTimeOffsetRangeAssertions are manually added here,
-                // because they expose AndConstraints,
-                // and hence should have a guarding Should(DateTimeRangeAssertions _) overloads,
-                // but they do not have a regular Should() overload,
-                // as they are always constructed through the fluent API.
-                typeof(DateTimeRangeAssertions<>),
-                typeof(DateTimeOffsetRangeAssertions<>),
-            })
-            .ToList();
+        List<Type> realOverloads =
+        [
+            ..shouldOverloads
+                .Where(m => !IsGuardOverload(m))
+                .Select(t => GetMostParentType(t.ReturnType))
+                .Distinct(),
+
+            // @jnyrup: DateTimeRangeAssertions and DateTimeOffsetRangeAssertions are manually added here,
+            // because they expose AndConstraints,
+            // and hence should have a guarding Should(DateTimeRangeAssertions _) overloads,
+            // but they do not have a regular Should() overload,
+            // as they are always constructed through the fluent API.
+            typeof(DateTimeRangeAssertions<>),
+            typeof(DateTimeOffsetRangeAssertions<>)
+        ];
 
         List<Type> fakeOverloads = shouldOverloads
             .Where(m => IsGuardOverload(m))
@@ -156,6 +157,38 @@ public class AssertionExtensionsSpecs
                 .WhenTypeIs<Type>(),
             "AssertionExtensions.cs should have a guard overload of Should calling InvalidShouldCall()");
     }
+
+    [Theory]
+    [MemberData(nameof(GetShouldMethods), true)]
+    public void Should_methods_returning_reference_type_assertions_are_annotated_with_not_null_attribute(MethodInfo method)
+    {
+        var notNullAttribute = method.GetParameters().Single().GetCustomAttribute<NotNullAttribute>();
+        notNullAttribute.Should().NotBeNull();
+    }
+
+    [Theory]
+    [MemberData(nameof(GetShouldMethods), false)]
+    public void Should_methods_not_returning_reference_type_assertions_are_not_annotated_with_not_null_attribute(MethodInfo method)
+    {
+        var notNullAttribute = method.GetParameters().Single().GetCustomAttribute<NotNullAttribute>();
+        notNullAttribute.Should().BeNull();
+    }
+
+    public static TheoryData<MethodInfo> GetShouldMethods(bool referenceTypes)
+    {
+        return new(AllTypes.From(typeof(FluentAssertions.AssertionExtensions).Assembly)
+            .ThatAreClasses()
+            .ThatAreStatic()
+            .Where(t => t.IsPublic)
+            .SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Public))
+            .Where(m => m.Name == "Should"
+                && !IsGuardOverload(m)
+                && m.GetParameters().Length == 1
+                && (referenceTypes ? ReturnsReferenceTypeAssertions(m) : !ReturnsReferenceTypeAssertions(m))));
+    }
+
+    private static bool ReturnsReferenceTypeAssertions(MethodInfo m) =>
+        m.ReturnType.IsAssignableToOpenGeneric(typeof(ReferenceTypeAssertions<,>));
 
     private static bool IsGuardOverload(MethodInfo m) =>
         m.ReturnType == typeof(void) && m.IsDefined(typeof(ObsoleteAttribute));

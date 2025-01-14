@@ -44,7 +44,7 @@ Fluent Assertions cross-compiles to .NET Framework 4.7, as well as .NET 6, .NET 
 Because of that Fluent Assertions supports the following minimum platforms.
 
 * .NET Framework 4.7 and later
-* .NET 6 and later
+* .NET 6.0 and later
 * Mono 5.4, Xamarin.iOS 10.14, Xamarin.Mac 3.8 and Xamarin.Android 8.0
 * Universal Windows Platform 10.0.16299 and later
 
@@ -54,12 +54,13 @@ Fluent Assertions supports the following unit test frameworks:
 * [NUnit](http://www.nunit.org/)
 * [XUnit2](https://github.com/xunit/xunit/releases)
 * [MSpec](https://github.com/machine/machine.specifications)
+* [TUnit](https://github.com/thomhurst/TUnit)
 
 ## Coding by Example
 
 As you may have noticed, the purpose of this open-source project is to not only be the best assertion framework in the .NET realm, but to also demonstrate high-quality code.
 We heavily practice Test Driven Development and one of the promises TDD makes is that unit tests can be treated as your API's documentation.
-So although you are free to go through the many examples here, please consider to analyze the many [unit tests](https://github.com/fluentassertions/fluentassertions/tree/main/Tests/FluentAssertions.Specs).
+So although you are free to go through the many examples here, please consider to analyze the many [unit tests](https://github.com/fluentassertions/fluentassertions/tree/master/Tests/FluentAssertions.Specs).
 
 ## Who is behind this project
 

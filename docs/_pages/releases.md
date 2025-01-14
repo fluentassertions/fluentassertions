@@ -7,7 +7,97 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 8.0 Alpha X
+
+### What's new
+
+* Introduced a new assembly-level attribute that you can use to initialize Fluent Assertions before the first assertion - [#2292](https://github.com/fluentassertions/fluentassertions/pull/2292)
+* Ensure compatibility with .NET 8 - [#2466](https://github.com/fluentassertions/fluentassertions/pull/2466)
+* Add support for NUnit 4 - [#2483](https://github.com/fluentassertions/fluentassertions/pull/2483)
+* Added `NotBeIn` to check if a `DateTime` is not in a given `DateTimeKind` - [#2536](https://github.com/fluentassertions/fluentassertions/pull/2536)
+* Introduced a new `Satisfy` method available to all reference types to allow for nested assertions - [#2597](https://github.com/fluentassertions/fluentassertions/pull/2597)
+* Added `BeNaN` and `NotBeNaN` for assertions on `float` and `double` - [#2606](https://github.com/fluentassertions/fluentassertions/pull/2606)
+* Added option for event monitoring to ignore failing event accessors - [#2629](https://github.com/fluentassertions/fluentassertions/pull/2629)
+* Added the capability of associating `IValueFormatter`s to a (nested) `AssertionScope` - [#2676](https://github.com/fluentassertions/fluentassertions/pull/2676)
+* Added support for throwing TUnit exceptions when using TUnit as your testing framework - [#2758](https://github.com/fluentassertions/fluentassertions/pull/2758)
+* Added a few more assertions on `XElement` - [#2690](https://github.com/fluentassertions/fluentassertions/pull/2690)
+  * `[Not]HaveElementWithValue`
+  * `NotHaveElement`
+  * `[Not]HaveAttribute`
+  * `NotHaveAttributeWithValue`
+* Added a few more assertions on `XDocument` - [#2690](https://github.com/fluentassertions/fluentassertions/pull/2690)
+    * `[Not]HaveElementWithValue`
+    * `NotHaveElement`
+* Added support for xUnit.net v3 - [#2718](https://github.com/fluentassertions/fluentassertions/issues/2718)
+
+### Improvements
+* Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
+* Allow specifying `EquivalencyOptions` in string assertions - [#2413](https://github.com/fluentassertions/fluentassertions/pull/2413)
+  * This also adds the capability to ignore casing, leading or trailing whitespace on strings when using `BeEquivalentTo` on object graphs or collections.
+  * Also adds the capability to ignore the newline style on strings - [#2565](https://github.com/fluentassertions/fluentassertions/pull/2565)
+* You can mark all assertions in an assembly as custom assertions using the `[CustomAssertionsAssembly]` attribute - [#2389](https://github.com/fluentassertions/fluentassertions/pull/2389)
+* All `Should()` methods on reference types are now annotated with the `[NotNull]` attribute for a better Fluent Assertions experience when nullable reference types are enabled - [#2380](https://github.com/fluentassertions/fluentassertions/pull/2380)
+* All assertions that support chaining using the `.Which` construct will now amend the caller identifier - [#2539](https://github.com/fluentassertions/pull/2539)
+* Introduced a `MethodInfoFormatter` and improved the `PropertyInfoFormatter` - [#2539](https://github.com/fluentassertions/pull/2539)
+* `Excluding()` / `For().Exclude()` and `Including()` on `BeEquivalentTo()` now also accepts an anonymous object to include/exclude multiple members at once - [#2488](https://github.com/fluentassertions/fluentassertions/pull/2488)
+* You can exclude explicitly implemented properties from `BeEquivalentTo` via `ExcludingExplicitlyImplementedProperties` - [#2851](https://github.com/fluentassertions/pull/2851)
+
+### Fixes
+* Fixed incorrect treatment of "\\r\\n" as new line - [#2569](https://github.com/fluentassertions/fluentassertions/pull/2569)
+* Fixed `RaisePropertyChangeFor` to return a filtered list of events - [#2677](https://github.com/fluentassertions/fluentassertions/pull/2677)
+* Including or excluding members did not work when `WithMapping` was used in `BeEquivalentTo` - [#2860](https://github.com/fluentassertions/fluentassertions/pull/2860)
+* Fix a crash when using `WithStrictOrderingFor(x => x)` with `BeEquivalentTo` - [#2932](https://github.com/fluentassertions/fluentassertions/pull/2932)
+
+### Breaking Changes (for users)
+* Moved support for `DataSet`, `DataTable`, `DataRow` and `DataColumn` into a new package `FluentAssertions.DataSet` - [#2267](https://github.com/fluentassertions/fluentassertions/pull/2267)
+* Removed obsolete `...OrEqualTo` methods - [#2269](https://github.com/fluentassertions/fluentassertions/pull/2269)
+  * `GenericCollectionAssertions`
+    * `HaveCountGreaterOrEqualTo`: Use `HaveCountGreaterThanOrEqualTo`
+    * `HaveCountLessOrEqualTo`: Use `HaveCountLessThanOrEqualTo`
+  * `ComparableTypeAssertions`
+    * `BeGreaterOrEqualTo`: Use `BeGreaterThanOrEqualTo`
+    * `BeLessOrEqualTo`: Use `BeLessThanOrEqualTo`
+  * `SimpleTimeSpanAssertions`
+    * `BeGreaterOrEqualTo`: Use `BeGreaterThanOrEqualTo`
+    * `BeLessOrEqualTo`: Use `BeLessThanOrEqualTo`
+  * `ExecutionTimeAssertions`
+    * `BeGreaterOrEqualTo`: Use `BeGreaterThanOrEqualTo`
+    * `BeLessOrEqualTo`: Use `BeLessThanOrEqualTo`
+* Removed the `DefaultValueFormatter.SpacesPerIndentionLevel` property which was added during the development of v6, but wasn't removed before the release of v6 - [#2281](https://github.com/fluentassertions/fluentassertions/pull/2281)
+* Dropped direct support for .NET Core 2.x and .NET Core 3.x - [#2302](https://github.com/fluentassertions/fluentassertions/pull/2302)
+* `AllSatisfy` now succeeds when asserting that an empty collection satisfies some predicates - [#2321](https://github.com/fluentassertions/fluentassertions/pull/2321)
+* `OnlyContain` now succeeds when asserting that an empty collection matches some predicates - [#2350](https://github.com/fluentassertions/fluentassertions/pull/2350)
+* Dropped support for `BinaryFormatter` - [#2278](https://github.com/fluentassertions/fluentassertions/pull/2278)
+* Renamed "...AssertionOptions" to "...Options" - [#2414](https://github.com/fluentassertions/fluentassertions/pull/2414)
+  * `EquivalencyAssertionOptions` to `EquivalencyOptions`
+  * `EquivalencyAssertionOptions<TExpectation>` to `EquivalencyOptions<TExpectation>`
+  * `IEquivalencyAssertionOptions` to `IEquivalencyOptions`
+  * `SelfReferenceEquivalencyAssertionOptions<TSelf>` to `SelfReferenceEquivalencyOptions<TSelf>`
+* Allow fluently calling `WithoutMatchingRules` and `WithoutSelectionRules` while using `BeEquivalentTo` - [#2457](https://github.com/fluentassertions/fluentassertions/pull/2457)
+* Removed `utcNow` overload for `.Monitor<T>()` - [#2629](https://github.com/fluentassertions/fluentassertions/pull/2629)
+* The semantics of `BeLowerCased`/`BeUpperCased` have been changed to align with the behavior of `ToLower`/`ToUpper` - [#2660](https://github.com/fluentassertions/fluentassertions/pull/2660)
+* Renamed `HaveAttribute` to `HaveAttributeWithValue` on `XElement` - [#2690](https://github.com/fluentassertions/fluentassertions/pull/2690)
+* Renamed `RespectingRuntimeTypes` to `PreferringRuntimeMemberTypes` and `RespectingDeclaredTypes` to `PreferringDeclaredMemberTypes` - [#2866](https://github.com/fluentassertions/fluentassertions/pull/2866)
+* Renamed `ExcludingNestedObjects` to `WithoutRecursing` to better describe its purpose - [#2876](https://github.com/fluentassertions/fluentassertions/pull/2876)
+* Removed direct support for assertions on `HttpResponseMessage`. Use [FluentAssertions.Web](https://github.com/adrianiftode/FluentAssertions.Web) instead. - [#2909](https://github.com/fluentassertions/fluentassertions/pull/2909)
+* Consolidated the configuration options under `Configuration` and `Services` into `GlobalConfiguration` accessible through `AssertionEngine.Configuration` and `AssertionConfiguration.Current.Configuration` - [#2901](https://github.com/fluentassertions/fluentassertions/pull/2901)
+* Removed support for setting configuration settings through an `app.config` file - [#2901](https://github.com/fluentassertions/fluentassertions/pull/2901)
+
+### Breaking Changes (for extensions)
+* Add `ForConstraint` to `IAssertionsScope` to support chaining `.ForConstraint()` after `.Then` - [#2324](https://github.com/fluentassertions/fluentassertions/pull/2324)
+* Refactored `AsyncFunctionAssertions` into real base class - [#2359](https://github.com/fluentassertions/fluentassertions/pull/2359)
+  * Its constructor has been made `protected`.
+  * Unused constructors have been removed.
+  * Methods overwritten in `GenericAsyncFunctionAssertions` has been moved to `NonGenericAsyncFunctionAssertions`.
+* Moved the non-generic `NotThrow` and `NotThrowAfter` from `DelegateAssertions<TDelegate, TAssertions>` to `ActionAssertions` - [#2371](https://github.com/fluentassertions/fluentassertions/pull/2371)
+* Made `EquivalencyValidator` `internal` - [#2854](https://github.com/fluentassertions/fluentassertions/pull/2854)
+
 ## 7.0.0
+
+### Fixes
+
+* The expectation node identified as a cyclic reference is still compared to the subject node using simple equality - [#2819](https://github.com/fluentassertions/fluentassertions/pull/2819)
+* Fixed a problem in `BeEquivalentTo` where write-only properties would cause a `NullReferenceException` - [#2836](https://github.com/fluentassertions/fluentassertions/pull/2836)
 
 ### Breaking Changes
 
@@ -15,20 +105,10 @@ sidebar:
 * Dropped support for `NSpec3` test framework - [#2356](https://github.com/fluentassertions/fluentassertions/pull/2356)
 * Raised dependencies on `System.Configuration.ConfigurationManager` to 6.0.0 and `System.Threading.Tasks.Extensions` to 4.5.4 - [#2673](https://github.com/fluentassertions/fluentassertions/pull/2673) and [#2855](https://github.com/fluentassertions/fluentassertions/pull/2855)
 
-### Fixes
-
-* Fixed a problem in `BeEquivalentTo` where write-only properties would cause a `NullReferenceException` - [#2836](https://github.com/fluentassertions/fluentassertions/pull/2836)
-
-## 6.12.3
-
-### Fixes
-
-* The expectation node identified as a cyclic reference is still compared to the subject node using simple equality - [2819](https://github.com/fluentassertions/fluentassertions/pull/2819)
-
 ## 6.12.2
 
 ### Fixes
-* Better handling of normal vs explicitly implemented vs default interface properties - [2794](https://github.com/fluentassertions/fluentassertions/pull/2794)
+* Better handling of normal vs explicitly implemented vs default interface properties - [#2794](https://github.com/fluentassertions/fluentassertions/pull/2794)
 
 ## 6.12.1
 
@@ -108,7 +188,7 @@ sidebar:
 
 ### Fixes
 * `PropertyInfoSelector.ThatArePublicOrInternal` now takes the setter into account when determining if a property is `public` or `internal` - [#2082](https://github.com/fluentassertions/fluentassertions/pull/2082)
-* Quering properties on classes, e.g. `typeof(MyClass).Properties()`, now also includes static properties - [#2054](https://github.com/fluentassertions/fluentassertions/pull/2054)
+* Querying properties on classes, e.g. `typeof(MyClass).Properties()`, now also includes static properties - [#2054](https://github.com/fluentassertions/fluentassertions/pull/2054)
 * Nested AssertionScopes now print the inner scope reportables - [#2044](https://github.com/fluentassertions/fluentassertions/pull/2044)
 * Throw `ArgumentException` instead of `ArgumentNullException` when a required `string` argument is empty - [#2023](https://github.com/fluentassertions/fluentassertions/pull/2023)
 * Assertions on the ordering of a collection of `string`s now uses ordinal comparison when an `IComparer<T>` is not provided - [#2075](https://github.com/fluentassertions/fluentassertions/pull/2075)

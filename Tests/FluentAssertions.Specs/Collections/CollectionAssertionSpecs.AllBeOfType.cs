@@ -17,7 +17,7 @@ public partial class CollectionAssertionSpecs
         public void When_the_types_in_a_collection_is_matched_against_a_null_type_exactly_it_should_throw()
         {
             // Arrange
-            var collection = Array.Empty<int>();
+            int[] collection = [];
 
             // Act
             Action act = () => collection.Should().AllBeOfType(null);
@@ -25,6 +25,26 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithParameterName("expectedType");
+        }
+
+        [Fact]
+        public void All_items_in_an_empty_collection_are_of_a_generic_type()
+        {
+            // Arrange
+            int[] collection = [];
+
+            // Act / Assert
+            collection.Should().AllBeOfType<int>();
+        }
+
+        [Fact]
+        public void All_items_in_an_empty_collection_are_of_a_type()
+        {
+            // Arrange
+            int[] collection = [];
+
+            // Act / Assert
+            collection.Should().AllBeOfType(typeof(int));
         }
 
         [Fact]
@@ -49,7 +69,7 @@ public partial class CollectionAssertionSpecs
         public void When_all_of_the_types_in_a_collection_match_expected_type_exactly_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().AllBeOfType(typeof(int));
@@ -59,7 +79,7 @@ public partial class CollectionAssertionSpecs
         public void When_all_of_the_types_in_a_collection_match_expected_generic_type_exactly_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().AllBeOfType<int>();
@@ -69,7 +89,7 @@ public partial class CollectionAssertionSpecs
         public void When_matching_a_collection_against_an_exact_type_it_should_return_the_casted_items()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().AllBeOfType<int>()
@@ -122,7 +142,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_of_types_match_expected_type_exactly_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { typeof(int), typeof(int), typeof(int) };
+            Type[] collection = [typeof(int), typeof(int), typeof(int)];
 
             // Act / Assert
             collection.Should().AllBeOfType<int>();

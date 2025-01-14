@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Execution;
 using Xunit;
@@ -17,7 +16,7 @@ public partial class CollectionAssertionSpecs
     public void When_injecting_a_null_predicate_into_ContainSingle_it_should_throw()
     {
         // Arrange
-        IEnumerable<int> collection = new int[] { };
+        IEnumerable<int> collection = [];
 
         // Act
         Action act = () => collection.Should().ContainSingle(predicate: null);
@@ -31,21 +30,18 @@ public partial class CollectionAssertionSpecs
     public void When_a_collection_contains_a_single_item_matching_a_predicate_it_should_succeed()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 1, 2, 3 };
+        IEnumerable<int> collection = [1, 2, 3];
         Expression<Func<int, bool>> expression = item => item == 2;
 
-        // Act
-        Action act = () => collection.Should().ContainSingle(expression);
-
-        // Assert
-        act.Should().NotThrow();
+        // Act / Assert
+        collection.Should().ContainSingle(expression);
     }
 
     [Fact]
     public void When_asserting_an_empty_collection_contains_a_single_item_matching_a_predicate_it_should_throw()
     {
         // Arrange
-        IEnumerable<int> collection = Enumerable.Empty<int>();
+        IEnumerable<int> collection = [];
         Expression<Func<int, bool>> expression = item => item == 2;
 
         // Act
@@ -83,7 +79,7 @@ public partial class CollectionAssertionSpecs
     public void When_non_empty_collection_does_not_contain_a_single_item_matching_a_predicate_it_should_throw()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 1, 3 };
+        IEnumerable<int> collection = [1, 3];
         Expression<Func<int, bool>> expression = item => item == 2;
 
         // Act
@@ -100,7 +96,7 @@ public partial class CollectionAssertionSpecs
     public void When_non_empty_collection_contains_more_than_a_single_item_matching_a_predicate_it_should_throw()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 1, 2, 2, 2, 3 };
+        IEnumerable<int> collection = [1, 2, 2, 2, 3];
         Expression<Func<int, bool>> expression = item => item == 2;
 
         // Act
@@ -117,20 +113,40 @@ public partial class CollectionAssertionSpecs
     public void When_single_item_matching_a_predicate_is_found_it_should_allow_continuation()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 1, 2, 3 };
+        IEnumerable<int> collection = [1, 2, 3];
 
         // Act
         Action act = () => collection.Should().ContainSingle(item => item == 2).Which.Should().BeGreaterThan(4);
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("Expected*greater*4*2*");
+        act.Should()
+            .Throw<XunitException>()
+            .WithMessage("Expected collection[0]*greater*4*2*");
+    }
+
+    [Fact]
+    public void Chained_assertions_are_never_called_when_the_initial_assertion_failed()
+    {
+        // Arrange
+        IEnumerable<int> collection = [1, 2, 3];
+
+        // Act
+        Action act = () =>
+        {
+            using var _ = new AssertionScope();
+            collection.Should().ContainSingle(item => item == 4).Which.Should().BeGreaterThan(4);
+        };
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("Expected collection to contain a single item matching (item == 4), but no such item was found.");
     }
 
     [Fact]
     public void When_single_item_contains_brackets_it_should_format_them_properly()
     {
         // Arrange
-        IEnumerable<string> collection = new[] { "" };
+        IEnumerable<string> collection = [""];
 
         // Act
         Action act = () => collection.Should().ContainSingle(item => item == "{123}");
@@ -144,7 +160,7 @@ public partial class CollectionAssertionSpecs
     public void When_single_item_contains_string_interpolation_it_should_format_brackets_properly()
     {
         // Arrange
-        IEnumerable<string> collection = new[] { "" };
+        IEnumerable<string> collection = [""];
 
         // Act
         Action act = () => collection.Should().ContainSingle(item => item == $"{123}");
@@ -158,7 +174,7 @@ public partial class CollectionAssertionSpecs
     public void When_a_collection_contains_a_single_item_it_should_succeed()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 1 };
+        IEnumerable<int> collection = [1];
 
         // Act
         Action act = () => collection.Should().ContainSingle();
@@ -171,7 +187,7 @@ public partial class CollectionAssertionSpecs
     public void When_asserting_an_empty_collection_contains_a_single_item_it_should_throw()
     {
         // Arrange
-        IEnumerable<int> collection = Enumerable.Empty<int>();
+        IEnumerable<int> collection = [];
 
         // Act
         Action act = () => collection.Should().ContainSingle("more is not allowed");
@@ -204,7 +220,7 @@ public partial class CollectionAssertionSpecs
     public void When_non_empty_collection_does_not_contain_a_single_item_it_should_throw()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 1, 3 };
+        IEnumerable<int> collection = [1, 3];
 
         // Act
         Action act = () => collection.Should().ContainSingle();
@@ -219,7 +235,7 @@ public partial class CollectionAssertionSpecs
     public void When_non_empty_collection_contains_more_than_a_single_item_it_should_throw()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 1, 2 };
+        IEnumerable<int> collection = [1, 2];
 
         // Act
         Action act = () => collection.Should().ContainSingle();
@@ -234,15 +250,14 @@ public partial class CollectionAssertionSpecs
     public void When_single_item_is_found_it_should_allow_continuation()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 3 };
+        IEnumerable<int> collection = [3];
 
         // Act
         Action act = () => collection.Should().ContainSingle().Which.Should().BeGreaterThan(4);
 
         // Assert
-        const string expectedMessage = "Expected collection to be greater than 4, but found 3.";
-
-        act.Should().Throw<XunitException>().WithMessage(expectedMessage);
+        act.Should().Throw<XunitException>()
+            .WithMessage("Expected collection[0] to be greater than 4, but found 3.");
     }
 
     [Fact]

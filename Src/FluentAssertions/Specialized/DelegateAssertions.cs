@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using FluentAssertions.Common;
@@ -15,14 +16,18 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     where TDelegate : Delegate
     where TAssertions : DelegateAssertions<TDelegate, TAssertions>
 {
-    protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor)
-        : base(@delegate, extractor, new Clock())
+    private readonly AssertionChain assertionChain;
+
+    protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, AssertionChain assertionChain)
+        : base(@delegate, extractor, assertionChain, new Clock())
     {
+        this.assertionChain = assertionChain;
     }
 
-    private protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, IClock clock)
-        : base(@delegate, extractor, clock)
+    private protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, AssertionChain assertionChain, IClock clock)
+        : base(@delegate, extractor, assertionChain, clock)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -35,22 +40,22 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public ExceptionAssertions<TException> Throw<TException>(string because = "", params object[] becauseArgs)
+    public ExceptionAssertions<TException> Throw<TException>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TException : Exception
     {
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
             return ThrowInternal<TException>(exception, because, becauseArgs);
         }
 
-        return new ExceptionAssertions<TException>(Array.Empty<TException>());
+        return new ExceptionAssertions<TException>([], assertionChain);
     }
 
     /// <summary>
@@ -63,46 +68,19 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotThrow<TException>(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotThrow<TException>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TException : Exception
     {
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw {0}{reason}, but found <null>.", typeof(TException));
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
             return NotThrowInternal<TException>(exception, because, becauseArgs);
-        }
-
-        return new AndConstraint<TAssertions>((TAssertions)this);
-    }
-
-    /// <summary>
-    /// Asserts that the current <see cref="Delegate" /> does not throw any exception.
-    /// </summary>
-    /// <param name="because">
-    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-    /// </param>
-    /// <param name="becauseArgs">
-    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-    /// </param>
-    public AndConstraint<TAssertions> NotThrow(string because = "", params object[] becauseArgs)
-    {
-        bool success = Execute.Assertion
-            .ForCondition(Subject is not null)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context} not to throw{reason}, but found <null>.");
-
-        if (success)
-        {
-            FailIfSubjectIsAsyncVoid();
-            Exception exception = InvokeSubjectWithInterception();
-            return NotThrowInternal(exception, because, becauseArgs);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -124,105 +102,41 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     /// <returns>
     /// Returns an object that allows asserting additional members of the thrown exception.
     /// </returns>
-    public ExceptionAssertions<TException> ThrowExactly<TException>(string because = "",
+    public ExceptionAssertions<TException> ThrowExactly<TException>([StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
         where TException : Exception
     {
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", typeof(TException));
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
 
             Type expectedType = typeof(TException);
 
-            success = Execute.Assertion
+            assertionChain
                 .ForCondition(exception is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
 
-            if (success)
+            if (assertionChain.Succeeded)
             {
                 exception.Should().BeOfType(expectedType, because, becauseArgs);
             }
 
-            return new ExceptionAssertions<TException>(new[] { exception as TException });
+            return new ExceptionAssertions<TException>([exception as TException], assertionChain);
         }
 
-        return new ExceptionAssertions<TException>(Array.Empty<TException>());
-    }
-
-    /// <summary>
-    /// Asserts that the current <see cref="Delegate"/> stops throwing any exception
-    /// after a specified amount of time.
-    /// </summary>
-    /// <remarks>
-    /// The delegate is invoked. If it raises an exception,
-    /// the invocation is repeated until it either stops raising any exceptions
-    /// or the specified wait time is exceeded.
-    /// </remarks>
-    /// <param name="waitTime">
-    /// The time after which the delegate should have stopped throwing any exception.
-    /// </param>
-    /// <param name="pollInterval">
-    /// The time between subsequent invocations of the delegate.
-    /// </param>
-    /// <param name="because">
-    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-    /// </param>
-    /// <param name="becauseArgs">
-    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-    /// </param>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="waitTime"/> or <paramref name="pollInterval"/> are negative.</exception>
-    public AndConstraint<TAssertions> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "",
-        params object[] becauseArgs)
-    {
-        Guard.ThrowIfArgumentIsNegative(waitTime);
-        Guard.ThrowIfArgumentIsNegative(pollInterval);
-
-        bool success = Execute.Assertion
-            .ForCondition(Subject is not null)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context} not to throw after {0}{reason}, but found <null>.", waitTime);
-
-        if (success)
-        {
-            FailIfSubjectIsAsyncVoid();
-
-            TimeSpan? invocationEndTime = null;
-            Exception exception = null;
-            ITimer timer = Clock.StartTimer();
-
-            while (invocationEndTime is null || invocationEndTime < waitTime)
-            {
-                exception = InvokeSubjectWithInterception();
-
-                if (exception is null)
-                {
-                    break;
-                }
-
-                Clock.Delay(pollInterval);
-                invocationEndTime = timer.Elapsed;
-            }
-
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(exception is null)
-                .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
-        }
-
-        return new AndConstraint<TAssertions>((TAssertions)this);
+        return new ExceptionAssertions<TException>([], assertionChain);
     }
 
     protected abstract void InvokeSubject();
 
-    private Exception InvokeSubjectWithInterception()
+    private protected Exception InvokeSubjectWithInterception()
     {
         Exception actualException = null;
 
@@ -251,7 +165,7 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
         return actualException;
     }
 
-    private void FailIfSubjectIsAsyncVoid()
+    private protected void FailIfSubjectIsAsyncVoid()
     {
         if (Subject.GetMethodInfo().IsDecoratedWithOrInherit<AsyncStateMachineAttribute>())
         {

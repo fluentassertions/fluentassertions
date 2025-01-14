@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
@@ -32,7 +31,7 @@ public partial class CollectionAssertionSpecs
         public void When_injecting_a_null_predicate_into_OnlyContain_it_should_throw()
         {
             // Arrange
-            IEnumerable<int> collection = new int[] { };
+            IEnumerable<int> collection = [];
 
             // Act
             Action act = () => collection.Should().OnlyContain(predicate: null);
@@ -46,7 +45,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_contains_items_not_matching_a_predicate_it_should_throw()
         {
             // Arrange
-            IEnumerable<int> collection = new[] { 2, 12, 3, 11, 2 };
+            IEnumerable<int> collection = [2, 12, 3, 11, 2];
 
             // Act
             Action act = () => collection.Should().OnlyContain(i => i <= 10, "10 is the maximum");
@@ -60,21 +59,17 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_is_empty_and_should_contain_only_items_matching_a_predicate_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> strings = Enumerable.Empty<string>();
+            IEnumerable<string> strings = [];
 
-            // Act
-            Action act = () => strings.Should().OnlyContain(e => e.Length > 0);
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected strings to contain only items matching (e.Length > 0), but the collection is empty.");
+            // Act / Assert
+            strings.Should().OnlyContain(e => e.Length > 0);
         }
 
         [Fact]
         public void When_a_collection_contains_only_items_matching_a_predicate_it_should_not_throw()
         {
             // Arrange
-            IEnumerable<int> collection = new[] { 2, 9, 3, 8, 2 };
+            IEnumerable<int> collection = [2, 9, 3, 8, 2];
 
             // Act
             Action act = () => collection.Should().OnlyContain(i => i <= 10);

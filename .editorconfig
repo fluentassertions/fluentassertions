@@ -146,12 +146,19 @@ dotnet_diagnostic.CA1307.severity = error
 dotnet_diagnostic.CA1308.severity = error
 # CA1309: Use ordinal StringComparison
 dotnet_diagnostic.CA1309.severity = error
+
+# Purpose: Rename virtual/interface member ITestFramework.Throw(string) so that it no longer conflicts with the reserved language keyword 'Throw'
+# Reason: We don't care about other languages than C#
+dotnet_diagnostic.CA1716.severity = none
+
 # CA1724: Type names should not match namespaces
 dotnet_diagnostic.CA1724.severity = none
 # CA1819: Properties should not return arrays
 dotnet_diagnostic.CA1819.severity = none
 # CA1851: Possible multiple enumerations of IEnumerable collection. Related to GH-issue #2000
 dotnet_diagnostic.CA1851.severity = suggestion
+# CA1859: Use concrete types when possible for improved performance
+dotnet_diagnostic.CA1859.severity = suggestion
 # CA1860: Avoid using 'Enumerable.Any()' extension method
 dotnet_diagnostic.CA1860.severity = warning
 # CA1861: Avoid constant arrays as arguments
@@ -197,6 +204,11 @@ dotnet_diagnostic.SA1116.severity = none
 dotnet_diagnostic.SA1117.severity = none
 # SA1200: Using directive should appear within a namespace declaration
 dotnet_diagnostic.SA1200.severity = none
+
+# Purpose: Use string. Empty for empty strings
+# Reason: There's no performance difference. See https://medium.com/@dk.kravtsov/string-empty-vs-in-c-70c64971161f 
+dotnet_diagnostic.SA1122.severity = none
+
 # SA1124: Do not use regions
 dotnet_diagnostic.SA1124.severity = none
 # SA1201: A property should not follow a method
@@ -372,10 +384,6 @@ dotnet_diagnostic.RCS1237.severity = none
 
 # RCS1228: Unused element in documentation comment. (Equivalent to SA1614)
 dotnet_diagnostic.RCS1228.severity = suggestion
-
-# Purpose: Use element access 
-# Reason: Don't want to force this in this branch
-dotnet_diagnostic.RCS1246.severity = suggestion
 
 # Use an overload that has a IEqualityComparer<string> or IComparer<string> parameter
 dotnet_diagnostic.MA0002.severity = suggestion

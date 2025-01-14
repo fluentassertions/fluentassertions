@@ -1,11 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace></RootNamespace>
-    <NoWarn>CS0649;CS0169;NU1903</NoWarn>
+    <NoWarn>CS0649;CS0169</NoWarn>
     <NukeRootDirectory>..\</NukeRootDirectory>
     <NukeScriptDirectory>..\</NukeScriptDirectory>
+    <NukeVersion>9.0.3</NukeVersion>
+    <NukeTelemetryVersion>1</NukeTelemetryVersion>
   </PropertyGroup>
   <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
     <DefineConstants>OS_WINDOWS</DefineConstants>
@@ -17,13 +19,13 @@
     <DefineConstants>OS_MAC</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageDownload Include="GitVersion.Tool" Version="[5.12.0]" />
-    <PackageDownload Include="ReportGenerator" Version="[5.1.23]" />
-    <PackageDownload Include="xunit.runner.console" Version="[2.5.0]" />
-    <PackageDownload Include="Node.js.redist" Version="[16.20.0]" />
-    <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
-    <PackageReference Include="Nuke.Common" Version="8.1.4" />
-    <PackageReference Include="Nuke.Components" Version="8.1.4" />
-    <PackageDownload Include="Yarn.MSBuild" Version="[1.22.19]" />
+    <PackageDownload Include="GitVersion.Tool" Version="[6.1.0]" />
+    <PackageDownload Include="ReportGenerator" Version="[5.4.1]" />
+    <PackageDownload Include="xunit.runner.console" Version="[2.9.2]" />
+    <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
+    <PackageReference Include="Nuke.Common" Version="$(NukeVersion)" />
+    <PackageReference Include="Nuke.Components" Version="$(NukeVersion)" />
+    <PackageReference Include="SharpCompress" Version="0.38.0" />
+    <PackageReference Include="System.Formats.Asn1" Version="9.0.0" />
   </ItemGroup>
 </Project>

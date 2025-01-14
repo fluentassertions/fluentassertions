@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -17,13 +18,16 @@ namespace FluentAssertions.Types;
 [DebuggerNonUserCode]
 public class MethodInfoSelectorAssertions
 {
+    private readonly AssertionChain assertionChain;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="MethodInfoSelectorAssertions"/> class.
     /// </summary>
     /// <param name="methods">The methods to assert.</param>
     /// <exception cref="ArgumentNullException"><paramref name="methods"/> is <see langword="null"/>.</exception>
-    public MethodInfoSelectorAssertions(params MethodInfo[] methods)
+    public MethodInfoSelectorAssertions(AssertionChain assertionChain, params MethodInfo[] methods)
     {
+        this.assertionChain = assertionChain;
         Guard.ThrowIfArgumentIsNull(methods);
 
         SubjectMethods = methods;
@@ -44,7 +48,7 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> BeVirtual(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> BeVirtual([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         MethodInfo[] nonVirtualMethods = GetAllNonVirtualMethodsFromSelection();
 
@@ -53,7 +57,7 @@ public class MethodInfoSelectorAssertions
             Environment.NewLine +
             GetDescriptionsFor(nonVirtualMethods);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(nonVirtualMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
@@ -71,7 +75,7 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> NotBeVirtual([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         MethodInfo[] virtualMethods = GetAllVirtualMethodsFromSelection();
 
@@ -80,7 +84,7 @@ public class MethodInfoSelectorAssertions
             Environment.NewLine +
             GetDescriptionsFor(virtualMethods);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(virtualMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
@@ -108,7 +112,7 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> BeAsync(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> BeAsync([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         MethodInfo[] nonAsyncMethods = SubjectMethods.Where(method => !method.IsAsync()).ToArray();
 
@@ -117,7 +121,7 @@ public class MethodInfoSelectorAssertions
             Environment.NewLine +
             GetDescriptionsFor(nonAsyncMethods);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(nonAsyncMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
@@ -135,7 +139,7 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> NotBeAsync(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> NotBeAsync([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         MethodInfo[] asyncMethods = SubjectMethods.Where(method => method.IsAsync()).ToArray();
 
@@ -144,7 +148,7 @@ public class MethodInfoSelectorAssertions
             Environment.NewLine +
             GetDescriptionsFor(asyncMethods);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(asyncMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
@@ -162,8 +166,8 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         return BeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
@@ -185,7 +189,8 @@ public class MethodInfoSelectorAssertions
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(
-        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
@@ -197,7 +202,7 @@ public class MethodInfoSelectorAssertions
             Environment.NewLine +
             GetDescriptionsFor(methodsWithoutAttribute);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(methodsWithoutAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage, typeof(TAttribute));
@@ -215,8 +220,8 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         return NotBeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
@@ -238,7 +243,8 @@ public class MethodInfoSelectorAssertions
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(
-        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
@@ -250,7 +256,7 @@ public class MethodInfoSelectorAssertions
             Environment.NewLine +
             GetDescriptionsFor(methodsWithAttribute);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(methodsWithAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage, typeof(TAttribute));
@@ -269,15 +275,15 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> Be(CSharpAccessModifier accessModifier, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> Be(CSharpAccessModifier accessModifier,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var methods = SubjectMethods.Where(pi => pi.GetCSharpAccessModifier() != accessModifier).ToArray();
 
         var message = $"Expected all selected methods to be {accessModifier}{{reason}}, but the following methods are not:" +
             Environment.NewLine + GetDescriptionsFor(methods);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(methods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(message);
@@ -296,15 +302,15 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> NotBe(CSharpAccessModifier accessModifier, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> NotBe(CSharpAccessModifier accessModifier,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var methods = SubjectMethods.Where(pi => pi.GetCSharpAccessModifier() == accessModifier).ToArray();
 
         var message = $"Expected all selected methods to not be {accessModifier}{{reason}}, but the following methods are:" +
             Environment.NewLine + GetDescriptionsFor(methods);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(methods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(message);

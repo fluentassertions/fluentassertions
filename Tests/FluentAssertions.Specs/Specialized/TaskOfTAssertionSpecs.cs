@@ -1,10 +1,10 @@
-﻿#if NETFRAMEWORK
-using FluentAssertions.Specs.Common;
-#endif
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
+#if NET47
+using FluentAssertions.Specs.Common;
+#endif
 using FluentAssertions.Specs.Exceptions;
 using Xunit;
 using Xunit.Sdk;
@@ -77,6 +77,29 @@ public static class TaskOfTAssertionSpecs
         }
 
         [Fact]
+        public async Task Can_chain_another_assertion_on_the_result_of_the_async_operation()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<int>();
+
+            // Act
+            Func<Task> action = async () =>
+            {
+                Func<Task<int>> func = () => taskFactory.Task;
+
+                (await func.Should(timer).CompleteWithinAsync(100.Milliseconds()))
+                    .Which.Should().Be(42);
+            };
+
+            taskFactory.SetResult(42);
+            timer.Complete();
+
+            // Assert
+            await action.Should().NotThrowAsync();
+        }
+
+        [Fact]
         public async Task When_task_completes_and_result_is_not_expected_it_should_fail()
         {
             // Arrange
@@ -120,7 +143,7 @@ public static class TaskOfTAssertionSpecs
             timer.Complete();
 
             // Assert
-            await action.Should().ThrowAsync<XunitException>().WithMessage("Expected funcSubject to be 42, but found 99.");
+            await action.Should().ThrowAsync<XunitException>().WithMessage("Expected funcSubject.Result to be 42, but found 99.");
         }
 
         [Fact]
@@ -185,7 +208,7 @@ public static class TaskOfTAssertionSpecs
 
             // Assert
             var assertionTask = action.Should().ThrowAsync<XunitException>()
-                .WithMessage("Expected*to complete within 100ms.*Expected*to be 2, but found 0.");
+                .WithMessage("Expected*to complete within 100ms.");
 
             await Awaiting(() => assertionTask).Should().CompleteWithinAsync(200.Seconds());
         }
@@ -259,6 +282,29 @@ public static class TaskOfTAssertionSpecs
 
             // Assert
             await action.Should().NotThrowAsync();
+        }
+
+        [Fact]
+        public async Task Can_chain_another_assertion_on_the_result_of_the_async_operation()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<int>();
+
+            // Act
+            Func<Task> action = async () =>
+            {
+                Func<Task<int>> func = () => taskFactory.Task;
+
+                (await func.Should(timer).NotThrowAsync())
+                    .Which.Should().Be(10);
+            };
+
+            taskFactory.SetResult(20);
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>().WithMessage("*func.Result to be 10*");
         }
 
         [Fact]

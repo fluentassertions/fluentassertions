@@ -59,7 +59,7 @@ actual.Should().BeEquivalentTo(expected, options => options
 Or  do the same using the global options:
 
 ```csharp
-AssertionOptions.AssertEquivalencyUsing(options => options
+AssertionConfiguration.Current.Equivalency.Modify(options => options
     .ComparingByValue<DirectoryInfo>());
 ```
 
@@ -83,13 +83,13 @@ This behavior can be configured and you can choose to use run-time types if you 
 ```csharp
 Dto orderDto = new OrderDto();
 
-// Use runtime type information of orderDto
+// Use the runtime type of the members of orderDto
 orderDto.Should().BeEquivalentTo(order, options => 
-    options.RespectingRuntimeTypes());
+    options.PreferringRuntimeMemberTypes());
 
-// Use declared type information of orderDto
+// Use the declared type information of the members of orderDto
 orderDto.Should().BeEquivalentTo(order, options => 
-    options.RespectingDeclaredTypes());
+    options.PreferringDeclaredMemberTypes());
 ```
 
 One exception to this rule is when the declared type is `object`.
@@ -147,6 +147,22 @@ orderDto.Should().BeEquivalentTo(order, options =>
            .Exclude(o => o.Name));
 ```
 
+You can also use an anonymous object to exclude members. This can be useful if you want to exclude multiple (maybe nested) fields and avoid writing 
+`Excluding().Excuding().Excluding()...`.
+
+```csharp
+orderDto.Should().BeEquivalentTo(order, options => 
+    options.Excluding(o => new { o.Customer.Name, o.Customer.LastName, o.Vat }));
+```
+
+This is also possible after `.For()` like
+
+```csharp
+orderDto.Should().BeEquivalentTo(order, options =>
+    options.For(o => o.Products)
+           .Exclude(o => new { o.Name, o.Price }));
+```
+
 Of course, `Excluding()` and `ExcludingMissingMembers()` can be combined.
 
 You can also take a different approach and explicitly tell Fluent Assertions which members to include. You can directly specify a property expression or use a predicate that acts on the provided `ISubjectInfo`.
@@ -190,6 +206,8 @@ orderDto.Should().BeEquivalentTo(order, options => options
 ```
 
 This configuration affects the initial inclusion of members and happens before any `Exclude`s or other `IMemberSelectionRule`s. This configuration also affects matching. For example, that if properties are excluded, properties will not be inspected when looking for a match on the expected object.
+
+The behavior with anonymous objects for selection also applies to `Include` as it does to `Exclude`.
 
 ### Comparing members with different names
 
@@ -322,7 +340,7 @@ orderDto.Should().BeEquivalentTo(expectation, options => options.WithStrictOrder
 In case you chose to use strict ordering by default you can still configure non-strict ordering in specific tests:
 
 ```csharp
-AssertionOptions.AssertEquivalencyUsing(options => options.WithStrictOrdering());
+AssertionConfiguration.Current.Equivalency.Modify(options => options.WithStrictOrdering());
 
 orderDto.Should().BeEquivalentTo(expectation, options => options.WithoutStrictOrdering());
 ```
@@ -400,12 +418,12 @@ Alternatively, you could write your own implementation of `ITraceWriter` for spe
 ### Global Configuration
 
 Even though the structural equivalency API is pretty flexible, you might want to change some of these options on a global scale.
-This is where the static class `AssertionOptions` comes into play.
+This is where the static class `AssertionConfiguration` comes into play.
 For instance, to always compare enumerations by name, use the following statement:
 
 ```csharp
-AssertionOptions.AssertEquivalencyUsing(options => 
-   options.ComparingEnumsByName());
+AssertionConfiguration.Current.Equivalency.Modify(options => 
+   options.ComparingEnumsByName);
 ```
 
-All the options available to an individual call to `Should().BeEquivalentTo` are supported, with the exception of some of the overloads that are specific to the type of the subject (for obvious reasons).
+All the options available to an individual call to `Should().BeEquivalentTo` are supported, with the exception of some of the overloads that are specific to the type of the expectation (for obvious reasons).

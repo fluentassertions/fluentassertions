@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
@@ -30,10 +31,10 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<sbyte>> BeCloseTo(this NumericAssertions<sbyte> parent,
-        sbyte nearbyValue, byte delta, string because = "",
-        params object[] becauseArgs)
+        sbyte nearbyValue, byte delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        sbyte actualValue = parent.Subject.Value;
+        sbyte actualValue = parent.Subject;
         sbyte minValue = (sbyte)(nearbyValue - delta);
 
         if (minValue > nearbyValue)
@@ -48,8 +49,9 @@ public static class NumericAssertionsExtensions
             maxValue = sbyte.MaxValue;
         }
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
-            becauseArgs);
+        FailIfValueOutsideBounds(parent.CurrentAssertionChain,
+            minValue <= actualValue && actualValue <= maxValue,
+            nearbyValue, delta, actualValue, because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<sbyte>>(parent);
     }
@@ -72,10 +74,10 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<byte>> BeCloseTo(this NumericAssertions<byte> parent,
-        byte nearbyValue, byte delta, string because = "",
-        params object[] becauseArgs)
+        byte nearbyValue, byte delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        byte actualValue = parent.Subject.Value;
+        byte actualValue = parent.Subject;
         byte minValue = (byte)(nearbyValue - delta);
 
         if (minValue > nearbyValue)
@@ -90,8 +92,9 @@ public static class NumericAssertionsExtensions
             maxValue = byte.MaxValue;
         }
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
-            becauseArgs);
+        FailIfValueOutsideBounds(parent.CurrentAssertionChain,
+            minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue,
+            because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<byte>>(parent);
     }
@@ -114,10 +117,10 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<short>> BeCloseTo(this NumericAssertions<short> parent,
-        short nearbyValue, ushort delta, string because = "",
-        params object[] becauseArgs)
+        short nearbyValue, ushort delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        short actualValue = parent.Subject.Value;
+        short actualValue = parent.Subject;
         short minValue = (short)(nearbyValue - delta);
 
         if (minValue > nearbyValue)
@@ -132,8 +135,10 @@ public static class NumericAssertionsExtensions
             maxValue = short.MaxValue;
         }
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
-            becauseArgs);
+        FailIfValueOutsideBounds(parent.CurrentAssertionChain,
+            minValue <= actualValue && actualValue <= maxValue,
+            nearbyValue, delta, actualValue,
+            because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<short>>(parent);
     }
@@ -156,10 +161,10 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<ushort>> BeCloseTo(this NumericAssertions<ushort> parent,
-        ushort nearbyValue, ushort delta, string because = "",
-        params object[] becauseArgs)
+        ushort nearbyValue, ushort delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        ushort actualValue = parent.Subject.Value;
+        ushort actualValue = parent.Subject;
         ushort minValue = (ushort)(nearbyValue - delta);
 
         if (minValue > nearbyValue)
@@ -174,8 +179,10 @@ public static class NumericAssertionsExtensions
             maxValue = ushort.MaxValue;
         }
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
-            becauseArgs);
+        FailIfValueOutsideBounds(parent.CurrentAssertionChain,
+            minValue <= actualValue && actualValue <= maxValue,
+            nearbyValue, delta, actualValue,
+            because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<ushort>>(parent);
     }
@@ -198,10 +205,10 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<int>> BeCloseTo(this NumericAssertions<int> parent,
-        int nearbyValue, uint delta, string because = "",
-        params object[] becauseArgs)
+        int nearbyValue, uint delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        int actualValue = parent.Subject.Value;
+        int actualValue = parent.Subject;
         int minValue = (int)(nearbyValue - delta);
 
         if (minValue > nearbyValue)
@@ -216,7 +223,10 @@ public static class NumericAssertionsExtensions
             maxValue = int.MaxValue;
         }
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
+        FailIfValueOutsideBounds(parent.CurrentAssertionChain,
+            minValue <= actualValue && actualValue <= maxValue,
+            nearbyValue, delta, actualValue,
+            because,
             becauseArgs);
 
         return new AndConstraint<NumericAssertions<int>>(parent);
@@ -240,10 +250,10 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<uint>> BeCloseTo(this NumericAssertions<uint> parent,
-        uint nearbyValue, uint delta, string because = "",
-        params object[] becauseArgs)
+        uint nearbyValue, uint delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        uint actualValue = parent.Subject.Value;
+        uint actualValue = parent.Subject;
         uint minValue = nearbyValue - delta;
 
         if (minValue > nearbyValue)
@@ -258,8 +268,11 @@ public static class NumericAssertionsExtensions
             maxValue = uint.MaxValue;
         }
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
-            becauseArgs);
+        FailIfValueOutsideBounds(
+            parent.CurrentAssertionChain,
+            minValue <= actualValue && actualValue <= maxValue,
+            nearbyValue, delta, actualValue,
+            because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<uint>>(parent);
     }
@@ -282,15 +295,17 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<long>> BeCloseTo(this NumericAssertions<long> parent,
-        long nearbyValue, ulong delta, string because = "",
-        params object[] becauseArgs)
+        long nearbyValue, ulong delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        long actualValue = parent.Subject.Value;
+        long actualValue = parent.Subject;
         long minValue = GetMinValue(nearbyValue, delta);
         long maxValue = GetMaxValue(nearbyValue, delta);
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
-            becauseArgs);
+        FailIfValueOutsideBounds(parent.CurrentAssertionChain,
+            minValue <= actualValue && actualValue <= maxValue,
+            nearbyValue, delta, actualValue,
+            because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<long>>(parent);
     }
@@ -313,10 +328,10 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<ulong>> BeCloseTo(this NumericAssertions<ulong> parent,
-        ulong nearbyValue, ulong delta, string because = "",
-        params object[] becauseArgs)
+        ulong nearbyValue, ulong delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        ulong actualValue = parent.Subject.Value;
+        ulong actualValue = parent.Subject;
         ulong minValue = nearbyValue - delta;
 
         if (minValue > nearbyValue)
@@ -331,17 +346,19 @@ public static class NumericAssertionsExtensions
             maxValue = ulong.MaxValue;
         }
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
-            becauseArgs);
+        FailIfValueOutsideBounds(parent.CurrentAssertionChain,
+            minValue <= actualValue && actualValue <= maxValue,
+            nearbyValue, delta, actualValue,
+            because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<ulong>>(parent);
     }
 
-    private static void FailIfValueOutsideBounds<TValue, TDelta>(bool valueWithinBounds,
+    private static void FailIfValueOutsideBounds<TValue, TDelta>(AssertionChain assertionChain, bool valueWithinBounds,
         TValue nearbyValue, TDelta delta, TValue actualValue,
-        string because, object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(valueWithinBounds)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to be within {0} from {1}{reason}, but found {2}.",
@@ -370,10 +387,10 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<sbyte>> NotBeCloseTo(this NumericAssertions<sbyte> parent,
-        sbyte distantValue, byte delta, string because = "",
-        params object[] becauseArgs)
+        sbyte distantValue, byte delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        sbyte actualValue = parent.Subject.Value;
+        sbyte actualValue = parent.Subject;
         sbyte minValue = (sbyte)(distantValue - delta);
 
         if (minValue > distantValue)
@@ -388,8 +405,10 @@ public static class NumericAssertionsExtensions
             maxValue = sbyte.MaxValue;
         }
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
-            becauseArgs);
+        FailIfValueInsideBounds(parent.CurrentAssertionChain,
+            !(minValue <= actualValue && actualValue <= maxValue),
+            distantValue, delta, actualValue,
+            because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<sbyte>>(parent);
     }
@@ -412,10 +431,10 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<byte>> NotBeCloseTo(this NumericAssertions<byte> parent,
-        byte distantValue, byte delta, string because = "",
-        params object[] becauseArgs)
+        byte distantValue, byte delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        byte actualValue = parent.Subject.Value;
+        byte actualValue = parent.Subject;
         byte minValue = (byte)(distantValue - delta);
 
         if (minValue > distantValue)
@@ -430,8 +449,11 @@ public static class NumericAssertionsExtensions
             maxValue = byte.MaxValue;
         }
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
-            becauseArgs);
+        FailIfValueInsideBounds(
+            parent.CurrentAssertionChain,
+            !(minValue <= actualValue && actualValue <= maxValue),
+            distantValue, delta, actualValue,
+            because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<byte>>(parent);
     }
@@ -454,10 +476,10 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<short>> NotBeCloseTo(this NumericAssertions<short> parent,
-        short distantValue, ushort delta, string because = "",
-        params object[] becauseArgs)
+        short distantValue, ushort delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        short actualValue = parent.Subject.Value;
+        short actualValue = parent.Subject;
         short minValue = (short)(distantValue - delta);
 
         if (minValue > distantValue)
@@ -472,8 +494,11 @@ public static class NumericAssertionsExtensions
             maxValue = short.MaxValue;
         }
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
-            becauseArgs);
+        FailIfValueInsideBounds(
+            parent.CurrentAssertionChain,
+            !(minValue <= actualValue && actualValue <= maxValue),
+            distantValue, delta, actualValue,
+            because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<short>>(parent);
     }
@@ -496,10 +521,10 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<ushort>> NotBeCloseTo(this NumericAssertions<ushort> parent,
-        ushort distantValue, ushort delta, string because = "",
-        params object[] becauseArgs)
+        ushort distantValue, ushort delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        ushort actualValue = parent.Subject.Value;
+        ushort actualValue = parent.Subject;
         ushort minValue = (ushort)(distantValue - delta);
 
         if (minValue > distantValue)
@@ -514,8 +539,10 @@ public static class NumericAssertionsExtensions
             maxValue = ushort.MaxValue;
         }
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
-            becauseArgs);
+        FailIfValueInsideBounds(parent.CurrentAssertionChain,
+            !(minValue <= actualValue && actualValue <= maxValue),
+            distantValue, delta, actualValue,
+            because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<ushort>>(parent);
     }
@@ -538,10 +565,10 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<int>> NotBeCloseTo(this NumericAssertions<int> parent,
-        int distantValue, uint delta, string because = "",
-        params object[] becauseArgs)
+        int distantValue, uint delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        int actualValue = parent.Subject.Value;
+        int actualValue = parent.Subject;
         int minValue = (int)(distantValue - delta);
 
         if (minValue > distantValue)
@@ -556,8 +583,11 @@ public static class NumericAssertionsExtensions
             maxValue = int.MaxValue;
         }
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
-            becauseArgs);
+        FailIfValueInsideBounds(
+            parent.CurrentAssertionChain,
+            !(minValue <= actualValue && actualValue <= maxValue),
+            distantValue, delta, actualValue,
+            because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<int>>(parent);
     }
@@ -580,10 +610,10 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<uint>> NotBeCloseTo(this NumericAssertions<uint> parent,
-        uint distantValue, uint delta, string because = "",
-        params object[] becauseArgs)
+        uint distantValue, uint delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        uint actualValue = parent.Subject.Value;
+        uint actualValue = parent.Subject;
         uint minValue = distantValue - delta;
 
         if (minValue > distantValue)
@@ -598,8 +628,10 @@ public static class NumericAssertionsExtensions
             maxValue = uint.MaxValue;
         }
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
-            becauseArgs);
+        FailIfValueInsideBounds(parent.CurrentAssertionChain,
+            !(minValue <= actualValue && actualValue <= maxValue),
+            distantValue, delta, actualValue,
+            because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<uint>>(parent);
     }
@@ -622,15 +654,17 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<long>> NotBeCloseTo(this NumericAssertions<long> parent,
-        long distantValue, ulong delta, string because = "",
-        params object[] becauseArgs)
+        long distantValue, ulong delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        long actualValue = parent.Subject.Value;
+        long actualValue = parent.Subject;
         long minValue = GetMinValue(distantValue, delta);
         long maxValue = GetMaxValue(distantValue, delta);
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
-            becauseArgs);
+        FailIfValueInsideBounds(parent.CurrentAssertionChain,
+            !(minValue <= actualValue && actualValue <= maxValue),
+            distantValue, delta, actualValue,
+            because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<long>>(parent);
     }
@@ -653,10 +687,10 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public static AndConstraint<NumericAssertions<ulong>> NotBeCloseTo(this NumericAssertions<ulong> parent,
-        ulong distantValue, ulong delta, string because = "",
-        params object[] becauseArgs)
+        ulong distantValue, ulong delta,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        ulong actualValue = parent.Subject.Value;
+        ulong actualValue = parent.Subject;
         ulong minValue = distantValue - delta;
 
         if (minValue > distantValue)
@@ -671,18 +705,23 @@ public static class NumericAssertionsExtensions
             maxValue = ulong.MaxValue;
         }
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
+        FailIfValueInsideBounds(parent.CurrentAssertionChain,
+            !(minValue <= actualValue && actualValue <= maxValue), distantValue,
+            delta,
+            actualValue,
+            because,
             becauseArgs);
 
         return new AndConstraint<NumericAssertions<ulong>>(parent);
     }
 
     private static void FailIfValueInsideBounds<TValue, TDelta>(
+        AssertionChain assertionChain,
         bool valueOutsideBounds,
         TValue distantValue, TDelta delta, TValue actualValue,
-        string because, object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(valueOutsideBounds)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:value} to be within {0} from {1}{reason}, but found {2}.",
@@ -712,20 +751,22 @@ public static class NumericAssertionsExtensions
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<float>> BeApproximately(this NullableNumericAssertions<float> parent,
-        float expectedValue, float precision, string because = "",
-        params object[] becauseArgs)
+        float expectedValue, float precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
-        bool success = Execute.Assertion
+        var assertion = parent.CurrentAssertionChain;
+
+        assertion
             .ForCondition(parent.Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue,
                 precision);
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            var nonNullableAssertions = new SingleAssertions(parent.Subject.Value);
+            var nonNullableAssertions = new SingleAssertions(parent.Subject.Value, assertion);
             nonNullableAssertions.BeApproximately(expectedValue, precision, because, becauseArgs);
         }
 
@@ -752,8 +793,8 @@ public static class NumericAssertionsExtensions
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<float>> BeApproximately(this NullableNumericAssertions<float> parent,
-        float? expectedValue, float precision, string because = "",
-        params object[] becauseArgs)
+        float? expectedValue, float precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
@@ -762,13 +803,15 @@ public static class NumericAssertionsExtensions
             return new AndConstraint<NullableNumericAssertions<float>>(parent);
         }
 
-        bool succeeded = Execute.Assertion
+        var assertion = parent.CurrentAssertionChain;
+
+        assertion
             .ForCondition(expectedValue is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision,
                 parent.Subject);
 
-        if (succeeded)
+        if (assertion.Succeeded)
         {
             // ReSharper disable once PossibleInvalidOperationException
             parent.BeApproximately(expectedValue.Value, precision, because, becauseArgs);
@@ -796,8 +839,8 @@ public static class NumericAssertionsExtensions
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NumericAssertions<float>> BeApproximately(this NumericAssertions<float> parent,
-        float expectedValue, float precision, string because = "",
-        params object[] becauseArgs)
+        float expectedValue, float precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         if (float.IsNaN(expectedValue))
         {
@@ -808,17 +851,17 @@ public static class NumericAssertionsExtensions
 
         if (float.IsPositiveInfinity(expectedValue))
         {
-            FailIfDifferenceOutsidePrecision(float.IsPositiveInfinity(parent.Subject.Value), parent, expectedValue, precision,
+            FailIfDifferenceOutsidePrecision(float.IsPositiveInfinity(parent.Subject), parent, expectedValue, precision,
                 float.NaN, because, becauseArgs);
         }
         else if (float.IsNegativeInfinity(expectedValue))
         {
-            FailIfDifferenceOutsidePrecision(float.IsNegativeInfinity(parent.Subject.Value), parent, expectedValue, precision,
+            FailIfDifferenceOutsidePrecision(float.IsNegativeInfinity(parent.Subject), parent, expectedValue, precision,
                 float.NaN, because, becauseArgs);
         }
         else
         {
-            float actualDifference = Math.Abs(expectedValue - parent.Subject.Value);
+            float actualDifference = Math.Abs(expectedValue - parent.Subject);
 
             FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference,
                 because, becauseArgs);
@@ -846,20 +889,22 @@ public static class NumericAssertionsExtensions
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<double>> BeApproximately(this NullableNumericAssertions<double> parent,
-        double expectedValue, double precision, string because = "",
-        params object[] becauseArgs)
+        double expectedValue, double precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
-        bool success = Execute.Assertion
+        var assertion = parent.CurrentAssertionChain;
+
+        assertion
             .ForCondition(parent.Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue,
                 precision);
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            var nonNullableAssertions = new DoubleAssertions(parent.Subject.Value);
+            var nonNullableAssertions = new DoubleAssertions(parent.Subject.Value, assertion);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
         }
 
@@ -886,8 +931,8 @@ public static class NumericAssertionsExtensions
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<double>> BeApproximately(this NullableNumericAssertions<double> parent,
-        double? expectedValue, double precision, string because = "",
-        params object[] becauseArgs)
+        double? expectedValue, double precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
@@ -896,13 +941,15 @@ public static class NumericAssertionsExtensions
             return new AndConstraint<NullableNumericAssertions<double>>(parent);
         }
 
-        bool succeeded = Execute.Assertion
+        var assertion = parent.CurrentAssertionChain;
+
+        assertion
             .ForCondition(expectedValue is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision,
                 parent.Subject);
 
-        if (succeeded)
+        if (assertion.Succeeded)
         {
             // ReSharper disable once PossibleInvalidOperationException
             parent.BeApproximately(expectedValue.Value, precision, because, becauseArgs);
@@ -930,8 +977,8 @@ public static class NumericAssertionsExtensions
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NumericAssertions<double>> BeApproximately(this NumericAssertions<double> parent,
-        double expectedValue, double precision, string because = "",
-        params object[] becauseArgs)
+        double expectedValue, double precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         if (double.IsNaN(expectedValue))
         {
@@ -942,17 +989,17 @@ public static class NumericAssertionsExtensions
 
         if (double.IsPositiveInfinity(expectedValue))
         {
-            FailIfDifferenceOutsidePrecision(double.IsPositiveInfinity(parent.Subject.Value), parent, expectedValue, precision,
+            FailIfDifferenceOutsidePrecision(double.IsPositiveInfinity(parent.Subject), parent, expectedValue, precision,
                 double.NaN, because, becauseArgs);
         }
         else if (double.IsNegativeInfinity(expectedValue))
         {
-            FailIfDifferenceOutsidePrecision(double.IsNegativeInfinity(parent.Subject.Value), parent, expectedValue, precision,
+            FailIfDifferenceOutsidePrecision(double.IsNegativeInfinity(parent.Subject), parent, expectedValue, precision,
                 double.NaN, because, becauseArgs);
         }
         else
         {
-            double actualDifference = Math.Abs(expectedValue - parent.Subject.Value);
+            double actualDifference = Math.Abs(expectedValue - parent.Subject);
 
             FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference,
                 because, becauseArgs);
@@ -981,20 +1028,22 @@ public static class NumericAssertionsExtensions
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<decimal>> BeApproximately(
         this NullableNumericAssertions<decimal> parent,
-        decimal expectedValue, decimal precision, string because = "",
-        params object[] becauseArgs)
+        decimal expectedValue, decimal precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
-        bool success = Execute.Assertion
+        var assertion = parent.CurrentAssertionChain;
+
+        assertion
             .ForCondition(parent.Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue,
                 precision);
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            var nonNullableAssertions = new DecimalAssertions(parent.Subject.Value);
+            var nonNullableAssertions = new DecimalAssertions(parent.Subject.Value, assertion);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
         }
 
@@ -1022,8 +1071,8 @@ public static class NumericAssertionsExtensions
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<decimal>> BeApproximately(
         this NullableNumericAssertions<decimal> parent,
-        decimal? expectedValue, decimal precision, string because = "",
-        params object[] becauseArgs)
+        decimal? expectedValue, decimal precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
@@ -1032,13 +1081,15 @@ public static class NumericAssertionsExtensions
             return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
         }
 
-        bool succeeded = Execute.Assertion
+        var assertion = parent.CurrentAssertionChain;
+
+        assertion
             .ForCondition(expectedValue is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision,
                 parent.Subject);
 
-        if (succeeded)
+        if (assertion.Succeeded)
         {
             // ReSharper disable once PossibleInvalidOperationException
             parent.BeApproximately(expectedValue.Value, precision, because, becauseArgs);
@@ -1066,12 +1117,12 @@ public static class NumericAssertionsExtensions
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NumericAssertions<decimal>> BeApproximately(this NumericAssertions<decimal> parent,
-        decimal expectedValue, decimal precision, string because = "",
-        params object[] becauseArgs)
+        decimal expectedValue, decimal precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
-        decimal actualDifference = Math.Abs(expectedValue - parent.Subject.Value);
+        decimal actualDifference = Math.Abs(expectedValue - parent.Subject);
 
         FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference,
             because, becauseArgs);
@@ -1082,10 +1133,12 @@ public static class NumericAssertionsExtensions
     private static void FailIfDifferenceOutsidePrecision<T>(
         bool differenceWithinPrecision,
         NumericAssertions<T> parent, T expectedValue, T precision, T actualDifference,
-        string because, object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
         where T : struct, IComparable<T>
     {
-        Execute.Assertion
+        var assertion = parent.CurrentAssertionChain;
+
+        assertion
             .ForCondition(differenceWithinPrecision)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to approximate {1} +/- {2}{reason}, but {0} differed by {3}.",
@@ -1115,14 +1168,14 @@ public static class NumericAssertionsExtensions
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<float>> NotBeApproximately(this NullableNumericAssertions<float> parent,
-        float unexpectedValue, float precision, string because = "",
-        params object[] becauseArgs)
+        float unexpectedValue, float precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
         if (parent.Subject is not null)
         {
-            var nonNullableAssertions = new SingleAssertions(parent.Subject.Value);
+            var nonNullableAssertions = new SingleAssertions(parent.Subject.Value, parent.CurrentAssertionChain);
             nonNullableAssertions.NotBeApproximately(unexpectedValue, precision, because, becauseArgs);
         }
 
@@ -1149,8 +1202,8 @@ public static class NumericAssertionsExtensions
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<float>> NotBeApproximately(this NullableNumericAssertions<float> parent,
-        float? unexpectedValue, float precision, string because = "",
-        params object[] becauseArgs)
+        float? unexpectedValue, float precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
@@ -1159,13 +1212,15 @@ public static class NumericAssertionsExtensions
             return new AndConstraint<NullableNumericAssertions<float>>(parent);
         }
 
-        bool succeeded = Execute.Assertion
+        var assertion = parent.CurrentAssertionChain;
+
+        assertion
             .ForCondition(parent.Subject is not null && unexpectedValue is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue,
                 precision, parent.Subject);
 
-        if (succeeded)
+        if (assertion.Succeeded)
         {
             // ReSharper disable once PossibleInvalidOperationException
             parent.NotBeApproximately(unexpectedValue.Value, precision, because, becauseArgs);
@@ -1193,8 +1248,8 @@ public static class NumericAssertionsExtensions
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NumericAssertions<float>> NotBeApproximately(this NumericAssertions<float> parent,
-        float unexpectedValue, float precision, string because = "",
-        params object[] becauseArgs)
+        float unexpectedValue, float precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         if (float.IsNaN(unexpectedValue))
         {
@@ -1205,17 +1260,17 @@ public static class NumericAssertionsExtensions
 
         if (float.IsPositiveInfinity(unexpectedValue))
         {
-            FailIfDifferenceWithinPrecision(parent, !float.IsPositiveInfinity(parent.Subject.Value), unexpectedValue, precision,
+            FailIfDifferenceWithinPrecision(parent, !float.IsPositiveInfinity(parent.Subject), unexpectedValue, precision,
                 float.NaN, because, becauseArgs);
         }
         else if (float.IsNegativeInfinity(unexpectedValue))
         {
-            FailIfDifferenceWithinPrecision(parent, !float.IsNegativeInfinity(parent.Subject.Value), unexpectedValue, precision,
+            FailIfDifferenceWithinPrecision(parent, !float.IsNegativeInfinity(parent.Subject), unexpectedValue, precision,
                 float.NaN, because, becauseArgs);
         }
         else
         {
-            float actualDifference = Math.Abs(unexpectedValue - parent.Subject.Value);
+            float actualDifference = Math.Abs(unexpectedValue - parent.Subject);
 
             FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference,
                 because, becauseArgs);
@@ -1244,14 +1299,14 @@ public static class NumericAssertionsExtensions
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<double>> NotBeApproximately(
         this NullableNumericAssertions<double> parent,
-        double unexpectedValue, double precision, string because = "",
-        params object[] becauseArgs)
+        double unexpectedValue, double precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
         if (parent.Subject is not null)
         {
-            var nonNullableAssertions = new DoubleAssertions(parent.Subject.Value);
+            var nonNullableAssertions = new DoubleAssertions(parent.Subject.Value, parent.CurrentAssertionChain);
             nonNullableAssertions.NotBeApproximately(unexpectedValue, precision, because, becauseArgs);
         }
 
@@ -1279,8 +1334,8 @@ public static class NumericAssertionsExtensions
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<double>> NotBeApproximately(
         this NullableNumericAssertions<double> parent,
-        double? unexpectedValue, double precision, string because = "",
-        params object[] becauseArgs)
+        double? unexpectedValue, double precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
@@ -1289,13 +1344,15 @@ public static class NumericAssertionsExtensions
             return new AndConstraint<NullableNumericAssertions<double>>(parent);
         }
 
-        bool succeeded = Execute.Assertion
+        AssertionChain assertionChain = parent.CurrentAssertionChain;
+
+        assertionChain
             .ForCondition(parent.Subject is not null && unexpectedValue is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue,
                 precision, parent.Subject);
 
-        if (succeeded)
+        if (assertionChain.Succeeded)
         {
             // ReSharper disable once PossibleInvalidOperationException
             parent.NotBeApproximately(unexpectedValue.Value, precision, because, becauseArgs);
@@ -1323,8 +1380,8 @@ public static class NumericAssertionsExtensions
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NumericAssertions<double>> NotBeApproximately(this NumericAssertions<double> parent,
-        double unexpectedValue, double precision, string because = "",
-        params object[] becauseArgs)
+        double unexpectedValue, double precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         if (double.IsNaN(unexpectedValue))
         {
@@ -1335,17 +1392,17 @@ public static class NumericAssertionsExtensions
 
         if (double.IsPositiveInfinity(unexpectedValue))
         {
-            FailIfDifferenceWithinPrecision(parent, !double.IsPositiveInfinity(parent.Subject.Value), unexpectedValue, precision,
+            FailIfDifferenceWithinPrecision(parent, !double.IsPositiveInfinity(parent.Subject), unexpectedValue, precision,
                 double.NaN, because, becauseArgs);
         }
         else if (double.IsNegativeInfinity(unexpectedValue))
         {
-            FailIfDifferenceWithinPrecision(parent, !double.IsNegativeInfinity(parent.Subject.Value), unexpectedValue, precision,
+            FailIfDifferenceWithinPrecision(parent, !double.IsNegativeInfinity(parent.Subject), unexpectedValue, precision,
                 double.NaN, because, becauseArgs);
         }
         else
         {
-            double actualDifference = Math.Abs(unexpectedValue - parent.Subject.Value);
+            double actualDifference = Math.Abs(unexpectedValue - parent.Subject);
 
             FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference,
                 because, becauseArgs);
@@ -1374,14 +1431,14 @@ public static class NumericAssertionsExtensions
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<decimal>> NotBeApproximately(
         this NullableNumericAssertions<decimal> parent,
-        decimal unexpectedValue, decimal precision, string because = "",
-        params object[] becauseArgs)
+        decimal unexpectedValue, decimal precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
         if (parent.Subject is not null)
         {
-            var nonNullableAssertions = new DecimalAssertions(parent.Subject.Value);
+            var nonNullableAssertions = new DecimalAssertions(parent.Subject.Value, parent.CurrentAssertionChain);
             NotBeApproximately(nonNullableAssertions, unexpectedValue, precision, because, becauseArgs);
         }
 
@@ -1409,8 +1466,8 @@ public static class NumericAssertionsExtensions
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<decimal>> NotBeApproximately(
         this NullableNumericAssertions<decimal> parent,
-        decimal? unexpectedValue, decimal precision, string because = "",
-        params object[] becauseArgs)
+        decimal? unexpectedValue, decimal precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
@@ -1419,13 +1476,15 @@ public static class NumericAssertionsExtensions
             return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
         }
 
-        bool succeeded = Execute.Assertion
+        var assertion = parent.CurrentAssertionChain;
+
+        assertion
             .ForCondition(parent.Subject is not null && unexpectedValue is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue,
                 precision, parent.Subject);
 
-        if (succeeded)
+        if (assertion.Succeeded)
         {
             // ReSharper disable once PossibleInvalidOperationException
             parent.NotBeApproximately(unexpectedValue.Value, precision, because, becauseArgs);
@@ -1453,12 +1512,12 @@ public static class NumericAssertionsExtensions
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NumericAssertions<decimal>> NotBeApproximately(this NumericAssertions<decimal> parent,
-        decimal unexpectedValue, decimal precision, string because = "",
-        params object[] becauseArgs)
+        decimal unexpectedValue, decimal precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
-        decimal actualDifference = Math.Abs(unexpectedValue - parent.Subject.Value);
+        decimal actualDifference = Math.Abs(unexpectedValue - parent.Subject);
 
         FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference,
             because, becauseArgs);
@@ -1469,10 +1528,10 @@ public static class NumericAssertionsExtensions
     private static void FailIfDifferenceWithinPrecision<T>(
         NumericAssertions<T> parent, bool differenceOutsidePrecision,
         T unexpectedValue, T precision, T actualDifference,
-        string because, object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
         where T : struct, IComparable<T>
     {
-        Execute.Assertion
+        parent.CurrentAssertionChain
             .ForCondition(differenceOutsidePrecision)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to not approximate {1} +/- {2}{reason}, but {0} only differed by {3}.",
@@ -1481,9 +1540,212 @@ public static class NumericAssertionsExtensions
 
     #endregion
 
+    #region BeNaN
+
+    /// <summary>
+    /// Asserts that the number is seen as not a number (NaN).
+    /// </summary>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NumericAssertions<float>> BeNaN(this NumericAssertions<float> parent,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+    {
+        float actualValue = parent.Subject;
+
+        parent.CurrentAssertionChain
+            .ForCondition(float.IsNaN(actualValue))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:value} to be NaN{reason}, but found {0}.", actualValue);
+
+        return new AndConstraint<NumericAssertions<float>>(parent);
+    }
+
+    /// <summary>
+    /// Asserts that the number is seen as not a number (NaN).
+    /// </summary>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NumericAssertions<double>> BeNaN(this NumericAssertions<double> parent,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+    {
+        double actualValue = parent.Subject;
+
+        parent.CurrentAssertionChain
+            .ForCondition(double.IsNaN(actualValue))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:value} to be NaN{reason}, but found {0}.", actualValue);
+
+        return new AndConstraint<NumericAssertions<double>>(parent);
+    }
+
+    /// <summary>
+    /// Asserts that the number is seen as not a number (NaN).
+    /// </summary>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NullableNumericAssertions<float>> BeNaN(this NullableNumericAssertions<float> parent,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+    {
+        float? actualValue = parent.Subject;
+
+        parent.CurrentAssertionChain
+            .ForCondition(actualValue is { } value && float.IsNaN(value))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:value} to be NaN{reason}, but found {0}.", actualValue);
+
+        return new AndConstraint<NullableNumericAssertions<float>>(parent);
+    }
+
+    /// <summary>
+    /// Asserts that the number is seen as not a number (NaN).
+    /// </summary>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NullableNumericAssertions<double>> BeNaN(this NullableNumericAssertions<double> parent,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+    {
+        double? actualValue = parent.Subject;
+
+        parent.CurrentAssertionChain
+            .ForCondition(actualValue is { } value && double.IsNaN(value))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:value} to be NaN{reason}, but found {0}.", actualValue);
+
+        return new AndConstraint<NullableNumericAssertions<double>>(parent);
+    }
+
+    #endregion
+
+    #region NotBeNaN
+
+    /// <summary>
+    /// Asserts that the number is not seen as the special value not a number (NaN).
+    /// </summary>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NumericAssertions<float>> NotBeNaN(this NumericAssertions<float> parent,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+    {
+        float actualValue = parent.Subject;
+
+        parent.CurrentAssertionChain
+            .ForCondition(!float.IsNaN(actualValue))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:value} to be NaN{reason}.");
+
+        return new AndConstraint<NumericAssertions<float>>(parent);
+    }
+
+    /// <summary>
+    /// Asserts that the number is not seen as the special value not a number (NaN).
+    /// </summary>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NumericAssertions<double>> NotBeNaN(this NumericAssertions<double> parent,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+    {
+        double actualValue = parent.Subject;
+
+        parent.CurrentAssertionChain
+            .ForCondition(!double.IsNaN(actualValue))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:value} to be NaN{reason}.");
+
+        return new AndConstraint<NumericAssertions<double>>(parent);
+    }
+
+    /// <summary>
+    /// Asserts that the number is not seen as the special value not a number (NaN).
+    /// </summary>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NullableNumericAssertions<float>> NotBeNaN(this NullableNumericAssertions<float> parent,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+    {
+        float? actualValue = parent.Subject;
+        bool actualValueIsNaN = actualValue is { } value && float.IsNaN(value);
+
+        parent.CurrentAssertionChain
+            .ForCondition(!actualValueIsNaN)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:value} to be NaN{reason}.");
+
+        return new AndConstraint<NullableNumericAssertions<float>>(parent);
+    }
+
+    /// <summary>
+    /// Asserts that the number is not seen as the special value not a number (NaN).
+    /// </summary>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<NullableNumericAssertions<double>> NotBeNaN(this NullableNumericAssertions<double> parent,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+    {
+        double? actualValue = parent.Subject;
+        bool actualValueIsNaN = actualValue is { } value && double.IsNaN(value);
+
+        parent.CurrentAssertionChain
+            .ForCondition(!actualValueIsNaN)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:value} to be NaN{reason}.");
+
+        return new AndConstraint<NullableNumericAssertions<double>>(parent);
+    }
+
+    #endregion
+
     private static long GetMinValue(long value, ulong delta)
     {
         long minValue;
+
         if (delta <= (ulong.MaxValue / 2))
         {
             minValue = value - (long)delta;
@@ -1508,6 +1770,7 @@ public static class NumericAssertionsExtensions
     private static long GetMaxValue(long value, ulong delta)
     {
         long maxValue;
+
         if (delta <= (ulong.MaxValue / 2))
         {
             maxValue = value + (long)delta;

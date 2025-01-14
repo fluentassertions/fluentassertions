@@ -5,7 +5,7 @@ namespace FluentAssertions.Execution;
 /// <summary>
 /// Represents an abstraction of a particular test framework such as MSTest, nUnit, etc.
 /// </summary>
-internal interface ITestFramework
+public interface ITestFramework
 {
     /// <summary>
     /// Gets a value indicating whether the corresponding test framework is currently available.

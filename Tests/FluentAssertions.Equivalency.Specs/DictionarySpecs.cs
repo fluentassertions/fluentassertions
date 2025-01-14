@@ -76,7 +76,7 @@ public class DictionarySpecs
 
     private class GenericDictionaryNotImplementingIDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
-        private readonly Dictionary<TKey, TValue> dictionary = new();
+        private readonly Dictionary<TKey, TValue> dictionary = [];
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -220,10 +220,8 @@ public class DictionarySpecs
             set => this[Parse(key)] = value;
         }
 
-        ICollection<string> IDictionary<string, object>.Keys
-        {
-            get { return Keys.Select(_ => _.ToString(CultureInfo.InvariantCulture)).ToList(); }
-        }
+        ICollection<string> IDictionary<string, object>.Keys =>
+            Keys.Select(key => key.ToString(CultureInfo.InvariantCulture)).ToList();
 
         ICollection<object> IDictionary<string, object>.Values => Values;
 
@@ -235,12 +233,10 @@ public class DictionarySpecs
 
     public class UserRolesLookupElement
     {
-        private readonly Dictionary<Guid, List<string>> innerRoles = new();
+        private readonly Dictionary<Guid, List<string>> innerRoles = [];
 
-        public virtual Dictionary<Guid, IEnumerable<string>> Roles
-        {
-            get { return innerRoles.ToDictionary(x => x.Key, y => y.Value.Select(z => z)); }
-        }
+        public virtual Dictionary<Guid, IEnumerable<string>> Roles =>
+            innerRoles.ToDictionary(x => x.Key, y => y.Value.Select(z => z));
 
         public void Add(Guid userId, params string[] roles)
         {
@@ -323,15 +319,15 @@ public class DictionarySpecs
             new ReadOnlyDictionary<string, IEnumerable<string>>(
                 new Dictionary<string, IEnumerable<string>>
                 {
-                    ["Key2"] = new[] { "Value2" },
-                    ["Key1"] = new[] { "Value1" }
+                    ["Key2"] = ["Value2"],
+                    ["Key1"] = ["Value1"]
                 });
 
         // Act
         Action act = () => dictionary.Should().BeEquivalentTo(new Dictionary<string, IEnumerable<string>>
         {
-            ["Key1"] = new[] { "Value1" },
-            ["Key2"] = new[] { "Value2" }
+            ["Key1"] = ["Value1"],
+            ["Key2"] = ["Value2"]
         });
 
         // Assert
@@ -346,15 +342,15 @@ public class DictionarySpecs
             new ReadOnlyDictionary<string, IEnumerable<string>>(
                 new Dictionary<string, IEnumerable<string>>
                 {
-                    ["Key2"] = new[] { "Value2" },
-                    ["Key1"] = new[] { "Value1" }
+                    ["Key2"] = ["Value2"],
+                    ["Key1"] = ["Value1"]
                 });
 
         // Act
         Action act = () => dictionary.Should().BeEquivalentTo(new Dictionary<string, IEnumerable<string>>
         {
-            ["Key2"] = new[] { "Value3" },
-            ["Key1"] = new[] { "Value1" }
+            ["Key2"] = ["Value3"],
+            ["Key1"] = ["Value1"]
         });
 
         // Assert
@@ -366,7 +362,7 @@ public class DictionarySpecs
     {
         // Arrange
         Dictionary<int, int> subject = null;
-        Dictionary<int, int> expectation = new();
+        Dictionary<int, int> expectation = [];
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expectation, "because we do expect a valid dictionary");
@@ -475,7 +471,7 @@ public class DictionarySpecs
         object object2 = new Dictionary<string, string> { ["greeting"] = "hello" };
 
         // Act
-        Action act = () => object1.Should().BeEquivalentTo(object2, opts => opts.RespectingRuntimeTypes());
+        Action act = () => object1.Should().BeEquivalentTo(object2, opts => opts.PreferringRuntimeMemberTypes());
 
         // Assert
         act.Should().NotThrow("the runtime type is a dictionary and the dictionaries are equivalent");
@@ -504,7 +500,7 @@ public class DictionarySpecs
         object object2 = new NonGenericDictionary { ["greeting"] = "hello" };
 
         // Act
-        Action act = () => object1.Should().BeEquivalentTo(object2, opts => opts.RespectingRuntimeTypes());
+        Action act = () => object1.Should().BeEquivalentTo(object2, opts => opts.PreferringRuntimeMemberTypes());
 
         // Assert
         act.Should().NotThrow("the runtime type is a dictionary and the dictionaries are equivalent");
@@ -520,7 +516,7 @@ public class DictionarySpecs
         var traceWriter = new StringBuilderTraceWriter();
 
         // Act
-        object1.Should().BeEquivalentTo(object2, opts => opts.RespectingRuntimeTypes().WithTracing(traceWriter));
+        object1.Should().BeEquivalentTo(object2, opts => opts.PreferringRuntimeMemberTypes().WithTracing(traceWriter));
 
         // Assert
         string trace = traceWriter.ToString();
@@ -568,10 +564,33 @@ public class DictionarySpecs
         Action act =
             () =>
                 dictionary1.Should().BeEquivalentTo(dictionary2,
-                    opts => opts.RespectingRuntimeTypes());
+                    opts => opts.PreferringRuntimeMemberTypes());
 
         // Assert
         act.Should().Throw<XunitException>("the types have different properties");
+    }
+
+    [Fact]
+    public void Can_compare_non_generic_dictionaries_without_recursing()
+    {
+        // Arrange
+        var expected = new NonGenericDictionary
+        {
+            ["Key2"] = "Value2",
+            ["Key1"] = "Value1"
+        };
+
+        var subject = new NonGenericDictionary
+        {
+            ["Key1"] = "Value1",
+            ["Key3"] = "Value2"
+        };
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(expected, options => options.WithoutRecursing());
+
+        // Assert
+        act.Should().Throw<XunitException>().WithMessage("Expected subject[\"Key2\"] to be \"Value2\", but found <null>*");
     }
 
     [Fact]
@@ -615,7 +634,7 @@ public class DictionarySpecs
         Action act =
             () =>
                 actual.Should().BeEquivalentTo(expectation, opts => opts
-                    .RespectingRuntimeTypes()
+                    .PreferringRuntimeMemberTypes()
                     .ComparingByMembers<CustomerType>()
                 );
 
@@ -1121,14 +1140,15 @@ public class DictionarySpecs
     public void When_a_nested_dictionary_value_doesnt_match_it_should_throw()
     {
         // Arrange
-        const string json = """
-                            {
-                                            "NestedDictionary": {
-                                                "StringProperty": "string",
-                                                "IntProperty": 123
-                                            }
-                                        }
-                            """;
+        const string json =
+            """
+            {
+                "NestedDictionary": {
+                    "StringProperty": "string",
+                    "IntProperty": 123
+                }
+            }
+            """;
 
         var expectedResult = new Dictionary<string, object>
         {
@@ -1242,7 +1262,7 @@ public class DictionarySpecs
             ["CustomerId"] = 33
         };
 
-        subject.Should().BeEquivalentTo(expected, opt => opt.ExcludingNestedObjects());
+        subject.Should().BeEquivalentTo(expected, opt => opt.WithoutRecursing());
     }
 
     [Fact]
@@ -1292,7 +1312,7 @@ internal class NonGenericChildDictionary : Dictionary<string, int>
 
 internal class NonGenericDictionary : IDictionary<string, int>
 {
-    private readonly Dictionary<string, int> innerDictionary = new();
+    private readonly Dictionary<string, int> innerDictionary = [];
 
     public int this[string key]
     {

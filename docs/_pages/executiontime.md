@@ -34,7 +34,7 @@ subject.ExecutionTimeOf(s => s.ExpensiveMethod()).Should().BeLessThanOrEqualTo(5
 Alternatively, to verify the execution time of an arbitrary action, use this syntax:
 
 ```csharp
-Action someAction = () => Thread.Sleep(100);
+var someAction = () => Thread.Sleep(100);
 someAction.ExecutionTime().Should().BeLessThanOrEqualTo(200.Milliseconds());
 ```
 
@@ -52,7 +52,7 @@ someAction.ExecutionTime().Should().BeCloseTo(150.Milliseconds(), 50.Millisecond
 If you're dealing with a `Task`, you can also assert that it completed within a specified period of time or not completed:
 
 ```csharp
-Func<Task> someAsyncWork = () => SomethingReturningATask();
+var someAsyncWork = () => SomethingReturningATask();
 await someAsyncWork.Should().CompleteWithinAsync(100.Milliseconds());
 await someAsyncWork.Should().NotCompleteWithinAsync(100.Milliseconds());
 await someAsyncWork.Should().ThrowWithinAsync<InvalidOperationException>(100.Milliseconds());

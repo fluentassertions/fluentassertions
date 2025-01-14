@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
@@ -14,8 +15,8 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class NullableDateTimeOffsetAssertions : NullableDateTimeOffsetAssertions<NullableDateTimeOffsetAssertions>
 {
-    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected)
-        : base(expected)
+    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected, AssertionChain assertionChain)
+        : base(expected, assertionChain)
     {
     }
 }
@@ -31,9 +32,12 @@ public class NullableDateTimeOffsetAssertions : NullableDateTimeOffsetAssertions
 public class NullableDateTimeOffsetAssertions<TAssertions> : DateTimeOffsetAssertions<TAssertions>
     where TAssertions : NullableDateTimeOffsetAssertions<TAssertions>
 {
-    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected)
-        : base(expected)
+    private readonly AssertionChain assertionChain;
+
+    public NullableDateTimeOffsetAssertions(DateTimeOffset? expected, AssertionChain assertionChain)
+        : base(expected, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -46,9 +50,9 @@ public class NullableDateTimeOffsetAssertions<TAssertions> : DateTimeOffsetAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> HaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:variable} to have a value{reason}, but found {0}", Subject);
@@ -66,7 +70,7 @@ public class NullableDateTimeOffsetAssertions<TAssertions> : DateTimeOffsetAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeNull([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return HaveValue(because, becauseArgs);
     }
@@ -81,10 +85,10 @@ public class NullableDateTimeOffsetAssertions<TAssertions> : DateTimeOffsetAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotHaveValue(string because = "",
+    public AndConstraint<TAssertions> NotHaveValue([StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:variable} to have a value{reason}, but found {0}", Subject);
@@ -102,7 +106,7 @@ public class NullableDateTimeOffsetAssertions<TAssertions> : DateTimeOffsetAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeNull(string because = "",
+    public AndConstraint<TAssertions> BeNull([StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
         return NotHaveValue(because, becauseArgs);

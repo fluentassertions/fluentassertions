@@ -1,13 +1,10 @@
-next-version: 6.0
+workflow: GitFlow/v1
+commit-message-incrementing: Disabled
 branches:
   release:
-    regex: releases?[/-]
-    tag: rc
+    label: rc
+    prevent-increment:
+      when-current-commit-tagged: true
   pull-request:
-    mode: ContinuousDeployment
     regex: ((pull|pull\-requests|pr)[/-]|[/-](merge))
-    tag: pr
-    tag-number-pattern: '[/-]?(?<number>\d+)'
-    prevent-increment-of-merged-branch-version: false
-ignore:
-  sha: []
+    label: pr

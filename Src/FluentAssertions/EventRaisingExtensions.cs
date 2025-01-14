@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
@@ -23,15 +24,16 @@ public static class EventRaisingExtensions
     {
         var eventsForSender = new List<OccurredEvent>();
         var otherSenders = new List<object>();
+        var assertion = AssertionChain.GetOrCreate();
 
         foreach (OccurredEvent @event in eventRecording)
         {
-            bool hasSender = Execute.Assertion
+            assertion
                 .ForCondition(@event.Parameters.Length > 0)
                 .FailWith("Expected event from sender {0}, " +
                     $"but event {eventRecording.EventName} does not have any parameters", expectedSender);
 
-            if (hasSender)
+            if (assertion.Succeeded)
             {
                 object sender = @event.Parameters[0];
 
@@ -46,7 +48,7 @@ public static class EventRaisingExtensions
             }
         }
 
-        Execute.Assertion
+        assertion
             .ForCondition(eventsForSender.Count > 0)
             .FailWith("Expected sender {0}, but found {1}.",
                 () => expectedSender,
@@ -83,7 +85,8 @@ public static class EventRaisingExtensions
 
         bool foundMatchingEvent = eventsWithMatchingPredicate.Count > 0;
 
-        Execute.Assertion
+        AssertionChain
+            .GetOrCreate()
             .ForCondition(foundMatchingEvent)
             .FailWith("Expected at least one event with some argument of type <{0}> that matches {1}, but found none.",
                 typeof(T),
@@ -136,7 +139,8 @@ public static class EventRaisingExtensions
 
         if (!foundMatchingEvent)
         {
-            Execute.Assertion
+            AssertionChain
+                .GetOrCreate()
                 .FailWith(
                     "Expected at least one event with some arguments of type <{0}> that pairwise match {1}, but found none.",
                     typeof(T),
@@ -144,5 +148,32 @@ public static class EventRaisingExtensions
         }
 
         return new FilteredEventRecording(eventRecording, eventsWithMatchingPredicate);
+    }
+
+    /// <summary>
+    /// Asserts that all occurrences of the events has arguments of type <see cref="PropertyChangedEventArgs"/>
+    /// and are for property <paramref name="propertyName"/>.
+    /// </summary>
+    /// <param name="propertyName">
+    /// The property name for which the property changed events should have been raised.
+    /// </param>
+    /// <returns>
+    /// Returns only the property changed events affecting the particular property name.
+    /// </returns>
+    /// <remarks>
+    /// If a <see langword="null"/> or string.Empty is provided as property name, the events are return as-is.
+    /// </remarks>
+    internal static IEventRecording WithPropertyChangeFor(this IEventRecording eventRecording, string propertyName)
+    {
+        if (string.IsNullOrEmpty(propertyName))
+        {
+            return eventRecording;
+        }
+
+        IEnumerable<OccurredEvent> eventsForPropertyName =
+            eventRecording.Where(@event => @event.IsAffectingPropertyName(propertyName))
+                          .ToList();
+
+        return new FilteredEventRecording(eventRecording, eventsForPropertyName);
     }
 }

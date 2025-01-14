@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Common;
 using Xunit;
@@ -56,12 +55,21 @@ public class ObjectExtensionsSpecs
         success.Should().BeTrue();
     }
 
-    public static IEnumerable<object[]> GetNumericAndNumericData()
+    public static TheoryData<object, object> GetNumericAndNumericData()
     {
-        return
+        var pairs =
             from x in GetNumericIConvertibles()
             from y in GetNumericIConvertibles()
-            select new[] { x, y };
+            select (x, y);
+
+        var data = new TheoryData<object, object>();
+
+        foreach (var (x, y) in pairs)
+        {
+            data.Add(x, y);
+        }
+
+        return data;
     }
 
     [Theory]
@@ -78,12 +86,21 @@ public class ObjectExtensionsSpecs
         success.Should().BeFalse();
     }
 
-    public static IEnumerable<object[]> GetNonNumericAndNumericData()
+    public static TheoryData<object, object> GetNonNumericAndNumericData()
     {
-        return
+        var pairs =
             from x in GetNonNumericIConvertibles()
             from y in GetNumericIConvertibles()
-            select new[] { x, y };
+            select (x, y);
+
+        var data = new TheoryData<object, object>();
+
+        foreach (var (x, y) in pairs)
+        {
+            data.Add(x, y);
+        }
+
+        return data;
     }
 
     [Theory]
@@ -100,12 +117,21 @@ public class ObjectExtensionsSpecs
         success.Should().BeFalse();
     }
 
-    public static IEnumerable<object[]> GetNumericAndNonNumericData()
+    public static TheoryData<object, object> GetNumericAndNonNumericData()
     {
-        return
+        var pairs =
             from x in GetNumericIConvertibles()
             from y in GetNonNumericIConvertibles()
-            select new[] { x, y };
+            select (x, y);
+
+        var data = new TheoryData<object, object>();
+
+        foreach (var (x, y) in pairs)
+        {
+            data.Add(x, y);
+        }
+
+        return data;
     }
 
     [Theory]
@@ -122,21 +148,30 @@ public class ObjectExtensionsSpecs
         success.Should().BeFalse();
     }
 
-    public static IEnumerable<object[]> GetNonNumericAndNonNumericData()
+    public static TheoryData<object, object> GetNonNumericAndNonNumericData()
     {
         object[] nonNumerics = GetNonNumericIConvertibles();
 
-        return
+        var pairs =
             from x in nonNumerics
             from y in nonNumerics
             where x != y
-            select new[] { x, y };
+            select (x, y);
+
+        var data = new TheoryData<object, object>();
+
+        foreach (var (x, y) in pairs)
+        {
+            data.Add(x, y);
+        }
+
+        return data;
     }
 
     private static object[] GetNumericIConvertibles()
     {
-        return new object[]
-        {
+        return
+        [
             (byte)1,
             (sbyte)1,
             (short)1,
@@ -148,18 +183,18 @@ public class ObjectExtensionsSpecs
             1F,
             1D,
             1M,
-        };
+        ];
     }
 
     private static object[] GetNonNumericIConvertibles()
     {
-        return new object[]
-        {
+        return
+        [
             true,
             '\u0001',
             new DateTime(1),
             DBNull.Value,
             "1"
-        };
+        ];
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if NET6_0_OR_GREATER || NETSTANDARD2_1
+using System;
+#endif
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 

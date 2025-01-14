@@ -1,8 +1,10 @@
+#if NET6_0_OR_GREATER
+
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Execution;
 
-#if NET6_0_OR_GREATER
 namespace FluentAssertions.Primitives;
 
 /// <summary>
@@ -11,8 +13,8 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class NullableDateOnlyAssertions : NullableDateOnlyAssertions<NullableDateOnlyAssertions>
 {
-    public NullableDateOnlyAssertions(DateOnly? value)
-        : base(value)
+    public NullableDateOnlyAssertions(DateOnly? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 }
@@ -24,9 +26,12 @@ public class NullableDateOnlyAssertions : NullableDateOnlyAssertions<NullableDat
 public class NullableDateOnlyAssertions<TAssertions> : DateOnlyAssertions<TAssertions>
     where TAssertions : NullableDateOnlyAssertions<TAssertions>
 {
-    public NullableDateOnlyAssertions(DateOnly? value)
-        : base(value)
+    private readonly AssertionChain assertionChain;
+
+    public NullableDateOnlyAssertions(DateOnly? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -39,9 +44,9 @@ public class NullableDateOnlyAssertions<TAssertions> : DateOnlyAssertions<TAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> HaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:nullable date} to have a value{reason}, but found {0}.", Subject);
@@ -59,7 +64,7 @@ public class NullableDateOnlyAssertions<TAssertions> : DateOnlyAssertions<TAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeNull([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return HaveValue(because, becauseArgs);
     }
@@ -74,9 +79,9 @@ public class NullableDateOnlyAssertions<TAssertions> : DateOnlyAssertions<TAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotHaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:nullable date} to have a value{reason}, but found {0}.", Subject);
@@ -94,7 +99,7 @@ public class NullableDateOnlyAssertions<TAssertions> : DateOnlyAssertions<TAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeNull([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return NotHaveValue(because, becauseArgs);
     }

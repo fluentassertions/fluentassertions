@@ -165,7 +165,7 @@ public class AssemblyAssertionSpecs
     public class DefineType
     {
         [Fact]
-        public void When_an_assembly_defines_a_type_and_Should_DefineType_is_asserted_it_should_succeed()
+        public void Can_find_a_specific_type()
         {
             // Arrange
             var thisAssembly = GetType().Assembly;
@@ -177,6 +177,22 @@ public class AssemblyAssertionSpecs
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Can_continue_assertions_on_the_found_type()
+        {
+            // Arrange
+            var thisAssembly = GetType().Assembly;
+
+            // Act
+            Action act = () => thisAssembly
+                .Should().DefineType(GetType().Namespace, typeof(WellKnownClassWithAttribute).Name)
+                .Which.Should().BeDecoratedWith<SerializableAttribute>();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*WellKnownClassWithAttribute*decorated*SerializableAttribute*not found.");
         }
 
         [Fact]
@@ -302,6 +318,16 @@ public class AssemblyAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage("Can't check for assembly signing if nullAssembly reference is <null>.");
         }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var unsignedAssembly = FindAssembly.Stub("");
+
+            // Act & Assert
+            unsignedAssembly.Should().BeUnsigned().And.NotBeNull();
+        }
     }
 
     public class BeSignedWithPublicKey
@@ -361,6 +387,17 @@ public class AssemblyAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Can't check for assembly signing if nullAssembly reference is <null>.");
+        }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var key = "0123456789ABCEF007";
+            var signedAssembly = FindAssembly.Stub(key);
+
+            // Act & Assert
+            signedAssembly.Should().BeSignedWithPublicKey(key).And.NotBeNull();
         }
     }
 }

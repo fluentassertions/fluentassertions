@@ -19,8 +19,7 @@ public class PropertyInfoAssertionSpecs
             PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesVirtual).GetRuntimeProperty("PublicVirtualProperty");
 
             // Act
-            Action act = () =>
-                propertyInfo.Should().BeVirtual();
+            Action act = () => propertyInfo.Should().BeVirtual();
 
             // Assert
             act.Should().NotThrow();
@@ -34,13 +33,12 @@ public class PropertyInfoAssertionSpecs
                 typeof(ClassWithNonVirtualPublicProperties).GetRuntimeProperty("PublicNonVirtualProperty");
 
             // Act
-            Action act = () =>
-                propertyInfo.Should().BeVirtual("we want to test the error {0}", "message");
+            Action act = () => propertyInfo.Should().BeVirtual("we want to test the error {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected property String FluentAssertions*ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
+                    "Expected property ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
                     " to be virtual because we want to test the error message," +
                     " but it is not.");
         }
@@ -141,7 +139,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>().Which.Value.Should().Be("OtherValue");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*OtherValue*Value*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*Value*OtherValue*");
         }
 
         [Fact]
@@ -173,8 +171,8 @@ public class PropertyInfoAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected property String " +
-                    "FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
+                .WithMessage("Expected property " +
+                    "ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
                     "FluentAssertions*DummyPropertyAttribute because we want to test the error message, but that attribute was not found.");
         }
 
@@ -194,7 +192,7 @@ public class PropertyInfoAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected property String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
+                    "Expected property ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
                     "FluentAssertions*DummyPropertyAttribute because we want to test the error message," +
                     " but that attribute was not found.");
         }
@@ -295,7 +293,7 @@ public class PropertyInfoAssertionSpecs
             action
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected propertyInfo ReadOnlyProperty to have a setter because we want to test the error message.");
+                    "Expected property ClassWithProperties.ReadOnlyProperty to have a setter because we want to test the error message.");
         }
 
         [Fact]
@@ -381,7 +379,7 @@ public class PropertyInfoAssertionSpecs
             action
                 .Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected property WriteOnlyProperty to have a getter because we want to test the error message, but it does not.");
+                    "Expected property *WriteOnlyProperty to have a getter because we want to test the error message, but it does not.");
         }
 
         [Fact]
@@ -427,8 +425,8 @@ public class PropertyInfoAssertionSpecs
             // Assert
             action
                 .Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected propertyInfo ReadWriteProperty not to have a setter because we want to test the error message.");
+                .WithMessage("Did not expect property ClassWithReadOnlyProperties.ReadWriteProperty" +
+                    " to have a setter because we want to test the error message.");
         }
 
         [Fact]
@@ -443,8 +441,8 @@ public class PropertyInfoAssertionSpecs
             // Assert
             action
                 .Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected propertyInfo WriteOnlyProperty not to have a setter because we want to test the error message.");
+                .WithMessage("Did not expect property ClassWithProperties.WriteOnlyProperty" +
+                    " to have a setter because we want to test the error message.");
         }
 
         [Fact]
@@ -459,7 +457,7 @@ public class PropertyInfoAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected property not to have a setter *failure message*, but propertyInfo is <null>.");
+                .WithMessage("Expected propertyInfo not to have a setter *failure message*, but it is <null>.");
         }
     }
 
@@ -477,8 +475,8 @@ public class PropertyInfoAssertionSpecs
             // Assert
             action
                 .Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected propertyInfo ReadOnlyProperty not to have a getter because we want to test the error message.");
+                .WithMessage("Did not expect property ClassWithReadOnlyProperties.ReadOnlyProperty " +
+                    "to have a getter because we want to test the error message.");
         }
 
         [Fact]
@@ -493,8 +491,8 @@ public class PropertyInfoAssertionSpecs
             // Assert
             action
                 .Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected propertyInfo ReadWriteProperty not to have a getter because we want to test the error message.");
+                .WithMessage("Did not expect property ClassWithReadOnlyProperties.ReadWriteProperty " +
+                    "to have a getter because we want to test the error message.");
         }
 
         [Fact]
@@ -553,8 +551,8 @@ public class PropertyInfoAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected method get_WritePrivateReadProperty to be Public because we want to test the error message, but it is Private.");
+                .WithMessage("Expected getter of property ClassWithProperties.WritePrivateReadProperty " +
+                    "to be Public because we want to test the error message, but it is Private*");
         }
 
         [Fact]
@@ -572,7 +570,7 @@ public class PropertyInfoAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected property WriteOnlyProperty to have a getter, but it does not.");
+                .WithMessage("Expected property ClassWithProperties.WriteOnlyProperty to have a getter, but it does not.");
         }
 
         [Fact]
@@ -587,7 +585,7 @@ public class PropertyInfoAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected property to be Public *failure message*, but propertyInfo is <null>.");
+                .WithMessage("Expected propertyInfo to be Public *failure message*, but it is <null>.");
         }
 
         [Fact]
@@ -633,8 +631,8 @@ public class PropertyInfoAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected method set_ReadPrivateWriteProperty to be Public because we want to test the error message, but it is Private.");
+                .WithMessage("Expected setter of property ClassWithProperties.ReadPrivateWriteProperty " +
+                    "to be Public because we want to test the error message, but it is Private.");
         }
 
         [Fact]
@@ -652,7 +650,7 @@ public class PropertyInfoAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected propertyInfo ReadOnlyProperty to have a setter.");
+                .WithMessage("Expected property ClassWithProperties.ReadOnlyProperty to have a setter.");
         }
 
         [Fact]
@@ -667,7 +665,7 @@ public class PropertyInfoAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected property to be Public *failure message*, but propertyInfo is <null>.");
+                .WithMessage("Expected propertyInfo to be Public *failure message*, but it is <null>.");
         }
 
         [Fact]
@@ -712,8 +710,8 @@ public class PropertyInfoAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected Type of property StringProperty to be System.Int32 because we want to test the error " +
-                    "message, but it is System.String.");
+                .WithMessage("Expected type of property ClassWithProperties.StringProperty" +
+                    " to be System.Int32 because we want to test the error message, but it is System.String.");
         }
 
         [Fact]
@@ -773,7 +771,7 @@ public class PropertyInfoAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected Type of property StringProperty to be System.Int32 because we want to test the error " +
+                .WithMessage("Expected type of property ClassWithProperties.StringProperty to be System.Int32 because we want to test the error " +
                     "message, but it is System.String.");
         }
     }
@@ -804,8 +802,8 @@ public class PropertyInfoAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected Type of property StringProperty not to be*String*because we want to test the error " +
-                    "message, but it is.");
+                .WithMessage("Expected type of property ClassWithProperties.StringProperty" +
+                    " not to be System.String because we want to test the error message, but it is.");
         }
 
         [Fact]
@@ -842,7 +840,7 @@ public class PropertyInfoAssertionSpecs
     public class NotReturnOfT
     {
         [Fact]
-        public void When_asserting_a_String_property_does_not_returnOfT_an_Int32_it_succeeds()
+        public void Can_validate_the_type_of_a_property()
         {
             // Arrange
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
@@ -855,7 +853,7 @@ public class PropertyInfoAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_a_String_property_does_not_returnsOfT_a_String_it_throw_with_a_useful_message()
+        public void When_asserting_a_string_property_does_not_returnsOfT_a_String_it_throw_with_a_useful_message()
         {
             // Arrange
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
@@ -865,7 +863,7 @@ public class PropertyInfoAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected Type of property StringProperty not to be*String*because we want to test the error " +
+                .WithMessage("Expected type of property ClassWithProperties.StringProperty not to be*String*because we want to test the error " +
                     "message, but it is.");
         }
     }

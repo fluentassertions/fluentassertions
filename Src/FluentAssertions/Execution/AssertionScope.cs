@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,60 +11,36 @@ namespace FluentAssertions.Execution;
 /// Represents an implicit or explicit scope within which multiple assertions can be collected.
 /// </summary>
 /// <remarks>
-/// This class is supposed to have a very short life time and is not safe to be used in assertion that cross thread-boundaries
+/// This class is supposed to have a very short lifetime and is not safe to be used in assertion that cross thread-boundaries
 /// such as when using <see langword="async"/> or <see langword="await"/>.
 /// </remarks>
-public sealed class AssertionScope : IAssertionScope
+// Remove all assertion logic from this class since it is superseded by the Assertion class
+public sealed class AssertionScope : IDisposable
 {
-    #region Private Definitions
-
     private readonly IAssertionStrategy assertionStrategy;
-    private readonly ContextDataItems contextData = new();
+    private static readonly AsyncLocal<AssertionScope> CurrentScope = new();
+    private readonly Func<string> callerIdentityProvider = () => CallerIdentifier.DetermineCallerIdentity();
+    private readonly ContextDataDictionary reportableData = new();
     private readonly StringBuilder tracing = new();
 
-    private Func<string> reason;
-
-    private static readonly AsyncLocal<AssertionScope> CurrentScope = new();
-    private Func<string> callerIdentityProvider = () => CallerIdentifier.DetermineCallerIdentity();
-#pragma warning disable CA2213
     private AssertionScope parent;
-#pragma warning restore CA2213
-    private Func<string> expectation;
-    private string fallbackIdentifier = "object";
-    private bool? succeeded;
-
-    private sealed class DeferredReportable
-    {
-        private readonly Lazy<string> lazyValue;
-
-        public DeferredReportable(Func<string> valueFunc)
-        {
-            lazyValue = new Lazy<string>(valueFunc);
-        }
-
-        public override string ToString() => lazyValue.Value;
-    }
-
-    #endregion
 
     /// <summary>
     /// Starts an unnamed scope within which multiple assertions can be executed
     /// and which will not throw until the scope is disposed.
     /// </summary>
     public AssertionScope()
-        : this(new CollectingAssertionStrategy(), context: null)
+        : this(() => null, new CollectingAssertionStrategy())
     {
-        SetCurrentAssertionScope(this);
     }
 
     /// <summary>
     /// Starts a named scope within which multiple assertions can be executed
     /// and which will not throw until the scope is disposed.
     /// </summary>
-    public AssertionScope(string context)
-        : this(new CollectingAssertionStrategy(), new Lazy<string>(() => context))
+    public AssertionScope(string name)
+        : this(() => name, new CollectingAssertionStrategy())
     {
-        SetCurrentAssertionScope(this);
     }
 
     /// <summary>
@@ -75,19 +49,17 @@ public sealed class AssertionScope : IAssertionScope
     /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
     /// <exception cref="ArgumentNullException"><paramref name="assertionStrategy"/> is <see langword="null"/>.</exception>
     public AssertionScope(IAssertionStrategy assertionStrategy)
-        : this(assertionStrategy, context: null)
+        : this(() => null, assertionStrategy)
     {
-        SetCurrentAssertionScope(this);
     }
 
     /// <summary>
     /// Starts a named scope within which multiple assertions can be executed
     /// and which will not throw until the scope is disposed.
     /// </summary>
-    public AssertionScope(Lazy<string> context)
-        : this(new CollectingAssertionStrategy(), context)
+    public AssertionScope(Func<string> name)
+        : this(name, new CollectingAssertionStrategy())
     {
-        SetCurrentAssertionScope(this);
     }
 
     /// <summary>
@@ -95,47 +67,51 @@ public sealed class AssertionScope : IAssertionScope
     /// </summary>
     /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
     /// <exception cref="ArgumentNullException"><paramref name="assertionStrategy"/> is <see langword="null"/>.</exception>
-    private AssertionScope(IAssertionStrategy assertionStrategy, Lazy<string> context)
+    private AssertionScope(Func<string> name, IAssertionStrategy assertionStrategy)
     {
+        parent = CurrentScope.Value;
+        CurrentScope.Value = this;
+
         this.assertionStrategy = assertionStrategy
             ?? throw new ArgumentNullException(nameof(assertionStrategy));
 
-        parent = GetCurrentAssertionScope();
-
         if (parent is not null)
         {
-            contextData.Add(parent.contextData);
-            reason = parent.reason;
+            // Combine the existing Name with the parent.Name if it exists.
+            Name = () =>
+            {
+                var parentName = parent.Name();
+                if (parentName.IsNullOrEmpty())
+                {
+                    return name();
+                }
+
+                if (name().IsNullOrEmpty())
+                {
+                    return parentName;
+                }
+
+                return parentName + "/" + name();
+            };
+
             callerIdentityProvider = parent.callerIdentityProvider;
             FormattingOptions = parent.FormattingOptions.Clone();
-            Context = JoinContexts(parent.Context, context);
         }
         else
         {
-            Context = context;
+            Name = name;
         }
     }
 
-    private static Lazy<string> JoinContexts(Lazy<string> outer, Lazy<string> inner)
-    {
-        return (outer, inner) switch
-        {
-            (null, null) => null,
-            ({ } a, null) => a,
-            (null, { } b) => b,
-            ({ } a, { } b) => Join(a, b)
-        };
-
-        static Lazy<string> Join(Lazy<string> outer, Lazy<string> inner) =>
-            new(() => outer.Value + "/" + inner.Value);
-    }
-
     /// <summary>
-    /// Gets or sets the context of the current assertion scope, e.g. the path of the object graph
-    /// that is being asserted on. The context is provided by a <see cref="Lazy{String}"/> which
-    /// only gets evaluated when its value is actually needed (in most cases during a failure).
+    /// Gets or sets the name of the current assertion scope, e.g. the path of the object graph
+    /// that is being asserted on.
     /// </summary>
-    public Lazy<string> Context { get; set; }
+    /// <remarks>
+    /// The context is provided by a <see cref="Lazy{String}"/> which
+    /// only gets evaluated when its value is actually needed (in most cases during a failure).
+    /// </remarks>
+    public Func<string> Name { get; }
 
     /// <summary>
     /// Gets the current thread-specific assertion scope.
@@ -145,206 +121,16 @@ public sealed class AssertionScope : IAssertionScope
 #pragma warning disable CA2000 // AssertionScope should not be disposed here
         get
         {
-            return GetCurrentAssertionScope() ?? new AssertionScope(new DefaultAssertionStrategy(), context: null);
+            return CurrentScope.Value ?? new AssertionScope(() => null, new DefaultAssertionStrategy());
         }
 #pragma warning restore CA2000
-        private set => SetCurrentAssertionScope(value);
-    }
-
-    /// <inheritdoc cref="IAssertionScope.UsingLineBreaks"/>
-    public AssertionScope UsingLineBreaks
-    {
-        get
-        {
-            FormattingOptions.UseLineBreaks = true;
-            return this;
-        }
+        private set => CurrentScope.Value = value;
     }
 
     /// <summary>
     /// Exposes the options the scope will use for formatting objects in case an assertion fails.
     /// </summary>
-    public FormattingOptions FormattingOptions { get; } = AssertionOptions.FormattingOptions.Clone();
-
-    internal bool Succeeded => succeeded == true;
-
-    /// <summary>
-    /// Adds an explanation of why the assertion is supposed to succeed to the scope.
-    /// </summary>
-    public AssertionScope BecauseOf(Reason reason)
-    {
-        return BecauseOf(reason.FormattedMessage, reason.Arguments);
-    }
-
-    /// <inheritdoc cref="IAssertionScope.BecauseOf(string, object[])"/>
-    public AssertionScope BecauseOf(string because, params object[] becauseArgs)
-    {
-        reason = () =>
-        {
-            try
-            {
-                string becauseOrEmpty = because ?? string.Empty;
-
-                return becauseArgs?.Length > 0
-                    ? string.Format(CultureInfo.InvariantCulture, becauseOrEmpty, becauseArgs)
-                    : becauseOrEmpty;
-            }
-            catch (FormatException formatException)
-            {
-                return
-                    $"**WARNING** because message '{because}' could not be formatted with string.Format{Environment.NewLine}{formatException.StackTrace}";
-            }
-        };
-
-        return this;
-    }
-
-    /// <inheritdoc cref="IAssertionScope.WithExpectation(string, object[])"/>
-    public AssertionScope WithExpectation(string message, params object[] args)
-    {
-        Func<string> localReason = reason;
-
-        expectation = () =>
-        {
-            var messageBuilder = new MessageBuilder(FormattingOptions);
-            string actualReason = localReason?.Invoke() ?? string.Empty;
-            string identifier = GetIdentifier();
-
-            return messageBuilder.Build(message, args, actualReason, contextData, identifier, fallbackIdentifier);
-        };
-
-        return this;
-    }
-
-    internal void TrackComparands(object subject, object expectation)
-    {
-        contextData.Add(new ContextDataItems.DataItem("subject", subject, reportable: false, requiresFormatting: true));
-        contextData.Add(new ContextDataItems.DataItem("expectation", expectation, reportable: false, requiresFormatting: true));
-    }
-
-    /// <inheritdoc/>
-    public Continuation ClearExpectation()
-    {
-        expectation = null;
-
-        // SMELL: Isn't this always going to return null? Or this method also called without FailWith (which sets the success state to null)
-        return new Continuation(this, Succeeded);
-    }
-
-    public GivenSelector<T> Given<T>(Func<T> selector)
-    {
-        return new GivenSelector<T>(selector, this, continueAsserting: succeeded != false);
-    }
-
-    /// <inheritdoc cref="IAssertionScope.ForCondition(bool)"/>
-    public AssertionScope ForCondition(bool condition)
-    {
-        succeeded = condition;
-
-        return this;
-    }
-
-    /// <summary>
-    /// Makes assertion fail when <paramref name="actualOccurrences"/> does not match <paramref name="constraint"/>.
-    /// <para>
-    /// The occurrence description in natural language could then be inserted in failure message by using
-    /// <em>{expectedOccurrence}</em> placeholder in message parameters of <see cref="FailWith(string, object[])"/> and its
-    /// overloaded versions.
-    /// </para>
-    /// </summary>
-    /// <param name="constraint"><see cref="OccurrenceConstraint"/> defining the number of expected occurrences.</param>
-    /// <param name="actualOccurrences">The number of actual occurrences.</param>
-    public AssertionScope ForConstraint(OccurrenceConstraint constraint, int actualOccurrences)
-    {
-        constraint.RegisterReportables(this);
-        succeeded = constraint.Assert(actualOccurrences);
-
-        return this;
-    }
-
-    /// <inheritdoc/>
-    public Continuation FailWith(Func<FailReason> failReasonFunc)
-    {
-        return FailWith(() =>
-        {
-            string localReason = reason?.Invoke() ?? string.Empty;
-            var messageBuilder = new MessageBuilder(FormattingOptions);
-            string identifier = GetIdentifier();
-            FailReason failReason = failReasonFunc();
-
-            string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, contextData, identifier,
-                fallbackIdentifier);
-
-            return result;
-        });
-    }
-
-    internal Continuation FailWithPreFormatted(string formattedFailReason) =>
-        FailWith(() => formattedFailReason);
-
-    private Continuation FailWith(Func<string> failReasonFunc)
-    {
-        try
-        {
-            bool failed = succeeded != true;
-
-            if (failed)
-            {
-                string result = failReasonFunc();
-
-                if (expectation is not null)
-                {
-                    result = expectation() + result;
-                }
-
-                assertionStrategy.HandleFailure(result.Capitalize());
-
-                succeeded = false;
-            }
-
-            return new Continuation(this, continueAsserting: !failed);
-        }
-        finally
-        {
-            succeeded = null;
-        }
-    }
-
-    /// <inheritdoc/>
-    public Continuation FailWith(string message)
-    {
-        return FailWith(() => new FailReason(message));
-    }
-
-    /// <inheritdoc/>
-    public Continuation FailWith(string message, params object[] args)
-    {
-        return FailWith(() => new FailReason(message, args));
-    }
-
-    /// <inheritdoc/>
-    public Continuation FailWith(string message, params Func<object>[] argProviders)
-    {
-        return FailWith(() => new FailReason(message,
-            argProviders.Select(a => a()).ToArray()));
-    }
-
-    private string GetIdentifier()
-    {
-        var identifier = Context?.Value;
-
-        if (string.IsNullOrEmpty(identifier))
-        {
-            identifier = CallerIdentity;
-        }
-
-        return identifier;
-    }
-
-    /// <summary>
-    /// Gets the identity of the caller associated with the current scope.
-    /// </summary>
-    public string CallerIdentity => callerIdentityProvider();
+    public FormattingOptions FormattingOptions { get; } = AssertionConfiguration.Current.Formatting.Clone();
 
     /// <summary>
     /// Adds a pre-formatted failure message to the current scope.
@@ -355,38 +141,30 @@ public sealed class AssertionScope : IAssertionScope
     }
 
     /// <summary>
-    /// Adds a block of tracing to the scope for reporting when an assertion fails.
-    /// </summary>
-    public void AppendTracing(string tracingBlock)
-    {
-        tracing.Append(tracingBlock);
-    }
-
-    /// <summary>
-    /// Tracks a keyed object in the current scope that is excluded from the failure message in case an assertion fails.
-    /// </summary>
-    public void AddNonReportable(string key, object value)
-    {
-        contextData.Add(new ContextDataItems.DataItem(key, value, reportable: false, requiresFormatting: false));
-    }
-
-    /// <summary>
     /// Adds some information to the assertion scope that will be included in the message
     /// that is emitted if an assertion fails.
     /// </summary>
-    public void AddReportable(string key, string value)
+    internal void AddReportable(string key, string value)
     {
-        contextData.Add(new ContextDataItems.DataItem(key, value, reportable: true, requiresFormatting: false));
+        reportableData.Add(new ContextDataDictionary.DataItem(key, value, reportable: true, requiresFormatting: false));
     }
 
     /// <summary>
     /// Adds some information to the assertion scope that will be included in the message
     /// that is emitted if an assertion fails. The value is only calculated on failure.
     /// </summary>
-    public void AddReportable(string key, Func<string> valueFunc)
+    internal void AddReportable(string key, Func<string> valueFunc)
     {
-        contextData.Add(new ContextDataItems.DataItem(key, new DeferredReportable(valueFunc), reportable: true,
+        reportableData.Add(new ContextDataDictionary.DataItem(key, new DeferredReportable(valueFunc), reportable: true,
             requiresFormatting: false));
+    }
+
+    /// <summary>
+    /// Adds a block of tracing to the scope for reporting when an assertion fails.
+    /// </summary>
+    public void AppendTracing(string tracingBlock)
+    {
+        tracing.Append(tracingBlock);
     }
 
     /// <summary>
@@ -403,18 +181,10 @@ public sealed class AssertionScope : IAssertionScope
         return assertionStrategy.FailureMessages.Any();
     }
 
-    /// <summary>
-    /// Gets data associated with the current scope and identified by <paramref name="key"/>.
-    /// </summary>
-    public T Get<T>(string key)
-    {
-        return contextData.Get<T>(key);
-    }
-
     /// <inheritdoc/>
     public void Dispose()
     {
-        SetCurrentAssertionScope(parent);
+        CurrentScope.Value = parent;
 
         if (parent is not null)
         {
@@ -423,63 +193,26 @@ public sealed class AssertionScope : IAssertionScope
                 parent.assertionStrategy.HandleFailure(failureMessage);
             }
 
-            parent.contextData.Add(contextData);
+            parent.reportableData.Add(reportableData);
             parent.AppendTracing(tracing.ToString());
 
             parent = null;
         }
         else
         {
-            IDictionary<string, object> reportable = contextData.GetReportable();
-
             if (tracing.Length > 0)
             {
-                reportable.Add("trace", tracing.ToString());
+                reportableData.Add(new ContextDataDictionary.DataItem("trace", tracing.ToString(), reportable: true, requiresFormatting: false));
             }
 
-            assertionStrategy.ThrowIfAny(reportable);
+            assertionStrategy.ThrowIfAny(reportableData.GetReportable());
         }
     }
 
-    /// <inheritdoc cref="IAssertionScope.WithDefaultIdentifier(string)"/>
-    public AssertionScope WithDefaultIdentifier(string identifier)
+    private sealed class DeferredReportable(Func<string> valueFunc)
     {
-        fallbackIdentifier = identifier;
-        return this;
+        private readonly Lazy<string> lazyValue = new(valueFunc);
+
+        public override string ToString() => lazyValue.Value;
     }
-
-    /// <summary>
-    /// Allows the scope to assume that all assertions that happen within this scope are going to
-    /// be initiated by the same caller.
-    /// </summary>
-    public void AssumeSingleCaller()
-    {
-        // Since we know there's only one caller, we don't have to have every assertion determine the caller identity again
-        var provider = new Lazy<string>(() => CallerIdentifier.DetermineCallerIdentity());
-        callerIdentityProvider = () => provider.Value;
-    }
-
-    private static AssertionScope GetCurrentAssertionScope()
-    {
-        return CurrentScope.Value;
-    }
-
-    private static void SetCurrentAssertionScope(AssertionScope scope)
-    {
-        CurrentScope.Value = scope;
-    }
-
-    #region Explicit Implementation to support the interface
-
-    IAssertionScope IAssertionScope.ForCondition(bool condition) => ForCondition(condition);
-
-    IAssertionScope IAssertionScope.BecauseOf(string because, params object[] becauseArgs) => BecauseOf(because, becauseArgs);
-
-    IAssertionScope IAssertionScope.WithExpectation(string message, params object[] args) => WithExpectation(message, args);
-
-    IAssertionScope IAssertionScope.WithDefaultIdentifier(string identifier) => WithDefaultIdentifier(identifier);
-
-    IAssertionScope IAssertionScope.UsingLineBreaks => UsingLineBreaks;
-
-    #endregion
 }

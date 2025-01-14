@@ -1,26 +1,24 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq.Expressions;
-using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
 using FluentAssertions.Common;
-using FluentAssertions.Data;
+using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
-using FluentAssertions.Reflection;
 using FluentAssertions.Specialized;
 using FluentAssertions.Streams;
 using FluentAssertions.Types;
 using FluentAssertions.Xml;
 using JetBrains.Annotations;
+using NotNullAttribute = System.Diagnostics.CodeAnalysis.NotNullAttribute;
 #if !NETSTANDARD2_0
 using FluentAssertions.Events;
 #endif
@@ -34,6 +32,11 @@ namespace FluentAssertions;
 public static class AssertionExtensions
 {
     private static readonly AggregateExceptionExtractor Extractor = new();
+
+    static AssertionExtensions()
+    {
+        AssertionEngine.EnsureInitialized();
+    }
 
     /// <summary>
     /// Invokes the specified action on a subject so that you can chain it
@@ -146,7 +149,6 @@ public static class AssertionExtensions
     /// <summary>
     /// Provides methods for asserting the execution time of an async action.
     /// </summary>
-    /// <param name="action">An async action to measure the execution time of.</param>
     /// <returns>
     /// Returns an object for asserting that the execution time matches certain conditions.
     /// </returns>
@@ -164,7 +166,7 @@ public static class AssertionExtensions
     [Pure]
     public static ExecutionTimeAssertions Should(this ExecutionTime executionTime)
     {
-        return new ExecutionTimeAssertions(executionTime);
+        return new ExecutionTimeAssertions(executionTime, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -172,9 +174,9 @@ public static class AssertionExtensions
     /// current <see cref="Assembly"/>.
     /// </summary>
     [Pure]
-    public static AssemblyAssertions Should(this Assembly assembly)
+    public static AssemblyAssertions Should([NotNull] this Assembly assembly)
     {
-        return new AssemblyAssertions(assembly);
+        return new AssemblyAssertions(assembly, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -182,9 +184,9 @@ public static class AssertionExtensions
     /// current <see cref="XElement"/>.
     /// </summary>
     [Pure]
-    public static XDocumentAssertions Should(this XDocument actualValue)
+    public static XDocumentAssertions Should([NotNull] this XDocument actualValue)
     {
-        return new XDocumentAssertions(actualValue);
+        return new XDocumentAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -192,9 +194,9 @@ public static class AssertionExtensions
     /// current <see cref="XElement"/>.
     /// </summary>
     [Pure]
-    public static XElementAssertions Should(this XElement actualValue)
+    public static XElementAssertions Should([NotNull] this XElement actualValue)
     {
-        return new XElementAssertions(actualValue);
+        return new XElementAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -202,9 +204,9 @@ public static class AssertionExtensions
     /// current <see cref="XAttribute"/>.
     /// </summary>
     [Pure]
-    public static XAttributeAssertions Should(this XAttribute actualValue)
+    public static XAttributeAssertions Should([NotNull] this XAttribute actualValue)
     {
-        return new XAttributeAssertions(actualValue);
+        return new XAttributeAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -212,9 +214,9 @@ public static class AssertionExtensions
     /// current <see cref="Stream"/>.
     /// </summary>
     [Pure]
-    public static StreamAssertions Should(this Stream actualValue)
+    public static StreamAssertions Should([NotNull] this Stream actualValue)
     {
-        return new StreamAssertions(actualValue);
+        return new StreamAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -222,9 +224,9 @@ public static class AssertionExtensions
     /// current <see cref="BufferedStream"/>.
     /// </summary>
     [Pure]
-    public static BufferedStreamAssertions Should(this BufferedStream actualValue)
+    public static BufferedStreamAssertions Should([NotNull] this BufferedStream actualValue)
     {
-        return new BufferedStreamAssertions(actualValue);
+        return new BufferedStreamAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -279,9 +281,9 @@ public static class AssertionExtensions
     /// current <see cref="object"/>.
     /// </summary>
     [Pure]
-    public static ObjectAssertions Should(this object actualValue)
+    public static ObjectAssertions Should([NotNull] this object actualValue)
     {
-        return new ObjectAssertions(actualValue);
+        return new ObjectAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -291,7 +293,7 @@ public static class AssertionExtensions
     [Pure]
     public static BooleanAssertions Should(this bool actualValue)
     {
-        return new BooleanAssertions(actualValue);
+        return new BooleanAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -301,17 +303,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableBooleanAssertions Should(this bool? actualValue)
     {
-        return new NullableBooleanAssertions(actualValue);
-    }
-
-    /// <summary>
-    /// Returns an <see cref="HttpResponseMessageAssertions"/> object that can be used to assert the
-    /// current <see cref="HttpResponseMessage"/>.
-    /// </summary>
-    [Pure]
-    public static HttpResponseMessageAssertions Should(this HttpResponseMessage actualValue)
-    {
-        return new HttpResponseMessageAssertions(actualValue);
+        return new NullableBooleanAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -321,7 +313,7 @@ public static class AssertionExtensions
     [Pure]
     public static GuidAssertions Should(this Guid actualValue)
     {
-        return new GuidAssertions(actualValue);
+        return new GuidAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -331,7 +323,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableGuidAssertions Should(this Guid? actualValue)
     {
-        return new NullableGuidAssertions(actualValue);
+        return new NullableGuidAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -339,9 +331,9 @@ public static class AssertionExtensions
     /// current <see cref="IEnumerable{T}"/>.
     /// </summary>
     [Pure]
-    public static GenericCollectionAssertions<T> Should<T>(this IEnumerable<T> actualValue)
+    public static GenericCollectionAssertions<T> Should<T>([NotNull] this IEnumerable<T> actualValue)
     {
-        return new GenericCollectionAssertions<T>(actualValue);
+        return new GenericCollectionAssertions<T>(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -349,9 +341,9 @@ public static class AssertionExtensions
     /// current <see cref="IEnumerable{T}"/>.
     /// </summary>
     [Pure]
-    public static StringCollectionAssertions Should(this IEnumerable<string> @this)
+    public static StringCollectionAssertions Should([NotNull] this IEnumerable<string> @this)
     {
-        return new StringCollectionAssertions(@this);
+        return new StringCollectionAssertions(@this, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -360,9 +352,9 @@ public static class AssertionExtensions
     /// </summary>
     [Pure]
     public static GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>(
-        this IDictionary<TKey, TValue> actualValue)
+        [NotNull] this IDictionary<TKey, TValue> actualValue)
     {
-        return new GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue>(actualValue);
+        return new GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue>(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -371,9 +363,10 @@ public static class AssertionExtensions
     /// </summary>
     [Pure]
     public static GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue> Should<TKey, TValue>(
-        this IEnumerable<KeyValuePair<TKey, TValue>> actualValue)
+        [NotNull] this IEnumerable<KeyValuePair<TKey, TValue>> actualValue)
     {
-        return new GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue>(actualValue);
+        return new GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue>(actualValue,
+            AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -382,50 +375,10 @@ public static class AssertionExtensions
     /// </summary>
     [Pure]
     public static GenericDictionaryAssertions<TCollection, TKey, TValue> Should<TCollection, TKey, TValue>(
-        this TCollection actualValue)
+        [NotNull] this TCollection actualValue)
         where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
     {
-        return new GenericDictionaryAssertions<TCollection, TKey, TValue>(actualValue);
-    }
-
-    /// <summary>
-    /// Returns an assertions object that provides methods for asserting the state of a <see cref="DataTableCollection"/>.
-    /// </summary>
-    [Pure]
-    public static GenericCollectionAssertions<DataTable> Should(this DataTableCollection actualValue)
-    {
-        return new GenericCollectionAssertions<DataTable>(
-            ReadOnlyNonGenericCollectionWrapper.Create(actualValue));
-    }
-
-    /// <summary>
-    /// Returns an assertions object that provides methods for asserting the state of a <see cref="DataColumnCollection"/>.
-    /// </summary>
-    [Pure]
-    public static GenericCollectionAssertions<DataColumn> Should(this DataColumnCollection actualValue)
-    {
-        return new GenericCollectionAssertions<DataColumn>(
-            ReadOnlyNonGenericCollectionWrapper.Create(actualValue));
-    }
-
-    /// <summary>
-    /// Returns an assertions object that provides methods for asserting the state of a <see cref="DataRowCollection"/>.
-    /// </summary>
-    [Pure]
-    public static GenericCollectionAssertions<DataRow> Should(this DataRowCollection actualValue)
-    {
-        return new GenericCollectionAssertions<DataRow>(
-            ReadOnlyNonGenericCollectionWrapper.Create(actualValue));
-    }
-
-    /// <summary>
-    /// Returns a <see cref="DataColumnAssertions"/> object that can be used to assert the
-    /// current <see cref="DataColumn"/>.
-    /// </summary>
-    [Pure]
-    public static DataColumnAssertions Should(this DataColumn actualValue)
-    {
-        return new DataColumnAssertions(actualValue);
+        return new GenericDictionaryAssertions<TCollection, TKey, TValue>(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -435,7 +388,7 @@ public static class AssertionExtensions
     [Pure]
     public static DateTimeAssertions Should(this DateTime actualValue)
     {
-        return new DateTimeAssertions(actualValue);
+        return new DateTimeAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -445,7 +398,7 @@ public static class AssertionExtensions
     [Pure]
     public static DateTimeOffsetAssertions Should(this DateTimeOffset actualValue)
     {
-        return new DateTimeOffsetAssertions(actualValue);
+        return new DateTimeOffsetAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -455,7 +408,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableDateTimeAssertions Should(this DateTime? actualValue)
     {
-        return new NullableDateTimeAssertions(actualValue);
+        return new NullableDateTimeAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -465,7 +418,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableDateTimeOffsetAssertions Should(this DateTimeOffset? actualValue)
     {
-        return new NullableDateTimeOffsetAssertions(actualValue);
+        return new NullableDateTimeOffsetAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
 #if NET6_0_OR_GREATER
@@ -476,7 +429,7 @@ public static class AssertionExtensions
     [Pure]
     public static DateOnlyAssertions Should(this DateOnly actualValue)
     {
-        return new DateOnlyAssertions(actualValue);
+        return new DateOnlyAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -486,7 +439,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableDateOnlyAssertions Should(this DateOnly? actualValue)
     {
-        return new NullableDateOnlyAssertions(actualValue);
+        return new NullableDateOnlyAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -496,7 +449,7 @@ public static class AssertionExtensions
     [Pure]
     public static TimeOnlyAssertions Should(this TimeOnly actualValue)
     {
-        return new TimeOnlyAssertions(actualValue);
+        return new TimeOnlyAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -506,7 +459,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableTimeOnlyAssertions Should(this TimeOnly? actualValue)
     {
-        return new NullableTimeOnlyAssertions(actualValue);
+        return new NullableTimeOnlyAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
 #endif
@@ -516,9 +469,9 @@ public static class AssertionExtensions
     /// current <see cref="IComparable{T}"/>.
     /// </summary>
     [Pure]
-    public static ComparableTypeAssertions<T> Should<T>(this IComparable<T> comparableValue)
+    public static ComparableTypeAssertions<T> Should<T>([NotNull] this IComparable<T> comparableValue)
     {
-        return new ComparableTypeAssertions<T>(comparableValue);
+        return new ComparableTypeAssertions<T>(comparableValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -528,7 +481,7 @@ public static class AssertionExtensions
     [Pure]
     public static NumericAssertions<int> Should(this int actualValue)
     {
-        return new Int32Assertions(actualValue);
+        return new Int32Assertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -538,7 +491,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableNumericAssertions<int> Should(this int? actualValue)
     {
-        return new NullableInt32Assertions(actualValue);
+        return new NullableInt32Assertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -548,7 +501,7 @@ public static class AssertionExtensions
     [Pure]
     public static NumericAssertions<uint> Should(this uint actualValue)
     {
-        return new UInt32Assertions(actualValue);
+        return new UInt32Assertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -558,7 +511,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableNumericAssertions<uint> Should(this uint? actualValue)
     {
-        return new NullableUInt32Assertions(actualValue);
+        return new NullableUInt32Assertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -568,7 +521,7 @@ public static class AssertionExtensions
     [Pure]
     public static NumericAssertions<decimal> Should(this decimal actualValue)
     {
-        return new DecimalAssertions(actualValue);
+        return new DecimalAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -578,7 +531,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableNumericAssertions<decimal> Should(this decimal? actualValue)
     {
-        return new NullableDecimalAssertions(actualValue);
+        return new NullableDecimalAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -588,7 +541,7 @@ public static class AssertionExtensions
     [Pure]
     public static NumericAssertions<byte> Should(this byte actualValue)
     {
-        return new ByteAssertions(actualValue);
+        return new ByteAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -598,7 +551,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableNumericAssertions<byte> Should(this byte? actualValue)
     {
-        return new NullableByteAssertions(actualValue);
+        return new NullableByteAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -608,7 +561,7 @@ public static class AssertionExtensions
     [Pure]
     public static NumericAssertions<sbyte> Should(this sbyte actualValue)
     {
-        return new SByteAssertions(actualValue);
+        return new SByteAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -618,7 +571,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableNumericAssertions<sbyte> Should(this sbyte? actualValue)
     {
-        return new NullableSByteAssertions(actualValue);
+        return new NullableSByteAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -628,7 +581,7 @@ public static class AssertionExtensions
     [Pure]
     public static NumericAssertions<short> Should(this short actualValue)
     {
-        return new Int16Assertions(actualValue);
+        return new Int16Assertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -638,7 +591,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableNumericAssertions<short> Should(this short? actualValue)
     {
-        return new NullableInt16Assertions(actualValue);
+        return new NullableInt16Assertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -648,7 +601,7 @@ public static class AssertionExtensions
     [Pure]
     public static NumericAssertions<ushort> Should(this ushort actualValue)
     {
-        return new UInt16Assertions(actualValue);
+        return new UInt16Assertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -658,7 +611,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableNumericAssertions<ushort> Should(this ushort? actualValue)
     {
-        return new NullableUInt16Assertions(actualValue);
+        return new NullableUInt16Assertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -668,7 +621,7 @@ public static class AssertionExtensions
     [Pure]
     public static NumericAssertions<long> Should(this long actualValue)
     {
-        return new Int64Assertions(actualValue);
+        return new Int64Assertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -678,7 +631,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableNumericAssertions<long> Should(this long? actualValue)
     {
-        return new NullableInt64Assertions(actualValue);
+        return new NullableInt64Assertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -688,7 +641,7 @@ public static class AssertionExtensions
     [Pure]
     public static NumericAssertions<ulong> Should(this ulong actualValue)
     {
-        return new UInt64Assertions(actualValue);
+        return new UInt64Assertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -698,7 +651,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableNumericAssertions<ulong> Should(this ulong? actualValue)
     {
-        return new NullableUInt64Assertions(actualValue);
+        return new NullableUInt64Assertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -708,7 +661,7 @@ public static class AssertionExtensions
     [Pure]
     public static NumericAssertions<float> Should(this float actualValue)
     {
-        return new SingleAssertions(actualValue);
+        return new SingleAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -718,7 +671,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableNumericAssertions<float> Should(this float? actualValue)
     {
-        return new NullableSingleAssertions(actualValue);
+        return new NullableSingleAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -728,7 +681,7 @@ public static class AssertionExtensions
     [Pure]
     public static NumericAssertions<double> Should(this double actualValue)
     {
-        return new DoubleAssertions(actualValue);
+        return new DoubleAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -738,7 +691,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableNumericAssertions<double> Should(this double? actualValue)
     {
-        return new NullableDoubleAssertions(actualValue);
+        return new NullableDoubleAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -746,9 +699,9 @@ public static class AssertionExtensions
     /// current <see cref="string"/>.
     /// </summary>
     [Pure]
-    public static StringAssertions Should(this string actualValue)
+    public static StringAssertions Should([NotNull] this string actualValue)
     {
-        return new StringAssertions(actualValue);
+        return new StringAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -758,7 +711,7 @@ public static class AssertionExtensions
     [Pure]
     public static SimpleTimeSpanAssertions Should(this TimeSpan actualValue)
     {
-        return new SimpleTimeSpanAssertions(actualValue);
+        return new SimpleTimeSpanAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -768,7 +721,7 @@ public static class AssertionExtensions
     [Pure]
     public static NullableSimpleTimeSpanAssertions Should(this TimeSpan? actualValue)
     {
-        return new NullableSimpleTimeSpanAssertions(actualValue);
+        return new NullableSimpleTimeSpanAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -776,9 +729,9 @@ public static class AssertionExtensions
     /// current <see cref="System.Type"/>.
     /// </summary>
     [Pure]
-    public static TypeAssertions Should(this Type subject)
+    public static TypeAssertions Should([NotNull] this Type subject)
     {
-        return new TypeAssertions(subject);
+        return new TypeAssertions(subject, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -791,7 +744,7 @@ public static class AssertionExtensions
     {
         Guard.ThrowIfArgumentIsNull(typeSelector);
 
-        return new TypeSelectorAssertions(typeSelector.ToArray());
+        return new TypeSelectorAssertions(AssertionChain.GetOrCreate(),  typeSelector.ToArray());
     }
 
     /// <summary>
@@ -800,9 +753,9 @@ public static class AssertionExtensions
     /// </summary>
     /// <seealso cref="TypeAssertions"/>
     [Pure]
-    public static ConstructorInfoAssertions Should(this ConstructorInfo constructorInfo)
+    public static ConstructorInfoAssertions Should([NotNull] this ConstructorInfo constructorInfo)
     {
-        return new ConstructorInfoAssertions(constructorInfo);
+        return new ConstructorInfoAssertions(constructorInfo, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -810,9 +763,9 @@ public static class AssertionExtensions
     /// </summary>
     /// <seealso cref="TypeAssertions"/>
     [Pure]
-    public static MethodInfoAssertions Should(this MethodInfo methodInfo)
+    public static MethodInfoAssertions Should([NotNull] this MethodInfo methodInfo)
     {
-        return new MethodInfoAssertions(methodInfo);
+        return new MethodInfoAssertions(methodInfo, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -826,7 +779,7 @@ public static class AssertionExtensions
     {
         Guard.ThrowIfArgumentIsNull(methodSelector);
 
-        return new MethodInfoSelectorAssertions(methodSelector.ToArray());
+        return new MethodInfoSelectorAssertions(AssertionChain.GetOrCreate(), methodSelector.ToArray());
     }
 
     /// <summary>
@@ -835,9 +788,9 @@ public static class AssertionExtensions
     /// </summary>
     /// <seealso cref="TypeAssertions"/>
     [Pure]
-    public static PropertyInfoAssertions Should(this PropertyInfo propertyInfo)
+    public static PropertyInfoAssertions Should([NotNull] this PropertyInfo propertyInfo)
     {
-        return new PropertyInfoAssertions(propertyInfo);
+        return new PropertyInfoAssertions(propertyInfo, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -851,7 +804,7 @@ public static class AssertionExtensions
     {
         Guard.ThrowIfArgumentIsNull(propertyInfoSelector);
 
-        return new PropertyInfoSelectorAssertions(propertyInfoSelector.ToArray());
+        return new PropertyInfoSelectorAssertions(AssertionChain.GetOrCreate(), propertyInfoSelector.ToArray());
     }
 
     /// <summary>
@@ -859,9 +812,9 @@ public static class AssertionExtensions
     /// current <see cref="System.Action"/>.
     /// </summary>
     [Pure]
-    public static ActionAssertions Should(this Action action)
+    public static ActionAssertions Should([NotNull] this Action action)
     {
-        return new ActionAssertions(action, Extractor);
+        return new ActionAssertions(action, Extractor, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -869,9 +822,9 @@ public static class AssertionExtensions
     /// current <see cref="System.Func{Task}"/>.
     /// </summary>
     [Pure]
-    public static NonGenericAsyncFunctionAssertions Should(this Func<Task> action)
+    public static NonGenericAsyncFunctionAssertions Should([NotNull] this Func<Task> action)
     {
-        return new NonGenericAsyncFunctionAssertions(action, Extractor);
+        return new NonGenericAsyncFunctionAssertions(action, Extractor, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -879,9 +832,9 @@ public static class AssertionExtensions
     /// current <see><cref>System.Func{Task{T}}</cref></see>.
     /// </summary>
     [Pure]
-    public static GenericAsyncFunctionAssertions<T> Should<T>(this Func<Task<T>> action)
+    public static GenericAsyncFunctionAssertions<T> Should<T>([NotNull] this Func<Task<T>> action)
     {
-        return new GenericAsyncFunctionAssertions<T>(action, Extractor);
+        return new GenericAsyncFunctionAssertions<T>(action, Extractor, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -889,9 +842,9 @@ public static class AssertionExtensions
     /// current <see cref="System.Func{T}"/>.
     /// </summary>
     [Pure]
-    public static FunctionAssertions<T> Should<T>(this Func<T> func)
+    public static FunctionAssertions<T> Should<T>([NotNull] this Func<T> func)
     {
-        return new FunctionAssertions<T>(func, Extractor);
+        return new FunctionAssertions<T>(func, Extractor, AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -901,7 +854,7 @@ public static class AssertionExtensions
     [Pure]
     public static TaskCompletionSourceAssertions<T> Should<T>(this TaskCompletionSource<T> tcs)
     {
-        return new TaskCompletionSourceAssertions<T>(tcs);
+        return new TaskCompletionSourceAssertions<T>(tcs, AssertionChain.GetOrCreate());
     }
 
 #if !NETSTANDARD2_0
@@ -910,14 +863,27 @@ public static class AssertionExtensions
     /// Starts monitoring <paramref name="eventSource"/> for its events.
     /// </summary>
     /// <param name="eventSource">The object for which to monitor the events.</param>
-    /// <param name="utcNow">
-    /// An optional delegate that returns the current date and time in UTC format.
-    /// Will revert to <see cref="DateTime.UtcNow"/> if no delegate was provided.
+    /// <exception cref="ArgumentNullException"><paramref name="eventSource"/> is <see langword="null"/>.</exception>
+    public static IMonitor<T> Monitor<T>(this T eventSource)
+    {
+        return new EventMonitor<T>(eventSource, new EventMonitorOptions());
+    }
+
+    /// <summary>
+    /// Starts monitoring <paramref name="eventSource"/> for its events using the given <paramref name="configureOptions"/>.
+    /// </summary>
+    /// <param name="eventSource">The object for which to monitor the events.</param>
+    /// <param name="configureOptions">
+    /// Options to configure the EventMonitor.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="eventSource"/> is <see langword="null"/>.</exception>
-    public static IMonitor<T> Monitor<T>(this T eventSource, Func<DateTime> utcNow = null)
+    public static IMonitor<T> Monitor<T>(this T eventSource, Action<EventMonitorOptions> configureOptions)
     {
-        return new EventMonitor<T>(eventSource, utcNow ?? (() => DateTime.UtcNow));
+        Guard.ThrowIfArgumentIsNull(configureOptions, nameof(configureOptions));
+
+        var options = new EventMonitorOptions();
+        configureOptions(options);
+        return new EventMonitor<T>(eventSource, options);
     }
 
 #endif
@@ -930,7 +896,7 @@ public static class AssertionExtensions
     [Pure]
     public static TaskCompletionSourceAssertions Should(this TaskCompletionSource tcs)
     {
-        return new TaskCompletionSourceAssertions(tcs);
+        return new TaskCompletionSourceAssertions(tcs, AssertionChain.GetOrCreate());
     }
 
 #endif
@@ -1027,7 +993,7 @@ public static class AssertionExtensions
 
     /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
     [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
-    public static void Should<TSubject, TAssertions>(this NumericAssertions<TSubject, TAssertions> _)
+    public static void Should<TSubject, TAssertions>(this NumericAssertionsBase<TSubject, TSubject, TAssertions> _)
         where TSubject : struct, IComparable<TSubject>
         where TAssertions : NumericAssertions<TSubject, TAssertions>
     {

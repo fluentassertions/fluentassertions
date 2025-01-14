@@ -92,7 +92,7 @@ public class PredicateLambdaExpressionValueFormatterSpecs
     public void When_condition_contains_linq_extension_method_then_extension_method_must_be_formatted()
     {
         // Arrange
-        var allowed = new[] { 1, 2, 3 };
+        int[] allowed = [1, 2, 3];
 
         // Act
         string result = Format<int>(a => allowed.Contains(a));

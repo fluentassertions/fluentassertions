@@ -1,5 +1,6 @@
 using System;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Matching;
 
@@ -42,7 +43,7 @@ internal class MappedPathMatchingRule : IMemberMatchingRule
         }
     }
 
-    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
+    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options, AssertionChain assertionChain)
     {
         MemberPath path = expectationPath;
 
@@ -51,7 +52,7 @@ internal class MappedPathMatchingRule : IMemberMatchingRule
             path = path.WithCollectionAsRoot();
         }
 
-        if (path.IsEquivalentTo(expectedMember.PathAndName))
+        if (path.IsEquivalentTo(expectedMember.Expectation.PathAndName))
         {
             var member = MemberFactory.Find(subject, subjectPath.MemberName, parent);
 

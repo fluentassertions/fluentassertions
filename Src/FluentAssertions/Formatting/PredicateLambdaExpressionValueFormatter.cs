@@ -130,11 +130,11 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     /// </summary>
     private sealed class AndOperatorChainExtractor : ExpressionVisitor
     {
-        public List<Expression> AndChain { get; } = new();
+        public List<Expression> AndChain { get; } = [];
 
         public override Expression Visit(Expression node)
         {
-            if (node.NodeType == ExpressionType.AndAlso)
+            if (node!.NodeType == ExpressionType.AndAlso)
             {
                 var binaryExpression = (BinaryExpression)node;
                 Visit(binaryExpression.Left);

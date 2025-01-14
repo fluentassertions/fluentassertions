@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
@@ -10,8 +11,8 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class GuidAssertions : GuidAssertions<GuidAssertions>
 {
-    public GuidAssertions(Guid? value)
-        : base(value)
+    public GuidAssertions(Guid? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 }
@@ -25,8 +26,11 @@ public class GuidAssertions : GuidAssertions<GuidAssertions>
 public class GuidAssertions<TAssertions>
     where TAssertions : GuidAssertions<TAssertions>
 {
-    public GuidAssertions(Guid? value)
+    private readonly AssertionChain assertionChain;
+
+    public GuidAssertions(Guid? value, AssertionChain assertionChain)
     {
+        this.assertionChain = assertionChain;
         Subject = value;
     }
 
@@ -47,9 +51,9 @@ public class GuidAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeEmpty([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject == Guid.Empty)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:Guid} to be empty{reason}, but found {0}.", Subject);
@@ -67,9 +71,9 @@ public class GuidAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeEmpty([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject is { } value && value != Guid.Empty)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:Guid} to be empty{reason}.");
@@ -93,7 +97,8 @@ public class GuidAssertions<TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentException">The format of <paramref name="expected"/> is invalid.</exception>
-    public AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> Be(string expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         if (!Guid.TryParse(expected, out Guid expectedGuid))
         {
@@ -114,9 +119,10 @@ public class GuidAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> Be(Guid expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> Be(Guid expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, Subject);
@@ -136,7 +142,8 @@ public class GuidAssertions<TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentException">The format of <paramref name="unexpected"/> is invalid.</exception>
-    public AndConstraint<TAssertions> NotBe(string unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBe(string unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         if (!Guid.TryParse(unexpected, out Guid unexpectedGuid))
         {
@@ -157,9 +164,10 @@ public class GuidAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBe(Guid unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBe(Guid unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject != unexpected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:Guid} to be {0}{reason}.", Subject);

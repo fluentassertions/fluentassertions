@@ -71,7 +71,7 @@ public class NestedPropertiesSpecs
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected,
-            options => options.ExcludingNestedObjects());
+            options => options.WithoutRecursing());
 
         // Assert
         act.Should().NotThrow();
@@ -84,7 +84,7 @@ public class NestedPropertiesSpecs
         var item = new Item { Child = new Item() };
 
         // Act
-        Action act = () => item.Should().BeEquivalentTo(new Item(), options => options.ExcludingNestedObjects());
+        Action act = () => item.Should().BeEquivalentTo(new Item(), options => options.WithoutRecursing());
 
         // Assert
         act.Should().Throw<XunitException>()
@@ -118,7 +118,7 @@ public class NestedPropertiesSpecs
             .Should().Match(
                 @"Expected property subject.Level.Text to be ""Level2"", but ""Level1"" differs near ""1"" (index 5).*" +
                 "With configuration:*" +
-                "- Use declared types and members*" +
+                "- Prefer the declared type of the members*" +
                 "- Compare enums by value*" +
                 "- Compare tuples by their properties*" +
                 "- Compare anonymous types by their properties*" +
@@ -155,7 +155,7 @@ public class NestedPropertiesSpecs
         public StringContainer(string mainValue, string subValue = null)
         {
             MainValue = mainValue;
-            SubValues = new[] { new StringSubContainer { SubValue = subValue } };
+            SubValues = [new StringSubContainer { SubValue = subValue }];
         }
 
         public string MainValue { get; set; }
@@ -174,20 +174,20 @@ public class NestedPropertiesSpecs
     public void When_deeply_nested_strings_dont_match_it_should_properly_report_the_mismatches()
     {
         // Arrange
-        var expected = new[]
-        {
+        MyClass2[] expected =
+        [
             new MyClass2 { One = new StringContainer("EXPECTED", "EXPECTED"), Two = new StringContainer("CORRECT") },
             new MyClass2()
-        };
+        ];
 
-        var actual = new[]
-        {
+        MyClass2[] actual =
+        [
             new MyClass2
             {
                 One = new StringContainer("INCORRECT", "INCORRECT"), Two = new StringContainer("CORRECT")
             },
             new MyClass2()
-        };
+        ];
 
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expected);
@@ -229,7 +229,7 @@ public class NestedPropertiesSpecs
         // Assert
         act
             .Should().Throw<XunitException>()
-            .WithMessage("Expectation has property subject.Level.OtherProperty that the other object does not have*");
+            .WithMessage("Expectation has property Level.OtherProperty that the other object does not have*");
     }
 
     [Fact]
@@ -270,7 +270,7 @@ public class NestedPropertiesSpecs
         act
             .Should().Throw<XunitException>()
             .WithMessage(
-                "Expected*Level.Level.Text*to be *A wrong text value*but*\"Level2\"*length*");
+                "Expected*Level.Level.Text*to be *\"Level2\"*A wrong text value*");
     }
 
     [Fact]
@@ -307,9 +307,9 @@ public class NestedPropertiesSpecs
     public void Should_support_nested_collections_containing_empty_objects()
     {
         // Arrange
-        var orig = new[] { new OuterWithObject { MyProperty = new[] { new Inner() } } };
+        OuterWithObject[] orig = [new OuterWithObject { MyProperty = [new Inner()] }];
 
-        var expectation = new[] { new OuterWithObject { MyProperty = new[] { new Inner() } } };
+        OuterWithObject[] expectation = [new OuterWithObject { MyProperty = [new Inner()] }];
 
         // Act / Assert
         orig.Should().BeEquivalentTo(expectation);

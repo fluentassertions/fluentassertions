@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using FluentAssertions.Common;
+using JetBrains.Annotations;
 using Xunit;
 
 namespace FluentAssertions.Specs.Common;
@@ -170,7 +171,7 @@ public class TypeExtensionsSpecs
         return methods.SingleOrDefault(m =>
             m.Name == name
             && m.ReturnType == returnType
-            && m.GetParameters().Select(p => p.ParameterType).SequenceEqual(new[] { type })
+            && m.GetParameters().Select(p => p.ParameterType).SequenceEqual([type])
         );
     }
 
@@ -182,24 +183,30 @@ public class TypeExtensionsSpecs
     {
         private readonly int value;
 
+        [UsedImplicitly]
         private TypeWithFakeConversionOperators(int value)
         {
             this.value = value;
         }
 
 #pragma warning disable IDE1006, SA1300 // These two functions mimic the compiler generated conversion operators
+        [UsedImplicitly]
         public static int op_Implicit(TypeWithFakeConversionOperators typeWithFakeConversionOperators) =>
             typeWithFakeConversionOperators.value;
 
+        [UsedImplicitly]
         public static byte op_Explicit(TypeWithFakeConversionOperators typeWithFakeConversionOperators) =>
             (byte)typeWithFakeConversionOperators.value;
 #pragma warning restore SA1300, IDE1006
     }
 
+    [UsedImplicitly]
     private record MyRecord(int Value);
 
+    [UsedImplicitly]
     private record struct MyRecordStruct(int Value);
 
+    [UsedImplicitly]
     private record struct MyRecordStructWithCustomPrintMembers(int Value)
     {
         // ReSharper disable once RedundantNameQualifier
@@ -217,15 +224,18 @@ public class TypeExtensionsSpecs
         public override int GetHashCode() => Value;
     }
 
+    [UsedImplicitly]
     private readonly record struct MyReadonlyRecordStruct(int Value);
 
     private struct MyStruct
     {
+        [UsedImplicitly]
         public int Value { get; set; }
     }
 
     private struct MyStructWithFakeCompilerGeneratedEquality : IEquatable<MyStructWithFakeCompilerGeneratedEquality>
     {
+        [UsedImplicitly]
         public int Value { get; set; }
 
         public bool Equals(MyStructWithFakeCompilerGeneratedEquality other) => Value == other.Value;
@@ -248,6 +258,7 @@ public class TypeExtensionsSpecs
     private struct MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers
         : IEquatable<MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers>
     {
+        [UsedImplicitly]
         public int Value { get; set; }
 
         public bool Equals(MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers other) => Value == other.Value;
@@ -264,6 +275,7 @@ public class TypeExtensionsSpecs
         public static bool operator !=(MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers left,
             MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers right) => !left.Equals(right);
 
+        [UsedImplicitly]
         private bool PrintMembers(StringBuilder builder)
         {
             builder.Append(Value);
@@ -273,6 +285,7 @@ public class TypeExtensionsSpecs
 
     private struct MyStructWithOverriddenEquality : IEquatable<MyStructWithOverriddenEquality>
     {
+        [UsedImplicitly]
         public int Value { get; set; }
 
         public bool Equals(MyStructWithOverriddenEquality other) => Value == other.Value;
@@ -290,6 +303,7 @@ public class TypeExtensionsSpecs
 
     private class MyClass
     {
+        [UsedImplicitly]
         public int Value { get; set; }
     }
 }

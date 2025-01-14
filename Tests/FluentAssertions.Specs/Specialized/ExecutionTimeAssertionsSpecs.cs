@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using FluentAssertions.Specialized;
 using Xunit;
@@ -95,11 +96,23 @@ public class ExecutionTimeAssertionsSpecs
 
             // Act
             Action act = () =>
-                subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeLessOrEqualTo(1.Nanoseconds());
+                subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeLessThanOrEqualTo(1.Nanoseconds());
 
             // Assert
             act.Should().ThrowExactly<XunitException>()
                 .Which.Message.Should().Contain("{}").And.NotContain("{0}");
+        }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var subject = new SleepingClass();
+
+            // Act / Assert
+            subject.ExecutionTimeOf(s => s.Sleep(0))
+                .Should().BeLessThanOrEqualTo(500.Milliseconds())
+                .And.BeCloseTo(0.Seconds(), 500.Milliseconds());
         }
     }
 
@@ -309,6 +322,18 @@ public class ExecutionTimeAssertionsSpecs
             // Assert
             act.Should().ThrowExactly<XunitException>()
                 .Which.Message.Should().Contain("{}").And.NotContain("{0}");
+        }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var subject = new SleepingClass();
+
+            // Act / Assert
+            subject.ExecutionTimeOf(s => s.Sleep(100))
+                .Should().BeGreaterThanOrEqualTo(50.Milliseconds())
+                .And.BeCloseTo(0.Seconds(), 500.Milliseconds());
         }
     }
 
@@ -556,7 +581,7 @@ public class ExecutionTimeAssertionsSpecs
             ExecutionTime executionTime = null;
 
             // Act
-            Func<ExecutionTimeAssertions> act = () => new ExecutionTimeAssertions(executionTime);
+            Func<ExecutionTimeAssertions> act = () => new ExecutionTimeAssertions(executionTime, AssertionChain.GetOrCreate());
 
             // Assert
             act.Should().Throw<ArgumentNullException>()

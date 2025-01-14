@@ -138,7 +138,7 @@ internal static class TypeExtensions
     {
         return (property.DeclaringType.IsSameOrInherits(otherProperty.DeclaringType) ||
                 otherProperty.DeclaringType.IsSameOrInherits(property.DeclaringType)) &&
-            property.Name == otherProperty.Name;
+            property.Expectation.Name == otherProperty.Expectation.Name;
     }
 
     /// <summary>
@@ -149,7 +149,7 @@ internal static class TypeExtensions
     {
         if (type.IsGenericType && type.GetGenericTypeDefinition() == openGenericType)
         {
-            return new[] { type };
+            return [type];
         }
 
         Type[] interfaces = type.GetInterfaces();
@@ -163,7 +163,7 @@ internal static class TypeExtensions
     public static bool OverridesEquals(this Type type)
     {
         MethodInfo method = type
-            .GetMethod("Equals", new[] { typeof(object) });
+            .GetMethod("Equals", [typeof(object)]);
 
         return method is not null
             && method.GetBaseDefinition().DeclaringType != method.DeclaringType;
@@ -458,9 +458,9 @@ internal static class TypeExtensions
         // and heuristic testing, apparently giving good results but not supported by official documentation.
         return type.BaseType == typeof(ValueType) &&
             type.GetMethod("PrintMembers", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly, null,
-                new[] { typeof(StringBuilder) }, null) is { } &&
+                [typeof(StringBuilder)], null) is { } &&
             type.GetMethod("op_Equality", BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly, null,
-                    new[] { type, type }, null)?
+                    [type, type], null)?
                 .IsDecoratedWith<CompilerGeneratedAttribute>() == true;
     }
 

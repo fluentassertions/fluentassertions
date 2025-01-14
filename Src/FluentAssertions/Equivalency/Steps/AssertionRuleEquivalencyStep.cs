@@ -10,20 +10,20 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
 {
     private readonly Func<IObjectInfo, bool> predicate;
     private readonly string description;
-    private readonly Action<IAssertionContext<TSubject>> assertion;
+    private readonly Action<IAssertionContext<TSubject>> assertionAction;
     private readonly AutoConversionStep converter = new();
 
     public AssertionRuleEquivalencyStep(
         Expression<Func<IObjectInfo, bool>> predicate,
-        Action<IAssertionContext<TSubject>> assertion)
+        Action<IAssertionContext<TSubject>> assertionAction)
     {
         this.predicate = predicate.Compile();
-        this.assertion = assertion;
+        this.assertionAction = assertionAction;
         description = predicate.ToString();
     }
 
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+        IValidateChildNodeEquivalency valueChildNodes)
     {
         bool success = false;
 
@@ -41,7 +41,7 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
             {
                 // Convert into a child context
                 context = context.Clone();
-                converter.Handle(comparands, context, nestedValidator);
+                converter.Handle(comparands, context, valueChildNodes);
                 converted = true;
             }
 
@@ -49,7 +49,6 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
             {
                 // Try again after conversion
                 success = ExecuteAssertion(comparands, context);
-
                 if (success)
                 {
                     // If the assertion succeeded after conversion, discard the failures from
@@ -59,7 +58,7 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
             }
         }
 
-        return success ? EquivalencyResult.AssertionCompleted : EquivalencyResult.ContinueWithNext;
+        return success ? EquivalencyResult.EquivalencyProven : EquivalencyResult.ContinueWithNext;
     }
 
     private bool AppliesTo(Comparands comparands, INode currentNode) => predicate(new ObjectInfo(comparands, currentNode));
@@ -67,30 +66,33 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
     private bool ExecuteAssertion(Comparands comparands, IEquivalencyValidationContext context)
     {
         bool subjectIsNull = comparands.Subject is null;
-
-        bool subjectIsValidType =
-            AssertionScope.Current
-                .ForCondition(subjectIsNull || comparands.Subject.GetType().IsSameOrInherits(typeof(TSubject)))
-                .FailWith("Expected " + context.CurrentNode.Description + " from subject to be a {0}{reason}, but found a {1}.",
-                    typeof(TSubject), comparands.Subject?.GetType());
-
         bool expectationIsNull = comparands.Expectation is null;
 
-        bool expectationIsValidType =
-            AssertionScope.Current
+        var assertionChain = AssertionChain.GetOrCreate().For(context);
+
+        assertionChain
+                .ForCondition(subjectIsNull || comparands.Subject.GetType().IsSameOrInherits(typeof(TSubject)))
+                .FailWith("Expected " + context.CurrentNode.Subject + " from subject to be a {0}{reason}, but found a {1}.",
+                    typeof(TSubject), comparands.Subject?.GetType())
+                .Then
                 .ForCondition(expectationIsNull || comparands.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
                 .FailWith(
-                    "Expected " + context.CurrentNode.Description + " from expectation to be a {0}{reason}, but found a {1}.",
+                    "Expected " + context.CurrentNode.Subject + " from expectation to be a {0}{reason}, but found a {1}.",
                     typeof(TSubject), comparands.Expectation?.GetType());
 
-        if (subjectIsValidType && expectationIsValidType)
+        if (assertionChain.Succeeded)
         {
             if ((subjectIsNull || expectationIsNull) && !CanBeNull<TSubject>())
             {
                 return false;
             }
 
-            assertion(AssertionContext<TSubject>.CreateFrom(comparands, context));
+            // Caller identitification should not get confused about invoking a Should within the assertion action
+            string callerIdentifier = context.CurrentNode.Subject.ToString();
+            assertionChain.OverrideCallerIdentifier(() => callerIdentifier);
+            assertionChain.ReuseOnce();
+
+            assertionAction(AssertionContext<TSubject>.CreateFrom(comparands, context));
             return true;
         }
 

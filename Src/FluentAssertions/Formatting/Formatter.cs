@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Common;
-using FluentAssertions.Equivalency;
 using FluentAssertions.Equivalency.Execution;
 using FluentAssertions.Execution;
 using FluentAssertions.Xml;
@@ -10,16 +9,16 @@ using FluentAssertions.Xml;
 namespace FluentAssertions.Formatting;
 
 /// <summary>
-/// Provides services for formatting an object being used in an assertion in a human readable format.
+/// Provides services for formatting an object being used in an assertion in a human-readable format.
 /// </summary>
 public static class Formatter
 {
     #region Private Definitions
 
-    private static readonly List<IValueFormatter> CustomFormatters = new();
+    private static readonly List<IValueFormatter> CustomFormatters = [];
 
-    private static readonly List<IValueFormatter> DefaultFormatters = new()
-    {
+    private static readonly List<IValueFormatter> DefaultFormatters =
+    [
         new XmlReaderValueFormatter(),
         new XmlNodeFormatter(),
         new AttributeBasedFormatter(),
@@ -28,6 +27,7 @@ public static class Formatter
         new XElementValueFormatter(),
         new XAttributeValueFormatter(),
         new PropertyInfoFormatter(),
+        new MethodInfoFormatter(),
         new NullValueFormatter(),
         new GuidValueFormatter(),
         new DateTimeOffsetValueFormatter(),
@@ -57,7 +57,7 @@ public static class Formatter
         new EnumerableValueFormatter(),
         new EnumValueFormatter(),
         new DefaultValueFormatter()
-    };
+    ];
 
     /// <summary>
     /// Is used to detect recursive calls by <see cref="IValueFormatter"/> implementations.
@@ -70,7 +70,10 @@ public static class Formatter
     /// <summary>
     /// A list of objects responsible for formatting the objects represented by placeholders.
     /// </summary>
-    public static IEnumerable<IValueFormatter> Formatters => CustomFormatters.Concat(DefaultFormatters);
+    public static IEnumerable<IValueFormatter> Formatters =>
+        AssertionScope.Current.FormattingOptions.ScopedFormatters
+            .Concat(CustomFormatters)
+            .Concat(DefaultFormatters);
 
     /// <summary>
     /// Returns a human-readable representation of a particular object.
@@ -107,8 +110,9 @@ public static class Formatter
 
             try
             {
-                Format(value, output, context, (path, childValue,
-                    output) => FormatChild(path, childValue, output, context, options, graph));
+                Format(value, output, context,
+                    (path, childValue, childOutput)
+                        => FormatChild(path, childValue, childOutput, context, options, graph));
             }
             catch (MaxLinesExceededException)
             {
@@ -136,7 +140,7 @@ public static class Formatter
             else if (graph.Depth > options.MaxDepth)
             {
                 output.AddLine($"Maximum recursion depth of {options.MaxDepth} was reached. " +
-                    $" Increase {nameof(FormattingOptions.MaxDepth)} on {nameof(AssertionScope)} or {nameof(AssertionOptions)} to get more details.");
+                    $" Increase {nameof(FormattingOptions.MaxDepth)} on {nameof(AssertionScope)} or {nameof(AssertionConfiguration)} to get more details.");
             }
             else
             {
@@ -160,7 +164,7 @@ public static class Formatter
     }
 
     /// <summary>
-    /// Removes a custom formatter that was previously added though <see cref="AddFormatter"/>.
+    /// Removes a custom formatter that was previously added through <see cref="Formatter.AddFormatter"/>.
     /// </summary>
     /// <remarks>
     /// This method is not thread-safe and should not be invoked from within a unit test.
@@ -211,7 +215,7 @@ public static class Formatter
 
             string fullPath = GetFullPath();
             var reference = new ObjectReference(value, fullPath);
-            return !tracker.IsCyclicReference(reference, CyclicReferenceHandling.Ignore);
+            return !tracker.IsCyclicReference(reference);
         }
 
         private string GetFullPath() => string.Join(".", pathStack.Reverse());

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
@@ -12,8 +13,8 @@ public class StringCollectionAssertions : StringCollectionAssertions<IEnumerable
     /// <summary>
     /// Initializes a new instance of the <see cref="StringCollectionAssertions"/> class.
     /// </summary>
-    public StringCollectionAssertions(IEnumerable<string> actualValue)
-        : base(actualValue)
+    public StringCollectionAssertions(IEnumerable<string> actualValue, AssertionChain assertionChain)
+        : base(actualValue, assertionChain)
     {
     }
 }
@@ -25,8 +26,8 @@ public class StringCollectionAssertions<TCollection>
     /// <summary>
     /// Initializes a new instance of the <see cref="StringCollectionAssertions{TCollection}"/> class.
     /// </summary>
-    public StringCollectionAssertions(TCollection actualValue)
-        : base(actualValue)
+    public StringCollectionAssertions(TCollection actualValue, AssertionChain assertionChain)
+        : base(actualValue, assertionChain)
     {
     }
 }
@@ -35,12 +36,15 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     where TCollection : IEnumerable<string>
     where TAssertions : StringCollectionAssertions<TCollection, TAssertions>
 {
+    private readonly AssertionChain assertionChain;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="StringCollectionAssertions{TCollection, TAssertions}"/> class.
     /// </summary>
-    public StringCollectionAssertions(TCollection actualValue)
-        : base(actualValue)
+    public StringCollectionAssertions(TCollection actualValue, AssertionChain assertionChain)
+        : base(actualValue, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -92,8 +96,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return BeEquivalentTo(expectation, config => config, because, becauseArgs);
     }
@@ -107,10 +111,10 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// </remarks>
     /// <param name="expectation">An <see cref="IEnumerable{String}"/> with the expected elements.</param>
     /// <param name="config">
-    /// A reference to the <see cref="EquivalencyAssertionOptions{String}"/> configuration object that can be used
+    /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
-    /// <see cref="EquivalencyAssertionOptions{String}"/> class. The global defaults are determined by the
-    /// <see cref="AssertionOptions"/> class.
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults can be modified through
+    /// <see cref="AssertionConfiguration"/>.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -121,16 +125,16 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config, string because = "",
-        params object[] becauseArgs)
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyAssertionOptions<IEnumerable<string>>
-            options = config(AssertionOptions.CloneDefaults<string>()).AsCollection();
+        EquivalencyOptions<IEnumerable<string>>
+            options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<string>()).AsCollection();
 
         var context =
-            new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => AssertionScope.Current.CallerIdentity), options)
+            new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => CurrentAssertionChain.CallerIdentifier), options)
             {
                 Reason = new Reason(because, becauseArgs),
                 TraceWriter = options.TraceWriter
@@ -160,7 +164,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     public AndConstraint<TAssertions> AllBe(string expectation,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return AllBe(expectation, options => options, because, becauseArgs);
     }
@@ -170,10 +174,10 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// </summary>
     /// <param name="expectation">An expected <see cref="string"/>.</param>
     /// <param name="config">
-    /// A reference to the <see cref="EquivalencyAssertionOptions{String}"/> configuration object that can be used
+    /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
-    /// <see cref="EquivalencyAssertionOptions{String}"/> class. The global defaults are determined by the
-    /// <see cref="AssertionOptions"/> class.
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
+    /// <see cref="AssertionConfiguration"/> class.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -184,9 +188,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> AllBe(string expectation,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
-        string because = "",
-        params object[] becauseArgs)
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
@@ -198,7 +201,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
         // in case user needs to use them. Strict ordering improves algorithmic complexity
         // from O(n^2) to O(n). For bigger tables it is necessary in order to achieve acceptable
         // execution times.
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> forceStringOrderingConfig =
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> forceStringOrderingConfig =
             x => config(x).WithStrictOrderingFor(s => string.IsNullOrEmpty(s.Path));
 
         return BeEquivalentTo(repeatedExpectation, forceStringOrderingConfig, because, becauseArgs);
@@ -239,8 +242,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
-    public AndWhichConstraint<TAssertions, string> ContainMatch(string wildcardPattern, string because = "",
-        params object[] becauseArgs)
+    public AndWhichConstraint<TAssertions, string> ContainMatch(string wildcardPattern,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
             "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the Contain method.");
@@ -248,45 +251,48 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
         Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
             "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.");
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern);
 
-        IEnumerable<string> matched = new List<string>(0);
+        string[] matches = [];
 
-        if (success)
+        int? firstMatch = null;
+
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(ContainsMatch(wildcardPattern))
-                .FailWith("Expected {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);
+            (matches, firstMatch) = AllThatMatch(wildcardPattern);
 
-            matched = AllThatMatch(wildcardPattern);
+            assertionChain
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(matches.Length > 0)
+                .FailWith("Expected {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);
         }
 
-        return new AndWhichConstraint<TAssertions, string>((TAssertions)this, matched);
+        return new AndWhichConstraint<TAssertions, string>((TAssertions)this, matches, assertionChain, "[" + firstMatch + "]");
     }
 
-    private bool ContainsMatch(string wildcardPattern)
+    private (string[] MatchingItems, int? FirstMatchingIndex) AllThatMatch(string wildcardPattern)
     {
-        using var scope = new AssertionScope();
+        int? firstMatchingIndex = null;
 
-        return Subject.Any(item =>
-        {
-            item.Should().Match(wildcardPattern);
-            return scope.Discard().Length == 0;
-        });
-    }
-
-    private IEnumerable<string> AllThatMatch(string wildcardPattern)
-    {
-        return Subject.Where(item =>
+        var matches = Subject.Where((item, index) =>
         {
             using var scope = new AssertionScope();
+
             item.Should().Match(wildcardPattern);
-            return scope.Discard().Length == 0;
+
+            if (scope.Discard().Length == 0)
+            {
+                firstMatchingIndex ??= index;
+                return true;
+            }
+
+            return false;
         });
+
+        return (matches.ToArray(), firstMatchingIndex);
     }
 
     /// <summary>
@@ -324,8 +330,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
-    public AndConstraint<TAssertions> NotContainMatch(string wildcardPattern, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotContainMatch(string wildcardPattern,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
             "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the NotContain method.");
@@ -333,15 +339,15 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
         Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
             "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.");
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Did not expect {context:collection} to contain a match of {0}{reason}, but found <null>.",
                 wildcardPattern);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(NotContainsMatch(wildcardPattern))
                 .FailWith("Did not expect {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);

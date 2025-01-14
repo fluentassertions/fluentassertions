@@ -1,12 +1,14 @@
-﻿using System;
+﻿// ReSharper disable AsyncVoidLambda
+
+using System;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
-using Xunit;
-using Xunit.Sdk;
-#if NETFRAMEWORK
+#if NET47
 using FluentAssertions.Specs.Common;
 #endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Exceptions;
 
@@ -213,18 +215,18 @@ public class AsyncFunctionExceptionAssertionSpecs
 
     public static TheoryData<Func<Task>, Exception> AggregateExceptionTestData()
     {
-        var tasks = new[]
-        {
+        Func<Task>[] tasks =
+        [
             AggregateExceptionWithLeftNestedException,
             AggregateExceptionWithRightNestedException
-        };
+        ];
 
-        var types = new Exception[]
-        {
+        Exception[] types =
+        [
             new AggregateException(),
             new ArgumentNullException(),
             new InvalidOperationException()
-        };
+        ];
 
         var data = new TheoryData<Func<Task>, Exception>();
 
@@ -1023,7 +1025,6 @@ public class AsyncFunctionExceptionAssertionSpecs
     }
 
 #pragma warning disable MA0147
-
     [Fact]
     public void When_asserting_async_void_method_should_throw_it_should_fail()
     {
@@ -1079,7 +1080,6 @@ public class AsyncFunctionExceptionAssertionSpecs
         // Assert
         action.Should().Throw<InvalidOperationException>("*async*void*");
     }
-
 #pragma warning restore MA0147
 
     [Fact]

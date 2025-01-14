@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
@@ -14,11 +15,13 @@ namespace FluentAssertions.Events;
 /// </summary>
 public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
 {
-    private const string PropertyChangedEventName = "PropertyChanged";
+    private const string PropertyChangedEventName = nameof(INotifyPropertyChanged.PropertyChanged);
+    private readonly AssertionChain assertionChain;
 
-    protected internal EventAssertions(IMonitor<T> monitor)
-        : base(monitor.Subject)
+    protected internal EventAssertions(IMonitor<T> monitor, AssertionChain assertionChain)
+        : base(monitor.Subject, assertionChain)
     {
+        this.assertionChain = assertionChain;
         Monitor = monitor;
     }
 
@@ -40,13 +43,13 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public IEventRecording Raise(string eventName, string because = "", params object[] becauseArgs)
+    public IEventRecording Raise(string eventName, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         IEventRecording recording = Monitor.GetRecordingFor(eventName);
 
         if (!recording.Any())
         {
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected object {0} to raise event {1}{reason}, but it did not.", Monitor.Subject, eventName);
         }
@@ -67,13 +70,13 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public void NotRaise(string eventName, string because = "", params object[] becauseArgs)
+    public void NotRaise(string eventName, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         IEventRecording events = Monitor.GetRecordingFor(eventName);
 
         if (events.Any())
         {
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected object {0} to not raise event {1}{reason}, but it did.", Monitor.Subject, eventName);
         }
@@ -93,21 +96,24 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <returns>
+    /// Returns only the events having arguments of type <see cref="PropertyChangedEventArgs"/> targeting the property.
+    /// </returns>
     public IEventRecording RaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         string propertyName = propertyExpression?.GetPropertyInfo().Name;
 
         IEventRecording recording = Monitor.GetRecordingFor(PropertyChangedEventName);
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(recording.Any())
             .FailWith(
                 "Expected object {0} to raise event {1} for property {2}{reason}, but it did not raise that event at all.",
                 Monitor.Subject, PropertyChangedEventName, propertyName);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             var actualPropertyNames = recording
                 .SelectMany(@event => @event.Parameters.OfType<PropertyChangedEventArgs>())
@@ -115,14 +121,14 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
                 .Distinct()
                 .ToArray();
 
-            Execute.Assertion
+            assertionChain
                 .ForCondition(actualPropertyNames.Contains(propertyName))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it was only raised for {3}.",
                     Monitor.Subject, PropertyChangedEventName, propertyName, actualPropertyNames);
         }
 
-        return recording;
+        return recording.WithPropertyChangeFor(propertyName);
     }
 
     /// <summary>
@@ -139,24 +145,30 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     public void NotRaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         IEventRecording recording = Monitor.GetRecordingFor(PropertyChangedEventName);
 
-        string propertyName = propertyExpression.GetPropertyInfo().Name;
+        string propertyName = propertyExpression?.GetPropertyInfo().Name;
 
-        if (recording.Any(@event => GetAffectedPropertyName(@event) == propertyName))
+        if (propertyName is null)
         {
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect object {0} to raise the {1} event for property {2}{reason}, but it did.",
+                .ForCondition(!recording.Any())
+                .FailWith(
+                    "Did not expect object {0} to raise the {1} event{reason}, but it did.",
+                    Monitor.Subject, PropertyChangedEventName);
+        }
+        else
+        {
+            assertionChain
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(!recording.Any(@event => @event.IsAffectingPropertyName(propertyName)))
+                .FailWith(
+                    "Did not expect object {0} to raise the {1} event for property {2}{reason}, but it did.",
                     Monitor.Subject, PropertyChangedEventName, propertyName);
         }
-    }
-
-    private static string GetAffectedPropertyName(OccurredEvent @event)
-    {
-        return @event.Parameters.OfType<PropertyChangedEventArgs>().Single().PropertyName;
     }
 
     protected override string Identifier => "subject";

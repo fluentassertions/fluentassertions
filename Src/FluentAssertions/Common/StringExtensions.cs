@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Formatting;
@@ -9,15 +11,13 @@ internal static class StringExtensions
 {
     /// <summary>
     /// Finds the first index at which the <paramref name="value"/> does not match the <paramref name="expected"/>
-    /// string anymore, accounting for the specified <paramref name="stringComparison"/>.
+    /// string anymore, accounting for the specified <paramref name="comparer"/>.
     /// </summary>
-    public static int IndexOfFirstMismatch(this string value, string expected, StringComparison stringComparison)
+    public static int IndexOfFirstMismatch(this string value, string expected, IEqualityComparer<string> comparer)
     {
-        Func<char, char, bool> comparer = GetCharComparer(stringComparison);
-
         for (int index = 0; index < value.Length; index++)
         {
-            if (index >= expected.Length || !comparer(value[index], expected[index]))
+            if (index >= expected.Length || !comparer.Equals(value[index..(index + 1)], expected[index..(index + 1)]))
             {
                 return index;
             }
@@ -25,11 +25,6 @@ internal static class StringExtensions
 
         return -1;
     }
-
-    private static Func<char, char, bool> GetCharComparer(StringComparison stringComparison) =>
-        stringComparison == StringComparison.Ordinal
-            ? (x, y) => x == y
-            : (x, y) => char.ToUpperInvariant(x) == char.ToUpperInvariant(y);
 
     /// <summary>
     /// Gets the quoted three characters at the specified index of a string, including the index itself.
@@ -65,12 +60,6 @@ internal static class StringExtensions
         value.Replace("{", "{{", StringComparison.Ordinal).Replace("}", "}}", StringComparison.Ordinal);
 
     /// <summary>
-    /// Replaces all characters that might conflict with formatting placeholders with their escaped counterparts.
-    /// </summary>
-    internal static string UnescapePlaceholders(this string value) =>
-        value.Replace("{{", "{", StringComparison.Ordinal).Replace("}}", "}", StringComparison.Ordinal);
-
-    /// <summary>
     /// Joins a string with one or more other strings using a specified separator.
     /// </summary>
     /// <remarks>
@@ -81,11 +70,6 @@ internal static class StringExtensions
         if (@this.Length == 0)
         {
             return other.Length != 0 ? other : string.Empty;
-        }
-
-        if (other.Length == 0)
-        {
-            return @this;
         }
 
         if (other.StartsWith('['))
@@ -124,30 +108,53 @@ internal static class StringExtensions
     public static string RemoveNewLines(this string @this)
     {
         return @this.Replace("\n", string.Empty, StringComparison.Ordinal)
-            .Replace("\r", string.Empty, StringComparison.Ordinal)
-            .Replace("\\r\\n", string.Empty, StringComparison.Ordinal);
+            .Replace("\r", string.Empty, StringComparison.Ordinal);
+    }
+
+    public static string RemoveNewlineStyle(this string @this)
+    {
+        return @this.Replace("\r\n", "\n", StringComparison.Ordinal)
+            .Replace("\r", "\n", StringComparison.Ordinal);
+    }
+
+    public static string RemoveTrailingWhitespaceFromLines(this string input)
+    {
+        // This regex matches whitespace characters (\s) that are followed by a line ending (\r?\n)
+        return Regex.Replace(input, @"[ \t]+(?=\r?\n)", string.Empty);
     }
 
     /// <summary>
-    /// Counts the number of times a substring appears within a string by using the specified <see cref="StringComparison"/>.
+    /// Counts the number of times the <paramref name="substring"/> appears within a string by using the specified <paramref name="comparer"/>.
     /// </summary>
-    /// <param name="str">The string to search in.</param>
-    /// <param name="substring">The substring to search for.</param>
-    /// <param name="comparisonType">The <see cref="StringComparison"/> option to use for comparison.</param>
-    public static int CountSubstring(this string str, string substring, StringComparison comparisonType)
+    public static int CountSubstring(this string str, string substring, IEqualityComparer<string> comparer)
     {
         string actual = str ?? string.Empty;
         string search = substring ?? string.Empty;
 
         int count = 0;
-        int index = 0;
-
-        while ((index = actual.IndexOf(search, index, comparisonType)) >= 0)
+        int maxIndex = actual.Length - search.Length;
+        for (int index = 0; index <= maxIndex; index++)
         {
-            index += search.Length;
-            count++;
+            if (comparer.Equals(actual[index..(index + search.Length)], search))
+            {
+                count++;
+            }
         }
 
         return count;
+    }
+
+    /// <summary>
+    /// Determines if the <paramref name="value"/> is longer than 8 characters or contains an <see cref="Environment.NewLine"/>.
+    /// </summary>
+    public static bool IsLongOrMultiline(this string value)
+    {
+        const int humanReadableLength = 8;
+        return value.Length > humanReadableLength || value.Contains(Environment.NewLine, StringComparison.Ordinal);
+    }
+
+    public static bool IsNullOrEmpty([NotNullWhen(false)] this string value)
+    {
+        return string.IsNullOrEmpty(value);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
@@ -17,12 +18,15 @@ namespace FluentAssertions.Types;
 [DebuggerNonUserCode]
 public class TypeSelectorAssertions
 {
+    private readonly AssertionChain assertionChain;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="TypeSelectorAssertions"/> class.
     /// </summary>
     /// <exception cref="ArgumentNullException"><paramref name="types"/> is or contains <see langword="null"/>.</exception>
-    public TypeSelectorAssertions(params Type[] types)
+    public TypeSelectorAssertions(AssertionChain assertionChain, params Type[] types)
     {
+        this.assertionChain = assertionChain;
         Guard.ThrowIfArgumentIsNull(types);
         Guard.ThrowIfArgumentContainsNull(types);
 
@@ -44,14 +48,14 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> BeDecoratedWith<TAttribute>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Type[] typesWithoutAttribute = Subject
             .Where(type => !type.IsDecoratedWith<TAttribute>())
             .ToArray();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(typesWithoutAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be decorated with {0}{reason}," +
@@ -78,7 +82,8 @@ public class TypeSelectorAssertions
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeSelectorAssertions> BeDecoratedWith<TAttribute>(
-        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
@@ -87,7 +92,7 @@ public class TypeSelectorAssertions
             .Where(type => !type.IsDecoratedWith(isMatchingAttributePredicate))
             .ToArray();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(typesWithoutMatchingAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be decorated with {0} that matches {1}{reason}," +
@@ -109,15 +114,15 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> BeDecoratedWithOrInherit<TAttribute>(string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> BeDecoratedWithOrInherit<TAttribute>(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Type[] typesWithoutAttribute = Subject
             .Where(type => !type.IsDecoratedWithOrInherit<TAttribute>())
             .ToArray();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(typesWithoutAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be decorated with or inherit {0}{reason}," +
@@ -144,7 +149,8 @@ public class TypeSelectorAssertions
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeSelectorAssertions> BeDecoratedWithOrInherit<TAttribute>(
-        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
@@ -153,7 +159,7 @@ public class TypeSelectorAssertions
             .Where(type => !type.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
             .ToArray();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(typesWithoutMatchingAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be decorated with or inherit {0} that matches {1}{reason}," +
@@ -175,14 +181,14 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> NotBeDecoratedWith<TAttribute>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Type[] typesWithAttribute = Subject
             .Where(type => type.IsDecoratedWith<TAttribute>())
             .ToArray();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(typesWithAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to not be decorated with {0}{reason}," +
@@ -209,7 +215,8 @@ public class TypeSelectorAssertions
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeSelectorAssertions> NotBeDecoratedWith<TAttribute>(
-        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
@@ -218,7 +225,7 @@ public class TypeSelectorAssertions
             .Where(type => type.IsDecoratedWith(isMatchingAttributePredicate))
             .ToArray();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(typesWithMatchingAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to not be decorated with {0} that matches {1}{reason}," +
@@ -240,15 +247,15 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> NotBeDecoratedWithOrInherit<TAttribute>(string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> NotBeDecoratedWithOrInherit<TAttribute>(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Type[] typesWithAttribute = Subject
             .Where(type => type.IsDecoratedWithOrInherit<TAttribute>())
             .ToArray();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(typesWithAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to not be decorated with or inherit {0}{reason}," +
@@ -275,7 +282,8 @@ public class TypeSelectorAssertions
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeSelectorAssertions> NotBeDecoratedWithOrInherit<TAttribute>(
-        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
@@ -284,7 +292,7 @@ public class TypeSelectorAssertions
             .Where(type => type.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
             .ToArray();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(typesWithMatchingAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to not be decorated with or inherit {0} that matches {1}{reason}," +
@@ -306,11 +314,11 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> BeSealed(string because = "", params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> BeSealed([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var notSealedTypes = Subject.Where(type => !type.IsCSharpSealed()).ToArray();
 
-        Execute.Assertion.ForCondition(notSealedTypes.Length == 0)
+        assertionChain.ForCondition(notSealedTypes.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be sealed{reason}, but the following types are not:" + Environment.NewLine + "{0}.",
                 GetDescriptionsFor(notSealedTypes));
@@ -328,11 +336,11 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> NotBeSealed(string because = "", params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> NotBeSealed([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         var sealedTypes = Subject.Where(type => type.IsCSharpSealed()).ToArray();
 
-        Execute.Assertion.ForCondition(sealedTypes.Length == 0)
+        assertionChain.ForCondition(sealedTypes.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types not to be sealed{reason}, but the following types are:" + Environment.NewLine + "{0}.",
                 GetDescriptionsFor(sealedTypes));
@@ -353,14 +361,14 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> BeInNamespace(string @namespace, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> BeInNamespace(string @namespace,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Type[] typesNotInNamespace = Subject
             .Where(t => t.Namespace != @namespace)
             .ToArray();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(typesNotInNamespace.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be in namespace {0}{reason}," +
@@ -384,14 +392,14 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> NotBeInNamespace(string @namespace, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> NotBeInNamespace(string @namespace,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Type[] typesInNamespace = Subject
             .Where(t => t.Namespace == @namespace)
             .ToArray();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(typesInNamespace.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected no types to be in namespace {0}{reason}," +
@@ -415,14 +423,14 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> BeUnderNamespace(string @namespace, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> BeUnderNamespace(string @namespace,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Type[] typesNotUnderNamespace = Subject
             .Where(t => !t.IsUnderNamespace(@namespace))
             .ToArray();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(typesNotUnderNamespace.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected the namespaces of all types to start with {0}{reason}," +
@@ -447,14 +455,14 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> NotBeUnderNamespace(string @namespace, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> NotBeUnderNamespace(string @namespace,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Type[] typesUnderNamespace = Subject
             .Where(t => t.IsUnderNamespace(@namespace))
             .ToArray();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(typesUnderNamespace.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected the namespaces of all types to not start with {0}{reason}," +

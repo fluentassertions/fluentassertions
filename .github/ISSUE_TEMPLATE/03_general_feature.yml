@@ -27,10 +27,11 @@ body:
   - type: dropdown
     id: pull-request
     attributes:
-      label: Could you help with a pull-request?
-      description: Make sure you have read the sections about [contributing changes](https://github.com/fluentassertions/fluentassertions/blob/develop/CONTRIBUTING.md#contributing-changes) and [dos and don'ts](https://github.com/fluentassertions/fluentassertions/blob/develop/CONTRIBUTING.md#dos-and-donts).
+      label: Are you willing help with a pull-request?
+      description: |
+        Make sure you have read the sections about [contributing changes](https://github.com/fluentassertions/fluentassertions/blob/develop/CONTRIBUTING.md#contributing-changes) and [dos and don'ts](https://github.com/fluentassertions/fluentassertions/blob/develop/CONTRIBUTING.md#dos-and-donts).
       options:
         - "No"
-        - "Yes"
+        - "Yes, please assign this issue to me."
     validations:
       required: true

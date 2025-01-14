@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
-using Xunit;
-using Xunit.Sdk;
-#if NETFRAMEWORK
+#if NET47
 using FluentAssertions.Specs.Common;
 #endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Exceptions;
 
@@ -69,18 +68,18 @@ public class FunctionExceptionAssertionSpecs
 
     public static TheoryData<Func<int>, Exception> AggregateExceptionTestData()
     {
-        var tasks = new[]
-        {
+        Func<int>[] tasks =
+        [
             AggregateExceptionWithLeftNestedException,
             AggregateExceptionWithRightNestedException
-        };
+        ];
 
-        var types = new Exception[]
-        {
+        Exception[] types =
+        [
             new AggregateException(),
             new ArgumentNullException(),
             new InvalidOperationException()
-        };
+        ];
 
         var data = new TheoryData<Func<int>, Exception>();
 
@@ -436,29 +435,6 @@ public class FunctionExceptionAssertionSpecs
             .WithMessage("*no*exception*that's what he told me*but*ArgumentNullException*");
     }
 
-    [Fact]
-    public void When_an_assertion_fails_on_NotThrow_succeeding_message_should_be_included()
-    {
-        // Arrange
-        Func<int> throwingFunction = () => throw new Exception();
-
-        // Act
-        Action act = () =>
-        {
-            using var _ = new AssertionScope();
-
-            throwingFunction.Should().NotThrow()
-                .And.BeNull();
-        };
-
-        // Assert
-        act.Should().Throw<XunitException>()
-            .WithMessage(
-                "*Did not expect any exception*" +
-                "*to be <null>*"
-            );
-    }
-
     #endregion
 
     #region NotThrowAfter
@@ -595,10 +571,10 @@ public class FunctionExceptionAssertionSpecs
 
         // Act
         Action act = () => throwShorterThanWaitTime.Should(clock).NotThrowAfter(waitTime, pollInterval)
-            .Which.Should().Be(42);
+            .Which.Should().Be(43);
 
         // Assert
-        act.Should().NotThrow();
+        act.Should().Throw<XunitException>().WithMessage("Expected throwShorterThanWaitTime.Result to be 43*");
     }
 
     [Fact]
@@ -620,10 +596,7 @@ public class FunctionExceptionAssertionSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage(
-                "*Did not expect any exceptions after*" +
-                "*to be <null>*"
-            );
+            .WithMessage("*Did not expect any exceptions after*");
     }
 
     #endregion
@@ -667,16 +640,6 @@ public class FunctionExceptionAssertionSpecs
 
         // Assert
         action.Should().NotThrow();
-    }
-
-    [Fact]
-    public void When_no_exception_should_be_thrown_by_sync_over_async_it_should_not_throw()
-    {
-        // Arrange
-        Func<bool> func = () => Task.Delay(0).Wait(0);
-
-        // Act / Assert
-        func.Should().NotThrow();
     }
 
     #endregion

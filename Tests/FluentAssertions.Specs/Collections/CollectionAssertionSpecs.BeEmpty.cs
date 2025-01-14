@@ -18,7 +18,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_is_empty_as_expected_it_should_not_throw()
         {
             // Arrange
-            var collection = new int[0];
+            int[] collection = [];
 
             // Act / Assert
             collection.Should().BeEmpty();
@@ -28,7 +28,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_is_not_empty_unexpectedly_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().BeEmpty("that's what we expect");
@@ -42,7 +42,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_with_items_is_not_empty_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().NotBeEmpty();
@@ -65,7 +65,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_without_items_is_not_empty_it_should_fail()
         {
             // Arrange
-            var collection = new int[0];
+            int[] collection = [];
 
             // Act
             Action act = () => collection.Should().NotBeEmpty();
@@ -78,7 +78,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_without_items_is_not_empty_it_should_fail_with_descriptive_message_()
         {
             // Arrange
-            var collection = new int[0];
+            int[] collection = [];
 
             // Act
             Action act = () => collection.Should().NotBeEmpty("because we want to test the failure {0}", "message");
@@ -110,7 +110,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_to_be_empty_it_should_enumerate_only_once()
         {
             // Arrange
-            var collection = new CountingGenericEnumerable<int>(new int[0]);
+            var collection = new CountingGenericEnumerable<int>([]);
 
             // Act
             collection.Should().BeEmpty();
@@ -123,7 +123,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_non_empty_collection_is_empty_it_should_enumerate_only_once()
         {
             // Arrange
-            var collection = new CountingGenericEnumerable<int>(new[] { 1, 2, 3 });
+            var collection = new CountingGenericEnumerable<int>([1, 2, 3]);
 
             // Act
             Action act = () => collection.Should().BeEmpty();
@@ -186,7 +186,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_to_be_not_empty_it_should_enumerate_only_once()
         {
             // Arrange
-            var collection = new CountingGenericEnumerable<int>(new[] { 42 });
+            var collection = new CountingGenericEnumerable<int>([42]);
 
             // Act
             collection.Should().NotBeEmpty();

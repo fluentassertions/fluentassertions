@@ -17,7 +17,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_does_not_start_with_a_specific_element_it_should_throw()
         {
             // Arrange
-            var collection = new[] { "john", "jane", "mike" };
+            string[] collection = ["john", "jane", "mike"];
 
             // Act
             Action act = () => collection.Should().StartWith("ryan", "of some reason");
@@ -31,7 +31,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_does_not_start_with_a_null_sequence_it_should_throw()
         {
             // Arrange
-            var collection = new[] { "john" };
+            string[] collection = ["john"];
 
             // Act
             Action act = () => collection.Should().StartWith((IEnumerable<string>)null);
@@ -45,7 +45,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_does_not_start_with_a_null_sequence_using_a_comparer_it_should_throw()
         {
             // Arrange
-            var collection = new[] { "john" };
+            string[] collection = ["john"];
 
             // Act
             Action act = () => collection.Should().StartWith((IEnumerable<string>)null, (_, _) => true);
@@ -59,10 +59,10 @@ public partial class CollectionAssertionSpecs
         public void When_collection_does_not_start_with_a_specific_element_in_a_sequence_it_should_throw()
         {
             // Arrange
-            var collection = new[] { "john", "bill", "jane", "mike" };
+            string[] collection = ["john", "bill", "jane", "mike"];
 
             // Act
-            Action act = () => collection.Should().StartWith(new[] { "john", "ryan", "jane" }, "of some reason");
+            Action act = () => collection.Should().StartWith(["john", "ryan", "jane"], "of some reason");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -74,10 +74,10 @@ public partial class CollectionAssertionSpecs
             When_collection_does_not_start_with_a_specific_element_in_a_sequence_using_custom_equality_comparison_it_should_throw()
         {
             // Arrange
-            var collection = new[] { "john", "bill", "jane", "mike" };
+            string[] collection = ["john", "bill", "jane", "mike"];
 
             // Act
-            Action act = () => collection.Should().StartWith(new[] { "john", "ryan", "jane" },
+            Action act = () => collection.Should().StartWith(["john", "ryan", "jane"],
                 (s1, s2) => string.Equals(s1, s2, StringComparison.Ordinal), "of some reason");
 
             // Assert
@@ -89,7 +89,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_starts_with_the_specific_element_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { "john", "jane", "mike" };
+            string[] collection = ["john", "jane", "mike"];
 
             // Act
             Action act = () => collection.Should().StartWith("john");
@@ -102,10 +102,10 @@ public partial class CollectionAssertionSpecs
         public void When_collection_starts_with_the_specific_sequence_of_elements_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { "john", "bill", "jane", "mike" };
+            string[] collection = ["john", "bill", "jane", "mike"];
 
             // Act
-            Action act = () => collection.Should().StartWith(new[] { "john", "bill" });
+            Action act = () => collection.Should().StartWith(["john", "bill"]);
 
             // Assert
             act.Should().NotThrow();
@@ -116,10 +116,10 @@ public partial class CollectionAssertionSpecs
             When_collection_starts_with_the_specific_sequence_of_elements_using_custom_equality_comparison_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { "john", "bill", "jane", "mike" };
+            string[] collection = ["john", "bill", "jane", "mike"];
 
             // Act
-            Action act = () => collection.Should().StartWith(new[] { "JoHn", "bIlL" },
+            Action act = () => collection.Should().StartWith(["JoHn", "bIlL"],
                 (s1, s2) => string.Equals(s1, s2, StringComparison.OrdinalIgnoreCase));
 
             // Assert
@@ -130,7 +130,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_starts_with_the_specific_null_element_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { null, "jane", "mike" };
+            string[] collection = [null, "jane", "mike"];
 
             // Act
             Action act = () => collection.Should().StartWith((string)null);
@@ -143,7 +143,7 @@ public partial class CollectionAssertionSpecs
         public void When_non_empty_collection_starts_with_the_empty_sequence_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { "jane", "mike" };
+            string[] collection = ["jane", "mike"];
 
             // Act
             Action act = () => collection.Should().StartWith(new string[] { });
@@ -156,7 +156,7 @@ public partial class CollectionAssertionSpecs
         public void When_empty_collection_starts_with_the_empty_sequence_it_should_not_throw()
         {
             // Arrange
-            var collection = new string[] { };
+            string[] collection = [];
 
             // Act
             Action act = () => collection.Should().StartWith(new string[] { });
@@ -169,10 +169,10 @@ public partial class CollectionAssertionSpecs
         public void When_collection_starts_with_the_specific_sequence_with_null_elements_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { null, "john", null, "bill", "jane", "mike" };
+            string[] collection = [null, "john", null, "bill", "jane", "mike"];
 
             // Act
-            Action act = () => collection.Should().StartWith(new[] { null, "john", null, "bill" });
+            Action act = () => collection.Should().StartWith([null, "john", null, "bill"]);
 
             // Assert
             act.Should().NotThrow();
@@ -183,10 +183,10 @@ public partial class CollectionAssertionSpecs
             When_collection_starts_with_the_specific_sequence_with_null_elements_using_custom_equality_comparison_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { null, "john", null, "bill", "jane", "mike" };
+            string[] collection = [null, "john", null, "bill", "jane", "mike"];
 
             // Act
-            Action act = () => collection.Should().StartWith(new[] { null, "JoHn", null, "bIlL" },
+            Action act = () => collection.Should().StartWith([null, "JoHn", null, "bIlL"],
                 (s1, s2) => string.Equals(s1, s2, StringComparison.OrdinalIgnoreCase));
 
             // Assert
@@ -197,7 +197,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_starts_with_null_but_that_wasnt_expected_it_should_throw()
         {
             // Arrange
-            var collection = new[] { null, "jane", "mike" };
+            string[] collection = [null, "jane", "mike"];
 
             // Act
             Action act = () => collection.Should().StartWith("john");

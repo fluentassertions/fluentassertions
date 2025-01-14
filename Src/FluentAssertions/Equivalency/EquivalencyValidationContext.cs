@@ -12,7 +12,7 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
 {
     private Tracer tracer;
 
-    public EquivalencyValidationContext(INode root, IEquivalencyAssertionOptions options)
+    public EquivalencyValidationContext(INode root, IEquivalencyOptions options)
     {
         Options = options;
         CurrentNode = root;
@@ -25,7 +25,7 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
 
     public Tracer Tracer => tracer ??= new Tracer(CurrentNode, TraceWriter);
 
-    public IEquivalencyAssertionOptions Options { get; }
+    public IEquivalencyOptions Options { get; }
 
     private CyclicReferenceDetector CyclicReferenceDetector { get; set; }
 
@@ -74,14 +74,14 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
         bool compareByMembers = expectation is not null && Options.GetEqualityStrategy(expectation.GetType())
             is EqualityStrategy.Members or EqualityStrategy.ForceMembers;
 
-        var reference = new ObjectReference(expectation, CurrentNode.PathAndName, compareByMembers);
-        return CyclicReferenceDetector.IsCyclicReference(reference, Options.CyclicReferenceHandling, Reason);
+        var reference = new ObjectReference(expectation, CurrentNode.Subject.PathAndName, compareByMembers);
+        return CyclicReferenceDetector.IsCyclicReference(reference);
     }
 
     public ITraceWriter TraceWriter { get; set; }
 
     public override string ToString()
     {
-        return Invariant($"{{Path=\"{CurrentNode.Description}\"}}");
+        return Invariant($"{{Path=\"{CurrentNode.Subject.PathAndName}\"}}");
     }
 }

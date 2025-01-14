@@ -46,7 +46,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected string \"ABC\" to end with \"AB\" because it should.");
+                "Expected string to end with \"AB\" because it should, but \"ABC\" differs near \"ABC\" (index 0).");
         }
 
         [Fact]
@@ -84,6 +84,21 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
+        public void Correctly_stop_further_execution_when_inside_assertion_scope()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                "ABC".Should().EndWith("00ABC").And.EndWith("CBA00");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*\"00ABC\"*");
+        }
+
+        [Fact]
         public void When_string_ending_is_compared_and_actual_value_is_null_then_it_should_throw()
         {
             // Arrange
@@ -98,7 +113,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected someString <null> to end with \"ABC\".");
+                "Expected someString to end with \"ABC\", but found <null>.");
         }
     }
 
@@ -130,7 +145,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected value \"ABC\" not to end with \"BC\" because of some reason.");
+                "Expected value not to end with \"BC\" because of some reason, but found \"ABC\".");
         }
 
         [Fact]
@@ -160,7 +175,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected value \"ABC\" not to end with \"\".");
+                "Expected value not to end with \"\", but found \"ABC\".");
         }
 
         [Fact]
@@ -178,7 +193,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected someString that does not end with \"ABC\"*some reason*, but found <null>.");
+                "Expected someString not to end with \"ABC\"*some reason*, but found <null>.");
         }
     }
 }

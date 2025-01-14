@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Types;
 
@@ -16,6 +18,8 @@ namespace FluentAssertions.Types;
 [DebuggerNonUserCode]
 public class PropertyInfoSelectorAssertions
 {
+    private readonly AssertionChain assertionChain;
+
     /// <summary>
     /// Gets the object whose value is being asserted.
     /// </summary>
@@ -26,8 +30,9 @@ public class PropertyInfoSelectorAssertions
     /// </summary>
     /// <param name="properties">The properties to assert.</param>
     /// <exception cref="ArgumentNullException"><paramref name="properties"/> is <see langword="null"/>.</exception>
-    public PropertyInfoSelectorAssertions(params PropertyInfo[] properties)
+    public PropertyInfoSelectorAssertions(AssertionChain assertionChain, params PropertyInfo[] properties)
     {
+        this.assertionChain = assertionChain;
         Guard.ThrowIfArgumentIsNull(properties);
 
         SubjectProperties = properties;
@@ -43,11 +48,11 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> BeVirtual(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> BeVirtual([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         PropertyInfo[] nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(nonVirtualProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -67,11 +72,11 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> NotBeVirtual([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         PropertyInfo[] virtualProperties = GetAllVirtualPropertiesFromSelection();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(virtualProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -91,11 +96,11 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> BeWritable(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> BeWritable([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         PropertyInfo[] readOnlyProperties = GetAllReadOnlyPropertiesFromSelection();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(readOnlyProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -115,11 +120,11 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> NotBeWritable(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> NotBeWritable([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         PropertyInfo[] writableProperties = GetAllWritablePropertiesFromSelection();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(writableProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -159,13 +164,13 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         PropertyInfo[] propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(propertiesWithoutAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -186,13 +191,13 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
         PropertyInfo[] propertiesWithAttribute = GetPropertiesWith<TAttribute>();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(propertiesWithAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -217,7 +222,7 @@ public class PropertyInfoSelectorAssertions
 
     private static string GetDescriptionsFor(IEnumerable<PropertyInfo> properties)
     {
-        IEnumerable<string> descriptions = properties.Select(property => PropertyInfoAssertions.GetDescriptionFor(property));
+        IEnumerable<string> descriptions = properties.Select(property => Formatter.ToString(property));
 
         return string.Join(Environment.NewLine, descriptions);
     }

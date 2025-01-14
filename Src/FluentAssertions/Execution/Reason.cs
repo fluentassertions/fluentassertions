@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace FluentAssertions.Execution;
 
 /// <summary>
@@ -5,7 +7,7 @@ namespace FluentAssertions.Execution;
 /// </summary>
 public class Reason
 {
-    public Reason(string formattedMessage, object[] arguments)
+    public Reason([StringSyntax("CompositeFormat")] string formattedMessage, object[] arguments)
     {
         FormattedMessage = formattedMessage;
         Arguments = arguments;

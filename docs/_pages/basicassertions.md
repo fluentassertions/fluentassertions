@@ -70,23 +70,43 @@ dummy.Should().Match<string>(d => (d == "System.Object"));
 dummy.Should().Match((string d) => (d == "System.Object"));
 ```
 
+As an alternative to using predicate matching, it is also possible to use element inspectors to do nested assertions in a fluent way.
+
+```csharp
+var productDto = new ProductDto
+{
+    Name = "Some product name",
+    Price = 19.95,
+    SKU = "ABC12345",
+    Store = new Store
+    {
+        Country = "Germany",
+        Quantity = 42
+    }
+};
+
+productDto.Should().Satisfy<ProductDto>(dto =>
+{
+    dto.Name.Should().Be("Some product name");
+    dto.Price.Should().Be(19.95);
+    dto.SKU.Should().EndWith("12345");
+    dto.Store.Should().Satisfy<Store>(store =>
+    {
+        store.Country.Should().Be("Germany");
+        store.Quantity.Should().BeGreaterThan(40);
+    });
+});
+```
+
 Some users requested the ability to easily downcast an object to one of its derived classes in a fluent way.
 
 ```csharp
 customer.Animals.First().As<Human>().Height.Should().Be(178);
 ```
 
-We’ve also added the possibility to assert that an object can be serialized and deserialized using the XML, binary or data contract formatters.
+We’ve also added the possibility to assert that an object can be serialized and deserialized using the XML or data contract formatters.
 
 ```csharp
 theObject.Should().BeXmlSerializable();
-theObject.Should().BeBinarySerializable();
 theObject.Should().BeDataContractSerializable();
-```
-
-Internally, `BeBinarySerializable` uses the [Object graph comparison](objectgraphs.md) API, so if you are in need of excluding certain properties from the comparison (for instance, because its backing field is `[NonSerializable]`, you can do this:
-
-```csharp
-theObject.Should().BeBinarySerializable<MyClass>(
-    options => options.Excluding(s => s.SomeNonSerializableProperty));
 ```

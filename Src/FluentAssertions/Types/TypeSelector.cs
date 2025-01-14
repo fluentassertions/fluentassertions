@@ -15,7 +15,7 @@ public class TypeSelector : IEnumerable<Type>
     private List<Type> types;
 
     public TypeSelector(Type type)
-        : this(new[] { type })
+        : this([type])
     {
     }
 

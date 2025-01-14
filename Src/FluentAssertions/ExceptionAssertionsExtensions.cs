@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
@@ -27,7 +28,7 @@ public static class ExceptionAssertionsExtensions
     public static async Task<ExceptionAssertions<TException>> WithMessage<TException>(
         this Task<ExceptionAssertions<TException>> task,
         string expectedWildcardPattern,
-        string because = "",
+        [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
         where TException : Exception
     {
@@ -51,7 +52,7 @@ public static class ExceptionAssertionsExtensions
     public static async Task<ExceptionAssertions<TException>> Where<TException>(
         this Task<ExceptionAssertions<TException>> task,
         Expression<Func<TException, bool>> exceptionExpression,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TException : Exception
     {
         return (await task).Where(exceptionExpression, because, becauseArgs);
@@ -72,7 +73,7 @@ public static class ExceptionAssertionsExtensions
     /// </param>
     public static async Task<ExceptionAssertions<TInnerException>> WithInnerException<TException, TInnerException>(
         this Task<ExceptionAssertions<TException>> task,
-        string because = "",
+        [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
         where TException : Exception
         where TInnerException : Exception
@@ -95,7 +96,7 @@ public static class ExceptionAssertionsExtensions
     public static async Task<ExceptionAssertions<Exception>> WithInnerException<TException>(
         this Task<ExceptionAssertions<TException>> task,
         Type innerException,
-        string because = "",
+        [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
         where TException : Exception
     {
@@ -117,7 +118,7 @@ public static class ExceptionAssertionsExtensions
     /// </param>
     public static async Task<ExceptionAssertions<TInnerException>> WithInnerExceptionExactly<TException, TInnerException>(
         this Task<ExceptionAssertions<TException>> task,
-        string because = "",
+        [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
         where TException : Exception
         where TInnerException : Exception
@@ -140,7 +141,7 @@ public static class ExceptionAssertionsExtensions
     public static async Task<ExceptionAssertions<Exception>> WithInnerExceptionExactly<TException>(
         this Task<ExceptionAssertions<TException>> task,
         Type innerException,
-        string because = "",
+        [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
         where TException : Exception
     {
@@ -162,11 +163,12 @@ public static class ExceptionAssertionsExtensions
     public static ExceptionAssertions<TException> WithParameterName<TException>(
         this ExceptionAssertions<TException> parent,
         string paramName,
-        string because = "",
+        [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
         where TException : ArgumentException
     {
-        Execute.Assertion
+        AssertionChain
+            .GetOrCreate()
             .ForCondition(parent.Which.ParamName == paramName)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected exception with parameter name {0}{reason}, but found {1}.", paramName, parent.Which.ParamName);
@@ -189,7 +191,7 @@ public static class ExceptionAssertionsExtensions
     public static async Task<ExceptionAssertions<TException>> WithParameterName<TException>(
         this Task<ExceptionAssertions<TException>> task,
         string paramName,
-        string because = "",
+        [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
         where TException : ArgumentException
     {

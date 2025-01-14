@@ -1,0 +1,50 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "16:00"
+      timezone: "Europe/Copenhagen"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "16:00"
+      timezone: "Europe/Copenhagen"
+
+  - package-ecosystem: "bundler"
+    directory: "/docs"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "16:00"
+      timezone: "Europe/Copenhagen"
+
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "16:00"
+      timezone: "Europe/Copenhagen"
+    ignore:
+      - dependency-name: "System.Collections.Immutable"
+      - dependency-name: "System.Threading.Tasks.Extensions"
+    groups:
+      xunit:
+        patterns:
+          - "xunit*"
+          - "Verify*"
+      mstest:
+        patterns:
+          - "MSTest*"
+      nuke:
+        patterns:
+          - "Nuke*"
+      nunit:
+        patterns:
+          - "NUnit*"

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
@@ -12,9 +13,12 @@ namespace FluentAssertions.Primitives;
 /// </summary>
 public class ObjectAssertions : ObjectAssertions<object, ObjectAssertions>
 {
-    public ObjectAssertions(object value)
-        : base(value)
+    private readonly AssertionChain assertionChain;
+
+    public ObjectAssertions(object value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -32,11 +36,12 @@ public class ObjectAssertions : ObjectAssertions<object, ObjectAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
-    public AndConstraint<ObjectAssertions> Be<TExpectation>(TExpectation expected, IEqualityComparer<TExpectation> comparer, string because = "", params object[] becauseArgs)
+    public AndConstraint<ObjectAssertions> Be<TExpectation>(TExpectation expected, IEqualityComparer<TExpectation> comparer,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(comparer);
 
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is TExpectation subject && comparer.Equals(subject, expected))
             .WithDefaultIdentifier(Identifier)
@@ -61,11 +66,12 @@ public class ObjectAssertions : ObjectAssertions<object, ObjectAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
-    public AndConstraint<ObjectAssertions> NotBe<TExpectation>(TExpectation unexpected, IEqualityComparer<TExpectation> comparer, string because = "", params object[] becauseArgs)
+    public AndConstraint<ObjectAssertions> NotBe<TExpectation>(TExpectation unexpected, IEqualityComparer<TExpectation> comparer,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(comparer);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not TExpectation subject || !comparer.Equals(subject, unexpected))
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
@@ -94,13 +100,12 @@ public class ObjectAssertions : ObjectAssertions<object, ObjectAssertions>
     /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
     public AndConstraint<ObjectAssertions> BeOneOf<TExpectation>(IEnumerable<TExpectation> validValues,
         IEqualityComparer<TExpectation> comparer,
-        string because = "",
-        params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(validValues);
         Guard.ThrowIfArgumentIsNull(comparer);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject is TExpectation subject && validValues.Contains(subject, comparer))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to be one of {0}{reason}, but found {1}.", validValues, Subject);
@@ -117,9 +122,12 @@ public class ObjectAssertions : ObjectAssertions<object, ObjectAssertions>
 public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>
     where TAssertions : ObjectAssertions<TSubject, TAssertions>
 {
-    public ObjectAssertions(TSubject value)
-        : base(value)
+    private readonly AssertionChain assertionChain;
+
+    public ObjectAssertions(TSubject value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -133,14 +141,14 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> Be(TSubject expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> Be(TSubject expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(ObjectExtensions.GetComparer<TSubject>()(Subject, expected))
             .WithDefaultIdentifier(Identifier)
-            .FailWith("Expected {context} to be {0}{reason}, but found {1}.", expected,
-                Subject);
+            .FailWith("Expected {context} to be {0}{reason}, but found {1}.", expected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -160,11 +168,12 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> Be(TSubject expected, IEqualityComparer<TSubject> comparer, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> Be(TSubject expected, IEqualityComparer<TSubject> comparer,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(comparer);
 
-        Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(comparer.Equals(Subject, expected))
             .WithDefaultIdentifier(Identifier)
@@ -185,9 +194,10 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> NotBe(TSubject unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBe(TSubject unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(!ObjectExtensions.GetComparer<TSubject>()(Subject, unexpected))
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
@@ -211,11 +221,12 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> NotBe(TSubject unexpected, IEqualityComparer<TSubject> comparer, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBe(TSubject unexpected, IEqualityComparer<TSubject> comparer,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(comparer);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(!comparer.Equals(Subject, unexpected))
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
@@ -232,7 +243,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// irrespective of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
     /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable{T}"/> and all
     /// items in the collection are structurally equal.
-    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionConfiguration"/>.
     /// </remarks>
     /// <param name="expectation">The expected element.</param>
     /// <param name="because">
@@ -242,8 +253,8 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return BeEquivalentTo(expectation, config => config, because, becauseArgs);
     }
@@ -259,10 +270,10 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </remarks>
     /// <param name="expectation">The expected element.</param>
     /// <param name="config">
-    /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+    /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
-    /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
-    /// <see cref="AssertionOptions"/> class.
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
+    /// <see cref="AssertionConfiguration"/> class.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -273,15 +284,15 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
-        Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
-        params object[] becauseArgs)
+        Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
+        EquivalencyOptions<TExpectation> options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<TExpectation>());
 
         var context = new EquivalencyValidationContext(Node.From<TExpectation>(() =>
-            AssertionScope.Current.CallerIdentity), options)
+            CurrentAssertionChain.CallerIdentifier), options)
         {
             Reason = new Reason(because, becauseArgs),
             TraceWriter = options.TraceWriter
@@ -307,7 +318,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// irrespective of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
     /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable{T}"/> and all
     /// items in the collection are structurally equal.
-    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+    /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionConfiguration"/>.
     /// </remarks>
     /// <param name="unexpected">The unexpected element.</param>
     /// <param name="because">
@@ -319,8 +330,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </param>
     public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(
         TExpectation unexpected,
-        string because = "",
-        params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return NotBeEquivalentTo(unexpected, config => config, because, becauseArgs);
     }
@@ -336,10 +346,10 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// </remarks>
     /// <param name="unexpected">The unexpected element.</param>
     /// <param name="config">
-    /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+    /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
-    /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
-    /// <see cref="AssertionOptions"/> class.
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
+    /// <see cref="AssertionConfiguration"/> class.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -351,9 +361,8 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(
         TExpectation unexpected,
-        Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
-        string because = "",
-        params object[] becauseArgs)
+        Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
@@ -365,7 +374,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
             hasMismatches = scope.Discard().Length > 0;
         }
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(hasMismatches)
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
@@ -398,10 +407,10 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeOneOf(IEnumerable<TSubject> validValues, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeOneOf(IEnumerable<TSubject> validValues,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(validValues.Contains(Subject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to be one of {0}{reason}, but found {1}.", validValues, Subject);
@@ -429,13 +438,12 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeOneOf(IEnumerable<TSubject> validValues,
         IEqualityComparer<TSubject> comparer,
-        string because = "",
-        params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(validValues);
         Guard.ThrowIfArgumentIsNull(comparer);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(validValues.Contains(Subject, comparer))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to be one of {0}{reason}, but found {1}.", validValues, Subject);

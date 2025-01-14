@@ -414,7 +414,7 @@ public class MethodInfoAssertionSpecs
         {
             // Arrange
             ConstructorInfo constructorMethodInfo =
-                typeof(ClassWithMethodWithImplementationAttribute).GetConstructor(new[] { typeof(string) });
+                typeof(ClassWithMethodWithImplementationAttribute).GetConstructor([typeof(string)]);
 
             // Act
             Action act = () =>

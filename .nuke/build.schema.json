@@ -29,14 +29,17 @@
         "Clean",
         "CodeCoverage",
         "Compile",
+        "InstallNode",
         "Pack",
         "Push",
         "Restore",
         "SpellCheck",
         "TestFrameworks",
+        "TestingPlatformFrameworks",
         "UnitTests",
-        "UnitTestsNetCore",
-        "UnitTestsNetFramework"
+        "UnitTestsNet47",
+        "UnitTestsNet6OrGreater",
+        "VSTestFrameworks"
       ]
     },
     "Verbosity": {
@@ -110,6 +113,14 @@
   "allOf": [
     {
       "properties": {
+        "Configuration": {
+          "type": "string",
+          "description": "The solution configuration to build. Default is 'Debug' (local) or 'CI' (server)",
+          "enum": [
+            "CI",
+            "Debug"
+          ]
+        },
         "GenerateBinLog": {
           "type": [
             "boolean",

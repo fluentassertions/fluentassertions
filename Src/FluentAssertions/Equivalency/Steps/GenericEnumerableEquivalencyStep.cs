@@ -16,7 +16,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
 #pragma warning restore SA1110
 
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+        IValidateChildNodeEquivalency valueChildNodes)
     {
         Type expectedType = comparands.GetExpectedType(context.Options);
 
@@ -27,15 +27,17 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
 
         Type[] interfaceTypes = GetIEnumerableInterfaces(expectedType);
 
-        AssertionScope.Current
+        var assertionChain = AssertionChain.GetOrCreate().For(context);
+
+        assertionChain
             .ForCondition(interfaceTypes.Length == 1)
             .FailWith(() => new FailReason("{context:Expectation} implements {0}, so cannot determine which one " +
                 "to use for asserting the equivalency of the collection. ",
                 interfaceTypes.Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">")));
 
-        if (AssertSubjectIsCollection(comparands.Subject))
+        if (AssertSubjectIsCollection(assertionChain, comparands.Subject))
         {
-            var validator = new EnumerableEquivalencyValidator(nestedValidator, context)
+            var validator = new EnumerableEquivalencyValidator(assertionChain, valueChildNodes, context)
             {
                 Recursive = context.CurrentNode.IsRoot || context.Options.IsRecursive,
                 OrderingRules = context.Options.OrderingRules
@@ -48,7 +50,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
             try
             {
                 HandleMethod.MakeGenericMethod(typeOfEnumeration)
-                    .Invoke(null, new[] { validator, subjectAsArray, comparands.Expectation });
+                    .Invoke(null, [validator, subjectAsArray, comparands.Expectation]);
             }
             catch (TargetInvocationException e)
             {
@@ -56,26 +58,26 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
             }
         }
 
-        return EquivalencyResult.AssertionCompleted;
+        return EquivalencyResult.EquivalencyProven;
     }
 
     private static void HandleImpl<T>(EnumerableEquivalencyValidator validator, object[] subject, IEnumerable<T> expectation) =>
         validator.Execute(subject, ToArray(expectation));
 
-    private static bool AssertSubjectIsCollection(object subject)
+    private static bool AssertSubjectIsCollection(AssertionChain assertionChain, object subject)
     {
-        bool conditionMet = AssertionScope.Current
+        assertionChain
             .ForCondition(subject is not null)
             .FailWith("Expected {context:subject} not to be {0}.", new object[] { null });
 
-        if (conditionMet)
+        if (assertionChain.Succeeded)
         {
-            conditionMet = AssertionScope.Current
+            assertionChain
                 .ForCondition(IsCollection(subject.GetType()))
                 .FailWith("Expected {context:subject} to be a collection, but it was a {0}", subject.GetType());
         }
 
-        return conditionMet;
+        return assertionChain.Succeeded;
     }
 
     private static bool IsCollection(Type type)
@@ -95,7 +97,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
         // Avoid expensive calculation when the type in question can't possibly implement IEnumerable<>.
         if (Type.GetTypeCode(type) != TypeCode.Object)
         {
-            return Array.Empty<Type>();
+            return [];
         }
 
         Type soughtType = typeof(IEnumerable<>);
@@ -119,7 +121,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
         catch (InvalidOperationException) when (value.GetType().Name.Equals("ImmutableArray`1", StringComparison.Ordinal))
         {
             // This is probably a default ImmutableArray<T>
-            return Array.Empty<T>();
+            return [];
         }
     }
 }

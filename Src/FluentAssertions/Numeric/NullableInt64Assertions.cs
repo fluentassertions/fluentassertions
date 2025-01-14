@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Numeric;
 
@@ -9,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class NullableInt64Assertions : NullableNumericAssertions<long>
 {
-    internal NullableInt64Assertions(long? value)
-        : base(value)
+    internal NullableInt64Assertions(long? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 

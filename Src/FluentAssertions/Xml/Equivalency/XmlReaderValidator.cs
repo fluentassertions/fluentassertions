@@ -8,16 +8,17 @@ namespace FluentAssertions.Xml.Equivalency;
 
 internal class XmlReaderValidator
 {
-    private readonly AssertionScope assertion;
+    private readonly AssertionChain assertionChain;
     private readonly XmlReader subjectReader;
     private readonly XmlReader expectationReader;
     private XmlIterator subjectIterator;
     private XmlIterator expectationIterator;
     private Node currentNode = Node.CreateRoot();
 
-    public XmlReaderValidator(XmlReader subjectReader, XmlReader expectationReader, string because, object[] becauseArgs)
+    public XmlReaderValidator(AssertionChain assertionChain, XmlReader subjectReader, XmlReader expectationReader, string because, object[] becauseArgs)
     {
-        assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
+        this.assertionChain = assertionChain;
+        assertionChain.BecauseOf(because, becauseArgs);
 
         this.subjectReader = subjectReader;
         this.expectationReader = expectationReader;
@@ -29,12 +30,12 @@ internal class XmlReaderValidator
 
         if (shouldBeEquivalent && failure is not null)
         {
-            assertion.FailWith(failure.FormatString, failure.FormatParams);
+            assertionChain.FailWith(failure.FormatString, failure.FormatParams);
         }
 
         if (!shouldBeEquivalent && failure is null)
         {
-            assertion.FailWith("Did not expect {context:subject} to be equivalent{reason}, but it is.");
+            assertionChain.FailWith("Did not expect {context:subject} to be equivalent{reason}, but it is.");
         }
     }
 

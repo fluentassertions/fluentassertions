@@ -1,9 +1,8 @@
-﻿#if NETFRAMEWORK
+﻿using System;
+using FluentAssertions.Execution;
+#if NET47
 using FluentAssertions.Specs.Common;
 #endif
-using System;
-using System.Threading.Tasks;
-using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 using static FluentAssertions.Extensions.FluentTimeSpanExtensions;
@@ -56,16 +55,6 @@ public class NotThrowSpecs
 
         // Act / Assert
         foo.Invoking(f => f.Do()).Should().NotThrow<InvalidOperationException>();
-    }
-
-    [Fact]
-    public void When_no_exception_should_be_thrown_by_sync_over_async_it_should_not_throw()
-    {
-        // Arrange
-        Action act = () => Task.Delay(0).Wait(0);
-
-        // Act / Assert
-        act.Should().NotThrow();
     }
 
     [Fact]

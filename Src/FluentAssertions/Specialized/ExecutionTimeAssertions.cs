@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -13,14 +13,16 @@ namespace FluentAssertions.Specialized;
 public class ExecutionTimeAssertions
 {
     private readonly ExecutionTime execution;
+    private readonly AssertionChain assertionChain;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ExecutionTime"/> class.
     /// </summary>
     /// <param name="executionTime">The execution on which time must be asserted.</param>
-    public ExecutionTimeAssertions(ExecutionTime executionTime)
+    public ExecutionTimeAssertions(ExecutionTime executionTime, AssertionChain assertionChain)
     {
         execution = executionTime ?? throw new ArgumentNullException(nameof(executionTime));
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -69,12 +71,12 @@ public class ExecutionTimeAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<ExecutionTimeAssertions> BeLessThanOrEqualTo(TimeSpan maxDuration, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<ExecutionTimeAssertions> BeLessThanOrEqualTo(TimeSpan maxDuration,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         (bool isRunning, TimeSpan elapsed) = PollUntil(duration => duration <= maxDuration, expectedResult: false, rate: maxDuration);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(elapsed <= maxDuration)
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
@@ -86,10 +88,6 @@ public class ExecutionTimeAssertions
 
         return new AndConstraint<ExecutionTimeAssertions>(this);
     }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<ExecutionTimeAssertions> BeLessOrEqualTo(TimeSpan maxDuration, string because = "",
-        params object[] becauseArgs) => BeLessThanOrEqualTo(maxDuration, because, becauseArgs);
 
     /// <summary>
     /// Asserts that the execution time of the operation is less than a specified amount of time.
@@ -104,12 +102,12 @@ public class ExecutionTimeAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<ExecutionTimeAssertions> BeLessThan(TimeSpan maxDuration, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<ExecutionTimeAssertions> BeLessThan(TimeSpan maxDuration,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         (bool isRunning, TimeSpan elapsed) = PollUntil(duration => duration < maxDuration, expectedResult: false, rate: maxDuration);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(elapsed < maxDuration)
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
@@ -134,12 +132,12 @@ public class ExecutionTimeAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<ExecutionTimeAssertions> BeGreaterThanOrEqualTo(TimeSpan minDuration, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<ExecutionTimeAssertions> BeGreaterThanOrEqualTo(TimeSpan minDuration,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         (bool isRunning, TimeSpan elapsed) = PollUntil(duration => duration >= minDuration, expectedResult: true, rate: minDuration);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(elapsed >= minDuration)
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
@@ -151,10 +149,6 @@ public class ExecutionTimeAssertions
 
         return new AndConstraint<ExecutionTimeAssertions>(this);
     }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<ExecutionTimeAssertions> BeGreaterOrEqualTo(TimeSpan minDuration, string because = "",
-        params object[] becauseArgs) => BeGreaterThanOrEqualTo(minDuration, because, becauseArgs);
 
     /// <summary>
     /// Asserts that the execution time of the operation is greater than a specified amount of time.
@@ -169,12 +163,12 @@ public class ExecutionTimeAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<ExecutionTimeAssertions> BeGreaterThan(TimeSpan minDuration, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<ExecutionTimeAssertions> BeGreaterThan(TimeSpan minDuration,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         (bool isRunning, TimeSpan elapsed) = PollUntil(duration => duration > minDuration, expectedResult: true, rate: minDuration);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(elapsed > minDuration)
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
@@ -204,8 +198,8 @@ public class ExecutionTimeAssertions
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
-    public AndConstraint<ExecutionTimeAssertions> BeCloseTo(TimeSpan expectedDuration, TimeSpan precision, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<ExecutionTimeAssertions> BeCloseTo(TimeSpan expectedDuration, TimeSpan precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
@@ -216,7 +210,7 @@ public class ExecutionTimeAssertions
         // elapsed time didn't even get to the acceptable range
         (bool isRunning, TimeSpan elapsed) = PollUntil(duration => duration <= maximumValue, expectedResult: false, rate: maximumValue);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(elapsed >= minimumValue && elapsed <= maximumValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " + execution.ActionDescription.EscapePlaceholders() +

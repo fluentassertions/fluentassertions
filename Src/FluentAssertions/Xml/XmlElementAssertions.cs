@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -12,13 +13,16 @@ namespace FluentAssertions.Xml;
 [DebuggerNonUserCode]
 public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAssertions>
 {
+    private readonly AssertionChain assertionChain;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="XmlElementAssertions"/> class.
     /// </summary>
     /// <param name="xmlElement"></param>
-    public XmlElementAssertions(XmlElement xmlElement)
-        : base(xmlElement)
+    public XmlElementAssertions(XmlElement xmlElement, AssertionChain assertionChain)
+        : base(xmlElement, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -33,10 +37,10 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<XmlElementAssertions> HaveInnerText(string expected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<XmlElementAssertions> HaveInnerText(string expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject.InnerText == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -60,8 +64,8 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<XmlElementAssertions> HaveAttribute(string expectedName, string expectedValue, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<XmlElementAssertions> HaveAttribute(string expectedName, string expectedValue,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return HaveAttributeWithNamespace(expectedName, string.Empty, expectedValue, because, becauseArgs);
     }
@@ -85,7 +89,7 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
         string expectedName,
         string expectedNamespace,
         string expectedValue,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         XmlAttribute attribute = Subject.Attributes[expectedName, expectedNamespace];
 
@@ -93,7 +97,7 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
             (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : $"{{{expectedNamespace}}}")
             + expectedName;
 
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(attribute is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -101,10 +105,10 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
                 + " with value {1}{reason}, but found no such attribute in {2}",
                 expectedFormattedName, expectedValue, Subject);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
-                .ForCondition(attribute.Value == expectedValue)
+            assertionChain
+                .ForCondition(attribute!.Value == expectedValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected attribute {0} in {context:subject} to have value {1}{reason}, but found {2}.",
@@ -128,8 +132,7 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
     /// </param>
     public AndWhichConstraint<XmlElementAssertions, XmlElement> HaveElement(
         string expectedName,
-        string because = "",
-        params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return HaveElementWithNamespace(expectedName, null, because, becauseArgs);
     }
@@ -150,8 +153,7 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
     public AndWhichConstraint<XmlElementAssertions, XmlElement> HaveElementWithNamespace(
         string expectedName,
         string expectedNamespace,
-        string because = "",
-        params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         XmlElement element = expectedNamespace == null ? Subject[expectedName] : Subject[expectedName, expectedNamespace];
 
@@ -159,14 +161,14 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
             (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : $"{{{expectedNamespace}}}")
             + expectedName;
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(element is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected {context:subject} to have child element {0}{reason}, but no such child element was found.",
                 expectedFormattedName.EscapePlaceholders());
 
-        return new AndWhichConstraint<XmlElementAssertions, XmlElement>(this, element);
+        return new AndWhichConstraint<XmlElementAssertions, XmlElement>(this, element, assertionChain, "/" + expectedName);
     }
 
     protected override string Identifier => "XML element";

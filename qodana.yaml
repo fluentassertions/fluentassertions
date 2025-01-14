@@ -1,6 +1,6 @@
 version: "1.0"
 
-linter: jetbrains/qodana-dotnet:latest
+ide: QDNET
 failThreshold: 0
 
 profile:
@@ -8,6 +8,7 @@ profile:
 
 dotnet:
   solution: FluentAssertions.sln
+  frameworks: "!netstandard2.0;!netstandard2.1"
 
 exclude:
   - name: ConvertIfStatementToReturnStatement
@@ -31,4 +32,14 @@ exclude:
   - name: ConvertToLambdaExpression
   - name: SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
   - name: UnusedMemberInSuper.Global
-  
+  - name: ArrangeAccessorOwnerBody
+  - name: ParameterHidesMember
+  - name: CollectionNeverUpdated.Local
+    paths:
+      - Tests
+  - name: PossibleMultipleEnumeration
+    paths:
+      - Tests
+  - name: FormatStringProblem
+    paths:
+      - Tests

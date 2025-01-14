@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
-using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
@@ -73,11 +72,8 @@ internal sealed class DictionaryInterfaceInfo
 
         if (suitableDictionaryInterfaces.Length > 1)
         {
-            // SMELL: Code could be written to handle this better, but is it really worth the effort?
-            AssertionScope.Current.FailWith(
+            throw new InvalidOperationException(
                 $"The {role} implements multiple IDictionary interfaces taking a key of {key}. ");
-
-            return null;
         }
 
         if (suitableDictionaryInterfaces.Length == 0)
@@ -94,7 +90,7 @@ internal sealed class DictionaryInterfaceInfo
         {
             if (Type.GetTypeCode(key) != TypeCode.Object)
             {
-                return Array.Empty<DictionaryInterfaceInfo>();
+                return [];
             }
 
             return key
@@ -125,7 +121,7 @@ internal sealed class DictionaryInterfaceInfo
             Type pairValueType = suitableKeyValuePairCollection.GenericTypeArguments[^1];
 
             var methodInfo = ConvertToDictionaryMethod.MakeGenericMethod(Key, pairValueType);
-            return methodInfo.Invoke(null, new[] { convertable });
+            return methodInfo.Invoke(null, [convertable]);
         }
 
         return null;
