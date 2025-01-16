@@ -6,7 +6,7 @@
     <NoWarn>CS0649;CS0169</NoWarn>
     <NukeRootDirectory>..\</NukeRootDirectory>
     <NukeScriptDirectory>..\</NukeScriptDirectory>
-    <NukeVersion>9.0.3</NukeVersion>
+    <NukeVersion>9.0.4</NukeVersion>
     <NukeTelemetryVersion>1</NukeTelemetryVersion>
   </PropertyGroup>
   <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
