@@ -21,9 +21,9 @@
     <PackageDownload Include="ReportGenerator" Version="[5.1.23]" />
     <PackageDownload Include="xunit.runner.console" Version="[2.5.0]" />
     <PackageDownload Include="Node.js.redist" Version="[16.20.0]" />
-    <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
-    <PackageReference Include="Nuke.Common" Version="8.1.4" />
-    <PackageReference Include="Nuke.Components" Version="8.1.4" />
+    <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
+    <PackageReference Include="Nuke.Common" Version="9.0.4" />
+    <PackageReference Include="Nuke.Components" Version="9.0.4" />
     <PackageDownload Include="Yarn.MSBuild" Version="[1.22.19]" />
   </ItemGroup>
 </Project>
