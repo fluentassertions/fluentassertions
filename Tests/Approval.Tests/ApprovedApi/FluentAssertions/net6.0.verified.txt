@@ -39,23 +39,23 @@ namespace FluentAssertions
         public static System.Func<TResult> Invoking<T, TResult>(this T subject, System.Func<T, TResult> action) { }
         public static FluentAssertions.Events.IMonitor<T> Monitor<T>(this T eventSource, System.Func<System.DateTime> utcNow = null) { }
         public static FluentAssertions.Specialized.ExecutionTimeAssertions Should(this FluentAssertions.Specialized.ExecutionTime executionTime) { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should(this FluentAssertions.Specialized.ExecutionTimeAssertions _) { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should(this FluentAssertions.Specialized.TaskCompletionSourceAssertionsBase _) { }
         public static FluentAssertions.Types.MethodInfoSelectorAssertions Should(this FluentAssertions.Types.MethodInfoSelector methodSelector) { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should(this FluentAssertions.Types.MethodInfoSelectorAssertions _) { }
         public static FluentAssertions.Types.PropertyInfoSelectorAssertions Should(this FluentAssertions.Types.PropertyInfoSelector propertyInfoSelector) { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should(this FluentAssertions.Types.PropertyInfoSelectorAssertions _) { }
         public static FluentAssertions.Types.TypeSelectorAssertions Should(this FluentAssertions.Types.TypeSelector typeSelector) { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should(this FluentAssertions.Types.TypeSelectorAssertions _) { }
         public static FluentAssertions.Specialized.ActionAssertions Should(this System.Action action) { }
         public static FluentAssertions.Collections.StringCollectionAssertions Should(this System.Collections.Generic.IEnumerable<string> @this) { }
@@ -114,40 +114,40 @@ namespace FluentAssertions
         public static FluentAssertions.Numeric.NullableNumericAssertions<ulong> Should(this ulong? actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<ushort> Should(this ushort actualValue) { }
         public static FluentAssertions.Numeric.NullableNumericAssertions<ushort> Should(this ushort? actualValue) { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.BooleanAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.BooleanAssertions<TAssertions> { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.DateOnlyAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.DateOnlyAssertions<TAssertions> { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.DateTimeAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.DateTimeAssertions<TAssertions> { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.DateTimeOffsetAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.DateTimeOffsetAssertions<TAssertions> { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.DateTimeOffsetRangeAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.DateTimeOffsetAssertions<TAssertions> { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.DateTimeRangeAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.DateTimeAssertions<TAssertions> { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.GuidAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.GuidAssertions<TAssertions> { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.SimpleTimeSpanAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.SimpleTimeSpanAssertions<TAssertions> { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.TimeOnlyAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.TimeOnlyAssertions<TAssertions> { }
         public static FluentAssertions.Collections.GenericCollectionAssertions<T> Should<T>(this System.Collections.Generic.IEnumerable<T> actualValue) { }
@@ -155,18 +155,18 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.FunctionAssertions<T> Should<T>(this System.Func<T> func) { }
         public static FluentAssertions.Numeric.ComparableTypeAssertions<T> Should<T>(this System.IComparable<T> comparableValue) { }
         public static FluentAssertions.Specialized.TaskCompletionSourceAssertions<T> Should<T>(this System.Threading.Tasks.TaskCompletionSource<T> tcs) { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should<TSubject, TAssertions>(this FluentAssertions.Numeric.NumericAssertions<TSubject, TAssertions> _)
             where TSubject :  struct, System.IComparable<TSubject>
             where TAssertions : FluentAssertions.Numeric.NumericAssertions<TSubject, TAssertions> { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should<TEnum, TAssertions>(this FluentAssertions.Primitives.EnumAssertions<TEnum, TAssertions> _)
             where TEnum :  struct, System.Enum
             where TAssertions : FluentAssertions.Primitives.EnumAssertions<TEnum, TAssertions> { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
+        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'"), true)]
         public static void Should<TSubject, TAssertions>(this FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions> { }
         public static FluentAssertions.Collections.GenericDictionaryAssertions<System.Collections.Generic.IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>(this System.Collections.Generic.IDictionary<TKey, TValue> actualValue) { }
@@ -2389,11 +2389,11 @@ namespace FluentAssertions.Specialized
         where TTask : System.Threading.Tasks.Task
         where TAssertions : FluentAssertions.Specialized.AsyncFunctionAssertions<TTask, TAssertions>
     {
-        [System.Obsolete("This class is intended as base class. This ctor is accidentally public and will b" +
-            "e removed in Version 7.")]
+        [System.Obsolete(("This class is intended as base class. This ctor is accidentally public and will b" +
+            "e removed in Version 7."))]
         public AsyncFunctionAssertions(System.Func<TTask> subject, FluentAssertions.Specialized.IExtractExceptions extractor) { }
-        [System.Obsolete("This class is intended as base class. This ctor is accidentally public and will b" +
-            "e made protected in Version 7.")]
+        [System.Obsolete(("This class is intended as base class. This ctor is accidentally public and will b" +
+            "e made protected in Version 7."))]
         public AsyncFunctionAssertions(System.Func<TTask> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Common.IClock clock) { }
         protected override string Identifier { get; }
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }

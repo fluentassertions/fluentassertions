@@ -45,7 +45,7 @@
     <PackageReference Include="Chill" Version="4.1.0" />
     <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="Xunit.StaFact" Version="1.1.11" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="coverlet.collector" Version="6.0.0" PrivateAssets="all">
