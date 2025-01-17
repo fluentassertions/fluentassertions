@@ -1,4 +1,4 @@
-name: Build
+name: CI/CD Pipeline
 
 on: [push, pull_request]
 
@@ -11,87 +11,97 @@ jobs:
       DOTNET_NOLOGO: true
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      # Check out the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Setup .NET SDKs
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: |
-          6.0.x
-          7.0.x
-          8.0.x
+      # Set up .NET SDKs
+      - name: Setup .NET SDKs
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
 
-    - name: Cache .nuke/temp
-      uses: actions/cache@v4
-      with:
-        path: |
-          .nuke/temp
-        key: ${{ runner.os }}-${{ hashFiles('NodeVersion') }}
+      # Cache NUKE temp files to speed up builds
+      - name: Cache NUKE Temp
+        uses: actions/cache@v4
+        with:
+          path: .nuke/temp
+          key: ${{ runner.os }}-${{ hashFiles('NodeVersion') }}
 
-    - name: Run NUKE
-      run: ./build.ps1
-      env:
-        NuGetApiKey: ${{ secrets.NUGETAPIKEY }}
+      # Run the NUKE build script
+      - name: Run NUKE Build
+        run: ./build.ps1
+        env:
+          NuGetApiKey: ${{ secrets.NUGETAPIKEY }}
 
-    - name: Check for 'lcov.info' existence
-      id: check_files
-      uses: andstor/file-existence-action@v3
-      with:
-        files: "TestResults/reports/lcov.info"
+      # Check for code coverage report
+      - name: Check for Code Coverage File
+        id: check_files
+        uses: andstor/file-existence-action@v3
+        with:
+          files: "TestResults/reports/lcov.info"
 
-    - name: coveralls
-      uses: coverallsapp/github-action@v2
-      if: steps.check_files.outputs.files_exists == 'true'
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        file: TestResults/reports/lcov.info
+      # Upload code coverage to Coveralls
+      - name: Upload to Coveralls
+        uses: coverallsapp/github-action@v2
+        if: steps.check_files.outputs.files_exists == 'true'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: TestResults/reports/lcov.info
 
-    - name: Upload artifacts
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: windows-artifacts
-        path: |
-          ./Artifacts/*
-          ./TestResults/*.trx
+      # Upload build artifacts
+      - name: Upload Build Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-artifacts
+          path: |
+            ./Artifacts/*
+            ./TestResults/*.trx
 
   only-unit-tests:
     name: "Run Unit Tests Only"
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-24.04, macos-15]
 
-    runs-on: ${{ matrix.os }}
-
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      # Check out the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Setup .NET SDKs
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: |
-          6.0.x
-          7.0.x
-          8.0.x
+      # Set up .NET SDKs
+      - name: Setup .NET SDKs
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
 
-    - name: Run NUKE
-      run: ./build.sh UnitTests
+      # Run the NUKE Unit Test script
+      - name: Run Unit Tests
+        run: ./build.sh UnitTests
 
-    - name: Upload artifacts
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ runner.os }}-artifacts
-        path: |
-          ./TestResults/*.trx
+      # Upload unit test artifacts
+      - name: Upload Unit Test Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ runner.os }}-artifacts
+          path: ./TestResults/*.trx
 
   publish-test-results:
     name: "Publish Tests Results"
-    needs: [ build, only-unit-tests ]
+    needs: [build, only-unit-tests]
     runs-on: ubuntu-latest
     permissions:
       checks: write
@@ -99,13 +109,15 @@ jobs:
     if: always()
 
     steps:
-    - name: Download Artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: artifacts
+      # Download test artifacts
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
 
-    - name: Publish Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v2
-      with:
-        comment_mode: always
-        files: "artifacts/**/**/*.trx"
+      # Publish test results as comments
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          comment_mode: always
+          files: artifacts/**/**/*.trx
