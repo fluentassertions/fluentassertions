@@ -1,79 +1,47 @@
-using System;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
-/// <summary>
-/// Dedicated class for comparing two strings and generating consistent error messages.
-/// </summary>
-internal abstract class StringValidator
+internal class StringValidator
 {
-    #region Private Definition
+    private readonly IStringComparisonStrategy comparisonStrategy;
+    private IAssertionScope assertion;
 
-    private const int HumanReadableLength = 8;
-
-    protected string Subject { get; }
-
-    protected string Expected { get; }
-
-    protected IAssertionScope Assertion { get; set; }
-
-    #endregion
-
-    protected StringValidator(string subject, string expected, string because, object[] becauseArgs)
+    public StringValidator(IStringComparisonStrategy comparisonStrategy, string because, object[] becauseArgs)
     {
-        Assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
-
-        Subject = subject;
-        Expected = expected;
+        this.comparisonStrategy = comparisonStrategy;
+        assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
     }
 
-    public void Validate()
+    public void Validate(string subject, string expected)
     {
-        if (Expected is not null || Subject is not null)
+        if (expected is null && subject is null)
         {
-            if (ValidateAgainstNulls())
-            {
-                if (IsLongOrMultiline(Expected) || IsLongOrMultiline(Subject))
-                {
-                    Assertion = Assertion.UsingLineBreaks;
-                }
-
-                if (ValidateAgainstSuperfluousWhitespace() && ValidateAgainstLengthDifferences())
-                {
-                    ValidateAgainstMismatch();
-                }
-            }
-        }
-    }
-
-    private bool ValidateAgainstNulls()
-    {
-        if (Expected is null != Subject is null)
-        {
-            Assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.", Expected, Subject);
-            return false;
+            return;
         }
 
-        return true;
+        if (!ValidateAgainstNulls(subject, expected))
+        {
+            return;
+        }
+
+        if (expected.IsLongOrMultiline() || subject.IsLongOrMultiline())
+        {
+            assertion = assertion.UsingLineBreaks;
+        }
+
+        comparisonStrategy.ValidateAgainstMismatch(assertion, subject, expected);
     }
 
-    private static bool IsLongOrMultiline(string value)
+    private bool ValidateAgainstNulls(string subject, string expected)
     {
-        return value.Length > HumanReadableLength || value.Contains(Environment.NewLine, StringComparison.Ordinal);
+        if (expected is null == subject is null)
+        {
+            return true;
+        }
+
+        assertion.FailWith(comparisonStrategy.ExpectationDescription + "{0}{reason}, but found {1}.", expected, subject);
+        return false;
     }
-
-    protected virtual bool ValidateAgainstSuperfluousWhitespace()
-    {
-        return true;
-    }
-
-    protected virtual bool ValidateAgainstLengthDifferences()
-    {
-        return true;
-    }
-
-    protected abstract void ValidateAgainstMismatch();
-
-    protected abstract string ExpectationDescription { get; }
 }

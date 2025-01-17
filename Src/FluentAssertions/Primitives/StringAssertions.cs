@@ -53,10 +53,11 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs)
     {
-        var stringEqualityValidator =
-            new StringEqualityValidator(Subject, expected, StringComparison.Ordinal, because, becauseArgs);
+        var stringEqualityValidator = new StringValidator(
+            new StringEqualityStrategy(StringComparison.Ordinal),
+            because, becauseArgs);
 
-        stringEqualityValidator.Validate();
+        stringEqualityValidator.Validate(Subject, expected);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -112,10 +113,11 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     public AndConstraint<TAssertions> BeEquivalentTo(string expected, string because = "",
         params object[] becauseArgs)
     {
-        var expectation = new StringEqualityValidator(
-            Subject, expected, StringComparison.OrdinalIgnoreCase, because, becauseArgs);
+        var expectation = new StringValidator(
+            new StringEqualityStrategy(StringComparison.OrdinalIgnoreCase),
+            because, becauseArgs);
 
-        expectation.Validate();
+        expectation.Validate(Subject, expected);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -218,8 +220,11 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
             "Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.");
 
-        var stringWildcardMatchingValidator = new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs);
-        stringWildcardMatchingValidator.Validate();
+        var stringWildcardMatchingValidator = new StringValidator(
+            new StringWildcardMatchingStrategy(),
+            because, becauseArgs);
+
+        stringWildcardMatchingValidator.Validate(Subject, wildcardPattern);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -267,10 +272,14 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
             "Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.");
 
-        new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs)
-        {
-            Negate = true
-        }.Validate();
+        var stringWildcardMatchingValidator = new StringValidator(
+            new StringWildcardMatchingStrategy
+            {
+                Negate = true
+            },
+            because, becauseArgs);
+
+        stringWildcardMatchingValidator.Validate(Subject, wildcardPattern);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -319,13 +328,15 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
             "Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.");
 
-        var validator = new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs)
-        {
-            IgnoreCase = true,
-            IgnoreNewLineDifferences = true
-        };
+        var stringWildcardMatchingValidator = new StringValidator(
+            new StringWildcardMatchingStrategy
+            {
+                IgnoreCase = true,
+                IgnoreNewLineDifferences = true
+            },
+            because, becauseArgs);
 
-        validator.Validate();
+        stringWildcardMatchingValidator.Validate(Subject, wildcardPattern);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -374,14 +385,16 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
             "Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.");
 
-        var validator = new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs)
-        {
-            IgnoreCase = true,
-            IgnoreNewLineDifferences = true,
-            Negate = true
-        };
+        var stringWildcardMatchingValidator = new StringValidator(
+            new StringWildcardMatchingStrategy
+            {
+                IgnoreCase = true,
+                IgnoreNewLineDifferences = true,
+                Negate = true
+            },
+            because, becauseArgs);
 
-        validator.Validate();
+        stringWildcardMatchingValidator.Validate(Subject, wildcardPattern);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -661,8 +674,11 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare start of string with <null>.");
 
-        var stringStartValidator = new StringStartValidator(Subject, expected, StringComparison.Ordinal, because, becauseArgs);
-        stringStartValidator.Validate();
+        var stringStartValidator = new StringValidator(
+            new StringStartStrategy(StringComparison.Ordinal),
+            because, becauseArgs);
+
+        stringStartValidator.Validate(Subject, expected);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -684,10 +700,11 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
 
-        var negatedStringStartValidator =
-            new NegatedStringStartValidator(Subject, unexpected, StringComparison.Ordinal, because, becauseArgs);
+        var negatedStringStartValidator = new StringValidator(
+            new NegatedStringStartStrategy(StringComparison.Ordinal),
+            because, becauseArgs);
 
-        negatedStringStartValidator.Validate();
+        negatedStringStartValidator.Validate(Subject, unexpected);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -710,10 +727,11 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string start equivalence with <null>.");
 
-        var stringStartValidator =
-            new StringStartValidator(Subject, expected, StringComparison.OrdinalIgnoreCase, because, becauseArgs);
+        var stringStartValidator = new StringValidator(
+            new StringStartStrategy(StringComparison.OrdinalIgnoreCase),
+            because, becauseArgs);
 
-        stringStartValidator.Validate();
+        stringStartValidator.Validate(Subject, expected);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -736,10 +754,11 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
 
-        var negatedStringStartValidator =
-            new NegatedStringStartValidator(Subject, unexpected, StringComparison.OrdinalIgnoreCase, because, becauseArgs);
+        var negatedStringStartValidator = new StringValidator(
+            new NegatedStringStartStrategy(StringComparison.OrdinalIgnoreCase),
+            because, becauseArgs);
 
-        negatedStringStartValidator.Validate();
+        negatedStringStartValidator.Validate(Subject, unexpected);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }

@@ -315,7 +315,7 @@ public class DataRowSpecs : DataSpecs
         var dataRow1 = dataSet1.TypedDataTable1[0];
         var dataRow2 = dataSet2.TypedDataTable1[0];
 
-        dataRow2.String = Guid.NewGuid().ToString();
+        dataRow2.String = Guid.NewGuid().ToString().Substring(0, 15);
         dataSet2.AcceptChanges();
 
         // Act

@@ -2,39 +2,39 @@ using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
-internal class StringWildcardMatchingValidator : StringValidator
+internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
 {
-    public StringWildcardMatchingValidator(string subject, string expected, string because, object[] becauseArgs)
-        : base(subject, expected, because, becauseArgs)
+    public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {
-    }
+        bool isMatch = IsMatch(subject, expected);
 
-    protected override void ValidateAgainstMismatch()
-    {
-        bool isMatch = IsMatch();
-
-        if (!isMatch && !Negate)
+        if (isMatch != Negate)
         {
-            Assertion.FailWith(ExpectationDescription + "but {1} does not.", Expected, Subject);
+            return;
         }
 
-        if (isMatch && Negate)
+        if (Negate)
         {
-            Assertion.FailWith(ExpectationDescription + "but {1} matches.", Expected, Subject);
+            assertion.FailWith(ExpectationDescription + "but {1} matches.", expected, subject);
+        }
+        else
+        {
+            assertion.FailWith(ExpectationDescription + "but {1} does not.", expected, subject);
         }
     }
 
-    private bool IsMatch()
+    private bool IsMatch(string subject, string expected)
     {
         RegexOptions options = IgnoreCase
             ? RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
             : RegexOptions.None;
 
-        string input = CleanNewLines(Subject);
-        string pattern = ConvertWildcardToRegEx(CleanNewLines(Expected));
+        string input = CleanNewLines(subject);
+        string pattern = ConvertWildcardToRegEx(CleanNewLines(expected));
 
         return Regex.IsMatch(input, pattern, options | RegexOptions.Singleline);
     }
@@ -53,11 +53,12 @@ internal class StringWildcardMatchingValidator : StringValidator
         return IgnoreNewLineDifferences ? input.RemoveNewLines() : input;
     }
 
-    protected override string ExpectationDescription
+    public string ExpectationDescription
     {
         get
         {
             var builder = new StringBuilder();
+
             builder
                 .Append(Negate ? "Did not expect " : "Expected ")
                 .Append("{context:string}")

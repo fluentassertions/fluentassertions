@@ -1504,7 +1504,7 @@ public class SelectionRulesSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*InternalProperty*also internal*internal*ProtectedInternalProperty*");
+                .WithMessage("*InternalProperty*internal*also internal*ProtectedInternalProperty*");
         }
 
         private class ClassWithInternalProperty
@@ -1563,7 +1563,7 @@ public class SelectionRulesSpecs
             Action act = () => actual.Should().BeEquivalentTo(expected, options => options.IncludingInternalFields());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*InternalField*also internal*internal*ProtectedInternalField*");
+            act.Should().Throw<XunitException>().WithMessage("*InternalField*internal*also internal*ProtectedInternalField*");
         }
 
         private class ClassWithInternalField
