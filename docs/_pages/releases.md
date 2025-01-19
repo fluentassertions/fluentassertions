@@ -7,6 +7,12 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 7.2.0
+
+### Fixes
+
+* Fixed a regression in which `CompleteWithinAsync` treated a canceled task as an exception - [#2853](https://github.com/fluentassertions/fluentassertions/pull/2853)
+
 ## 7.1.0
 
 ### Improvements
