@@ -9,8 +9,10 @@ sidebar:
 
 ## 8.0.0
 
-## License Change
-* Update ownership and license - [#2943](https://github.com/fluentassertions/fluentassertions/pull/2943)
+### License Change
+Versions 8 and beyond are/will be free for open-source projects and non-commercial use, but commercial use requires a [paid license](https://xceed.com/products/unit-testing/fluent-assertions/). Check out the [license page](LICENSE.md) for more information. 
+
+Version 7 will remain fully open-source indefinitely and receive bugfixes and other important corrections.
 
 ### What's new
 
@@ -94,6 +96,12 @@ sidebar:
   * Methods overwritten in `GenericAsyncFunctionAssertions` has been moved to `NonGenericAsyncFunctionAssertions`.
 * Moved the non-generic `NotThrow` and `NotThrowAfter` from `DelegateAssertions<TDelegate, TAssertions>` to `ActionAssertions` - [#2371](https://github.com/fluentassertions/fluentassertions/pull/2371)
 * Made `EquivalencyValidator` `internal` - [#2854](https://github.com/fluentassertions/fluentassertions/pull/2854)
+
+## 7.1.0
+
+### Improvements
+* Added compatibility with xUnit.net v3 - [#2970](https://github.com/fluentassertions/fluentassertions/issues/2970)
+* Added support for throwing TUnit exceptions when using TUnit as your testing framework - [#2971](https://github.com/fluentassertions/fluentassertions/pull/2971)
 
 ## 7.0.0
 

@@ -1,6 +1,13 @@
+<h1 align="center">
+  <br>
 <a href="https://www.fluentassertions.com"><img src="docs/assets/images/FA_Partner_Logo.png" style="width:500px"/></a>
 
-# Extension methods to fluently assert the outcome of .NET tests
+Extension methods to fluently assert the outcome of .NET tests
+  <br>
+</h1>
+
+<div align="center">
+
 [![](https://img.shields.io/github/actions/workflow/status/fluentassertions/fluentassertions/build.yml?branch=develop)](https://github.com/fluentassertions/fluentassertions/actions?query=branch%3Adevelop)
 [![Coveralls branch](https://img.shields.io/coverallsCoverage/github/fluentassertions/fluentassertions?branch=main)](https://coveralls.io/github/fluentassertions/fluentassertions?branch=main)
 [![qodana](https://github.com/fluentassertions/fluentassertions/actions/workflows/code_quality.yml/badge.svg)](https://github.com/fluentassertions/fluentassertions/actions/workflows/code_quality.yml)
@@ -14,20 +21,22 @@
 [![open issues](https://img.shields.io/github/issues/fluentassertions/fluentassertions)](https://github.com/fluentassertions/fluentassertions/issues)
 ![](https://img.shields.io/badge/release%20strategy-githubflow-orange.svg)
 
+</div>
+
 Fluent Assertions provides a comprehensive set of extension methods that enable developers to express the expected outcomes of TDD (Test-Driven Development) and BDD (Behavior-Driven Development) unit tests in a natural, readable style. It is compatible with .NET Standard 2.0+, .NET Framework 4.7+, and .NET 6+.
+
+Versions 8 and beyond are free for open-source projects and non-commercial use, but commercial use requires [a paid license](https://xceed.com/products/unit-testing/fluent-assertions/). 
+Check out the [license page](LICENSE.md) for more information. Version 7 
+will remain fully open-source indefinitely and receive bugfixes and other important corrections.
+
 
 Visit https://www.fluentassertions.com for [background information](https://fluentassertions.com/about/), [usage documentation](https://fluentassertions.com/introduction), an [extensibility guide](https://fluentassertions.com/extensibility/), support information and more [tips & tricks](https://fluentassertions.com/tips/).
 
-![](https://repobeats.axiom.co/api/embed/282ed7bca0ede1ac7751ebde6b3ef091a0c6c52d.svg)
-
 # Xceed Partnership FAQ
-Xceed is now an official Partner to Fluent Assertions! [Learn what this partnership means for our users](https://xceed.com/fluent-assertions-faq/). After extensive discussions with the Fluent Assertions team, we are thrilled about the future of the product and look forward to its continued growth and development.
-
-# Who created this?
-Originally authored by Dennis Doomen with Jonas Nyrup as the productive side-kick. Notable contributions were provided by Artur Krajewski, Lukas Grützmacher and David Omid.
+Originally authored by Dennis Doomen with Jonas Nyrup as the productive side-kick. Xceed is now an official Partner to Fluent Assertions! [Learn what this partnership means for our users](https://xceed.com/fluent-assertions-faq/). After extensive discussions with the Fluent Assertions team, we are thrilled about the future of the product and look forward to its continued growth and development.
 
 # How do I build this?
-Install Visual Studio 2022 17.8+ or JetBrains Rider 2021.3 as well as the Build Tools 2022 (including the Universal Windows Platform build tools). You will also need to have .NET Framework 4.7 SDK and .NET 8.0 SDK installed. Check [global.json](global.json) for the current minimum required version.
+Install Visual Studio 2022 17.8+ or JetBrains Rider 2021.3 as well as the Build Tools 2022 (including the Universal Windows Platform build tools). You will also need to have .NET Framework 4.7 SDK and .NET 8.0 SDK installed. Check the [global.json](global.json) for the current minimum required version.
 
 # What are these Approval.Tests?
 This is a special set of tests that use the [Verify](https://github.com/VerifyTests/Verify) project to verify whether you've introduced any breaking changes in the public API of the library.
