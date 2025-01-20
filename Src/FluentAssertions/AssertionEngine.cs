@@ -78,26 +78,29 @@ public static class AssertionEngine
         {
             if (!isInitialized)
             {
-                const string softWarning =
-                    """
-                         Warning:
-                         The component "Fluent Assertions" is governed by the rules defined in the Xceed License Agreement and
-                         the Xceed Fluent Assertions Community License. You may use Fluent Assertions free of charge for
-                         non-commercial use only. An active subscription is required to use Fluent Assertions for commercial use.
-
-                         Please contact Xceed Sales mailto:sales@xceed.com to acquire a subscription at a very low cost.
-
-                         A paid commercial license supports the development and continued increasing support of
-                         Fluent Assertions users under both commercial and community licenses. Help us
-                         keep Fluent Assertions at the forefront of unit testing.
-
-                         For more information, visit https://xceed.com/products/unit-testing/fluent-assertions/
-                    """;
-
-                Console.WriteLine(softWarning);
-                Trace.WriteLine(softWarning);
-
                 ExecuteCustomInitializers();
+
+                if (!License.Accepted)
+                {
+                    const string softWarning =
+                        """
+                             Warning:
+                             The component "Fluent Assertions" is governed by the rules defined in the Xceed License Agreement and
+                             the Xceed Fluent Assertions Community License. You may use Fluent Assertions free of charge for
+                             non-commercial use only. An active subscription is required to use Fluent Assertions for commercial use.
+
+                             Please contact Xceed Sales mailto:sales@xceed.com to acquire a subscription at a very low cost.
+
+                             A paid commercial license supports the development and continued increasing support of
+                             Fluent Assertions users under both commercial and community licenses. Help us
+                             keep Fluent Assertions at the forefront of unit testing.
+
+                             For more information, visit https://xceed.com/products/unit-testing/fluent-assertions/
+                        """;
+
+                    Console.WriteLine(softWarning);
+                    Trace.WriteLine(softWarning);
+                }
 
                 isInitialized = true;
             }

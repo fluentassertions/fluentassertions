@@ -7,6 +7,10 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 8.1.0
+
+* Provide a toggle to suppress the soft warning that commercial use requires a paid license - [#2984](https://github.com/fluentassertions/fluentassertions/pull/2984)
+
 ## 8.0.0
 
 ### License Change

@@ -272,6 +272,10 @@ namespace FluentAssertions
         public static FluentAssertions.OccurrenceConstraint Times(int expected) { }
         public static FluentAssertions.OccurrenceConstraint Twice() { }
     }
+    public static class License
+    {
+        public static bool Accepted { get; set; }
+    }
     public static class MoreThan
     {
         public static FluentAssertions.OccurrenceConstraint Once() { }
