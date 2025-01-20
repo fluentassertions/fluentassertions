@@ -47,7 +47,7 @@ Check out the [license page](LICENSE.md) for more information.
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Reflectify" Version="1.4.0">
+    <PackageReference Include="Reflectify" Version="1.5.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
