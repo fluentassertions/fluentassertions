@@ -14,7 +14,7 @@ sidebar:
 ## 8.0.0
 
 ### License Change
-Versions 8 and beyond are/will be free for open-source projects and non-commercial use, but commercial use requires a [paid license](https://xceed.com/products/unit-testing/fluent-assertions/). Check out the [license page](LICENSE.md) for more information. 
+Versions 8 and beyond are/will be free for open-source projects and non-commercial use, but commercial use requires a [paid license](https://xceed.com/products/unit-testing/fluent-assertions/). Check out the [license page](LICENSE) for more information. 
 
 Version 7 will remain fully open-source indefinitely and receive bugfixes and other important corrections.
 
