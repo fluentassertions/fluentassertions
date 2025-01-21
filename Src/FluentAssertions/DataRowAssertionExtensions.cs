@@ -16,7 +16,7 @@ public static class DataRowAssertionExtensions
     /// current <see cref="DataRow"/>.
     /// </summary>
     [Pure]
-    public static DataRowAssertions<TDataRow> Should<TDataRow>(this TDataRow actualValue)
+    public static DataRowAssertions<TDataRow> Should<TDataRow>([System.Diagnostics.CodeAnalysis.NotNullAttribute] this TDataRow actualValue)
         where TDataRow : DataRow
     {
         return new DataRowAssertions<TDataRow>(actualValue);
