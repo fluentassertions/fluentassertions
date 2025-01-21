@@ -21,14 +21,14 @@
       BDD-style unit tests. Works with .NET Standard 2.0 and higher, .NET Framework 4.7 and higher and .NET 6 and higher.
       Supports the unit test frameworks MSTest2, NUnit3, NUnit4, XUnit2, XUnit3, MSpec and TUnit.
 
-      IMPORTANT: This version is free for open-source projects and non-commercial use, but commercial use requires [a paid license](https://xceed.com/products/unit-testing/fluent-assertions/). 
-Check out the [license page](LICENSE.md) for more information.
+      IMPORTANT: This version is free for open-source projects and non-commercial use, but commercial use requires [a paid license](https://xceed.com/products/unit-testing/fluent-assertions/).
+Check out the [license page](LICENSE) for more information.
     </PackageDescription>
     <PackageProjectUrl>https://xceed.com/products/unit-testing/fluent-assertions/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fluentassertions/fluentassertions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>MSTest2;xUnit;NUnit;MSpec;TUnit;TDD;BDD;Fluent;netstandard;uwp</PackageTags>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>FluentAssertions.png</PackageIcon>
     <PackageReleaseNotes>See https://fluentassertions.com/releases/</PackageReleaseNotes>
     <Copyright>Copyright 2024-$([System.DateTime]::Now.ToString(yyyy)) Xceed Software Inc., all rights reserved</Copyright>
@@ -42,7 +42,7 @@ Check out the [license page](LICENSE.md) for more information.
 
   <ItemGroup Label="Package files">
     <None Include="..\FluentAssertions.png" Pack="true" Visible="false" PackagePath="" />
-    <None Include="..\..\LICENSE.md" Pack="true" PackagePath=""/>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath=""/>
     <None Include="..\init.ps1" Pack="true" PackagePath="tools"/>
   </ItemGroup>
 

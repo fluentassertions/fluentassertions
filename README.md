@@ -26,7 +26,7 @@ Extension methods to fluently assert the outcome of .NET tests
 Fluent Assertions provides a comprehensive set of extension methods that enable developers to express the expected outcomes of TDD (Test-Driven Development) and BDD (Behavior-Driven Development) unit tests in a natural, readable style. It is compatible with .NET Standard 2.0+, .NET Framework 4.7+, and .NET 6+.
 
 Versions 8 and beyond are free for open-source projects and non-commercial use, but commercial use requires [a paid license](https://xceed.com/products/unit-testing/fluent-assertions/). 
-Check out the [license page](LICENSE.md) for more information. Version 7 
+Check out the [license page](LICENSE) for more information. Version 7 
 will remain fully open-source indefinitely and receive bugfixes and other important corrections.
 
 
