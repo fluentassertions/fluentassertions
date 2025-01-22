@@ -16,7 +16,7 @@ public static class DataSetAssertionExtensions
     /// current <see cref="DataSet"/>.
     /// </summary>
     [Pure]
-    public static DataSetAssertions<TDataSet> Should<TDataSet>(this TDataSet actualValue)
+    public static DataSetAssertions<TDataSet> Should<TDataSet>([System.Diagnostics.CodeAnalysis.NotNullAttribute] this TDataSet actualValue)
         where TDataSet : DataSet
     {
         return new DataSetAssertions<TDataSet>(actualValue);

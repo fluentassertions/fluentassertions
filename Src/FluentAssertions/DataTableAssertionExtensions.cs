@@ -16,7 +16,7 @@ public static class DataTableAssertionExtensions
     /// current <see cref="DataTable"/>.
     /// </summary>
     [Pure]
-    public static DataTableAssertions<TDataTable> Should<TDataTable>(this TDataTable actualValue)
+    public static DataTableAssertions<TDataTable> Should<TDataTable>([System.Diagnostics.CodeAnalysis.NotNullAttribute] this TDataTable actualValue)
         where TDataTable : DataTable
     {
         return new DataTableAssertions<TDataTable>(actualValue);
