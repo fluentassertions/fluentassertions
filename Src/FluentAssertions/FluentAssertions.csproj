@@ -29,6 +29,7 @@ Check out the [license page](LICENSE) for more information.
     <RepositoryType>git</RepositoryType>
     <PackageTags>MSTest2;xUnit;NUnit;MSpec;TUnit;TDD;BDD;Fluent;netstandard;uwp</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageIcon>FluentAssertions.png</PackageIcon>
     <PackageReleaseNotes>See https://fluentassertions.com/releases/</PackageReleaseNotes>
     <Copyright>Copyright 2024-$([System.DateTime]::Now.ToString(yyyy)) Xceed Software Inc., all rights reserved</Copyright>
