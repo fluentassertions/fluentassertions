@@ -104,7 +104,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
                     ", but that attribute was not found.");
         }
 
-        return new AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute>(this, attributes);
+        return new AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute>(this, attributes, assertionChain);
     }
 
     /// <summary>

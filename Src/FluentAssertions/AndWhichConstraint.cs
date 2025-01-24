@@ -47,10 +47,27 @@ public class AndWhichConstraint<TParent, TSubject> : AndConstraint<TParent>
     /// <remarks>
     /// If <paramref name="subjects"/> contains more than one object, a clear exception is thrown.
     /// </remarks>
+    // REFACTOR: In a next major version, we need to remove this overload and make the AssertionChain required
     public AndWhichConstraint(TParent parent, IEnumerable<TSubject> subjects)
         : base(parent)
     {
         getSubject = new Lazy<TSubject>(() => Single(subjects));
+    }
+
+    /// <summary>
+    /// Creates an object that allows continuing an assertion executed through <paramref name="parent"/> and
+    /// which resulted in a potential collection of objects through <paramref name="subjects"/> on an
+    /// existing <paramref name="assertionChain"/>.
+    /// </summary>
+    /// <remarks>
+    /// If <paramref name="subjects"/> contains more than one object, a clear exception is thrown.
+    /// </remarks>
+    public AndWhichConstraint(TParent parent, IEnumerable<TSubject> subjects, AssertionChain assertionChain)
+        : base(parent)
+    {
+        getSubject = new Lazy<TSubject>(() => Single(subjects));
+
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -107,6 +124,12 @@ public class AndWhichConstraint<TParent, TSubject> : AndConstraint<TParent>
             if (pathPostfix is not null and not "")
             {
                 assertionChain.WithCallerPostfix(pathPostfix).ReuseOnce();
+            }
+            else
+            {
+                // Make sure the caller identification restarts with the code following the Which property.
+                assertionChain?.AdvanceToNextIdentifier();
+                assertionChain?.ReuseOnce();
             }
 
             return getSubject.Value;

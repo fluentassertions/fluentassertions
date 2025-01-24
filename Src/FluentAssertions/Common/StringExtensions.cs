@@ -60,24 +60,25 @@ internal static class StringExtensions
         value.Replace("{", "{{", StringComparison.Ordinal).Replace("}", "}}", StringComparison.Ordinal);
 
     /// <summary>
-    /// Joins a string with one or more other strings using a specified separator.
+    /// Joins a string with another string using the specified separator.
     /// </summary>
     /// <remarks>
-    /// Any string that is empty (including the original string) is ignored.
+    /// Any string that is empty or null (including the original string) is ignored. Also, if the second
+    /// string starts with an index operator, the separator is omitted.
     /// </remarks>
     public static string Combine(this string @this, string other, string separator = ".")
     {
-        if (@this.Length == 0)
+        if (@this.IsNullOrEmpty())
         {
-            return other.Length != 0 ? other : string.Empty;
+            return !other.IsNullOrEmpty() ? other : string.Empty;
         }
 
-        if (other.StartsWith('['))
+        if (other is null || other.StartsWith('['))
         {
             separator = string.Empty;
         }
 
-        return @this + separator + other;
+        return @this + separator + (other ?? "");
     }
 
     /// <summary>

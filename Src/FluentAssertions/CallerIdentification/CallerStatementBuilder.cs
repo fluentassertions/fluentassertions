@@ -4,48 +4,62 @@ using System.Text;
 
 namespace FluentAssertions.CallerIdentification;
 
+// REFACTOR: This is not a builder, but a parser, so rename it accordingly.
 internal class CallerStatementBuilder
 {
     private readonly StringBuilder statement;
-    private readonly List<IParsingStrategy> priorityOrderedParsingStrategies;
-    private ParsingState parsingState = ParsingState.InProgress;
+    private readonly List<IParsingStrategy> parsingStrategies;
+    private readonly List<string> candidates = new();
+    private ParsingState state = ParsingState.InProgress;
 
     internal CallerStatementBuilder()
     {
         statement = new StringBuilder();
 
-        priorityOrderedParsingStrategies =
+        parsingStrategies =
         [
             new QuotesParsingStrategy(),
             new MultiLineCommentParsingStrategy(),
             new SingleLineCommentParsingStrategy(),
             new SemicolonParsingStrategy(),
             new ShouldCallParsingStrategy(),
+            new WhichParsingStrategy(),
             new AwaitParsingStrategy(),
             new AddNonEmptySymbolParsingStrategy()
         ];
     }
 
-    internal void Append(string symbols)
+    /// <summary>
+    /// Gets the identifiers preceding a Should or Which clause as extracted from lines of code passed to <see cref="Append"/>
+    /// </summary>
+    public string[] Identifiers => candidates.ToArray();
+
+    public void Append(string symbols)
     {
         using var symbolEnumerator = symbols.GetEnumerator();
 
-        while (symbolEnumerator.MoveNext() && parsingState != ParsingState.Done)
+        while (symbolEnumerator.MoveNext() && state != ParsingState.Completed)
         {
-            var hasParsingStrategyWaitingForEndContext = priorityOrderedParsingStrategies
-                .Exists(s => s.IsWaitingForContextEnd());
-
-            parsingState = ParsingState.InProgress;
-
-            foreach (var parsingStrategy in
-                     priorityOrderedParsingStrategies
-                         .SkipWhile(parsingStrategy =>
-                             hasParsingStrategyWaitingForEndContext
-                             && !parsingStrategy.IsWaitingForContextEnd()))
+            // The logic ensures that parsing does not continue with irrelevant strategies when a strategy is currently in the middle
+            // of a multi-symbol context (e.g., waiting for "_/" to match the beginning "/_"). In such cases, it skips over strategies
+            // that aren't waiting for the "end of context" while allowing the active (waiting) strategy to resume processing.
+            IEnumerable<IParsingStrategy> activeParsers = parsingStrategies;
+            if (parsingStrategies.Exists(s => s.IsWaitingForContextEnd()))
             {
-                parsingState = parsingStrategy.Parse(symbolEnumerator.Current, statement);
+                activeParsers = parsingStrategies.SkipWhile(parsingStrategy => !parsingStrategy.IsWaitingForContextEnd());
+            }
 
-                if (parsingState != ParsingState.InProgress)
+            state = ParsingState.InProgress;
+
+            foreach (IParsingStrategy parser in activeParsers)
+            {
+                state = parser.Parse(symbolEnumerator.Current, statement);
+                if (state == ParsingState.CandidateFound)
+                {
+                    candidates.Add(statement.ToString());
+                }
+
+                if (state != ParsingState.InProgress)
                 {
                     break;
                 }
@@ -57,11 +71,8 @@ internal class CallerStatementBuilder
             return;
         }
 
-        priorityOrderedParsingStrategies
-            .ForEach(strategy => strategy.NotifyEndOfLineReached());
+        parsingStrategies.ForEach(strategy => strategy.NotifyEndOfLineReached());
     }
 
-    internal bool IsDone() => parsingState == ParsingState.Done;
-
-    public override string ToString() => statement.ToString();
+    public bool IsDone() => state == ParsingState.Completed;
 }

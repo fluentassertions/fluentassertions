@@ -9,7 +9,7 @@ internal class SemicolonParsingStrategy : IParsingStrategy
         if (symbol is ';')
         {
             statement.Clear();
-            return ParsingState.Done;
+            return ParsingState.Completed;
         }
 
         return ParsingState.InProgress;

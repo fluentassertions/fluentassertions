@@ -725,7 +725,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             matches = collection.Where(item => EqualityComparer<T>.Default.Equals(item, expected));
         }
 
-        return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matches);
+        return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matches, assertionChain);
     }
 
     /// <summary>
@@ -775,9 +775,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             matches = Subject.Where(func);
         }
 
-        assertionChain.WithCallerPostfix($"[{firstMatchingIndex}]").ReuseOnce();
-
-        return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matches);
+        return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matches, assertionChain, $"[{firstMatchingIndex}]");
     }
 
     /// <summary>

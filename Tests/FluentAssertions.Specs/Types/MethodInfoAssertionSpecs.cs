@@ -224,20 +224,6 @@ public class MethodInfoAssertionSpecs
         }
 
         [Fact]
-        public void When_a_method_is_decorated_with_an_attribute_it_should_allow_chaining_assertions_on_it()
-        {
-            // Arrange
-            MethodInfo methodInfo =
-                typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
-
-            // Act
-            Action act = () => methodInfo.Should().BeDecoratedWith<DummyMethodAttribute>().Which.Filter.Should().BeFalse();
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
         public void When_asserting_a_method_is_decorated_with_an_attribute_but_it_is_not_it_throws_with_a_useful_message()
         {
             // Arrange

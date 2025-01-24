@@ -9,6 +9,9 @@ sidebar:
 
 ## 8.1.0
 
+### Improvements
+* Improved subject identification when chaining multiple assertions using `Which` - [#3000](https://github.com/fluentassertions/fluentassertions/pull/3000)
+* All `Should()` methods on reference types are now annotated with the `[NotNull]` attribute for a better Fluent Assertions experience when nullable reference types are enabled - [#2987](https://github.com/fluentassertions/fluentassertions/pull/2987)
 * Provide a toggle to suppress the soft warning that commercial use requires a paid license - [#2984](https://github.com/fluentassertions/fluentassertions/pull/2984)
 
 ## 8.0.0
