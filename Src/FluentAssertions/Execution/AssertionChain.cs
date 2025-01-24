@@ -17,14 +17,13 @@ public sealed class AssertionChain
 {
     private readonly Func<AssertionScope> getCurrentScope;
     private readonly ContextDataDictionary contextData = new();
+    private readonly SubjectIdentificationBuilder identifierBuilder;
     private string fallbackIdentifier = "object";
-    private Func<string> getCallerIdentifier;
     private Func<string> reason;
     private bool? succeeded;
 
     // We need to keep track of this because we don't want the second successful assertion hide the first unsuccessful assertion
     private Func<string> expectation;
-    private string callerPostfix = string.Empty;
 
     private static readonly AsyncLocal<AssertionChain> Instance = new();
 
@@ -52,7 +51,7 @@ public sealed class AssertionChain
     /// This property is used to track if the caller identifier has been customized using the
     /// <see cref="OverrideCallerIdentifier"/> method or similar methods that modify the identifier.
     /// </remarks>
-    public bool HasOverriddenCallerIdentifier { get; private set; }
+    public bool HasOverriddenCallerIdentifier => identifierBuilder.HasOverriddenIdentifier;
 
     /// <summary>
     /// Either starts a new assertion chain, or, when <see cref="ReuseOnce"/> was called, for once, will return
@@ -68,31 +67,14 @@ public sealed class AssertionChain
         }
 
         return new AssertionChain(() => AssertionScope.Current,
-            () => FluentAssertions.CallerIdentifier.DetermineCallerIdentity());
+            () => FluentAssertions.CallerIdentifier.DetermineCallerIdentities());
     }
 
-    private AssertionChain(Func<AssertionScope> getCurrentScope, Func<string> getCallerIdentifier)
+    private AssertionChain(Func<AssertionScope> getCurrentScope, Func<string[]> getCallerIdentifiers)
     {
         this.getCurrentScope = getCurrentScope;
 
-        this.getCallerIdentifier = () =>
-        {
-            var scopeName = getCurrentScope().Name();
-            var callerIdentifier = getCallerIdentifier();
-
-            if (scopeName is null)
-            {
-                return callerIdentifier;
-            }
-            else if (callerIdentifier is null)
-            {
-                return scopeName;
-            }
-            else
-            {
-                return $"{scopeName}/{callerIdentifier}";
-            }
-        };
+        identifierBuilder = new SubjectIdentificationBuilder(getCallerIdentifiers, () => getCurrentScope().Name());
     }
 
     /// <summary>
@@ -102,7 +84,7 @@ public sealed class AssertionChain
     /// <remarks>
     /// Can be overridden with <see cref="OverrideCallerIdentifier"/>.
     /// </remarks>
-    public string CallerIdentifier => getCallerIdentifier() + callerPostfix;
+    public string CallerIdentifier => identifierBuilder.Build();
 
     /// <summary>
     /// Adds an explanation of why the assertion is supposed to succeed to the scope.
@@ -291,8 +273,7 @@ public sealed class AssertionChain
     /// </summary>
     public void OverrideCallerIdentifier(Func<string> getCallerIdentifier)
     {
-        this.getCallerIdentifier = getCallerIdentifier;
-        HasOverriddenCallerIdentifier = true;
+        identifierBuilder.OverrideSubjectIdentifier(getCallerIdentifier);
     }
 
     /// <summary>
@@ -305,10 +286,18 @@ public sealed class AssertionChain
     /// </remarks>
     public AssertionChain WithCallerPostfix(string postfix)
     {
-        callerPostfix = postfix;
-        HasOverriddenCallerIdentifier = true;
+        identifierBuilder.UsePostfix(postfix);
 
         return this;
+    }
+
+    /// <summary>
+    /// Marks the next assertion as being part of a chained call to Should where it needs to find the next
+    /// caller identifier.
+    /// </summary>
+    internal void AdvanceToNextIdentifier()
+    {
+        identifierBuilder.AdvanceToNextSubject();
     }
 
     /// <summary>

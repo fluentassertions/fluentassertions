@@ -2,36 +2,48 @@
 
 namespace FluentAssertions.CallerIdentification;
 
+/// <summary>
+/// Tries to determine if the statement ends with ".Should(" or ".Should.", and assumes
+/// the preceding identifier is the actual identifier.
+/// </summary>
 internal class ShouldCallParsingStrategy : IParsingStrategy
 {
-    private const string ShouldCall = ".Should";
+    private const string ExpectedPhrase = ".Should";
 
     public ParsingState Parse(char symbol, StringBuilder statement)
     {
-        if (statement.Length >= ShouldCall.Length + 1)
+        if (IsLongEnough(statement) && EndsWithExpectedPhrase(statement) && EndsWithInvocation(statement))
         {
-            var leftIndex = statement.Length - 2;
-            var rightIndex = ShouldCall.Length - 1;
-
-            for (var i = 0; i < ShouldCall.Length; i++)
-            {
-                if (statement[leftIndex - i] != ShouldCall[rightIndex - i])
-                {
-                    return ParsingState.InProgress;
-                }
-            }
-
-            if (statement[^1] is not ('(' or '.'))
-            {
-                return ParsingState.InProgress;
-            }
-
-            statement.Remove(statement.Length - (ShouldCall.Length + 1), ShouldCall.Length + 1);
-            return ParsingState.Done;
+            // Remove the ".Should." or ".Should(" part from the statement, so we keep the actual identifier
+            statement.Remove(statement.Length - (ExpectedPhrase.Length + 1), ExpectedPhrase.Length + 1);
+            return ParsingState.CandidateFound;
         }
 
         return ParsingState.InProgress;
     }
+
+    private static bool IsLongEnough(StringBuilder statement) => statement.Length >= ExpectedPhrase.Length + 1;
+
+    private static bool EndsWithExpectedPhrase(StringBuilder statement)
+    {
+        // Start from the index on the character just before the last ( or .
+        var rightIndexInStatement = statement.Length - 2;
+
+        var rightIndexInExpectedPhrase = ExpectedPhrase.Length - 1;
+
+        // Do a reverse comparison to see if the statement ends with ".Should"
+        for (var i = 0; i < ExpectedPhrase.Length; i++)
+        {
+            if (statement[rightIndexInStatement - i] != ExpectedPhrase[rightIndexInExpectedPhrase - i])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool EndsWithInvocation(StringBuilder statement) => statement[^1] is '(' or '.';
 
     public bool IsWaitingForContextEnd()
     {

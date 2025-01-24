@@ -251,7 +251,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
             .FailWith("Expected type {0} to be decorated with {1}{reason}, but the attribute was not found.",
                 Subject, typeof(TAttribute));
 
-        return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes);
+        return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes, assertionChain);
     }
 
     /// <summary>
@@ -287,7 +287,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 "Expected type {0} to be decorated with {1} that matches {2}{reason}, but no matching attribute was found.",
                 Subject, typeof(TAttribute), isMatchingAttributePredicate);
 
-        return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes);
+        return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes, assertionChain);
     }
 
     /// <summary>
@@ -312,7 +312,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
             .FailWith("Expected type {0} to be decorated with or inherit {1}{reason}, but the attribute was not found.",
                 Subject, typeof(TAttribute));
 
-        return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes);
+        return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes, assertionChain);
     }
 
     /// <summary>
@@ -348,7 +348,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 "Expected type {0} to be decorated with or inherit {1} that matches {2}{reason}" +
                 ", but no matching attribute was found.", Subject, typeof(TAttribute), isMatchingAttributePredicate);
 
-        return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes);
+        return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes, assertionChain);
     }
 
     /// <summary>

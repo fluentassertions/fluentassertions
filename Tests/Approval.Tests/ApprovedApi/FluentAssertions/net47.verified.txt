@@ -19,6 +19,7 @@ namespace FluentAssertions
     {
         public AndWhichConstraint(TParent parent, System.Collections.Generic.IEnumerable<TSubject> subjects) { }
         public AndWhichConstraint(TParent parent, TSubject subject) { }
+        public AndWhichConstraint(TParent parent, System.Collections.Generic.IEnumerable<TSubject> subjects, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public AndWhichConstraint(TParent parent, System.Collections.Generic.IEnumerable<TSubject> subjects, FluentAssertions.Execution.AssertionChain assertionChain, string pathPostfix) { }
         public AndWhichConstraint(TParent parent, TSubject subject, FluentAssertions.Execution.AssertionChain assertionChain, string pathPostfix = "") { }
         public TSubject Subject { get; }
@@ -191,6 +192,7 @@ namespace FluentAssertions
     public static class CallerIdentifier
     {
         public static System.Action<string> Logger { get; set; }
+        public static string[] DetermineCallerIdentities() { }
         public static string DetermineCallerIdentity() { }
     }
     [System.AttributeUsage(System.AttributeTargets.Method)]

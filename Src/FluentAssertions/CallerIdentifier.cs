@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -19,9 +20,28 @@ public static class CallerIdentifier
 {
     public static Action<string> Logger { get; set; } = _ => { };
 
+    /// <summary>
+    /// Gets the identifier that precedes the first Should call in the chain.
+    /// </summary>
     public static string DetermineCallerIdentity()
     {
-        string caller = null;
+        return DetermineCallerIdentities().FirstOrDefault();
+    }
+
+    /// <summary>
+    /// Gets all identifiers of all assertions in order of appearance.
+    /// </summary>
+    /// <example>
+    /// For example, given the following code
+    /// <code>collection.Should().ContainSingle()
+    ///     .Which.Parameters.Should().ContainSingle()
+    ///     .Which.Should().Be(3)
+    /// </code>
+    /// <see cref="DetermineCallerIdentity"/> will return <c>collection</c>, <c>Parameters</c> and an empty string.
+    /// </example>
+    public static string[] DetermineCallerIdentities()
+    {
+        string[] callers = [];
 
         try
         {
@@ -57,7 +77,7 @@ public static class CallerIdentifier
                     && !IsCustomAssertion(frame)
                     && !IsCurrentAssembly(frame))
                 {
-                    caller = ExtractVariableNameFrom(frame);
+                    callers = ExtractCallersFrom(frame).ToArray();
                     break;
                 }
             }
@@ -68,7 +88,7 @@ public static class CallerIdentifier
             Logger(e.ToString());
         }
 
-        return caller;
+        return callers;
     }
 
     private sealed class StackFrameReference : IDisposable
@@ -169,26 +189,23 @@ public static class CallerIdentifier
         return frame.GetMethod()?.DeclaringType?.Namespace is "System.Runtime.CompilerServices";
     }
 
-    private static string ExtractVariableNameFrom(StackFrame frame)
+    private static IEnumerable<string> ExtractCallersFrom(StackFrame frame)
     {
-        string caller = null;
-        string statement = GetSourceCodeStatementFrom(frame);
+        string[] identifiers = GetCallerIdentifiersFrom(frame);
 
-        if (!string.IsNullOrEmpty(statement))
+        foreach (string identifier in identifiers)
         {
-            Logger(statement);
+            Logger(identifier);
 
-            if (!IsBooleanLiteral(statement) && !IsNumeric(statement) && !IsStringLiteral(statement) &&
-                !StartsWithNewKeyword(statement))
+            if (!IsBooleanLiteral(identifier) && !IsNumeric(identifier) && !IsStringLiteral(identifier) &&
+                !StartsWithNewKeyword(identifier))
             {
-                caller = statement;
+                yield return identifier;
             }
         }
-
-        return caller;
     }
 
-    private static string GetSourceCodeStatementFrom(StackFrame frame)
+    private static string[] GetCallerIdentifiersFrom(StackFrame frame)
     {
         string fileName = frame.GetFileName();
         int expectedLineNumber = frame.GetFileLineNumber();
@@ -209,19 +226,18 @@ public static class CallerIdentifier
                 currentLine++;
             }
 
-            return currentLine == expectedLineNumber
-                && line != null
-                    ? GetSourceCodeStatementFrom(frame, reader, line)
+            return currentLine == expectedLineNumber && line != null
+                    ? GetCallerIdentifiersFrom(frame, reader, line)
                     : null;
         }
         catch
         {
             // We don't care. Just assume the symbol file is not available or unreadable
-            return null;
+            return [];
         }
     }
 
-    private static string GetSourceCodeStatementFrom(StackFrame frame, StreamReader reader, string line)
+    private static string[] GetCallerIdentifiersFrom(StackFrame frame, StreamReader reader, string line)
     {
         int column = frame.GetFileColumnNumber();
 
@@ -230,15 +246,15 @@ public static class CallerIdentifier
             line = line.Substring(Math.Min(column - 1, line.Length - 1));
         }
 
-        var sb = new CallerStatementBuilder();
+        var parser = new CallerStatementBuilder();
 
         do
         {
-            sb.Append(line);
+            parser.Append(line);
         }
-        while (!sb.IsDone() && (line = reader.ReadLine()) != null);
+        while (!parser.IsDone() && (line = reader.ReadLine()) != null);
 
-        return sb.ToString();
+        return parser.Identifiers;
     }
 
     private static bool StartsWithNewKeyword(string candidate)

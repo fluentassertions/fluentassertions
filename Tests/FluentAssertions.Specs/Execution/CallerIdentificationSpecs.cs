@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
+using FluentAssertions.Specs.Types;
 using Xunit;
 using Xunit.Sdk;
 
@@ -31,6 +34,7 @@ namespace FluentAssertions.Specs.Execution
         public void Types_in_a_namespace_nested_under_system_are_excluded_from_identification()
         {
             // Act
+            // ReSharper disable once RedundantNameQualifier
             Action act = () => System.Data.NestedSystemNamespaceClass.AssertAgainstFailure();
 
             // Assert
@@ -41,6 +45,7 @@ namespace FluentAssertions.Specs.Execution
         public void Types_in_a_namespace_prefixed_with_system_are_excluded_from_identification()
         {
             // Act
+            // ReSharper disable once RedundantNameQualifier
             Action act = () => SystemPrefixed.SystemPrefixedNamespaceClass.AssertAgainstFailure();
 
             // Assert
@@ -154,6 +159,7 @@ namespace FluentAssertions.Specs.Execution
         {
             // Arrange
             string test1 = "test1";
+
             var foo = new Foo
             {
                 Field = "test3"
@@ -172,6 +178,7 @@ namespace FluentAssertions.Specs.Execution
         {
             // Arrange
             string test1 = "test1";
+
             var foo = new Foo
             {
                 Field = "test3"
@@ -568,6 +575,62 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             node.Subject.Description.Should().StartWith("node.Subject.Description");
+        }
+
+        [Fact]
+        public void When_a_method_is_decorated_with_an_attribute_it_should_allow_chaining_assertions_on_it()
+        {
+            // Arrange
+            MethodInfo methodInfo =
+                typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+
+            // Act
+            Action act = () => methodInfo.Should().BeDecoratedWith<DummyMethodAttribute>().Which.Filter.Should().BeFalse();
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected Filter to be False, but found True.");
+        }
+
+        [Fact]
+        public void Can_handle_chained_assertions()
+        {
+            // Arrange
+            var collection = new[]
+            {
+                new
+                {
+                    Parameters = new[] { "a", "b", "c" }
+                }
+            };
+
+            // Act
+            Action act = () => collection.Should().ContainSingle().Which.Parameters[0].Should().Be("d");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection[0].Parameters[0] to be \"d\", but*");
+        }
+
+        [Fact]
+        public void Can_handle_chained_assertions_spread_over_multiple_lines()
+        {
+            // Arrange
+            var collection = new[]
+            {
+                new
+                {
+                    Parameters = new[] { "a", "b", "c" }
+                }
+            };
+
+            // Act
+            Action act = () => collection.Should().ContainSingle()
+                .Which
+                .Parameters[0].Should().Be("d");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection[0].Parameters[0] to be \"d\", but*");
         }
 
         [CustomAssertion]
