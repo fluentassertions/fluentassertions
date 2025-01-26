@@ -300,7 +300,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="bool"/>.
     /// </summary>
     [Pure]
-    public static NullableBooleanAssertions Should(this bool? actualValue)
+    public static NullableBooleanAssertions Should([NotNull] this bool? actualValue)
     {
         return new NullableBooleanAssertions(actualValue);
     }
@@ -330,7 +330,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="Guid"/>.
     /// </summary>
     [Pure]
-    public static NullableGuidAssertions Should(this Guid? actualValue)
+    public static NullableGuidAssertions Should([NotNull] this Guid? actualValue)
     {
         return new NullableGuidAssertions(actualValue);
     }
@@ -454,7 +454,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="DateTime"/>.
     /// </summary>
     [Pure]
-    public static NullableDateTimeAssertions Should(this DateTime? actualValue)
+    public static NullableDateTimeAssertions Should([NotNull] this DateTime? actualValue)
     {
         return new NullableDateTimeAssertions(actualValue);
     }
@@ -464,7 +464,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="DateTimeOffset"/>.
     /// </summary>
     [Pure]
-    public static NullableDateTimeOffsetAssertions Should(this DateTimeOffset? actualValue)
+    public static NullableDateTimeOffsetAssertions Should([NotNull] this DateTimeOffset? actualValue)
     {
         return new NullableDateTimeOffsetAssertions(actualValue);
     }
@@ -485,7 +485,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="DateOnly"/>.
     /// </summary>
     [Pure]
-    public static NullableDateOnlyAssertions Should(this DateOnly? actualValue)
+    public static NullableDateOnlyAssertions Should([NotNull] this DateOnly? actualValue)
     {
         return new NullableDateOnlyAssertions(actualValue);
     }
@@ -505,7 +505,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="TimeOnly"/>.
     /// </summary>
     [Pure]
-    public static NullableTimeOnlyAssertions Should(this TimeOnly? actualValue)
+    public static NullableTimeOnlyAssertions Should([NotNull] this TimeOnly? actualValue)
     {
         return new NullableTimeOnlyAssertions(actualValue);
     }
@@ -537,7 +537,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="int"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<int> Should(this int? actualValue)
+    public static NullableNumericAssertions<int> Should([NotNull] this int? actualValue)
     {
         return new NullableInt32Assertions(actualValue);
     }
@@ -557,7 +557,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="uint"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<uint> Should(this uint? actualValue)
+    public static NullableNumericAssertions<uint> Should([NotNull] this uint? actualValue)
     {
         return new NullableUInt32Assertions(actualValue);
     }
@@ -577,7 +577,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="decimal"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<decimal> Should(this decimal? actualValue)
+    public static NullableNumericAssertions<decimal> Should([NotNull] this decimal? actualValue)
     {
         return new NullableDecimalAssertions(actualValue);
     }
@@ -597,7 +597,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="byte"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<byte> Should(this byte? actualValue)
+    public static NullableNumericAssertions<byte> Should([NotNull] this byte? actualValue)
     {
         return new NullableByteAssertions(actualValue);
     }
@@ -617,7 +617,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="sbyte"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<sbyte> Should(this sbyte? actualValue)
+    public static NullableNumericAssertions<sbyte> Should([NotNull] this sbyte? actualValue)
     {
         return new NullableSByteAssertions(actualValue);
     }
@@ -637,7 +637,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="short"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<short> Should(this short? actualValue)
+    public static NullableNumericAssertions<short> Should([NotNull] this short? actualValue)
     {
         return new NullableInt16Assertions(actualValue);
     }
@@ -657,7 +657,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="ushort"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<ushort> Should(this ushort? actualValue)
+    public static NullableNumericAssertions<ushort> Should([NotNull] this ushort? actualValue)
     {
         return new NullableUInt16Assertions(actualValue);
     }
@@ -677,7 +677,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="long"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<long> Should(this long? actualValue)
+    public static NullableNumericAssertions<long> Should([NotNull] this long? actualValue)
     {
         return new NullableInt64Assertions(actualValue);
     }
@@ -697,7 +697,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="ulong"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<ulong> Should(this ulong? actualValue)
+    public static NullableNumericAssertions<ulong> Should([NotNull] this ulong? actualValue)
     {
         return new NullableUInt64Assertions(actualValue);
     }
@@ -717,7 +717,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="float"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<float> Should(this float? actualValue)
+    public static NullableNumericAssertions<float> Should([NotNull] this float? actualValue)
     {
         return new NullableSingleAssertions(actualValue);
     }
@@ -737,7 +737,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="double"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<double> Should(this double? actualValue)
+    public static NullableNumericAssertions<double> Should([NotNull] this double? actualValue)
     {
         return new NullableDoubleAssertions(actualValue);
     }
@@ -767,7 +767,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="TimeSpan"/>.
     /// </summary>
     [Pure]
-    public static NullableSimpleTimeSpanAssertions Should(this TimeSpan? actualValue)
+    public static NullableSimpleTimeSpanAssertions Should([NotNull] this TimeSpan? actualValue)
     {
         return new NullableSimpleTimeSpanAssertions(actualValue);
     }
