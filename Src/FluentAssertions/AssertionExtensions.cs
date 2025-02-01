@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -21,6 +21,7 @@ using FluentAssertions.Streams;
 using FluentAssertions.Types;
 using FluentAssertions.Xml;
 using JetBrains.Annotations;
+using NotNullAttribute = System.Diagnostics.CodeAnalysis.NotNullAttribute;
 #if !NETSTANDARD2_0
 using FluentAssertions.Events;
 #endif
@@ -172,7 +173,7 @@ public static class AssertionExtensions
     /// current <see cref="Assembly"/>.
     /// </summary>
     [Pure]
-    public static AssemblyAssertions Should(this Assembly assembly)
+    public static AssemblyAssertions Should([NotNull] this Assembly assembly)
     {
         return new AssemblyAssertions(assembly);
     }
@@ -182,7 +183,7 @@ public static class AssertionExtensions
     /// current <see cref="XElement"/>.
     /// </summary>
     [Pure]
-    public static XDocumentAssertions Should(this XDocument actualValue)
+    public static XDocumentAssertions Should([NotNull] this XDocument actualValue)
     {
         return new XDocumentAssertions(actualValue);
     }
@@ -192,7 +193,7 @@ public static class AssertionExtensions
     /// current <see cref="XElement"/>.
     /// </summary>
     [Pure]
-    public static XElementAssertions Should(this XElement actualValue)
+    public static XElementAssertions Should([NotNull] this XElement actualValue)
     {
         return new XElementAssertions(actualValue);
     }
@@ -202,7 +203,7 @@ public static class AssertionExtensions
     /// current <see cref="XAttribute"/>.
     /// </summary>
     [Pure]
-    public static XAttributeAssertions Should(this XAttribute actualValue)
+    public static XAttributeAssertions Should([NotNull] this XAttribute actualValue)
     {
         return new XAttributeAssertions(actualValue);
     }
@@ -212,7 +213,7 @@ public static class AssertionExtensions
     /// current <see cref="Stream"/>.
     /// </summary>
     [Pure]
-    public static StreamAssertions Should(this Stream actualValue)
+    public static StreamAssertions Should([NotNull] this Stream actualValue)
     {
         return new StreamAssertions(actualValue);
     }
@@ -222,7 +223,7 @@ public static class AssertionExtensions
     /// current <see cref="BufferedStream"/>.
     /// </summary>
     [Pure]
-    public static BufferedStreamAssertions Should(this BufferedStream actualValue)
+    public static BufferedStreamAssertions Should([NotNull] this BufferedStream actualValue)
     {
         return new BufferedStreamAssertions(actualValue);
     }
@@ -279,7 +280,7 @@ public static class AssertionExtensions
     /// current <see cref="object"/>.
     /// </summary>
     [Pure]
-    public static ObjectAssertions Should(this object actualValue)
+    public static ObjectAssertions Should([NotNull] this object actualValue)
     {
         return new ObjectAssertions(actualValue);
     }
@@ -299,7 +300,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="bool"/>.
     /// </summary>
     [Pure]
-    public static NullableBooleanAssertions Should(this bool? actualValue)
+    public static NullableBooleanAssertions Should([NotNull] this bool? actualValue)
     {
         return new NullableBooleanAssertions(actualValue);
     }
@@ -309,7 +310,7 @@ public static class AssertionExtensions
     /// current <see cref="HttpResponseMessage"/>.
     /// </summary>
     [Pure]
-    public static HttpResponseMessageAssertions Should(this HttpResponseMessage actualValue)
+    public static HttpResponseMessageAssertions Should([NotNull] this HttpResponseMessage actualValue)
     {
         return new HttpResponseMessageAssertions(actualValue);
     }
@@ -329,7 +330,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="Guid"/>.
     /// </summary>
     [Pure]
-    public static NullableGuidAssertions Should(this Guid? actualValue)
+    public static NullableGuidAssertions Should([NotNull] this Guid? actualValue)
     {
         return new NullableGuidAssertions(actualValue);
     }
@@ -339,7 +340,7 @@ public static class AssertionExtensions
     /// current <see cref="IEnumerable{T}"/>.
     /// </summary>
     [Pure]
-    public static GenericCollectionAssertions<T> Should<T>(this IEnumerable<T> actualValue)
+    public static GenericCollectionAssertions<T> Should<T>([NotNull] this IEnumerable<T> actualValue)
     {
         return new GenericCollectionAssertions<T>(actualValue);
     }
@@ -349,7 +350,7 @@ public static class AssertionExtensions
     /// current <see cref="IEnumerable{T}"/>.
     /// </summary>
     [Pure]
-    public static StringCollectionAssertions Should(this IEnumerable<string> @this)
+    public static StringCollectionAssertions Should([NotNull] this IEnumerable<string> @this)
     {
         return new StringCollectionAssertions(@this);
     }
@@ -360,7 +361,7 @@ public static class AssertionExtensions
     /// </summary>
     [Pure]
     public static GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>(
-        this IDictionary<TKey, TValue> actualValue)
+        [NotNull] this IDictionary<TKey, TValue> actualValue)
     {
         return new GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue>(actualValue);
     }
@@ -371,7 +372,7 @@ public static class AssertionExtensions
     /// </summary>
     [Pure]
     public static GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue> Should<TKey, TValue>(
-        this IEnumerable<KeyValuePair<TKey, TValue>> actualValue)
+        [NotNull] this IEnumerable<KeyValuePair<TKey, TValue>> actualValue)
     {
         return new GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue>(actualValue);
     }
@@ -382,7 +383,7 @@ public static class AssertionExtensions
     /// </summary>
     [Pure]
     public static GenericDictionaryAssertions<TCollection, TKey, TValue> Should<TCollection, TKey, TValue>(
-        this TCollection actualValue)
+        [NotNull] this TCollection actualValue)
         where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
     {
         return new GenericDictionaryAssertions<TCollection, TKey, TValue>(actualValue);
@@ -392,7 +393,7 @@ public static class AssertionExtensions
     /// Returns an assertions object that provides methods for asserting the state of a <see cref="DataTableCollection"/>.
     /// </summary>
     [Pure]
-    public static GenericCollectionAssertions<DataTable> Should(this DataTableCollection actualValue)
+    public static GenericCollectionAssertions<DataTable> Should([NotNull] this DataTableCollection actualValue)
     {
         return new GenericCollectionAssertions<DataTable>(
             ReadOnlyNonGenericCollectionWrapper.Create(actualValue));
@@ -402,7 +403,7 @@ public static class AssertionExtensions
     /// Returns an assertions object that provides methods for asserting the state of a <see cref="DataColumnCollection"/>.
     /// </summary>
     [Pure]
-    public static GenericCollectionAssertions<DataColumn> Should(this DataColumnCollection actualValue)
+    public static GenericCollectionAssertions<DataColumn> Should([NotNull] this DataColumnCollection actualValue)
     {
         return new GenericCollectionAssertions<DataColumn>(
             ReadOnlyNonGenericCollectionWrapper.Create(actualValue));
@@ -412,7 +413,7 @@ public static class AssertionExtensions
     /// Returns an assertions object that provides methods for asserting the state of a <see cref="DataRowCollection"/>.
     /// </summary>
     [Pure]
-    public static GenericCollectionAssertions<DataRow> Should(this DataRowCollection actualValue)
+    public static GenericCollectionAssertions<DataRow> Should([NotNull] this DataRowCollection actualValue)
     {
         return new GenericCollectionAssertions<DataRow>(
             ReadOnlyNonGenericCollectionWrapper.Create(actualValue));
@@ -423,7 +424,7 @@ public static class AssertionExtensions
     /// current <see cref="DataColumn"/>.
     /// </summary>
     [Pure]
-    public static DataColumnAssertions Should(this DataColumn actualValue)
+    public static DataColumnAssertions Should([NotNull] this DataColumn actualValue)
     {
         return new DataColumnAssertions(actualValue);
     }
@@ -453,7 +454,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="DateTime"/>.
     /// </summary>
     [Pure]
-    public static NullableDateTimeAssertions Should(this DateTime? actualValue)
+    public static NullableDateTimeAssertions Should([NotNull] this DateTime? actualValue)
     {
         return new NullableDateTimeAssertions(actualValue);
     }
@@ -463,7 +464,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="DateTimeOffset"/>.
     /// </summary>
     [Pure]
-    public static NullableDateTimeOffsetAssertions Should(this DateTimeOffset? actualValue)
+    public static NullableDateTimeOffsetAssertions Should([NotNull] this DateTimeOffset? actualValue)
     {
         return new NullableDateTimeOffsetAssertions(actualValue);
     }
@@ -484,7 +485,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="DateOnly"/>.
     /// </summary>
     [Pure]
-    public static NullableDateOnlyAssertions Should(this DateOnly? actualValue)
+    public static NullableDateOnlyAssertions Should([NotNull] this DateOnly? actualValue)
     {
         return new NullableDateOnlyAssertions(actualValue);
     }
@@ -504,7 +505,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="TimeOnly"/>.
     /// </summary>
     [Pure]
-    public static NullableTimeOnlyAssertions Should(this TimeOnly? actualValue)
+    public static NullableTimeOnlyAssertions Should([NotNull] this TimeOnly? actualValue)
     {
         return new NullableTimeOnlyAssertions(actualValue);
     }
@@ -516,7 +517,7 @@ public static class AssertionExtensions
     /// current <see cref="IComparable{T}"/>.
     /// </summary>
     [Pure]
-    public static ComparableTypeAssertions<T> Should<T>(this IComparable<T> comparableValue)
+    public static ComparableTypeAssertions<T> Should<T>([NotNull] this IComparable<T> comparableValue)
     {
         return new ComparableTypeAssertions<T>(comparableValue);
     }
@@ -536,7 +537,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="int"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<int> Should(this int? actualValue)
+    public static NullableNumericAssertions<int> Should([NotNull] this int? actualValue)
     {
         return new NullableInt32Assertions(actualValue);
     }
@@ -556,7 +557,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="uint"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<uint> Should(this uint? actualValue)
+    public static NullableNumericAssertions<uint> Should([NotNull] this uint? actualValue)
     {
         return new NullableUInt32Assertions(actualValue);
     }
@@ -576,7 +577,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="decimal"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<decimal> Should(this decimal? actualValue)
+    public static NullableNumericAssertions<decimal> Should([NotNull] this decimal? actualValue)
     {
         return new NullableDecimalAssertions(actualValue);
     }
@@ -596,7 +597,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="byte"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<byte> Should(this byte? actualValue)
+    public static NullableNumericAssertions<byte> Should([NotNull] this byte? actualValue)
     {
         return new NullableByteAssertions(actualValue);
     }
@@ -616,7 +617,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="sbyte"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<sbyte> Should(this sbyte? actualValue)
+    public static NullableNumericAssertions<sbyte> Should([NotNull] this sbyte? actualValue)
     {
         return new NullableSByteAssertions(actualValue);
     }
@@ -636,7 +637,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="short"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<short> Should(this short? actualValue)
+    public static NullableNumericAssertions<short> Should([NotNull] this short? actualValue)
     {
         return new NullableInt16Assertions(actualValue);
     }
@@ -656,7 +657,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="ushort"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<ushort> Should(this ushort? actualValue)
+    public static NullableNumericAssertions<ushort> Should([NotNull] this ushort? actualValue)
     {
         return new NullableUInt16Assertions(actualValue);
     }
@@ -676,7 +677,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="long"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<long> Should(this long? actualValue)
+    public static NullableNumericAssertions<long> Should([NotNull] this long? actualValue)
     {
         return new NullableInt64Assertions(actualValue);
     }
@@ -696,7 +697,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="ulong"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<ulong> Should(this ulong? actualValue)
+    public static NullableNumericAssertions<ulong> Should([NotNull] this ulong? actualValue)
     {
         return new NullableUInt64Assertions(actualValue);
     }
@@ -716,7 +717,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="float"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<float> Should(this float? actualValue)
+    public static NullableNumericAssertions<float> Should([NotNull] this float? actualValue)
     {
         return new NullableSingleAssertions(actualValue);
     }
@@ -736,7 +737,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="double"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<double> Should(this double? actualValue)
+    public static NullableNumericAssertions<double> Should([NotNull] this double? actualValue)
     {
         return new NullableDoubleAssertions(actualValue);
     }
@@ -746,7 +747,7 @@ public static class AssertionExtensions
     /// current <see cref="string"/>.
     /// </summary>
     [Pure]
-    public static StringAssertions Should(this string actualValue)
+    public static StringAssertions Should([NotNull] this string actualValue)
     {
         return new StringAssertions(actualValue);
     }
@@ -766,7 +767,7 @@ public static class AssertionExtensions
     /// current nullable <see cref="TimeSpan"/>.
     /// </summary>
     [Pure]
-    public static NullableSimpleTimeSpanAssertions Should(this TimeSpan? actualValue)
+    public static NullableSimpleTimeSpanAssertions Should([NotNull] this TimeSpan? actualValue)
     {
         return new NullableSimpleTimeSpanAssertions(actualValue);
     }
@@ -776,7 +777,7 @@ public static class AssertionExtensions
     /// current <see cref="System.Type"/>.
     /// </summary>
     [Pure]
-    public static TypeAssertions Should(this Type subject)
+    public static TypeAssertions Should([NotNull] this Type subject)
     {
         return new TypeAssertions(subject);
     }
@@ -800,7 +801,7 @@ public static class AssertionExtensions
     /// </summary>
     /// <seealso cref="TypeAssertions"/>
     [Pure]
-    public static ConstructorInfoAssertions Should(this ConstructorInfo constructorInfo)
+    public static ConstructorInfoAssertions Should([NotNull] this ConstructorInfo constructorInfo)
     {
         return new ConstructorInfoAssertions(constructorInfo);
     }
@@ -810,7 +811,7 @@ public static class AssertionExtensions
     /// </summary>
     /// <seealso cref="TypeAssertions"/>
     [Pure]
-    public static MethodInfoAssertions Should(this MethodInfo methodInfo)
+    public static MethodInfoAssertions Should([NotNull] this MethodInfo methodInfo)
     {
         return new MethodInfoAssertions(methodInfo);
     }
@@ -835,7 +836,7 @@ public static class AssertionExtensions
     /// </summary>
     /// <seealso cref="TypeAssertions"/>
     [Pure]
-    public static PropertyInfoAssertions Should(this PropertyInfo propertyInfo)
+    public static PropertyInfoAssertions Should([NotNull] this PropertyInfo propertyInfo)
     {
         return new PropertyInfoAssertions(propertyInfo);
     }
@@ -859,7 +860,7 @@ public static class AssertionExtensions
     /// current <see cref="System.Action"/>.
     /// </summary>
     [Pure]
-    public static ActionAssertions Should(this Action action)
+    public static ActionAssertions Should([NotNull] this Action action)
     {
         return new ActionAssertions(action, Extractor);
     }
@@ -869,7 +870,7 @@ public static class AssertionExtensions
     /// current <see cref="System.Func{Task}"/>.
     /// </summary>
     [Pure]
-    public static NonGenericAsyncFunctionAssertions Should(this Func<Task> action)
+    public static NonGenericAsyncFunctionAssertions Should([NotNull] this Func<Task> action)
     {
         return new NonGenericAsyncFunctionAssertions(action, Extractor);
     }
@@ -879,7 +880,7 @@ public static class AssertionExtensions
     /// current <see><cref>System.Func{Task{T}}</cref></see>.
     /// </summary>
     [Pure]
-    public static GenericAsyncFunctionAssertions<T> Should<T>(this Func<Task<T>> action)
+    public static GenericAsyncFunctionAssertions<T> Should<T>([NotNull] this Func<Task<T>> action)
     {
         return new GenericAsyncFunctionAssertions<T>(action, Extractor);
     }
@@ -889,7 +890,7 @@ public static class AssertionExtensions
     /// current <see cref="System.Func{T}"/>.
     /// </summary>
     [Pure]
-    public static FunctionAssertions<T> Should<T>(this Func<T> func)
+    public static FunctionAssertions<T> Should<T>([NotNull] this Func<T> func)
     {
         return new FunctionAssertions<T>(func, Extractor);
     }

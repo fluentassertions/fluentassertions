@@ -7,6 +7,11 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 7.2.0
+
+### Improvements
+* All `Should()` methods on reference types are now annotated with the `[NotNull]` attribute for a better Fluent Assertions experience when nullable reference types are enabled - [#2987](https://github.com/fluentassertions/fluentassertions/pull/2987)
+
 ## 7.1.0
 
 ### Improvements
