@@ -10,13 +10,12 @@ sidebar:
 ## 7.2.0
 
 ### Improvements
+* Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
 * All `Should()` methods on reference types are now annotated with the `[NotNull]` attribute for a better Fluent Assertions experience when nullable reference types are enabled - [#2987](https://github.com/fluentassertions/fluentassertions/pull/2987)
 
 ## 7.1.0
 
 ### Improvements
-* Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
-
 * Added compatibility with xUnit.net v3 - [#2970](https://github.com/fluentassertions/fluentassertions/issues/2970)
 * Added support for throwing TUnit exceptions when using TUnit as your testing framework - [#2971](https://github.com/fluentassertions/fluentassertions/pull/2971)
 
