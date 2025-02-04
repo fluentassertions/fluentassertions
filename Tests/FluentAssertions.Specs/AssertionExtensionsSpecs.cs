@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -160,7 +160,7 @@ public class AssertionExtensionsSpecs
 
     [Theory]
     [MemberData(nameof(GetShouldMethods), true)]
-    public void Should_methods_returning_reference_type_assertions_are_annotated_with_not_null_attribute(MethodInfo method)
+    public void Should_methods_returning_reference_or_nullable_type_assertions_are_annotated_with_not_null_attribute(MethodInfo method)
     {
         var notNullAttribute = method.GetParameters().Single().GetCustomAttribute<NotNullAttribute>();
         notNullAttribute.Should().NotBeNull();
@@ -168,15 +168,15 @@ public class AssertionExtensionsSpecs
 
     [Theory]
     [MemberData(nameof(GetShouldMethods), false)]
-    public void Should_methods_not_returning_reference_type_assertions_are_not_annotated_with_not_null_attribute(MethodInfo method)
+    public void Should_methods_not_returning_reference_or_nullable_type_assertions_are_not_annotated_with_not_null_attribute(MethodInfo method)
     {
         var notNullAttribute = method.GetParameters().Single().GetCustomAttribute<NotNullAttribute>();
         notNullAttribute.Should().BeNull();
     }
 
-    public static TheoryData<MethodInfo> GetShouldMethods(bool referenceTypes)
+    public static IEnumerable<object[]> GetShouldMethods(bool referenceOrNullableTypes)
     {
-        return new(AllTypes.From(typeof(FluentAssertions.AssertionExtensions).Assembly)
+        return AllTypes.From(typeof(FluentAssertions.AssertionExtensions).Assembly)
             .ThatAreClasses()
             .ThatAreStatic()
             .Where(t => t.IsPublic)
@@ -184,11 +184,18 @@ public class AssertionExtensionsSpecs
             .Where(m => m.Name == "Should"
                 && !IsGuardOverload(m)
                 && m.GetParameters().Length == 1
-                && (referenceTypes ? ReturnsReferenceTypeAssertions(m) : !ReturnsReferenceTypeAssertions(m))));
+                && (referenceOrNullableTypes ? IsReferenceOrNullableTypeAssertion(m) : !IsReferenceOrNullableTypeAssertion(m)))
+            .Select(m => new object[] { m });
     }
 
     private static bool ReturnsReferenceTypeAssertions(MethodInfo m) =>
         m.ReturnType.IsAssignableToOpenGeneric(typeof(ReferenceTypeAssertions<,>));
+
+    private static bool IsNullableTypeAssertion(MethodInfo m) =>
+        m.GetParameters()[0].ParameterType.IsAssignableToOpenGeneric(typeof(Nullable<>));
+
+    private static bool IsReferenceOrNullableTypeAssertion(MethodInfo m) =>
+        ReturnsReferenceTypeAssertions(m) || IsNullableTypeAssertion(m);
 
     private static bool IsGuardOverload(MethodInfo m) =>
         m.ReturnType == typeof(void) && m.IsDefined(typeof(ObsoleteAttribute));

@@ -14,7 +14,7 @@ sidebar:
 ## 8.0.0
 
 ### License Change
-Versions 8 and beyond are/will be free for open-source projects and non-commercial use, but commercial use requires a [paid license](https://xceed.com/products/unit-testing/fluent-assertions/). Check out the [license page](LICENSE) for more information. 
+Versions 8 and beyond are/will be free for open-source projects and non-commercial use, but commercial use requires a [paid license](https://xceed.com/products/unit-testing/fluent-assertions/). Check out the [license page](LICENSE) for more information.
 
 Version 7 will remain fully open-source indefinitely and receive bugfixes and other important corrections.
 
@@ -101,6 +101,12 @@ Version 7 will remain fully open-source indefinitely and receive bugfixes and ot
 * Moved the non-generic `NotThrow` and `NotThrowAfter` from `DelegateAssertions<TDelegate, TAssertions>` to `ActionAssertions` - [#2371](https://github.com/fluentassertions/fluentassertions/pull/2371)
 * Made `EquivalencyValidator` `internal` - [#2854](https://github.com/fluentassertions/fluentassertions/pull/2854)
 
+## 7.2.0
+
+### Improvements
+* Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
+* All `Should()` methods on reference types are now annotated with the `[NotNull]` attribute for a better Fluent Assertions experience when nullable reference types are enabled - [#2987](https://github.com/fluentassertions/fluentassertions/pull/2987)
+
 ## 7.1.0
 
 ### Improvements
@@ -120,10 +126,20 @@ Version 7 will remain fully open-source indefinitely and receive bugfixes and ot
 * Dropped support for `NSpec3` test framework - [#2356](https://github.com/fluentassertions/fluentassertions/pull/2356)
 * Raised dependencies on `System.Configuration.ConfigurationManager` to 6.0.0 and `System.Threading.Tasks.Extensions` to 4.5.4 - [#2673](https://github.com/fluentassertions/fluentassertions/pull/2673) and [#2855](https://github.com/fluentassertions/fluentassertions/pull/2855)
 
+### Fixes
+
+* Fixed a problem in `BeEquivalentTo` where write-only properties would cause a `NullReferenceException` - [#2836](https://github.com/fluentassertions/fluentassertions/pull/2836)
+
+## 6.12.3
+
+### Fixes
+
+* The expectation node identified as a cyclic reference is still compared to the subject node using simple equality - [2819](https://github.com/fluentassertions/fluentassertions/pull/2819)
+
 ## 6.12.2
 
 ### Fixes
-* Better handling of normal vs explicitly implemented vs default interface properties - [#2794](https://github.com/fluentassertions/fluentassertions/pull/2794)
+* Better handling of normal vs explicitly implemented vs default interface properties - [2794](https://github.com/fluentassertions/fluentassertions/pull/2794)
 
 ## 6.12.1
 

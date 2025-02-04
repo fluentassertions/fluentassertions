@@ -50,33 +50,33 @@ namespace FluentAssertions
         public static System.Action Invoking<T>(this T subject, System.Action<T> action) { }
         public static System.Func<TResult> Invoking<T, TResult>(this T subject, System.Func<T, TResult> action) { }
         public static FluentAssertions.Specialized.ExecutionTimeAssertions Should(this FluentAssertions.Specialized.ExecutionTime executionTime) { }
-        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'"), true)]
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should(this FluentAssertions.Specialized.ExecutionTimeAssertions _) { }
-        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'"), true)]
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should(this FluentAssertions.Specialized.TaskCompletionSourceAssertionsBase _) { }
         public static FluentAssertions.Types.MethodInfoSelectorAssertions Should(this FluentAssertions.Types.MethodInfoSelector methodSelector) { }
-        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'"), true)]
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should(this FluentAssertions.Types.MethodInfoSelectorAssertions _) { }
         public static FluentAssertions.Types.PropertyInfoSelectorAssertions Should(this FluentAssertions.Types.PropertyInfoSelector propertyInfoSelector) { }
-        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'"), true)]
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should(this FluentAssertions.Types.PropertyInfoSelectorAssertions _) { }
         public static FluentAssertions.Types.TypeSelectorAssertions Should(this FluentAssertions.Types.TypeSelector typeSelector) { }
-        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'"), true)]
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should(this FluentAssertions.Types.TypeSelectorAssertions _) { }
         public static FluentAssertions.Specialized.ActionAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Action action) { }
         public static FluentAssertions.Collections.StringCollectionAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Collections.Generic.IEnumerable<string> @this) { }
         public static FluentAssertions.Primitives.DateTimeAssertions Should(this System.DateTime actualValue) { }
-        public static FluentAssertions.Primitives.NullableDateTimeAssertions Should(this System.DateTime? actualValue) { }
+        public static FluentAssertions.Primitives.NullableDateTimeAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.DateTime? actualValue) { }
         public static FluentAssertions.Primitives.DateTimeOffsetAssertions Should(this System.DateTimeOffset actualValue) { }
-        public static FluentAssertions.Primitives.NullableDateTimeOffsetAssertions Should(this System.DateTimeOffset? actualValue) { }
+        public static FluentAssertions.Primitives.NullableDateTimeOffsetAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.DateTimeOffset? actualValue) { }
         public static FluentAssertions.Specialized.NonGenericAsyncFunctionAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Func<System.Threading.Tasks.Task> action) { }
         public static FluentAssertions.Primitives.GuidAssertions Should(this System.Guid actualValue) { }
-        public static FluentAssertions.Primitives.NullableGuidAssertions Should(this System.Guid? actualValue) { }
+        public static FluentAssertions.Primitives.NullableGuidAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Guid? actualValue) { }
         public static FluentAssertions.Streams.BufferedStreamAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.IO.BufferedStream actualValue) { }
         public static FluentAssertions.Streams.StreamAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.IO.Stream actualValue) { }
         public static FluentAssertions.Types.AssemblyAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.Assembly assembly) { }
@@ -84,63 +84,63 @@ namespace FluentAssertions
         public static FluentAssertions.Types.MethodInfoAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.MethodInfo methodInfo) { }
         public static FluentAssertions.Types.PropertyInfoAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.PropertyInfo propertyInfo) { }
         public static FluentAssertions.Primitives.SimpleTimeSpanAssertions Should(this System.TimeSpan actualValue) { }
-        public static FluentAssertions.Primitives.NullableSimpleTimeSpanAssertions Should(this System.TimeSpan? actualValue) { }
+        public static FluentAssertions.Primitives.NullableSimpleTimeSpanAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.TimeSpan? actualValue) { }
         public static FluentAssertions.Types.TypeAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Type subject) { }
         public static FluentAssertions.Xml.XAttributeAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Xml.Linq.XAttribute actualValue) { }
         public static FluentAssertions.Xml.XDocumentAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Xml.Linq.XDocument actualValue) { }
         public static FluentAssertions.Xml.XElementAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Xml.Linq.XElement actualValue) { }
         public static FluentAssertions.Primitives.BooleanAssertions Should(this bool actualValue) { }
-        public static FluentAssertions.Primitives.NullableBooleanAssertions Should(this bool? actualValue) { }
+        public static FluentAssertions.Primitives.NullableBooleanAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this bool? actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<byte> Should(this byte actualValue) { }
-        public static FluentAssertions.Numeric.NullableNumericAssertions<byte> Should(this byte? actualValue) { }
+        public static FluentAssertions.Numeric.NullableNumericAssertions<byte> Should([System.Diagnostics.CodeAnalysis.NotNull] this byte? actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<decimal> Should(this decimal actualValue) { }
-        public static FluentAssertions.Numeric.NullableNumericAssertions<decimal> Should(this decimal? actualValue) { }
+        public static FluentAssertions.Numeric.NullableNumericAssertions<decimal> Should([System.Diagnostics.CodeAnalysis.NotNull] this decimal? actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<double> Should(this double actualValue) { }
-        public static FluentAssertions.Numeric.NullableNumericAssertions<double> Should(this double? actualValue) { }
+        public static FluentAssertions.Numeric.NullableNumericAssertions<double> Should([System.Diagnostics.CodeAnalysis.NotNull] this double? actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<float> Should(this float actualValue) { }
-        public static FluentAssertions.Numeric.NullableNumericAssertions<float> Should(this float? actualValue) { }
+        public static FluentAssertions.Numeric.NullableNumericAssertions<float> Should([System.Diagnostics.CodeAnalysis.NotNull] this float? actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<int> Should(this int actualValue) { }
-        public static FluentAssertions.Numeric.NullableNumericAssertions<int> Should(this int? actualValue) { }
+        public static FluentAssertions.Numeric.NullableNumericAssertions<int> Should([System.Diagnostics.CodeAnalysis.NotNull] this int? actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<long> Should(this long actualValue) { }
-        public static FluentAssertions.Numeric.NullableNumericAssertions<long> Should(this long? actualValue) { }
+        public static FluentAssertions.Numeric.NullableNumericAssertions<long> Should([System.Diagnostics.CodeAnalysis.NotNull] this long? actualValue) { }
         public static FluentAssertions.Primitives.ObjectAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this object actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<sbyte> Should(this sbyte actualValue) { }
-        public static FluentAssertions.Numeric.NullableNumericAssertions<sbyte> Should(this sbyte? actualValue) { }
+        public static FluentAssertions.Numeric.NullableNumericAssertions<sbyte> Should([System.Diagnostics.CodeAnalysis.NotNull] this sbyte? actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<short> Should(this short actualValue) { }
-        public static FluentAssertions.Numeric.NullableNumericAssertions<short> Should(this short? actualValue) { }
+        public static FluentAssertions.Numeric.NullableNumericAssertions<short> Should([System.Diagnostics.CodeAnalysis.NotNull] this short? actualValue) { }
         public static FluentAssertions.Primitives.StringAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this string actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<uint> Should(this uint actualValue) { }
-        public static FluentAssertions.Numeric.NullableNumericAssertions<uint> Should(this uint? actualValue) { }
+        public static FluentAssertions.Numeric.NullableNumericAssertions<uint> Should([System.Diagnostics.CodeAnalysis.NotNull] this uint? actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<ulong> Should(this ulong actualValue) { }
-        public static FluentAssertions.Numeric.NullableNumericAssertions<ulong> Should(this ulong? actualValue) { }
+        public static FluentAssertions.Numeric.NullableNumericAssertions<ulong> Should([System.Diagnostics.CodeAnalysis.NotNull] this ulong? actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<ushort> Should(this ushort actualValue) { }
-        public static FluentAssertions.Numeric.NullableNumericAssertions<ushort> Should(this ushort? actualValue) { }
-        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'"), true)]
+        public static FluentAssertions.Numeric.NullableNumericAssertions<ushort> Should([System.Diagnostics.CodeAnalysis.NotNull] this ushort? actualValue) { }
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.BooleanAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.BooleanAssertions<TAssertions> { }
-        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'"), true)]
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.DateTimeAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.DateTimeAssertions<TAssertions> { }
-        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'"), true)]
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.DateTimeOffsetAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.DateTimeOffsetAssertions<TAssertions> { }
-        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'"), true)]
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.DateTimeOffsetRangeAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.DateTimeOffsetAssertions<TAssertions> { }
-        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'"), true)]
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.DateTimeRangeAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.DateTimeAssertions<TAssertions> { }
-        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'"), true)]
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.GuidAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.GuidAssertions<TAssertions> { }
-        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'"), true)]
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.SimpleTimeSpanAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.SimpleTimeSpanAssertions<TAssertions> { }
         public static FluentAssertions.Collections.GenericCollectionAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this System.Collections.Generic.IEnumerable<T> actualValue) { }
@@ -148,18 +148,18 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.FunctionAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this System.Func<T> func) { }
         public static FluentAssertions.Numeric.ComparableTypeAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this System.IComparable<T> comparableValue) { }
         public static FluentAssertions.Specialized.TaskCompletionSourceAssertions<T> Should<T>(this System.Threading.Tasks.TaskCompletionSource<T> tcs) { }
-        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'"), true)]
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should<TSubject, TAssertions>(this FluentAssertions.Numeric.NumericAssertionsBase<TSubject, TSubject, TAssertions> _)
             where TSubject :  struct, System.IComparable<TSubject>
             where TAssertions : FluentAssertions.Numeric.NumericAssertions<TSubject, TAssertions> { }
-        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'"), true)]
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should<TEnum, TAssertions>(this FluentAssertions.Primitives.EnumAssertions<TEnum, TAssertions> _)
             where TEnum :  struct, System.Enum
             where TAssertions : FluentAssertions.Primitives.EnumAssertions<TEnum, TAssertions> { }
-        [System.Obsolete(("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'"), true)]
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should<TSubject, TAssertions>(this FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions> { }
         public static FluentAssertions.Collections.GenericDictionaryAssertions<System.Collections.Generic.IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>([System.Diagnostics.CodeAnalysis.NotNull] this System.Collections.Generic.IDictionary<TKey, TValue> actualValue) { }
@@ -205,7 +205,7 @@ namespace FluentAssertions
     {
         public static FluentAssertions.Primitives.EnumAssertions<TEnum> Should<TEnum>(this TEnum @enum)
             where TEnum :  struct, System.Enum { }
-        public static FluentAssertions.Primitives.NullableEnumAssertions<TEnum> Should<TEnum>(this TEnum? @enum)
+        public static FluentAssertions.Primitives.NullableEnumAssertions<TEnum> Should<TEnum>([System.Diagnostics.CodeAnalysis.NotNull] this TEnum? @enum)
             where TEnum :  struct, System.Enum { }
     }
     public static class Exactly
@@ -2347,8 +2347,8 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> Be(System.Type expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> Be<TExpected>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeAbstract(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeAssignableTo(System.Type type, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeAssignableTo<T>(string because = "", params object[] becauseArgs) { }
+        public new FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeAssignableTo(System.Type type, string because = "", params object[] becauseArgs) { }
+        public new FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeAssignableTo<T>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, TAttribute> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, TAttribute> BeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
@@ -2385,8 +2385,8 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBe(System.Type unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBe<TUnexpected>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeAbstract(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeAssignableTo(System.Type type, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeAssignableTo<T>(string because = "", params object[] becauseArgs) { }
+        public new FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeAssignableTo(System.Type type, string because = "", params object[] becauseArgs) { }
+        public new FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeAssignableTo<T>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
