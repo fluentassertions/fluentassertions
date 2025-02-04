@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
@@ -44,7 +45,8 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
         if (onlyOneNull)
         {
             AssertionScope.Current.FailWith(
-                $"Expected {currentNode.Description} to be {{0}}{{reason}}, but found {{1}}.", expected, subject);
+                "Expected {0} to be {1}{reason}, but found {2}.",
+                currentNode.Description.AsNonFormatable(), expected, subject);
 
             return false;
         }
@@ -61,7 +63,7 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
 
         return
             AssertionScope.Current
-                .FailWith($"Expected {currentNode} to be {{0}}, but found {{1}}.",
+                .FailWith("Expected {0} to be {1}, but found {2}.", currentNode.ToString().AsNonFormatable(),
                     comparands.RuntimeType, comparands.Subject.GetType());
     }
 }

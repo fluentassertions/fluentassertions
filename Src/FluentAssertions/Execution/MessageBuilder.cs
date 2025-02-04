@@ -1,13 +1,10 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
-
-#endregion
 
 namespace FluentAssertions.Execution;
 
@@ -35,7 +32,7 @@ internal class MessageBuilder
     {
         message = message.Replace("{reason}", SanitizeReason(reason), StringComparison.Ordinal);
 
-        message = SubstituteIdentifier(message, identifier?.EscapePlaceholders(), fallbackIdentifier);
+        message = SubstituteIdentifier(message, identifier, fallbackIdentifier);
 
         message = SubstituteContextualTags(message, contextData);
 
@@ -75,6 +72,10 @@ internal class MessageBuilder
         return message.TrimStart();
     }
 
+    /// <summary>
+    /// Replaces all occurrences of {key} or {key:default} with the value of the key in the <paramref name="contextData"/>
+    /// dictionary. If the key is not found, the default value is used. If that doesn't exist, the placeholder is left as is.
+    /// </summary>
     private static string SubstituteContextualTags(string message, ContextDataItems contextData)
     {
         const string pattern = @"(?<!\{)\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}(?!\})";
@@ -82,26 +83,56 @@ internal class MessageBuilder
         return Regex.Replace(message, pattern, match =>
         {
             string key = match.Groups["key"].Value;
-            string contextualTags = contextData.AsStringOrDefault(key);
-            string contextualTagsSubstituted = contextualTags?.EscapePlaceholders();
 
-            return contextualTagsSubstituted ?? match.Groups["default"].Value;
+            string contextualTag = contextData.AsStringOrDefault(key) ?? match.Groups["default"].Value;
+
+            return contextualTag.Length == 0 ? match.Value : contextualTag;
         });
     }
 
-    private string FormatArgumentPlaceholders(string failureMessage, object[] failureArgs)
+    /// <summary>
+    /// Find all matches of {0}, {0,-2:format}, {0:format} etc. and replace them the objects
+    /// passed through <see cref="Formatter"/>, while ignoring any other curly braces.
+    /// </summary>
+    /// <remarks>
+    /// In contrast to <see cref="string.Format(System.IFormatProvider?,string,object?)"/>, this method ignores
+    /// any other placeholders using curly braces.
+    /// </remarks>
+    private string FormatArgumentPlaceholders(string message, object[] args)
     {
-        string[] values = failureArgs.Select(a => Formatter.ToString(a, formattingOptions)).ToArray();
+        string[] formattedArgs = args.Select(a => Formatter.ToString(a, formattingOptions)).ToArray();
 
-        try
+        // Matches the .NET string format {index[,alignment][:format]}, even
+        // if the opening and closing curly braces are escaped themselves.
+        var matches = Regex.Matches(message,
+            @"\{+\d+(,-?\d+)?(:[^\s{}]+)?\}+");
+
+        StringBuilder builder = new();
+        int indexInMessage = 0;
+
+        foreach (Match match in matches)
         {
-            return string.Format(CultureInfo.InvariantCulture, failureMessage, values);
+            builder.Append(message[indexInMessage..match.Index]);
+
+            try
+            {
+                builder.AppendFormat(CultureInfo.InvariantCulture, match.Value, formattedArgs.OfType<object>().ToArray());
+            }
+            catch (FormatException)
+            {
+                // If we fail to format the potential placeholder, we just keep it in the final message.
+                builder.Append(match.Value);
+            }
+
+            indexInMessage = match.Index + match.Length;
         }
-        catch (FormatException formatException)
+
+        if (indexInMessage < message.Length)
         {
-            return
-                $"**WARNING** failure message '{failureMessage}' could not be formatted with string.Format{Environment.NewLine}{formatException.StackTrace}";
+            builder.Append(message[indexInMessage..]);
         }
+
+        return builder.ToString();
     }
 
     private string SanitizeReason(string reason)
@@ -109,7 +140,6 @@ internal class MessageBuilder
         if (!string.IsNullOrEmpty(reason))
         {
             reason = EnsurePrefix("because", reason);
-            reason = reason.EscapePlaceholders();
 
             return StartsWithBlank(reason) ? reason : " " + reason;
         }

@@ -12,6 +12,7 @@ sidebar:
 ### Fixes
 
 * Fixed a regression in which `CompleteWithinAsync` treated a canceled task as an exception - [#2853](https://github.com/fluentassertions/fluentassertions/pull/2853)
+* Fix a formatting exception when {} is used as a dictionary key - [#3008](https://github.com/fluentassertions/fluentassertions/pull/3008)
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)

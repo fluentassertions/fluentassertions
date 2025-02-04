@@ -100,7 +100,7 @@ public class EnumEqualityStep : IEquivalencyStep
         string typePart = o.GetType().Name;
         string namePart = o.ToString().Replace(", ", "|", StringComparison.Ordinal);
         string valuePart = v.Value.ToString(CultureInfo.InvariantCulture);
-        return $"{typePart}.{namePart} {{{{value: {valuePart}}}}}";
+        return $"{typePart}.{namePart} {{value: {valuePart}}}";
     }
 
     private static decimal? ExtractDecimal(object o)

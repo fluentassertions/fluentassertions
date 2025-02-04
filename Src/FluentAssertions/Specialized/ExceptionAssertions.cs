@@ -286,10 +286,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
 
             foreach (string failure in results.SelectClosestMatchFor())
             {
-                string replacedCurlyBraces =
-                    failure.EscapePlaceholders();
-
-                AssertionScope.Current.FailWith(replacedCurlyBraces);
+                AssertionScope.Current.FailWith(failure);
             }
         }
     }
