@@ -4,15 +4,14 @@ using System.Text;
 
 namespace FluentAssertions.CallerIdentification;
 
-// REFACTOR: This is not a builder, but a parser, so rename it accordingly.
-internal class CallerStatementBuilder
+internal class StatementParser
 {
     private readonly StringBuilder statement;
     private readonly List<IParsingStrategy> parsingStrategies;
     private readonly List<string> candidates = new();
     private ParsingState state = ParsingState.InProgress;
 
-    internal CallerStatementBuilder()
+    internal StatementParser()
     {
         statement = new StringBuilder();
 

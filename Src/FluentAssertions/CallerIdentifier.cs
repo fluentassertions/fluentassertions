@@ -246,7 +246,7 @@ public static class CallerIdentifier
             line = line.Substring(Math.Min(column - 1, line.Length - 1));
         }
 
-        var parser = new CallerStatementBuilder();
+        var parser = new StatementParser();
 
         do
         {
