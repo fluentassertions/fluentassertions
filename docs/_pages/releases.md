@@ -7,11 +7,15 @@ sidebar:
   nav: "sidebar"
 ---
 
-## 8.1.2
+## 8.2.0
 
 ## Fixes
 
 * Fixed a regression from 8.1.0 where a `NullReferenceException` was thrown during subject identification - [#3036](https://github.com/fluentassertions/fluentassertions/pull/3036
+
+## Enhancements
+
+* Better support for rendering multi-dimensional arrays in failure messages - [#3009](https://github.com/fluentassertions/fluentassertions/pull/3009)
 
 ## 8.1.1
 

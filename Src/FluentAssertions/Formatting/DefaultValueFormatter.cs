@@ -76,8 +76,10 @@ public class DefaultValueFormatter : IValueFormatter
 
     private void WriteTypeName(FormattedObjectGraph formattedGraph, Type type)
     {
-        var typeName = type.HasFriendlyName() ? TypeDisplayName(type) : string.Empty;
-        formattedGraph.AddFragment(typeName);
+        if (type.HasFriendlyName())
+        {
+            formattedGraph.AddFragment(TypeDisplayName(type));
+        }
     }
 
     private void WriteTypeValue(object obj, FormattedObjectGraph formattedGraph, FormatChild formatChild, Type type)
@@ -89,7 +91,6 @@ public class DefaultValueFormatter : IValueFormatter
         }
         else
         {
-            formattedGraph.EnsureInitialNewLine();
             formattedGraph.AddLine("{");
             WriteMemberValues(obj, members, formattedGraph, formatChild);
             formattedGraph.AddFragmentOnNewLine("}");

@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using FluentAssertions.Execution;
 
 namespace FluentAssertions.Formatting;
 
@@ -17,16 +14,37 @@ namespace FluentAssertions.Formatting;
 /// </remarks>
 public class FormattedObjectGraph
 {
-    private readonly int maxLines;
-    private readonly List<string> lines = [];
-    private readonly StringBuilder lineBuilder = new();
-    private int indentation;
-    private string lineBuilderWhitespace = string.Empty;
+    private readonly LineCollection lines;
 
+    /// <summary>
+    /// The current line that is being written to, or <see langword="null"/> if there is no active line.
+    /// </summary>
+    private Line currentLine;
+
+    /// <summary>
+    /// This class is used by the <see cref="Formatter"/> class to collect all the output of the (nested calls of an) <see cref="IValueFormatter"/> into
+    /// a the final representation.
+    /// </summary>
+    /// <remarks>
+    /// The <see cref="FormattedObjectGraph"/> will ensure that the number of lines will be limited
+    /// to the maximum number of lines provided through its constructor. It will throw
+    /// a <see cref="MaxLinesExceededException"/> if the number of lines exceeds the maximum.
+    /// </remarks>
     public FormattedObjectGraph(int maxLines)
     {
-        this.maxLines = maxLines;
+        lines = new LineCollection(maxLines);
     }
+
+    /// <summary>
+    /// Represents the current level of indentation applied to newly added lines or fragments.
+    /// </summary>
+    /// <remarks>
+    /// The indentation level determines the amount of leading whitespace to be added to each line,
+    /// calculated based on <see cref="SpacesPerIndentation"/>.  It is incremented or decremented with methods such as
+    /// <see cref="WithIndentation"/>, and affects all subsequent lines or fragments added to
+    /// the <see cref="FormattedObjectGraph"/>.
+    /// </remarks>
+    internal int Indentation { get; private set; }
 
     /// <summary>
     /// The number of spaces that should be used by every indentation level.
@@ -36,7 +54,7 @@ public class FormattedObjectGraph
     /// <summary>
     /// Returns the number of lines of text currently in the graph.
     /// </summary>
-    public int LineCount => lines.Count + (lineBuilder.Length > 0 ? 1 : 0);
+    public int LineCount => lines.Count;
 
     /// <summary>
     /// Starts a new line with the provided text fragment. Additional text can be added to
@@ -45,19 +63,35 @@ public class FormattedObjectGraph
     public void AddFragmentOnNewLine(string fragment)
     {
         FlushCurrentLine();
-
-        AddFragment(fragment);
+        GetCurrentLine().Append(fragment);
     }
 
     /// <summary>
-    /// Starts a new line with the provided line of text that does not allow
-    /// adding more fragments of text.
+    /// If there's only one line, adds a fragment to that line. If there are more lines, adds the fragment as
+    /// a new line that does not allow any further fragments.
     /// </summary>
-    public void AddLine(string line)
+    public void AddLineOrFragment(string fragment)
+    {
+        if (lines.Count == 1)
+        {
+            AddFragment(fragment);
+        }
+        else
+        {
+            AddLine(fragment);
+        }
+    }
+
+    /// <summary>
+    /// Starts a new line with the provided text that does not allow adding more
+    /// fragments of text.
+    /// </summary>
+    public void AddLine(string content)
     {
         FlushCurrentLine();
 
-        AppendWithoutExceedingMaximumLines(Whitespace + line);
+        GetCurrentLine().Append(content);
+        FlushCurrentLine();
     }
 
     /// <summary>
@@ -65,64 +99,36 @@ public class FormattedObjectGraph
     /// </summary>
     public void AddFragment(string fragment)
     {
-        if (lineBuilderWhitespace.Length > 0)
-        {
-            lineBuilder.Append(lineBuilderWhitespace);
-            lineBuilderWhitespace = string.Empty;
-        }
-
-        lineBuilder.Append(fragment);
-    }
-
-    /// <summary>
-    /// Adds a new line if there are no lines and no fragment that would cause a new line.
-    /// </summary>
-    internal void EnsureInitialNewLine()
-    {
-        if (LineCount == 0)
-        {
-            InsertInitialNewLine();
-        }
-    }
-
-    /// <summary>
-    /// Inserts an empty line as the first line unless it is already.
-    /// </summary>
-    private void InsertInitialNewLine()
-    {
-        if (lines.Count == 0 || !string.IsNullOrEmpty(lines[0]))
-        {
-            lines.Insert(0, string.Empty);
-            lineBuilderWhitespace = Whitespace;
-        }
+        GetCurrentLine().Append(fragment);
     }
 
     private void FlushCurrentLine()
     {
-        string line = lineBuilder.ToString().TrimEnd();
-        if (line.Length > 0)
+        // We only need to flush the line if there's something to flush.
+        if (currentLine is not null)
         {
-            AppendWithoutExceedingMaximumLines(lineBuilderWhitespace + line);
+            currentLine.Flush();
+            currentLine = null;
         }
-
-        lineBuilder.Clear();
-        lineBuilderWhitespace = Whitespace;
     }
 
-    private void AppendWithoutExceedingMaximumLines(string line)
+    private Line GetCurrentLine()
     {
-        if (lines.Count == maxLines)
+        // We prefer to lazily initialize the current line so we don't waste memory.
+        if (currentLine is null)
         {
-            lines.Add(string.Empty);
-
-            lines.Add(
-                $"(Output has exceeded the maximum of {maxLines} lines. " +
-                $"Increase {nameof(FormattingOptions)}.{nameof(FormattingOptions.MaxLines)} on {nameof(AssertionScope)} or {nameof(AssertionConfiguration)} to include more lines.)");
-
-            throw new MaxLinesExceededException();
+            currentLine = new Line(Indentation);
+            lines.Add(currentLine);
         }
 
-        lines.Add(line);
+        // A single-line rendering doesn't need any indentation, so we postpone that decision
+        // until we know whether there will be more lines.
+        if (lines.Count > 1)
+        {
+            currentLine.EnsureWhitespace();
+        }
+
+        return currentLine;
     }
 
     /// <summary>
@@ -133,15 +139,53 @@ public class FormattedObjectGraph
     /// </remarks>
     public IDisposable WithIndentation()
     {
-        indentation++;
+        Indentation++;
 
         return new Disposable(() =>
         {
-            if (indentation > 0)
+            if (Indentation > 0)
             {
-                indentation--;
+                Indentation--;
             }
         });
+    }
+
+    /// <summary>
+    /// Get a reference to the current line (or the last line if there is no active line), so that we can
+    /// insert fragments and lines at that specific point.
+    /// </summary>
+    internal Anchor GetAnchor()
+    {
+        if (lines.Count == 0)
+        {
+            return new Anchor(this, null);
+        }
+
+        return new Anchor(this, currentLine ?? lines.Last());
+    }
+
+    internal static string MakeWhitespace(int indent) => new(' ', indent * SpacesPerIndentation);
+
+    internal bool HasLinesBeyond(Line line) => lines.HasLinesBeyond(line);
+
+    internal void AddLineAfter(Line line, string content)
+    {
+        lines.AddLineAfter(line, new Line(content));
+    }
+
+    internal void InsertAtTop(string content)
+    {
+        lines.InsertAtTop(new Line(content));
+    }
+
+    internal void InsertAtLineStartOrTop(string fragment)
+    {
+        lines.InsertAtLineStartOrTop(fragment);
+    }
+
+    internal void SplitLine(Line line, int characterIndex)
+    {
+        lines.SplitLine(line, characterIndex);
     }
 
     /// <summary>
@@ -149,108 +193,6 @@ public class FormattedObjectGraph
     /// </summary>
     public override string ToString()
     {
-        return string.Join(Environment.NewLine, lines.Concat([lineBuilder.ToString()]));
-    }
-
-    internal PossibleMultilineFragment KeepOnSingleLineAsLongAsPossible()
-    {
-        return new PossibleMultilineFragment(this);
-    }
-
-    private string Whitespace => MakeWhitespace(indentation);
-
-    private static string MakeWhitespace(int indent) => new(' ', indent * SpacesPerIndentation);
-
-    /// <summary>
-    /// Write fragments that may be on a single line or span multiple lines,
-    /// and this is not known until later parts of the fragment are written.
-    /// </summary>
-    internal record PossibleMultilineFragment
-    {
-        private readonly FormattedObjectGraph parentGraph;
-        private readonly int startingLineBuilderIndex;
-        private readonly int startingLineCount;
-
-        public PossibleMultilineFragment(FormattedObjectGraph parentGraph)
-        {
-            this.parentGraph = parentGraph;
-            startingLineBuilderIndex = parentGraph.lineBuilder.Length;
-            startingLineCount = parentGraph.lines.Count;
-        }
-
-        /// <summary>
-        /// Write the fragment at the position the graph was in when this instance was created.
-        ///
-        /// <para>
-        /// If more lines have been added since this instance was created then write the
-        /// fragment on a new line, otherwise write it on the same line.
-        /// </para>
-        /// </summary>
-        internal void AddStartingLineOrFragment(string fragment)
-        {
-            if (FormatOnSingleLine)
-            {
-                parentGraph.lineBuilder.Insert(startingLineBuilderIndex, fragment);
-            }
-            else
-            {
-                parentGraph.InsertInitialNewLine();
-                parentGraph.lines.Insert(startingLineCount + 1, parentGraph.Whitespace + fragment);
-                InsertAtStartOfLine(startingLineCount + 2, MakeWhitespace(1));
-            }
-        }
-
-        private bool FormatOnSingleLine => parentGraph.lines.Count == startingLineCount;
-
-        private void InsertAtStartOfLine(int lineIndex, string insertion)
-        {
-            if (!parentGraph.lines[lineIndex].StartsWith(insertion, StringComparison.Ordinal))
-            {
-                parentGraph.lines[lineIndex] = parentGraph.lines[lineIndex].Insert(0, insertion);
-            }
-        }
-
-        public void InsertLineOrFragment(string fragment)
-        {
-            if (FormatOnSingleLine)
-            {
-                parentGraph.lineBuilder.Insert(startingLineBuilderIndex, fragment);
-            }
-            else
-            {
-                parentGraph.lines[startingLineCount] = parentGraph.lines[startingLineCount]
-                    .Insert(startingLineBuilderIndex, InsertNewLineIntoFragment(fragment));
-            }
-        }
-
-        private string InsertNewLineIntoFragment(string fragment)
-        {
-            if (StartingLineHasBeenAddedTo())
-            {
-                return fragment + Environment.NewLine + MakeWhitespace(parentGraph.indentation + 1);
-            }
-
-            return fragment;
-        }
-
-        private bool StartingLineHasBeenAddedTo() => parentGraph.lines[startingLineCount].Length > startingLineBuilderIndex;
-
-        /// <summary>
-        /// If more lines have been added since this instance was created then write the
-        /// fragment on a new line, otherwise write it on the same line.
-        /// </summary>
-        internal void AddLineOrFragment(string fragment)
-        {
-            if (FormatOnSingleLine)
-            {
-                parentGraph.AddFragment(fragment);
-            }
-            else
-            {
-                parentGraph.AddFragmentOnNewLine(fragment);
-            }
-        }
-
-        internal void AddFragment(string fragment) => parentGraph.AddFragment(fragment);
+        return string.Join(Environment.NewLine, lines.Select(line => line.ToString()));
     }
 }
