@@ -194,6 +194,11 @@ dotnet_diagnostic.IDE0055.severity = error
 dotnet_diagnostic.CS1574.severity = error
 
 # StyleCop
+
+# Purpose: An opening square bracket within a C# statement is not spaced correctly.
+# Reason: Doesn't understand the new collection initializers
+dotnet_diagnostic.SA1010.severity = none
+
 # SA1028: Code should not contain trailing whitespace
 dotnet_diagnostic.SA1028.severity = suggestion
 # SA1101: Prefix local calls with this
@@ -302,6 +307,9 @@ dotnet_diagnostic.AV2202.severity = none
 dotnet_diagnostic.AV2305.severity = none
 # AV2407: Region should be removed
 dotnet_diagnostic.AV2407.severity = none
+
+# Keep at least a single blank line between members
+resharper_csharp_blank_lines_around_single_line_invocable = 1
 
 # Convert lambda expression to method group
 resharper_convert_closure_to_method_group_highlighting = none

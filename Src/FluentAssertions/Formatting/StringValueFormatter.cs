@@ -20,6 +20,13 @@ public class StringValueFormatter : IValueFormatter
                          "{value}"
                          """;
 
-        formattedGraph.AddFragment(result);
+        if (context.UseLineBreaks)
+        {
+            formattedGraph.AddFragmentOnNewLine(result);
+        }
+        else
+        {
+            formattedGraph.AddFragment(result);
+        }
     }
 }
