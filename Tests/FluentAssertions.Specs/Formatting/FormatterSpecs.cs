@@ -12,7 +12,7 @@ using Xunit.Sdk;
 namespace FluentAssertions.Specs.Formatting;
 
 [Collection("FormatterSpecs")]
-public sealed class FormatterSpecs : IDisposable
+public class FormatterSpecs : IDisposable
 {
     [Fact]
     public void When_value_contains_cyclic_reference_it_should_create_descriptive_error_message()
@@ -175,55 +175,22 @@ public sealed class FormatterSpecs : IDisposable
             {
                 StuffId = 1,
                 Description = "Stuff_1",
-                Children = [1, 2, 3, 4]
+                Children = new List<int> { 1, 2, 3, 4 }
             },
             new()
             {
                 StuffId = 2,
                 Description = "Stuff_2",
-                Children = [1, 2, 3, 4]
-            }
-        };
-
-        var expectedStuff = new List<Stuff<int>>
-        {
-            new()
-            {
-                StuffId = 1,
-                Description = "Stuff_1",
-                Children = [1, 2, 3, 4]
-            },
-            new()
-            {
-                StuffId = 2,
-                Description = "WRONG_DESCRIPTION",
-                Children = [1, 2, 3, 4]
+                Children = new List<int> { 1, 2, 3, 4 }
             }
         };
 
         // Act
-        Action act = () => stuff.Should().NotBeNull()
-            .And.Equal(expectedStuff, (t1, t2) => t1.StuffId == t2.StuffId && t1.Description == t2.Description);
+        var actual = Formatter.ToString(stuff);
 
         // Assert
-        act.Should().Throw<XunitException>()
-            .WithMessage(
+        actual.Should().Match(
                 """
-                Expected stuff to be equal to
-                {
-                    FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
-                    {
-                        Children = {1, 2, 3, 4},
-                        Description = "Stuff_1",
-                        StuffId = 1
-                    },
-                    FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
-                    {
-                        Children = {1, 2, 3, 4},
-                        Description = "WRONG_DESCRIPTION",
-                        StuffId = 2
-                    }
-                }, but
                 {
                     FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
                     {
@@ -237,7 +204,7 @@ public sealed class FormatterSpecs : IDisposable
                         Description = "Stuff_2",
                         StuffId = 2
                     }
-                } differs at index 1.
+                }
                 """);
     }
 
@@ -278,27 +245,12 @@ public sealed class FormatterSpecs : IDisposable
             Children = new[] { 1, 2, 3, 4 },
         };
 
-        var expectedStuff = new
-        {
-            SingleChild = new { ChildId = 4 },
-            Children = new[] { 10, 20, 30, 40 },
-        };
-
         // Act
-        Action act = () => stuff.Should().Be(expectedStuff);
+        string actual = Formatter.ToString(stuff);
 
         // Assert
-        act.Should().Throw<XunitException>()
-            .Which.Message.Should().Be(
+        actual.Should().Match(
                 """
-                Expected stuff to be
-                {
-                    Children = {10, 20, 30, 40},
-                    SingleChild =
-                    {
-                        ChildId = 4
-                    }
-                }, but found
                 {
                     Children = {1, 2, 3, 4},
                     Description = "absent",
@@ -306,7 +258,7 @@ public sealed class FormatterSpecs : IDisposable
                     {
                         ChildId = 8
                     }
-                }.
+                }
                 """);
     }
 
@@ -315,20 +267,7 @@ public sealed class FormatterSpecs : IDisposable
         When_the_object_is_a_list_of_anonymous_type_it_should_show_the_properties_recursively_with_newlines_and_indentation()
     {
         // Arrange
-        var stuff = new[]
-        {
-            new
-            {
-                Description = "absent",
-            },
-            new
-            {
-                Description = "absent",
-            },
-        };
-
-        var expectedStuff = new[]
-        {
+        var expectedStuff =
             new
             {
                 ComplexChildren = new[]
@@ -336,40 +275,25 @@ public sealed class FormatterSpecs : IDisposable
                     new { Property = "hello" },
                     new { Property = "goodbye" },
                 },
-            },
-        };
+            };
 
         // Act
-        Action act = () => stuff.Should().BeEquivalentTo(expectedStuff);
+        var actual = Formatter.ToString(expectedStuff);
 
         // Assert
-        act.Should().Throw<XunitException>()
-            .Which.Message.Should().Match(
+        actual.Should().Be(
                 """
-                Expected stuff to be a collection with 1 item(s), but*
                 {
+                    ComplexChildren =
                     {
-                        Description = "absent"
-                    },*
-                    {
-                        Description = "absent"
-                    }
-                }
-                contains 1 item(s) more than
-
-                {
-                    {
-                        ComplexChildren =*
                         {
-                            {
-                                Property = "hello"
-                            },*
-                            {
-                                Property = "goodbye"
-                            }
+                            Property = "hello"
+                        },
+                        {
+                            Property = "goodbye"
                         }
                     }
-                }.*
+                }
                 """);
     }
 
@@ -386,7 +310,7 @@ public sealed class FormatterSpecs : IDisposable
 
         // Assert
         act.Should().Throw<XunitException>()
-            .Which.Message.Should().Match("*but found { }*");
+            .Which.Message.Should().Match("*but found *{ }*");
     }
 
     [Fact]
@@ -395,26 +319,17 @@ public sealed class FormatterSpecs : IDisposable
         // Arrange
         (int TupleId, string Description, List<int> Children) stuff = (1, "description", [1, 2, 3, 4]);
 
-        (int, string, List<int>) expectedStuff = (2, "WRONG_DESCRIPTION", new List<int> { 4, 5, 6, 7 });
-
         // Act
-        Action act = () => stuff.Should().Be(expectedStuff);
+        string actual = Formatter.ToString(stuff);
 
         // Assert
-        act.Should().Throw<XunitException>()
-            .Which.Message.Should().Match(
+        actual.Should().Match(
                 """
-                Expected stuff to be equal to*
-                {
-                    Item1 = 2,*
-                    Item2 = "WRONG_DESCRIPTION",*
-                    Item3 = {4, 5, 6, 7}
-                }, but found*
                 {
                     Item1 = 1,*
                     Item2 = "description",*
                     Item3 = {1, 2, 3, 4}
-                }.*
+                }
                 """);
     }
 
@@ -428,22 +343,12 @@ public sealed class FormatterSpecs : IDisposable
             SingleChild: new ChildRecord(ChildRecordId: 80),
             RecordChildren: [4, 5, 6, 7]);
 
-        var expectedStuff = new
-        {
-            RecordDescription = "WRONG_DESCRIPTION",
-        };
-
-        // Act
-        Action act = () => stuff.Should().Be(expectedStuff);
+        var actual = Formatter.ToString(stuff);
 
         // Assert
-        act.Should().Throw<XunitException>()
-            .Which.Message.Should().Match(
+        actual.Should().Match(
                 """
-                Expected stuff to be*
-                {
-                    RecordDescription = "WRONG_DESCRIPTION"
-                }, but found FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord
+                FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord
                 {
                     RecordChildren = {4, 5, 6, 7},*
                     RecordDescription = "descriptive",*
@@ -452,7 +357,7 @@ public sealed class FormatterSpecs : IDisposable
                     {
                         ChildRecordId = 80
                     }
-                }.
+                }
                 """);
     }
 
@@ -913,7 +818,7 @@ public sealed class FormatterSpecs : IDisposable
         string result = Formatter.ToString(subject, new FormattingOptions { UseLineBreaks = true });
 
         // Assert
-        result.Should().Contain($"FluentAssertions.Specs.Formatting.FormatterSpecs+A, {Environment.NewLine}");
+        result.Should().Contain($"FluentAssertions.Specs.Formatting.FormatterSpecs+A,{Environment.NewLine}");
         result.Should().Contain($"FluentAssertions.Specs.Formatting.FormatterSpecs+B{Environment.NewLine}");
     }
 
@@ -1002,7 +907,7 @@ public sealed class FormatterSpecs : IDisposable
         // Act
         string str = Formatter.ToString(values);
 
-        str.Should().Match(Environment.NewLine +
+        str.Should().Match(
             "{*FluentAssertions*FormatterSpecs+CustomClass" + Environment.NewLine +
             "    {" + Environment.NewLine +
             "        IntProperty = 1," + Environment.NewLine +
@@ -1028,6 +933,196 @@ public sealed class FormatterSpecs : IDisposable
         }
 
         public void Dispose() => Formatter.RemoveFormatter(formatter);
+    }
+
+    [Fact]
+    public void Can_render_an_array_containing_anonymous_types()
+    {
+        // Act
+        var actual = Formatter.ToString(new[] { new { Value = 1 }, new { Value = 2 } });
+
+        // Assert
+        actual.Should().Be(
+            """
+            {
+                {
+                    Value = 1
+                },
+                {
+                    Value = 2
+                }
+            }
+            """);
+    }
+
+    [Fact]
+    public void Can_render_an_array_on_a_single_line()
+    {
+        // Act
+        var actual = Formatter.ToString(new[] { "abc", "def", "efg" });
+
+        // Assert
+        actual.Should().Be(@"{""abc"", ""def"", ""efg""}");
+    }
+
+    [Fact]
+    public void Can_render_an_array_using_line_breaks()
+    {
+        // Act
+        var actual = Formatter.ToString(new[] { "abc", "def", "efg" }, new FormattingOptions
+        {
+            UseLineBreaks = true
+        });
+
+        // Assert
+        actual.Should().Be("""
+            {
+                "abc",
+                "def",
+                "efg"
+            }
+            """);
+    }
+
+    [Fact]
+    public void Can_render_a_single_item_array_using_line_breaks()
+    {
+        // Act
+        var actual = Formatter.ToString(new[] { "abc" }, new FormattingOptions
+        {
+            UseLineBreaks = true
+        });
+
+        // Assert
+        actual.Should().Be("""
+            {
+                "abc"
+            }
+            """);
+    }
+
+    [Fact]
+    public void Can_render_a_single_item_array_on_a_single_line()
+    {
+        // Act
+        var actual = Formatter.ToString(new[] { "abc" });
+
+        // Assert
+        actual.Should().Be("""{"abc"}""");
+    }
+
+    [Fact]
+    public void Can_render_a_collection_with_anonymous_types_using_line_breaks()
+    {
+        // Act
+        var actual = Formatter.ToString(new[]
+        {
+            new { Value = "abc" }, new { Value = "def" }, new { Value = "efg" }
+        }, new FormattingOptions { UseLineBreaks = true });
+
+        // Assert
+        actual.Should().Be(
+            """
+            {
+                {
+                    Value =
+                    "abc"
+                },
+                {
+                    Value =
+                    "def"
+                },
+                {
+                    Value =
+                    "efg"
+                }
+            }
+            """);
+    }
+
+    [Fact]
+    public void Can_render_a_simple_anonymous_object()
+    {
+        // Act
+        var actual = Formatter.ToString(new
+        {
+            SingleChild = new { ChildId = 4 },
+            Children = new[] { 10, 20, 30, 40 },
+        });
+
+        // Assert
+        actual.Should().Be(
+            """
+            {
+                Children = {10, 20, 30, 40},
+                SingleChild =
+                {
+                    ChildId = 4
+                }
+            }
+            """);
+    }
+
+    [Fact]
+    public void Can_format_a_multi_dimensional_array_with_linebreaks()
+    {
+        // Arrange
+        var points = new Point[][]
+        {
+            [new Point("0,0")],
+            [new Point("1,0")],
+        };
+
+        // Act
+        var result = Formatter.ToString(points, new FormattingOptions { UseLineBreaks = true });
+
+        // Arrange
+        result.Should().Be(
+            """
+            {
+                {
+                    P0,0
+                },
+                {
+                    P1,0
+                }
+            }
+            """);
+    }
+
+    [Fact]
+    public void Can_format_an_enumerable_using_line_breaks()
+    {
+        // Arrange
+        Point[] sigmets = [new("0,0"), new("1,0")];
+
+        var result = Formatter.ToString(sigmets, new FormattingOptions { UseLineBreaks = true });
+
+        result.Should().Be(
+            """
+            {
+                P0,0,
+                P1,0
+            }
+            """);
+    }
+
+    [Fact]
+    public void Can_format_an_enumerable_without_line_breaks()
+    {
+        // Arrange
+        Point[] sigmets = [new("0,0"), new("1,0")];
+
+        // Act
+        var result = Formatter.ToString(sigmets, new FormattingOptions { UseLineBreaks = false });
+
+        // Assert
+        result.Should().Be("{P0,0, P1,0}");
+    }
+
+    private class Point(string name)
+    {
+        public override string ToString() => "P" + name;
     }
 
     public void Dispose() => AssertionEngine.ResetToDefaults();
