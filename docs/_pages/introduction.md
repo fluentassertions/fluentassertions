@@ -170,7 +170,7 @@ The above will batch the two failures, and throw an exception at the point of di
 E.g. Exception thrown at point of dispose contains:
 
 ```text
-Expected value to be 100, but found 95 (difference of -5).
+Expected value to be 10, but found 5 (difference of -5).
 Expected string to be "Expected" with a length of 8, but "Actual" has a length of 6, differs near "Act" (index 0).
 ```
 
@@ -255,7 +255,7 @@ using (var innerScope = new AssertionScope())
 
 Version 7 will remain fully open-source indefinitely and receive bugfixes and other important corrections.
 
-Versions 8 and beyond are/will be free for open-source projects and non-commercial use, but commercial use requires a [paid license](https://xceed.com/products/unit-testing/fluent-assertions/). Check out the [license page](LICENSE) for more information. 
+Versions 8 and beyond are/will be free for open-source projects and non-commercial use, but commercial use requires a [paid license](https://xceed.com/products/unit-testing/fluent-assertions/). Check out the [license page](LICENSE) for more information.
 
 Since Fluent Assertions 8 doesn't need any license key, there's a soft warning that is displayed for every test run. This is to remind consumers that you need a paid license for commercial use. To suppress this warning, there's a static property called `License.Accepted` that can be set to `true`. You can add the following code to your test project to automatically toggle this flag.
 
