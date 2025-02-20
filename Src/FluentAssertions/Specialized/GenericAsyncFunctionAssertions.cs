@@ -65,7 +65,7 @@ public class GenericAsyncFunctionAssertions<TResult>
 
             if (assertionChain.Succeeded)
             {
-                bool completesWithinTimeout = await CompletesWithinTimeoutAsync(task, remainingTime);
+                bool completesWithinTimeout = await CompletesWithinTimeoutAsync(task, remainingTime, _ => Task.CompletedTask);
 
                 assertionChain
                     .ForCondition(completesWithinTimeout)
