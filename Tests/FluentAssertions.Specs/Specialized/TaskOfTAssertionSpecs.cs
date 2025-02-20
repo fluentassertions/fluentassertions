@@ -238,6 +238,48 @@ public static class TaskOfTAssertionSpecs
             // Assert
             await action.Should().ThrowAsync<XunitException>();
         }
+
+        [Fact]
+        public async Task Canceled_tasks_do_not_cause_a_default_value_to_be_returned()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<int>();
+
+            // Act
+            Func<Task> action = () => taskFactory
+                .Awaiting(t => t.Task)
+                .Should(timer)
+                .CompleteWithinAsync(100.Milliseconds())
+                .WithResult(0);
+
+            taskFactory.SetCanceled();
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<OperationCanceledException>();
+        }
+
+        [Fact]
+        public async Task Exception_throwing_tasks_do_not_cause_a_default_value_to_be_returned()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<int>();
+
+            // Act
+            Func<Task> action = () => taskFactory
+                .Awaiting(t => t.Task)
+                .Should(timer)
+                .CompleteWithinAsync(100.Milliseconds())
+                .WithResult(0);
+
+            taskFactory.SetException(new OperationCanceledException());
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<OperationCanceledException>();
+        }
     }
 
     public class NotThrowAsync
