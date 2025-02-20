@@ -14,6 +14,10 @@ sidebar:
 * All `Should()` methods on reference types are now annotated with the `[NotNull]` attribute for a better Fluent Assertions experience when nullable reference types are enabled - [#2987](https://github.com/fluentassertions/fluentassertions/pull/2987)
 * Provide a toggle to suppress the soft warning that commercial use requires a paid license - [#2984](https://github.com/fluentassertions/fluentassertions/pull/2984)
 
+## Fixes
+
+* Fixed a regression in which `CompleteWithinAsync` treated a canceled task as an exception - [#2853](https://github.com/fluentassertions/fluentassertions/pull/2853)
+
 ## 8.0.0
 
 ### License Change
