@@ -29,7 +29,8 @@ public class EnumEqualityStep : IEquivalencyStep
                 string expectationName = GetDisplayNameForEnumComparison(comparands.Expectation, expectationsUnderlyingValue);
 
                 return new FailReason(
-                    $"Expected {{context:enum}} to be equivalent to {expectationName}{{reason}}, but found {{0}}.",
+                    "Expected {context:enum} to be equivalent to {0}{reason}, but found {1}.",
+                    expectationName.AsNonFormattable(),
                     comparands.Subject);
             });
 
@@ -67,7 +68,8 @@ public class EnumEqualityStep : IEquivalencyStep
                 string expectationName = GetDisplayNameForEnumComparison(comparands.Expectation, expectationsUnderlyingValue);
 
                 return new FailReason(
-                    $"Expected {{context:enum}} to equal {expectationName} by value{{reason}}, but found {subjectsName}.");
+                    "Expected {context:enum} to equal {0} by value{reason}, but found {1}.",
+                    expectationName.AsNonFormattable(), subjectsName.AsNonFormattable());
             });
     }
 
@@ -88,7 +90,8 @@ public class EnumEqualityStep : IEquivalencyStep
                 string expectationName = GetDisplayNameForEnumComparison(comparands.Expectation, expectationsUnderlyingValue);
 
                 return new FailReason(
-                    $"Expected {{context:enum}} to equal {expectationName} by name{{reason}}, but found {subjectsName}.");
+                    "Expected {context:enum} to equal {0} by name{reason}, but found {1}.",
+                    expectationName.AsNonFormattable(), subjectsName.AsNonFormattable());
             });
     }
 
@@ -102,7 +105,7 @@ public class EnumEqualityStep : IEquivalencyStep
         string typePart = o.GetType().Name;
         string namePart = o.ToString().Replace(", ", "|", StringComparison.Ordinal);
         string valuePart = v.Value.ToString(CultureInfo.InvariantCulture);
-        return $"{typePart}.{namePart} {{{{value: {valuePart}}}}}";
+        return $"{typePart}.{namePart} {{value: {valuePart}}}";
     }
 
     private static decimal? ExtractDecimal(object o)

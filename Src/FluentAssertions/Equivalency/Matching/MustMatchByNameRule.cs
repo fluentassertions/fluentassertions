@@ -34,13 +34,13 @@ internal class MustMatchByNameRule : IMemberMatchingRule
         if (subjectMember is null)
         {
             assertionChain.FailWith(
-                $"Expectation has {expectedMember.Expectation} that the other object does not have.");
+                "Expectation has {0} that the other object does not have.", expectedMember.Expectation.AsNonFormattable());
         }
         else if (options.IgnoreNonBrowsableOnSubject && !subjectMember.IsBrowsable)
         {
             assertionChain.FailWith(
-                $"Expectation has {expectedMember.Expectation} that is non-browsable in the other object, and non-browsable " +
-                "members on the subject are ignored with the current configuration");
+                "Expectation has {0} that is non-browsable in the other object, and non-browsable " +
+                "members on the subject are ignored with the current configuration", expectedMember.Expectation.AsNonFormattable());
         }
         else
         {

@@ -19,6 +19,7 @@ public static class Formatter
 
     private static readonly List<IValueFormatter> DefaultFormatters =
     [
+        new PassthroughValueFormatter(),
         new XmlReaderValueFormatter(),
         new XmlNodeFormatter(),
         new AttributeBasedFormatter(),
