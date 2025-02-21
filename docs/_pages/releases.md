@@ -12,6 +12,7 @@ sidebar:
 ## Fixes
 
 * Fix a formatting exception when {} is used as a dictionary key - [#3008](https://github.com/fluentassertions/fluentassertions/pull/3008)
+* Removed the PowerShell script that opens the website because it misbehaves - [#3030](https://github.com/fluentassertions/fluentassertions/pull/3030)
 
 ## 8.1.0
 

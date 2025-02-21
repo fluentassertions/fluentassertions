@@ -44,7 +44,6 @@ Check out the [license page](LICENSE) for more information.
   <ItemGroup Label="Package files">
     <None Include="..\FluentAssertions.png" Pack="true" Visible="false" PackagePath="" />
     <None Include="..\..\LICENSE" Pack="true" PackagePath=""/>
-    <None Include="..\init.ps1" Pack="true" PackagePath="tools"/>
   </ItemGroup>
 
   <ItemGroup>
