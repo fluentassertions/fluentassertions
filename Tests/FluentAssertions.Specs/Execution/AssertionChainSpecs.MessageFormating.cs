@@ -386,5 +386,38 @@ public partial class AssertionChainSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected because reasons");
         }
+
+        [Theory]
+        [InlineData("{0}{0}", "\"foo\"\"foo\"")]
+        [InlineData("{{0}}{0}", "{0}\"foo\"")]
+        [InlineData("{0}{{0}}", "\"foo\"{0}")]
+        [InlineData("{{{0}}}{0}", "{\"foo\"}\"foo\"")]
+        [InlineData("{0}{{{0}}}", "\"foo\"{\"foo\"}")]
+        public void Can_handle_escaped_braces(string format, string expected)
+        {
+            AssertionChain.GetOrCreate()
+                .Invoking(e => e.FailWith(format, "foo"))
+                .Should().Throw<XunitException>().WithMessage(expected);
+        }
+
+        [Theory]
+        [InlineData("{")]
+        [InlineData("}")]
+        [InlineData("{}")]
+        [InlineData("{0}")]
+        [InlineData("{{0}}")]
+        public void Can_handle_more_braces_in_dictionary_keys(string key)
+        {
+            // Arrange
+            var subject = new Dictionary<string, string> { [key] = "" };
+            var expectation = new Dictionary<string, string> { [key] = null };
+
+            // Act
+            var act = () => expectation.Should().BeEquivalentTo(subject);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage($"Expected expectation[{key}] to be \"\", but found <null>.*");
+        }
     }
 }

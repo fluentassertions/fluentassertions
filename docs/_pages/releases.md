@@ -7,6 +7,12 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 8.1.1
+
+## Fixes
+
+* Fix a formatting exception when {} is used as a dictionary key - [#3008](https://github.com/fluentassertions/fluentassertions/pull/3008)
+
 ## 8.1.0
 
 ### Improvements

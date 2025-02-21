@@ -287,10 +287,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
 
         foreach (string failure in results.GetTheFailuresForTheSetWithTheFewestFailures())
         {
-            string replacedCurlyBraces =
-                failure.EscapePlaceholders();
-
-            assertionChain.FailWith(replacedCurlyBraces);
+            assertionChain.FailWith("{0}", failure.AsNonFormattable());
         }
     }
 }
