@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
@@ -284,6 +285,23 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected strings to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_collection_is_equivalent_expected_trace_to_be_written()
+        {
+            // Arrange
+            var traceWriter = new StringBuilderTraceWriter();
+
+            // Act
+            new[] { "a string" }.Should().BeEquivalentTo(["a string"], opts => opts.WithTracing(traceWriter));
+
+            // Assert
+            string trace = traceWriter.ToString();
+            trace.Should()
+                .Contain("Comparing subject at [0] with the expectation at [0]")
+                .And.Contain("Equivalency was proven by ReferenceEqualityEquivalencyStep")
+                .And.Contain("It's a match");
         }
     }
 
