@@ -94,7 +94,7 @@ internal class FailureMessageFormatter(FormattingOptions formattingOptions)
 
     private static string SubstituteIdentifier(string message, string identifier, string fallbackIdentifier)
     {
-        const string pattern = @"(?:\s|^)\{context(?:\:(?<default>[a-z|A-Z|\s]+))?\}";
+        const string pattern = @"(?:\s|^)\{context(?:\:(?<default>[a-zA-Z\s]+))?\}";
 
         message = Regex.Replace(message, pattern, match =>
         {
@@ -125,7 +125,7 @@ internal class FailureMessageFormatter(FormattingOptions formattingOptions)
 
     private static string SubstituteContextualTags(string message, ContextDataDictionary contextData)
     {
-        const string pattern = @"(?<!\{)\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}(?!\})";
+        const string pattern = @"(?<!\{)\{(?<key>[a-zA-Z]+)(?:\:(?<default>[a-zA-Z\s]+))?\}(?!\})";
 
         return Regex.Replace(message, pattern, match =>
         {
