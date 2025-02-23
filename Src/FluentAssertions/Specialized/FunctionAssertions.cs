@@ -113,7 +113,7 @@ public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAsserti
     }
 
     internal TResult NotThrowAfter<TResult>(Func<TResult> subject, IClock clock, TimeSpan waitTime, TimeSpan pollInterval,
-        string because, object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(waitTime);
         Guard.ThrowIfArgumentIsNegative(pollInterval);

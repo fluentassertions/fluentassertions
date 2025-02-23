@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -109,7 +110,7 @@ public sealed class AssertionChain
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AssertionChain BecauseOf(string because, params object[] becauseArgs)
+    public AssertionChain BecauseOf([StringSyntax("CompositeFormat")] string because, params object[] becauseArgs)
     {
         reason = () =>
         {
