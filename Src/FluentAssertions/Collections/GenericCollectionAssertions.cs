@@ -1122,8 +1122,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions>
-        NotContainItemsAssignableTo<TExpectation>(string because = "", params object[] becauseArgs) =>
+    public AndConstraint<TAssertions> NotContainItemsAssignableTo<TExpectation>(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs) =>
         NotContainItemsAssignableTo(typeof(TExpectation), because, becauseArgs);
 
     /// <summary>
@@ -1168,7 +1168,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndWhichConstraint<TAssertions, T> ContainSingle(string because = "", params object[] becauseArgs)
+    public AndWhichConstraint<TAssertions, T> ContainSingle(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         assertionChain
             .BecauseOf(because, becauseArgs)
@@ -1217,7 +1218,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TAssertions, T> ContainSingle(Expression<Func<T, bool>> predicate,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(predicate);
 
@@ -1784,7 +1785,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeEmpty(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         assertionChain
             .BecauseOf(because, becauseArgs)
@@ -1858,7 +1860,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(IEnumerable<TExpectation> unexpected,
         Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config,
-        string because = "", params object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify inequivalence against a <null> collection.");
 
@@ -1984,7 +1986,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <remarks>
     /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
     /// </remarks>
-    public AndConstraint<TAssertions> NotBeInAscendingOrder(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeInAscendingOrder(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return NotBeInAscendingOrder(GetComparer<T>(), because, becauseArgs);
     }
@@ -2109,7 +2112,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <remarks>
     /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
     /// </remarks>
-    public AndConstraint<TAssertions> NotBeInDescendingOrder(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeInDescendingOrder(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return NotBeInDescendingOrder(GetComparer<T>(), because, becauseArgs);
     }
@@ -2147,7 +2151,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeNullOrEmpty(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeNullOrEmpty(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return NotBeNull(because, becauseArgs)
             .And.NotBeEmpty(because, becauseArgs);
@@ -2671,7 +2676,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotContainNulls(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotContainNulls(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         assertionChain
             .BecauseOf(because, becauseArgs)
@@ -2786,7 +2792,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotHaveSameCount<TExpectation>(IEnumerable<TExpectation> otherCollection,
-        string because = "",
+        [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
@@ -2956,7 +2962,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> OnlyHaveUniqueItems(string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> OnlyHaveUniqueItems(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         assertionChain
             .BecauseOf(because, becauseArgs)
@@ -3306,7 +3313,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
         SortOrder direction,
-        string because,
+        [StringSyntax("CompositeFormat")] string because,
         object[] becauseArgs)
     {
         if (IsValidProperty(propertyExpression, because, becauseArgs))
@@ -3535,7 +3542,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
         SortOrder direction,
-        string because,
+        [StringSyntax("CompositeFormat")] string because,
         object[] becauseArgs)
     {
         if (IsValidProperty(propertyExpression, because, becauseArgs))
