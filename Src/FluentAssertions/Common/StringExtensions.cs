@@ -120,7 +120,7 @@ internal static class StringExtensions
 
     public static string RemoveTrailingWhitespaceFromLines(this string input)
     {
-        // This regex matches whitespace characters (\s) that are followed by a line ending (\r?\n)
+        // This regex matches space (' ') and tab ('\t') characters followed by a line ending ('\r\n' or '\n')
         return Regex.Replace(input, @"[ \t]+(?=\r?\n)", string.Empty);
     }
 
