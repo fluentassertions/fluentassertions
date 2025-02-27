@@ -83,7 +83,7 @@ internal class SubjectIdentificationBuilder
 
         if (scopeName is null)
         {
-            return callerIdentifier;
+            return callerIdentifier ?? "";
         }
         else if (callerIdentifier is null)
         {

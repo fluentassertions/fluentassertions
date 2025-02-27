@@ -7,6 +7,12 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 8.1.2
+
+## Fixes
+
+* Fixed a regression from 8.1.0 where a `NullReferenceException` was thrown during subject identification - [#3036](https://github.com/fluentassertions/fluentassertions/pull/3036
+
 ## 8.1.1
 
 ## Fixes

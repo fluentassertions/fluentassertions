@@ -578,6 +578,20 @@ public partial class AssertionChainSpecs
             Assert.Contains("First \"assertion\"", failures);
         }
 
+        [Fact]
+        public void Returns_an_empty_identification_when_neither_scope_name_nor_caller_identifier_are_available()
+        {
+            // Arrange
+            var assertionChain = AssertionChain.GetOrCreate();
+            assertionChain.OverrideCallerIdentifier(() => null);
+
+            // Act
+            string identification = assertionChain.CallerIdentifier;
+
+            // Assert
+            identification.Should().BeEmpty();
+        }
+
         // [Fact]
         // public void Get_info_about_line_breaks_from_parent_scope_after_continuing_chained_assertion()
         // {
