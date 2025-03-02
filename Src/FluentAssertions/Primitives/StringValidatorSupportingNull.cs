@@ -24,6 +24,6 @@ internal class StringValidatorSupportingNull
             assertionChain = assertionChain.UsingLineBreaks;
         }
 
-        comparisonStrategy.ValidateAgainstMismatch(assertionChain, subject, expected);
+        comparisonStrategy.AssertForEquality(assertionChain, subject, expected);
     }
 }

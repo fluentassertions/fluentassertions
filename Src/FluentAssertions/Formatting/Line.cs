@@ -107,5 +107,9 @@ internal class Line
         return state.Truncate(characterIndex, indentation, whitespaceOffset);
     }
 
-    public override string ToString() => state.Render().TrimEnd();
+    public override string ToString()
+    {
+        // Only trim spaces, but keep line breaks.
+        return state.Render().TrimEnd(' ');
+    }
 }

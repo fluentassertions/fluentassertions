@@ -15,9 +15,7 @@ internal class StringStartStrategy : IStringComparisonStrategy
         this.predicateDescription = predicateDescription;
     }
 
-    public string ExpectationDescription => $"Expected {{context:string}} to {predicateDescription} ";
-
-    public void ValidateAgainstMismatch(AssertionChain assertionChain, string subject, string expected)
+    public void AssertForEquality(AssertionChain assertionChain, string subject, string expected)
     {
         assertionChain
             .ForCondition(subject.Length >= expected.Length)
@@ -39,4 +37,15 @@ internal class StringStartStrategy : IStringComparisonStrategy
             $"{ExpectationDescription}{{0}}{{reason}}, but {{1}} differs near {subject.IndexedSegmentAt(indexOfMismatch)}.",
             expected, subject);
     }
+
+    /// <inheritdoc />
+    public void AssertNeitherIsNull(AssertionChain assertionChain, string subject, string expected)
+    {
+        if (subject is null || expected is null)
+        {
+            assertionChain.FailWith($"{ExpectationDescription}{{0}}{{reason}}, but found {{1}}.", expected, subject);
+        }
+    }
+
+    private string ExpectationDescription => $"Expected {{context:string}} to {predicateDescription} ";
 }
