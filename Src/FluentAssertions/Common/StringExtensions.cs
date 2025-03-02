@@ -115,7 +115,7 @@ internal static class StringExtensions
     public static string RemoveNewlineStyle(this string @this)
     {
         return @this.Replace("\r\n", "\n", StringComparison.Ordinal)
-            .Replace("\r", "\n", StringComparison.Ordinal);
+            .Replace('\r', '\n');
     }
 
     public static string RemoveTrailingWhitespaceFromLines(this string input)
