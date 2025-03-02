@@ -23,6 +23,12 @@ internal static class SystemExtensions
     // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/String.Comparison.cs,1014
     public static bool StartsWith(this string str, char value) =>
         str.Length != 0 && str[0] == value;
+
+    public static string[] Split(this string str, char separator, StringSplitOptions options = StringSplitOptions.None) =>
+        str.Split([separator], options);
+
+    public static string[] Split(this string str, string separator, StringSplitOptions options = StringSplitOptions.None) =>
+        str.Split([separator], options);
 }
 
 #endif

@@ -28,7 +28,7 @@ public class StringBuilderTraceWriter : ITraceWriter
 
     private void WriteLine(string trace)
     {
-        foreach (string traceLine in trace.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries))
+        foreach (string traceLine in trace.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
         {
             builder.Append(new string(' ', depth * 2)).AppendLine(traceLine);
         }
