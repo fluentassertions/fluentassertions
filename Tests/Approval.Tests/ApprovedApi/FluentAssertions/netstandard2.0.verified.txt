@@ -1334,7 +1334,8 @@ namespace FluentAssertions.Formatting
         public static int SpacesPerIndentation { get; }
         public void AddFragment(string fragment) { }
         public void AddFragmentOnNewLine(string fragment) { }
-        public void AddLine(string line) { }
+        public void AddLine(string content) { }
+        public void AddLineOrFragment(string fragment) { }
         public override string ToString() { }
         public System.IDisposable WithIndentation() { }
     }

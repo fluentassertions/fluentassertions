@@ -18,7 +18,7 @@ public class XmlNodeFormatterSpecs
         string result = Formatter.ToString(xmlDoc);
 
         // Assert
-        result.Should().Be(@"<xml attr=""01234"" />" + Environment.NewLine);
+        result.Should().Be(@"<xml attr=""01234"" />");
     }
 
     [Fact]
@@ -32,6 +32,6 @@ public class XmlNodeFormatterSpecs
         string result = Formatter.ToString(xmlDoc);
 
         // Assert
-        result.Should().Be(@"<xml attr=""012345"" /…" + Environment.NewLine);
+        result.Should().Be(@"<xml attr=""012345"" /…");
     }
 }

@@ -1,5 +1,9 @@
 [*.cs]
 
+
+
+
+
 # IDE0051: Private member is unused
 dotnet_diagnostic.IDE0051.severity = none
 # IDE0070: GetHashCode implementation can be simplified
@@ -35,6 +39,11 @@ dotnet_diagnostic.CA1052.severity = none
 
 # CA1062: Validate arguments of public methods
 dotnet_diagnostic.CA1062.severity = none
+
+# Purpose: Implement IDisposable correctly
+# Reason: Not important in test classes
+dotnet_diagnostic.CA1063.severity = none
+
 # CA1064: Exceptions should be public
 dotnet_diagnostic.CA1064.severity = none
 # CA1307: Specify StringComparison
@@ -57,6 +66,11 @@ dotnet_diagnostic.CA1812.severity = none
 dotnet_diagnostic.CA1813.severity = none
 # CA1814: Prefer jagged arrays over multidimensional
 dotnet_diagnostic.CA1814.severity = none
+
+# Purpose: Call GC.SuppressFinalize correctly
+# Reason: Not important in test classes
+dotnet_diagnostic.CA1816.severity = none
+
 # CA1822: Member does not access instance data and can be marked as static
 dotnet_diagnostic.CA1822.severity = none
 # CA1825: Avoid unnecessary zero-length array allocations.  Use Array.Empty<int>() instead
