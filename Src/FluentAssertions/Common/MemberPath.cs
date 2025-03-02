@@ -116,7 +116,7 @@ internal class MemberPath
     private string[] Segments =>
         segments ??= dottedPath
             .Replace("[]", "[*]", StringComparison.Ordinal)
-            .Split(new[] { '.', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
+            .Split(['.', '[', ']'], StringSplitOptions.RemoveEmptyEntries);
 
     /// <summary>
     /// Returns a copy of the current object as if it represented an un-indexed item in a collection.

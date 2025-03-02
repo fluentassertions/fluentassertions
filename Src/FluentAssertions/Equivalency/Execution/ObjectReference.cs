@@ -39,7 +39,7 @@ internal class ObjectReference
 
     private string[] GetPathElements() => pathElements
         ??= path.ToUpperInvariant().Replace("][", "].[", StringComparison.Ordinal)
-            .Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+            .Split('.', StringSplitOptions.RemoveEmptyEntries);
 
     private bool IsParentOrChildOf(ObjectReference other)
     {

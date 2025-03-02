@@ -103,7 +103,7 @@ internal static class StringExtensions
     public static string IndentLines(this string @this)
     {
         return string.Join(Environment.NewLine,
-            @this.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(x => $"\t{x}"));
+            @this.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries).Select(x => $"\t{x}"));
     }
 
     public static string RemoveNewLines(this string @this)
