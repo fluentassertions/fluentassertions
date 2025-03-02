@@ -8,12 +8,12 @@ namespace FluentAssertions.Primitives;
 internal interface IStringComparisonStrategy
 {
     /// <summary>
-    /// The prefix for the message when the assertion fails.
+    /// Asserts that neither the <paramref name="subject"/> nor the <paramref name="expected"/> strings are null.
     /// </summary>
-    string ExpectationDescription { get; }
+    void AssertNeitherIsNull(AssertionChain assertionChain, string subject, string expected);
 
     /// <summary>
     /// Asserts that the <paramref name="subject"/> matches the <paramref name="expected"/> value.
     /// </summary>
-    void ValidateAgainstMismatch(AssertionChain assertionChain, string subject, string expected);
+    void AssertForEquality(AssertionChain assertionChain, string subject, string expected);
 }

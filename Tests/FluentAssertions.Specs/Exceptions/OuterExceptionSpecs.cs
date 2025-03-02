@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using Bogus;
 using Xunit;
 using Xunit.Sdk;
 
@@ -38,6 +39,104 @@ public class OuterExceptionSpecs
             // Assert
             ex.Message.Should().Match(
                 "Expected exception message to match the equivalent of*\"some message\", but*\"some\" does not*");
+        }
+    }
+
+    [Fact]
+    public void Long_exception_messages_are_rendered_over_multiple_lines()
+    {
+        // Arrange
+        Does testSubject = Does.Throw(new InvalidOperationException("some"));
+
+        try
+        {
+            // Act
+            testSubject
+                .Invoking(x => x.Do())
+                .Should().Throw<InvalidOperationException>()
+                .WithMessage(new Faker().Random.String2(101));
+
+            throw new XunitException("This point should not be reached");
+        }
+        catch (XunitException ex)
+        {
+            // Assert
+            ex.Message.Should().Match(
+                """
+                Expected exception message to match the equivalent of
+
+                    "*",
+
+                but
+
+                    "some"
+
+                does not.
+
+                """);
+        }
+    }
+
+    [Fact]
+    public void Multiline_exception_messages_are_rendered_over_multiple_lines()
+    {
+        // Arrange
+        Does testSubject = Does.Throw(new InvalidOperationException("some"));
+
+        try
+        {
+            // Act
+            testSubject
+                .Invoking(x => x.Do())
+                .Should().Throw<InvalidOperationException>()
+                .WithMessage("""
+                             line1*
+                             line2
+                             """);
+
+            throw new XunitException("This point should not be reached");
+        }
+        catch (XunitException ex)
+        {
+            // Assert
+            ex.Message.Should().Match(
+                """
+                Expected exception message to match the equivalent of
+
+                    "line1*
+                    line2",
+
+                but
+
+                    "some"
+
+                does not.
+
+                """);
+        }
+    }
+
+    [Fact]
+    public void Short_exception_messages_are_rendered_on_a_single_line()
+    {
+        // Arrange
+        Does testSubject = Does.Throw(new InvalidOperationException("some"));
+
+        try
+        {
+            // Act
+            testSubject
+                .Invoking(x => x.Do())
+                .Should().Throw<InvalidOperationException>()
+                .WithMessage(new Faker().Random.String2(50));
+
+            throw new XunitException("This point should not be reached");
+        }
+        catch (XunitException ex)
+        {
+            // Assert
+            ex.Message.Should().Match(
+                """Expected exception message to match the equivalent of "*", but "some" does not.""");
         }
     }
 
@@ -177,7 +276,7 @@ public class OuterExceptionSpecs
         {
             // Assert
             ex.Message.Should().Match(
-                "Expected exception message to match the equivalent of*\"message2\", but*message2*someParam*");
+                "Expected exception message to match the equivalent of*\"message2\",*but*message2*someParam*");
         }
     }
 

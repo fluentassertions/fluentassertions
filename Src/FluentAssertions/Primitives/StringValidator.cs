@@ -22,27 +22,16 @@ internal class StringValidator
             return;
         }
 
-        if (!ValidateAgainstNulls(subject, expected))
+        comparisonStrategy.AssertNeitherIsNull(assertionChain, subject, expected);
+
+        if (assertionChain.Succeeded)
         {
-            return;
+            if (expected.IsLongOrMultiline() || subject.IsLongOrMultiline())
+            {
+                assertionChain = assertionChain.UsingLineBreaks;
+            }
+
+            comparisonStrategy.AssertForEquality(assertionChain, subject, expected);
         }
-
-        if (expected.IsLongOrMultiline() || subject.IsLongOrMultiline())
-        {
-            assertionChain = assertionChain.UsingLineBreaks;
-        }
-
-        comparisonStrategy.ValidateAgainstMismatch(assertionChain, subject, expected);
-    }
-
-    private bool ValidateAgainstNulls(string subject, string expected)
-    {
-        if (expected is null == subject is null)
-        {
-            return true;
-        }
-
-        assertionChain.FailWith($"{comparisonStrategy.ExpectationDescription}{{0}}{{reason}}, but found {{1}}.", expected, subject);
-        return false;
     }
 }

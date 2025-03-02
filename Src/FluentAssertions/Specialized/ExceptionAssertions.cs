@@ -84,10 +84,38 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
             .ForCondition(Subject.Any())
             .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedWildcardPattern);
 
-        AssertExceptionMessage(Subject.Select(exc => exc.Message), expectedWildcardPattern, because,
-            becauseArgs);
+        AssertExceptionMessage(expectedWildcardPattern, because, becauseArgs);
 
         return this;
+    }
+
+    private void AssertExceptionMessage(string expectedWildcardPattern, string because, object[] becauseArgs)
+    {
+        var results = new AssertionResultSet();
+
+        foreach (string message in Subject.Select(exc => exc.Message))
+        {
+            using (var scope = new AssertionScope())
+            {
+                var chain = AssertionChain.GetOrCreate();
+                chain.OverrideCallerIdentifier(() => "exception message");
+                chain.ReuseOnce();
+
+                message.Should().MatchEquivalentOf(expectedWildcardPattern, because, becauseArgs);
+
+                results.AddSet(message, scope.Discard());
+            }
+
+            if (results.ContainsSuccessfulSet())
+            {
+                break;
+            }
+        }
+
+        foreach (string failure in results.GetTheFailuresForTheSetWithTheFewestFailures())
+        {
+            assertionChain.FailWith("{0}", failure.AsNonFormattable());
+        }
     }
 
     /// <summary>
@@ -167,7 +195,8 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     {
         Guard.ThrowIfArgumentIsNull(innerException);
 
-        return new ExceptionAssertions<Exception>(AssertInnerExceptionExactly(innerException, because, becauseArgs), assertionChain);
+        return new ExceptionAssertions<Exception>(AssertInnerExceptionExactly(innerException, because, becauseArgs),
+            assertionChain);
     }
 
     /// <summary>
@@ -195,7 +224,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
             .ForCondition(condition(SingleSubject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected exception where {0}{reason}, but the condition was not met by:"
-                        + Environment.NewLine + Environment.NewLine + "{1}.",
+                + Environment.NewLine + Environment.NewLine + "{1}.",
                 exceptionExpression, Subject);
 
         return this;
@@ -262,39 +291,6 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
 
     private static string BuildExceptionsString(IEnumerable<TException> exceptions)
     {
-        return string.Join(Environment.NewLine,
-            exceptions.Select(
-                exception =>
-                    "\t" + Formatter.ToString(exception)));
-    }
-
-    private void AssertExceptionMessage(IEnumerable<string> messages, string expectation,
-        [StringSyntax("CompositeFormat")] string because, params object[] becauseArgs)
-    {
-        var results = new AssertionResultSet();
-
-        foreach (string message in messages)
-        {
-            using (var scope = new AssertionScope())
-            {
-                var chain = AssertionChain.GetOrCreate();
-                chain.OverrideCallerIdentifier(() => "exception message");
-                chain.ReuseOnce();
-
-                message.Should().MatchEquivalentOf(expectation, because, becauseArgs);
-
-                results.AddSet(message, scope.Discard());
-            }
-
-            if (results.ContainsSuccessfulSet())
-            {
-                break;
-            }
-        }
-
-        foreach (string failure in results.GetTheFailuresForTheSetWithTheFewestFailures())
-        {
-            assertionChain.FailWith("{0}", failure.AsNonFormattable());
-        }
+        return string.Join(Environment.NewLine, exceptions.Select(exception => "\t" + Formatter.ToString(exception)));
     }
 }

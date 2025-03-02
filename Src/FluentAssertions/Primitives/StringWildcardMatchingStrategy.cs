@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
@@ -8,22 +10,47 @@ namespace FluentAssertions.Primitives;
 
 internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
 {
-    public void ValidateAgainstMismatch(AssertionChain assertionChain, string subject, string expected)
+    public void AssertForEquality(AssertionChain assertionChain, string subject, string expected)
     {
         bool isMatch = IsMatch(subject, expected);
-
         if (isMatch != Negate)
         {
             return;
         }
 
-        if (Negate)
+        if (IsLongOrMultiline(subject) || IsLongOrMultiline(expected))
         {
-            assertionChain.FailWith($"{ExpectationDescription}but {{1}} matches.", expected, subject);
+            expected = RenderAsIndentedBlock(expected);
+            subject = RenderAsIndentedBlock(subject);
+
+            assertionChain
+                .FailWith($$"""
+                            {{ExpectationDescription}}
+
+                            {0},
+
+                            {reason}but
+
+                            {1}
+
+                            {{OutcomeDescription}}.
+
+                            """, expected.AsNonFormattable(),
+                    subject.AsNonFormattable());
         }
         else
         {
-            assertionChain.FailWith($"{ExpectationDescription}but {{1}} does not.", expected, subject);
+            assertionChain.FailWith($"{ExpectationDescription} {{0}}{{reason}}, but {{1}} {OutcomeDescription}.", expected,
+                    subject);
+        }
+    }
+
+    /// <inheritdoc />
+    public void AssertNeitherIsNull(AssertionChain assertionChain, string subject, string expected)
+    {
+        if (subject is null || expected is null)
+        {
+            assertionChain.FailWith($"{ExpectationDescription} {{0}}{{reason}}, but found {{1}}.", expected, subject);
         }
     }
 
@@ -48,6 +75,18 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
             + "$";
     }
 
+    private static string RenderAsIndentedBlock(string message)
+    {
+        string[] lines = message.Split(["\r\n", "\n", "\r"], StringSplitOptions.None);
+
+        return "    \"" + string.Join(Environment.NewLine + "    ", lines) + "\"";
+    }
+
+    private static bool IsLongOrMultiline(string message)
+    {
+        return message.Length > 80 || message.Contains(Environment.NewLine, StringComparison.Ordinal);
+    }
+
     private string CleanNewLines(string input)
     {
         if (IgnoreAllNewlines)
@@ -63,7 +102,7 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
         return input;
     }
 
-    public string ExpectationDescription
+    private string ExpectationDescription
     {
         get
         {
@@ -72,11 +111,15 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
             builder
                 .Append(Negate ? "Did not expect " : "Expected ")
                 .Append("{context:string}")
-                .Append(IgnoreCase ? " to match the equivalent of" : " to match")
-                .Append(" {0}{reason}, ");
+                .Append(IgnoreCase ? " to match the equivalent of" : " to match");
 
             return builder.ToString();
         }
+    }
+
+    private string OutcomeDescription
+    {
+        get { return Negate ? "matches" : "does not"; }
     }
 
     /// <summary>
