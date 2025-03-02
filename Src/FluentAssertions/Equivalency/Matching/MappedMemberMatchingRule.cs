@@ -1,5 +1,4 @@
 using System;
-using System.Text.RegularExpressions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -16,12 +15,12 @@ internal class MappedMemberMatchingRule<TExpectation, TSubject> : IMemberMatchin
 
     public MappedMemberMatchingRule(string expectationMemberName, string subjectMemberName)
     {
-        if (Regex.IsMatch(expectationMemberName, @"[\.\[\]]"))
+        if (IsNestedPath(expectationMemberName))
         {
             throw new ArgumentException("The expectation's member name cannot be a nested path", nameof(expectationMemberName));
         }
 
-        if (Regex.IsMatch(subjectMemberName, @"[\.\[\]]"))
+        if (IsNestedPath(subjectMemberName))
         {
             throw new ArgumentException("The subject's member name cannot be a nested path", nameof(subjectMemberName));
         }
@@ -29,6 +28,9 @@ internal class MappedMemberMatchingRule<TExpectation, TSubject> : IMemberMatchin
         this.expectationMemberName = expectationMemberName;
         this.subjectMemberName = subjectMemberName;
     }
+
+    private static bool IsNestedPath(string path) =>
+        path.Contains('.', StringComparison.Ordinal) || path.Contains('[', StringComparison.Ordinal) || path.Contains(']', StringComparison.Ordinal);
 
     public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options, AssertionChain assertionChain)
     {
