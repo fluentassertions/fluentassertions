@@ -18,7 +18,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
       - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@v2024.2
+        uses: JetBrains/qodana-action@v2025.1
         with:
           upload-result: ${{ github.ref_name == 'main' || github.ref_name == 'develop' }}
           args: --baseline,qodana.sarif.json,--ide,QDNET
