@@ -29,6 +29,9 @@ public class Comparands
     /// </summary>
     public object Expectation { get; set; }
 
+    /// <summary>
+    /// Gets the compile-time type of the expectation object.
+    /// </summary>
     public Type CompileTimeType
     {
         get

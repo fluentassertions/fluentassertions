@@ -152,6 +152,7 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
             new GenericEnumerableEquivalencyStep(),
             new EnumerableEquivalencyStep(),
             new StringEqualityEquivalencyStep(),
+            new DateAndTimeEquivalencyStep(),
             new EnumEqualityStep(),
             new ValueTypeEquivalencyStep(),
             new StructuralEqualityEquivalencyStep(),

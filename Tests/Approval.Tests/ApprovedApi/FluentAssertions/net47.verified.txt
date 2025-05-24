@@ -982,6 +982,11 @@ namespace FluentAssertions.Equivalency.Steps
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
         public override string ToString() { }
     }
+    public class DateAndTimeEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public DateAndTimeEquivalencyStep() { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
+    }
     public class DictionaryEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Collections.IDictionary>
     {
         public DictionaryEquivalencyStep() { }

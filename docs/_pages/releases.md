@@ -7,6 +7,13 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 8.3.0
+
+## Enhancements
+
+* Clarify the date/time type when comparing non-compatible dates and times in `BeEquivalentTo` - [3049](https://github.com/fluentassertions/fluentassertions/pull/3049)
+* Improve the rendering of exception messages when using `WithMessage` for better readability - [3039](https://github.com/fluentassertions/fluentassertions/pull/3039)
+
 ## 8.2.0
 
 ## Fixes
