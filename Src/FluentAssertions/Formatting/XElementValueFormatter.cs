@@ -48,6 +48,6 @@ public class XElementValueFormatter : IValueFormatter
     private static string[] SplitIntoSeparateLines(XElement element)
     {
         string formattedXml = element.ToString();
-        return formattedXml.Split(Environment.NewLine, StringSplitOptions.None);
+        return formattedXml.Split(Environment.NewLine);
     }
 }
