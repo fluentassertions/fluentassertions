@@ -3050,8 +3050,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                         chain => chain
                             .FailWithPreFormatted(failureMessage));
             }
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
