@@ -63,6 +63,33 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
+        public void A_member_excluded_by_name_is_described_in_the_failure_message()
+        {
+            // Arrange
+            var subject = new
+            {
+                Id = 1,
+                Name = "John",
+                Age = 13
+            };
+
+            var customer = new
+            {
+                Id = 2,
+                Name = "Jack",
+                Age = 37
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(customer, options => options
+                .ExcludingMemberNames("Name", "Age"));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Exclude members named: Name, Age*");
+        }
+
+        [Fact]
         public void When_only_the_excluded_property_doesnt_match_it_should_not_throw()
         {
             // Arrange
@@ -161,6 +188,62 @@ public partial class SelectionRulesSpecs
             // Act
             Action act =
                 () => class1.Should().BeEquivalentTo(class2, opts => opts.Excluding(o => o.Property1));
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected*Field3*");
+        }
+
+        [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
+        public void When_excluding_member_names_it_should_pass_if_only_the_excluded_members_are_different()
+        {
+            // Arrange
+            var class1 = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Field2 = "ipsum",
+                Field3 = "dolor",
+                Property1 = "sit"
+            };
+
+            var class2 = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Field2 = "ipsum"
+            };
+
+            // Act
+            Action act =
+                () =>
+                    class1.Should().BeEquivalentTo(class2,
+                        opts => opts.ExcludingMemberNames("Field3", "Property1"));
+
+            // Assert
+            act.Should().NotThrow("the non-excluded fields have the same value");
+        }
+
+        [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
+        public void When_excluding_member_names_it_should_fail_if_any_non_excluded_members_are_different()
+        {
+            // Arrange
+            var class1 = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Field2 = "ipsum",
+                Field3 = "dolor",
+                Property1 = "sit"
+            };
+
+            var class2 = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Field2 = "ipsum"
+            };
+
+            // Act
+            Action act =
+                () => class1.Should().BeEquivalentTo(class2, opts => opts.ExcludingMemberNames("Property1"));
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected*Field3*");
