@@ -468,6 +468,27 @@ public static class TaskAssertionSpecs
         }
 
         [Fact]
+        public async Task When_task_throws_any_asynchronous_it_should_succeed()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<bool>();
+
+            // Act
+            Func<Task> action = () =>
+            {
+                return Awaiting(() => (Task)taskFactory.Task)
+                    .Should(timer).ThrowWithinAsync(1.Seconds());
+            };
+
+            _ = action.Invoke();
+            taskFactory.SetException(new InvalidOperationException("foo"));
+
+            // Assert
+            await action.Should().NotThrowAsync();
+        }
+
+        [Fact]
         public async Task When_task_throws_asynchronous_it_should_succeed()
         {
             // Arrange
