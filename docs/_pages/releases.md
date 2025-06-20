@@ -13,12 +13,13 @@ sidebar:
 
 * Clarify the date/time type when comparing non-compatible dates and times in `BeEquivalentTo` - [3049](https://github.com/fluentassertions/fluentassertions/pull/3049)
 * Improve the rendering of exception messages when using `WithMessage` for better readability - [3039](https://github.com/fluentassertions/fluentassertions/pull/3039)
+* Added `Should().Throw()`, `ThrowAsync()` and `ThrowWithinAsync()` flavors that don’t require a specific exception type - [3056](https://github.com/fluentassertions/fluentassertions/issues/3056)
 
 ## 8.2.0
 
 ## Fixes
 
-* Fixed a regression from 8.1.0 where a `NullReferenceException` was thrown during subject identification - [#3036](https://github.com/fluentassertions/fluentassertions/pull/3036
+* Fixed a regression from 8.1.0 where a `NullReferenceException` was thrown during subject identification - [#3036](https://github.com/fluentassertions/fluentassertions/pull/3036)
 
 ## Enhancements
 
