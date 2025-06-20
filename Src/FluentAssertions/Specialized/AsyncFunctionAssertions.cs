@@ -180,7 +180,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     public async Task<ExceptionAssertions<Exception>> ThrowWithinAsync(TimeSpan timeSpan,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        return await ThrowWithinAsync(timeSpan, because, becauseArgs);
+        return await ThrowWithinAsync<Exception>(timeSpan, because, becauseArgs);
     }
 
     /// <summary>

@@ -46,7 +46,7 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     /// </returns>
     public ExceptionAssertions<Exception> Throw([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        return this.Throw<Exception>(because, becauseArgs);
+        return Throw<Exception>(because, becauseArgs);
     }
 
     /// <summary>
