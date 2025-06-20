@@ -903,6 +903,7 @@ namespace FluentAssertions.Equivalency
         public TSelf Excluding(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
         public TSelf ExcludingExplicitlyImplementedProperties() { }
         public TSelf ExcludingFields() { }
+        public TSelf ExcludingMembersNamed(params string[] memberNames) { }
         public TSelf ExcludingMissingMembers() { }
         public TSelf ExcludingNonBrowsableMembers() { }
         public TSelf ExcludingProperties() { }
