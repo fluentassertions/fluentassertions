@@ -123,6 +123,13 @@ orderDto.Should().BeEquivalentTo(order, options => options
     .Excluding(ctx => ctx.Path == "Level.Level.Text"));
 ```
 
+And if you want to exclude one or more specific properties everywhere in the object graph just by their names, use `ExcludingMembersNamed` like this:
+
+```csharp
+orderDto.Should().BeEquivalentTo(order, options => options 
+    .ExcludingMembersNamed("ID", "Version"));
+```
+
 Maybe far-fetched, but you may even decide to exclude a member on a particular nested object by its index.
 
 ```csharp
