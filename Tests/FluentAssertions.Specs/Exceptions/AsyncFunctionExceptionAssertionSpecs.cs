@@ -936,6 +936,20 @@ public class AsyncFunctionExceptionAssertionSpecs
     }
 
     [Fact]
+    public async Task When_async_method_throws_any_exception_it_should_succeed()
+    {
+        // Arrange
+        Func<Task> task = () => Throw.Async<InvalidOperationException>();
+
+        // Act
+        Func<Task> action = () => task
+            .Should().ThrowAsync();
+
+        // Assert
+        await action.Should().NotThrowAsync();
+    }
+
+    [Fact]
     public async Task When_async_method_throws_the_expected_exception_it_should_succeed()
     {
         // Arrange
@@ -944,6 +958,20 @@ public class AsyncFunctionExceptionAssertionSpecs
         // Act
         Func<Task> action = () => task
             .Should().ThrowAsync<InvalidOperationException>();
+
+        // Assert
+        await action.Should().NotThrowAsync();
+    }
+
+    [Fact]
+    public async Task When_async_method_throws_any_exception_within_timespan_it_should_succeed()
+    {
+        // Arrange
+        Func<Task> task = () => Throw.Async<InvalidOperationException>();
+
+        // Act
+        Func<Task> action = () => task.Should().ThrowWithinAsync(
+            100.Milliseconds());
 
         // Assert
         await action.Should().NotThrowAsync();
