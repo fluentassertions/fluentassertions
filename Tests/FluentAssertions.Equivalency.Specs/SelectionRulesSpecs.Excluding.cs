@@ -685,7 +685,8 @@ public partial class SelectionRulesSpecs
             Action act = () => obj1.Should().BeEquivalentTo(obj2, opt => opt
                 .Excluding(o => o.AbstractProperty + "B"));
 
-            act.Should().Throw<ArgumentException>().WithMessage("*(o.AbstractProperty + \"B\")*cannot be used to select a member*");
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("*(o.AbstractProperty + \"B\")*cannot be used to select a member*");
         }
 
 #if NETCOREAPP3_0_OR_GREATER
@@ -1155,6 +1156,108 @@ public partial class SelectionRulesSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*Pets[1].Name*Pets[1].Age*");
+        }
+
+        [Fact]
+        public void Can_exclude_root_properties_by_name()
+        {
+            // Arrange
+            var subject = new
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                Age = 30
+            };
+
+            var expectation = new
+            {
+                FirstName = "John",
+                LastName = "Smith",
+                Age = 35
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, options => options
+                .ExcludingMembersNamed("LastName", "Age"));
+        }
+
+        [Fact]
+        public void Can_exclude_properties_deeper_in_the_graph_by_name()
+        {
+            // Arrange
+            var subject = new
+            {
+                Person = new
+                {
+                    FirstName = "John",
+                    LastName = "Doe",
+                    Age = 30
+                },
+                Address = new
+                {
+                    Street = "123 Main St",
+                    City = "Anytown",
+                    ZipCode = "12345"
+                }
+            };
+
+            var expectation = new
+            {
+                Person = new
+                {
+                    FirstName = "John",
+                    LastName = "Smith",
+                    Age = 35
+                },
+                Address = new
+                {
+                    Street = "123 Main St",
+                    City = "Othertown",
+                    ZipCode = "54321"
+                }
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, options => options
+                .ExcludingMembersNamed("LastName", "Age", "City", "ZipCode"));
+        }
+
+        [Fact]
+        public void Must_provide_property_names_when_excluding_by_name()
+        {
+            // Arrange
+            var subject = new
+            {
+                FirstName = "John",
+                LastName = "Doe"
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(subject, options => options
+                .ExcludingMembersNamed());
+
+            // Assert
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("*least one*name*");
+        }
+
+        [Fact]
+        public void Cannot_provide_null_as_a_property_name()
+        {
+            // Arrange
+            var subject = new
+            {
+                FirstName = "John",
+                LastName = "Doe"
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(subject, options => options
+                .ExcludingMembersNamed(null));
+
+            // Assert
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("*Member names cannot be null*");
         }
     }
 }

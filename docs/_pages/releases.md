@@ -7,6 +7,12 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 8.4.0
+
+## Enhancements
+
+* Added `ExcludingMembersNamed` to `BeEquivalentTo` to exclude fields and properties anywhere in the graph - [3062](https://github.com/fluentassertions/fluentassertions/pull/3062)
+
 ## 8.3.0
 
 ## Enhancements

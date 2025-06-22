@@ -275,6 +275,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     {
         includedProperties = MemberVisibility.Public | MemberVisibility.ExplicitlyImplemented |
             MemberVisibility.DefaultInterfaceProperties;
+
         return (TSelf)this;
     }
 
@@ -285,6 +286,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     {
         includedProperties = MemberVisibility.Public | MemberVisibility.Internal | MemberVisibility.ExplicitlyImplemented |
             MemberVisibility.DefaultInterfaceProperties;
+
         return (TSelf)this;
     }
 
@@ -297,6 +299,18 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     public TSelf ExcludingProperties()
     {
         includedProperties = MemberVisibility.None;
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Excludes the specified member(s) from the structural equality check anywhere in the object graph.
+    /// </summary>
+    public TSelf ExcludingMembersNamed(params string[] memberNames)
+    {
+        Guard.ThrowIfArgumentIsNull(memberNames, nameof(memberNames), "Member names cannot be null.");
+        Guard.ThrowIfArgumentIsEmpty(memberNames, nameof(memberNames), "At least one member name must be specified.");
+
+        AddSelectionRule(new ExcludeMembersByNameSelectionRule(memberNames));
         return (TSelf)this;
     }
 
