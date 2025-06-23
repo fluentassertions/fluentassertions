@@ -122,9 +122,6 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/> .
     /// </param>
-    /// <returns>
-    /// A Task&lt;ExceptionAssertions&lt;Exception&gt;&gt; object.
-    /// </returns>
     public async Task<ExceptionAssertions<Exception>> ThrowAsync(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
@@ -174,9 +171,6 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <returns>
-    /// A Task&lt;ExceptionAssertions&lt;Exception&gt;&gt; object.
-    /// </returns>
     public async Task<ExceptionAssertions<Exception>> ThrowWithinAsync(TimeSpan timeSpan,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {

@@ -41,9 +41,6 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <returns>
-    /// An ExceptionAssertions&lt;Exception&gt; object.
-    /// </returns>
     public ExceptionAssertions<Exception> Throw([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return Throw<Exception>(because, becauseArgs);
