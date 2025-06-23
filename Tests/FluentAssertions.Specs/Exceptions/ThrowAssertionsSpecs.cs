@@ -57,7 +57,7 @@ public class ThrowAssertionsSpecs
     }
 
     [Fact]
-    public void Succeeds_for_any_exception_thrown_by_action()
+    public void Succeeds_for_expected_exception_thrown_by_action()
     {
         // Arrange
         var act = new Action(() => throw new InvalidOperationException("Some exception"));
