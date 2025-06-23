@@ -9,11 +9,10 @@ sidebar:
 
 ## 8.4.0
 
-* Added `Should().Throw()`, `ThrowAsync()` and `ThrowWithinAsync()` flavors that don’t require a specific exception type - [3059](https://github.com/fluentassertions/fluentassertions/pull/3059)
-
 ## Enhancements
 
 * Added `ExcludingMembersNamed` to `BeEquivalentTo` to exclude fields and properties anywhere in the graph - [3062](https://github.com/fluentassertions/fluentassertions/pull/3062)
+* Added `Should().Throw()`, `ThrowAsync()` and `ThrowWithinAsync()` flavors that don’t require a specific exception type - [3059](https://github.com/fluentassertions/fluentassertions/pull/3059)
 
 ## 8.3.0
 
