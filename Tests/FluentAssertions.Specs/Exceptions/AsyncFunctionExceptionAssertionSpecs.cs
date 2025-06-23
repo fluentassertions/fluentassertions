@@ -101,24 +101,27 @@ public class AsyncFunctionExceptionAssertionSpecs
             // Assert
             await act2.Should().ThrowAsync<XunitException>();
         }
+    }
 
-        [Collection("UIFacts")]
-        public partial class UIFacts
+    [Collection("UIFacts")]
+    public partial class UIFacts
+    {
+        [UIFact]
+        public async Task When_async_method_throws_an_empty_AggregateException_on_UI_thread_it_should_fail()
         {
-            [UIFact]
-            public async Task When_async_method_throws_an_empty_AggregateException_on_UI_thread_it_should_fail()
-            {
-                // Arrange
-                Func<Task> act = () => throw new AggregateException();
+            // Arrange
+            Func<Task> act = () => throw new AggregateException();
 
-                // Act
-                Func<Task> act2 = () => act.Should().NotThrowAsync();
+            // Act
+            Func<Task> act2 = () => act.Should().NotThrowAsync();
 
-                // Assert
-                await act2.Should().ThrowAsync<XunitException>();
-            }
+            // Assert
+            await act2.Should().ThrowAsync<XunitException>();
         }
+    }
 
+    public partial class NonGenericAsyncFunctionAssertions
+    {
         [Fact]
         public async Task When_async_method_throws_a_nested_AggregateException_it_should_provide_the_message()
         {
@@ -128,20 +131,23 @@ public class AsyncFunctionExceptionAssertionSpecs
             // Act & Assert
             await act.Should().ThrowAsync<ArgumentException>().WithMessage("That was wrong.");
         }
+    }
 
-        public partial class UIFacts
+    public partial class UIFacts
+    {
+        [UIFact]
+        public async Task When_async_method_throws_a_nested_AggregateException_on_UI_thread_it_should_provide_the_message()
         {
-            [UIFact]
-            public async Task When_async_method_throws_a_nested_AggregateException_on_UI_thread_it_should_provide_the_message()
-            {
-                // Arrange
-                Func<Task> act = () => throw new AggregateException(new ArgumentException("That was wrong."));
+            // Arrange
+            Func<Task> act = () => throw new AggregateException(new ArgumentException("That was wrong."));
 
-                // Act & Assert
-                await act.Should().ThrowAsync<ArgumentException>().WithMessage("That was wrong.");
-            }
+            // Act & Assert
+            await act.Should().ThrowAsync<ArgumentException>().WithMessage("That was wrong.");
         }
+    }
 
+    public partial class NonGenericAsyncFunctionAssertions
+    {
         [Fact]
         public async Task When_async_method_throws_a_flat_AggregateException_it_should_provide_the_message()
         {
@@ -660,23 +666,26 @@ public class AsyncFunctionExceptionAssertionSpecs
             // Assert
             await action.Should().ThrowExactlyAsync<ArgumentException>("because {0} should do that", "IFoo.Do");
         }
+    }
 
-        public partial class UIFacts
+    public partial class UIFacts
+    {
+        [UIFact]
+        public async Task When_subject_throws_on_UI_thread_expected_async_exact_exception_it_should_succeed()
         {
-            [UIFact]
-            public async Task When_subject_throws_on_UI_thread_expected_async_exact_exception_it_should_succeed()
-            {
-                // Arrange
-                var asyncObject = new AsyncClass();
+            // Arrange
+            var asyncObject = new AsyncClass();
 
-                // Act
-                Func<Task> action = () => asyncObject.ThrowAsync<ArgumentException>();
+            // Act
+            Func<Task> action = () => asyncObject.ThrowAsync<ArgumentException>();
 
-                // Assert
-                await action.Should().ThrowExactlyAsync<ArgumentException>("because {0} should do that", "IFoo.Do");
-            }
+            // Assert
+            await action.Should().ThrowExactlyAsync<ArgumentException>("because {0} should do that", "IFoo.Do");
         }
+    }
 
+    public partial class NonGenericAsyncFunctionAssertions
+    {
         [Fact]
         public async Task When_async_method_throws_exception_and_no_exception_was_expected_it_should_fail()
         {
