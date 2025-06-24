@@ -12,6 +12,7 @@ sidebar:
 ## Enhancements
 
 * Added `ExcludingMembersNamed` to `BeEquivalentTo` to exclude fields and properties anywhere in the graph - [3062](https://github.com/fluentassertions/fluentassertions/pull/3062)
+* Added `Should().Throw()`, `ThrowAsync()` and `ThrowWithinAsync()` flavors that don’t require a specific exception type - [3059](https://github.com/fluentassertions/fluentassertions/pull/3059)
 
 ## 8.3.0
 
@@ -24,7 +25,7 @@ sidebar:
 
 ## Fixes
 
-* Fixed a regression from 8.1.0 where a `NullReferenceException` was thrown during subject identification - [#3036](https://github.com/fluentassertions/fluentassertions/pull/3036
+* Fixed a regression from 8.1.0 where a `NullReferenceException` was thrown during subject identification - [#3036](https://github.com/fluentassertions/fluentassertions/pull/3036)
 
 ## Enhancements
 

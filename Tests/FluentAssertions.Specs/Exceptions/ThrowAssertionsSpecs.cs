@@ -7,7 +7,17 @@ namespace FluentAssertions.Specs.Exceptions;
 public class ThrowAssertionsSpecs
 {
     [Fact]
-    public void When_subject_throws_expected_exception_it_should_not_do_anything()
+    public void Succeeds_for_any_exception_thrown_by_subject()
+    {
+        // Arrange
+        Does testSubject = Does.Throw<InvalidOperationException>();
+
+        // Act / Assert
+        testSubject.Invoking(x => x.Do()).Should().Throw();
+    }
+
+    [Fact]
+    public void Succeeds_for_expected_exception_thrown_by_subject()
     {
         // Arrange
         Does testSubject = Does.Throw<InvalidOperationException>();
@@ -17,7 +27,17 @@ public class ThrowAssertionsSpecs
     }
 
     [Fact]
-    public void When_func_throws_expected_exception_it_should_not_do_anything()
+    public void Succeeds_for_any_exception_thrown_by_func()
+    {
+        // Arrange
+        Does testSubject = Does.Throw<InvalidOperationException>();
+
+        // Act / Assert
+        testSubject.Invoking(x => x.Return()).Should().Throw();
+    }
+
+    [Fact]
+    public void Succeeds_for_expected_exception_thrown_by_func()
     {
         // Arrange
         Does testSubject = Does.Throw<InvalidOperationException>();
@@ -27,7 +47,17 @@ public class ThrowAssertionsSpecs
     }
 
     [Fact]
-    public void When_action_throws_expected_exception_it_should_not_do_anything()
+    public void Succeeds_for_any_exception_thrown_by_action()
+    {
+        // Arrange
+        var act = new Action(() => throw new InvalidOperationException("Some exception"));
+
+        // Act / Assert
+        act.Should().Throw();
+    }
+
+    [Fact]
+    public void Succeeds_for_expected_exception_thrown_by_action()
     {
         // Arrange
         var act = new Action(() => throw new InvalidOperationException("Some exception"));

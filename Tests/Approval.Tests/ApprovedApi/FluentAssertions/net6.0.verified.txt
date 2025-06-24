@@ -2212,10 +2212,12 @@ namespace FluentAssertions.Specialized
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotCompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotThrowAsync<TException>(string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
+        public System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<System.Exception>> ThrowAsync(string because = "", params object[] becauseArgs) { }
         public System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> ThrowAsync<TException>(string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
         public System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> ThrowExactlyAsync<TException>(string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
+        public System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<System.Exception>> ThrowWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
         public System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> ThrowWithinAsync<TException>(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
     }
@@ -2237,6 +2239,7 @@ namespace FluentAssertions.Specialized
         protected abstract void InvokeSubject();
         public FluentAssertions.AndConstraint<TAssertions> NotThrow<TException>(string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
+        public FluentAssertions.Specialized.ExceptionAssertions<System.Exception> Throw(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.Specialized.ExceptionAssertions<TException> Throw<TException>(string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
         public FluentAssertions.Specialized.ExceptionAssertions<TException> ThrowExactly<TException>(string because = "", params object[] becauseArgs)

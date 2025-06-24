@@ -113,6 +113,22 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     }
 
     /// <summary>
+    /// Asserts that the current <see cref="Func{Task}"/> throws any exception.
+    /// </summary>
+    /// <param name="because">
+    /// (Optional) A formatted phrase as is supported by <see cref="string.Format(string,object[])"/>  explaining why the assertion is
+    /// needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because"/> .
+    /// </param>
+    public async Task<ExceptionAssertions<Exception>> ThrowAsync(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        return await ThrowAsync<Exception>(because, becauseArgs);
+    }
+
+    /// <summary>
     /// Asserts that the current <see cref="Func{Task}"/> throws an exception of type <typeparamref name="TException"/>.
     /// </summary>
     /// <typeparam name="TException">The type of exception expected to be thrown.</typeparam>
@@ -139,6 +155,26 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
         }
 
         return new ExceptionAssertions<TException>([], assertionChain);
+    }
+
+    /// <summary>
+    /// Asserts that the current <see cref="Func{Task}"/> throws any exception within a specific timeout.
+    /// </summary>
+    /// <param name="timeSpan">
+    /// The allowed time span for the operation.
+    /// </param>
+    /// <param name="because">
+    /// (Optional)
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion is needed. If
+    /// the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public async Task<ExceptionAssertions<Exception>> ThrowWithinAsync(TimeSpan timeSpan,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        return await ThrowWithinAsync<Exception>(timeSpan, because, becauseArgs);
     }
 
     /// <summary>
