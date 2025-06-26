@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
@@ -132,6 +132,7 @@ public sealed class AssertionChain
         return this;
     }
 
+    [SuppressMessage("Maintainability", "AV1564:Parameter in public or internal member is of type bool or bool?")]
     public AssertionChain ForCondition(bool condition)
     {
         if (PreviousAssertionSucceeded)
@@ -146,8 +147,7 @@ public sealed class AssertionChain
     {
         if (PreviousAssertionSucceeded)
         {
-            constraint.RegisterContextData((key, value) => contextData.Add(
-                new ContextDataDictionary.DataItem(key, value, reportable: false, requiresFormatting: false)));
+            constraint.RegisterContextData((key, value) => contextData.Add(new ContextDataDictionary.DataItem(key, value)));
 
             succeeded = constraint.Assert(actualOccurrences);
         }

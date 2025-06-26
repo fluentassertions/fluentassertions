@@ -8,6 +8,7 @@ namespace FluentAssertions.Primitives;
 /// Contains a number of methods to assert that a nullable <see cref="bool"/> is in the expected state.
 /// </summary>
 [DebuggerNonUserCode]
+[SuppressMessage("Maintainability", "AV1564:Parameter in public or internal member is of type bool or bool?")]
 public class NullableBooleanAssertions : NullableBooleanAssertions<NullableBooleanAssertions>
 {
     public NullableBooleanAssertions(bool? value, AssertionChain assertionChain)
@@ -20,6 +21,7 @@ public class NullableBooleanAssertions : NullableBooleanAssertions<NullableBoole
 /// Contains a number of methods to assert that a nullable <see cref="bool"/> is in the expected state.
 /// </summary>
 [DebuggerNonUserCode]
+[SuppressMessage("Maintainability", "AV1564:Parameter in public or internal member is of type bool or bool?")]
 public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAssertions>
     where TAssertions : NullableBooleanAssertions<TAssertions>
 {

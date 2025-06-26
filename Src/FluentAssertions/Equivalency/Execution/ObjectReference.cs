@@ -13,14 +13,22 @@ internal class ObjectReference
 {
     private readonly object @object;
     private readonly string path;
-    private readonly bool? compareByMembers;
     private string[] pathElements;
 
-    public ObjectReference(object @object, string path, bool? compareByMembers = null)
+    public ObjectReference(object @object, string path, EqualityStrategy equalityStrategy)
     {
         this.@object = @object;
         this.path = path;
-        this.compareByMembers = compareByMembers;
+
+        CompareByMembers = equalityStrategy is EqualityStrategy.Members or EqualityStrategy.ForceMembers;
+    }
+
+    public ObjectReference(object @object, string path)
+    {
+        this.@object = @object;
+        this.path = path;
+
+        CompareByMembers = @object?.GetType().OverridesEquals() == false;
     }
 
     /// <summary>
@@ -69,5 +77,14 @@ internal class ObjectReference
         return Invariant($"{{\"{path}\", {@object}}}");
     }
 
-    public bool CompareByMembers => compareByMembers ?? @object?.GetType().OverridesEquals() == false;
+    /// <summary>
+    /// Indicates whether the equality comparison for the object should be based on its members rather than its default
+    /// implementation of <see cref="object.Equals(object)"/>
+    /// </summary>
+    /// <remarks>
+    /// This property returns <see langword="true"/>  if the equality strategy is set to <see cref="EqualityStrategy.Members"/> or
+    /// <see cref="EqualityStrategy.ForceMembers"/>, and the object does not override its <see cref="object.Equals(object)"/> method.
+    /// Otherwise, it returns <see langword="false"/>
+    /// </remarks>
+    public bool CompareByMembers { get; }
 }

@@ -99,21 +99,21 @@ internal static class TypeExtensions
         return GetCustomAttributes(type, isMatchingAttributePredicate, inherit: true);
     }
 
-    public static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this MemberInfo type, bool inherit = false)
+    public static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this MemberInfo type)
         where TAttribute : Attribute
     {
         // Do not use MemberInfo.GetCustomAttributes.
         // There is an issue with PropertyInfo and EventInfo preventing the inherit option to work.
         // https://github.com/dotnet/runtime/issues/30219
-        return CustomAttributeExtensions.GetCustomAttributes<TAttribute>(type, inherit);
+        return CustomAttributeExtensions.GetCustomAttributes<TAttribute>(type, inherit: false);
     }
 
     private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type,
-        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, bool inherit = false)
+        Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
         where TAttribute : Attribute
     {
         Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
-        return GetCustomAttributes<TAttribute>(type, inherit).Where(isMatchingAttribute);
+        return GetCustomAttributes<TAttribute>(type).Where(isMatchingAttribute);
     }
 
     private static TAttribute[] GetCustomAttributes<TAttribute>(this Type type, bool inherit = false)

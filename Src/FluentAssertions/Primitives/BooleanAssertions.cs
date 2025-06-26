@@ -9,6 +9,7 @@ namespace FluentAssertions.Primitives;
 /// Contains a number of methods to assert that a <see cref="bool"/> is in the expected state.
 /// </summary>
 [DebuggerNonUserCode]
+[SuppressMessage("Maintainability", "AV1564:Parameter in public or internal member is of type bool or bool?")]
 public class BooleanAssertions
     : BooleanAssertions<BooleanAssertions>
 {
@@ -24,6 +25,7 @@ public class BooleanAssertions
 /// Contains a number of methods to assert that a <see cref="bool"/> is in the expected state.
 /// </summary>
 [DebuggerNonUserCode]
+[SuppressMessage("Maintainability", "AV1564:Parameter in public or internal member is of type bool or bool?")]
 public class BooleanAssertions<TAssertions>
     where TAssertions : BooleanAssertions<TAssertions>
 {

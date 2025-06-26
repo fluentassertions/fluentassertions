@@ -94,7 +94,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
         using (XmlReader otherReader = expected?.CreateReader())
         {
             var xmlReaderValidator = new XmlReaderValidator(assertionChain, subjectReader, otherReader, because, becauseArgs);
-            xmlReaderValidator.Validate(shouldBeEquivalent: true);
+            xmlReaderValidator.AssertThatItIsEquivalent();
         }
 
         return new AndConstraint<XDocumentAssertions>(this);
@@ -119,7 +119,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
         using (XmlReader otherReader = unexpected?.CreateReader())
         {
             var xmlReaderValidator = new XmlReaderValidator(assertionChain, subjectReader, otherReader, because, becauseArgs);
-            xmlReaderValidator.Validate(shouldBeEquivalent: false);
+            xmlReaderValidator.AssertThatIsNotEquivalent();
         }
 
         return new AndConstraint<XDocumentAssertions>(this);

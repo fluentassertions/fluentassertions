@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -26,24 +26,27 @@ internal class XmlReaderValidator
         this.expectationReader = expectationReader;
     }
 
-    public void Validate(bool shouldBeEquivalent)
+    public void AssertThatItIsEquivalent()
     {
         Failure failure = Validate();
 
-        if (shouldBeEquivalent && failure is not null)
+        if (failure is not null)
         {
             assertionChain.FailWith(failure.FormatString, failure.FormatParams);
         }
+    }
 
-        if (!shouldBeEquivalent && failure is null)
+    public void AssertThatIsNotEquivalent()
+    {
+        Failure failure = Validate();
+
+        if (failure is null)
         {
             assertionChain.FailWith("Did not expect {context:subject} to be equivalent{reason}, but it is.");
         }
     }
 
-#pragma warning disable MA0051
     private Failure Validate()
-#pragma warning restore MA0051
     {
         if (subjectReader is null && expectationReader is null)
         {

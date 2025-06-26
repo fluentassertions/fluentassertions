@@ -286,6 +286,8 @@ public static class AssertionExtensions
         return new ObjectAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
+#pragma warning disable AV1564 // Avoid signatures that take a bool parameter
+
     /// <summary>
     /// Returns an <see cref="BooleanAssertions"/> object that can be used to assert the
     /// current <see cref="bool"/>.
@@ -305,6 +307,8 @@ public static class AssertionExtensions
     {
         return new NullableBooleanAssertions(actualValue, AssertionChain.GetOrCreate());
     }
+
+#pragma warning restore AV1564
 
     /// <summary>
     /// Returns an <see cref="GuidAssertions"/> object that can be used to assert the
