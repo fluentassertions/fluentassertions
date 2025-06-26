@@ -1,9 +1,10 @@
 root = true
 # EditorConfig is awesome: http://EditorConfig.org
 
-# top-most EditorConfig file
+####################################################################
+## Global settings
+####################################################################
 
-# Global settings
 [*]
 end_of_line = crlf
 insert_final_newline = true
@@ -110,13 +111,11 @@ csharp_space_after_dot = false
 csharp_space_after_keywords_in_control_flow_statements = true
 csharp_space_after_semicolon_in_for_statement = true
 csharp_space_around_binary_operators = before_and_after
-csharp_space_around_declaration_statements = do_not_ignore
 csharp_space_before_colon_in_inheritance_clause = true
 csharp_space_before_comma = false
 csharp_space_before_dot = false
 csharp_space_before_open_square_brackets = false
 csharp_space_before_semicolon_in_for_statement = false
-csharp_space_between_attribute_sections = false
 csharp_space_between_empty_square_brackets = false
 csharp_space_between_method_call_empty_parameter_list_parentheses = false
 csharp_space_between_method_call_name_and_opening_parenthesis = false
@@ -127,295 +126,283 @@ csharp_space_between_method_declaration_parameter_list_parentheses = false
 csharp_space_between_parentheses = false
 csharp_space_between_square_brackets = false
 
-# FxCop Analyzers
-dotnet_diagnostic.CA1030.severity = none
-dotnet_diagnostic.CA1034.severity = none
-dotnet_diagnostic.CA1062.severity = suggestion
-dotnet_code_quality.CA1062.exclude_extension_method_this_parameter = true
-dotnet_code_quality.exclude_extension_method_this_parameter = true
-dotnet_code_quality.null_check_validation_methods = ThrowIfArgumentIsNull
-# CA1031: Do not catch general exception types
-dotnet_diagnostic.CA1031.severity = none
-# CA1303: Do not pass literals as localized parameters
-dotnet_diagnostic.CA1303.severity = none
-# CA1304: Specify CultureInfo
-dotnet_diagnostic.CA1304.severity = error
-# CA1307: Specify StringComparison for clarity
-dotnet_diagnostic.CA1307.severity = error
-# CA1308: Normalize strings to uppercase
-dotnet_diagnostic.CA1308.severity = error
-# CA1309: Use ordinal StringComparison
-dotnet_diagnostic.CA1309.severity = error
+####################################################################
+## Rider/ReSharper Settings
+####################################################################
 
-# Purpose: Rename virtual/interface member ITestFramework.Throw(string) so that it no longer conflicts with the reserved language keyword 'Throw'
-# Reason: We don't care about other languages than C#
-dotnet_diagnostic.CA1716.severity = none
+# Keep enough blank lines between code blocks to make it readable.
+resharper_blank_lines_after_multiline_statements = 1
+resharper_blank_lines_around_single_line_auto_property = 1
+resharper_blank_lines_before_case = 1
 
-# CA1724: Type names should not match namespaces
-dotnet_diagnostic.CA1724.severity = none
-# CA1819: Properties should not return arrays
-dotnet_diagnostic.CA1819.severity = none
-# CA1851: Possible multiple enumerations of IEnumerable collection. Related to GH-issue #2000
-dotnet_diagnostic.CA1851.severity = suggestion
-# CA1859: Use concrete types when possible for improved performance
-dotnet_diagnostic.CA1859.severity = suggestion
-# CA1860: Avoid using 'Enumerable.Any()' extension method
-dotnet_diagnostic.CA1860.severity = warning
-# CA1861: Avoid constant arrays as arguments
-dotnet_diagnostic.CA1861.severity = none
-# CA2007: Do not directly await a Task
-dotnet_diagnostic.CA2007.severity = none
-# CA2225: Operator overloads have named alternates
-dotnet_diagnostic.CA2225.severity = none
-# CA3075: Insecure DTD Processing
-dotnet_diagnostic.CA3075.severity = none
-# CA5369: Use XmlReader for Deserialize
-dotnet_diagnostic.CA5369.severity = none
+# Purpose: Don't put elements of an array on new lines, unless the length exceeds the maximum line length.
+resharper_wrap_array_initializer_style = chop_always
 
-# Banned API Analyzers
-dotnet_diagnostic.RS0030.severity = error
-
-# IDE0004: Remove unnecessary cast
-dotnet_diagnostic.IDE0004.severity = error
-
-# IDE0005: Remove unnecessary usings/imports
-dotnet_diagnostic.IDE0005.severity = suggestion
-
-# IDE0051: Remove unused private members (no reads or writes)
-dotnet_diagnostic.IDE0051.severity = error
-
-# IDE0052: Remove unread private members (writes but no reads)
-dotnet_diagnostic.IDE0052.severity = error
-
-# IDE0055: Fix formatting
-dotnet_diagnostic.IDE0055.severity = error
-
-# CS1574: XML comment on 'construct' has syntactically incorrect cref attribute 'name'
-dotnet_diagnostic.CS1574.severity = error
-
-# StyleCop
-
-# Purpose: An opening square bracket within a C# statement is not spaced correctly.
-# Reason: Doesn't understand the new collection initializers
-dotnet_diagnostic.SA1010.severity = none
-
-# SA1028: Code should not contain trailing whitespace
-dotnet_diagnostic.SA1028.severity = suggestion
-# SA1101: Prefix local calls with this
-dotnet_diagnostic.SA1101.severity = none
-# SA1116: The parameters should begin on the line after the declaration, whenever the parameter span across multiple lines
-dotnet_diagnostic.SA1116.severity = none
-# SA1117: The parameters should all be placed on the same line or each parameter should be placed on its own line.
-dotnet_diagnostic.SA1117.severity = none
-# SA1200: Using directive should appear within a namespace declaration
-dotnet_diagnostic.SA1200.severity = none
-
-# Purpose: Use string. Empty for empty strings
-# Reason: There's no performance difference. See https://medium.com/@dk.kravtsov/string-empty-vs-in-c-70c64971161f 
-dotnet_diagnostic.SA1122.severity = none
-
-# SA1124: Do not use regions
-dotnet_diagnostic.SA1124.severity = none
-# SA1201: A property should not follow a method
-dotnet_diagnostic.SA1201.severity = none
-# SA1202: 'public' members should come before 'private' members
-dotnet_diagnostic.SA1202.severity = none
-# SA1204: Static members should appear before non-static members
-dotnet_diagnostic.SA1204.severity = none
-# SA1312: variable should begin with lower-case letter
-dotnet_diagnostic.SA1312.severity = suggestion # re-enable if using statements can be discarded
-# SA1313: parameter should begin with lower-case letter
-dotnet_diagnostic.SA1313.severity = suggestion # re-enable when parameters discards are available
-# SA1316: Tuple element names should use correct casing
-dotnet_diagnostic.SA1316.severity = none
-# SA1402: File may only contain a single type. Handled better by AV1507
-dotnet_diagnostic.SA1402.severity = none
-# SA1404: Code analysis suppression should have justification
-dotnet_diagnostic.SA1404.severity = none
-# SA1413: Use trailing comma in multi-line initializers
-dotnet_diagnostic.SA1413.severity = none
-# SA1600: Elements should be documented
-dotnet_diagnostic.SA1600.severity = suggestion
-# SA1602: Enumeration items should be documented
-dotnet_diagnostic.SA1602.severity = suggestion
-# SA1611: The documentation for parameter is missing
-dotnet_diagnostic.SA1611.severity = suggestion
-# SA1612: The parameter documentation for parameter should be at position
-dotnet_diagnostic.SA1612.severity = suggestion
-# SA1614: Element parameter documentation should have text
-dotnet_diagnostic.SA1614.severity = suggestion
-# SA1615: Element return value should be documented
-dotnet_diagnostic.SA1615.severity = none
-# SA1616: Element return value documentation should have text
-dotnet_diagnostic.SA1616.severity = suggestion
-# SA1618: The documentation for type parameter is missing
-dotnet_diagnostic.SA1618.severity = suggestion
-# SA1623: The property's documentation summary text should begin with: 'Gets'
-dotnet_diagnostic.SA1623.severity = none
-# SA1629: Documentation text should end with a period
-dotnet_diagnostic.SA1629.severity = none
-# SA1633: The file header is missing or not located at the top of the file
-dotnet_diagnostic.SA1633.severity = none
-# SA1642: Constructor summary documentation should begin with standard text
-dotnet_diagnostic.SA1642.severity = suggestion
-
-# CSharpGuidelines
-dotnet_diagnostic.AV1561.max_parameter_count = 5
-# AV1008: Class should be non-static or its name should be suffixed with Extensions
-dotnet_diagnostic.AV1008.severity = none
-# AV1010: Type hides inherited member
-dotnet_diagnostic.AV1010.severity = none
-# AV1115: Member or local function contains the word 'and', which suggests doing multiple things
-dotnet_diagnostic.AV1115.severity = suggestion
-# AV1130: Return type in signature for Type should be a collection interface instead of a concrete type
-dotnet_diagnostic.AV1130.severity = none
-# AV1135: null is returned from method which has return type of string, collection or task
-dotnet_diagnostic.AV1135.severity = none # re-enable if we can distinguish between string, collection and task
-# AV1210: Catch a specific exception instead of Exception, SystemException or ApplicationException
-dotnet_diagnostic.AV1210.severity = none
-# AV1250: Evaluate LINQ query before returning it
-dotnet_diagnostic.AV1250.severity = suggestion
-# AV1500: Method 'CallerIdentifier.DetermineCallerIdentity()' contains 10 statements, which exceeds the maximum of 7 statements
-dotnet_diagnostic.AV1500.severity = none
-# AV1532: Loop statement contains nested loop
-dotnet_diagnostic.AV1532.severity = suggestion
-# AV1535: Missing block in case or default clause of switch statement
-dotnet_diagnostic.AV1535.severity = none # re-enable if we can adjust the formatting to not indent the scope braces
-# AV1537: If-else-if construct should end with an unconditional else clause
-dotnet_diagnostic.AV1537.severity = suggestion
-# AV1551: Method overload with the most parameters should be virtual
-dotnet_diagnostic.AV1551.severity = none
-# AV1555: Avoid using non-(nullable-)boolean named arguments
-dotnet_diagnostic.AV1555.severity = suggestion
-# AV1561: Method contains 5 parameters, which exceeds the maximum of 3 parameters
-dotnet_diagnostic.AV1561.severity = suggestion
-# AV1564: Parameter in public or internal member is of type bool or bool?
-dotnet_diagnostic.AV1564.severity = suggestion
-# AV1554: Do not use optional parameters in interface methods or their concrete implementations
-dotnet_diagnostic.AV1554.severity = none
-# AV1580: Argument for parameter calls nested method
-dotnet_diagnostic.AV1580.severity = none
-# AV1706: Parameter 'p' should have a more descriptive name
-dotnet_diagnostic.AV1706.severity = suggestion
-# AV1708: Type name contains term that should be avoided
-dotnet_diagnostic.AV1708.severity = suggestion
-# AV1710: Field contains the name of its containing type
-dotnet_diagnostic.AV1710.severity = none
-# AV2202: Replace call to Nullable<T>.HasValue with null check
-dotnet_diagnostic.AV2202.severity = none
-# AV2305: Missing XML comment for internally visible type or member
-dotnet_diagnostic.AV2305.severity = none
-# AV2407: Region should be removed
-dotnet_diagnostic.AV2407.severity = none
-
-# Keep at least a single blank line between members
-resharper_csharp_blank_lines_around_single_line_invocable = 1
-
-# Convert lambda expression to method group
-resharper_convert_closure_to_method_group_highlighting = none
-
-# Start each element in a object or collection initializer on a new line
+# Purpose: Always put elements of an object initializer on new lines, unless the length exceeds the maximum line length.
 resharper_wrap_object_and_collection_initializer_style = chop_always
 
-# Force an empty line
-resharper_blank_lines_after_multiline_statements = 1
+resharper_unused_parameter_local_highlighting = error
+resharper_not_accessed_positional_property_global_highlighting = error
 
-# Don't remove existing line breaks
-resharper_keep_existing_initializer_arrangement = true
-resharper_keep_existing_arrangement = true
-
-# We care about that extra else after an else-if
+# Do not remove redundant else blocks
 resharper_redundant_if_else_block_highlighting = none
 
-# Don't remove explicit default cases in switch statements 
-resharper_redundant_empty_switch_section_highlighting = none
+####################################################################
+## Roslyn Analyzers and Code Fixes
+####################################################################
 
-resharper_align_multiline_binary_expressions_chain = false
+# Purpose: Field contains the word 'and', which suggests doing multiple thing
+# Rationale: We do not want to enforce this rule in our codebase.
+dotnet_diagnostic.AV1115.severity = suggestion
 
-# Only use new() when the type is obvious
-resharper_object_creation_when_type_not_evident = explicitly_typed
-resharper_object_creation_when_type_evident = target_typed
+# Purpose: Return interfaces to unchangeable collections
+# Rationale: We do not want to enforce this rule in our codebase.
+dotnet_diagnostic.AV1130.severity = suggestion
 
-# Indent 4 spaces per necessary indention
-resharper_continuous_indent_multiplier = 1
+# Purpose: null is returned from method which has return type of string, collection or task
+# Rationale: It's a good suggestion, but can be hard to implement.
+dotnet_diagnostic.AV1135.severity = suggestion
 
-# Avoid breaking a generic definition
-resharper_wrap_before_extends_colon = true
+# Purpose contains x statements, which exceeds the maximum of 7 statements
+# Rationale: 7 is the ideal Clean Code value, 15 is what we think is reasonable, 40 is the absolute maximum.
+dotnet_diagnostic.AV1500.max_statement_count = 40
+dotnet_diagnostic.AV1500.severity = error
 
-resharper_blank_lines_before_multiline_statements = 1
+# Purpose: Loop statement contains nested loop
+# Rationale: We don't want to completely prevent this.
+dotnet_diagnostic.AV1532.severity = suggestion
 
-resharper_parentheses_non_obvious_operations = arithmetic, multiplicative, equality, relational, additive
-resharper_parentheses_redundancy_style = remove_if_not_clarifies_precedence
+# Purpose: Overloaded method should call another overload
+# Rationale: Does often lead to more complex code
+dotnet_diagnostic.AV1551.severity = none
 
-dotnet_analyzer_diagnostic.category-roslynator.severity = error
+# Purpose: Method contains optional parameter 'because'
+# Rationale: This is good advice, but in our case the entire purpose
+dotnet_diagnostic.AV1554.severity = none
 
-# Purpose: Remove trailing white-space
-# Reason: It also complains about this when pressing enter to start a new empty line. 
-dotnet_diagnostic.RCS1037.severity = none
+# Parameter is invoked with a named argument
+# Rationale: We do not want to enforce this rule in our codebase.
+dotnet_diagnostic.AV1555.severity = none
 
-# Remove suffix 'Async' from non-asynchronous method name. Disabled because we like that suffix for now.
-dotnet_diagnostic.RCS1047.severity = none
+# Purpose: Don’t declare signatures with more than 3 parameters
+# Rationale: 3 is the ideal number of parameters for a method, but more than 5 in a constructor is a problem
+dotnet_diagnostic.AV1561.max_parameter_count = 5
+dotnet_diagnostic.AV1561.max_constructor_parameter_count = 8
+dotnet_diagnostic.AV1561.severity = error
 
-# Combine 'Enumerable.Where' method chain. It doesn't make it more readable in all cases.
-dotnet_diagnostic.RCS1112.severity = suggestion
+# Purpose: Argument for parameter calls nested method
+# Rationale: Modern debuggers allow stepping into nested calls, so no need to avoid them.
+dotnet_diagnostic.AV1580.severity = none
 
-# Inline local variable.
-dotnet_diagnostic.RCS1124.severity = suggestion
+# Purpose: Parameter 'x' should have a more descriptive name
+# Rationale: Not always useful
+dotnet_diagnostic.AV1706.severity = none
 
-# Add exception to documentation comment. Nice suggestion, but we don't want to document exceptions for internal code.
-dotnet_diagnostic.RCS1140.severity = suggestion
+# Purpose: Field contains the name of its containing type
+# Rationale: It's not smart enough to understand that CustomFormatters is not the same as Formatter
+dotnet_diagnostic.AV1710.severity = suggestion
 
-# Missing documentation
-dotnet_diagnostic.RCS1141.severity = suggestion
-dotnet_diagnostic.RCS1142.severity = suggestion
+# Purpose: Name of async method
+# Rationale: We prefer to only use the "Async" suffix if a synchronous and asynchronous version of the method exists.
+dotnet_diagnostic.AV1755.severity = none
 
-# Use conditional access. Suggestion because it doesn't always improve readability
-dotnet_diagnostic.RCS1146.severity = suggestion
+# Purpose: Replace call to Nullable<T>.HasValue with null check
+# Rationale: Should be a suggestion, not an error
+dotnet_diagnostic.AV2202.severity = suggestion
 
-# Enum should declare explicit values. Disabled because we're not storing them.
-dotnet_diagnostic.RCS1161.severity = none
+# Purpose: Missing XML comment for internally visible type or member
+# Rationale: We do not want to enforce this rule in our codebase.
+dotnet_diagnostic.AV2305.severity = none
 
-# Static member in generic type should use a type parameter. Disabled because it's not always applicable.
-dotnet_diagnostic.RCS1158.severity = none
+# Purpose: Consider making 'RaiseXXX' an event
+# Rationale: Should only be a suggestion
+dotnet_diagnostic.CA1030.severity = suggestion
 
-# Add region name to #endregion.
-dotnet_diagnostic.RCS1189.severity = none
+# Purpose: Modify 'WriteMemberValueTextFor' to catch a more specific allowed exception type
+# Rationale: We know what we are doing, so we don't want to enforce this.
+dotnet_diagnostic.CA1031.severity = none
 
-# Convert comment to documentation comment. Disabled because it also complains about SMELL/REFACTOR comments
-dotnet_diagnostic.RCS1181.severity = none
+# Purpose: Change the type of property 'from 'string' to 'System.Uri'
+# Rationale: Not a bad idea, but not always practical in existing codebases.
+dotnet_diagnostic.CA1056.severity = suggestion
 
-# Use Regex instance instead of static method. Disabled because it's not always worth it.
-dotnet_diagnostic.RCS1186.severity = none
+# Purpose: In externally visible method  validate parameter 'formattedGraph' is non-null before using it.
+# Rationale: Not a bad idea, but not always practical in existing codebases.
+dotnet_diagnostic.CA1062.severity = suggestion
 
-# Use bit shift operator.
-dotnet_diagnostic.RCS1237.severity = none
+# Purpose: Method passes a literal string as parameter
+# Rationale: Very specific rule for localizable applications
+dotnet_diagnostic.CA1303.severity = suggestion
 
-# RCS1228: Unused element in documentation comment. (Equivalent to SA1614)
-dotnet_diagnostic.RCS1228.severity = suggestion
+# Purpose: Rename virtual/interface member so that it no longer conflicts with the reserved language keyword 'Throw'.
+# Rationale: We only support C#
+dotnet_diagnostic.CA1716.severity = none
 
-# Use an overload that has a IEqualityComparer<string> or IComparer<string> parameter
-dotnet_diagnostic.MA0002.severity = suggestion
+# Purpose: Properties should not return arrays
+# Rationale: Although returning arrays has some performance implications, we don't want to force this.
+dotnet_diagnostic.CA1819.severity = suggestion
 
-# Use Task.ConfigureAwait(false) as the current SynchronizationContext is not needed
-dotnet_diagnostic.MA0004.severity = none
+# Purpose: Use concrete types when possible for improved performance
+# Rationale: Does not need to be enforced in all cases, especially when using interfaces creates less coupling
+dotnet_diagnostic.CA1859.severity = suggestion
 
-#  Use string.Equals instead of Equals operator 
+# Purpose: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed
+# Rationale: Not relevant for .NET Core web applications.
+dotnet_diagnostic.CA2007.severity = none
+
+# Purpose: Pass System.Uri objects instead of strings
+# Rationale: Although nice to have, this rule is not always practical in existing codebases.
+dotnet_diagnostic.CA2234.severity = suggestion
+
+# Purpose: Use string.Equals instead of Equals operator
+# Rationale: Does not improve readability
 dotnet_diagnostic.MA0006.severity = none
 
-# Add regex evaluation timeout
-dotnet_diagnostic.MA0009.severity = none
+# Purpose: Regular expressions should not be vulnerable to Denial of Service attacks
+# Rationale: See https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0009.md
+dotnet_diagnostic.MA0009.severity = suggestion
 
-# Use an overload of 'ToString' that has a 'System.IFormatProvider' parameter. Already caught by CA1305.
-dotnet_diagnostic.MA0011.severity = none
-
-# Use an overload of 'System.ArgumentException' with the parameter name. Just a suggestion since we have a bunch of justified exceptions. 
+# Purpose: Use an overload of 'System.ArgumentException' with the parameter name
+# Rationale: We don't want to force this
 dotnet_diagnostic.MA0015.severity = suggestion
 
-# Use an explicit StringComparer to compute hash codes
-dotnet_diagnostic.MA0021.severity = none
+# Purpose: Use an explicit StringComparer to compute hash codes
+# Rationale: Too farfetched
+dotnet_diagnostic.MA0021.severity = suggestion
 
-# Declare types in namespaces. Already caught by CA1050 
-dotnet_diagnostic.MA0047.severity = none
+# Purpose: Closing parenthesis should not be preceded by a space
+# Rationale: This conflicts with record constructors
+dotnet_diagnostic.SA1009.severity = none
 
-# Use an overload of 'GetHashCode' that has a StringComparison parameter
-dotnet_diagnostic.MA0074.severity = none
+# Purpose: Code should not contain trailing whitespace
+# Rationale: We don't want to force this.
+dotnet_diagnostic.SA1028.severity = none
+
+# Purpose: Prefix local calls with this
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1101.severity = none
+
+# Purpose: Generic type constraints should be on their own line
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1127.severity = none
+
+# Purpose: Ordering rules
+# Rationale: We prefer to order members so we can read code like a book
+dotnet_diagnostic.SA1201.severity = none
+dotnet_diagnostic.SA1202.severity = none
+dotnet_diagnostic.SA1204.severity = none
+
+# Purpose: The parameters should begin on the line after the declaration, whenever the parameter span across multiple lines
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1116.severity = none
+
+# Purpose: The parameters should all be placed on the same line or each parameter should be placed on its own lin
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1117.severity = none
+
+# Purpose: Use string.Empty for empty string
+# Rationale: There is no performance difference in modern .NET versions, so no need to enforce this.
+dotnet_diagnostic.SA1122.severity = none
+
+# Purpose: Do not use region
+# Rationale: Is up to the developer to decide if they want to use regions or not.
+dotnet_diagnostic.SA1124.severity = none
+
+# Purpose: Variable '_' should begin with lower-case lette
+# Rationale: Does not understand discard parameters
+dotnet_diagnostic.SA1312.severity = none
+
+# Purpose: Parameter '_' should begin with lower-case lette
+# Rationale: Does not understand discard parameters
+dotnet_diagnostic.SA1313.severity = none
+
+# Purpose: File may only contain a single type
+# Rationale: Although we prefer to have one type per file, we don't want to force this.
+dotnet_diagnostic.SA1402.severity = suggestion
+
+# Purpose: Code analysis suppression should have justification
+# Rationale: If we do it, we have reasons for it.
+dotnet_diagnostic.SA1404.severity = none
+
+# Purpose: Use trailing comma in multi-line initialize
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1413.severity = none
+
+# Purpose: A closing brace should not be preceded by a blank line
+# Rationale: We don't care
+dotnet_diagnostic.SA1508.severity = none
+
+# Purpose: File is required to end with a single newline character (
+# Rationale: We don't care
+dotnet_diagnostic.SA1518.severity = none
+
+# Purpose: Elements should be documented
+# Rationale: We don't want to force documentation for all elements
+dotnet_diagnostic.SA1600.severity = suggestion
+
+# Purpose: Partial elements should be documented
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1601.severity = suggestion
+
+# Purpose: Enumeration items should be documented
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1602.severity = suggestion
+
+# Purpose: Element parameters should be documented
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1611.severity = suggestion
+
+# Purpose: The parameter documentation for 'because' should be at position 3
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1612.severity = suggestion
+
+# Purpose: Element return value should be documented
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1615.severity = none
+
+# Purpose: Generic type parameters should be documented
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1618.severity = suggestion
+
+# Purpose: Element return value should be documented
+# Rationale: We don't want to force this
+dotnet_diagnostic.sa1622.severity = suggestion
+
+# Purpose: The property's documentation summary text should begin with: 'Gets or sets'
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1623.severity = none
+
+# Purpose: Documentation text should end with a period
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1629.severity = none
+
+# Purpose: The file header is missing or not located at the top of the file
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1633.severity = none
+
+# Purpose: Constructor summary documentation should begin with standard text
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1642.severity = none
+
+# Purpose: File name should match first type name
+# Rationale: To keep the content-only package simple, we keep everything together
+dotnet_diagnostic.SA1649.severity = none
+
+# Purpose: Use file header
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1633.severity = none
+
+####################################################################
+## Duplicate rules
+####################################################################
+
+dotnet_diagnostic.MA0004.severity = none # duplicate of CA2007
+dotnet_diagnostic.AV2407.severity = none # duplicate of SA1124
+dotnet_diagnostic.RCS1102.severity = none # duplicate of CA1052
+dotnet_diagnostic.SA1401.severity = none # duplicate of CA1051
+dotnet_diagnostic.MA0069.severity = none # duplicate of CA2211
+dotnet_diagnostic.AV1210.severity = none # duplicate of CA1031
+dotnet_diagnostic.MA0051.severity = none # duplicate of AV1500
+dotnet_diagnostic.MA0011.severity = none # duplicate of CA1305
+dotnet_diagnostic.CA1050.severity = none # duplicate of MA0047 (which is more explanatory)
+

@@ -54,20 +54,24 @@ internal class ContextDataDictionary
         }
     }
 
-    public class DataItem(string key, object value, bool reportable, bool requiresFormatting)
+    public class DataItem(string key, object value)
     {
         public string Key { get; } = key;
 
         public object Value { get; } = value;
 
-        public bool Reportable { get; } = reportable;
+        public bool Reportable { get; init; }
 
-        public bool RequiresFormatting { get; } = requiresFormatting;
+        public bool RequiresFormatting { get; init; }
 
         public DataItem Clone()
         {
             object clone = Value is ICloneable2 cloneable ? cloneable.Clone() : Value;
-            return new DataItem(Key, clone, Reportable, RequiresFormatting);
+            return new DataItem(Key, clone)
+            {
+                Reportable = Reportable,
+                RequiresFormatting = RequiresFormatting
+            };
         }
     }
 }

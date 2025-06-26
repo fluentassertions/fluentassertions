@@ -71,10 +71,12 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
 
     public bool IsCyclicReference(object expectation)
     {
-        bool compareByMembers = expectation is not null && Options.GetEqualityStrategy(expectation.GetType())
-            is EqualityStrategy.Members or EqualityStrategy.ForceMembers;
+        EqualityStrategy strategy = expectation is not null
+            ? Options.GetEqualityStrategy(expectation.GetType())
+            : EqualityStrategy.Equals;
 
-        var reference = new ObjectReference(expectation, CurrentNode.Subject.PathAndName, compareByMembers);
+        var reference = new ObjectReference(expectation, CurrentNode.Subject.PathAndName, strategy);
+
         return CyclicReferenceDetector.IsCyclicReference(reference);
     }
 

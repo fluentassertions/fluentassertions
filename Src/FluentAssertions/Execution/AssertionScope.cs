@@ -146,7 +146,10 @@ public sealed class AssertionScope : IDisposable
     /// </summary>
     internal void AddReportable(string key, string value)
     {
-        reportableData.Add(new ContextDataDictionary.DataItem(key, value, reportable: true, requiresFormatting: false));
+        reportableData.Add(new ContextDataDictionary.DataItem(key, value)
+        {
+            Reportable = true,
+        });
     }
 
     /// <summary>
@@ -155,8 +158,10 @@ public sealed class AssertionScope : IDisposable
     /// </summary>
     internal void AddReportable(string key, Func<string> valueFunc)
     {
-        reportableData.Add(new ContextDataDictionary.DataItem(key, new DeferredReportable(valueFunc), reportable: true,
-            requiresFormatting: false));
+        reportableData.Add(new ContextDataDictionary.DataItem(key, new DeferredReportable(valueFunc))
+        {
+            Reportable = true
+        });
     }
 
     /// <summary>
@@ -202,7 +207,10 @@ public sealed class AssertionScope : IDisposable
         {
             if (tracing.Length > 0)
             {
-                reportableData.Add(new ContextDataDictionary.DataItem("trace", tracing.ToString(), reportable: true, requiresFormatting: false));
+                reportableData.Add(new ContextDataDictionary.DataItem("trace", tracing.ToString())
+                {
+                    Reportable = true
+                });
             }
 
             assertionStrategy.ThrowIfAny(reportableData.GetReportable());

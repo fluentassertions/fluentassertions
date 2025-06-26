@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using FluentAssertions.Execution;
@@ -53,7 +53,7 @@ public class XmlNodeAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<
         using (var expectedReader = new XmlNodeReader(expected))
         {
             var xmlReaderValidator = new XmlReaderValidator(assertionChain, subjectReader, expectedReader, because, becauseArgs);
-            xmlReaderValidator.Validate(shouldBeEquivalent: true);
+            xmlReaderValidator.AssertThatItIsEquivalent();
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -78,7 +78,7 @@ public class XmlNodeAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<
         using (var unexpectedReader = new XmlNodeReader(unexpected))
         {
             var xmlReaderValidator = new XmlReaderValidator(assertionChain, subjectReader, unexpectedReader, because, becauseArgs);
-            xmlReaderValidator.Validate(shouldBeEquivalent: false);
+            xmlReaderValidator.AssertThatIsNotEquivalent();
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);

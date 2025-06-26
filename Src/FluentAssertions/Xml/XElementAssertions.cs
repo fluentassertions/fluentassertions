@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -97,7 +97,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
         using (XmlReader expectedReader = expected?.CreateReader())
         {
             var xmlReaderValidator = new XmlReaderValidator(assertionChain, subjectReader, expectedReader, because, becauseArgs);
-            xmlReaderValidator.Validate(shouldBeEquivalent: true);
+            xmlReaderValidator.AssertThatItIsEquivalent();
         }
 
         return new AndConstraint<XElementAssertions>(this);
@@ -123,7 +123,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
         using (XmlReader otherReader = unexpected?.CreateReader())
         {
             var xmlReaderValidator = new XmlReaderValidator(assertionChain, subjectReader, otherReader, because, becauseArgs);
-            xmlReaderValidator.Validate(shouldBeEquivalent: false);
+            xmlReaderValidator.AssertThatIsNotEquivalent();
         }
 
         return new AndConstraint<XElementAssertions>(this);

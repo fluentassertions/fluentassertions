@@ -25,6 +25,11 @@ dotnet_diagnostic.CA1024.severity = none
 dotnet_diagnostic.CA1028.severity = none
 # CA1032: Implement standard exception constructors
 dotnet_diagnostic.CA1032.severity = none
+
+# Purpose: Do not nest types. Alternatively, change its accessibility so that it is not externally visible
+# Reason: We have a lot of nested types to group tests, so we disable this rule
+dotnet_diagnostic.CA1034.severity = none
+
 # CA1036: Override methods on comparable types
 dotnet_diagnostic.CA1036.severity = none
 # CA1040: Avoid empty interfaces
@@ -60,6 +65,11 @@ dotnet_diagnostic.CA1714.severity = none
 dotnet_diagnostic.CA1716.severity = none
 # CA1720: Identifiers should not contain type names
 dotnet_diagnostic.CA1720.severity = none
+
+# Purpose: The type name Interfaces conflicts in whole or in part with the namespace name
+# Reason: We don't care about this in tests
+dotnet_diagnostic.CA1724.severity = none
+
 # CA1812: Type is an internal class that is apparently never instantiated.
 dotnet_diagnostic.CA1812.severity = none
 # CA1813 Avoid unsealed attributes
@@ -94,6 +104,7 @@ dotnet_diagnostic.CA5394.severity = none
 dotnet_diagnostic.AV1000.severity = none
 # AV1008: Class should be non-static or its name should be suffixed with Extensions
 dotnet_diagnostic.AV1008.severity = none
+
 # AV1115: Member or local function contains the word 'and', which suggests doing multiple things
 dotnet_diagnostic.AV1115.severity = none
 # AV1135: Do not return null for strings, collections or tasks
@@ -196,6 +207,10 @@ dotnet_diagnostic.RCS1213.severity = none
 
 # Implement IComparable when implementing IComparable<T><T>. Disabled since we don't want to be so strict in tests.
 dotnet_diagnostic.RCS1241.severity = none
+
+# Purpose: Use an overload that has a IEqualityComparer<string> or IComparer<string> parameter
+# Reason: Not important in tests
+dotnet_diagnostic.MA0002.severity = none
 
 # Use Array.Empty<T>(). We don't care.
 dotnet_diagnostic.MA0005.severity = none
