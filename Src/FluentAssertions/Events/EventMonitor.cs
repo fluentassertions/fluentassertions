@@ -17,7 +17,7 @@ internal sealed class EventMonitor<T> : IMonitor<T>
 {
     private readonly WeakReference subject;
 
-    private readonly ConcurrentDictionary<string, EventRecorder> recorderMap = new();
+    private readonly ConcurrentDictionary<string, EventRecorder> recorderMap = new(StringComparer.Ordinal);
 
     public EventMonitor(object eventSource, EventMonitorOptions options)
     {

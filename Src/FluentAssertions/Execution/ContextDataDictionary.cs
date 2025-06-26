@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Formatting;
@@ -13,7 +14,9 @@ internal class ContextDataDictionary
 
     public IDictionary<string, object> GetReportable()
     {
-        return items.Where(item => item.Reportable).ToDictionary(item => item.Key, item => item.Value);
+        return items
+            .Where(item => item.Reportable)
+            .ToDictionary(item => item.Key, item => item.Value, StringComparer.Ordinal);
     }
 
     public string AsStringOrDefault(string key)
