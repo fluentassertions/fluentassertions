@@ -1593,7 +1593,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     public AndConstraint<TAssertions> NotContainAll(IEnumerable<string> values,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        IList<string> strings = values?.ConvertOrCastToList();
+        ICollection<string> strings = values?.ConvertOrCastToCollection();
         ThrowIfValuesNullOrEmpty(strings);
 
         var matches = strings!.Count(v => Contains(Subject, v, StringComparison.Ordinal));

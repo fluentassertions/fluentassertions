@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
@@ -19,6 +20,7 @@ public class GlobalFormattingOptions : FormattingOptions
 
     public ValueFormatterDetectionMode ValueFormatterDetectionMode { get; set; }
 
+    [SuppressMessage("Class Design", "AV1010:Member hides inherited member")]
     internal new GlobalFormattingOptions Clone()
     {
         return new GlobalFormattingOptions

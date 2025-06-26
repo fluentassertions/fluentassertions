@@ -3,20 +3,16 @@ namespace FluentAssertions.Execution;
 internal static class StringExtensions
 {
     /// <summary>
-    /// Can be used
+    /// Wraps the specified string in a <see cref="WithoutFormattingWrapper"/> to prevent any formatting applied during output.
     /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
     public static WithoutFormattingWrapper AsNonFormattable(this string value)
     {
         return new WithoutFormattingWrapper(value);
     }
 
     /// <summary>
-    /// Can be used
+    /// Wraps the specified value in a <see cref="WithoutFormattingWrapper"/> to prevent any formatting applied during output.
     /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
     public static WithoutFormattingWrapper AsNonFormattable(this object value)
     {
         return new WithoutFormattingWrapper(value?.ToString());

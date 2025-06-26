@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -37,10 +38,9 @@ internal static class ExpressionExtensions
     /// E.g. ["Parent.Child.Sibling.Name"] or ["A.Dotted.Path1", "A.Dotted.Path2"].
     /// </example>
     /// <exception cref="ArgumentNullException"><paramref name="expression"/> is <see langword="null"/>.</exception>
-#pragma warning disable MA0051
+    [SuppressMessage("Maintainability", "AV1500:Member or local function contains too many statements")]
     public static IEnumerable<MemberPath> GetMemberPaths<TDeclaringType, TPropertyType>(
         this Expression<Func<TDeclaringType, TPropertyType>> expression)
-#pragma warning restore MA0051
     {
         Guard.ThrowIfArgumentIsNull(expression, nameof(expression), "Expected an expression, but found <null>.");
 
@@ -56,36 +56,47 @@ internal static class ExpressionExtensions
 #pragma warning restore IDE0010
             {
                 case ExpressionType.Lambda:
+                {
                     node = ((LambdaExpression)node).Body;
                     break;
+                }
 
                 case ExpressionType.Convert:
                 case ExpressionType.ConvertChecked:
+                {
                     var unaryExpression = (UnaryExpression)node;
                     node = unaryExpression.Operand;
                     break;
+                }
 
                 case ExpressionType.MemberAccess:
+                {
                     var memberExpression = (MemberExpression)node;
                     node = memberExpression.Expression;
 
                     singlePath = $"{memberExpression.Member.Name}.{singlePath}";
                     declaringTypes.Add(memberExpression.Member.DeclaringType);
                     break;
+                }
 
                 case ExpressionType.ArrayIndex:
+                {
                     var binaryExpression = (BinaryExpression)node;
                     var indexExpression = (ConstantExpression)binaryExpression.Right;
                     node = binaryExpression.Left;
 
                     singlePath = $"[{indexExpression.Value}].{singlePath}";
                     break;
+                }
 
                 case ExpressionType.Parameter:
+                {
                     node = null;
                     break;
+                }
 
                 case ExpressionType.Call:
+                {
                     var methodCallExpression = (MethodCallExpression)node;
 
                     if (methodCallExpression is not
@@ -97,7 +108,10 @@ internal static class ExpressionExtensions
                     node = methodCallExpression.Object;
                     singlePath = $"[{argumentExpression.Value}].{singlePath}";
                     break;
+                }
+
                 case ExpressionType.New:
+                {
                     var newExpression = (NewExpression)node;
 
                     foreach (Expression member in newExpression.Arguments)
@@ -109,9 +123,12 @@ internal static class ExpressionExtensions
 
                     node = null;
                     break;
+                }
 
                 default:
+                {
                     throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
+                }
             }
         }
 
@@ -166,32 +183,43 @@ internal static class ExpressionExtensions
 #pragma warning restore IDE0010
             {
                 case ExpressionType.Lambda:
+                {
                     node = ((LambdaExpression)node).Body;
                     break;
+                }
 
                 case ExpressionType.Convert:
                 case ExpressionType.ConvertChecked:
+                {
                     var unaryExpression = (UnaryExpression)node;
                     node = unaryExpression.Operand;
                     break;
+                }
 
                 case ExpressionType.MemberAccess:
+                {
                     var memberExpression = (MemberExpression)node;
                     node = memberExpression.Expression;
 
                     break;
+                }
 
                 case ExpressionType.ArrayIndex:
+                {
                     var binaryExpression = (BinaryExpression)node;
                     node = binaryExpression.Left;
 
                     break;
+                }
 
                 case ExpressionType.Parameter:
+                {
                     node = null;
                     break;
+                }
 
                 case ExpressionType.Call:
+                {
                     var methodCallExpression = (MethodCallExpression)node;
 
                     if (methodCallExpression is not { Method.Name: "get_Item", Arguments: [ConstantExpression] })
@@ -201,9 +229,12 @@ internal static class ExpressionExtensions
 
                     node = methodCallExpression.Object;
                     break;
+                }
 
                 default:
+                {
                     throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
+                }
             }
         }
     }

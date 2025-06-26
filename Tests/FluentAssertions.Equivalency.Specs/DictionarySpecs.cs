@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using FluentAssertions.Equivalency.Tracing;
@@ -1304,6 +1305,7 @@ public class DictionarySpecs
 
 internal class NonGenericChildDictionary : Dictionary<string, int>
 {
+    [SuppressMessage("Class Design", "AV1010:Member hides inherited member")]
     public new void Add(string key, int value)
     {
         base.Add(key, value);

@@ -11,9 +11,9 @@ internal abstract class LateBoundTestFramework : ITestFramework
         _ => throw new InvalidOperationException($"{nameof(IsAvailable)} must be called first.");
 
     /// <summary>
-    /// When set to <c>true</c>, the assembly specified by the <c>AssemblyName</c> property will
+    /// When set to <see langword="true"/>, the assembly specified by the <see cref="AssemblyName"/> property will
     /// be dynamically loaded if it is not already loaded in the application domain.
-    /// When set to <c>false</c>, the framework will not attempt to load the assembly dynamically.
+    /// When set to <see langword="false"/>, the framework will not attempt to load the assembly dynamically.
     /// </summary>
     protected bool LoadAssembly { get; init; }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using Xunit;
@@ -41,6 +42,7 @@ public partial class ObjectAssertionSpecs
     internal class DumbObjectEqualityComparer : IEqualityComparer<object>
     {
         // ReSharper disable once MemberHidesStaticFromOuterClass
+        [SuppressMessage("Class Design", "AV1010:Member hides inherited member")]
         public new bool Equals(object x, object y)
         {
             return (x == y) || (x is not null && y is not null && x.Equals(y));

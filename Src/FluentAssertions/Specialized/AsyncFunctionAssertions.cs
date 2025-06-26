@@ -313,7 +313,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <summary>
     ///     Invokes the subject and measures the sync execution time.
     /// </summary>
-    private protected (TTask result, TimeSpan remainingTime) InvokeWithTimer(TimeSpan timeSpan)
+    private protected (TTask Result, TimeSpan RemainingTime) InvokeWithTimer(TimeSpan timeSpan)
     {
         ITimer timer = Clock.StartTimer();
         TTask result = Subject.Invoke();

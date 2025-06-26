@@ -366,9 +366,9 @@ namespace FluentAssertions.Specs.Execution
     }
 }
 
-#pragma warning disable RCS1110, CA1050, S3903 // Declare type inside namespace.
+#pragma warning disable MA0047
 public class AssertionScopeSpecsWithoutNamespace
-#pragma warning restore RCS1110, CA1050, S3903 // Declare type inside namespace.
+#pragma warning restore MA0047
 {
     [Fact]
     public void This_class_should_not_be_inside_a_namespace()

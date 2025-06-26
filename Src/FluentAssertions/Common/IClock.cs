@@ -19,7 +19,6 @@ public interface IClock
     /// Creates a task that will complete after a time delay.
     /// </summary>
     /// <param name="delay">The time span to wait before completing the returned task</param>
-    /// <param name="cancellationToken"></param>
     /// <returns>A task that represents the time delay.</returns>
     /// <seealso cref="Task.Delay(TimeSpan)"/>
     Task DelayAsync(TimeSpan delay, CancellationToken cancellationToken);

@@ -39,15 +39,21 @@ public class EnumEqualityStep : IEquivalencyStep
             switch (context.Options.EnumEquivalencyHandling)
             {
                 case EnumEquivalencyHandling.ByValue:
+                {
                     HandleByValue(assertionChain, comparands, context.Reason);
                     break;
+                }
 
                 case EnumEquivalencyHandling.ByName:
+                {
                     HandleByName(assertionChain, comparands, context.Reason);
                     break;
+                }
 
                 default:
+                {
                     throw new InvalidOperationException($"Do not know how to handle {context.Options.EnumEquivalencyHandling}");
+                }
             }
         }
 

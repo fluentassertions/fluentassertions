@@ -53,6 +53,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// the element order, use <see cref="BeEquivalentTo(string[])"/> instead.
     /// </summary>
     /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
+    [SuppressMessage("Class Design", "AV1010:Member hides inherited member")]
     public new AndConstraint<TAssertions> Equal(params string[] expected)
     {
         return base.Equal(expected.AsEnumerable());

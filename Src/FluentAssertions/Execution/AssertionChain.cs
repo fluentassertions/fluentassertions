@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
@@ -221,10 +221,9 @@ public sealed class AssertionChain
 
     public Continuation FailWith(string message, params Func<object>[] argProviders)
     {
-        return FailWith(
-            () => new FailReason(
-                message,
-                argProviders.Select(a => a()).ToArray()));
+        return FailWith(() => new FailReason(
+            message,
+            argProviders.Select(a => a()).ToArray()));
     }
 
     public Continuation FailWith(Func<FailReason> getFailureReason)

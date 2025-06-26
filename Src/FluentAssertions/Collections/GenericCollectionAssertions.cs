@@ -903,7 +903,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         if (assertionChain.Succeeded)
         {
-            EquivalencyOptions<TExpectation> options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<TExpectation>());
+            EquivalencyOptions<TExpectation> options =
+                config(AssertionConfiguration.Current.Equivalency.CloneDefaults<TExpectation>());
 
             using var scope = new AssertionScope();
             assertionChain.AddReportable("configuration", () => options.ToString());
@@ -1185,20 +1186,28 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             switch (actualItems.Count)
             {
                 case 0: // Fail, Collection is empty
+                {
                     assertionChain
                         .BecauseOf(because, becauseArgs)
                         .FailWith("Expected {context:collection} to contain a single item{reason}, but the collection is empty.");
 
                     break;
+                }
+
                 case 1: // Success Condition
+                {
                     match = actualItems.Single();
                     break;
+                }
+
                 default: // Fail, Collection contains more than a single item
+                {
                     assertionChain
                         .BecauseOf(because, becauseArgs)
                         .FailWith("Expected {context:collection} to contain a single item{reason}, but found {0}.", Subject);
 
                     break;
+                }
             }
         }
 
@@ -2405,7 +2414,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         if (assertionChain.Succeeded)
         {
-            EquivalencyOptions<TExpectation> options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<TExpectation>());
+            EquivalencyOptions<TExpectation> options =
+                config(AssertionConfiguration.Current.Equivalency.CloneDefaults<TExpectation>());
 
             var foundIndices = new List<int>();
 
@@ -2613,7 +2623,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                             .FailWith(
                                 "Expected {context:collection} {0} to not contain items {1} in consecutive order{reason}, " +
                                 "but items appeared in order ending at index {2}.",
-                                Subject, unexpectedItems, (subjectIndex + consecutiveItems) - 2);
+                                Subject, unexpectedItems, subjectIndex + consecutiveItems - 2);
                     }
 
                     subjectIndex++;
@@ -3042,7 +3052,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             if (failuresFromInspectors.Length > 0)
             {
                 string failureMessage = Environment.NewLine
-                    + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+                                        + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
 
                 assertionChain
                     .BecauseOf(because, becauseArgs)
@@ -3126,7 +3136,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             if (failuresFromInspectors.Length > 0)
             {
                 string failureMessage = Environment.NewLine
-                    + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+                                        + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
 
                 assertionChain
                     .BecauseOf(because, becauseArgs)
@@ -3211,8 +3221,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                     message += doubleNewLine + "The following predicates did not have matching elements:";
 
                     message += doubleNewLine +
-                        string.Join(Environment.NewLine,
-                            unmatchedPredicates.Select(predicate => Formatter.ToString(predicate.Expression)));
+                               string.Join(Environment.NewLine,
+                                   unmatchedPredicates.Select(predicate => Formatter.ToString(predicate.Expression)));
                 }
 
                 List<Element<T>> unmatchedElements = maximumMatchingSolution.GetUnmatchedElements();
@@ -3478,7 +3488,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     {
         IList<T> collection = subject.ConvertOrCastToList();
         int index = collection.IndexOf(predecessor);
-        return index < (collection.Count - 1) ? collection[index + 1] : default;
+        return index < collection.Count - 1 ? collection[index + 1] : default;
     }
 
     private string[] CollectFailuresFromInspectors(IEnumerable<Action<T>> elementInspectors)
@@ -3598,7 +3608,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                     assertionChain
                         .BecauseOf(because, becauseArgs)
                         .FailWith("Expected {context:collection} to be in " + sortOrder +
-                            " order{reason}, but found {0} where item at index {1} is in wrong order.",
+                                  " order{reason}, but found {0} where item at index {1} is in wrong order.",
                             actualItems, index);
 
                     return new AndConstraint<SubsequentOrderingAssertions<T>>(

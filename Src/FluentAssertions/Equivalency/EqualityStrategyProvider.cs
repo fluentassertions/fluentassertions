@@ -48,24 +48,29 @@ internal sealed class EqualityStrategyProvider
             {
                 return EqualityStrategy.ForceMembers;
             }
-            else if (valueTypes.Count > 0 && valueTypes.Exists(t => typeKey.IsSameOrInherits(t)))
+
+            if (valueTypes.Count > 0 && valueTypes.Exists(t => typeKey.IsSameOrInherits(t)))
             {
                 return EqualityStrategy.ForceEquals;
             }
-            else if (!typeKey.IsPrimitive && referenceTypes.Count > 0 &&
-                     referenceTypes.Exists(t => typeKey.IsAssignableToOpenGeneric(t)))
+
+            if (!typeKey.IsPrimitive && referenceTypes.Count > 0 &&
+                referenceTypes.Exists(t => typeKey.IsAssignableToOpenGeneric(t)))
             {
                 return EqualityStrategy.ForceMembers;
             }
-            else if (valueTypes.Count > 0 && valueTypes.Exists(t => typeKey.IsAssignableToOpenGeneric(t)))
+
+            if (valueTypes.Count > 0 && valueTypes.Exists(t => typeKey.IsAssignableToOpenGeneric(t)))
             {
                 return EqualityStrategy.ForceEquals;
             }
-            else if ((compareRecordsByValue.HasValue || defaultStrategy is null) && typeKey.IsRecord())
+
+            if ((compareRecordsByValue != null || defaultStrategy is null) && typeKey.IsRecord())
             {
                 return compareRecordsByValue is true ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
             }
-            else if (defaultStrategy is not null)
+
+            if (defaultStrategy is not null)
             {
                 return defaultStrategy(typeKey);
             }

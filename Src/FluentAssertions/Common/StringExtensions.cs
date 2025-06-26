@@ -99,7 +99,6 @@ internal static class StringExtensions
     /// <summary>
     /// Appends tab character at the beginning of each line in a string.
     /// </summary>
-    /// <param name="this"></param>
     public static string IndentLines(this string @this)
     {
         return string.Join(Environment.NewLine,

@@ -18,7 +18,6 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
     /// <summary>
     /// Initializes a new instance of the <see cref="XmlElementAssertions"/> class.
     /// </summary>
-    /// <param name="xmlElement"></param>
     public XmlElementAssertions(XmlElement xmlElement, AssertionChain assertionChain)
         : base(xmlElement, assertionChain)
     {
