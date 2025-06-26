@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,7 +27,7 @@ internal class ExcludeMembersByNameSelectionRule : IMemberSelectionRule
     public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
         MemberSelectionContext context)
     {
-        return selectedMembers.Where(m => !membersToExclude.Contains(m.Expectation.Name)).ToArray();
+        return selectedMembers.Where(m => !membersToExclude.Contains(m.Expectation.Name, StringComparer.Ordinal)).ToArray();
     }
 
     /// <inheritdoc />

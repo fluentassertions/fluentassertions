@@ -57,7 +57,9 @@ internal class ObjectReference
         int commonElements = Math.Min(elements.Length, otherPath.Length);
         int longerPathAdditionalElements = Math.Max(elements.Length, otherPath.Length) - commonElements;
 
-        return longerPathAdditionalElements > 0 && otherPath.Take(commonElements).SequenceEqual(elements.Take(commonElements));
+        return longerPathAdditionalElements > 0 && otherPath
+            .Take(commonElements)
+            .SequenceEqual(elements.Take(commonElements), StringComparer.Ordinal);
     }
 
     /// <summary>

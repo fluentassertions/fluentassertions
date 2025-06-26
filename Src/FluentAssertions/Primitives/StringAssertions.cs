@@ -95,7 +95,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         assertionChain
-            .ForCondition(validValues.Contains(Subject))
+            .ForCondition(validValues.Contains(Subject, StringComparer.Ordinal))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} to be one of {0}{reason}, but found {1}.", validValues, Subject);
 
@@ -1593,12 +1593,13 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     public AndConstraint<TAssertions> NotContainAll(IEnumerable<string> values,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        ThrowIfValuesNullOrEmpty(values);
+        IList<string> strings = values?.ConvertOrCastToList();
+        ThrowIfValuesNullOrEmpty(strings);
 
-        var matches = values.Count(v => Contains(Subject, v, StringComparison.Ordinal));
+        var matches = strings!.Count(v => Contains(Subject, v, StringComparison.Ordinal));
 
         assertionChain
-            .ForCondition(matches != values.Count())
+            .ForCondition(matches != strings.Count)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:string} {0} to contain all of the strings: {1}{reason}.", Subject, values);
 

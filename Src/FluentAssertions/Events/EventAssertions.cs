@@ -99,6 +99,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     /// <returns>
     /// Returns only the events having arguments of type <see cref="PropertyChangedEventArgs"/> targeting the property.
     /// </returns>
+    [SuppressMessage("Usage", "MA0002:IEqualityComparer<string> or IComparer<string> is missing")]
     public IEventRecording RaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
