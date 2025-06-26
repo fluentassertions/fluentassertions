@@ -5,13 +5,13 @@ namespace FluentAssertions.Equivalency;
 internal class Digit
 {
     private readonly int length;
-    private readonly Digit nextDigit;
+    private readonly Digit next;
     private int index;
 
-    public Digit(int length, Digit nextDigit)
+    public Digit(int length, Digit next)
     {
         this.length = length;
-        this.nextDigit = nextDigit;
+        this.next = next;
     }
 
     public int[] GetIndices()
@@ -23,7 +23,7 @@ internal class Digit
         while (digit is not null)
         {
             indices.Add(digit.index);
-            digit = digit.nextDigit;
+            digit = digit.next;
         }
 
         return indices.ToArray();
@@ -31,7 +31,7 @@ internal class Digit
 
     public bool Increment()
     {
-        bool success = nextDigit?.Increment() == true;
+        bool success = next?.Increment() == true;
 
         if (!success)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using Xunit;
 
@@ -6,6 +7,7 @@ namespace FluentAssertions.Equivalency.Specs;
 
 public partial class SelectionRulesSpecs
 {
+    [SuppressMessage("Class Design", "AV1010:Member hides inherited member")]
     public class MemberHiding
     {
         [Fact]

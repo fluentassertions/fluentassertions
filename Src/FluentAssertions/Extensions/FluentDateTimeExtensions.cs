@@ -1,4 +1,6 @@
-﻿using System;
+﻿#pragma warning disable AV1561 // Don’t declare signatures with more than 3 parameters
+
+using System;
 using System.Diagnostics;
 using FluentAssertions.Common;
 
@@ -311,3 +313,5 @@ public static class FluentDateTimeExtensions
         return self.ToDateTimeOffset(offset);
     }
 }
+
+#pragma warning restore AV1561

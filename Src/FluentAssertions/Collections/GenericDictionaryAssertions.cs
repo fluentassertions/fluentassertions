@@ -68,8 +68,8 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
 
         if (assertionChain.Succeeded)
         {
-            IEnumerable<TKey> subjectKeys = GetKeys(Subject);
-            IEnumerable<TKey> expectedKeys = GetKeys(expected);
+            ICollection<TKey> subjectKeys = GetKeys(Subject).ConvertOrCastToCollection();
+            ICollection<TKey> expectedKeys = GetKeys(expected).ConvertOrCastToCollection();
             IEnumerable<TKey> missingKeys = expectedKeys.Except(subjectKeys);
             IEnumerable<TKey> additionalKeys = subjectKeys.Except(expectedKeys);
 
@@ -139,8 +139,8 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
                     .FailWith("Expected dictionaries not to be equal{reason}, but they both reference the same object.");
             }
 
-            IEnumerable<TKey> subjectKeys = GetKeys(Subject);
-            IEnumerable<TKey> unexpectedKeys = GetKeys(unexpected);
+            IEnumerable<TKey> subjectKeys = GetKeys(Subject).ConvertOrCastToCollection();
+            IEnumerable<TKey> unexpectedKeys = GetKeys(unexpected).ConvertOrCastToCollection();
             IEnumerable<TKey> missingKeys = unexpectedKeys.Except(subjectKeys);
             IEnumerable<TKey> additionalKeys = subjectKeys.Except(unexpectedKeys);
 
@@ -665,7 +665,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
-    [SuppressMessage("Design", "MA0051:Method is too long", Justification = "Needs refactoring")]
+    [SuppressMessage("Class Design", "AV1010:Member hides inherited member")]
     public new AndConstraint<TAssertions> Contain(IEnumerable<KeyValuePair<TKey, TValue>> expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
@@ -750,6 +750,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    [SuppressMessage("Class Design", "AV1010:Member hides inherited member")]
     public new AndConstraint<TAssertions> Contain(KeyValuePair<TKey, TValue> expected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
@@ -835,6 +836,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="items"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="items"/> is empty.</exception>
+    [SuppressMessage("Class Design", "AV1010:Member hides inherited member")]
     public new AndConstraint<TAssertions> NotContain(IEnumerable<KeyValuePair<TKey, TValue>> items,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
@@ -903,6 +905,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    [SuppressMessage("Class Design", "AV1010:Member hides inherited member")]
     public new AndConstraint<TAssertions> NotContain(KeyValuePair<TKey, TValue> item,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {

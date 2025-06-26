@@ -6,7 +6,6 @@ namespace FluentAssertions.Formatting;
 /// Represents the behavior of <see cref="Line"/> when most of the appending and inserting
 /// has completed, and it no longer needs an internal <see cref="StringBuilder"/>.
 /// </summary>
-/// <param name="content"></param>
 internal class FlushedLineState(string content) : ILineState
 {
     private string content = content;

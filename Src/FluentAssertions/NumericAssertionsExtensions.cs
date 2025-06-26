@@ -354,6 +354,7 @@ public static class NumericAssertionsExtensions
         return new AndConstraint<NumericAssertions<ulong>>(parent);
     }
 
+    [SuppressMessage("Maintainability", "AV1561:Signature contains too many parameters")]
     private static void FailIfValueOutsideBounds<TValue, TDelta>(AssertionChain assertionChain, bool valueWithinBounds,
         TValue nearbyValue, TDelta delta, TValue actualValue,
         [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
@@ -715,6 +716,7 @@ public static class NumericAssertionsExtensions
         return new AndConstraint<NumericAssertions<ulong>>(parent);
     }
 
+    [SuppressMessage("Maintainability", "AV1561:Signature contains too many parameters")]
     private static void FailIfValueInsideBounds<TValue, TDelta>(
         AssertionChain assertionChain,
         bool valueOutsideBounds,
@@ -1130,6 +1132,7 @@ public static class NumericAssertionsExtensions
         return new AndConstraint<NumericAssertions<decimal>>(parent);
     }
 
+    [SuppressMessage("Maintainability", "AV1561:Signature contains too many parameters")]
     private static void FailIfDifferenceOutsidePrecision<T>(
         bool differenceWithinPrecision,
         NumericAssertions<T> parent, T expectedValue, T precision, T actualDifference,
@@ -1525,6 +1528,7 @@ public static class NumericAssertionsExtensions
         return new AndConstraint<NumericAssertions<decimal>>(parent);
     }
 
+    [SuppressMessage("Maintainability", "AV1561:Signature contains too many parameters")]
     private static void FailIfDifferenceWithinPrecision<T>(
         NumericAssertions<T> parent, bool differenceOutsidePrecision,
         T unexpectedValue, T precision, T actualDifference,

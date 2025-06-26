@@ -17,7 +17,7 @@ internal class MemberPath
 
     private string[] segments;
 
-    private static readonly MemberPathSegmentEqualityComparer MemberPathSegmentEqualityComparer = new();
+    private static readonly MemberPathSegmentEqualityComparer SegmentEqualityComparer = new();
 
     public MemberPath(IMember member, string parentPath)
         : this(member.ReflectedType, member.DeclaringType, parentPath.Combine(member.Expectation.Name))
@@ -63,7 +63,7 @@ internal class MemberPath
         {
             string[] candidateSegments = candidate.Segments;
 
-            return candidateSegments.SequenceEqual(Segments, MemberPathSegmentEqualityComparer);
+            return candidateSegments.SequenceEqual(Segments, SegmentEqualityComparer);
         }
 
         return false;
@@ -74,7 +74,7 @@ internal class MemberPath
         string[] candidateSegments = candidate.Segments;
 
         return candidateSegments.Length > Segments.Length &&
-            candidateSegments.Take(Segments.Length).SequenceEqual(Segments, MemberPathSegmentEqualityComparer);
+            candidateSegments.Take(Segments.Length).SequenceEqual(Segments, SegmentEqualityComparer);
     }
 
     private bool IsChildOf(MemberPath candidate)
@@ -83,7 +83,7 @@ internal class MemberPath
 
         return candidateSegments.Length < Segments.Length
             && candidateSegments.SequenceEqual(Segments.Take(candidateSegments.Length),
-                MemberPathSegmentEqualityComparer);
+                SegmentEqualityComparer);
     }
 
     public MemberPath AsParentCollectionOf(MemberPath nextPath)
@@ -103,7 +103,7 @@ internal class MemberPath
     public bool HasSameParentAs(MemberPath path)
     {
         return Segments.Length == path.Segments.Length
-            && GetParentSegments().SequenceEqual(path.GetParentSegments(), MemberPathSegmentEqualityComparer);
+            && GetParentSegments().SequenceEqual(path.GetParentSegments(), SegmentEqualityComparer);
     }
 
     private IEnumerable<string> GetParentSegments() => Segments.Take(Segments.Length - 1);

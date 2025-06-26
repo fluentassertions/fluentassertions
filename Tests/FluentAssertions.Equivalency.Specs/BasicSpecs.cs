@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using FluentAssertions.Extensions;
 using Xunit;
@@ -194,6 +195,7 @@ public class BasicSpecs
     {
         public string Property { get; set; }
 
+        [SuppressMessage("Class Design", "AV1010:Member hides inherited member")]
         public new virtual bool Equals(object obj)
         {
             return obj is VirtualClass other && other.Property == Property;

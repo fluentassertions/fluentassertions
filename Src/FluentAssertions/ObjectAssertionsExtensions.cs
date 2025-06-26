@@ -15,7 +15,6 @@ public static class ObjectAssertionsExtensions
     /// Asserts that an object can be serialized and deserialized using the data contract serializer and that it stills retains
     /// the values of all members.
     /// </summary>
-    /// <param name="assertions"></param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -33,7 +32,6 @@ public static class ObjectAssertionsExtensions
     /// Asserts that an object can be serialized and deserialized using the data contract serializer and that it stills retains
     /// the values of all members.
     /// </summary>
-    /// <param name="assertions"></param>
     /// <param name="options">
     /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
@@ -89,7 +87,6 @@ public static class ObjectAssertionsExtensions
     /// Asserts that an object can be serialized and deserialized using the XML serializer and that it stills retains
     /// the values of all members.
     /// </summary>
-    /// <param name="assertions"></param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -120,6 +117,7 @@ public static class ObjectAssertionsExtensions
         return new AndConstraint<ObjectAssertions>(assertions);
     }
 
+    [SuppressMessage("Security", "CA5369:Use XmlReader for \'XmlSerializer.Deserialize()\'")]
     private static object CreateCloneUsingXmlSerializer(object subject)
     {
         using var stream = new MemoryStream();

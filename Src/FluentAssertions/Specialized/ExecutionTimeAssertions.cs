@@ -33,7 +33,7 @@ public class ExecutionTimeAssertions
     /// <param name="expectedResult">Polling stops when condition returns the expected result.</param>
     /// <param name="rate">The rate at which the condition is re-checked.</param>
     /// <return>The elapsed time. (use this, don't measure twice)</return>
-    private (bool isRunning, TimeSpan elapsed) PollUntil(Func<TimeSpan, bool> condition, bool expectedResult, TimeSpan rate)
+    private (bool IsRunning, TimeSpan Elapsed) PollUntil(Func<TimeSpan, bool> condition, bool expectedResult, TimeSpan rate)
     {
         TimeSpan elapsed = execution.ElapsedTime;
         bool isRunning = execution.IsRunning;

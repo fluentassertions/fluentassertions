@@ -73,7 +73,7 @@ public sealed class AssertionScope : IDisposable
         CurrentScope.Value = this;
 
         this.assertionStrategy = assertionStrategy
-            ?? throw new ArgumentNullException(nameof(assertionStrategy));
+                                 ?? throw new ArgumentNullException(nameof(assertionStrategy));
 
         if (parent is not null)
         {

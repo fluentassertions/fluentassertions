@@ -112,6 +112,7 @@ public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAsserti
         return new AndWhichConstraint<FunctionAssertions<T>, T>(this, result, assertionChain, ".Result");
     }
 
+    [SuppressMessage("Maintainability", "AV1561:Signature contains too many parameters")]
     internal TResult NotThrowAfter<TResult>(Func<TResult> subject, IClock clock, TimeSpan waitTime, TimeSpan pollInterval,
         [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
     {

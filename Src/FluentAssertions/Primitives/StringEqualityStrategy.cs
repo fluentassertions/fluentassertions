@@ -58,6 +58,10 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
                     expected, subject);
             }
         }
+        else
+        {
+            // Then it's fine
+        }
     }
 
     public void AssertNeitherIsNull(AssertionChain assertionChain, string subject, string expected)

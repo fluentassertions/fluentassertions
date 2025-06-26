@@ -885,8 +885,8 @@ namespace Internal.ValueTypesAndNotValueTypes.Test
     internal interface InternalInterfaceNotValueType;
 }
 
-#pragma warning disable RCS1110, S3903 // Declare type inside namespace.
+#pragma warning disable MA0047
 internal class ClassInGlobalNamespace;
-#pragma warning restore RCS1110, S3903
+#pragma warning restore MA0047
 
 #endregion

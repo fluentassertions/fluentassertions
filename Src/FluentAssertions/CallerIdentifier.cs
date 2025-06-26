@@ -191,9 +191,7 @@ public static class CallerIdentifier
 
     private static IEnumerable<string> ExtractCallersFrom(StackFrame frame)
     {
-        string[] identifiers = GetCallerIdentifiersFrom(frame);
-
-        foreach (string identifier in identifiers)
+        foreach (string identifier in GetCallerIdentifiersFrom(frame))
         {
             Logger(identifier);
 
@@ -212,7 +210,7 @@ public static class CallerIdentifier
 
         if (string.IsNullOrEmpty(fileName) || expectedLineNumber == 0)
         {
-            return null;
+            return [];
         }
 
         try

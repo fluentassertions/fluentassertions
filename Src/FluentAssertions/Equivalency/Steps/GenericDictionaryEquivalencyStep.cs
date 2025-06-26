@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Execution;
@@ -154,6 +155,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         return new KeyDifference<TSubjectKey, TExpectedKey>(missingKeys, additionalKeys);
     }
 
+    [SuppressMessage("Maintainability", "AV1561:Signature contains too many parameters")]
     private static void AssertDictionaryEquivalence(Comparands comparands, AssertionChain assertionChain,
         IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency parent, DictionaryInterfaceInfo actualDictionary,
@@ -164,6 +166,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
             .Invoke(null, [assertionChain, context, parent, context.Options, comparands.Subject, comparands.Expectation]);
     }
 
+    [SuppressMessage("Maintainability", "AV1561:Signature contains too many parameters")]
     private static void AssertDictionaryEquivalence<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
         AssertionChain assertionChain,
         EquivalencyValidationContext context,

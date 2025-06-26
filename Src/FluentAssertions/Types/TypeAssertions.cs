@@ -15,6 +15,7 @@ namespace FluentAssertions.Types;
 /// Contains a number of methods to assert that a <see cref="Type"/> meets certain expectations.
 /// </summary>
 [DebuggerNonUserCode]
+[SuppressMessage("Class Design", "AV1010:Member hides inherited member")]
 public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 {
     private readonly AssertionChain assertionChain;

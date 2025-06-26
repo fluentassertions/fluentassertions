@@ -15,7 +15,7 @@ using FluentAssertions.Equivalency.Tracing;
 
 namespace FluentAssertions.Equivalency;
 
-#pragma warning disable CA1033 //An unsealed externally visible type provides an explicit method implementation of a public interface and does not provide an alternative externally visible method that has the same name.
+#pragma warning disable CA1033 // An unsealed externally visible type provides an explicit method implementation of a public interface and does not provide an alternative externally visible method that has the same name.
 
 /// <summary>
 /// Represents the run-time behavior of a structural equivalency assertion.
@@ -793,7 +793,6 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// A string that represents the current object.
     /// </returns>
     /// <filterpriority>2</filterpriority>
-    [SuppressMessage("Design", "MA0051:Method is too long")]
     public override string ToString()
     {
         var builder = new StringBuilder();
@@ -863,6 +862,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// <summary>
     /// Defines additional overrides when used with <see cref="SelfReferenceEquivalencyOptions{TSelf}" />
     /// </summary>
+    [SuppressMessage("Design", "CA1034:Nested types should not be visible")]
     public class Restriction<TMember>
     {
         private readonly Action<IAssertionContext<TMember>> action;
