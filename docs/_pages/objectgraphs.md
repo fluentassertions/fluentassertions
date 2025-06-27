@@ -1,5 +1,5 @@
 ---
-title: Object graph comparison
+title: Object graphs
 permalink: /objectgraphs/
 layout: single
 classes: wide
@@ -36,6 +36,41 @@ On the other hand, if you want to disable recursion, just use this option:
 orderDto.Should().BeEquivalentTo(order, options => 
     options.ExcludingNestedObjects());
 ```
+
+### Strict typing (or not)
+
+By default, `BeEquivalentTo` will consider objects equivalent as long as their members match, regardless of whether the types are exactly the same. This means that objects of different types can be considered equivalent if they have the same structure and values.
+
+However, sometimes you may want to ensure that not only the values match, but also the types are exactly the same. For such scenarios, you can use the strict typing options:
+
+```csharp
+// Ensure all types must match exactly throughout the entire object graph
+orderDto.Should().BeEquivalentTo(order, options => 
+    options.WithStrictTyping());
+```
+
+If you only want to enforce strict typing for specific members or paths, you can use `WithStrictTypingFor`:
+
+```csharp
+// Only enforce strict typing for properties named "Nested"
+orderDto.Should().BeEquivalentTo(order, options => 
+    options.WithStrictTypingFor(info => info.Path.EndsWith("Nested")));
+
+// Only enforce strict typing for the root object
+orderDto.Should().BeEquivalentTo(order, options => 
+    options.WithStrictTypingFor(info => info.Path.Length == 0));
+```
+
+The predicate in `WithStrictTypingFor` receives an `IObjectInfo` parameter that provides information about the current member being compared, including its path in the object graph. This allows you to precisely control where strict typing should be applied.
+
+You can also disable strict typing that was previously enabled (for example, through global configuration):
+
+```csharp
+orderDto.Should().BeEquivalentTo(order, options => 
+    options.WithoutStrictTyping());
+```
+
+**Note:** When using strict typing with runtime types (via `PreferringRuntimeMemberTypes()`), the comparison will use the actual runtime type rather than the declared type for the type equality check.
 
 ### Value Types
 

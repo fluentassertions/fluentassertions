@@ -946,6 +946,8 @@ namespace FluentAssertions.Equivalency
         public TSelf WithAutoConversionFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
         public TSelf WithStrictOrdering() { }
         public TSelf WithStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
+        public TSelf WithStrictTyping() { }
+        public TSelf WithStrictTypingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
         public TSelf WithTracing(FluentAssertions.Equivalency.Tracing.ITraceWriter writer = null) { }
         public TSelf WithoutAutoConversionFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
         public TSelf WithoutMatchingRules() { }
@@ -953,6 +955,7 @@ namespace FluentAssertions.Equivalency
         public TSelf WithoutSelectionRules() { }
         public TSelf WithoutStrictOrdering() { }
         public TSelf WithoutStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
+        public TSelf WithoutStrictTyping() { }
         public class Restriction<TMember>
         {
             public Restriction(TSelf options, System.Action<FluentAssertions.Equivalency.IAssertionContext<TMember>> action) { }
@@ -1042,6 +1045,11 @@ namespace FluentAssertions.Equivalency.Steps
     public class StructuralEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public StructuralEqualityEquivalencyStep() { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
+    }
+    public class TypeEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public TypeEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
     public class ValueTypeEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep

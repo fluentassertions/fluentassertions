@@ -12,6 +12,7 @@ using FluentAssertions.Equivalency.Ordering;
 using FluentAssertions.Equivalency.Selection;
 using FluentAssertions.Equivalency.Steps;
 using FluentAssertions.Equivalency.Tracing;
+using FluentAssertions.Equivalency.Typing;
 
 namespace FluentAssertions.Equivalency;
 
@@ -20,7 +21,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Represents the run-time behavior of a structural equivalency assertion.
 /// </summary>
-public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptions
+public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptions, IContainTypingRules
     where TSelf : SelfReferenceEquivalencyOptions<TSelf>
 {
     #region Private Definitions
@@ -32,6 +33,9 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private readonly List<IMemberMatchingRule> matchingRules = [];
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private readonly List<ITypingRule> typingRules = [];
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private readonly List<IEquivalencyStep> userEquivalencySteps = [];
@@ -100,6 +104,11 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         matchingRules.AddRange(defaults.MatchingRules);
         OrderingRules = new OrderingRuleCollection(defaults.OrderingRules);
 
+        if (defaults is IContainTypingRules typingRulesContainer)
+        {
+            typingRules.AddRange(typingRulesContainer.TypingRules);
+        }
+
         TraceWriter = defaults.TraceWriter;
 
         RemoveSelectionRule<AllPropertiesSelectionRule>();
@@ -147,6 +156,8 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// Gets an ordered collection of Equivalency steps how a subject is compared with the expectation.
     /// </summary>
     IEnumerable<IEquivalencyStep> IEquivalencyOptions.UserEquivalencySteps => userEquivalencySteps;
+
+    IEnumerable<ITypingRule> IContainTypingRules.TypingRules => typingRules;
 
     public ConversionSelector ConversionSelector { get; } = new();
 
@@ -276,6 +287,20 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         includedProperties = MemberVisibility.Public | MemberVisibility.ExplicitlyImplemented |
             MemberVisibility.DefaultInterfaceProperties;
 
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Disables the strict typing requirement for all members, allowing members in the expectation to be of different types
+    /// than members in the subject.
+    /// </summary>
+    /// <remarks>
+    /// This is particularly useful when you have enabled strict typing globally or for specific tests but want to override it
+    /// for a particular assertion.
+    /// </remarks>
+    public TSelf WithoutStrictTyping()
+    {
+        typingRules.Clear();
         return (TSelf)this;
     }
 
@@ -599,6 +624,26 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     }
 
     /// <summary>
+    /// Causes all type comparisons to be strict, requiring exact type equality between
+    /// subject and expectation.
+    /// </summary>
+    public TSelf WithStrictTyping()
+    {
+        typingRules.Add(new AlwaysBeStrictTypingRule());
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Causes the types identified by the provided <paramref name="predicate" /> to be
+    /// compared using strict typing, requiring exact type equality.
+    /// </summary>
+    public TSelf WithStrictTypingFor(Expression<Func<IObjectInfo, bool>> predicate)
+    {
+        typingRules.Add(new PredicateBasedTypingRule(predicate));
+        return (TSelf)this;
+    }
+
+    /// <summary>
     /// Causes to compare Enum properties using the result of their ToString method.
     /// </summary>
     /// <remarks>
@@ -835,6 +880,11 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         }
 
         foreach (IMemberSelectionRule rule in selectionRules)
+        {
+            builder.Append("- ").AppendLine(rule.ToString());
+        }
+
+        foreach (ITypingRule rule in typingRules)
         {
             builder.Append("- ").AppendLine(rule.ToString());
         }

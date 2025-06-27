@@ -7,19 +7,25 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 8.5.0
+
+## What's new
+
+* Add `WithStrictTyping` and `WithStrictTypingFor` to `BeEquivalentTo` to ensure types also match - [#3066](https://github.com/fluentassertions/fluentassertions/pull/3066)
+
 ## 8.4.0
 
 ## Enhancements
 
-* Added `ExcludingMembersNamed` to `BeEquivalentTo` to exclude fields and properties anywhere in the graph - [3062](https://github.com/fluentassertions/fluentassertions/pull/3062)
-* Added `Should().Throw()`, `ThrowAsync()` and `ThrowWithinAsync()` flavors that don’t require a specific exception type - [3059](https://github.com/fluentassertions/fluentassertions/pull/3059)
+* Added `ExcludingMembersNamed` to `BeEquivalentTo` to exclude fields and properties anywhere in the graph - [#3062](https://github.com/fluentassertions/fluentassertions/pull/3062)
+* Added `Should().Throw()`, `ThrowAsync()` and `ThrowWithinAsync()` flavors that don’t require a specific exception type - [#3059](https://github.com/fluentassertions/fluentassertions/pull/3059)
 
 ## 8.3.0
 
 ## Enhancements
 
-* Clarify the date/time type when comparing non-compatible dates and times in `BeEquivalentTo` - [3049](https://github.com/fluentassertions/fluentassertions/pull/3049)
-* Improve the rendering of exception messages when using `WithMessage` for better readability - [3039](https://github.com/fluentassertions/fluentassertions/pull/3039)
+* Clarify the date/time type when comparing non-compatible dates and times in `BeEquivalentTo` - [#3049](https://github.com/fluentassertions/fluentassertions/pull/3049)
+* Improve the rendering of exception messages when using `WithMessage` for better readability - [#3039](https://github.com/fluentassertions/fluentassertions/pull/3039)
 
 ## 8.2.0
 
