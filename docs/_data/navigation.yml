@@ -61,7 +61,7 @@ sidebar:
         url: /data
       - title: Exceptions
         url: /exceptions
-      - title: Object graph comparison
+      - title: Object Graphs
         url: /objectgraphs
       - title: Event Monitoring
         url: /eventmonitoring

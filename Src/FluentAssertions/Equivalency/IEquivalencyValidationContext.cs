@@ -17,7 +17,7 @@ public interface IEquivalencyValidationContext
     /// <summary>
     /// A formatted phrase and the placeholder values explaining why the assertion is needed.
     /// </summary>
-    public Reason Reason { get; }
+    Reason Reason { get; }
 
     /// <summary>
     /// Gets an object that can be used by the equivalency algorithm to provide a trace when the
@@ -31,7 +31,7 @@ public interface IEquivalencyValidationContext
     /// Determines whether the specified object reference is a cyclic reference to the same object earlier in the
     /// equivalency validation.
     /// </summary>
-    public bool IsCyclicReference(object expectation);
+    bool IsCyclicReference(object expectation);
 
     /// <summary>
     /// Creates a context from the current object intended to assert the equivalency of a nested member.

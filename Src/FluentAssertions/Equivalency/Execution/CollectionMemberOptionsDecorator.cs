@@ -4,13 +4,14 @@ using System.Linq;
 using FluentAssertions.Equivalency.Ordering;
 using FluentAssertions.Equivalency.Selection;
 using FluentAssertions.Equivalency.Tracing;
+using FluentAssertions.Equivalency.Typing;
 
 namespace FluentAssertions.Equivalency.Execution;
 
 /// <summary>
 /// Ensures that all the rules remove the collection index from the path before processing it further.
 /// </summary>
-internal class CollectionMemberOptionsDecorator : IEquivalencyOptions
+internal class CollectionMemberOptionsDecorator : IEquivalencyOptions, IContainTypingRules
 {
     private readonly IEquivalencyOptions inner;
 
@@ -31,6 +32,9 @@ internal class CollectionMemberOptionsDecorator : IEquivalencyOptions
     {
         get { return inner.MatchingRules.ToArray(); }
     }
+
+    /// <inheritdoc />
+    public IEnumerable<ITypingRule> TypingRules => (inner as IContainTypingRules)?.TypingRules ?? [];
 
     public OrderingRuleCollection OrderingRules
     {
