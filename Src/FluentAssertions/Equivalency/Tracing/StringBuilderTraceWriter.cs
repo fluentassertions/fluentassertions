@@ -1,12 +1,12 @@
 using System;
 using System.Text;
+using System.Threading;
 
 namespace FluentAssertions.Equivalency.Tracing;
 
 public class StringBuilderTraceWriter : ITraceWriter
 {
-    private readonly StringBuilder builder = new();
-    private int depth = 1;
+    private readonly AsyncLocal<AsyncState> stateProvider = new();
 
     public void AddSingle(string trace)
     {
@@ -17,25 +17,44 @@ public class StringBuilderTraceWriter : ITraceWriter
     {
         WriteLine(trace);
         WriteLine("{");
-        depth++;
+        State.Depth++;
 
         return new Disposable(() =>
         {
-            depth--;
+            State.Depth--;
             WriteLine("}");
         });
     }
 
     private void WriteLine(string trace)
     {
+        StringBuilder stringBuilder = State.Builder;
+
         foreach (string traceLine in trace.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
         {
-            builder.Append(new string(' ', depth * 2)).AppendLine(traceLine);
+            stringBuilder.Append(new string(' ', State.Depth * 2)).AppendLine(traceLine);
         }
     }
 
     public override string ToString()
     {
-        return builder.ToString();
+        return State.Builder.ToString();
+    }
+
+    private AsyncState State
+    {
+        get
+        {
+            stateProvider.Value ??= new();
+
+            return stateProvider.Value;
+        }
+    }
+
+    private class AsyncState
+    {
+        public StringBuilder Builder { get; } = new();
+
+        public int Depth { get; set; } = 1;
     }
 }
