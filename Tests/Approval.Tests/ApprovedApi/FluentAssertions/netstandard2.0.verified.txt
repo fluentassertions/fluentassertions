@@ -938,6 +938,8 @@ namespace FluentAssertions.Equivalency
         public TSelf WithAutoConversionFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
         public TSelf WithStrictOrdering() { }
         public TSelf WithStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
+        public TSelf WithStrictTyping() { }
+        public TSelf WithStrictTypingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
         public TSelf WithTracing(FluentAssertions.Equivalency.Tracing.ITraceWriter writer = null) { }
         public TSelf WithoutAutoConversionFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
         public TSelf WithoutMatchingRules() { }
@@ -945,6 +947,7 @@ namespace FluentAssertions.Equivalency
         public TSelf WithoutSelectionRules() { }
         public TSelf WithoutStrictOrdering() { }
         public TSelf WithoutStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
+        public TSelf WithoutStrictTyping() { }
         public class Restriction<TMember>
         {
             public Restriction(TSelf options, System.Action<FluentAssertions.Equivalency.IAssertionContext<TMember>> action) { }
@@ -1036,6 +1039,11 @@ namespace FluentAssertions.Equivalency.Steps
         public StructuralEqualityEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
+    public class TypeEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public TypeEquivalencyStep() { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
+    }
     public class ValueTypeEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public ValueTypeEquivalencyStep() { }
@@ -1078,6 +1086,13 @@ namespace FluentAssertions.Equivalency.Tracing
         public override string ToString() { }
         public System.IDisposable WriteBlock(FluentAssertions.Equivalency.Tracing.GetTraceMessage getTraceMessage) { }
         public void WriteLine(FluentAssertions.Equivalency.Tracing.GetTraceMessage getTraceMessage) { }
+    }
+}
+namespace FluentAssertions.Equivalency.Typing
+{
+    public interface ITypingRule
+    {
+        bool UseStrictTyping(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.INode node);
     }
 }
 namespace FluentAssertions.Execution

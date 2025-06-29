@@ -142,6 +142,7 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
         [
             new RunAllUserStepsEquivalencyStep(),
             new AutoConversionStep(),
+            new TypeEquivalencyStep(),
             new ReferenceEqualityEquivalencyStep(),
             new GenericDictionaryEquivalencyStep(),
             new XDocumentEquivalencyStep(),

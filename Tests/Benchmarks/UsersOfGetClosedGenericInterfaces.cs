@@ -8,6 +8,7 @@ using Bogus;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Equivalency.Steps;
 using FluentAssertions.Equivalency.Tracing;
+using FluentAssertions.Equivalency.Typing;
 using FluentAssertions.Execution;
 
 namespace Benchmarks;
@@ -47,6 +48,9 @@ public class UsersOfGetClosedGenericInterfaces
         public IEnumerable<IMemberSelectionRule> SelectionRules => throw new NotImplementedException();
 
         public IEnumerable<IMemberMatchingRule> MatchingRules => throw new NotImplementedException();
+
+        /// <inheritdoc />
+        public IEnumerable<ITypingRule> TypingRules => throw new NotImplementedException();
 
         public bool IsRecursive => throw new NotImplementedException();
 
