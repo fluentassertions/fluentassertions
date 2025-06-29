@@ -747,7 +747,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// </summary>
     public TSelf WithTracing(ITraceWriter writer = null)
     {
-        TraceWriter = writer ?? new StringBuilderTraceWriter();
+        TraceWriter = writer ?? new InternalTraceWriter();
         return (TSelf)this;
     }
 

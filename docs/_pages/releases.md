@@ -13,6 +13,10 @@ sidebar:
 
 * Add `WithStrictTyping` and `WithStrictTypingFor` to `BeEquivalentTo` to ensure types also match - [#3066](https://github.com/fluentassertions/fluentassertions/pull/3066)
 
+## Fixes
+
+* Ensured `WithTracing` is safe when used with `BeEquivalentTo` globally - [#3067](https://github.com/fluentassertions/fluentassertions/pull/3067)
+
 ## 8.4.0
 
 ## Enhancements
