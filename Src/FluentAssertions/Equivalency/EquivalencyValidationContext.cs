@@ -82,6 +82,20 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
 
     public ITraceWriter TraceWriter { get; set; }
 
+    /// <summary>
+    /// This method ensures that tracing starts with a fresh state when invoked.
+    /// </summary>
+    internal void ResetTracing()
+    {
+        // SMELL: We need to ensure that if tracing is enabled using the built-in internal writer,
+        // we start with a fresh instance of InternalTraceWriter. We can't add extend ITraceWriter
+        // as that would be a breaking change.
+        if (TraceWriter is InternalTraceWriter)
+        {
+            TraceWriter = new InternalTraceWriter();
+        }
+    }
+
     public override string ToString()
     {
         return Invariant($"{{Path=\"{CurrentNode.Subject.PathAndName}\"}}");
