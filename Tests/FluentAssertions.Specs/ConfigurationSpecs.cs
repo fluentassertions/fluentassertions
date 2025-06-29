@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FluentAssertions.Common;
 using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs;
 
@@ -28,6 +29,31 @@ public class ConfigurationSpecs
 
         // Assert
         act.Should().NotThrow();
+    }
+
+    [Fact]
+    public void Tracing_must_be_safe_when_executed_concurrently()
+    {
+        try
+        {
+            // Arrange
+            AssertionOptions.AssertEquivalencyUsing(e => e.WithTracing());
+
+            Parallel.For(1, 10_000, (_, _) =>
+            {
+                try
+                {
+                    new { A = "a" }.Should().BeEquivalentTo(new { A = "b" });
+                }
+                catch (XunitException)
+                {
+                }
+            });
+        }
+        finally
+        {
+            AssertionOptions.AssertEquivalencyUsing(_ => new());
+        }
     }
 }
 

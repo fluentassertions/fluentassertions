@@ -13,6 +13,8 @@ public class EquivalencyValidator : IEquivalencyValidator
 
     public void AssertEquality(Comparands comparands, EquivalencyValidationContext context)
     {
+        context.ResetTracing();
+
         using var scope = new AssertionScope();
 
         scope.AssumeSingleCaller();
