@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using FluentAssertions.Equivalency.Tracing;
 using Newtonsoft.Json;
 using Xunit;
@@ -514,7 +515,7 @@ public class DictionarySpecs
         // Arrange
         object object1 = new NonGenericDictionary { ["greeting"] = "hello" };
         object object2 = new NonGenericDictionary { ["greeting"] = "hello" };
-        var traceWriter = new StringBuilderTraceWriter();
+        var traceWriter = new CustomTraceWriter();
 
         // Act
         object1.Should().BeEquivalentTo(object2, opts => opts.PreferringRuntimeMemberTypes().WithTracing(traceWriter));
@@ -522,6 +523,26 @@ public class DictionarySpecs
         // Assert
         string trace = traceWriter.ToString();
         trace.Should().Contain("Recursing into dictionary item greeting at object1");
+    }
+
+    private class CustomTraceWriter : ITraceWriter
+    {
+        private readonly StringBuilder builder = new();
+
+        /// <inheritdoc />
+        public void AddSingle(string trace)
+        {
+            builder.AppendLine(trace);
+        }
+
+        /// <inheritdoc />
+        public IDisposable AddBlock(string trace)
+        {
+            builder.AppendLine(trace);
+            return new Disposable(() => { });
+        }
+
+        public override string ToString() => builder.ToString();
     }
 
     [Fact]

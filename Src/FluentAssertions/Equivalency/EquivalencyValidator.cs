@@ -13,6 +13,8 @@ internal class EquivalencyValidator : IValidateChildNodeEquivalency
 
     public void AssertEquality(Comparands comparands, EquivalencyValidationContext context)
     {
+        context.ResetTracing();
+
         using var scope = new AssertionScope();
 
         RecursivelyAssertEquivalencyOf(comparands, context);
