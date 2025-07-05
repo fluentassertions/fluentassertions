@@ -13,8 +13,12 @@ internal static class MethodInfoExtensions
     /// A sum of all possible <see cref="MethodImplOptions"/>. It's needed to calculate what options were used when decorating with <see cref="MethodImplAttribute"/>.
     /// They are a subset of <see cref="MethodImplAttributes"/> which can be checked on a type and therefore this mask has to be applied to check only for options.
     /// </summary>
-    private static readonly Lazy<int> ImplementationOptionsMask =
-        new(() => Enum.GetValues(typeof(MethodImplOptions)).Cast<int>().Sum(optionValue => optionValue));
+    private static readonly int ImplementationOptionsMask =
+#if NET6_0_OR_GREATER
+        Enum.GetValues<MethodImplOptions>().Cast<int>().Sum(optionValue => optionValue);
+#else
+        Enum.GetValues(typeof(MethodImplOptions)).Cast<int>().Sum(optionValue => optionValue);
+#endif
 
     internal static bool IsAsync(this MethodInfo methodInfo)
     {
@@ -50,7 +54,7 @@ internal static class MethodInfoExtensions
         MethodImplAttributes implementationFlags = methodBase.MethodImplementationFlags;
 
         int implementationFlagsMatchingImplementationOptions =
-            (int)implementationFlags & ImplementationOptionsMask.Value;
+            (int)implementationFlags & ImplementationOptionsMask;
 
         MethodImplOptions implementationOptions = (MethodImplOptions)implementationFlagsMatchingImplementationOptions;
 
