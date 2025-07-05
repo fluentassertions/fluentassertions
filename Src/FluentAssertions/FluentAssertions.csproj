@@ -43,11 +43,11 @@ Check out the [license page](LICENSE) for more information.
 
   <ItemGroup Label="Package files">
     <None Include="..\FluentAssertions.png" Pack="true" Visible="false" PackagePath="" />
-    <None Include="..\..\LICENSE" Pack="true" PackagePath=""/>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Reflectify" Version="1.5.0">
+    <PackageReference Include="Reflectify" Version="1.6.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
