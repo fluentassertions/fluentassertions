@@ -1151,17 +1151,17 @@ public class EventAssertionSpecs
 
     private interface IAddFailingRecordableEvent
     {
-        public event EventHandler AddFailingRecorableEvent;
+        event EventHandler AddFailingRecorableEvent;
     }
 
     private interface IAddFailingEvent
     {
-        public event EventHandler AddFailingEvent;
+        event EventHandler AddFailingEvent;
     }
 
     private interface IRemoveFailingEvent
     {
-        public event EventHandler RemoveFailingEvent;
+        event EventHandler RemoveFailingEvent;
     }
 
     private class TestEventBrokenEventHandlerRaising
