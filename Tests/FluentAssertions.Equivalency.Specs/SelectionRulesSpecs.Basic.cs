@@ -311,9 +311,9 @@ public partial class SelectionRulesSpecs
 
         private interface ITest
         {
-            public string Name { get; }
+            string Name { get; }
 
-            public int NameLength => Name.Length;
+            int NameLength => Name.Length;
         }
 #endif
 

@@ -55,6 +55,8 @@ dotnet_diagnostic.CA1064.severity = none
 dotnet_diagnostic.CA1307.severity = none
 # CA1506 Rewrite or refactor the code to decrease its class coupling
 dotnet_diagnostic.CA1506.severity = none
+# CA1515 CA1515: Consider making public types internal
+dotnet_diagnostic.CA1515.severity = none
 # CA1707: Remove the underscores from member name
 dotnet_diagnostic.CA1707.severity = none
 # CA1711: Rename type name so that it does not end in 'Enum'
@@ -97,6 +99,8 @@ dotnet_diagnostic.CA2201.severity = none
 dotnet_diagnostic.CA2208.severity = none
 # CA2227: Collection properties should be read only
 dotnet_diagnostic.CA2227.severity = none
+# CA2263: Prefer generic overload when type is known
+dotnet_diagnostic.CA2263.severity = none
 # CA5394 Random is an insecure random number generator
 dotnet_diagnostic.CA5394.severity = none
 

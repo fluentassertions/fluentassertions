@@ -20,8 +20,8 @@ jobs:
       with:
         dotnet-version: |
           6.0.x
-          7.0.x
           8.0.x
+          9.0.x
 
     - name: Cache .nuke/temp
       uses: actions/cache@v4
@@ -75,8 +75,8 @@ jobs:
       with:
         dotnet-version: |
           6.0.x
-          7.0.x
           8.0.x
+          9.0.x
 
     - name: Run NUKE
       run: ./build.sh UnitTests

@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <LangVersion>12.0</LangVersion>
+    <LangVersion>13.0</LangVersion>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
@@ -13,12 +13,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AnalysisLevel>8.0</AnalysisLevel>
+    <AnalysisLevel>9.0</AnalysisLevel>
     <AnalysisMode>All</AnalysisMode>
     <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.4">
+    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="4.14.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -30,11 +30,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.Analyzers" Version="4.13.0">
+    <PackageReference Include="Roslynator.Analyzers" Version="4.13.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Meziantou.Analyzer" Version="2.0.187">
+    <PackageReference Include="Meziantou.Analyzer" Version="2.0.203">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
