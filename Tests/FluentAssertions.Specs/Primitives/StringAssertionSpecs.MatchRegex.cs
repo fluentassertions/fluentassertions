@@ -78,7 +78,9 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             string subject = "hello world!";
+#pragma warning disable RE0001 // Invalid regex pattern
             string invalidRegex = ".**"; // Use local variable for this invalid regex to avoid static R# analysis errors
+#pragma warning restore RE0001 // Invalid regex pattern
 
             // Act
             Action act = () => subject.Should().MatchRegex(invalidRegex);
@@ -93,7 +95,9 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             string subject = "hello world!";
+#pragma warning disable RE0001 // Invalid regex pattern
             string invalidRegex = ".**"; // Use local variable for this invalid regex to avoid static R# analysis errors
+#pragma warning restore RE0001 // Invalid regex pattern
 
             // Act
             Action act = () =>
@@ -421,7 +425,9 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             string subject = "hello world!";
+#pragma warning disable RE0001 // Invalid regex pattern
             string invalidRegex = ".**"; // Use local variable for this invalid regex to avoid static R# analysis errors
+#pragma warning restore RE0001 // Invalid regex pattern
 
             // Act
             Action act = () => subject.Should().NotMatchRegex(invalidRegex);
@@ -436,7 +442,9 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             string subject = "hello world!";
+#pragma warning disable RE0001 // Invalid regex pattern
             string invalidRegex = ".**"; // Use local variable for this invalid regex to avoid static R# analysis errors
+#pragma warning restore RE0001 // Invalid regex pattern
 
             // Act
             Action act = () =>
