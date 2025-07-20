@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions.Equivalency.Inlining;
 using FluentAssertions.Equivalency.Steps;
 
 #endregion
@@ -143,6 +144,7 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
             new RunAllUserStepsEquivalencyStep(),
             new AutoConversionStep(),
             new TypeEquivalencyStep(),
+            new InlineEquivalencyStep(),
             new ReferenceEqualityEquivalencyStep(),
             new GenericDictionaryEquivalencyStep(),
             new XDocumentEquivalencyStep(),

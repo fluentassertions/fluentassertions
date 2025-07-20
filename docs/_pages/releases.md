@@ -7,6 +7,12 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 8.6.0
+
+## What's new
+
+* Add `Value.ThatMatches` and `Value.ThatSatifies` to build inline assertions when using `BeEquivalentTo` - [#3076](https://github.com/fluentassertions/fluentassertions/pull/3076)
+
 ## 8.5.0
 
 ## What's new
