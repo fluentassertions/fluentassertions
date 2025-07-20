@@ -33,6 +33,7 @@
         "Pack",
         "Push",
         "Restore",
+        "ScanPackages",
         "SpellCheck",
         "TestFrameworks",
         "TestingPlatformFrameworks",
@@ -127,6 +128,11 @@
             "null"
           ],
           "description": "Use this parameter if you encounter build problems in any way, to generate a .binlog file which holds some useful information"
+        },
+        "GitHubApiKey": {
+          "type": "string",
+          "description": "The key to use for scanning packages on GitHub",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "NuGetApiKey": {
           "type": "string",
