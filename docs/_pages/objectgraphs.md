@@ -314,7 +314,7 @@ derived.Should().BeEquivalentTo(original, options => options
     .ExcludingNonBrowsableMembers());
 ```
 
-### Equivalency Comparison Behavior
+### Custom assertions
 
 In addition to influencing the members that are including in the comparison, you can also override the actual assertion operation that is executed on a particular member.
 
@@ -330,6 +330,34 @@ If you want to do this for all members of a certain type, you can shorten the ab
 orderDto.Should().BeEquivalentTo(order, options => options 
     .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
     .WhenTypeIs<DateTime>());
+```
+
+### Inline assertions
+
+The `Using`/`When` construct is one way to customize the assertion logic, but often does not feel very "fluent". Instead, `Value.ThatMatches` and `Value.ThatSatisfies` provides a much more flexible syntax for inline assertions. Considering the following subject:
+
+```csharp
+var actual = new
+{
+    Name = "John",
+    Age = 30
+};
+```
+
+To ensure that `Age` is less than 40, you can use either one of the following constructs.
+
+```csharp
+actual.Should().BeEquivalentTo(new
+{
+    Name = "John",
+    Age = Value.ThatMatches<int>(age => age < 40)
+});
+
+actual.Should().BeEquivalentTo(new
+{
+    Name = "John",
+    Age = Value.ThatSatisfies<int>(age => age.Should().BeLessThan(40))
+});
 ```
 
 ### Enums

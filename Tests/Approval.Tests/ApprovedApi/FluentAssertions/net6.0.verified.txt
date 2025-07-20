@@ -372,6 +372,11 @@ namespace FluentAssertions
         public static FluentAssertions.Types.TypeSelector Types(this System.Reflection.Assembly assembly) { }
         public static FluentAssertions.Types.TypeSelector Types(this System.Type type) { }
     }
+    public static class Value
+    {
+        public static FluentAssertions.Equivalency.Inlining.IInlineEquivalencyAssertion ThatMatches<T>(System.Linq.Expressions.Expression<System.Func<T, bool>> condition) { }
+        public static FluentAssertions.Equivalency.Inlining.IInlineEquivalencyAssertion ThatSatisfies<T>(System.Action<T> assertion) { }
+    }
     public static class XmlAssertionExtensions
     {
         public static FluentAssertions.Xml.XmlElementAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Xml.XmlElement actualValue) { }
@@ -983,6 +988,18 @@ namespace FluentAssertions.Equivalency
         public static bool WhichGetterHas(this FluentAssertions.Equivalency.IMemberInfo memberInfo, FluentAssertions.Common.CSharpAccessModifier accessModifier) { }
         public static bool WhichSetterDoesNotHave(this FluentAssertions.Equivalency.IMemberInfo memberInfo, FluentAssertions.Common.CSharpAccessModifier accessModifier) { }
         public static bool WhichSetterHas(this FluentAssertions.Equivalency.IMemberInfo memberInfo, FluentAssertions.Common.CSharpAccessModifier accessModifier) { }
+    }
+}
+namespace FluentAssertions.Equivalency.Inlining
+{
+    public interface IInlineEquivalencyAssertion
+    {
+        void Execute(FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.Comparands comparands);
+    }
+    public class InlineEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public InlineEquivalencyStep() { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
 }
 namespace FluentAssertions.Equivalency.Steps
