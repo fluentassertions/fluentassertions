@@ -53,6 +53,10 @@ class Build : NukeBuild
     [Secret]
     readonly string NuGetApiKey;
 
+    [Parameter("The key to use for scanning packages on GitHub")]
+    [Secret]
+    readonly string GitHubApiKey;
+
     [Solution(GenerateProjects = true)]
     readonly Solution Solution;
 
@@ -63,6 +67,10 @@ class Build : NukeBuild
     [Required]
     [GitRepository]
     readonly GitRepository GitRepository;
+
+    [NuGetPackage("PackageGuard", "PackageGuard.dll")]
+    Tool PackageGuard;
+
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
     AbsolutePath TestResultsDirectory => RootDirectory / "TestResults";
@@ -314,9 +322,18 @@ class Build : NukeBuild
         .DependsOn(VSTestFrameworks)
         .DependsOn(TestingPlatformFrameworks);
 
+    Target ScanPackages => _ => _
+        .DependsOn(Restore)
+        .Executes(() =>
+        {
+            Environment.SetEnvironmentVariable("GITHUB_API_KEY", GitHubApiKey);
+            PackageGuard($"--config-path={RootDirectory / ".packageguard" / "config.json"} --use-caching {RootDirectory}");
+        });
+
     Target Pack => _ => _
         .DependsOn(ApiChecks)
         .DependsOn(TestFrameworks)
+        .DependsOn(ScanPackages)
         .DependsOn(UnitTests)
         .DependsOn(CodeCoverage)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
