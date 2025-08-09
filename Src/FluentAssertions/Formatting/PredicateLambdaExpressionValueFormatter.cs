@@ -7,7 +7,7 @@ namespace FluentAssertions.Formatting;
 
 /// <summary>
 /// The <see cref="PredicateLambdaExpressionValueFormatter" /> is responsible for formatting
-/// boolean lambda expressions.
+/// Boolean lambda expressions.
 /// </summary>
 public class PredicateLambdaExpressionValueFormatter : IValueFormatter
 {

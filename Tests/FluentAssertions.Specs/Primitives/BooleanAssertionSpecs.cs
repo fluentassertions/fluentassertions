@@ -42,7 +42,7 @@ public class BooleanAssertionSpecs
             // Assert
             action
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected boolean to be True because we want to test the failure message, but found False.");
+                .WithMessage("Expected Boolean to be True because we want to test the failure message, but found False.");
         }
     }
 
@@ -79,7 +79,7 @@ public class BooleanAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected boolean to be False because we want to test the failure message, but found True.");
+                .WithMessage("Expected Boolean to be False because we want to test the failure message, but found True.");
         }
     }
 
