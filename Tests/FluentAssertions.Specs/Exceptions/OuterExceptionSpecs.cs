@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using Bogus;
 using Xunit;
 using Xunit.Sdk;
 
@@ -54,7 +53,7 @@ public class OuterExceptionSpecs
             testSubject
                 .Invoking(x => x.Do())
                 .Should().Throw<InvalidOperationException>()
-                .WithMessage(new Faker().Random.String2(101));
+                .WithMessage(new string('#', 101));
 
             throw new XunitException("This point should not be reached");
         }
@@ -128,7 +127,7 @@ public class OuterExceptionSpecs
             testSubject
                 .Invoking(x => x.Do())
                 .Should().Throw<InvalidOperationException>()
-                .WithMessage(new Faker().Random.String2(50));
+                .WithMessage(new string('#', 50));
 
             throw new XunitException("This point should not be reached");
         }
