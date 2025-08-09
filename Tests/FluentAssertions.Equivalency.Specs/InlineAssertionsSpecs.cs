@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -79,24 +80,11 @@ public class InlineAssertionsSpecs
     [Fact]
     public void A_condition_expression_is_required()
     {
-        // Arrange
-        var actual = new
-        {
-            Name = "John",
-            Age = 30
-        };
-
-        var expectation = new
-        {
-            Name = "John",
-            Age = Value.ThatMatches<int>(null)
-        };
-
-        // Act
-        var act = () => actual.Should().BeEquivalentTo(expectation);
+        // Arrange / Act
+        var act = () => Value.ThatMatches<int>(null);
 
         // Assert
-        act.Should().Throw<ArgumentNullException>().WithMessage("*condition*required*");
+        act.Should().Throw<ArgumentNullException>().WithParameterName("condition");
     }
 
     [Fact]
@@ -145,24 +133,11 @@ public class InlineAssertionsSpecs
     [Fact]
     public void An_assertion_action_is_required()
     {
-        // Arrange
-        var actual = new
-        {
-            Name = "John",
-            Age = 30
-        };
-
-        var expectation = new
-        {
-            Name = "John",
-            Age = Value.ThatSatisfies<int>(null)
-        };
-
-        // Act
-        var act = () => actual.Should().BeEquivalentTo(expectation);
+        // Arrange / Act
+        var act = () => Value.ThatSatisfies<int>(null);
 
         // Assert
-        act.Should().Throw<ArgumentNullException>().WithMessage("*assertion*required*");
+        act.Should().Throw<ArgumentNullException>().WithParameterName("assertion");
     }
 
     [Fact]
