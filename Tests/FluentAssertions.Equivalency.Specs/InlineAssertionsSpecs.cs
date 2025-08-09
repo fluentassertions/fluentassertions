@@ -46,7 +46,11 @@ public class InlineAssertionsSpecs
         };
 
         // Act
-        var act = () => actual.Should().BeEquivalentTo(expectation);
+        var act = () =>
+        {
+            using var _ = new AssertionScope();
+            actual.Should().BeEquivalentTo(expectation);
+        };
 
         // Assert
         act.Should().Throw<XunitException>().WithMessage("*actual.Age*type*String*found*Int32*");
@@ -178,7 +182,11 @@ public class InlineAssertionsSpecs
         };
 
         // Act
-        var act = () => actual.Should().BeEquivalentTo(expectation);
+        var act = () =>
+        {
+            using var _ = new AssertionScope();
+            actual.Should().BeEquivalentTo(expectation);
+        };
 
         // Assert
         act.Should().Throw<XunitException>().WithMessage("*actual.Age*type*String*found*Int32*");
