@@ -9,47 +9,47 @@ sidebar:
 
 ## 8.6.0
 
-## What's new
+### What's new
 
 * Add `Value.ThatMatches` and `Value.ThatSatifies` to build inline assertions when using `BeEquivalentTo` - [#3076](https://github.com/fluentassertions/fluentassertions/pull/3076)
 
 ## 8.5.0
 
-## What's new
+### What's new
 
 * Add `WithStrictTyping` and `WithStrictTypingFor` to `BeEquivalentTo` to ensure types also match - [#3066](https://github.com/fluentassertions/fluentassertions/pull/3066)
 
-## Fixes
+### Fixes
 
 * Ensured `WithTracing` is safe when used with `BeEquivalentTo` globally - [#3067](https://github.com/fluentassertions/fluentassertions/pull/3067)
 
 ## 8.4.0
 
-## Enhancements
+### Enhancements
 
 * Added `ExcludingMembersNamed` to `BeEquivalentTo` to exclude fields and properties anywhere in the graph - [#3062](https://github.com/fluentassertions/fluentassertions/pull/3062)
 * Added `Should().Throw()`, `ThrowAsync()` and `ThrowWithinAsync()` flavors that don’t require a specific exception type - [#3059](https://github.com/fluentassertions/fluentassertions/pull/3059)
 
 ## 8.3.0
 
-## Enhancements
+### Enhancements
 
 * Clarify the date/time type when comparing non-compatible dates and times in `BeEquivalentTo` - [#3049](https://github.com/fluentassertions/fluentassertions/pull/3049)
 * Improve the rendering of exception messages when using `WithMessage` for better readability - [#3039](https://github.com/fluentassertions/fluentassertions/pull/3039)
 
 ## 8.2.0
 
-## Fixes
+### Fixes
 
 * Fixed a regression from 8.1.0 where a `NullReferenceException` was thrown during subject identification - [#3036](https://github.com/fluentassertions/fluentassertions/pull/3036)
 
-## Enhancements
+### Enhancements
 
 * Better support for rendering multi-dimensional arrays in failure messages - [#3009](https://github.com/fluentassertions/fluentassertions/pull/3009)
 
 ## 8.1.1
 
-## Fixes
+### Fixes
 
 * Fix a formatting exception when {} is used as a dictionary key - [#3008](https://github.com/fluentassertions/fluentassertions/pull/3008)
 * Removed the PowerShell script that opens the website because it misbehaves - [#3030](https://github.com/fluentassertions/fluentassertions/pull/3030)
@@ -61,7 +61,7 @@ sidebar:
 * All `Should()` methods on reference types are now annotated with the `[NotNull]` attribute for a better Fluent Assertions experience when nullable reference types are enabled - [#2987](https://github.com/fluentassertions/fluentassertions/pull/2987)
 * Provide a toggle to suppress the soft warning that commercial use requires a paid license - [#2984](https://github.com/fluentassertions/fluentassertions/pull/2984)
 
-## Fixes
+### Fixes
 
 * Fixed a regression in which `CompleteWithinAsync` treated a canceled task as an exception - [#2853](https://github.com/fluentassertions/fluentassertions/pull/2853)
 
@@ -320,7 +320,7 @@ Version 7 will remain fully open-source indefinitely and receive bugfixes and ot
 * Annotated `[Not]MatchRegex(string)` with `[StringSyntax("Regex")]` which IDEs can use to colorize the regular expression argument - [#1816](https://github.com/fluentassertions/fluentassertions/pull/1816)
 * Added support for .NET6 `DateOnly` struct - [#1844](https://github.com/fluentassertions/fluentassertions/pull/1844)
 * Added support for .NET6 `TimeOnly` struct - [#1848](https://github.com/fluentassertions/fluentassertions/pull/1848)
-* Added `NotBe` for nullable boolean values - [#1865](https://github.com/fluentassertions/fluentassertions/pull/1865)
+* Added `NotBe` for nullable Boolean values - [#1865](https://github.com/fluentassertions/fluentassertions/pull/1865)
 * Added a new overload to `MatchRegex()` to assert on the number of regex matches - [#1869](https://github.com/fluentassertions/fluentassertions/pull/1869)
 * Added difference to numeric assertion failure messages - [#1859](https://github.com/fluentassertions/fluentassertions/pull/1859)
 
@@ -418,7 +418,7 @@ Version 7 will remain fully open-source indefinitely and receive bugfixes and ot
 * Added `NotBeWritable` to `PropertyInfoSelectorAssertions` to be able to assert that properties are not writable - [#1269](https://github.com/fluentassertions/fluentassertions/pull/1269).
 * Added extension to assert `TaskCompletionSource<T>` - [#1267](https://github.com/fluentassertions/fluentassertions/pull/1267).
 * Added the ability to pass an `IEqualityComparer<T>` through `BeEquivalentTo(x => x.Using<MyComparer>())` - [#1284](https://github.com/fluentassertions/fluentassertions/pull/1284).
-* Added `NotBe` to `BooleanAssertions` to be able to assert that a boolean is not the expected value - [#1290](https://github.com/fluentassertions/fluentassertions/pull/1290).
+* Added `NotBe` to `BooleanAssertions` to be able to assert that a Boolean is not the expected value - [#1290](https://github.com/fluentassertions/fluentassertions/pull/1290).
 * Make `DefaultValueFormatter` and `EnumerableValueFormatter` suitable for inheritance - [#1295](https://github.com/fluentassertions/fluentassertions/pull/1295).
 * Added support for dictionary assertions on `IReadOnlyDictionary<TKey, TValue>` - [#1298](https://github.com/fluentassertions/fluentassertions/pull/1298).
 * `GenericAsyncFunctionAssertions` now has `AndWhichConstraint` overloads for `NotThrow[Async]` and `NotThrowAfter[Async]` - [#1289](https://github.com/fluentassertions/fluentassertions/pull/1289).

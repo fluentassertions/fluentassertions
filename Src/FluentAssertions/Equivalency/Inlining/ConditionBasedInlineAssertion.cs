@@ -17,7 +17,7 @@ internal class ConditionBasedInlineAssertion<T>(Expression<Func<T, bool>> condit
     {
         if (condition is null)
         {
-            throw new ArgumentNullException(nameof(condition), "A boolean condition is required");
+            throw new ArgumentNullException(nameof(condition), "A Boolean condition is required");
         }
 
         assertionChain
