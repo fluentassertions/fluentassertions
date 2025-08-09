@@ -14,7 +14,7 @@ public static class Value
     /// Builds an inline assertion that expects the subject-under-test to match the specified condition.
     /// </summary>
     /// <typeparam name="T">The type of the subject-under-test.</typeparam>
-    /// <param name="condition">A boolean condition to match.</param>
+    /// <param name="condition">A Boolean condition to match.</param>
     public static IInlineEquivalencyAssertion ThatMatches<T>(Expression<Func<T, bool>> condition)
     {
         Guard.ThrowIfArgumentIsNull(condition);

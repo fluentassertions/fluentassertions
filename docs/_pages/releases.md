@@ -320,7 +320,7 @@ Version 7 will remain fully open-source indefinitely and receive bugfixes and ot
 * Annotated `[Not]MatchRegex(string)` with `[StringSyntax("Regex")]` which IDEs can use to colorize the regular expression argument - [#1816](https://github.com/fluentassertions/fluentassertions/pull/1816)
 * Added support for .NET6 `DateOnly` struct - [#1844](https://github.com/fluentassertions/fluentassertions/pull/1844)
 * Added support for .NET6 `TimeOnly` struct - [#1848](https://github.com/fluentassertions/fluentassertions/pull/1848)
-* Added `NotBe` for nullable boolean values - [#1865](https://github.com/fluentassertions/fluentassertions/pull/1865)
+* Added `NotBe` for nullable Boolean values - [#1865](https://github.com/fluentassertions/fluentassertions/pull/1865)
 * Added a new overload to `MatchRegex()` to assert on the number of regex matches - [#1869](https://github.com/fluentassertions/fluentassertions/pull/1869)
 * Added difference to numeric assertion failure messages - [#1859](https://github.com/fluentassertions/fluentassertions/pull/1859)
 
@@ -418,7 +418,7 @@ Version 7 will remain fully open-source indefinitely and receive bugfixes and ot
 * Added `NotBeWritable` to `PropertyInfoSelectorAssertions` to be able to assert that properties are not writable - [#1269](https://github.com/fluentassertions/fluentassertions/pull/1269).
 * Added extension to assert `TaskCompletionSource<T>` - [#1267](https://github.com/fluentassertions/fluentassertions/pull/1267).
 * Added the ability to pass an `IEqualityComparer<T>` through `BeEquivalentTo(x => x.Using<MyComparer>())` - [#1284](https://github.com/fluentassertions/fluentassertions/pull/1284).
-* Added `NotBe` to `BooleanAssertions` to be able to assert that a boolean is not the expected value - [#1290](https://github.com/fluentassertions/fluentassertions/pull/1290).
+* Added `NotBe` to `BooleanAssertions` to be able to assert that a Boolean is not the expected value - [#1290](https://github.com/fluentassertions/fluentassertions/pull/1290).
 * Make `DefaultValueFormatter` and `EnumerableValueFormatter` suitable for inheritance - [#1295](https://github.com/fluentassertions/fluentassertions/pull/1295).
 * Added support for dictionary assertions on `IReadOnlyDictionary<TKey, TValue>` - [#1298](https://github.com/fluentassertions/fluentassertions/pull/1298).
 * `GenericAsyncFunctionAssertions` now has `AndWhichConstraint` overloads for `NotThrow[Async]` and `NotThrowAfter[Async]` - [#1289](https://github.com/fluentassertions/fluentassertions/pull/1289).
