@@ -1,5 +1,6 @@
 using System;
 using System.Linq.Expressions;
+using FluentAssertions.Common;
 using FluentAssertions.Equivalency.Inlining;
 
 namespace FluentAssertions;
@@ -16,6 +17,7 @@ public static class Value
     /// <param name="condition">A boolean condition to match.</param>
     public static IInlineEquivalencyAssertion ThatMatches<T>(Expression<Func<T, bool>> condition)
     {
+        Guard.ThrowIfArgumentIsNull(condition);
         return new ConditionBasedInlineAssertion<T>(condition);
     }
 
@@ -28,6 +30,7 @@ public static class Value
     /// </param>
     public static IInlineEquivalencyAssertion ThatSatisfies<T>(Action<T> assertion)
     {
+        Guard.ThrowIfArgumentIsNull(assertion);
         return new ActionBasedInlineAssertion<T>(assertion);
     }
 }
