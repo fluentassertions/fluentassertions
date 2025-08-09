@@ -22,9 +22,13 @@ internal class ConditionBasedInlineAssertion<T>(Expression<Func<T, bool>> condit
 
         assertionChain
             .ForCondition(comparands.Subject is T)
-            .FailWith("Expected {context:subject} to be of type {0}, but found {1}.", typeof(T), comparands.Subject?.GetType())
-            .Then
-            .ForCondition(condition.Compile()((T)comparands.Subject))
-            .FailWith("Expected {context:subject} to meet condition {0}, but it did not.", condition);
+            .FailWith("Expected {context:subject} to be of type {0}, but found {1}.", typeof(T), comparands.Subject?.GetType());
+
+        if (assertionChain.Succeeded)
+        {
+            assertionChain
+                .ForCondition(condition.Compile()((T)comparands.Subject))
+                .FailWith("Expected {context:subject} to meet condition {0}, but it did not.", condition);
+        }
     }
 }
