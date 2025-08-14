@@ -730,6 +730,7 @@ internal class ClassWithMethodWithImplementationAttribute
     [MethodImpl(MethodImplOptions.NoOptimization)]
     public ClassWithMethodWithImplementationAttribute() { }
 
+    // ReSharper disable once UnusedParameter.Local
     public ClassWithMethodWithImplementationAttribute(string _) { }
 
     [MethodImpl(MethodImplOptions.NoInlining)]

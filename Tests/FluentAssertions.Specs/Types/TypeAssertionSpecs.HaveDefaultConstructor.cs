@@ -185,6 +185,7 @@ public partial class TypeAssertionSpecs
 
     internal class ClassWithCctorAndNonDefaultConstructor
     {
+        // ReSharper disable once UnusedParameter.Local
         public ClassWithCctorAndNonDefaultConstructor(int _) { }
     }
 }
