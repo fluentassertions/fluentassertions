@@ -49,6 +49,7 @@ namespace FluentAssertions.Specs.Types
     {
         protected internal ClassWithMembers() { }
 
+        // ReSharper disable once UnusedParameter.Local
         private ClassWithMembers(string _) { }
 
         protected string PrivateWriteProtectedReadProperty { get => null; private set { } }

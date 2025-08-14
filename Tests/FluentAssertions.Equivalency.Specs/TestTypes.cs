@@ -171,6 +171,7 @@ internal class ClassWithCctorAndNonDefaultConstructor
     // ReSharper disable once EmptyConstructor
     static ClassWithCctorAndNonDefaultConstructor() { }
 
+    // ReSharper disable once UnusedParameter.Local
     public ClassWithCctorAndNonDefaultConstructor(int _) { }
 }
 
