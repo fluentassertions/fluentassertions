@@ -4,6 +4,7 @@
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <RestoreLockedMode Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</RestoreLockedMode>
   </PropertyGroup>
 
   <!-- To reduce build times, we only enable analyzers for the newest TFM -->
