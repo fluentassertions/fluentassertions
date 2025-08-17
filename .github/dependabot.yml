@@ -26,6 +26,11 @@ updates:
 
   - package-ecosystem: "nuget"
     directory: "/"
+    exclude-paths:
+      - "Tests/UWP.Specs"
+      - "Tests/UWP.Specs/"
+      - "Tests/UWP.Specs/*"
+      - "Tests/UWP.Specs/UWP.Specs.csproj"
     schedule:
       interval: "weekly"
       day: "monday"
