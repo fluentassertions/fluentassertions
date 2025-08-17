@@ -3,6 +3,7 @@
     <LangVersion>13.0</LangVersion>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <!-- To reduce build times, we only enable analyzers for the newest TFM -->
