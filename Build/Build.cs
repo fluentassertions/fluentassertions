@@ -113,7 +113,6 @@ class Build : NukeBuild
             DotNetRestore(s => s
                 .SetProjectFile(Solution)
                 .EnableNoCache()
-                .EnableLockedMode()
                 .SetConfigFile(RootDirectory / "nuget.config"));
         });
 
