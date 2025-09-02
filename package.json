@@ -4,6 +4,6 @@
         "cspell": "cspell --config ./cSpell.json ./docs/**/*.md --no-progress --no-summary"
     },
     "dependencies": {
-        "cspell": "^9.2.0"
+        "cspell": "^9.2.1"
     }
 }
