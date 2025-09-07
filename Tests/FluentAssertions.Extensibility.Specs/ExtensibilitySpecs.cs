@@ -1,9 +1,8 @@
 ﻿using System;
 using ExampleExtensions;
-using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs;
+namespace FluentAssertions.Extensibility.Specs;
 
 public class ExtensibilitySpecs
 {
