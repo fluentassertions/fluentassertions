@@ -57,10 +57,7 @@ internal class Node : INode
 
     public void AdjustForRemappedSubject(IMember subjectMember)
     {
-        if (subject.Name != subjectMember.Subject.Name)
-        {
-            subject.Name = subjectMember.Subject.Name;
-        }
+        Subject = subjectMember.Subject;
     }
 
     public int Depth

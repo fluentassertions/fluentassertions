@@ -188,6 +188,10 @@ resharper_expression_is_always_null_highlighting = none
 # ReSharper properties
 resharper_keep_user_linebreaks = true
 
+# Purpose: Highlighting for classes that are never instantiated
+# Reason: We have many test classes that are never instantiated directly
+resharper_class_never_instantiated_global_highlighting = none
+
 # Make class static
 dotnet_diagnostic.RCS1102.severity = none
 

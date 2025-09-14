@@ -123,7 +123,7 @@ public class NestedPropertiesSpecs
                 "- Compare tuples by their properties*" +
                 "- Compare anonymous types by their properties*" +
                 "- Compare records by their members*" +
-                "- Match member by name (or throw)*" +
+                "- Match (JSON) member by name (or throw)*" +
                 "- Be strict about the order of items in byte arrays*" +
                 "- Without automatic conversion.*");
     }

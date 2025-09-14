@@ -121,4 +121,9 @@ public interface IEquivalencyOptions
     /// Enabling this option will replace all occurrences of <c>\r\n</c> and <c>\r</c> with <c>\n</c> in the strings before comparing them.
     /// </remarks>
     bool IgnoreNewlineStyle { get; }
+
+    /// <summary>
+    /// When set to <c>true</c>, the comparison will ignore the casing of JSON property names when comparing objects to JSON trees.
+    /// </summary>
+    bool IgnoreJsonPropertyCasing { get; }
 }

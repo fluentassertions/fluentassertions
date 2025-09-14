@@ -57,8 +57,8 @@ sidebar:
         url: /guids
       - title: Enums
         url: /enums
-      - title: System.Data
-        url: /data
+      - title: JSON (System.Text.Json)
+        url: /json
       - title: Exceptions
         url: /exceptions
       - title: Object Graphs
@@ -101,6 +101,10 @@ sidebar:
         url: /tips/#improved-assertions
       - title: Migrating from MSTest
         url: /tips/#mstest-migration
+
+  - title: Upgrading
+    url: /upgradingtov6
+    children:
       - title: Upgrading to 5.0
         url: https://continuousimprover.com/2018/02/fluent-assertions-50-best-unit-test.html#upgrading-tips
       - title: Upgrading to 6.0

@@ -47,7 +47,7 @@ public partial class SelectionRulesSpecs
                 .PreferringRuntimeMemberTypes()
                 .ThrowingOnMissingMembers()
                 .Using(new ExtensibilitySpecs.DoEquivalencyStep(() => { }))
-                .Using(new MustMatchByNameRule())
+                .Using(new MustMatchMemberByNameRule())
                 .Using(new AllFieldsSelectionRule())
                 .Using(new ByteArrayOrderingRule())
                 .Using(StringComparer.OrdinalIgnoreCase)

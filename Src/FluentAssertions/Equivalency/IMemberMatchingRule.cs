@@ -13,7 +13,7 @@ public interface IMemberMatchingRule
     /// <paramref name="expectedMember"/> during a structural equality.
     /// </summary>
     /// <remarks>
-    /// Whether or not a match is required or optional is up to the specific rule. If no match is found and this is not an issue,
+    /// Whether a match is required or optional is up to the specific rule. If no match is found and this is not an issue,
     /// simply return <see langword="null"/>.
     /// </remarks>
     /// <param name="expectedMember">

@@ -9,7 +9,7 @@ public record Pathway
 {
     public delegate string GetDescription(string pathAndName);
 
-    private readonly string path = string.Empty;
+    private string path = string.Empty;
     private string name = string.Empty;
     private string pathAndName;
 
@@ -52,7 +52,7 @@ public record Pathway
     public string Name
     {
         get => name;
-        internal set
+        private init
         {
             name = value;
             pathAndName = null;
