@@ -96,6 +96,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         IgnoreTrailingWhitespace = defaults.IgnoreTrailingWhitespace;
         IgnoreCase = defaults.IgnoreCase;
         IgnoreNewlineStyle = defaults.IgnoreNewlineStyle;
+        IgnoreJsonPropertyCasing = defaults.IgnoreJsonPropertyCasing;
 
         ConversionSelector = defaults.ConversionSelector.Clone();
 
@@ -204,6 +205,8 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     public bool IgnoreCase { get; private set; }
 
     public bool IgnoreNewlineStyle { get; private set; }
+
+    public bool IgnoreJsonPropertyCasing { get; set; }
 
     public ITraceWriter TraceWriter { get; private set; }
 
@@ -822,6 +825,17 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         IgnoreNewlineStyle = true;
         return (TSelf)this;
     }
+
+#if NET6_0_OR_GREATER
+    /// <summary>
+    /// Tells the comparison to ignore the casing when trying to match a property to a JSON property.
+    /// </summary>
+    public TSelf IgnoringJsonPropertyCasing()
+    {
+        IgnoreJsonPropertyCasing = true;
+        return (TSelf)this;
+    }
+#endif
 
     /// <summary>
     /// Returns the comparer for strings, which is either an explicitly specified comparer via <see cref="Using{T}(System.Collections.Generic.IEqualityComparer{T})"/> or an ordinal comparer depending on <see cref="IgnoringCase()" />.

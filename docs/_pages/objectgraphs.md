@@ -386,6 +386,48 @@ You can also assert that all instances of `OrderDto` are structurally equal to a
 orderDtos.Should().AllBeEquivalentTo(singleOrder);
 ```
 
+### JSON
+
+For projects targeting .NET 6 or later, you can also compare a `JsonNode` from the `System.Text.Json` namespace representing a deeply nested JSON block against another object such as an anonymous type. You can even use inline assertions like `Value.ThatSatisfies()` and `Value.ThatMatches()`.
+
+```csharp
+var node = JsonNode.Parse(
+    """
+    {
+        "name": "Product",
+        "price": 99.99,
+        "isAvailable": true,
+        "firstIntroducedOn": "2025-09-11T21:17:00",
+        "tags": ["electronics", "gadget"],
+        "metadata": {
+            "settings": {
+                "visible": true,
+                "priority": 1
+            }
+        }
+    }
+    """);
+
+node.Should().BeEquivalentTo(new
+{
+    name = "Product",
+    price = 99.99,
+    isAvailable = true,
+    firstIntroducedOn = 11.September(2025).At(21, 17),
+    tags = new[]{"electronics", "gadget"},
+    metadata = new
+    {
+        settings = new
+        {
+            visible = true,
+            priority = Value.ThatMatches<int>(x => x > 0)
+        }
+    },
+});
+```
+
+By default, the casing of the properties of the expectation must match those of the JSON properties, but you can influence that using the `IgnoringJsonPropertyCasing()` option. Next to that, as you can see in the example above, JSON properties representing local or UTC-based ISO 8601 compliant dates and times, can be compared to a `DateTime` property. 
+
 ### Ordering
 
 Fluent Assertions will, by default, ignore the order of the items in the collections, regardless of whether the collection is at the root of the object graph or tucked away in a nested property or field.

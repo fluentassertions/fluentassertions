@@ -23,6 +23,11 @@ using NotNullAttribute = System.Diagnostics.CodeAnalysis.NotNullAttribute;
 using FluentAssertions.Events;
 #endif
 
+#if NET6_0_OR_GREATER
+using System.Linq;
+using System.Text.Json.Nodes;
+#endif
+
 namespace FluentAssertions;
 
 /// <summary>
@@ -358,7 +363,8 @@ public static class AssertionExtensions
     public static GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>(
         [NotNull] this IDictionary<TKey, TValue> actualValue)
     {
-        return new GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue>(actualValue, AssertionChain.GetOrCreate());
+        return new GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue>(actualValue,
+            AssertionChain.GetOrCreate());
     }
 
     /// <summary>
@@ -748,7 +754,7 @@ public static class AssertionExtensions
     {
         Guard.ThrowIfArgumentIsNull(typeSelector);
 
-        return new TypeSelectorAssertions(AssertionChain.GetOrCreate(),  typeSelector.ToArray());
+        return new TypeSelectorAssertions(AssertionChain.GetOrCreate(), typeSelector.ToArray());
     }
 
     /// <summary>
@@ -901,6 +907,25 @@ public static class AssertionExtensions
     public static TaskCompletionSourceAssertions Should(this TaskCompletionSource tcs)
     {
         return new TaskCompletionSourceAssertions(tcs, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns an object that provides various assertion APIs that act on a <see cref="JsonNode"/>.
+    /// </summary>
+    [Pure]
+    public static JsonNodeAssertions Should([NotNull] this JsonNode jsonNode)
+    {
+        return new JsonNodeAssertions(jsonNode, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Return an object that provides various assertion APIs that treat a <see cref="JsonArray"/>
+    /// as a collection of <see cref="JsonNode"/>s.
+    /// </summary>
+    [Pure]
+    public static GenericCollectionAssertions<JsonNode> Should([NotNull] this JsonArray jsonArray)
+    {
+        return new GenericCollectionAssertions<JsonNode>(jsonArray?.ToArray(), AssertionChain.GetOrCreate());
     }
 
 #endif

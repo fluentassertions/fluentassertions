@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <IsPackable>false</IsPackable>
@@ -9,7 +9,7 @@
         <AssemblyOriginatorKeyFile>..\..\Src\FluentAssertions\FluentAssertions.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
 
-    <ItemGroup>
+  <ItemGroup>
       <ProjectReference Include="..\..\Src\FluentAssertions\FluentAssertions.csproj" />
     </ItemGroup>
 

@@ -190,6 +190,7 @@ public class EquivalencyOptions<TExpectation>
 
         return this;
     }
+
 }
 
 /// <summary>

@@ -567,7 +567,7 @@ public class BasicSpecs
         Action act = () => onlyAField.Should().BeEquivalentTo(onlyAProperty);
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("Expected property onlyAField.Value*to be 101, but found 1.*");
+        act.Should().Throw<XunitException>().WithMessage("Expected field onlyAField.Value*to be 101, but found 1.*");
     }
 
     [Fact]

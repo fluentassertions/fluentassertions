@@ -36,6 +36,7 @@ public static class Formatter
 #if NET6_0_OR_GREATER
         new DateOnlyValueFormatter(),
         new TimeOnlyValueFormatter(),
+        new JsonNodeFormatter(),
 #endif
         new TimeSpanValueFormatter(),
         new Int32ValueFormatter(),

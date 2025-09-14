@@ -1,37 +1,28 @@
-using System.Reflection;
-using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Matching;
 
 /// <summary>
-/// Finds a member of the expectation with the exact same name, but doesn't require it.
+/// First tries to find a JSON property with the same name, and if that fails, falls back to a field or property with the same name.
 /// </summary>
 internal class TryMatchByNameRule : IMemberMatchingRule
 {
     public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options, AssertionChain assertionChain)
     {
-        if (options.IncludedProperties != MemberVisibility.None)
+#if NET6_0_OR_GREATER
+        if (subject is System.Text.Json.Nodes.JsonNode)
         {
-            PropertyInfo property = subject.GetType().FindProperty(expectedMember.Expectation.Name,
-                options.IncludedProperties | MemberVisibility.ExplicitlyImplemented);
-
-            if (property is not null && !property.IsIndexer())
-            {
-                return new Property(property, parent);
-            }
+            return new TryMatchJsonPropertyByNameRule().Match(expectedMember, subject, parent, options, assertionChain);
         }
+#endif
 
-        FieldInfo field = subject.GetType()
-            .FindField(expectedMember.Expectation.Name, options.IncludedFields);
-
-        return field is not null ? new Field(field, parent) : null;
+        return new TryMatchMemberByNameRule().Match(expectedMember, subject, parent, options, assertionChain);
     }
 
     /// <inheritdoc />
     /// <filterpriority>2</filterpriority>
     public override string ToString()
     {
-        return "Try to match member by name";
+        return "Try to match (JSON) member by name";
     }
 }

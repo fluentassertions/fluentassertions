@@ -57,10 +57,13 @@ public interface INode
     bool RootIsCollection { get; }
 
     /// <summary>
-    /// Adjusts the current node to reflect a remapped subject member during a structural equivalency check.
-    /// Ensures that assertion failures report the correct subject member name when the matching process selects
-    /// a different member in the subject compared to the expectation.
-    /// </summary>
+    /// Overrides the display text used when rendering the failure message to use the specified member
+    ///  </summary>
+    /// <remarks>
+    /// As the description of this object is used to render the "expectation" in a the failure message, and
+    /// we sometimes need to remap the expectation to a different member (e.g. when a member is
+    /// mapped to another member with a different name), we need to adjust the description.
+    /// </remarks>
     /// <param name="subjectMember">
     /// The specific member in the subject that the current node should be remapped to.
     /// </param>

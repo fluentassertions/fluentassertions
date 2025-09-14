@@ -41,7 +41,6 @@
     <ProjectReference Include="..\..\Src\FluentAssertions\FluentAssertions.csproj" />
     <ProjectReference Include="..\AssemblyA\AssemblyA.csproj" />
     <ProjectReference Include="..\AssemblyB\AssemblyB.csproj" />
-    <ProjectReference Include="..\ExampleExtensions\ExampleExtensions.csproj" />
   </ItemGroup>
 
 </Project>

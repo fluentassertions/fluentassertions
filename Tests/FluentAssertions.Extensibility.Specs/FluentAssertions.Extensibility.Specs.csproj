@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Src\FluentAssertions\FluentAssertions.csproj" />
+    <ProjectReference Include="..\ExampleExtensions\ExampleExtensions.csproj" />
   </ItemGroup>
 
 </Project>

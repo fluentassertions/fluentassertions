@@ -144,8 +144,11 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
             new RunAllUserStepsEquivalencyStep(),
             new AutoConversionStep(),
             new TypeEquivalencyStep(),
-            new InlineEquivalencyStep(),
             new ReferenceEqualityEquivalencyStep(),
+#if NET6_0_OR_GREATER
+            new JsonConversionStep(),
+#endif
+            new InlineEquivalencyStep(),
             new GenericDictionaryEquivalencyStep(),
             new XDocumentEquivalencyStep(),
             new XElementEquivalencyStep(),

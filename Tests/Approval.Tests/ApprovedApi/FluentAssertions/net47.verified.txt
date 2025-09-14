@@ -752,6 +752,7 @@ namespace FluentAssertions.Equivalency
         FluentAssertions.Equivalency.EnumEquivalencyHandling EnumEquivalencyHandling { get; }
         bool ExcludeNonBrowsableOnExpectation { get; }
         bool IgnoreCase { get; }
+        bool IgnoreJsonPropertyCasing { get; }
         bool IgnoreLeadingWhitespace { get; }
         bool IgnoreNewlineStyle { get; }
         bool IgnoreNonBrowsableOnSubject { get; }
@@ -896,6 +897,7 @@ namespace FluentAssertions.Equivalency
         public bool? CompareRecordsByValue { get; }
         public FluentAssertions.Equivalency.ConversionSelector ConversionSelector { get; }
         public bool IgnoreCase { get; }
+        public bool IgnoreJsonPropertyCasing { get; set; }
         public bool IgnoreLeadingWhitespace { get; }
         public bool IgnoreNewlineStyle { get; }
         public bool IgnoreTrailingWhitespace { get; }

@@ -85,5 +85,8 @@ internal class CollectionMemberOptionsDecorator : IEquivalencyOptions, IContainT
 
     public bool IgnoreNewlineStyle => inner.IgnoreNewlineStyle;
 
+    /// <inheritdoc />
+    public bool IgnoreJsonPropertyCasing => inner.IgnoreJsonPropertyCasing;
+
     public ITraceWriter TraceWriter => inner.TraceWriter;
 }
