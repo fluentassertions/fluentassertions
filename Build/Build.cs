@@ -113,7 +113,6 @@ class Build : NukeBuild
             DotNetRestore(s => s
                 .SetProjectFile(Solution)
                 .EnableNoCache()
-                .SetContinuousIntegrationBuild(IsServerBuild)
                 .SetConfigFile(RootDirectory / "nuget.config"));
         });
 
