@@ -13,7 +13,7 @@
     <PackageDownload Include="GitVersion.Tool" Version="[6.3.0]" />
     <PackageDownload Include="ReportGenerator" Version="[5.4.12]" />
     <PackageDownload Include="xunit.runner.console" Version="[2.9.3]" />
-    <PackageDownload Include="PackageGuard" Version="[1.5.0]" />
+    <PackageDownload Include="PackageGuard" Version="[1.6.1]" />
     <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
     <PackageReference Include="Nuke.Common" Version="$(NukeVersion)" />
     <PackageReference Include="Nuke.Components" Version="$(NukeVersion)" />
