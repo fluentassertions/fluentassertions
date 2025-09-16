@@ -8,6 +8,15 @@
         "resolved": "2024.3.0",
         "contentHash": "ox5pkeLQXjvJdyAB4b2sBYAlqZGLh3PjSnP1bQNVx72ONuTJ9+34/+Rq91Fc0dG29XG9RgZur9+NcP4riihTug=="
       },
+      "Microsoft.NETFramework.ReferenceAssemblies": {
+        "type": "Direct",
+        "requested": "[1.0.3, )",
+        "resolved": "1.0.3",
+        "contentHash": "vUc9Npcs14QsyOD01tnv/m8sQUnGTGOw1BCmKcv77LBJY7OxhJ+zJF7UD/sCL3lYNFuqmQEVlkfS4Quif6FyYg==",
+        "dependencies": {
+          "Microsoft.NETFramework.ReferenceAssemblies.net47": "1.0.3"
+        }
+      },
       "PolySharp": {
         "type": "Direct",
         "requested": "[1.15.0, )",
@@ -28,6 +37,11 @@
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "4.5.3"
         }
+      },
+      "Microsoft.NETFramework.ReferenceAssemblies.net47": {
+        "type": "Transitive",
+        "resolved": "1.0.3",
+        "contentHash": "s2ik8oLVJHVcQPVNHq+X5UfpQP6RsvoixtWzuW2qZvYjRickfC70OXpCmEUgTxjWumS4qZfZ3ZGR1yH7ATc4Wg=="
       },
       "System.Runtime.CompilerServices.Unsafe": {
         "type": "Transitive",

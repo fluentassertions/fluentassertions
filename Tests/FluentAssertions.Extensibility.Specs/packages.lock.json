@@ -8,6 +8,15 @@
         "resolved": "6.0.4",
         "contentHash": "lkhqpF8Pu2Y7IiN7OntbsTtdbpR1syMsm2F3IgX6ootA4ffRqWL5jF7XipHuZQTdVuWG/gVAAcf8mjk8Tz0xPg=="
       },
+      "Microsoft.NETFramework.ReferenceAssemblies": {
+        "type": "Direct",
+        "requested": "[1.0.3, )",
+        "resolved": "1.0.3",
+        "contentHash": "vUc9Npcs14QsyOD01tnv/m8sQUnGTGOw1BCmKcv77LBJY7OxhJ+zJF7UD/sCL3lYNFuqmQEVlkfS4Quif6FyYg==",
+        "dependencies": {
+          "Microsoft.NETFramework.ReferenceAssemblies.net47": "1.0.3"
+        }
+      },
       "PolySharp": {
         "type": "Direct",
         "requested": "[1.15.0, )",
@@ -33,6 +42,11 @@
         "dependencies": {
           "Microsoft.TestPlatform.ObjectModel": "17.10.0"
         }
+      },
+      "Microsoft.NETFramework.ReferenceAssemblies.net47": {
+        "type": "Transitive",
+        "resolved": "1.0.3",
+        "contentHash": "s2ik8oLVJHVcQPVNHq+X5UfpQP6RsvoixtWzuW2qZvYjRickfC70OXpCmEUgTxjWumS4qZfZ3ZGR1yH7ATc4Wg=="
       },
       "Microsoft.TestPlatform.ObjectModel": {
         "type": "Transitive",

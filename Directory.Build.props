@@ -42,4 +42,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
+    <!-- Explicitly add reference to ReferenceAssemblies to avoid depending on what is installed on the developer machine -->
+    <!-- https://learn.microsoft.com/en-us/dotnet/framework/migration-guide/reference-assemblies -->
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
+  </ItemGroup>
 </Project>
