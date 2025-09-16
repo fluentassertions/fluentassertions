@@ -10,7 +10,7 @@
     <NukeTelemetryVersion>1</NukeTelemetryVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageDownload Include="GitVersion.Tool" Version="[6.3.0]" />
+    <PackageDownload Include="GitVersion.Tool" Version="[6.4.0]" />
     <PackageDownload Include="ReportGenerator" Version="[5.4.12]" />
     <PackageDownload Include="xunit.runner.console" Version="[2.9.3]" />
     <PackageDownload Include="PackageGuard" Version="[1.6.1]" />
