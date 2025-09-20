@@ -84,12 +84,61 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
             .ForCondition(Subject.Any())
             .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedWildcardPattern);
 
-        AssertExceptionMessage(expectedWildcardPattern, because, becauseArgs);
+        AssertExceptionMessage(message =>
+            message.Should().MatchEquivalentOf(expectedWildcardPattern, because, becauseArgs));
 
         return this;
     }
 
-    private void AssertExceptionMessage(string expectedWildcardPattern, string because, object[] becauseArgs)
+    /// <summary>
+    /// Asserts that the thrown exception does NOT have a message that matches <paramref name="wildcardPattern" />.
+    /// </summary>
+    /// <param name="wildcardPattern">
+    /// The pattern to match against the exception message. This parameter can contain a combination of literal text and
+    /// wildcard (* and ?) characters, but it doesn't support regular expressions.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+    /// </param>
+    /// <remarks>
+    /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+    /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+    /// <paramref name="wildcardPattern"/>.
+    /// <list type="table">
+    /// <listheader>
+    /// <term>Wildcard character</term>
+    /// <description>Description</description>
+    /// </listheader>
+    /// <item>
+    /// <term>* (asterisk)</term>
+    /// <description>Zero or more characters in that position.</description>
+    /// </item>
+    /// <item>
+    /// <term>? (question mark)</term>
+    /// <description>Exactly one character in that position.</description>
+    /// </item>
+    /// </list>
+    /// </remarks>
+    public virtual ExceptionAssertions<TException> WithoutMessage(string wildcardPattern,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        assertionChain
+            .BecauseOf(because, becauseArgs)
+            .UsingLineBreaks
+            .ForCondition(Subject.Any())
+            .FailWith("Expected exception without message matching {0}{reason}, but no exception was thrown.", wildcardPattern);
+
+        AssertExceptionMessage(message =>
+            message.Should().NotMatchEquivalentOf(wildcardPattern, because, becauseArgs));
+
+        return this;
+    }
+
+    private void AssertExceptionMessage(Action<string> messageAssertion)
     {
         var results = new AssertionResultSet();
 
@@ -97,11 +146,12 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
         {
             using (var scope = new AssertionScope())
             {
+                // Treat every assertion within the scope as a new independent one.
                 var chain = AssertionChain.GetOrCreate();
-                chain.OverrideCallerIdentifier(() => "exception message");
+                chain.OverrideCallerIdentifier(() => "the exception message");
                 chain.ReuseOnce();
 
-                message.Should().MatchEquivalentOf(expectedWildcardPattern, because, becauseArgs);
+                messageAssertion(message);
 
                 results.AddSet(message, scope.Discard());
             }

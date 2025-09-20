@@ -37,6 +37,10 @@ internal class AssertionResultSet
         }
 
         KeyValuePair<object, string[]>[] bestResultSets = GetBestResultSets();
+        if (bestResultSets.Length == 0)
+        {
+            return [];
+        }
 
         KeyValuePair<object, string[]> bestMatch = Array.Find(bestResultSets, r => r.Key.Equals(key));
 
@@ -50,6 +54,11 @@ internal class AssertionResultSet
 
     private KeyValuePair<object, string[]>[] GetBestResultSets()
     {
+        if (set.Values.Count == 0)
+        {
+            return [];
+        }
+
         int fewestFailures = set.Values.Min(r => r.Length);
         return set.Where(r => r.Value.Length == fewestFailures).ToArray();
     }

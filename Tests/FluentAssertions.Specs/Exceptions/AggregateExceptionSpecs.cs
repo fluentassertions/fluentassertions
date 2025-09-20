@@ -4,7 +4,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Exceptions;
 
-public class ExceptionAssertionSpecs
+public class AggregateExceptionSpecs
 {
     [Fact]
     public void When_method_throws_an_empty_AggregateException_it_should_fail()

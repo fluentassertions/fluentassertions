@@ -36,6 +36,30 @@ public static class ExceptionAssertionsExtensions
     }
 
     /// <summary>
+    /// Asserts that the thrown exception does NOT have a message that matches <paramref name="wildcardPattern" />.
+    /// </summary>
+    /// <param name="task">The <see cref="ExceptionAssertions{TException}"/> containing the thrown exception.</param>
+    /// <param name="wildcardPattern">
+    /// The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+    /// </param>
+    public static async Task<ExceptionAssertions<TException>> WithoutMessage<TException>(
+        this Task<ExceptionAssertions<TException>> task,
+        string wildcardPattern,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+        where TException : Exception
+    {
+        return (await task).WithoutMessage(wildcardPattern, because, becauseArgs);
+    }
+
+    /// <summary>
     /// Asserts that the exception matches a particular condition.
     /// </summary>
     /// <param name="task">The <see cref="ExceptionAssertions{TException}"/> containing the thrown exception.</param>
