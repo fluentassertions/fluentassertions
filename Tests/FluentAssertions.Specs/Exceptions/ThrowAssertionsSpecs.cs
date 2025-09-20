@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Xunit;
 using Xunit.Sdk;
 
@@ -10,40 +10,40 @@ public class ThrowAssertionsSpecs
     public void Succeeds_for_any_exception_thrown_by_subject()
     {
         // Arrange
-        Does testSubject = Does.Throw<InvalidOperationException>();
+        Action testSubject = () => throw new InvalidOperationException();
 
         // Act / Assert
-        testSubject.Invoking(x => x.Do()).Should().Throw();
+        testSubject.Should().Throw();
     }
 
     [Fact]
     public void Succeeds_for_expected_exception_thrown_by_subject()
     {
         // Arrange
-        Does testSubject = Does.Throw<InvalidOperationException>();
+        Action testSubject = () => throw new InvalidOperationException();
 
         // Act / Assert
-        testSubject.Invoking(x => x.Do()).Should().Throw<InvalidOperationException>();
+        testSubject.Should().Throw<InvalidOperationException>();
     }
 
     [Fact]
     public void Succeeds_for_any_exception_thrown_by_func()
     {
         // Arrange
-        Does testSubject = Does.Throw<InvalidOperationException>();
+        Func<int> testSubject = () => throw new InvalidOperationException();
 
         // Act / Assert
-        testSubject.Invoking(x => x.Return()).Should().Throw();
+        testSubject.Should().Throw();
     }
 
     [Fact]
     public void Succeeds_for_expected_exception_thrown_by_func()
     {
         // Arrange
-        Does testSubject = Does.Throw<InvalidOperationException>();
+        Func<int> testSubject = () => throw new InvalidOperationException();
 
         // Act / Assert
-        testSubject.Invoking(x => x.Return()).Should().Throw<InvalidOperationException>();
+        testSubject.Should().Throw<InvalidOperationException>();
     }
 
     [Fact]
@@ -71,9 +71,9 @@ public class ThrowAssertionsSpecs
     {
         try
         {
-            Does testSubject = Does.NotThrow();
+            Action testSubject = () => { };
 
-            testSubject.Invoking(x => x.Do()).Should().Throw<Exception>();
+            testSubject.Should().Throw<Exception>();
 
             throw new XunitException("Should().Throw() did not throw");
         }
@@ -89,9 +89,9 @@ public class ThrowAssertionsSpecs
     {
         try
         {
-            Does testSubject = Does.NotThrow();
+            Func<int> testSubject = () => 42;
 
-            testSubject.Invoking(x => x.Return()).Should().Throw<Exception>();
+            testSubject.Should().Throw<Exception>();
 
             throw new XunitException("Should().Throw() did not throw");
         }
@@ -106,10 +106,10 @@ public class ThrowAssertionsSpecs
     public void When_func_does_not_throw_it_should_be_chainable()
     {
         // Arrange
-        Does testSubject = Does.NotThrow();
+        Func<int> testSubject = () => 42;
 
         // Act / Assert
-        testSubject.Invoking(x => x.Return()).Should().NotThrow()
+        testSubject.Should().NotThrow()
             .Which.Should().Be(42);
     }
 

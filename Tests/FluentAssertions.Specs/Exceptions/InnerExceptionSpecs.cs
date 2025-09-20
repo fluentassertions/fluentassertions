@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Xunit;
 using Xunit.Sdk;
 
@@ -10,11 +10,10 @@ public class InnerExceptionSpecs
     public void When_subject_throws_an_exception_with_the_expected_inner_exception_it_should_not_do_anything()
     {
         // Arrange
-        Does testSubject = Does.Throw(new Exception("", new ArgumentException()));
+        Action testSubject = () => throw new Exception("", new ArgumentException());
 
         // Act / Assert
         testSubject
-            .Invoking(x => x.Do())
             .Should().Throw<Exception>()
             .WithInnerException<ArgumentException>();
     }
@@ -23,11 +22,10 @@ public class InnerExceptionSpecs
     public void When_subject_throws_an_exception_with_the_expected_inner_base_exception_it_should_not_do_anything()
     {
         // Arrange
-        Does testSubject = Does.Throw(new Exception("", new ArgumentNullException()));
+        Action testSubject = () => throw new Exception("", new ArgumentNullException());
 
         // Act / Assert
         testSubject
-            .Invoking(x => x.Do())
             .Should().Throw<Exception>()
             .WithInnerException<ArgumentException>();
     }
@@ -36,11 +34,10 @@ public class InnerExceptionSpecs
     public void When_subject_throws_an_exception_with_the_expected_inner_exception_from_argument_it_should_not_do_anything()
     {
         // Arrange
-        Does testSubject = Does.Throw(new Exception("", new ArgumentException()));
+        Action testSubject = () => throw new Exception("", new ArgumentException());
 
         // Act / Assert
         testSubject
-            .Invoking(x => x.Do())
             .Should().Throw<Exception>()
             .WithInnerException(typeof(ArgumentException));
     }
@@ -186,15 +183,14 @@ public class InnerExceptionSpecs
         // Arrange
         var innerException = new NullReferenceException("InnerExceptionMessage");
 
-        Does testSubject = Does.Throw(new Exception("", innerException));
+        Action testSubject = () => throw new Exception("", innerException);
 
         try
         {
             // Act
             testSubject
-                .Invoking(x => x.Do())
                 .Should().Throw<Exception>()
-                .WithInnerException<ArgumentException>("because {0} should do just that", "Does.Do");
+                .WithInnerException<ArgumentException>("because {0} should do just that", "the action");
 
             throw new XunitException("This point should not be reached");
         }
@@ -202,7 +198,7 @@ public class InnerExceptionSpecs
         {
             // Assert
             exc.Message.Should().Match(
-                "Expected*ArgumentException*Does.Do should do just that*NullReferenceException*InnerExceptionMessage*");
+                "Expected*ArgumentException*the action should do just that*NullReferenceException*InnerExceptionMessage*");
         }
     }
 
@@ -211,17 +207,17 @@ public class InnerExceptionSpecs
     {
         try
         {
-            Does testSubject = Does.Throw<Exception>();
+            Action testSubject = () => throw new Exception();
 
-            testSubject.Invoking(x => x.Do()).Should().Throw<Exception>()
-                .WithInnerException<InvalidOperationException>("because {0} should do that", "Does.Do");
+            testSubject.Should().Throw<Exception>()
+                .WithInnerException<InvalidOperationException>("because {0} should do that", "the action");
 
             throw new XunitException("This point should not be reached");
         }
         catch (XunitException ex)
         {
             ex.Message.Should().Be(
-                "Expected inner System.InvalidOperationException because Does.Do should do that, but the thrown exception has no inner exception.");
+                "Expected inner System.InvalidOperationException because the action should do that, but the thrown exception has no inner exception.");
         }
     }
 
