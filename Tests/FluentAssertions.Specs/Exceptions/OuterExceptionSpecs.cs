@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using Xunit;
 using Xunit.Sdk;
@@ -11,23 +11,23 @@ public class OuterExceptionSpecs
     public void When_subject_throws_expected_exception_with_an_expected_message_it_should_not_do_anything()
     {
         // Arrange
-        Does testSubject = Does.Throw(new InvalidOperationException("some message"));
+        Action testSubject = () => throw new InvalidOperationException("some message");
 
         // Act / Assert
-        testSubject.Invoking(x => x.Do()).Should().Throw<InvalidOperationException>().WithMessage("some message");
+        testSubject.Should().Throw<InvalidOperationException>().WithMessage("some message");
     }
 
     [Fact]
     public void When_subject_throws_expected_exception_but_with_unexpected_message_it_should_throw()
     {
         // Arrange
-        Does testSubject = Does.Throw(new InvalidOperationException("some"));
+        Action testSubject = () => throw new InvalidOperationException("some");
 
         try
         {
             // Act
             testSubject
-                .Invoking(x => x.Do())
+
                 .Should().Throw<InvalidOperationException>()
                 .WithMessage("some message");
 
@@ -45,13 +45,13 @@ public class OuterExceptionSpecs
     public void Long_exception_messages_are_rendered_over_multiple_lines()
     {
         // Arrange
-        Does testSubject = Does.Throw(new InvalidOperationException("some"));
+        Action testSubject = () => throw new InvalidOperationException("some");
 
         try
         {
             // Act
             testSubject
-                .Invoking(x => x.Do())
+
                 .Should().Throw<InvalidOperationException>()
                 .WithMessage(new string('#', 101));
 
@@ -80,13 +80,13 @@ public class OuterExceptionSpecs
     public void Multiline_exception_messages_are_rendered_over_multiple_lines()
     {
         // Arrange
-        Does testSubject = Does.Throw(new InvalidOperationException("some"));
+        Action testSubject = () => throw new InvalidOperationException("some");
 
         try
         {
             // Act
             testSubject
-                .Invoking(x => x.Do())
+
                 .Should().Throw<InvalidOperationException>()
                 .WithMessage("""
                              line1*
@@ -119,13 +119,13 @@ public class OuterExceptionSpecs
     public void Short_exception_messages_are_rendered_on_a_single_line()
     {
         // Arrange
-        Does testSubject = Does.Throw(new InvalidOperationException("some"));
+        Action testSubject = () => throw new InvalidOperationException("some");
 
         try
         {
             // Act
             testSubject
-                .Invoking(x => x.Do())
+
                 .Should().Throw<InvalidOperationException>()
                 .WithMessage(new string('#', 50));
 
@@ -143,10 +143,10 @@ public class OuterExceptionSpecs
     public void When_subject_throws_expected_exception_with_message_starting_with_expected_message_it_should_not_throw()
     {
         // Arrange
-        Does testSubject = Does.Throw(new InvalidOperationException("expected message"));
+        Action testSubject = () => throw new InvalidOperationException("expected message");
 
         // Act
-        Action action = testSubject.Do;
+        Action action = testSubject;
 
         // Assert
         action.Should().Throw<InvalidOperationException>()
@@ -158,11 +158,10 @@ public class OuterExceptionSpecs
     public void When_subject_throws_expected_exception_with_message_that_does_not_start_with_expected_message_it_should_throw()
     {
         // Arrange
-        Does testSubject = Does.Throw(new InvalidOperationException("OxpectOd message"));
+        Action testSubject = () => throw new InvalidOperationException("OxpectOd message");
 
         // Act
         Action action = () => testSubject
-            .Invoking(s => s.Do())
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Expected mes");
 
@@ -177,10 +176,10 @@ public class OuterExceptionSpecs
         When_subject_throws_expected_exception_with_message_starting_with_expected_equivalent_message_it_should_not_throw()
     {
         // Arrange
-        Does testSubject = Does.Throw(new InvalidOperationException("Expected Message"));
+        Action testSubject = () => throw new InvalidOperationException("Expected Message");
 
         // Act
-        Action action = testSubject.Do;
+        Action action = testSubject;
 
         // Assert
         action.Should().Throw<InvalidOperationException>()
@@ -192,11 +191,10 @@ public class OuterExceptionSpecs
     public void When_subject_throws_expected_exception_with_message_that_does_not_start_with_equivalent_message_it_should_throw()
     {
         // Arrange
-        Does testSubject = Does.Throw(new InvalidOperationException("OxpectOd message"));
+        Action testSubject = () => throw new InvalidOperationException("OxpectOd message");
 
         // Act
         Action action = () => testSubject
-            .Invoking(s => s.Do())
             .Should().Throw<InvalidOperationException>()
             .WithMessage("expected mes");
 
@@ -210,13 +208,13 @@ public class OuterExceptionSpecs
     public void When_subject_throws_some_exception_with_unexpected_message_it_should_throw_with_clear_description()
     {
         // Arrange
-        Does subjectThatThrows = Does.Throw(new InvalidOperationException("message1"));
+        Action subjectThatThrows = () => throw new InvalidOperationException("message1");
 
         try
         {
             // Act
             subjectThatThrows
-                .Invoking(x => x.Do())
+
                 .Should().Throw<InvalidOperationException>()
                 .WithMessage("message2", "because we want to test the failure {0}", "message");
 
@@ -234,13 +232,13 @@ public class OuterExceptionSpecs
     public void When_subject_throws_some_exception_with_an_empty_message_it_should_throw_with_clear_description()
     {
         // Arrange
-        Does subjectThatThrows = Does.Throw(new InvalidOperationException(""));
+        Action subjectThatThrows = () => throw new InvalidOperationException("");
 
         try
         {
             // Act
             subjectThatThrows
-                .Invoking(x => x.Do())
+
                 .Should().Throw<InvalidOperationException>()
                 .WithMessage("message2");
 
@@ -259,13 +257,12 @@ public class OuterExceptionSpecs
         When_subject_throws_some_exception_with_message_which_contains_complete_expected_exception_and_more_it_should_throw()
     {
         // Arrange
-        Does subjectThatThrows = Does.Throw(new ArgumentNullException("someParam", "message2"));
+        Action subjectThatThrows = () => throw new ArgumentNullException("someParam", "message2");
 
         try
         {
             // Act
             subjectThatThrows
-                .Invoking(x => x.Do("something"))
                 .Should().Throw<ArgumentNullException>()
                 .WithMessage("message2");
 
@@ -285,10 +282,10 @@ public class OuterExceptionSpecs
         try
         {
             // Arrange
-            Does testSubject = Does.NotThrow();
+            Action testSubject = () => { };
 
             // Act
-            testSubject.Invoking(x => x.Do()).Should().Throw<Exception>("because {0} should do that", "Does.Do");
+            testSubject.Should().Throw<Exception>("because {0} should do that", "Does.Do");
 
             throw new XunitException("This point should not be reached");
         }
@@ -306,13 +303,13 @@ public class OuterExceptionSpecs
         // Arrange
         var actualException = new ArgumentException();
 
-        Does testSubject = Does.Throw(actualException);
+        Action testSubject = () => throw actualException;
 
         try
         {
             // Act
             testSubject
-                .Invoking(x => x.Do())
+
                 .Should().Throw<InvalidOperationException>("because {0} should throw that one", "Does.Do");
 
             throw new XunitException("This point should not be reached");
@@ -331,13 +328,12 @@ public class OuterExceptionSpecs
     public void When_subject_throws_exception_with_message_with_braces_but_a_different_message_is_expected_it_should_report_that()
     {
         // Arrange
-        Does subjectThatThrows = Does.Throw(new Exception("message with {}"));
+        Action subjectThatThrows = () => throw new Exception("message with {}");
 
         try
         {
             // Act
             subjectThatThrows
-                .Invoking(x => x.Do("something"))
                 .Should().Throw<Exception>()
                 .WithMessage("message without");
 
@@ -355,10 +351,10 @@ public class OuterExceptionSpecs
     public void When_asserting_with_an_aggregate_exception_type_the_asserts_should_occur_against_the_aggregate_exception()
     {
         // Arrange
-        Does testSubject = Does.Throw(new AggregateException("Outer Message", new Exception("Inner Message")));
+        Action testSubject = () => throw new AggregateException("Outer Message", new Exception("Inner Message"));
 
         // Act
-        Action act = testSubject.Do;
+        Action act = testSubject;
 
         // Assert
         act.Should().Throw<AggregateException>()
@@ -372,10 +368,10 @@ public class OuterExceptionSpecs
         When_asserting_with_an_aggregate_exception_and_inner_exception_type_from_argument_the_asserts_should_occur_against_the_aggregate_exception()
     {
         // Arrange
-        Does testSubject = Does.Throw(new AggregateException("Outer Message", new Exception("Inner Message")));
+        Action testSubject = () => throw new AggregateException("Outer Message", new Exception("Inner Message"));
 
         // Act
-        Action act = testSubject.Do;
+        Action act = testSubject;
 
         // Assert
         act.Should().Throw<AggregateException>()

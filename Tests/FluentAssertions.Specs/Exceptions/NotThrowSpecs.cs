@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FluentAssertions.Execution;
 #if NET47
 using FluentAssertions.Specs.Common;
@@ -34,11 +34,11 @@ public class NotThrowSpecs
     public void When_a_specific_exception_should_not_be_thrown_but_it_was_it_should_throw()
     {
         // Arrange
-        Does foo = Does.Throw(new ArgumentException("An exception was forced"));
+        Action foo = () => throw new ArgumentException("An exception was forced");
 
         // Act
         Action action =
-            () => foo.Invoking(f => f.Do()).Should().NotThrow<ArgumentException>("we passed valid arguments");
+            () => foo.Should().NotThrow<ArgumentException>("we passed valid arguments");
 
         // Assert
         action
@@ -51,20 +51,20 @@ public class NotThrowSpecs
     public void When_a_specific_exception_should_not_be_thrown_but_another_was_it_should_succeed()
     {
         // Arrange
-        Does foo = Does.Throw<ArgumentException>();
+        Action foo = () => throw new ArgumentException();
 
         // Act / Assert
-        foo.Invoking(f => f.Do()).Should().NotThrow<InvalidOperationException>();
+        foo.Should().NotThrow<InvalidOperationException>();
     }
 
     [Fact]
     public void When_no_exception_should_be_thrown_but_it_was_it_should_throw()
     {
         // Arrange
-        Does foo = Does.Throw(new ArgumentException("An exception was forced"));
+        Action foo = () => throw new ArgumentException("An exception was forced");
 
         // Act
-        Action action = () => foo.Invoking(f => f.Do()).Should().NotThrow("we passed valid arguments");
+        Action action = () => foo.Should().NotThrow("we passed valid arguments");
 
         // Assert
         action
@@ -77,10 +77,10 @@ public class NotThrowSpecs
     public void When_no_exception_should_be_thrown_and_none_was_it_should_not_throw()
     {
         // Arrange
-        Does foo = Does.NotThrow();
+        Action foo = () => { };
 
         // Act / Assert
-        foo.Invoking(f => f.Do()).Should().NotThrow();
+        foo.Should().NotThrow();
     }
 
     [Fact]

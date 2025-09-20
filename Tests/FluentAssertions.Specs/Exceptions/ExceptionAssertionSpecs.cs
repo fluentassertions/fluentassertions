@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
@@ -148,84 +147,5 @@ public class ExceptionAssertionSpecs
 
         // Act / Assert
         act.Should().ThrowExactly<ArgumentNullException>();
-    }
-}
-
-public class SomeTestClass
-{
-    internal const string ExceptionMessage = "someMessage";
-
-    public IList<string> Strings = new List<string>();
-
-    public void Throw()
-    {
-        throw new ArgumentException(ExceptionMessage);
-    }
-}
-
-public abstract class Does
-{
-    public abstract void Do();
-
-    public abstract void Do(string someParam);
-
-    public abstract int Return();
-
-    public static Does Throw<TException>(TException exception)
-        where TException : Exception
-    {
-        return new DoesThrow<TException>(exception);
-    }
-
-    public static Does Throw<TException>()
-        where TException : Exception, new()
-    {
-        return Throw(new TException());
-    }
-
-    public static Does NotThrow() => new DoesNotThrow();
-
-    private class DoesThrow<TException> : Does
-        where TException : Exception
-    {
-        private readonly TException exception;
-
-        public DoesThrow(TException exception)
-        {
-            this.exception = exception;
-        }
-
-        public override void Do() => throw exception;
-
-        public override void Do(string someParam) => throw exception;
-
-        public override int Return() => throw exception;
-    }
-
-    private class DoesNotThrow : Does
-    {
-        public override void Do() { }
-
-        public override void Do(string someParam) { }
-
-        public override int Return() => 42;
-    }
-}
-
-internal class ExceptionWithProperties : Exception
-{
-    public ExceptionWithProperties(string propertyValue)
-    {
-        Property = propertyValue;
-    }
-
-    public string Property { get; set; }
-}
-
-internal class ExceptionWithEmptyToString : Exception
-{
-    public override string ToString()
-    {
-        return string.Empty;
     }
 }

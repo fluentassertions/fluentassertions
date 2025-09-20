@@ -1,9 +1,27 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Exceptions;
+
+internal class ExceptionWithEmptyToString : Exception
+{
+    public override string ToString()
+    {
+        return string.Empty;
+    }
+}
+
+internal class ExceptionWithProperties : Exception
+{
+    public ExceptionWithProperties(string propertyValue)
+    {
+        Property = propertyValue;
+    }
+
+    public string Property { get; set; }
+}
 
 public class MiscellaneousExceptionSpecs
 {
@@ -11,25 +29,25 @@ public class MiscellaneousExceptionSpecs
     public void When_getting_value_of_property_of_thrown_exception_it_should_return_value_of_property()
     {
         // Arrange
-        const string SomeParamNameValue = "param";
-        Does target = Does.Throw(new ExceptionWithProperties(SomeParamNameValue));
+        const string someParamNameValue = "param";
+        Action target = () => throw new ExceptionWithProperties(someParamNameValue);
 
         // Act
-        Action act = target.Do;
+        Action act = target;
 
         // Assert
-        act.Should().Throw<ExceptionWithProperties>().And.Property.Should().Be(SomeParamNameValue);
+        act.Should().Throw<ExceptionWithProperties>().And.Property.Should().Be(someParamNameValue);
     }
 
     [Fact]
     public void When_validating_a_subject_against_multiple_conditions_it_should_support_chaining()
     {
         // Arrange
-        Does testSubject = Does.Throw(new InvalidOperationException("message", new ArgumentException("inner message")));
+        Action testSubject = () => throw new InvalidOperationException("message", new ArgumentException("inner message"));
 
         // Act / Assert
         testSubject
-            .Invoking(x => x.Do())
+            
             .Should().Throw<InvalidOperationException>()
             .WithInnerException<ArgumentException>()
             .WithMessage("inner message");
@@ -126,8 +144,8 @@ public class MiscellaneousExceptionSpecs
     public void When_two_exceptions_are_thrown_and_the_assertion_assumes_there_can_only_be_one_it_should_fail()
     {
         // Arrange
-        Does testSubject = Does.Throw(new AggregateException(new Exception(), new Exception()));
-        Action throwingMethod = testSubject.Do;
+        Action testSubject = () => throw new AggregateException(new Exception(), new Exception());
+        Action throwingMethod = testSubject;
 
         // Act
         Action action = () => throwingMethod.Should().Throw<Exception>().And.Message.Should();

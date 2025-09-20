@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Xunit;
 
 namespace FluentAssertions.Specs.Exceptions;
@@ -9,10 +9,10 @@ public class InvokingActionSpecs
     public void Invoking_on_null_is_not_allowed()
     {
         // Arrange
-        Does someClass = null;
+        Action someClass = null;
 
         // Act
-        Action act = () => someClass.Invoking(d => d.Do());
+        Action act = () => someClass.Invoking(d => d());
 
         // Assert
         act.Should().ThrowExactly<ArgumentNullException>()
@@ -23,7 +23,7 @@ public class InvokingActionSpecs
     public void Invoking_with_null_is_not_allowed()
     {
         // Arrange
-        Does someClass = Does.NotThrow();
+        Action someClass = () => { };
 
         // Act
         Action act = () => someClass.Invoking(null);
