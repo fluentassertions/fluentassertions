@@ -37,7 +37,7 @@ public class OuterExceptionSpecs
         {
             // Assert
             ex.Message.Should().Match(
-                "Expected exception message to match the equivalent of*\"some message\", but*\"some\" does not*");
+                "Expected the exception message to match the equivalent of*\"some message\", but*\"some\" does not*");
         }
     }
 
@@ -62,7 +62,7 @@ public class OuterExceptionSpecs
             // Assert
             ex.Message.Should().Match(
                 """
-                Expected exception message to match the equivalent of
+                Expected the exception message to match the equivalent of
 
                     "*",
 
@@ -100,7 +100,7 @@ public class OuterExceptionSpecs
             // Assert
             ex.Message.Should().Match(
                 """
-                Expected exception message to match the equivalent of
+                Expected the exception message to match the equivalent of
 
                     "line1*
                     line2",
@@ -135,7 +135,7 @@ public class OuterExceptionSpecs
         {
             // Assert
             ex.Message.Should().Match(
-                """Expected exception message to match the equivalent of "*", but "some" does not.""");
+                """Expected the exception message to match the equivalent of "*", but "some" does not.""");
         }
     }
 
@@ -168,7 +168,7 @@ public class OuterExceptionSpecs
         // Assert
         action.Should().Throw<Exception>()
             .WithMessage(
-                "Expected exception message to match the equivalent of*\"Expected mes*\", but*\"OxpectOd message\" does not*");
+                "Expected the exception message to match the equivalent of*\"Expected mes*\", but*\"OxpectOd message\" does not*");
     }
 
     [Fact]
@@ -201,7 +201,7 @@ public class OuterExceptionSpecs
         // Assert
         action.Should().Throw<Exception>()
             .WithMessage(
-                "Expected exception message to match the equivalent of*\"expected mes*\", but*\"OxpectOd message\" does not*");
+                "Expected the exception message to match the equivalent of*\"expected mes*\", but*\"OxpectOd message\" does not*");
     }
 
     [Fact]
@@ -224,7 +224,7 @@ public class OuterExceptionSpecs
         {
             // Assert
             ex.Message.Should().Match(
-                "Expected exception message to match the equivalent of \"message2\" because we want to test the failure message, but \"message1\" does not*");
+                "Expected the exception message to match the equivalent of \"message2\" because we want to test the failure message, but \"message1\" does not*");
         }
     }
 
@@ -248,7 +248,7 @@ public class OuterExceptionSpecs
         {
             // Assert
             ex.Message.Should().Match(
-                "Expected exception message to match the equivalent of \"message2\"*, but \"\"*");
+                "Expected the exception message to match the equivalent of \"message2\"*, but \"\"*");
         }
     }
 
@@ -272,7 +272,7 @@ public class OuterExceptionSpecs
         {
             // Assert
             ex.Message.Should().Match(
-                "Expected exception message to match the equivalent of*\"message2\",*but*message2*someParam*");
+                "Expected the exception message to match the equivalent of*\"message2\",*but*message2*someParam*");
         }
     }
 
@@ -343,7 +343,7 @@ public class OuterExceptionSpecs
         {
             // Assert
             ex.Message.Should().Match(
-                "Expected exception message to match the equivalent of*\"message without\"*, but*\"message with {}*");
+                "Expected the exception message to match the equivalent of*\"message without\"*, but*\"message with {}*");
         }
     }
 
