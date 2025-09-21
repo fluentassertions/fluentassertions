@@ -175,6 +175,31 @@ public partial class StringAssertionSpecs
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc\" because I say so, but it has unexpected whitespace at the end.");
         }
+
+        [Fact]
+        public void The_entire_subject_and_expectation_will_be_included_in_the_failure()
+        {
+            // Arrange
+            var subject =
+                "The streets were quiet except for the faint hum of neon signs flickering in the night. A cat darted across the" +
+                " alley, chasing shadows only it could see. Somewhere, a radio whispered a half-forgotten song, mixing with " +
+                "the distant rumble of a train. The air carried the scent of rain on warm asphalt, heavy and restless. Each " +
+                "step felt like moving between moments—time stretching, folding, and twisting—while the city itself seemed" +
+                " to wait, holding its breath for what might come next.";
+
+            var expected =
+                "The streets were quiet except for the faint hum of neon signs flicering in the night. A cat darted across" +
+                " the alley, chasing shadows only it could see. Somewhere, a radio whispered a half-forgotten song, mixing with " +
+                "the distant rumble of a train. The air carried the scent of rain on warm asphalt, heavy and restless. Each " +
+                "step felt like moving between moments—time stretching, folding, and twisting—while the city itself seemed" +
+                " to wait, holding its breath for what might come next.";
+
+            // Act
+            var act = () => subject.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*Full expectation*");
+        }
     }
 
     public class NotBeEquivalentTo

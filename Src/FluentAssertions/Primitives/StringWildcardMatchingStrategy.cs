@@ -18,8 +18,8 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
 
         if (IsLongOrMultiline(subject) || IsLongOrMultiline(expected))
         {
-            expected = RenderAsIndentedBlock(expected);
-            subject = RenderAsIndentedBlock(subject);
+            expected = expected.RenderAsIndentedBlock();
+            subject = subject.RenderAsIndentedBlock();
 
             assertionChain
                 .FailWith($$"""
@@ -71,13 +71,6 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
                 .Replace("\\*", ".*", StringComparison.Ordinal)
                 .Replace("\\?", ".", StringComparison.Ordinal)
             + "$";
-    }
-
-    private static string RenderAsIndentedBlock(string message)
-    {
-        string[] lines = message.Split(["\r\n", "\n", "\r"], StringSplitOptions.None);
-
-        return "    \"" + string.Join(Environment.NewLine + "    ", lines) + "\"";
     }
 
     private static bool IsLongOrMultiline(string message)
