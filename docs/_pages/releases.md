@@ -7,6 +7,16 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 8.8.0
+
+### What's new
+
+* Added `WithoutMessage` to allow asserting an exception message does not contain a wildcard pattern - [#3100](https://github.com/fluentassertions/fluentassertions/pull/3100)
+
+### Enhancements
+
+* Improved the way the differences are reported for long strings - [#3101](https://github.com/fluentassertions/fluentassertions/pull/3101)
+
 ## 8.7.1
 
 ### Fixes

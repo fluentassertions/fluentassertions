@@ -2004,23 +2004,31 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         return !hasUpperCase && !hasLowerCase;
     }
 
-    internal AndConstraint<TAssertions> Be(string expected,
-        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
+    /// <summary>
+    /// Validates that a string is equivalent to the specified <paramref name="expected"/> string,
+    /// using the given <paramref name="config"/> to determine equivalency options.
+    /// </summary>
+    /// <remarks>
+    /// Is used by <see cref="StringAssertions{TAssertions}"/>.
+    /// </remarks>
+    internal void Be(string expected, Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
         EquivalencyOptions<string> options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<string>());
 
-        var expectation = new StringValidator(assertionChain,
-            new StringEqualityStrategy(options.GetStringComparerOrDefault(), "be"),
-            because, becauseArgs);
+        StringEqualityStrategy strategy = new(options.GetStringComparerOrDefault(), "be")
+        {
+            IncludeFullDetails = options.IncludeFullStringsInDifference
+        };
 
-        var subject = ApplyStringSettings(Subject, options);
+        var expectation = new StringValidator(assertionChain, strategy, because, becauseArgs);
+
+        string subject = ApplyStringSettings(Subject, options);
         expected = ApplyStringSettings(expected, options);
 
         expectation.Validate(subject, expected);
-        return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     private static bool Contains(string actual, string expected, StringComparison comparison)

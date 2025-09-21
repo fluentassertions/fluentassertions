@@ -14,8 +14,13 @@ public class BasicSpecs
     public void A_null_configuration_is_invalid()
     {
         // Arrange
-        var actual = new { };
-        var expectation = new { };
+        var actual = new
+        {
+        };
+
+        var expectation = new
+        {
+        };
 
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expectation, config: null);
@@ -29,8 +34,13 @@ public class BasicSpecs
     public void A_null_as_the_configuration_is_not_valid_for_inequivalency_assertions()
     {
         // Arrange
-        var actual = new { };
-        var expectation = new { };
+        var actual = new
+        {
+        };
+
+        var expectation = new
+        {
+        };
 
         // Act
         Action act = () => actual.Should().NotBeEquivalentTo(expectation, config: null);
@@ -44,7 +54,9 @@ public class BasicSpecs
     public void When_expectation_is_null_it_should_throw()
     {
         // Arrange
-        var subject = new { };
+        var subject = new
+        {
+        };
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo<object>(null);
@@ -58,9 +70,15 @@ public class BasicSpecs
     public void When_comparing_nested_collection_with_a_null_value_it_should_fail_with_the_correct_message()
     {
         // Arrange
-        MyClass[] subject = [new MyClass { Items = ["a"] }];
+        MyClass[] subject =
+        [
+            new()
+            {
+                Items = ["a"]
+            }
+        ];
 
-        MyClass[] expectation = [new MyClass()];
+        MyClass[] expectation = [new()];
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expectation);
@@ -82,7 +100,9 @@ public class BasicSpecs
         SomeDto subject = null;
 
         // Act
-        Action act = () => subject.Should().BeEquivalentTo(new { });
+        Action act = () => subject.Should().BeEquivalentTo(new
+        {
+        });
 
         // Assert
         act.Should().Throw<XunitException>().WithMessage(
@@ -137,7 +157,9 @@ public class BasicSpecs
         SomeDto subject = null;
 
         // Act
-        Action act = () => subject.Should().NotBeEquivalentTo<object>(new { })
+        Action act = () => subject.Should().NotBeEquivalentTo<object>(new
+            {
+            })
             .And.BeNull();
 
         // Assert
@@ -151,7 +173,9 @@ public class BasicSpecs
         SomeDto subject = null;
 
         // Act
-        Action act = () => subject.Should().NotBeEquivalentTo<object>(new { }, opt => opt)
+        Action act = () => subject.Should().NotBeEquivalentTo<object>(new
+            {
+            }, opt => opt)
             .And.BeNull();
 
         // Assert
@@ -165,9 +189,15 @@ public class BasicSpecs
 
         // DateTime is used as an example because the current implementation
         // would hit the recursion-depth limit if structural equivalence were attempted.
-        var date1 = new { Property = 1.January(2011) };
+        var date1 = new
+        {
+            Property = 1.January(2011)
+        };
 
-        var date2 = new { Property = 1.January(2011) };
+        var date2 = new
+        {
+            Property = 1.January(2011)
+        };
 
         // Act
         Action act = () => date1.Should().BeEquivalentTo(date2);
@@ -180,9 +210,17 @@ public class BasicSpecs
     public void When_an_object_hides_object_equals_it_should_be_compared_using_its_members()
     {
         // Arrange
-        var actual = new VirtualClassOverride { Property = "Value", OtherProperty = "Actual" };
+        var actual = new VirtualClassOverride
+        {
+            Property = "Value",
+            OtherProperty = "Actual"
+        };
 
-        var expected = new VirtualClassOverride { Property = "Value", OtherProperty = "Expected" };
+        var expected = new VirtualClassOverride
+        {
+            Property = "Value",
+            OtherProperty = "Expected"
+        };
 
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expected);
@@ -211,8 +249,23 @@ public class BasicSpecs
     public void When_treating_a_value_type_in_a_collection_as_a_complex_type_it_should_compare_them_by_members()
     {
         // Arrange
-        ClassWithValueSemanticsOnSingleProperty[] subject = [new() { Key = "SameKey", NestedProperty = "SomeValue" }];
-        ClassWithValueSemanticsOnSingleProperty[] expected = [new() { Key = "SameKey", NestedProperty = "OtherValue" }];
+        ClassWithValueSemanticsOnSingleProperty[] subject =
+        [
+            new()
+            {
+                Key = "SameKey",
+                NestedProperty = "SomeValue"
+            }
+        ];
+
+        ClassWithValueSemanticsOnSingleProperty[] expected =
+        [
+            new()
+            {
+                Key = "SameKey",
+                NestedProperty = "OtherValue"
+            }
+        ];
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected,
@@ -226,9 +279,17 @@ public class BasicSpecs
     public void When_treating_a_value_type_as_a_complex_type_it_should_compare_them_by_members()
     {
         // Arrange
-        var subject = new ClassWithValueSemanticsOnSingleProperty { Key = "SameKey", NestedProperty = "SomeValue" };
+        var subject = new ClassWithValueSemanticsOnSingleProperty
+        {
+            Key = "SameKey",
+            NestedProperty = "SomeValue"
+        };
 
-        var expected = new ClassWithValueSemanticsOnSingleProperty { Key = "SameKey", NestedProperty = "OtherValue" };
+        var expected = new ClassWithValueSemanticsOnSingleProperty
+        {
+            Key = "SameKey",
+            NestedProperty = "OtherValue"
+        };
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected,
@@ -242,9 +303,15 @@ public class BasicSpecs
     public void When_treating_a_type_as_value_type_but_it_was_already_marked_as_reference_type_it_should_throw()
     {
         // Arrange
-        var subject = new ClassWithValueSemanticsOnSingleProperty { Key = "Don't care" };
+        var subject = new ClassWithValueSemanticsOnSingleProperty
+        {
+            Key = "Don't care"
+        };
 
-        var expected = new ClassWithValueSemanticsOnSingleProperty { Key = "Don't care" };
+        var expected = new ClassWithValueSemanticsOnSingleProperty
+        {
+            Key = "Don't care"
+        };
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected, options => options
@@ -260,9 +327,15 @@ public class BasicSpecs
     public void When_treating_a_type_as_reference_type_but_it_was_already_marked_as_value_type_it_should_throw()
     {
         // Arrange
-        var subject = new ClassWithValueSemanticsOnSingleProperty { Key = "Don't care" };
+        var subject = new ClassWithValueSemanticsOnSingleProperty
+        {
+            Key = "Don't care"
+        };
 
-        var expected = new ClassWithValueSemanticsOnSingleProperty { Key = "Don't care" };
+        var expected = new ClassWithValueSemanticsOnSingleProperty
+        {
+            Key = "Don't care"
+        };
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected, options => options
@@ -278,9 +351,23 @@ public class BasicSpecs
     public void When_treating_a_complex_type_in_a_collection_as_a_value_type_it_should_compare_them_by_value()
     {
         // Arrange
-        var subject = new[] { new { Address = IPAddress.Parse("1.2.3.4"), Word = "a" } };
+        var subject = new[]
+        {
+            new
+            {
+                Address = IPAddress.Parse("1.2.3.4"),
+                Word = "a"
+            }
+        };
 
-        var expected = new[] { new { Address = IPAddress.Parse("1.2.3.4"), Word = "a" } };
+        var expected = new[]
+        {
+            new
+            {
+                Address = IPAddress.Parse("1.2.3.4"),
+                Word = "a"
+            }
+        };
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected,
@@ -294,9 +381,17 @@ public class BasicSpecs
     public void When_treating_a_complex_type_as_a_value_type_it_should_compare_them_by_value()
     {
         // Arrange
-        var subject = new { Address = IPAddress.Parse("1.2.3.4"), Word = "a" };
+        var subject = new
+        {
+            Address = IPAddress.Parse("1.2.3.4"),
+            Word = "a"
+        };
 
-        var expected = new { Address = IPAddress.Parse("1.2.3.4"), Word = "a" };
+        var expected = new
+        {
+            Address = IPAddress.Parse("1.2.3.4"),
+            Word = "a"
+        };
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected,
@@ -408,8 +503,15 @@ public class BasicSpecs
     public void When_threating_any_type_as_reference_type_it_should_exclude_primitive_types()
     {
         // Arrange
-        var subject = new { Value = 1 };
-        var expected = new { Value = 2 };
+        var subject = new
+        {
+            Value = 1
+        };
+
+        var expected = new
+        {
+            Value = 2
+        };
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt
@@ -424,8 +526,15 @@ public class BasicSpecs
     public void When_threating_an_open_type_as_reference_type_it_should_exclude_primitive_types()
     {
         // Arrange
-        var subject = new { Value = 1 };
-        var expected = new { Value = 2 };
+        var subject = new
+        {
+            Value = 1
+        };
+
+        var expected = new
+        {
+            Value = 2
+        };
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt
@@ -440,8 +549,15 @@ public class BasicSpecs
     public void When_threating_a_primitive_type_as_a_reference_type_it_should_throw()
     {
         // Arrange
-        var subject = new { Value = 1 };
-        var expected = new { Value = 2 };
+        var subject = new
+        {
+            Value = 1
+        };
+
+        var expected = new
+        {
+            Value = 2
+        };
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt
@@ -456,9 +572,15 @@ public class BasicSpecs
     public void When_a_type_originates_from_the_System_namespace_it_should_be_treated_as_a_value_type()
     {
         // Arrange
-        var subject = new { UriBuilder = new UriBuilder("http://localhost:9001/api"), };
+        var subject = new
+        {
+            UriBuilder = new UriBuilder("http://localhost:9001/api"),
+        };
 
-        var expected = new { UriBuilder = new UriBuilder("https://localhost:9002/bapi"), };
+        var expected = new
+        {
+            UriBuilder = new UriBuilder("https://localhost:9002/bapi"),
+        };
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected);
@@ -517,8 +639,15 @@ public class BasicSpecs
     public void When_all_field_of_the_object_are_equal_equivalency_should_pass()
     {
         // Arrange
-        var object1 = new ClassWithOnlyAField { Value = 1 };
-        var object2 = new ClassWithOnlyAField { Value = 1 };
+        var object1 = new ClassWithOnlyAField
+        {
+            Value = 1
+        };
+
+        var object2 = new ClassWithOnlyAField
+        {
+            Value = 1
+        };
 
         // Act
         Action act = () => object1.Should().BeEquivalentTo(object2);
@@ -531,9 +660,17 @@ public class BasicSpecs
     public void When_number_values_are_convertible_it_should_treat_them_as_equivalent()
     {
         // Arrange
-        var actual = new Dictionary<string, long> { ["001"] = 1L, ["002"] = 2L };
+        var actual = new Dictionary<string, long>
+        {
+            ["001"] = 1L,
+            ["002"] = 2L
+        };
 
-        var expected = new Dictionary<string, int> { ["001"] = 1, ["002"] = 2 };
+        var expected = new Dictionary<string, int>
+        {
+            ["001"] = 1,
+            ["002"] = 2
+        };
 
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expected);
@@ -546,8 +683,15 @@ public class BasicSpecs
     public void When_all_field_of_the_object_are_not_equal_equivalency_should_fail()
     {
         // Arrange
-        var object1 = new ClassWithOnlyAField { Value = 1 };
-        var object2 = new ClassWithOnlyAField { Value = 101 };
+        var object1 = new ClassWithOnlyAField
+        {
+            Value = 1
+        };
+
+        var object2 = new ClassWithOnlyAField
+        {
+            Value = 101
+        };
 
         // Act
         Action act = () => object1.Should().BeEquivalentTo(object2);
@@ -560,8 +704,15 @@ public class BasicSpecs
     public void When_a_field_on_the_subject_matches_a_property_the_members_should_match_for_equivalence()
     {
         // Arrange
-        var onlyAField = new ClassWithOnlyAField { Value = 1 };
-        var onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
+        var onlyAField = new ClassWithOnlyAField
+        {
+            Value = 1
+        };
+
+        var onlyAProperty = new ClassWithOnlyAProperty
+        {
+            Value = 101
+        };
 
         // Act
         Action act = () => onlyAField.Should().BeEquivalentTo(onlyAProperty);
@@ -574,8 +725,15 @@ public class BasicSpecs
     public void When_asserting_equivalence_including_only_fields_it_should_not_match_properties()
     {
         // Arrange
-        var onlyAField = new ClassWithOnlyAField { Value = 1 };
-        object onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
+        var onlyAField = new ClassWithOnlyAField
+        {
+            Value = 1
+        };
+
+        object onlyAProperty = new ClassWithOnlyAProperty
+        {
+            Value = 101
+        };
 
         // Act
         Action act = () => onlyAProperty.Should().BeEquivalentTo(onlyAField, opts => opts.ExcludingProperties());
@@ -589,8 +747,15 @@ public class BasicSpecs
     public void When_asserting_equivalence_including_only_properties_it_should_not_match_fields()
     {
         // Arrange
-        var onlyAField = new ClassWithOnlyAField { Value = 1 };
-        var onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
+        var onlyAField = new ClassWithOnlyAField
+        {
+            Value = 1
+        };
+
+        var onlyAProperty = new ClassWithOnlyAProperty
+        {
+            Value = 101
+        };
 
         // Act
         Action act = () => onlyAField.Should().BeEquivalentTo(onlyAProperty, opts => opts.IncludingAllDeclaredProperties());
@@ -604,9 +769,25 @@ public class BasicSpecs
     public void When_asserting_equivalence_of_objects_including_enumerables_it_should_print_the_failure_message_only_once()
     {
         // Arrange
-        var record = new { Member1 = "", Member2 = new[] { "", "" } };
+        var record = new
+        {
+            Member1 = "",
+            Member2 = new[]
+            {
+                "",
+                ""
+            }
+        };
 
-        var record2 = new { Member1 = "different", Member2 = new[] { "", "" } };
+        var record2 = new
+        {
+            Member1 = "different",
+            Member2 = new[]
+            {
+                "",
+                ""
+            }
+        };
 
         // Act
         Action act = () => record.Should().BeEquivalentTo(record2);
@@ -631,10 +812,24 @@ public class BasicSpecs
     {
         // Arrange
         var actual =
-            new[] { new { Id = Guid.NewGuid(), Name = "Name" } };
+            new[]
+            {
+                new
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Name"
+                }
+            };
 
         var expected =
-            new[] { new { Id = Guid.NewGuid(), Name = "Name" } };
+            new[]
+            {
+                new
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Name"
+                }
+            };
 
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expected);
@@ -657,5 +852,70 @@ public class BasicSpecs
     private class ClassWithArraySegment
     {
         public ArraySegment<byte> Segment { get; set; }
+    }
+
+    public class Strings
+    {
+        [Fact]
+        public void By_default_only_the_differencing_fragment_is_shown()
+        {
+            // Arrange
+            var subject = new
+            {
+                Story =
+                    "The streets were quiet except for the faint hum of neon signs flickering in the night. A cat darted across the" +
+                    " alley, chasing shadows only it could see. Somewhere, a radio whispered a half-forgotten song, mixing with " +
+                    "the distant rumble of a train. The air carried the scent of rain on warm asphalt, heavy and restless. Each " +
+                    "step felt like moving between moments—time stretching, folding, and twisting—while the city itself seemed" +
+                    " to wait, holding its breath for what might come next."
+            };
+
+            var expected = new
+            {
+                Story =
+                    "The streets were quiet except for the faint hum of neon signs flicering in the night. A cat darted across" +
+                    " the alley, chasing shadows only it could see. Somewhere, a radio whispered a half-forgotten song, mixing with " +
+                    "the distant rumble of a train. The air carried the scent of rain on warm asphalt, heavy and restless. Each " +
+                    "step felt like moving between moments—time stretching, folding, and twisting—while the city itself seemed" +
+                    " to wait, holding its breath for what might come next."
+            };
+
+            // Act
+            var act = () => subject.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithoutMessage("*Full expectation*");
+        }
+
+        [Fact]
+        public void The_entire_subject_and_expectation_can_be_included_in_the_failure()
+        {
+            // Arrange
+            var subject = new
+            {
+                Story =
+                    "The streets were quiet except for the faint hum of neon signs flickering in the night. A cat darted across the" +
+                    " alley, chasing shadows only it could see. Somewhere, a radio whispered a half-forgotten song, mixing with " +
+                    "the distant rumble of a train. The air carried the scent of rain on warm asphalt, heavy and restless. Each " +
+                    "step felt like moving between moments—time stretching, folding, and twisting—while the city itself seemed" +
+                    " to wait, holding its breath for what might come next."
+            };
+
+            var expected = new
+            {
+                Story =
+                    "The streets were quiet except for the faint hum of neon signs flicering in the night. A cat darted across" +
+                    " the alley, chasing shadows only it could see. Somewhere, a radio whispered a half-forgotten song, mixing with " +
+                    "the distant rumble of a train. The air carried the scent of rain on warm asphalt, heavy and restless. Each " +
+                    "step felt like moving between moments—time stretching, folding, and twisting—while the city itself seemed" +
+                    " to wait, holding its breath for what might come next."
+            };
+
+            // Act
+            var act = () => subject.Should().BeEquivalentTo(expected, options => options.IncludingFullStringsInDifference());
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*Full expectation*");
+        }
     }
 }

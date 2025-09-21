@@ -360,6 +360,21 @@ actual.Should().BeEquivalentTo(new
 });
 ```
 
+### Strings
+
+The way `BeEquivalentTo` compares strings can be influenced by the options `IgnoringLeadingWhitespace()`, `IgnoringTrailingWhitespace()`, `IgnoringCase()`, `IgnoringNewlineStyle()` like this:
+
+```csharp
+// Arrange
+string actual = "A\nB\r\nC";
+string expect = "A\r\nB\nC";
+
+// Act / Assert
+actual.Should().BeEquivalentTo(expect, o => o.IgnoringNewlineStyle());
+```
+
+Next to that, when two long strings differ, by default the reporting will only include the relevant fragments needed to highlight the differences. If you want to see the full text of both strings, use the `IncludingFullStringsInDifference()` option. 
+
 ### Enums
 
 By default, `Should().BeEquivalentTo()` compares `Enum` members by the enum's underlying numeric value.

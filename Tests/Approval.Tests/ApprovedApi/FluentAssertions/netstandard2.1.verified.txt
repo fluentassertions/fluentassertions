@@ -759,6 +759,7 @@ namespace FluentAssertions.Equivalency
         bool IgnoreNewlineStyle { get; }
         bool IgnoreNonBrowsableOnSubject { get; }
         bool IgnoreTrailingWhitespace { get; }
+        bool IncludeFullStringsInDifference { get; }
         FluentAssertions.Equivalency.MemberVisibility IncludedFields { get; }
         FluentAssertions.Equivalency.MemberVisibility IncludedProperties { get; }
         bool IsRecursive { get; }
@@ -903,6 +904,7 @@ namespace FluentAssertions.Equivalency
         public bool IgnoreLeadingWhitespace { get; }
         public bool IgnoreNewlineStyle { get; }
         public bool IgnoreTrailingWhitespace { get; }
+        public bool IncludeFullStringsInDifference { get; }
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         protected FluentAssertions.Equivalency.OrderingRuleCollection OrderingRules { get; }
         public FluentAssertions.Equivalency.Tracing.ITraceWriter TraceWriter { get; }
@@ -934,6 +936,7 @@ namespace FluentAssertions.Equivalency
         public TSelf IncludingAllDeclaredProperties() { }
         public TSelf IncludingAllRuntimeProperties() { }
         public TSelf IncludingFields() { }
+        public TSelf IncludingFullStringsInDifference() { }
         public TSelf IncludingInternalFields() { }
         public TSelf IncludingInternalProperties() { }
         public TSelf IncludingNestedObjects() { }
