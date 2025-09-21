@@ -147,6 +147,9 @@ resharper_not_accessed_positional_property_global_highlighting = error
 # Do not remove redundant else blocks
 resharper_redundant_if_else_block_highlighting = none
 
+# Do not remove parentheses we added ourselves
+resharper_arrange_redundant_parentheses_highlighting = none
+
 ####################################################################
 ## Roslyn Analyzers and Code Fixes
 ####################################################################
@@ -299,6 +302,10 @@ dotnet_diagnostic.SA1116.severity = none
 # Purpose: The parameters should all be placed on the same line or each parameter should be placed on its own lin
 # Rationale: We don't want to force this
 dotnet_diagnostic.SA1117.severity = none
+
+# Purpose: The parameter spans multiple line
+# Rationale: Does not understand raw strings
+dotnet_diagnostic.SA1118.severity = none
 
 # Purpose: Use string.Empty for empty string
 # Rationale: There is no performance difference in modern .NET versions, so no need to enforce this.

@@ -30,44 +30,48 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
             string expectation = (string)comparands.Expectation;
 
             assertionChain.ReuseOnce();
-            subject.Should()
-                .Be(expectation, CreateOptions(context.Options), context.Reason.FormattedMessage, context.Reason.Arguments);
+            subject.Should().Be(expectation, CreateOptions(context.Options), context.Reason.FormattedMessage,
+                context.Reason.Arguments);
         }
 
         return EquivalencyResult.EquivalencyProven;
     }
 
-    private static Func<EquivalencyOptions<string>, EquivalencyOptions<string>>
-        CreateOptions(IEquivalencyOptions existingOptions) =>
-        o =>
+    private static Func<EquivalencyOptions<string>, EquivalencyOptions<string>> CreateOptions(
+        IEquivalencyOptions existingOptions) => o =>
+    {
+        if (existingOptions is EquivalencyOptions<string> equivalencyOptions)
         {
-            if (existingOptions is EquivalencyOptions<string> equivalencyOptions)
-            {
-                return equivalencyOptions;
-            }
+            return equivalencyOptions;
+        }
 
-            if (existingOptions.IgnoreLeadingWhitespace)
-            {
-                o.IgnoringLeadingWhitespace();
-            }
+        if (existingOptions.IgnoreLeadingWhitespace)
+        {
+            o.IgnoringLeadingWhitespace();
+        }
 
-            if (existingOptions.IgnoreTrailingWhitespace)
-            {
-                o.IgnoringTrailingWhitespace();
-            }
+        if (existingOptions.IgnoreTrailingWhitespace)
+        {
+            o.IgnoringTrailingWhitespace();
+        }
 
-            if (existingOptions.IgnoreCase)
-            {
-                o.IgnoringCase();
-            }
+        if (existingOptions.IgnoreCase)
+        {
+            o.IgnoringCase();
+        }
 
-            if (existingOptions.IgnoreNewlineStyle)
-            {
-                o.IgnoringNewlineStyle();
-            }
+        if (existingOptions.IgnoreNewlineStyle)
+        {
+            o.IgnoringNewlineStyle();
+        }
 
-            return o;
-        };
+        if (existingOptions.IncludeFullStringsInDifference)
+        {
+            o.IncludingFullStringsInDifference();
+        }
+
+        return o;
+    };
 
     private static bool ValidateAgainstNulls(AssertionChain assertionChain, Comparands comparands, INode currentNode)
     {
@@ -79,7 +83,8 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
         if (onlyOneNull)
         {
             assertionChain.FailWith(
-                "Expected {0} to be {1}{reason}, but found {2}.", currentNode.Subject.Description.AsNonFormattable(), expected, subject);
+                "Expected {0} to be {1}{reason}, but found {2}.", currentNode.Subject.Description.AsNonFormattable(), expected,
+                subject);
 
             return false;
         }
