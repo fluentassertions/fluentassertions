@@ -376,6 +376,12 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// global options can be set through <see cref="GlobalConfiguration.Equivalency"/>.
     /// </remarks>
     /// <param name="expectation">The expected object graph, such as an anonymous type.</param>
+    /// <param name="config">
+    /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
+    /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
+    /// <see cref="AssertionConfiguration"/> class.
+    /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -453,6 +459,12 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// global options can be set through <see cref="GlobalConfiguration.Equivalency"/>.
     /// </remarks>
     /// <param name="unexpected">The expected object graph, such as an anonymous type.</param>
+    /// <param name="config">
+    /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
+    /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
+    /// <see cref="AssertionConfiguration"/> class.
+    /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
