@@ -913,7 +913,8 @@ public static class AssertionExtensions
     /// Returns an object that provides various assertion APIs that act on a <see cref="JsonNode"/>.
     /// </summary>
     [Pure]
-    public static JsonNodeAssertions Should([NotNull] this JsonNode jsonNode)
+    public static JsonNodeAssertions Should<T>([NotNull] this T jsonNode)
+        where T : JsonNode
     {
         return new JsonNodeAssertions(jsonNode, AssertionChain.GetOrCreate());
     }
