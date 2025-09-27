@@ -7,7 +7,7 @@ sidebar:
   nav: "sidebar"
 ---
 
-For projects targeting .NET 6 or later, there's built-in support for assertions on the types `JsonNode` and `JsonArray` from the `System.Text.Json` namespace.
+For projects targeting .NET 6 or later, there's built-in support for assertions on the types `JsonNode` and `JsonArray` (including `JsonNode` derived classes, e.g. `JsonValue` and `JsonObject`) from the `System.Text.Json` namespace.
 
 ```csharp
 var jsonNode = JsonNode.Parse("{ \"name\": \"John\" }");

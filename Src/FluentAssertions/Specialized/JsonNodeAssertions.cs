@@ -13,10 +13,11 @@ using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Specialized;
 
-public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAssertions>
+public class JsonNodeAssertions<T> : ReferenceTypeAssertions<T, JsonNodeAssertions<T>>
+    where T : JsonNode
 {
     /// <inheritdoc />
-    public JsonNodeAssertions(JsonNode subject, AssertionChain assertionChain)
+    public JsonNodeAssertions(T subject, AssertionChain assertionChain)
         : base(subject, assertionChain)
     {
     }
@@ -38,7 +39,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndWhichConstraint<JsonNodeAssertions, JsonNode> HaveProperty(string code,
+    public AndWhichConstraint<JsonNodeAssertions<T>, JsonNode> HaveProperty(string code,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
@@ -49,7 +50,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
             .ForCondition(Subject?[code] != null)
             .FailWith("Expected {context:JSON node} to have property {0}{reason}.", code);
 
-        return new AndWhichConstraint<JsonNodeAssertions, JsonNode>(this, Subject?[code]);
+        return new AndWhichConstraint<JsonNodeAssertions<T>, JsonNode>(this, Subject?[code]);
     }
 
     /// <summary>
@@ -63,7 +64,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<JsonNodeAssertions> NotHaveProperty(string code,
+    public AndConstraint<JsonNodeAssertions<T>> NotHaveProperty(string code,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
@@ -75,7 +76,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:JSON node} to have property {0}{reason}.", code);
 
-        return new AndConstraint<JsonNodeAssertions>(this);
+        return new AndConstraint<JsonNodeAssertions<T>>(this);
     }
 
     /// <summary>
@@ -88,7 +89,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndWhichConstraint<JsonNodeAssertions, IEnumerable<JsonNode>> BeAnArray(
+    public AndWhichConstraint<JsonNodeAssertions<T>, IEnumerable<JsonNode>> BeAnArray(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
@@ -96,7 +97,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:JSON node} to be an array{reason}, but {0} is not.", Subject);
 
-        return new AndWhichConstraint<JsonNodeAssertions, IEnumerable<JsonNode>>(this, (Subject as JsonArray)?.AsEnumerable());
+        return new AndWhichConstraint<JsonNodeAssertions<T>, IEnumerable<JsonNode>>(this, (Subject as JsonArray)?.AsEnumerable());
     }
 
     /// <summary>
@@ -109,7 +110,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<JsonNodeAssertions> NotBeAnArray(
+    public AndConstraint<JsonNodeAssertions<T>> NotBeAnArray(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
@@ -117,7 +118,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:JSON node} to be an array{reason}, but {0} is.", Subject);
 
-        return new AndConstraint<JsonNodeAssertions>(this);
+        return new AndConstraint<JsonNodeAssertions<T>>(this);
     }
 
     /// <summary>
@@ -130,7 +131,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndWhichConstraint<JsonNodeAssertions, long> BeNumeric(
+    public AndWhichConstraint<JsonNodeAssertions<T>, long> BeNumeric(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
@@ -139,7 +140,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
             .FailWith("Expected {context:JSON node} to be an Int32{reason}, but {0} is not.", Subject);
 
         var actualValue = Subject is JsonValue jsonValue && jsonValue.TryGetValue<long>(out var result) ? result : 0;
-        return new AndWhichConstraint<JsonNodeAssertions, long>(this, actualValue);
+        return new AndWhichConstraint<JsonNodeAssertions<T>, long>(this, actualValue);
     }
 
     /// <summary>
@@ -152,7 +153,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<JsonNodeAssertions> NotBeNumeric(
+    public AndConstraint<JsonNodeAssertions<T>> NotBeNumeric(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
@@ -160,7 +161,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:JSON node} to be an Int32{reason}, but {0} is.", Subject);
 
-        return new AndConstraint<JsonNodeAssertions>(this);
+        return new AndConstraint<JsonNodeAssertions<T>>(this);
     }
 
     /// <summary>
@@ -173,7 +174,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndWhichConstraint<JsonNodeAssertions, DateTime> BeLocalDate(
+    public AndWhichConstraint<JsonNodeAssertions<T>, DateTime> BeLocalDate(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
@@ -182,7 +183,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
             .FailWith("Expected {context:JSON node} to be a local date{reason}, but {0} is not.", Subject);
 
         var actualValue = Subject is JsonValue jsonValue && jsonValue.TryGetValue<DateTime>(out var result) ? result : default;
-        return new AndWhichConstraint<JsonNodeAssertions, DateTime>(this, actualValue);
+        return new AndWhichConstraint<JsonNodeAssertions<T>, DateTime>(this, actualValue);
     }
 
     /// <summary>
@@ -195,7 +196,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<JsonNodeAssertions> NotBeLocalDate(
+    public AndConstraint<JsonNodeAssertions<T>> NotBeLocalDate(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
@@ -203,7 +204,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:JSON node} to be a local date{reason}, but {0} is.", Subject);
 
-        return new AndConstraint<JsonNodeAssertions>(this);
+        return new AndConstraint<JsonNodeAssertions<T>>(this);
     }
 
     /// <summary>
@@ -216,7 +217,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndWhichConstraint<JsonNodeAssertions, DateTime> BeUtcDate(
+    public AndWhichConstraint<JsonNodeAssertions<T>, DateTime> BeUtcDate(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
@@ -225,7 +226,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
             .FailWith("Expected {context} to be a UTC date{reason}, but {0} is not.", Subject);
 
         var actualValue = Subject is JsonValue jsonValue && jsonValue.TryGetValue<DateTime>(out var result) ? result : default;
-        return new AndWhichConstraint<JsonNodeAssertions, DateTime>(this, actualValue);
+        return new AndWhichConstraint<JsonNodeAssertions<T>, DateTime>(this, actualValue);
     }
 
     /// <summary>
@@ -238,7 +239,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<JsonNodeAssertions> NotBeUtcDate(
+    public AndConstraint<JsonNodeAssertions<T>> NotBeUtcDate(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
@@ -246,7 +247,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context} to be a UTC date{reason}, but {0} is.", Subject);
 
-        return new AndConstraint<JsonNodeAssertions>(this);
+        return new AndConstraint<JsonNodeAssertions<T>>(this);
     }
 
     /// <summary>
@@ -259,7 +260,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndWhichConstraint<JsonNodeAssertions, bool> BeBool(
+    public AndWhichConstraint<JsonNodeAssertions<T>, bool> BeBool(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
@@ -268,7 +269,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
             .FailWith("Expected {context} to be a boolean{reason}, but {0} is not.", Subject);
 
         var actualValue = Subject is JsonValue jsonValue && jsonValue.TryGetValue<bool>(out var result) && result;
-        return new AndWhichConstraint<JsonNodeAssertions, bool>(this, actualValue);
+        return new AndWhichConstraint<JsonNodeAssertions<T>, bool>(this, actualValue);
     }
 
     /// <summary>
@@ -281,7 +282,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<JsonNodeAssertions> NotBeBool(
+    public AndConstraint<JsonNodeAssertions<T>> NotBeBool(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
@@ -289,7 +290,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:JSON node} to be a boolean{reason}, but {0} is.", Subject);
 
-        return new AndConstraint<JsonNodeAssertions>(this);
+        return new AndConstraint<JsonNodeAssertions<T>>(this);
     }
 
     /// <summary>
@@ -302,7 +303,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndWhichConstraint<JsonNodeAssertions, string> BeString(
+    public AndWhichConstraint<JsonNodeAssertions<T>, string> BeString(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
@@ -311,7 +312,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
             .FailWith("Expected {context:JSON node} to be a string{reason}, but {0} is not.", Subject);
 
         var actualValue = Subject is JsonValue jsonValue && jsonValue.TryGetValue<string>(out var result) ? result : null;
-        return new AndWhichConstraint<JsonNodeAssertions, string>(this, actualValue);
+        return new AndWhichConstraint<JsonNodeAssertions<T>, string>(this, actualValue);
     }
 
     /// <summary>
@@ -324,7 +325,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<JsonNodeAssertions> NotBeString(
+    public AndConstraint<JsonNodeAssertions<T>> NotBeString(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
@@ -332,7 +333,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:JSON node} to be a string{reason}, but {0} is.", Subject);
 
-        return new AndConstraint<JsonNodeAssertions>(this);
+        return new AndConstraint<JsonNodeAssertions<T>>(this);
     }
 
     /// <summary>
@@ -355,7 +356,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<JsonNodeAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
+    public AndConstraint<JsonNodeAssertions<T>> BeEquivalentTo<TExpectation>(TExpectation expectation,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         return BeEquivalentTo(expectation, config => config, because, becauseArgs);
@@ -389,7 +390,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<JsonNodeAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
+    public AndConstraint<JsonNodeAssertions<T>> BeEquivalentTo<TExpectation>(TExpectation expectation,
         Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
@@ -414,7 +415,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
 
         new EquivalencyValidator().AssertEquality(comparands, context);
 
-        return new AndConstraint<JsonNodeAssertions>(this);
+        return new AndConstraint<JsonNodeAssertions<T>>(this);
     }
 
     /// <summary>
@@ -437,7 +438,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<JsonNodeAssertions> NotBeEquivalentTo<TExpectation>(
+    public AndConstraint<JsonNodeAssertions<T>> NotBeEquivalentTo<TExpectation>(
         TExpectation unexpected,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
@@ -472,7 +473,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<JsonNodeAssertions> NotBeEquivalentTo<TExpectation>(
+    public AndConstraint<JsonNodeAssertions<T>> NotBeEquivalentTo<TExpectation>(
         TExpectation unexpected,
         Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
@@ -493,7 +494,7 @@ public class JsonNodeAssertions : ReferenceTypeAssertions<JsonNode, JsonNodeAsse
             .WithDefaultIdentifier(Identifier)
             .FailWith("Did not expect {context:JSON node} to be equivalent to {0}{reason}, but they are.", unexpected);
 
-        return new AndConstraint<JsonNodeAssertions>(this);
+        return new AndConstraint<JsonNodeAssertions<T>>(this);
     }
 }
 
