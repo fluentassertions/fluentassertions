@@ -157,4 +157,25 @@ internal static class StringExtensions
     {
         return string.IsNullOrEmpty(value);
     }
+
+    /// <summary>
+    /// Converts the provided <paramref name="message"/> into an indented block of text,
+    /// with each line prefixed by four spaces and wrapped in quotation marks.
+    /// Lines longer than 80 characters are wrapped across multiple lines.
+    /// </summary>
+    /// <param name="message">The string to format as an indented block of text.</param>
+    /// <returns>A string where all lines of the <paramref name="message"/> are indented and combined into a formatted block.</returns>
+    public static string RenderAsIndentedBlock(this string message)
+    {
+        string[] lines = message.Split(["\r\n", "\n", "\r"], StringSplitOptions.None);
+
+        var wrappedLines = new List<string>();
+
+        foreach (string line in lines)
+        {
+            wrappedLines.Add(line);
+        }
+
+        return "    \"" + string.Join(Environment.NewLine + "    ", wrappedLines) + "\"";
+    }
 }

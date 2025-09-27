@@ -123,6 +123,12 @@ public interface IEquivalencyOptions
     bool IgnoreNewlineStyle { get; }
 
     /// <summary>
+    /// Gets a value indicating whether the differences between string properties should
+    /// include the full values of the subject and expectation instead of just the fragment that differs.
+    /// </summary>
+    bool IncludeFullStringsInDifference { get; }
+
+    /// <summary>
     /// When set to <c>true</c>, the comparison will ignore the casing of JSON property names when comparing objects to JSON trees.
     /// </summary>
     bool IgnoreJsonPropertyCasing { get; }

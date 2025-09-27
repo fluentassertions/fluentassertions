@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using FluentAssertions.Common;
@@ -17,6 +18,12 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
         this.comparer = comparer;
         this.predicateDescription = predicateDescription;
     }
+
+    /// <summary>
+    /// Gets a value indicating whether the differences between string properties should
+    /// include the full values of the subject and expectation instead of just the fragment that differs.
+    /// </summary>
+    public bool IncludeFullDetails { get; set; } = true;
 
     public void AssertForEquality(AssertionChain assertionChain, string subject, string expected)
     {
@@ -40,11 +47,13 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
             {
                 var indexOfLastNewlineBeforeMismatch = matchingString.LastIndexOf('\n');
                 var column = matchingString.Length - indexOfLastNewlineBeforeMismatch;
-                locationDescription = $"on line {lineNumber + 1} and column {column} (index {indexOfMismatch})";
+                locationDescription = $"at column {column} of line {lineNumber + 1} (index {indexOfMismatch})";
             }
 
+            string explanationOfMismatch = GetMismatchSegmentForLongStrings(subject, expected, indexOfMismatch);
+
             assertionChain.FailWith(
-                $"{ExpectationDescription}the same string{{reason}}, but they differ {locationDescription}:{Environment.NewLine}{GetMismatchSegmentForLongStrings(subject, expected, indexOfMismatch)}.");
+                $"{ExpectationDescription}a match with the expectation{{reason}}, but it differs {locationDescription}:{Environment.NewLine}{explanationOfMismatch}");
         }
         else if (ValidateAgainstLengthDifferences(assertionChain, subject, expected))
         {
@@ -53,7 +62,8 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
             if (indexOfMismatch != -1)
             {
                 assertionChain.FailWith(
-                    $"{ExpectationDescription}{{0}}{{reason}}, but {{1}} differs near " + subject.IndexedSegmentAt(indexOfMismatch) +
+                    $"{ExpectationDescription}{{0}}{{reason}}, but {{1}} differs near " +
+                    subject.IndexedSegmentAt(indexOfMismatch) +
                     ".",
                     expected, subject);
             }
@@ -92,7 +102,9 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
             {
                 string mismatchSegment = GetMismatchSegmentForStringsOfDifferentLengths(subject, expected);
 
-                string message = $"{ExpectationDescription}{{0}} with a length of {{1}}{{reason}}, but {{2}} has a length of {{3}}, differs near " + mismatchSegment + ".";
+                string message =
+                    $"{ExpectationDescription}{{0}} with a length of {{1}}{{reason}}, but {{2}} has a length of {{3}}, differs near " +
+                    mismatchSegment + ".";
 
                 return new FailReason(message, expected, expected.Length, subject, subject.Length);
             });
@@ -104,7 +116,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
     {
         int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparer);
 
-        // If there is no difference it means that expected starts with subject and subject is shorter than expected
+        // If there is no difference, it means that expected starts with subject and subject is shorter than expected
         if (indexOfMismatch == -1)
         {
             // Subject is shorter so we point at its last character.
@@ -121,7 +133,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
     /// Get the mismatch segment between <paramref name="expected"/> and <paramref name="subject"/> for long strings,
     /// when they differ at index <paramref name="firstIndexOfMismatch"/>.
     /// </summary>
-    private static string GetMismatchSegmentForLongStrings(string subject, string expected, int firstIndexOfMismatch)
+    private string GetMismatchSegmentForLongStrings(string subject, string expected, int firstIndexOfMismatch)
     {
         int trimStart = GetStartIndexOfPhraseToShowBeforeTheMismatchingIndex(subject, firstIndexOfMismatch);
         const string prefix = "  \"";
@@ -129,7 +141,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
         const char arrowDown = '\u2193';
         const char arrowUp = '\u2191';
 
-        int whiteSpaceCountBeforeArrow = (firstIndexOfMismatch - trimStart) + prefix.Length;
+        int whiteSpaceCountBeforeArrow = firstIndexOfMismatch - trimStart + prefix.Length;
 
         if (trimStart > 0)
         {
@@ -142,21 +154,45 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
         var sb = new StringBuilder();
 
         sb.Append(' ', whiteSpaceCountBeforeArrow).Append(arrowDown).AppendLine(" (actual)");
-        AppendPrefixAndEscapedPhraseToShowWithEllipsisAndSuffix(sb, prefix, subject, trimStart, suffix);
-        AppendPrefixAndEscapedPhraseToShowWithEllipsisAndSuffix(sb, prefix, expected, trimStart, suffix);
+        bool wasTruncated = AppendPrefixAndEscapedPhraseToShowWithEllipsisAndSuffix(sb, prefix, subject, trimStart, suffix);
+        if (AppendPrefixAndEscapedPhraseToShowWithEllipsisAndSuffix(sb, prefix, expected, trimStart, suffix))
+        {
+            wasTruncated = true;
+        }
+
         sb.Append(' ', whiteSpaceCountBeforeArrow).Append(arrowUp).Append(" (expected)");
+
+        if (IncludeFullDetails && wasTruncated)
+        {
+            sb.AppendFormat(CultureInfo.InvariantCulture,
+                $"""
+
+
+                 Full expectation:
+
+                 {expected.RenderAsIndentedBlock().AsNonFormattable()},
+
+                 Full subject:
+
+                 {subject.RenderAsIndentedBlock().AsNonFormattable()}
+
+                 """);
+        }
 
         return sb.ToString();
     }
 
     /// <summary>
-    /// Appends the <paramref name="prefix"/>, the escaped visible <paramref name="text"/> phrase decorated with ellipsis and the <paramref name="suffix"/> to the <paramref name="stringBuilder"/>.
+    /// Appends the <paramref name="prefix"/>, the escaped visible <paramref name="text"/> phrase decorated with ellipsis
+    /// and the <paramref name="suffix"/> to the <paramref name="stringBuilder"/>.
     /// </summary>
-    /// <remarks>When text phrase starts at <paramref name="indexOfStartingPhrase"/> and with a calculated length omits text on start or end, an ellipsis is added.</remarks>
-    private static void AppendPrefixAndEscapedPhraseToShowWithEllipsisAndSuffix(StringBuilder stringBuilder,
+    /// <remarks>When text phrase starts at <paramref name="indexOfStartingPhrase"/> and with a calculated length truncates text
+    /// on start or end, an ellipsis is added.</remarks>
+    /// <returns><c>true</c> if the text was truncated.</returns>
+    private static bool AppendPrefixAndEscapedPhraseToShowWithEllipsisAndSuffix(StringBuilder stringBuilder,
         string prefix, string text, int indexOfStartingPhrase, string suffix)
     {
-        var subjectLength = GetLengthOfPhraseToShowOrDefaultLength(text[indexOfStartingPhrase..]);
+        int subjectLength = GetLengthOfPhraseToKeep(text[indexOfStartingPhrase..]);
         const char ellipsis = '\u2026';
 
         stringBuilder.Append(prefix);
@@ -171,12 +207,16 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
             .Replace("\r", "\\r", StringComparison.OrdinalIgnoreCase)
             .Replace("\n", "\\n", StringComparison.OrdinalIgnoreCase));
 
-        if (text.Length > (indexOfStartingPhrase + subjectLength))
+        bool wasTruncated = false;
+
+        if (text.Length > indexOfStartingPhrase + subjectLength)
         {
             stringBuilder.Append(ellipsis);
+            wasTruncated = true;
         }
 
         stringBuilder.AppendLine(suffix);
+        return wasTruncated;
     }
 
     /// <summary>
@@ -191,18 +231,19 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
         const int minCharactersToKeep = 5;
         const int maxCharactersToKeep = 15;
         const int lengthOfWhitespace = 1;
-        const int phraseLengthToCheckForWordBoundary = (maxCharactersToKeep - minCharactersToKeep) + lengthOfWhitespace;
+        const int phraseLengthToCheckForWordBoundary = maxCharactersToKeep - minCharactersToKeep + lengthOfWhitespace;
 
         if (indexOfFirstMismatch <= defaultCharactersToKeep)
         {
             return 0;
         }
 
-        var indexToStartSearchingForWordBoundary = Math.Max(indexOfFirstMismatch - (maxCharactersToKeep + lengthOfWhitespace), 0);
+        var indexToStartSearchingForWordBoundary =
+            Math.Max(indexOfFirstMismatch - (maxCharactersToKeep + lengthOfWhitespace), 0);
 
         var indexOfWordBoundary = value
-                .IndexOf(' ', indexToStartSearchingForWordBoundary, phraseLengthToCheckForWordBoundary) -
-            indexToStartSearchingForWordBoundary;
+                                      .IndexOf(' ', indexToStartSearchingForWordBoundary, phraseLengthToCheckForWordBoundary) -
+                                  indexToStartSearchingForWordBoundary;
 
         if (indexOfWordBoundary >= 0)
         {
@@ -216,13 +257,13 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
     /// Calculates how many characters to keep in <paramref name="value"/>.
     /// </summary>
     /// <remarks>
-    /// If a word end is found between 15 and 25 characters, use this word end, otherwise keep 20 characters.
+    /// If a word end is found to be between certain edges, keep the word. Otherwise, keep the default length.
     /// </remarks>
-    private static int GetLengthOfPhraseToShowOrDefaultLength(string value)
+    private static int GetLengthOfPhraseToKeep(string value)
     {
-        const int defaultLength = 20;
-        const int minLength = 15;
-        const int maxLength = 25;
+        const int defaultLength = 80;
+        const int minLength = defaultLength - 5;
+        const int maxLength = defaultLength + 5;
         const int lengthOfWhitespace = 1;
 
         var indexOfWordBoundary = value
