@@ -548,6 +548,26 @@ public class JsonNodeSpecs
     }
 
     [Fact]
+    public void Can_assert_json_node_instances()
+    {
+        // Arrange
+        JsonNode jsonNode = null;
+
+        // Act & Assert
+        jsonNode.Should().BeNull();
+    }
+
+    [Fact]
+    public void Can_assert_json_value_instances()
+    {
+        // Arrange
+        JsonValue jsonValue = null;
+
+        // Act & Assert
+        jsonValue.Should().BeNull();
+    }
+
+    [Fact]
     public void Can_assert_json_object_instances()
     {
         // Arrange
