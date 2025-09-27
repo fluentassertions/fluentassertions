@@ -88,8 +88,6 @@ namespace FluentAssertions
         public static FluentAssertions.Types.ConstructorInfoAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.ConstructorInfo constructorInfo) { }
         public static FluentAssertions.Types.MethodInfoAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.MethodInfo methodInfo) { }
         public static FluentAssertions.Types.PropertyInfoAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.PropertyInfo propertyInfo) { }
-        public static FluentAssertions.Collections.GenericCollectionAssertions<System.Text.Json.Nodes.JsonNode> Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Text.Json.Nodes.JsonArray jsonArray) { }
-        public static FluentAssertions.Specialized.JsonNodeAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Text.Json.Nodes.JsonNode jsonNode) { }
         public static FluentAssertions.Specialized.TaskCompletionSourceAssertions Should(this System.Threading.Tasks.TaskCompletionSource tcs) { }
         public static FluentAssertions.Primitives.TimeOnlyAssertions Should(this System.TimeOnly actualValue) { }
         public static FluentAssertions.Primitives.NullableTimeOnlyAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.TimeOnly? actualValue) { }
@@ -271,6 +269,12 @@ namespace FluentAssertions
         public static System.Action Enumerating<T>(System.Func<System.Collections.Generic.IEnumerable<T>> enumerable) { }
         public static System.Action Invoking(System.Action action) { }
         public static System.Func<T> Invoking<T>(System.Func<T> func) { }
+    }
+    public static class JsonAssertionExtensions
+    {
+        public static FluentAssertions.Collections.GenericCollectionAssertions<System.Text.Json.Nodes.JsonNode> Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Text.Json.Nodes.JsonArray jsonArray) { }
+        public static FluentAssertions.Specialized.JsonNodeAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this T jsonNode)
+            where T : System.Text.Json.Nodes.JsonNode { }
     }
     public static class LessThan
     {
@@ -2344,28 +2348,29 @@ namespace FluentAssertions.Specialized
         System.Collections.Generic.IEnumerable<T> OfType<T>(System.Exception actualException)
             where T : System.Exception;
     }
-    public class JsonNodeAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Text.Json.Nodes.JsonNode, FluentAssertions.Specialized.JsonNodeAssertions>
+    public class JsonNodeAssertions<T> : FluentAssertions.Primitives.ReferenceTypeAssertions<T, FluentAssertions.Specialized.JsonNodeAssertions<T>>
+        where T : System.Text.Json.Nodes.JsonNode
     {
-        public JsonNodeAssertions(System.Text.Json.Nodes.JsonNode subject, FluentAssertions.Execution.AssertionChain assertionChain) { }
+        public JsonNodeAssertions(T subject, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions, System.Collections.Generic.IEnumerable<System.Text.Json.Nodes.JsonNode>> BeAnArray(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions, bool> BeBool(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions, System.DateTime> BeLocalDate(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions, long> BeNumeric(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions, string> BeString(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions, System.DateTime> BeUtcDate(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions, System.Text.Json.Nodes.JsonNode> HaveProperty(string code, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions> NotBeAnArray(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions> NotBeBool(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions> NotBeLocalDate(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions> NotBeNumeric(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions> NotBeString(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions> NotBeUtcDate(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions> NotHaveProperty(string code, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>, System.Collections.Generic.IEnumerable<System.Text.Json.Nodes.JsonNode>> BeAnArray(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>, bool> BeBool(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>, System.DateTime> BeLocalDate(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>, long> BeNumeric(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>, string> BeString(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>, System.DateTime> BeUtcDate(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>, System.Text.Json.Nodes.JsonNode> HaveProperty(string code, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>> NotBeAnArray(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>> NotBeBool(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>> NotBeLocalDate(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>> NotBeNumeric(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>> NotBeString(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>> NotBeUtcDate(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>> NotHaveProperty(string code, string because = "", params object[] becauseArgs) { }
     }
     public class MemberExecutionTime<T> : FluentAssertions.Specialized.ExecutionTime
     {
