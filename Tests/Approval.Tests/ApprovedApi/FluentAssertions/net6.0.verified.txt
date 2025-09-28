@@ -2355,7 +2355,8 @@ namespace FluentAssertions.Specialized
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>, System.DateTime> BeLocalDate(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>, long> BeNumeric(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>, string> BeNumeric(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>, TValue> BeNumeric<TValue>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>, string> BeString(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>, System.DateTime> BeUtcDate(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>, System.Text.Json.Nodes.JsonNode> HaveProperty(string code, string because = "", params object[] becauseArgs) { }

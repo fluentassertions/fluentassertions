@@ -14,9 +14,13 @@ public class JsonConversionStep : IEquivalencyStep
     {
         if (comparands.Subject is JsonValue json)
         {
-            if (json.TryGetValue(out int intValue))
+            if (json.TryGetValue(out long longValue))
             {
-                comparands.Subject = intValue;
+                comparands.Subject = longValue;
+            }
+            else if (json.TryGetValue(out ulong ulongValue))
+            {
+                comparands.Subject = ulongValue;
             }
             else if (json.TryGetValue(out double doubleValue))
             {
