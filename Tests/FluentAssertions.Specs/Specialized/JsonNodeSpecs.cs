@@ -1,6 +1,7 @@
 #if NET6_0_OR_GREATER
 
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.Json.Nodes;
 using FluentAssertions.Extensions;
 using Xunit;
@@ -171,13 +172,73 @@ public class JsonNodeSpecs
     public class BeNumeric
     {
         [Fact]
-        public void Returns_the_integer_for_chaining_purposes()
+        public void The_minimal_double_value_is_numeric()
+        {
+            // Arrange
+            var jsonNode = JsonNode.Parse(double.MinValue.ToString(CultureInfo.InvariantCulture));
+
+            // Act & Assert
+            jsonNode.Should().BeNumeric();
+        }
+
+        [Fact]
+        public void The_maximum_double_value_is_numeric()
+        {
+            // Arrange
+            var jsonNode = JsonNode.Parse(double.MaxValue.ToString(CultureInfo.InvariantCulture));
+
+            // Act & Assert
+            jsonNode.Should().BeNumeric();
+        }
+
+        [Fact]
+        public void The_minimal_long_value_is_numeric()
+        {
+            // Arrange
+            var jsonNode = JsonNode.Parse(long.MinValue.ToString(CultureInfo.InvariantCulture));
+
+            // Act & Assert
+            jsonNode.Should().BeNumeric();
+        }
+
+        [Fact]
+        public void The_maximum_long_value_is_numeric()
+        {
+            // Arrange
+            var jsonNode = JsonNode.Parse(long.MaxValue.ToString(CultureInfo.InvariantCulture));
+
+            // Act & Assert
+            jsonNode.Should().BeNumeric();
+        }
+
+        [Fact]
+        public void The_maximum_unsigned_long_value_is_numeric()
+        {
+            // Arrange
+            var jsonNode = JsonNode.Parse(ulong.MaxValue.ToString(CultureInfo.InvariantCulture));
+
+            // Act & Assert
+            jsonNode.Should().BeNumeric();
+        }
+
+        [Fact]
+        public void Can_return_the_actual_value()
         {
             // Arrange
             var jsonNode = JsonNode.Parse("42");
 
             // Act & Assert
-            jsonNode.Should().BeNumeric().Which.Should().Be(42);
+            jsonNode.Should().BeNumeric().Which.Should().Be("42");
+        }
+
+        [Fact]
+        public void Can_return_the_actual_numeric_value_as_a_specific_type()
+        {
+            // Arrange
+            var jsonNode = JsonNode.Parse("42");
+
+            // Act & Assert
+            jsonNode.Should().BeNumeric<int>().Which.Should().Be(42);
         }
 
         [Fact]
@@ -191,17 +252,43 @@ public class JsonNodeSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected jsonNode to be an Int32 because we expect an int, but \"not a number\" is not.");
+                .WithMessage("Expected jsonNode to be a numeric value because we expect an int, but \"not a number\" is not.");
         }
 
         [Fact]
-        public void Can_ensure_a_node_is_not_a_number()
+        public void Can_ensure_a_string_is_not_a_number()
         {
             // Arrange
             var jsonNode = JsonNode.Parse("\"not a number\"");
 
             // Act & Assert
             jsonNode.Should().NotBeNumeric();
+        }
+
+        [Fact]
+        public void Can_ensure_a_ulong_is_a_number()
+        {
+            // Arrange
+            var jsonNode = JsonNode.Parse(ulong.MaxValue.ToString(CultureInfo.InvariantCulture));
+
+            // Act
+            var act = () => jsonNode.Should().NotBeNumeric();
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Can_ensure_a_double_is_a_number()
+        {
+            // Arrange
+            var jsonNode = JsonNode.Parse(double.MaxValue.ToString(CultureInfo.InvariantCulture));
+
+            // Act
+            var act = () => jsonNode.Should().NotBeNumeric();
+
+            // Assert
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -215,7 +302,7 @@ public class JsonNodeSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect jsonNode to be an Int32 because we expect something else, but 42 is.");
+                .WithMessage("Did not expect jsonNode to be a numeric value because we expect something else, but 42 is.");
         }
 
         [Fact]
@@ -228,7 +315,7 @@ public class JsonNodeSpecs
             var act = () => jsonNode.Should().BeNumeric();
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected jsonNode to be an Int32*");
+            act.Should().Throw<XunitException>().WithMessage("Expected jsonNode to be a numeric value*");
         }
 
         [Fact]

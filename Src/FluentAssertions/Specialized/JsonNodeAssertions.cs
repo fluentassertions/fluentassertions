@@ -122,7 +122,7 @@ public class JsonNodeAssertions<T> : ReferenceTypeAssertions<T, JsonNodeAssertio
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="JsonNode"/> represents a 32-bit signed integer.
+    /// Asserts that the current <see cref="JsonNode"/> represents a numeric value.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -131,20 +131,43 @@ public class JsonNodeAssertions<T> : ReferenceTypeAssertions<T, JsonNodeAssertio
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndWhichConstraint<JsonNodeAssertions<T>, long> BeNumeric(
+    public AndWhichConstraint<JsonNodeAssertions<T>, string> BeNumeric(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
-            .ForCondition(Subject is JsonValue value && value.TryGetValue<int>(out _))
+            .ForCondition(Subject is JsonValue value && value.IsNumeric())
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:JSON node} to be an Int32{reason}, but {0} is not.", Subject);
+            .FailWith("Expected {context:JSON node} to be a numeric value{reason}, but {0} is not.", Subject);
 
-        var actualValue = Subject is JsonValue jsonValue && jsonValue.TryGetValue<long>(out var result) ? result : 0;
-        return new AndWhichConstraint<JsonNodeAssertions<T>, long>(this, actualValue);
+        return new AndWhichConstraint<JsonNodeAssertions<T>, string>(this, (Subject as JsonValue)?.ToString() ?? string.Empty);
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="JsonNode"/> does not represent a 32-bit signed integer.
+    /// Asserts that the current <see cref="JsonNode"/> represents a numeric value and returns
+    /// the actual value provided it can be converted to <typeparamref name="TValue"/>.
+    /// </summary>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndWhichConstraint<JsonNodeAssertions<T>, TValue> BeNumeric<TValue>(
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        TValue actualValue = default;
+
+        CurrentAssertionChain
+            .ForCondition(Subject is JsonValue value && value.IsNumeric() && value.TryGetValue(out actualValue))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:JSON node} to be a numeric value{reason}, but {0} is not.", Subject);
+
+        return new AndWhichConstraint<JsonNodeAssertions<T>, TValue>(this, actualValue);
+    }
+
+    /// <summary>
+    /// Asserts that the current <see cref="JsonNode"/> does not represent a numeric value.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -157,9 +180,9 @@ public class JsonNodeAssertions<T> : ReferenceTypeAssertions<T, JsonNodeAssertio
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
-            .ForCondition(!(Subject is JsonValue value && value.TryGetValue<long>(out _)))
+            .ForCondition(Subject is not JsonValue value || !value.IsNumeric())
             .BecauseOf(because, becauseArgs)
-            .FailWith("Did not expect {context:JSON node} to be an Int32{reason}, but {0} is.", Subject);
+            .FailWith("Did not expect {context:JSON node} to be a numeric value{reason}, but {0} is.", Subject);
 
         return new AndConstraint<JsonNodeAssertions<T>>(this);
     }
@@ -200,7 +223,8 @@ public class JsonNodeAssertions<T> : ReferenceTypeAssertions<T, JsonNodeAssertio
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
-            .ForCondition(Subject is not JsonValue value || !value.TryGetValue<DateTime>(out _) || Subject.ToString().EndsWith('Z'))
+            .ForCondition(Subject is not JsonValue value || !value.TryGetValue<DateTime>(out _) ||
+                          Subject.ToString().EndsWith('Z'))
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:JSON node} to be a local date{reason}, but {0} is.", Subject);
 
@@ -243,7 +267,8 @@ public class JsonNodeAssertions<T> : ReferenceTypeAssertions<T, JsonNodeAssertio
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         CurrentAssertionChain
-            .ForCondition(Subject is not JsonValue value || !value.TryGetValue<DateTime>(out _) || !Subject.ToString().EndsWith('Z'))
+            .ForCondition(Subject is not JsonValue value || !value.TryGetValue<DateTime>(out _) ||
+                          !Subject.ToString().EndsWith('Z'))
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context} to be a UTC date{reason}, but {0} is.", Subject);
 
