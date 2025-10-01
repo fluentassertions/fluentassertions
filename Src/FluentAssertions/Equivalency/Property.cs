@@ -57,6 +57,15 @@ internal class Property : Node, IMember
         }
     }
 
+    public bool IsNonSerialized
+    {
+        get
+        {
+            // [NonSerialized] only applies to fields.
+            return false;
+        }
+    }
+
     public bool IsBrowsable
     {
         get

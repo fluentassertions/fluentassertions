@@ -103,6 +103,12 @@ internal class JsonProperty(JsonNode property, JsonObject parent, INode expectat
     }
 
     /// <inheritdoc />
+    public bool IsNonSerialized
+    {
+        get => false;
+    }
+
+    /// <inheritdoc />
     public bool IsBrowsable
     {
         get => false;

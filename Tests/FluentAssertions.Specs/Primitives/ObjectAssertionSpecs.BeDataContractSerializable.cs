@@ -81,6 +81,23 @@ public partial class ObjectAssertionSpecs
         }
 
         [Fact]
+        public void When_an_object_is_binary_serializable_and_has_properties_marked_NonSerialized_it_should_succeed()
+        {
+            // Arrange
+            var subject = new BinarySerializableClassWithNonSerializedMember()
+            {
+                Name = "Deborah",
+                CachedSum = 602_214_076_000_000_000_000_000M,
+            };
+
+            // Act
+            Action act = () => subject.Should().BeDataContractSerializable();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_injecting_null_options_to_BeDataContractSerializable_it_should_throw()
         {
             // Arrange
@@ -117,6 +134,16 @@ public partial class ObjectAssertionSpecs
 
         [DataMember]
         public DateTime BirthDay { get; set; }
+    }
+
+    [Serializable]
+    public class BinarySerializableClassWithNonSerializedMember
+    {
+        // These members need to be fields for .ExcludeNonSerialized
+        public string Name;
+
+        [NonSerialized]
+        public decimal CachedSum;
     }
 
     public enum Color

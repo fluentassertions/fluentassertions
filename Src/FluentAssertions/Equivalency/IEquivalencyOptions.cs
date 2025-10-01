@@ -78,6 +78,11 @@ public interface IEquivalencyOptions
     bool ExcludeXmlIgnoredMembers { get; }
 
     /// <summary>
+    /// Gets a value indicating whether members marked [<see cref="System.NonSerializedAttribute" />] should be excluded.
+    /// </summary>
+    bool ExcludeNonSerializedFields { get; }
+
+    /// <summary>
     /// Gets a value indicating whether members on the subject marked with [<see cref="EditorBrowsableAttribute"/>]
     /// and <see cref="EditorBrowsableState.Never"/> should be treated as though they don't exist.
     /// </summary>

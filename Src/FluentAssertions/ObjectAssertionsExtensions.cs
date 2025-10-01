@@ -57,7 +57,8 @@ public static class ObjectAssertionsExtensions
             var deserializedObject = CreateCloneUsingDataContractSerializer(assertions.Subject);
 
             EquivalencyOptions<T> defaultOptions = AssertionConfiguration.Current.Equivalency.CloneDefaults<T>()
-                .PreferringRuntimeMemberTypes().IncludingFields().IncludingProperties();
+                .PreferringRuntimeMemberTypes().IncludingFields().IncludingProperties()
+                .ExcludingNonSerializedFields();
 
             ((T)deserializedObject).Should().BeEquivalentTo((T)assertions.Subject, _ => options(defaultOptions));
         }
