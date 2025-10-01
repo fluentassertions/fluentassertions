@@ -102,7 +102,7 @@ public static class ObjectAssertionsExtensions
             object deserializedObject = CreateCloneUsingXmlSerializer(assertions.Subject);
 
             deserializedObject.Should().BeEquivalentTo(assertions.Subject,
-                options => options.PreferringRuntimeMemberTypes().IncludingFields().IncludingProperties());
+                options => options.PreferringRuntimeMemberTypes().IncludingFields().IncludingProperties().ExcludingXmlIgnoredMembers());
         }
         catch (Exception exc)
         {

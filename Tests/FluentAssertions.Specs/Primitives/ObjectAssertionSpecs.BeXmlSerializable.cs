@@ -66,6 +66,23 @@ public partial class ObjectAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage("*to be serializable, but serialization failed with:*Name*to be*");
         }
+
+        [Fact]
+        public void When_an_object_is_xml_serializable_and_has_properties_marked_XmlIgnore_it_should_succeed()
+        {
+            // Arrange
+            var subject = new XmlSerializableClassWithIgnoredProperties()
+            {
+                Name = "Deborah",
+                CachedSum = 602_214_076_000_000_000_000_000M,
+            };
+
+            // Act
+            Action act = () => subject.Should().BeXmlSerializable();
+
+            // Assert
+            act.Should().NotThrow();
+        }
     }
 
     public class XmlSerializableClass
@@ -97,6 +114,14 @@ public partial class ObjectAssertionSpecs
         {
             writer.WriteString(BirthDay.ToString(CultureInfo.InvariantCulture));
         }
+    }
+
+    public class XmlSerializableClassWithIgnoredProperties
+    {
+        public string Name { get; set; }
+
+        [XmlIgnore]
+        public decimal CachedSum { get; set; }
     }
 
     internal class NonPublicClass

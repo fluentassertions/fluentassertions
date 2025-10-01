@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;
@@ -11,6 +12,7 @@ namespace FluentAssertions.Equivalency;
 internal class Field : Node, IMember
 {
     private readonly FieldInfo fieldInfo;
+    private bool? isXmlIgnored;
     private bool? isBrowsable;
 
     public Field(FieldInfo fieldInfo, INode parent)
@@ -38,6 +40,9 @@ internal class Field : Node, IMember
     public CSharpAccessModifier GetterAccessibility => fieldInfo.GetCSharpAccessModifier();
 
     public CSharpAccessModifier SetterAccessibility => fieldInfo.GetCSharpAccessModifier();
+
+    public bool IsXmlIgnored =>
+        isXmlIgnored ??= fieldInfo.GetCustomAttribute<System.Xml.Serialization.XmlIgnoreAttribute>() != null;
 
     public bool IsBrowsable =>
         isBrowsable ??= fieldInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };

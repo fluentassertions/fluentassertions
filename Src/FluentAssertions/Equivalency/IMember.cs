@@ -35,6 +35,12 @@ public interface IMember : INode
     CSharpAccessModifier SetterAccessibility { get; }
 
     /// <summary>
+    /// Gets a value indicating whether the member is ignored during XML serialization. This is controlled with
+    /// <see cref="System.Xml.Serialization.XmlIgnoreAttribute"/>.
+    /// </summary>
+    bool IsXmlIgnored { get; }
+
+    /// <summary>
     /// Gets a value indicating whether the member is browsable in the source code editor. This is controlled with
     /// <see cref="EditorBrowsableAttribute"/>.
     /// </summary>

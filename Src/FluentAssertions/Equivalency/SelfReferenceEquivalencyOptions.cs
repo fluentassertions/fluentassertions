@@ -57,6 +57,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
 
     private MemberVisibility includedProperties;
     private MemberVisibility includedFields;
+    private bool excludeXmlIgnoredMembers;
     private bool ignoreNonBrowsableOnSubject;
     private bool excludeNonBrowsableOnExpectation;
 
@@ -90,6 +91,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         useRuntimeTyping = defaults.UseRuntimeTyping;
         includedProperties = defaults.IncludedProperties;
         includedFields = defaults.IncludedFields;
+        excludeXmlIgnoredMembers = defaults.ExcludeXmlIgnoredMembers;
         ignoreNonBrowsableOnSubject = defaults.IgnoreNonBrowsableOnSubject;
         excludeNonBrowsableOnExpectation = defaults.ExcludeNonBrowsableOnExpectation;
         IgnoreLeadingWhitespace = defaults.IgnoreLeadingWhitespace;
@@ -133,6 +135,11 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
             if (includedFields.HasFlag(MemberVisibility.Public) && !hasConflictingRules)
             {
                 yield return new AllFieldsSelectionRule();
+            }
+
+            if (excludeXmlIgnoredMembers)
+            {
+                yield return new ExcludeXmlIgnoredMembersRule();
             }
 
             if (excludeNonBrowsableOnExpectation)
@@ -188,6 +195,8 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     MemberVisibility IEquivalencyOptions.IncludedProperties => includedProperties;
 
     MemberVisibility IEquivalencyOptions.IncludedFields => includedFields;
+
+    bool IEquivalencyOptions.ExcludeXmlIgnoredMembers => excludeXmlIgnoredMembers;
 
     bool IEquivalencyOptions.IgnoreNonBrowsableOnSubject => ignoreNonBrowsableOnSubject;
 
@@ -289,6 +298,32 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     {
         includedProperties = MemberVisibility.Public | MemberVisibility.ExplicitlyImplemented |
             MemberVisibility.DefaultInterfaceProperties;
+
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Instructs the comparison to exclude members marked with [<see cref="System.Xml.Serialization.XmlIgnoreAttribute"/>].
+    /// </summary>
+    /// <remarks>
+    /// This does not preclude the use of `Including`.
+    /// </remarks>
+    public TSelf ExcludingXmlIgnoredMembers()
+    {
+        excludeXmlIgnoredMembers = true;
+
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Instructs the comparison to include members marked with [<see cref="System.Xml.Serialization.XmlIgnoreAttribute"/>].
+    /// </summary>
+    /// <remarks>
+    /// This is part of the default behavior.
+    /// </remarks>
+    public TSelf IncludingXmlIgnoredMembers()
+    {
+        excludeXmlIgnoredMembers = false;
 
         return (TSelf)this;
     }

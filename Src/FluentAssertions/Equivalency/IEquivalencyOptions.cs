@@ -73,6 +73,11 @@ public interface IEquivalencyOptions
     MemberVisibility IncludedFields { get; }
 
     /// <summary>
+    /// Gets a value indicating whether members marked [<see cref="System.Xml.Serialization.XmlIgnoreAttribute" />] should be excluded.
+    /// </summary>
+    bool ExcludeXmlIgnoredMembers { get; }
+
+    /// <summary>
     /// Gets a value indicating whether members on the subject marked with [<see cref="EditorBrowsableAttribute"/>]
     /// and <see cref="EditorBrowsableState.Never"/> should be treated as though they don't exist.
     /// </summary>
