@@ -13,6 +13,7 @@ internal class Field : Node, IMember
 {
     private readonly FieldInfo fieldInfo;
     private bool? isXmlIgnored;
+    private bool? isIgnoredDataMember;
     private bool? isNonSerialized;
     private bool? isBrowsable;
 
@@ -44,6 +45,9 @@ internal class Field : Node, IMember
 
     public bool IsXmlIgnored =>
         isXmlIgnored ??= fieldInfo.GetCustomAttribute<System.Xml.Serialization.XmlIgnoreAttribute>() != null;
+
+    public bool IsIgnoredDataMember =>
+        isIgnoredDataMember ??= fieldInfo.GetCustomAttribute<System.Runtime.Serialization.IgnoreDataMemberAttribute>() != null;
 
     public bool IsNonSerialized =>
         isNonSerialized ??= fieldInfo.GetCustomAttribute<System.NonSerializedAttribute>() != null;

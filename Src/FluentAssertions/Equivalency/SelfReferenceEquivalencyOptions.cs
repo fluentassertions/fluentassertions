@@ -58,6 +58,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     private MemberVisibility includedProperties;
     private MemberVisibility includedFields;
     private bool excludeXmlIgnoredMembers;
+    private bool excludeIgnoredDataMembers;
     private bool excludeNonSerializedFields;
     private bool ignoreNonBrowsableOnSubject;
     private bool excludeNonBrowsableOnExpectation;
@@ -93,6 +94,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         includedProperties = defaults.IncludedProperties;
         includedFields = defaults.IncludedFields;
         excludeXmlIgnoredMembers = defaults.ExcludeXmlIgnoredMembers;
+        excludeIgnoredDataMembers = defaults.ExcludeIgnoredDataMembers;
         excludeNonSerializedFields = defaults.ExcludeNonSerializedFields;
         ignoreNonBrowsableOnSubject = defaults.IgnoreNonBrowsableOnSubject;
         excludeNonBrowsableOnExpectation = defaults.ExcludeNonBrowsableOnExpectation;
@@ -142,6 +144,11 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
             if (excludeXmlIgnoredMembers)
             {
                 yield return new ExcludeXmlIgnoredMembersRule();
+            }
+
+            if (excludeIgnoredDataMembers)
+            {
+                yield return new ExcludeIgnoredDataMembersRule();
             }
 
             if (excludeNonSerializedFields)
@@ -204,6 +211,8 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     MemberVisibility IEquivalencyOptions.IncludedFields => includedFields;
 
     bool IEquivalencyOptions.ExcludeXmlIgnoredMembers => excludeXmlIgnoredMembers;
+
+    bool IEquivalencyOptions.ExcludeIgnoredDataMembers => excludeIgnoredDataMembers;
 
     bool IEquivalencyOptions.ExcludeNonSerializedFields => excludeNonSerializedFields;
 
@@ -333,6 +342,35 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     public TSelf IncludingXmlIgnoredMembers()
     {
         excludeXmlIgnoredMembers = false;
+
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Instructs the comparison to exclude members marked with [<see cref="System.Runtime.Serialization.IgnoreDataMemberAttribute"/>].
+    /// This only applies to types that are not binary-serializable (<see cref="Type.IsSerializable"/>).
+    /// </summary>
+    /// <remarks>
+    /// This does not preclude the use of `Including`.
+    /// </remarks>
+    public TSelf ExcludingIgnoredDataMembers()
+    {
+        excludeIgnoredDataMembers = true;
+
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Instructs the comparison to not exclude members marked with [<see cref="System.Runtime.Serialization.IgnoreDataMemberAttribute"/>].
+    /// This only applies to types that are not binary-serializable (<see cref="Type.IsSerializable"/>); these members are never
+    /// ignored in binary-serializable types.
+    /// </summary>
+    /// <remarks>
+    /// This is part of the default behavior.
+    /// </remarks>
+    public TSelf IncludingIgnoredDataMembers()
+    {
+        excludeIgnoredDataMembers = false;
 
         return (TSelf)this;
     }

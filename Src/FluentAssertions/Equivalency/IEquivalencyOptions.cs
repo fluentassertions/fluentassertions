@@ -78,6 +78,11 @@ public interface IEquivalencyOptions
     bool ExcludeXmlIgnoredMembers { get; }
 
     /// <summary>
+    /// Gets a value indicating whether members marked [<see cref="System.Runtime.Serialization.IgnoreDataMemberAttribute" />] should be excluded.
+    /// </summary>
+    bool ExcludeIgnoredDataMembers { get; }
+
+    /// <summary>
     /// Gets a value indicating whether members marked [<see cref="System.NonSerializedAttribute" />] should be excluded.
     /// </summary>
     bool ExcludeNonSerializedFields { get; }

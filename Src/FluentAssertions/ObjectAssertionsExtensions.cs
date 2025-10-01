@@ -58,7 +58,7 @@ public static class ObjectAssertionsExtensions
 
             EquivalencyOptions<T> defaultOptions = AssertionConfiguration.Current.Equivalency.CloneDefaults<T>()
                 .PreferringRuntimeMemberTypes().IncludingFields().IncludingProperties()
-                .ExcludingNonSerializedFields();
+                .ExcludingIgnoredDataMembers().ExcludingNonSerializedFields();
 
             ((T)deserializedObject).Should().BeEquivalentTo((T)assertions.Subject, _ => options(defaultOptions));
         }

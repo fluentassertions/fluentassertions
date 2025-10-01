@@ -13,6 +13,7 @@ internal class Property : Node, IMember
 {
     private readonly PropertyInfo propertyInfo;
     private bool? isXmlIgnored;
+    private bool? isIgnoredDataMember;
     private bool? isBrowsable;
 
     public Property(PropertyInfo propertyInfo, INode parent)
@@ -54,6 +55,17 @@ internal class Property : Node, IMember
                 propertyInfo.GetCustomAttribute<System.Xml.Serialization.XmlIgnoreAttribute>() != null;
 
             return isXmlIgnored.Value;
+        }
+    }
+
+    public bool IsIgnoredDataMember
+    {
+        get
+        {
+            isIgnoredDataMember ??=
+                propertyInfo.GetCustomAttribute<System.Runtime.Serialization.IgnoreDataMemberAttribute>() != null;
+
+            return isIgnoredDataMember.Value;
         }
     }
 
