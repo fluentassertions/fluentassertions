@@ -8,3 +8,6 @@ branches:
   pull-request:
     regex: ((pull|pull\-requests|pr)[/-]|[/-](merge))
     label: pr
+  hotfix:
+    prevent-increment:
+        when-current-commit-tagged: true

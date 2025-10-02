@@ -17,20 +17,30 @@ public class JsonNodeSpecs
         var node = JsonNode.Parse(
             """
             {
-            "number" : 1,
-            "floatingpoint": 1.0
+            "signedInt" : -2147483647,
+            "unsignedInt": 4294967295,
+            "signedLong" : -9223372036854775808,
+            "unsignedLong" : 18446744073709551615,
+            "floatingPoint": 1.0,
+            "largeDouble": 1.0E+20,
+            "money": 2.0
             }
             """);
 
         // Act
         var act = () => node.Should().BeEquivalentTo(new
         {
-            number = 2,
-            floatingpoint = 2.0
+            signedInt = int.MinValue,
+            unsignedInt = uint.MaxValue,
+            signedLong = long.MinValue,
+            unsignedLong = ulong.MaxValue,
+            floatingPoint = 1.0F,
+            largeDouble = 1E+20F,
+            money = 2.0M
         });
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("*$.number*2*1*$.floatingpoint*2.0*1.0*");
+        act.Should().Throw<XunitException>().WithMessage("*$.signedInt to be -2147483648, but found -2147483647*");
     }
 
     [Fact]
@@ -545,6 +555,36 @@ public class JsonNodeSpecs
 
         // Act & Assert
         array.Should().BeNull();
+    }
+
+    [Fact]
+    public void Can_assert_json_node_instances()
+    {
+        // Arrange
+        JsonNode jsonNode = null;
+
+        // Act & Assert
+        jsonNode.Should().BeNull();
+    }
+
+    [Fact]
+    public void Can_assert_json_value_instances()
+    {
+        // Arrange
+        JsonValue jsonValue = null;
+
+        // Act & Assert
+        jsonValue.Should().BeNull();
+    }
+
+    [Fact]
+    public void Can_assert_json_object_instances()
+    {
+        // Arrange
+        JsonObject jsonObject = null;
+
+        // Act & Assert
+        jsonObject.Should().BeNull();
     }
 }
 
