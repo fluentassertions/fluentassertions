@@ -97,6 +97,24 @@ internal class JsonProperty(JsonNode property, JsonObject parent, INode expectat
     }
 
     /// <inheritdoc />
+    public bool IsXmlIgnored
+    {
+        get => false;
+    }
+
+    /// <inheritdoc />
+    public bool IsIgnoredDataMember
+    {
+        get => false;
+    }
+
+    /// <inheritdoc />
+    public bool IsNonSerialized
+    {
+        get => false;
+    }
+
+    /// <inheritdoc />
     public bool IsBrowsable
     {
         get => false;

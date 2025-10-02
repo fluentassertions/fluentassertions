@@ -293,6 +293,76 @@ orderDto.Should().BeEquivalentTo(order, options => options
 
 Notice that you can also map properties to fields and vice-versa.
 
+### Ignored Members
+
+The XML serialization infrastructure supports marking fields and properties with the `[XmlIgnore]` attribute. Similarly, members in a `[DataContract]` can be marked `[IgnoreDataMember]`. With legacy binary serialization, fields can be marked `[NonSerialized]`, and the DataContract serializer will respect this when serializing classes marked `[Serializable]`.
+
+When members are marked in this way, the serialized form produced omits the specified members. When deserializing it, the members are not populated with anything. This is the case even if the serialized form is XML that contains elements matching ignored members.
+
+By default, Fluent Assertions will include these fields in comparisons, but you can specify that they should be ignored by calling `ExcludingXmlIgnoredMembers` (for XML serialization), `ExcludingIgnoredDataMembers` (for DataContract serialization) and/or `ExcludingNonSerializedFields` (for binary serialization and DataContract serialization) on the options object.
+
+#### XML
+
+```csharp
+public class XmlRecord
+{
+    public string Name { get; }
+
+    [XmlIgnore]
+    public int CachedValue { get; }
+}
+
+XmlRecord original = XmlGetRecord();
+
+Record derived = XmlDeserialize(XmlSerialize(original)); // user-supplied methods
+
+derived.Should().BeEquivalentTo(original, options => options
+    .ExcludingXmlIgnoredMembers());
+```
+
+#### DataContract
+
+```csharp
+[DataContract]
+public class Record
+{
+    [DataMember]
+    public string Name { get; }
+
+    [IgnoreDataMember]
+    public int CachedValue { get; }
+}
+
+Record original = GetRecord();
+
+Record derived = XmlDeserialize(XmlSerialize(original)); // user-supplied methods
+
+derived.Should().BeEquivalentTo(original, options => options
+    .ExcludingIgnoredDataMembers());
+```
+
+#### BinaryFormatter (and DataContract serialization)
+
+```csharp
+[Serializable]
+public class Record
+{
+    // Note, these are fields. By design, BinaryFormatter only serializes fields.
+    public string Name;
+
+    [NonSerialized]
+    public int CachedValue;
+}
+
+XmlRecord original = XmlGetRecord();
+
+Record derived = XmlDeserialize(XmlSerialize(original)); // user-supplied methods
+
+derived.Should().BeEquivalentTo(original, options => options
+    .IncludingFields()
+    .ExcludingNonSerializedMembers());
+```
+
 ### Hidden Members
 
 Sometimes types have members out of necessity, to satisfy a contract, but they aren't logically a part of the type. In this case, they are often marked with the attribute `[EditorBrowsable(EditorBrowsableState.Never)]`, so that the object can satisfy the contract but the members don't show up in IntelliSense when writing code that uses the type.

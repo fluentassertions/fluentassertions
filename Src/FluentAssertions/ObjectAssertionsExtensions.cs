@@ -57,7 +57,8 @@ public static class ObjectAssertionsExtensions
             var deserializedObject = CreateCloneUsingDataContractSerializer(assertions.Subject);
 
             EquivalencyOptions<T> defaultOptions = AssertionConfiguration.Current.Equivalency.CloneDefaults<T>()
-                .PreferringRuntimeMemberTypes().IncludingFields().IncludingProperties();
+                .PreferringRuntimeMemberTypes().IncludingFields().IncludingProperties()
+                .ExcludingIgnoredDataMembers().ExcludingNonSerializedFields();
 
             ((T)deserializedObject).Should().BeEquivalentTo((T)assertions.Subject, _ => options(defaultOptions));
         }
@@ -102,7 +103,7 @@ public static class ObjectAssertionsExtensions
             object deserializedObject = CreateCloneUsingXmlSerializer(assertions.Subject);
 
             deserializedObject.Should().BeEquivalentTo(assertions.Subject,
-                options => options.PreferringRuntimeMemberTypes().IncludingFields().IncludingProperties());
+                options => options.PreferringRuntimeMemberTypes().IncludingFields().IncludingProperties().ExcludingXmlIgnoredMembers());
         }
         catch (Exception exc)
         {

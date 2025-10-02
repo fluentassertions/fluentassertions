@@ -62,19 +62,34 @@ public partial class ObjectAssertionSpecs
         }
 
         [Fact]
-        public void When_a_data_contract_serializable_object_doesnt_restore_an_ignored_property_it_should_succeed()
+        public void When_an_object_is_not_binary_serializable_and_has_properties_marked_IgnoreDataMember_it_should_succeed()
         {
             // Arrange
-            var subject = new DataContractSerializableClassNotRestoringAllProperties
+            var subject = new DataContractSerializableClassWithIgnoredDataMember()
             {
-                Name = "John",
-                BirthDay = 20.September(1973)
+                Name = "Deborah",
+                CachedSum = 602_214_076_000_000_000_000_000M,
             };
 
             // Act
-            Action act = () => subject.Should()
-                .BeDataContractSerializable<DataContractSerializableClassNotRestoringAllProperties>(
-                    options => options.Excluding(x => x.Name));
+            Action act = () => subject.Should().BeDataContractSerializable();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_an_object_is_binary_serializable_and_has_properties_marked_NonSerialized_it_should_succeed()
+        {
+            // Arrange
+            var subject = new BinarySerializableClassWithNonSerializedMember()
+            {
+                Name = "Deborah",
+                CachedSum = 602_214_076_000_000_000_000_000M,
+            };
+
+            // Act
+            Action act = () => subject.Should().BeDataContractSerializable();
 
             // Assert
             act.Should().NotThrow();
@@ -117,6 +132,26 @@ public partial class ObjectAssertionSpecs
 
         [DataMember]
         public DateTime BirthDay { get; set; }
+    }
+
+    [DataContract]
+    public class DataContractSerializableClassWithIgnoredDataMember
+    {
+        [DataMember]
+        public string Name { get; set; }
+
+        [IgnoreDataMember]
+        public decimal CachedSum { get; set; }
+    }
+
+    [Serializable]
+    public class BinarySerializableClassWithNonSerializedMember
+    {
+        // These members need to be fields for .ExcludeNonSerialized
+        public string Name;
+
+        [NonSerialized]
+        public decimal CachedSum;
     }
 
     public enum Color

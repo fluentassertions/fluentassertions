@@ -12,6 +12,8 @@ namespace FluentAssertions.Equivalency;
 internal class Property : Node, IMember
 {
     private readonly PropertyInfo propertyInfo;
+    private bool? isXmlIgnored;
+    private bool? isIgnoredDataMember;
     private bool? isBrowsable;
 
     public Property(PropertyInfo propertyInfo, INode parent)
@@ -44,6 +46,37 @@ internal class Property : Node, IMember
     public CSharpAccessModifier GetterAccessibility => propertyInfo.GetGetMethod(nonPublic: true).GetCSharpAccessModifier();
 
     public CSharpAccessModifier SetterAccessibility => propertyInfo.GetSetMethod(nonPublic: true).GetCSharpAccessModifier();
+
+    public bool IsXmlIgnored
+    {
+        get
+        {
+            isXmlIgnored ??=
+                propertyInfo.GetCustomAttribute<System.Xml.Serialization.XmlIgnoreAttribute>() != null;
+
+            return isXmlIgnored.Value;
+        }
+    }
+
+    public bool IsIgnoredDataMember
+    {
+        get
+        {
+            isIgnoredDataMember ??=
+                propertyInfo.GetCustomAttribute<System.Runtime.Serialization.IgnoreDataMemberAttribute>() != null;
+
+            return isIgnoredDataMember.Value;
+        }
+    }
+
+    public bool IsNonSerialized
+    {
+        get
+        {
+            // [NonSerialized] only applies to fields.
+            return false;
+        }
+    }
 
     public bool IsBrowsable
     {

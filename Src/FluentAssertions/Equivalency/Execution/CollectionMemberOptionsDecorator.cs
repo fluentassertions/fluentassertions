@@ -66,6 +66,12 @@ internal class CollectionMemberOptionsDecorator : IEquivalencyOptions, IContainT
 
     public MemberVisibility IncludedFields => inner.IncludedFields;
 
+    public bool ExcludeXmlIgnoredMembers => inner.ExcludeXmlIgnoredMembers;
+
+    public bool ExcludeIgnoredDataMembers => inner.ExcludeIgnoredDataMembers;
+
+    public bool ExcludeNonSerializedFields => inner.ExcludeNonSerializedFields;
+
     public bool IgnoreNonBrowsableOnSubject => inner.IgnoreNonBrowsableOnSubject;
 
     public bool ExcludeNonBrowsableOnExpectation => inner.ExcludeNonBrowsableOnExpectation;
