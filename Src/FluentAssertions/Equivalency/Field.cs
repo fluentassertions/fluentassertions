@@ -1,7 +1,8 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
-using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;
@@ -44,13 +45,13 @@ internal class Field : Node, IMember
     public CSharpAccessModifier SetterAccessibility => fieldInfo.GetCSharpAccessModifier();
 
     public bool IsXmlIgnored =>
-        isXmlIgnored ??= fieldInfo.GetCustomAttribute<System.Xml.Serialization.XmlIgnoreAttribute>() != null;
+        isXmlIgnored ??= fieldInfo.GetCustomAttribute<XmlIgnoreAttribute>() != null;
 
     public bool IsIgnoredDataMember =>
-        isIgnoredDataMember ??= fieldInfo.GetCustomAttribute<System.Runtime.Serialization.IgnoreDataMemberAttribute>() != null;
+        isIgnoredDataMember ??= fieldInfo.GetCustomAttribute<IgnoreDataMemberAttribute>() != null;
 
     public bool IsNonSerialized =>
-        isNonSerialized ??= fieldInfo.GetCustomAttribute<System.NonSerializedAttribute>() != null;
+        isNonSerialized ??= fieldInfo.GetCustomAttribute<NonSerializedAttribute>() != null;
 
     public bool IsBrowsable =>
         isBrowsable ??= fieldInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
