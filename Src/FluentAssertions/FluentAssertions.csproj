@@ -19,10 +19,10 @@
     <PackageDescription>
       A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
       BDD-style unit tests. Works with .NET Standard 2.0 and higher, .NET Framework 4.7 and higher and .NET 6 and higher.
-      Supports the unit test frameworks MSTest2, NUnit3, NUnit4, XUnit2, XUnit3, MSpec and TUnit.
+      Supports the unit test frameworks MSTest2, MSTest3, MSTest4, NUnit3, NUnit4, XUnit2, XUnit3, MSpec and TUnit.
 
       IMPORTANT: This version is free for open-source projects and non-commercial use, but commercial use requires [a paid license](https://xceed.com/products/unit-testing/fluent-assertions/).
-Check out the [license page](LICENSE) for more information.
+      Check out the [license page](LICENSE) for more information.
     </PackageDescription>
     <PackageProjectUrl>https://xceed.com/products/unit-testing/fluent-assertions/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fluentassertions/fluentassertions</RepositoryUrl>

@@ -10,5 +10,6 @@ public enum TestFramework
     TUnit,
     MsTest,
     NUnit,
-    MSpec
+    MSpec,
+    MsTest4,
 }
