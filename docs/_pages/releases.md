@@ -7,6 +7,12 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 8.9.0
+
+### What's new
+
+* Added support for MSTest 4 - [#3111](https://github.com/fluentassertions/fluentassertions/pull/3111)
+
 ## 8.8.0
 
 ### What's new
