@@ -7,17 +7,12 @@ sidebar:
   nav: "sidebar"
 ---
 
-## 8.9.0
-
-### What's new
-
-* Added support for MSTest 4 - [#3111](https://github.com/fluentassertions/fluentassertions/pull/3111)
-
 ## 8.8.0
 
 ### What's new
 
 * Added `WithoutMessage` to allow asserting an exception message does not contain a wildcard pattern - [#3100](https://github.com/fluentassertions/fluentassertions/pull/3100)
+* Added support for MSTest 4 - [#3111](https://github.com/fluentassertions/fluentassertions/pull/3111)
 
 ### Enhancements
 
