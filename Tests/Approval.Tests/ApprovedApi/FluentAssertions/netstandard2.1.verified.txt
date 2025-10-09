@@ -322,8 +322,11 @@ namespace FluentAssertions
     public static class ObjectAssertionsExtensions
     {
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeDataContractSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeDataContractSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<object>, FluentAssertions.Equivalency.EquivalencyOptions<object>> options, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeDataContractSerializable<T>(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<T>, FluentAssertions.Equivalency.EquivalencyOptions<T>> options, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeXmlSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeXmlSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<object>, FluentAssertions.Equivalency.EquivalencyOptions<object>> options, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeXmlSerializable<T>(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<T>, FluentAssertions.Equivalency.EquivalencyOptions<T>> options, string because = "", params object[] becauseArgs) { }
     }
     public abstract class OccurrenceConstraint
     {
@@ -752,10 +755,7 @@ namespace FluentAssertions.Equivalency
         FluentAssertions.Equivalency.ConversionSelector ConversionSelector { get; }
         FluentAssertions.Equivalency.CyclicReferenceHandling CyclicReferenceHandling { get; }
         FluentAssertions.Equivalency.EnumEquivalencyHandling EnumEquivalencyHandling { get; }
-        bool ExcludeIgnoredDataMembers { get; }
         bool ExcludeNonBrowsableOnExpectation { get; }
-        bool ExcludeNonSerializedFields { get; }
-        bool ExcludeXmlIgnoredMembers { get; }
         bool IgnoreCase { get; }
         bool IgnoreJsonPropertyCasing { get; }
         bool IgnoreLeadingWhitespace { get; }
@@ -794,9 +794,6 @@ namespace FluentAssertions.Equivalency
         System.Type DeclaringType { get; }
         FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
         bool IsBrowsable { get; }
-        bool IsIgnoredDataMember { get; }
-        bool IsNonSerialized { get; }
-        bool IsXmlIgnored { get; }
         System.Type ReflectedType { get; }
         FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
         object GetValue(object obj);
@@ -926,13 +923,10 @@ namespace FluentAssertions.Equivalency
         public TSelf Excluding(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
         public TSelf ExcludingExplicitlyImplementedProperties() { }
         public TSelf ExcludingFields() { }
-        public TSelf ExcludingIgnoredDataMembers() { }
         public TSelf ExcludingMembersNamed(params string[] memberNames) { }
         public TSelf ExcludingMissingMembers() { }
         public TSelf ExcludingNonBrowsableMembers() { }
-        public TSelf ExcludingNonSerializedFields() { }
         public TSelf ExcludingProperties() { }
-        public TSelf ExcludingXmlIgnoredMembers() { }
         public TSelf IgnoringCase() { }
         public TSelf IgnoringCyclicReferences() { }
         public TSelf IgnoringLeadingWhitespace() { }
@@ -943,13 +937,10 @@ namespace FluentAssertions.Equivalency
         public TSelf IncludingAllDeclaredProperties() { }
         public TSelf IncludingAllRuntimeProperties() { }
         public TSelf IncludingFields() { }
-        public TSelf IncludingIgnoredDataMembers() { }
         public TSelf IncludingInternalFields() { }
         public TSelf IncludingInternalProperties() { }
         public TSelf IncludingNestedObjects() { }
-        public TSelf IncludingNonSerializedFields() { }
         public TSelf IncludingProperties() { }
-        public TSelf IncludingXmlIgnoredMembers() { }
         public TSelf PreferringDeclaredMemberTypes() { }
         public TSelf PreferringRuntimeMemberTypes() { }
         public TSelf ThrowingOnMissingMembers() { }
