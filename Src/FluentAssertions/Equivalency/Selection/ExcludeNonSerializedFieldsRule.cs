@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace FluentAssertions.Equivalency.Selection;
 
-internal class ExcludeNonSerializedFieldsRule : IMemberSelectionRule
+public class ExcludeNonSerializedFieldsRule : IMemberSelectionRule
 {
     public bool IncludesMembers => false;
 
