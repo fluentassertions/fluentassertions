@@ -47,7 +47,7 @@ internal class Property : Node, IMember
 
     public CSharpAccessModifier SetterAccessibility => propertyInfo.GetSetMethod(nonPublic: true).GetCSharpAccessModifier();
 
-    public bool IsXmlIgnored
+    bool IMember.IsXmlIgnored
     {
         get
         {
@@ -58,7 +58,7 @@ internal class Property : Node, IMember
         }
     }
 
-    public bool IsIgnoredDataMember
+    bool IMember.IsIgnoredDataMember
     {
         get
         {
@@ -69,7 +69,7 @@ internal class Property : Node, IMember
         }
     }
 
-    public bool IsNonSerialized
+    bool IMember.IsNonSerialized
     {
         get
         {

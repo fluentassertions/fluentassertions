@@ -11,11 +11,8 @@ sidebar:
 
 ### What's new
 
-* Added support for excluding members marked with `System.Xml.Serialization.XmlIgnoreAttribute`, `System.Runtime.Serialization.IgnoreDataMemberAttribute` or `System.NonSerializedAttribute` - [#3107](https://github.com/fluentassertions/fluentassertions/pull/3107)
-
-### Fixes
-
-* `BeXmlSerializable` and `BeDataContractSerializable` no longer fail checks on objects with ignored members - [#3107](https://github.com/fluentassertions/fluentassertions/pull/3107)
+* New member selection rules: `ExcludeXmlIgnoredMembersRule`, `ExcludeNonSerializedFieldsRule` and `ExcludeIgnoredDataMembersRule`. - [#3107](https://github.com/fluentassertions/fluentassertions/pull/3107)
+* New overload of `ObjectAssertions.BeXmlSerializable` that allow `EquivalencyOptions` to be configured, allowing the use of `ExcludeXmlIgnoredMembersRule`. (`BeDataContractSerializable` already has a comparable overload.) - [#3107](https://github.com/fluentassertions/fluentassertions/pull/3107)
 
 ## 8.7.1
 

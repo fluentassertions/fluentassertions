@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using FluentAssertions.Equivalency.Selection;
 using FluentAssertions.Extensions;
 using JetBrains.Annotations;
 using Xunit;
@@ -62,7 +63,7 @@ public partial class ObjectAssertionSpecs
         }
 
         [Fact]
-        public void When_an_object_is_not_binary_serializable_and_has_properties_marked_IgnoreDataMember_it_should_succeed()
+        public void When_an_object_is_not_binary_serializable_and_has_properties_marked_IgnoreDataMember_and_ExcludeIgnoredDataMembers_is_not_used_it_should_fail()
         {
             // Arrange
             var subject = new DataContractSerializableClassWithIgnoredDataMember()
@@ -75,11 +76,28 @@ public partial class ObjectAssertionSpecs
             Action act = () => subject.Should().BeDataContractSerializable();
 
             // Assert
+            act.Should().Throw<XunitException>().WithMessage("*Expected property subject.CachedSum to be*");
+        }
+
+        [Fact]
+        public void When_an_object_is_not_binary_serializable_and_has_properties_marked_IgnoreDataMember_and_ExcludeIgnoredDataMembers_is_used_it_should_succeed()
+        {
+            // Arrange
+            var subject = new DataContractSerializableClassWithIgnoredDataMember()
+            {
+                Name = "Deborah",
+                CachedSum = 602_214_076_000_000_000_000_000M,
+            };
+
+            // Act
+            Action act = () => subject.Should().BeDataContractSerializable(options => options.Using(new ExcludeIgnoredDataMembersRule()));
+
+            // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_an_object_is_binary_serializable_and_has_properties_marked_NonSerialized_it_should_succeed()
+        public void When_an_object_is_binary_serializable_and_has_properties_marked_NonSerialized_and_ExcludeNonSerializedFields_is_not_used_it_should_fail()
         {
             // Arrange
             var subject = new BinarySerializableClassWithNonSerializedMember()
@@ -89,7 +107,24 @@ public partial class ObjectAssertionSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeDataContractSerializable();
+            Action act = () => subject.Should().BeDataContractSerializable(options => options);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*Expected field subject.CachedSum to be*");
+        }
+
+        [Fact]
+        public void When_an_object_is_binary_serializable_and_has_properties_marked_NonSerialized_and_ExcludeNonSerializedFields_is_used_it_should_succeed()
+        {
+            // Arrange
+            var subject = new BinarySerializableClassWithNonSerializedMember()
+            {
+                Name = "Deborah",
+                CachedSum = 602_214_076_000_000_000_000_000M,
+            };
+
+            // Act
+            Action act = () => subject.Should().BeDataContractSerializable(options => options.Using(new ExcludeNonSerializedFieldsRule()));
 
             // Assert
             act.Should().NotThrow();

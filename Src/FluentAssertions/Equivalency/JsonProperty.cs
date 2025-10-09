@@ -97,19 +97,19 @@ internal class JsonProperty(JsonNode property, JsonObject parent, INode expectat
     }
 
     /// <inheritdoc />
-    public bool IsXmlIgnored
+    bool IMember.IsXmlIgnored
     {
         get => false;
     }
 
     /// <inheritdoc />
-    public bool IsIgnoredDataMember
+    bool IMember.IsIgnoredDataMember
     {
         get => false;
     }
 
     /// <inheritdoc />
-    public bool IsNonSerialized
+    bool IMember.IsNonSerialized
     {
         get => false;
     }

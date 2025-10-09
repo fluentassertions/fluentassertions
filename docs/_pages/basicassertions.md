@@ -111,10 +111,10 @@ theObject.Should().BeXmlSerializable();
 theObject.Should().BeDataContractSerializable();
 ```
 
-These test that _this specific object_, with the values it has in its members, will round-trip through XML or DataContract serialization. Members that are marked `[XmlIgnore]` (XML serialization), `[IgnoreDataMember]` (DataContract serialization) or `[NonSerialized]` (types marked `[Serializable]`) are excluded from this comparison, as their values will by definition never roundtrip.
+These test that _this specific object_, with the values it has in its members, will round-trip through XML or DataContract serialization.
 
-The XML serialization infrastructure supports marking fields and properties with the `[XmlIgnore]` attribute. Similarly, members in a `[DataContract]` can be marked `[IgnoreDataMember]`. With legacy binary serialization, fields can be marked `[NonSerialized]`, and the DataContract serializer will respect this when serializing classes marked `[Serializable]`.
+Members that are marked `[XmlIgnore]` (XML serialization), `[IgnoreDataMember]` (DataContract serialization) or `[NonSerialized]` (types marked `[Serializable]`) may cause assertion failures, as they are excluded from serialization and will not round-trip. In order to resolve this, use overloads of `.BeXmlSerializable()` and `.BeDataContractSerializable()` that include an `EquivalencyOptions` config delegate argument. This can be used to add one or more of the following types to the member selection criteria:
 
-When members are marked in this way, the serialized form produced omits the specified members. When deserializing it, the members are not populated with anything. This is the case even if the serialized form is XML that contains elements matching ignored members.
-
-The `BeXmlSerializable` and `BeDataContractSerializable` assertions ignore ignored members, since their values cannot possibly round-trip through the serialization process.
+* `ExcludeXmlIgnoredMembersRule`: Excludes members marked `[XmlIgnore]`.
+* `ExcludeIgnoredDataMembersRule`: Excludes members marked `[IgnoreDataMember]` inside types marked `[DataContract]`.
+* `ExcludeNonSerializedFieldsRule`: Excludes fields marked `[NonSerialized]` inside types marked `[Serializable]`.

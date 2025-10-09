@@ -44,13 +44,13 @@ internal class Field : Node, IMember
 
     public CSharpAccessModifier SetterAccessibility => fieldInfo.GetCSharpAccessModifier();
 
-    public bool IsXmlIgnored =>
+    bool IMember.IsXmlIgnored =>
         isXmlIgnored ??= fieldInfo.GetCustomAttribute<XmlIgnoreAttribute>() != null;
 
-    public bool IsIgnoredDataMember =>
+    bool IMember.IsIgnoredDataMember =>
         isIgnoredDataMember ??= fieldInfo.GetCustomAttribute<IgnoreDataMemberAttribute>() != null;
 
-    public bool IsNonSerialized =>
+    bool IMember.IsNonSerialized =>
         isNonSerialized ??= fieldInfo.GetCustomAttribute<NonSerializedAttribute>() != null;
 
     public bool IsBrowsable =>
