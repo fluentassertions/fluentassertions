@@ -84,23 +84,6 @@ public partial class ObjectAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*Expected property subject.CachedSum to be*");
         }
-
-        [Fact]
-        public void When_an_object_is_xml_serializable_and_has_properties_marked_XmlIgnore_and_ExcludeXmlIgnoredMembers_is_used_it_should_succeed()
-        {
-            // Arrange
-            var subject = new XmlSerializableClassWithIgnoredProperties()
-            {
-                Name = "Deborah",
-                CachedSum = 602_214_076_000_000_000_000_000M,
-            };
-
-            // Act
-            Action act = () => subject.Should().BeXmlSerializable(options => options.Using(new ExcludeXmlIgnoredMembersRule()));
-
-            // Assert
-            act.Should().NotThrow();
-        }
     }
 
     public class XmlSerializableClass
@@ -140,6 +123,26 @@ public partial class ObjectAssertionSpecs
 
         [XmlIgnore]
         public decimal CachedSum { get; set; }
+
+        public R Splonk { get; set; } =
+            new R()
+            {
+                A = new Q() { Flarbs = "eh" },
+                B = new Q() { Flarbs = "bee" },
+            };
+    }
+
+    public class R
+    {
+        public Q A { get; set; }
+
+        public Q B { get; set; }
+    }
+
+    public class Q
+    {
+        [XmlIgnore]
+        public string Flarbs { get; set; }
     }
 
     internal class NonPublicClass

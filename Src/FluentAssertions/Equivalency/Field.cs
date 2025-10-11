@@ -13,9 +13,6 @@ namespace FluentAssertions.Equivalency;
 internal class Field : Node, IMember
 {
     private readonly FieldInfo fieldInfo;
-    private bool? isXmlIgnored;
-    private bool? isIgnoredDataMember;
-    private bool? isNonSerialized;
     private bool? isBrowsable;
 
     public Field(FieldInfo fieldInfo, INode parent)
@@ -43,15 +40,6 @@ internal class Field : Node, IMember
     public CSharpAccessModifier GetterAccessibility => fieldInfo.GetCSharpAccessModifier();
 
     public CSharpAccessModifier SetterAccessibility => fieldInfo.GetCSharpAccessModifier();
-
-    bool IMember.IsXmlIgnored =>
-        isXmlIgnored ??= fieldInfo.GetCustomAttribute<XmlIgnoreAttribute>() != null;
-
-    bool IMember.IsIgnoredDataMember =>
-        isIgnoredDataMember ??= fieldInfo.GetCustomAttribute<IgnoreDataMemberAttribute>() != null;
-
-    bool IMember.IsNonSerialized =>
-        isNonSerialized ??= fieldInfo.GetCustomAttribute<NonSerializedAttribute>() != null;
 
     public bool IsBrowsable =>
         isBrowsable ??= fieldInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
