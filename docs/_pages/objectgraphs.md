@@ -380,18 +380,20 @@ public class ExcludeXmlIgnoredMembersRule : ExcludeByAttributeRuleBase<XmlIgnore
 {
 }
 
-public class ExcludeNonSerializedFieldsRule : ExcludeByAttributeRuleBase<NonSerializedAttribute>
-{
-    protected override bool ShouldProcessType(Type type) => type.IsSerializable;
-}
-
 public class ExcludeIgnoredDataMembersRule : ExcludeByAttributeRuleBase<IgnoreDataMemberAttribute>
 {
     protected override bool ShouldProcessType(Type type) => !type.IsSerializable;
 }
+
+public class ExcludeNonSerializedFieldsRule : ExcludeByAttributeRuleBase<NonSerializedAttribute>
+{
+    protected override bool ShouldProcessType(Type type) => type.IsSerializable;
+}
 ```
 
 Example usage:
+
+#### XML Serialization
 
 ```csharp
 public class XmlRecord
@@ -428,7 +430,8 @@ Record original = GetRecord();
 Record derived = XmlDeserialize(XmlSerialize(original)); // user-supplied methods
 
 derived.Should().BeEquivalentTo(original, options => options
-    .ExcludingIgnoredDataMembers());
+    .Using(new ExcludeIgnoredDataMembersRule())
+    .Using(new ExcludeNonSerializedFieldsRule()));
 ```
 
 #### BinaryFormatter (and DataContract serialization)
