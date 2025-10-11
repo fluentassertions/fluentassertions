@@ -308,6 +308,8 @@ If you are encountering assertion failures in `BeXmlSerializable`/`BeDataContrac
 - Use `ExcludeXmlIgnoredMembers` for `BeXmlSerializable` assertions.
 - The DataContract serializer respects the `[NonSerialized]` attribute from legacy formatter-based serialization. For full compatibility, use both `ExcludeIgnoredDataMembersRule` and `ExcludeNonSerializedFieldsRule` with `BeDataContractSerializable` assertions.
 
+These rules can also be used when calling `BeEquivalentTo` on object graphs produced explicitly via serialization.
+
 ```csharp
 using System;
 using System.Collections.Generic;
@@ -404,11 +406,9 @@ public class XmlRecord
     public int CachedValue { get; }
 }
 
-XmlRecord original = XmlGetRecord();
+XmlRecord subject = XmlGetRecord();
 
-Record derived = XmlDeserialize(XmlSerialize(original)); // user-supplied methods
-
-derived.Should().BeEquivalentTo(original, options => options
+subject.Should().BeXmlSerializable(options => options
     .Using(new ExcludeXmlIgnoredMembersRule()));
 ```
 
@@ -425,11 +425,9 @@ public class Record
     public int CachedValue { get; }
 }
 
-Record original = GetRecord();
+Record subject = GetRecord();
 
-Record derived = XmlDeserialize(XmlSerialize(original)); // user-supplied methods
-
-derived.Should().BeEquivalentTo(original, options => options
+subject.Should().BeDataContractSerializable(options => options
     .Using(new ExcludeIgnoredDataMembersRule())
     .Using(new ExcludeNonSerializedFieldsRule()));
 ```
@@ -447,13 +445,13 @@ public class Record
     public int CachedValue;
 }
 
-XmlRecord original = XmlGetRecord();
+Record original = GetRecord();
 
-Record derived = XmlDeserialize(XmlSerialize(original)); // user-supplied methods
+Record derived = BinaryFormatterDeserialize(BinaryFormatterSerialize(original)); // user-supplied methods
 
 derived.Should().BeEquivalentTo(original, options => options
     .IncludingFields()
-    .ExcludingNonSerializedMembers());
+    .Using(new ExcludeNonSerializedFieldsRule()));
 ```
 
 ### Hidden Members
