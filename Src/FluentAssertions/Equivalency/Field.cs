@@ -1,8 +1,6 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;

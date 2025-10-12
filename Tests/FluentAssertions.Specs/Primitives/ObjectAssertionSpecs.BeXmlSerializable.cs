@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using FluentAssertions.Equivalency.Selection;
 using FluentAssertions.Extensions;
 using JetBrains.Annotations;
 using Xunit;

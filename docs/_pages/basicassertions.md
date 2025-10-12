@@ -111,10 +111,4 @@ theObject.Should().BeXmlSerializable();
 theObject.Should().BeDataContractSerializable();
 ```
 
-These test that _this specific object_, with the values it has in its members, will round-trip through XML or DataContract serialization.
-
-Members that are marked `[XmlIgnore]` (XML serialization), `[IgnoreDataMember]` (DataContract serialization) or `[NonSerialized]` (types marked `[Serializable]`) may cause assertion failures, as they are excluded from serialization and will not round-trip. In order to resolve this, use overloads of `.BeXmlSerializable()` and `.BeDataContractSerializable()` that include an `EquivalencyOptions` config delegate argument. This can be used to add one or more of the following types to the member selection criteria:
-
-* `ExcludeXmlIgnoredMembersRule`: Excludes members marked `[XmlIgnore]`.
-* `ExcludeIgnoredDataMembersRule`: Excludes members marked `[IgnoreDataMember]` inside types marked `[DataContract]`.
-* `ExcludeNonSerializedFieldsRule`: Excludes fields marked `[NonSerialized]` inside types marked `[Serializable]`.
+See [Tips](tips.md) for additional information about the `BeXmlSerializable` and `BeDataContractSerializable` assertions and ignored members.

@@ -11,8 +11,7 @@ sidebar:
 
 ### What's new
 
-* New member selection rules: `ExcludeXmlIgnoredMembersRule`, `ExcludeNonSerializedFieldsRule` and `ExcludeIgnoredDataMembersRule`. - [#3107](https://github.com/fluentassertions/fluentassertions/pull/3107)
-* New overload of `ObjectAssertions.BeXmlSerializable` that allow `EquivalencyOptions` to be configured, allowing the use of `ExcludeXmlIgnoredMembersRule`. (`BeDataContractSerializable` already has a comparable overload.) - [#3107](https://github.com/fluentassertions/fluentassertions/pull/3107)
+* New overloads of `BeXmlSerializable` and `BeDataContractSerializable` that allow `EquivalencyOptions` to be configured, allowing the use of member selection rules. - [#3107](https://github.com/fluentassertions/fluentassertions/pull/3107)
 
 ## 8.7.1
 
