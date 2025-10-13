@@ -62,7 +62,7 @@ public partial class ObjectAssertionSpecs
         }
 
         [Fact]
-        public void When_an_object_is_not_binary_serializable_and_has_properties_marked_IgnoreDataMember_it_should_fail()
+        public void When_an_object_is_not_binary_serializable_and_has_ignored_properties_it_should_fail()
         {
             // Arrange
             var subject = new DataContractSerializableClassWithIgnoredDataMember()
@@ -79,7 +79,7 @@ public partial class ObjectAssertionSpecs
         }
 
         [Fact]
-        public void When_an_object_is_binary_serializable_and_has_properties_marked_NonSerialized_it_should_fail()
+        public void When_an_object_is_binary_serializable_and_has_nonserialized_fields_it_should_fail()
         {
             // Arrange
             var subject = new BinarySerializableClassWithNonSerializedMember()
@@ -147,7 +147,7 @@ public partial class ObjectAssertionSpecs
     [Serializable]
     public class BinarySerializableClassWithNonSerializedMember
     {
-        // These members need to be fields for .ExcludeNonSerialized
+        // These members need to be fields for binary serialization.
         public string Name;
 
         [NonSerialized]

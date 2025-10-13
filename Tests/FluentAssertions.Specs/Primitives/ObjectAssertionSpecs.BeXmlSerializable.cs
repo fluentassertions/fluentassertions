@@ -68,7 +68,7 @@ public partial class ObjectAssertionSpecs
         }
 
         [Fact]
-        public void When_an_object_is_xml_serializable_and_has_properties_marked_XmlIgnore_it_should_succeed()
+        public void When_an_object_is_xml_serializable_and_has_ignored_properties_it_should_fail()
         {
             // Arrange
             var subject = new XmlSerializableClassWithIgnoredProperties()
