@@ -111,4 +111,4 @@ theObject.Should().BeXmlSerializable();
 theObject.Should().BeDataContractSerializable();
 ```
 
-See [Tips](tips.md) for additional information about the `BeXmlSerializable` and `BeDataContractSerializable` assertions and ignored members.
+See [Tips & Tricks - Serialization & Ignored Members](serializationignoredmembers.md) for additional information about the `BeXmlSerializable` and `BeDataContractSerializable` assertions and ignored members.
