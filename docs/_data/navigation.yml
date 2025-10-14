@@ -101,6 +101,8 @@ sidebar:
         url: /tips/#improved-assertions
       - title: Migrating from MSTest
         url: /tips/#mstest-migration
+      - title: Serialization & Ignored Members
+        url: /serializationignoredmembers
 
   - title: Upgrading
     url: /upgradingtov6

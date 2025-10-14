@@ -7,6 +7,12 @@ sidebar:
   nav: "sidebar"
 ---
 
+## Unreleased
+
+### What's new
+
+* New overloads of `BeXmlSerializable` and `BeDataContractSerializable` that allow `EquivalencyOptions` to be configured, allowing the use of member selection rules. - [#3107](https://github.com/fluentassertions/fluentassertions/pull/3107)
+
 ## 8.8.0
 
 ### What's new

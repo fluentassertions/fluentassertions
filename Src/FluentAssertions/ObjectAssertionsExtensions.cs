@@ -33,6 +33,31 @@ public static class ObjectAssertionsExtensions
     /// the values of all members.
     /// </summary>
     /// <param name="options">
+    /// A reference to the <see cref="EquivalencyOptions{Object}"/> configuration object that can be used
+    /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+    /// <see cref="EquivalencyOptions{Object}"/> class. The global defaults are determined by the
+    /// <see cref="AssertionConfiguration"/> class.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="options"/> is <see langword="null"/>.</exception>
+    public static AndConstraint<ObjectAssertions> BeDataContractSerializable(this ObjectAssertions assertions,
+        Func<EquivalencyOptions<object>, EquivalencyOptions<object>> options,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        return BeDataContractSerializable<object>(assertions, options, because, becauseArgs);
+    }
+
+    /// <summary>
+    /// Asserts that an object can be serialized and deserialized using the data contract serializer and that it stills retains
+    /// the values of all members.
+    /// </summary>
+    /// <param name="options">
     /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
     /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
@@ -96,13 +121,59 @@ public static class ObjectAssertionsExtensions
     /// </param>
     public static AndConstraint<ObjectAssertions> BeXmlSerializable(this ObjectAssertions assertions,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+        => BeXmlSerializable<object>(assertions, options => options, because, becauseArgs);
+
+    /// <summary>
+    /// Asserts that an object can be serialized and deserialized using the XML serializer and that it stills retains
+    /// the values of all members.
+    /// </summary>
+    /// <param name="options">
+    /// A reference to the <see cref="EquivalencyOptions{Object}"/> configuration object that can be used
+    /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+    /// <see cref="EquivalencyOptions{Object}"/> class. The global defaults are determined by the
+    /// <see cref="AssertionConfiguration"/> class.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<ObjectAssertions> BeXmlSerializable(this ObjectAssertions assertions,
+        Func<EquivalencyOptions<object>, EquivalencyOptions<object>> options,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+        => BeXmlSerializable<object>(assertions, options, because, becauseArgs);
+
+    /// <summary>
+    /// Asserts that an object can be serialized and deserialized using the XML serializer and that it stills retains
+    /// the values of all members.
+    /// </summary>
+    /// <param name="options">
+    /// A reference to the <see cref="EquivalencyOptions{T}"/> configuration object that can be used
+    /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+    /// <see cref="EquivalencyOptions{T}"/> class. The global defaults are determined by the
+    /// <see cref="AssertionConfiguration"/> class.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public static AndConstraint<ObjectAssertions> BeXmlSerializable<T>(this ObjectAssertions assertions,
+        Func<EquivalencyOptions<T>, EquivalencyOptions<T>> options,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         try
         {
-            object deserializedObject = CreateCloneUsingXmlSerializer(assertions.Subject);
+            var deserializedObject = CreateCloneUsingXmlSerializer(assertions.Subject);
 
-            deserializedObject.Should().BeEquivalentTo(assertions.Subject,
-                options => options.PreferringRuntimeMemberTypes().IncludingFields().IncludingProperties());
+            EquivalencyOptions<T> defaultOptions = AssertionConfiguration.Current.Equivalency.CloneDefaults<T>()
+                .PreferringRuntimeMemberTypes().IncludingFields().IncludingProperties();
+
+            deserializedObject.Should().BeEquivalentTo((T)assertions.Subject, _ => options(defaultOptions));
         }
         catch (Exception exc)
         {

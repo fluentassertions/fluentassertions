@@ -110,3 +110,5 @@ We’ve also added the possibility to assert that an object can be serialized an
 theObject.Should().BeXmlSerializable();
 theObject.Should().BeDataContractSerializable();
 ```
+
+See [Tips & Tricks - Serialization & Ignored Members](serializationignoredmembers.md) for additional information about the `BeXmlSerializable` and `BeDataContractSerializable` assertions and ignored members.

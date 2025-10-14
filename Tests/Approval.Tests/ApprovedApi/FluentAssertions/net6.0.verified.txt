@@ -341,8 +341,11 @@ namespace FluentAssertions
     public static class ObjectAssertionsExtensions
     {
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeDataContractSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeDataContractSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<object>, FluentAssertions.Equivalency.EquivalencyOptions<object>> options, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeDataContractSerializable<T>(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<T>, FluentAssertions.Equivalency.EquivalencyOptions<T>> options, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeXmlSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeXmlSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<object>, FluentAssertions.Equivalency.EquivalencyOptions<object>> options, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeXmlSerializable<T>(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<T>, FluentAssertions.Equivalency.EquivalencyOptions<T>> options, string because = "", params object[] becauseArgs) { }
     }
     public abstract class OccurrenceConstraint
     {

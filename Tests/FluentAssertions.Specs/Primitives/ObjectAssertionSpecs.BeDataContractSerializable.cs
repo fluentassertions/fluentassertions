@@ -62,22 +62,37 @@ public partial class ObjectAssertionSpecs
         }
 
         [Fact]
-        public void When_a_data_contract_serializable_object_doesnt_restore_an_ignored_property_it_should_succeed()
+        public void When_an_object_is_not_binary_serializable_and_has_ignored_properties_it_should_fail()
         {
             // Arrange
-            var subject = new DataContractSerializableClassNotRestoringAllProperties
+            var subject = new DataContractSerializableClassWithIgnoredDataMember()
             {
-                Name = "John",
-                BirthDay = 20.September(1973)
+                Name = "Deborah",
+                CachedSum = 602_214_076_000_000_000_000_000M,
             };
 
             // Act
-            Action act = () => subject.Should()
-                .BeDataContractSerializable<DataContractSerializableClassNotRestoringAllProperties>(
-                    options => options.Excluding(x => x.Name));
+            Action act = () => subject.Should().BeDataContractSerializable();
 
             // Assert
-            act.Should().NotThrow();
+            act.Should().Throw<XunitException>().WithMessage("*Expected property subject.CachedSum to be*");
+        }
+
+        [Fact]
+        public void When_an_object_is_binary_serializable_and_has_nonserialized_fields_it_should_fail()
+        {
+            // Arrange
+            var subject = new BinarySerializableClassWithNonSerializedMember()
+            {
+                Name = "Deborah",
+                CachedSum = 602_214_076_000_000_000_000_000M,
+            };
+
+            // Act
+            Action act = () => subject.Should().BeDataContractSerializable(options => options);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*Expected field subject.CachedSum to be*");
         }
 
         [Fact]
@@ -117,6 +132,26 @@ public partial class ObjectAssertionSpecs
 
         [DataMember]
         public DateTime BirthDay { get; set; }
+    }
+
+    [DataContract]
+    public class DataContractSerializableClassWithIgnoredDataMember
+    {
+        [DataMember]
+        public string Name { get; set; }
+
+        [IgnoreDataMember]
+        public decimal CachedSum { get; set; }
+    }
+
+    [Serializable]
+    public class BinarySerializableClassWithNonSerializedMember
+    {
+        // These members need to be fields for binary serialization.
+        public string Name;
+
+        [NonSerialized]
+        public decimal CachedSum;
     }
 
     public enum Color
