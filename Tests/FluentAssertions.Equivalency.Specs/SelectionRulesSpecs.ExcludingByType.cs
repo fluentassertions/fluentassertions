@@ -347,6 +347,77 @@ public partial class SelectionRulesSpecs
                 .Excluding<double>());
         }
 
+        [Fact]
+        public void When_excluding_string_type_it_should_exclude_all_string_members()
+        {
+            // Arrange
+            var subject = new
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                Age = 30
+            };
+
+            var expectation = new
+            {
+                FirstName = "Jane", // Different value
+                LastName = "Smith", // Different value
+                Age = 30
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, options => options
+                .Excluding<string>());
+        }
+
+        [Fact]
+        public void When_excluding_by_type_with_nested_generics_it_should_work()
+        {
+            // Arrange
+            var subject = new
+            {
+                Name = "John",
+                ListOfLists = new List<List<int>> { new() { 1, 2 } },
+                Age = 30
+            };
+
+            var expectation = new
+            {
+                Name = "John",
+                ListOfLists = new List<List<int>> { new() { 3, 4 } }, // Different value
+                Age = 30
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, options => options
+                .Excluding<List<List<int>>>());
+        }
+
+        [Fact]
+        public void When_excluding_value_types_it_should_work()
+        {
+            // Arrange
+            var subject = new
+            {
+                Name = "John",
+                Age = 30,
+                Score = 100,
+                Rating = 5
+            };
+
+            var expectation = new
+            {
+                Name = "John",
+                Age = 35, // Different value
+                Score = 200, // Different value
+                Rating = 10 // Different value
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, options => options
+                .Excluding<int>());
+        }
+
         private abstract class AbstractBaseClass
         {
             public int Value { get; set; }
