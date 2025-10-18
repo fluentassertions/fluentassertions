@@ -270,7 +270,7 @@ public partial class SelectionRulesSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Exclude members assignable to type*");
+                .WithMessage("*Exclude members whose type is or derives from*");
         }
 
         [Fact]
@@ -295,7 +295,7 @@ public partial class SelectionRulesSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Exclude members of closed generic type*");
+                .WithMessage("*Exclude members whose type derives from or is a closed generic type of*");
         }
 
         [Fact]
@@ -418,12 +418,153 @@ public partial class SelectionRulesSpecs
                 .Excluding<int>());
         }
 
+        [Fact]
+        public void Excluding_non_abstract_base_type_excludes_derived_types()
+        {
+            // Arrange
+            var subject = new
+            {
+                Name = "John",
+                BaseObject = new DerivedFromNonAbstract { Value = 10 },
+                Age = 30
+            };
+
+            var expectation = new
+            {
+                Name = "John",
+                BaseObject = new DerivedFromNonAbstract { Value = 20 }, // Different value
+                Age = 30
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, options => options
+                .Excluding<NonAbstractBase>());
+        }
+
+        [Fact]
+        public void Excluding_open_generic_excludes_closed_generic_derived_type()
+        {
+            // Arrange
+            var subject = new
+            {
+                Name = "John",
+                ClosedGeneric = new ClosedGeneric { Value = 10 },
+                Age = 30
+            };
+
+            var expectation = new
+            {
+                Name = "John",
+                ClosedGeneric = new ClosedGeneric { Value = 20 }, // Different value
+                Age = 30
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, options => options
+                .Excluding(typeof(OpenGeneric<>)));
+        }
+
+        [Fact]
+        public void Excluding_open_generic_excludes_derived_open_generic_type()
+        {
+            // Arrange
+            var subject = new
+            {
+                Name = "John",
+                DerivedOpenGeneric = new DerivedOpenGeneric<int> { Value = 10 },
+                Age = 30
+            };
+
+            var expectation = new
+            {
+                Name = "John",
+                DerivedOpenGeneric = new DerivedOpenGeneric<int> { Value = 20 }, // Different value
+                Age = 30
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, options => options
+                .Excluding(typeof(OpenGeneric<>)));
+        }
+
+        [Fact]
+        public void Excluding_open_generic_excludes_closed_derived_generic_type()
+        {
+            // Arrange
+            var subject = new
+            {
+                Name = "John",
+                ClosedDerivedGeneric = new ClosedDerivedGeneric { Value = 10 },
+                Age = 30
+            };
+
+            var expectation = new
+            {
+                Name = "John",
+                ClosedDerivedGeneric = new ClosedDerivedGeneric { Value = 20 }, // Different value
+                Age = 30
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, options => options
+                .Excluding(typeof(OpenGeneric<>)));
+        }
+
+        [Fact]
+        public void Excluding_sealed_type_excludes_only_exact_type()
+        {
+            // Arrange
+            var subject = new
+            {
+                Name = "John",
+                Text = "Test",
+                Age = 30
+            };
+
+            var expectation = new
+            {
+                Name = "John",
+                Text = "Different", // Different value - will be excluded
+                Age = 30
+            };
+
+            // Act / Assert - string is sealed, so only exact matches are excluded
+            subject.Should().BeEquivalentTo(expectation, options => options
+                .Excluding<string>());
+        }
+
         private abstract class AbstractBaseClass
         {
             public int Value { get; set; }
         }
 
         private class ConcreteClass : AbstractBaseClass
+        {
+        }
+
+        private class NonAbstractBase
+        {
+            public int Value { get; set; }
+        }
+
+        private class DerivedFromNonAbstract : NonAbstractBase
+        {
+        }
+
+        private class OpenGeneric<T>
+        {
+            public int Value { get; set; }
+        }
+
+        private class ClosedGeneric : OpenGeneric<int>
+        {
+        }
+
+        private class DerivedOpenGeneric<T> : OpenGeneric<T>
+        {
+        }
+
+        private class ClosedDerivedGeneric : DerivedOpenGeneric<int>
         {
         }
     }

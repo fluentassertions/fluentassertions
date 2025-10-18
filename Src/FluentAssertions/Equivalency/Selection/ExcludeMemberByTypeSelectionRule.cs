@@ -16,15 +16,17 @@ internal class ExcludeMemberByTypeSelectionRule : IMemberSelectionRule
     public ExcludeMemberByTypeSelectionRule(Type targetType)
     {
         this.targetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
-        checkAssignability = targetType.IsInterface || targetType.IsAbstract;
+        
+        // Always check assignability except for sealed types (which can't be derived from)
+        checkAssignability = !targetType.IsSealed;
 
         if (targetType.IsGenericTypeDefinition)
         {
-            description = $"Exclude members of closed generic type {targetType}";
+            description = $"Exclude members whose type derives from or is a closed generic type of {targetType}";
         }
         else if (checkAssignability)
         {
-            description = $"Exclude members assignable to type {targetType}";
+            description = $"Exclude members whose type is or derives from {targetType}";
         }
         else
         {
@@ -45,16 +47,36 @@ internal class ExcludeMemberByTypeSelectionRule : IMemberSelectionRule
         if (targetType.IsGenericTypeDefinition)
         {
             // Handle open generic types (e.g., Nullable<>)
-            return memberType.IsGenericType && memberType.GetGenericTypeDefinition() == targetType;
+            // Check if memberType is a closed generic of the target open generic type
+            if (memberType.IsGenericType && memberType.GetGenericTypeDefinition() == targetType)
+            {
+                return true;
+            }
+
+            // Check if memberType derives from the target open generic type
+            // e.g., class Derived : OpenGeneric<int> or class Derived<T> : OpenGeneric<T>
+            Type baseType = memberType.BaseType;
+            while (baseType != null)
+            {
+                if (baseType.IsGenericType && baseType.GetGenericTypeDefinition() == targetType)
+                {
+                    return true;
+                }
+
+                baseType = baseType.BaseType;
+            }
+
+            return false;
         }
 
         if (checkAssignability)
         {
-            // For interfaces and abstract types, check if the member type is assignable
+            // For non-sealed types (including interfaces and abstract types), 
+            // check if the member type is assignable (i.e., is the same or derives from the target type)
             return targetType.IsAssignableFrom(memberType);
         }
 
-        // For concrete types, check exact match
+        // For sealed types, check exact match only
         return memberType == targetType;
     }
 
