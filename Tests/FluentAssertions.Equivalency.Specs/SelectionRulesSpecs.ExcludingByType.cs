@@ -11,7 +11,7 @@ public partial class SelectionRulesSpecs
     public class ExcludingByType
     {
         [Fact]
-        public void When_excluding_members_by_type_it_should_exclude_exact_type_matches()
+        public void Excluding_members_by_type_excludes_exact_type_matches()
         {
             // Arrange
             var subject = new
@@ -36,7 +36,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_excluding_members_by_type_using_Type_parameter_it_should_exclude_exact_type_matches()
+        public void Excluding_members_by_type_using_Type_parameter_excludes_exact_type_matches()
         {
             // Arrange
             var subject = new
@@ -61,7 +61,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_excluding_members_by_type_it_should_fail_if_non_excluded_members_differ()
+        public void Excluding_members_by_type_fails_if_non_excluded_members_differ()
         {
             // Arrange
             var subject = new
@@ -88,7 +88,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_excluding_interface_type_it_should_exclude_all_members_assignable_to_that_interface()
+        public void Excluding_interface_type_excludes_all_members_assignable_to_that_interface()
         {
             // Arrange
             var subject = new
@@ -113,7 +113,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_excluding_open_generic_type_it_should_exclude_all_closed_generics()
+        public void Excluding_open_generic_type_excludes_all_closed_generics()
         {
             // Arrange
             var subject = new
@@ -140,7 +140,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_excluding_by_type_it_should_be_described_in_the_failure_message()
+        public void Excluding_by_type_is_described_in_the_failure_message()
         {
             // Arrange
             var subject = new
@@ -167,7 +167,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_excluding_nested_members_by_type_it_should_exclude_them_at_all_levels()
+        public void Excluding_nested_members_by_type_excludes_them_at_all_levels()
         {
             // Arrange
             var subject = new
@@ -198,7 +198,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_excluding_members_by_type_in_collections_it_should_exclude_them()
+        public void Excluding_members_by_type_in_collections_excludes_them()
         {
             // Arrange
             var subject = new[]
@@ -235,7 +235,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_excluding_null_type_it_should_throw()
+        public void Excluding_null_type_throws()
         {
             // Arrange
             var subject = new { Name = "John" };
@@ -249,7 +249,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_excluding_interface_type_description_should_mention_assignability()
+        public void Excluding_interface_type_description_mentions_assignability()
         {
             // Arrange
             var subject = new
@@ -274,7 +274,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_excluding_open_generic_type_description_should_mention_closed_generic()
+        public void Excluding_open_generic_type_description_mentions_closed_generic()
         {
             // Arrange
             var subject = new
@@ -299,7 +299,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_excluding_abstract_class_type_it_should_exclude_all_derived_types()
+        public void Excluding_abstract_class_type_excludes_all_derived_types()
         {
             // Arrange
             var subject = new
@@ -348,7 +348,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_excluding_string_type_it_should_exclude_all_string_members()
+        public void Excluding_string_type_excludes_all_string_members()
         {
             // Arrange
             var subject = new
@@ -371,7 +371,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_excluding_by_type_with_nested_generics_it_should_work()
+        public void Excluding_by_type_with_nested_generics_works()
         {
             // Arrange
             var subject = new
@@ -394,7 +394,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void When_excluding_value_types_it_should_work()
+        public void Excluding_value_types_works()
         {
             // Arrange
             var subject = new
