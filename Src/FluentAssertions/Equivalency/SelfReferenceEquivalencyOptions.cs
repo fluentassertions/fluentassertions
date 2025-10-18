@@ -409,6 +409,50 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     }
 
     /// <summary>
+    /// Excludes all members of type <typeparamref name="TMember"/> from the structural equality check.
+    /// </summary>
+    /// <typeparam name="TMember">
+    /// The type of members to exclude. If this is an interface or abstract type, all members assignable to this type
+    /// will be excluded.
+    /// </typeparam>
+    /// <remarks>
+    /// This is a shortcut for <c>Excluding(mi => mi.Type == typeof(TMember))</c> for concrete types,
+    /// or <c>Excluding(mi => typeof(TMember).IsAssignableFrom(mi.Type))</c> for interfaces and abstract types.
+    /// </remarks>
+    public TSelf Excluding<TMember>()
+    {
+        return Excluding(typeof(TMember));
+    }
+
+    /// <summary>
+    /// Excludes all members of the specified <paramref name="type"/> from the structural equality check.
+    /// </summary>
+    /// <param name="type">
+    /// The type of members to exclude. If this is an interface or abstract type, all members assignable to this type
+    /// will be excluded. If this is an open generic type (e.g., <c>typeof(Nullable&lt;&gt;)</c>), all members of any
+    /// closed generic of that type will be excluded.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
+    /// <remarks>
+    /// <para>
+    /// For concrete types, this is a shortcut for <c>Excluding(mi => mi.Type == type)</c>.
+    /// </para>
+    /// <para>
+    /// For interfaces and abstract types, this is a shortcut for <c>Excluding(mi => type.IsAssignableFrom(mi.Type))</c>.
+    /// </para>
+    /// <para>
+    /// For open generic types, this excludes all closed generics of the specified type. For example,
+    /// <c>Excluding(typeof(Nullable&lt;&gt;))</c> excludes all nullable value types like <c>int?</c>, <c>double?</c>, etc.
+    /// </para>
+    /// </remarks>
+    public TSelf Excluding(Type type)
+    {
+        Guard.ThrowIfArgumentIsNull(type);
+        AddSelectionRule(new ExcludeMemberByTypeSelectionRule(type));
+        return (TSelf)this;
+    }
+
+    /// <summary>
     /// Includes the specified member in the equality check.
     /// </summary>
     /// <remarks>
