@@ -62,7 +62,7 @@ jobs:
         files: "Artifacts/*.nupkg"
 
     - name: Attest NuGet package
-      uses: actions/attest-build-provenance@v2
+      uses: actions/attest-build-provenance@v3
       if: startsWith(github.ref, 'refs/tags/') && steps.check_nupkg.outputs.files_exists == 'true'
       with:
         subject-path: ./Artifacts/*.nupkg
