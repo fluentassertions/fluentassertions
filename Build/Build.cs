@@ -299,7 +299,7 @@ class Build : NukeBuild
                 from framework in frameworks
                 select new { project, framework };
 
-            DotNetTest(s => s
+            DotNetRun(s => s
                 .SetConfiguration(Configuration.Debug)
                 .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                 .EnableNoBuild()
