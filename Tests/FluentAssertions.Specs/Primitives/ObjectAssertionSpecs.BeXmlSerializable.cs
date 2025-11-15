@@ -118,8 +118,10 @@ public partial class ObjectAssertionSpecs
 
     public class XmlSerializableClassWithIgnoredProperties
     {
+        [UsedImplicitly]
         public string Name { get; set; }
 
+        [UsedImplicitly]
         [XmlIgnore]
         public decimal CachedSum { get; set; }
 
@@ -133,13 +135,16 @@ public partial class ObjectAssertionSpecs
 
     public class R
     {
+        [UsedImplicitly]
         public Q A { get; set; }
 
+        [UsedImplicitly]
         public Q B { get; set; }
     }
 
     public class Q
     {
+        [UsedImplicitly]
         [XmlIgnore]
         public string Flarbs { get; set; }
     }
