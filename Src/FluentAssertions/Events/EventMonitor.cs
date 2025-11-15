@@ -123,7 +123,7 @@ internal sealed class EventMonitor<T> : IMonitor<T>
         recorderMap.Clear();
     }
 
-    private void DisposeSafeIfRequested(IDisposable recorder)
+    private void DisposeSafeIfRequested(EventRecorder recorder)
     {
         try
         {
