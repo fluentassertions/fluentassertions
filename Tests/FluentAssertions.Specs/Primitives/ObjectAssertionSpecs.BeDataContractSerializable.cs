@@ -128,6 +128,7 @@ public partial class ObjectAssertionSpecs
     [DataContract]
     public class DataContractSerializableClassNotRestoringAllProperties
     {
+        [UsedImplicitly]
         public string Name { get; set; }
 
         [DataMember]
@@ -140,6 +141,7 @@ public partial class ObjectAssertionSpecs
         [DataMember]
         public string Name { get; set; }
 
+        [UsedImplicitly]
         [IgnoreDataMember]
         public decimal CachedSum { get; set; }
     }
