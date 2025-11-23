@@ -14,7 +14,6 @@ internal sealed class Iterator<T> : IEnumerator<T>
     private readonly IEnumerable<T> enumerable;
     private readonly int? maxItems;
     private IEnumerator<T> enumerator;
-    private T current;
     private T next;
 
     private bool hasNext;
@@ -35,10 +34,10 @@ internal sealed class Iterator<T> : IEnumerator<T>
         Index = InitialIndex;
 
         enumerator = enumerable.GetEnumerator();
-        hasCurrent = false;
         hasNext = false;
         hasCompleted = false;
-        current = default;
+        Current = default;
+        hasCurrent = false;
         next = default;
     }
 
@@ -59,12 +58,12 @@ internal sealed class Iterator<T> : IEnumerator<T>
                 throw new InvalidOperationException($"Please call {nameof(MoveNext)} first");
             }
 
-            return current;
+            return field;
         }
 
         private set
         {
-            current = value;
+            field = value;
             hasCurrent = true;
         }
     }
