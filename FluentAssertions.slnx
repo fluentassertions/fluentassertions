@@ -1,0 +1,92 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="CI" />
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Core/">
+    <Project Path="Src/FluentAssertions/FluentAssertions.csproj">
+      <BuildType Solution="CI|*" Project="Release" />
+    </Project>
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="docs/_pages/releases.md" />
+    <File Path="nuget.config" />
+    <File Path="README.md" />
+    <File Path="Tests/Default.testsettings" />
+  </Folder>
+  <Folder Name="/Specs/">
+    <File Path="Tests/.editorconfig" />
+    <Project Path="Tests/Approval.Tests/Approval.Tests.csproj">
+      <BuildType Solution="CI|*" Project="Release" />
+    </Project>
+    <Project Path="Tests/AssemblyA/AssemblyA.csproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+    <Project Path="Tests/AssemblyB/AssemblyB.csproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+    <Project Path="Tests/Benchmarks/Benchmarks.csproj">
+      <BuildType Solution="CI|*" Project="Release" />
+      <Build Solution="CI|*" Project="false" />
+    </Project>
+    <Project Path="Tests/ExampleExtensions/ExampleExtensions.csproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+    <Project Path="Tests/FluentAssertions.Equivalency.Specs/FluentAssertions.Equivalency.Specs.csproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+    <Project Path="Tests/FluentAssertions.Extensibility.Specs/FluentAssertions.Extensibility.Specs.csproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+    <Project Path="Tests/FluentAssertions.Specs/FluentAssertions.Specs.csproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+    <Project Path="Tests/FSharp.Specs/FSharp.Specs.fsproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+    <Project Path="Tests/UWP.Specs/UWP.Specs.csproj" Id="08087654-2c32-4818-95e4-45362373441d">
+      <BuildType Solution="CI|*" Project="Debug" />
+      <Platform Project="x64" />
+      <Build Project="false" />
+    </Project>
+    <Project Path="Tests/VB.Specs/VB.Specs.vbproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+  </Folder>
+  <Folder Name="/TestFrameworks/">
+    <Project Path="Tests/TestFrameworks/MSpec.Specs/MSpec.Specs.csproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+    <Project Path="Tests/TestFrameworks/MSTestV2.Specs/MSTestV2.Specs.csproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+    <Project Path="Tests/TestFrameworks/MSTestV4.Specs/MSTestV4.Specs.csproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+    <Project Path="Tests/TestFrameworks/NUnit3.Specs/NUnit3.Specs.csproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+    <Project Path="Tests/TestFrameworks/NUnit4.Specs/NUnit4.Specs.csproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+    <Project Path="Tests/TestFrameworks/TUnit.Specs/TUnit.Specs.csproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+    <Project Path="Tests/TestFrameworks/XUnit2.Specs/XUnit2.Specs.csproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+    <Project Path="Tests/TestFrameworks/XUnit3.Specs/XUnit3.Specs.csproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+    <Project Path="Tests/TestFrameworks/XUnit3Core.Specs/XUnit3Core.Specs.csproj">
+      <BuildType Solution="CI|*" Project="Debug" />
+    </Project>
+  </Folder>
+  <Project Path="Build/_build.csproj">
+    <BuildType Solution="CI|*" Project="Release" />
+    <Build Project="false" />
+  </Project>
+</Solution>
