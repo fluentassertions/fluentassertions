@@ -64,7 +64,7 @@ Expected numbers to contain 4 item(s) because we thought we put four items in th
 Visit https://www.fluentassertions.com for [background information](https://fluentassertions.com/about/), [usage documentation](https://fluentassertions.com/introduction), an [extensibility guide](https://fluentassertions.com/extensibility/), support information and more [tips & tricks](https://fluentassertions.com/tips/).
 
 # Building
-Install Visual Studio 2022 17.14+ or JetBrains Rider 2024.3 as well as the Build Tools 2022 (including the Universal Windows Platform build tools). You will also need to have .NET Framework 4.7 SDK and .NET 9.0 SDK installed. Check the [global.json](global.json) for the current minimum required version.
+Install Visual Studio 2026 18.0+ or JetBrains Rider 2025.3 as well as the Build Tools 2026 (including the Universal Windows Platform build tools). You will also need to have .NET Framework 4.7 SDK and .NET 10.0 SDK installed. Check the [global.json](global.json) for the current minimum required version.
 
 You can also build, run the unit tests and package the code using the following command-line:
 
