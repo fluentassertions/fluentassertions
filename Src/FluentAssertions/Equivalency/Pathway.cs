@@ -9,8 +9,6 @@ public record Pathway
 {
     public delegate string GetDescription(string pathAndName);
 
-    private string path = string.Empty;
-    private string name = string.Empty;
     private string pathAndName;
 
     private readonly GetDescription getDescription;
@@ -38,10 +36,10 @@ public record Pathway
     /// </summary>
     public string Path
     {
-        get => path;
+        get;
         private init
         {
-            path = value;
+            field = value;
             pathAndName = null;
         }
     }
@@ -51,10 +49,10 @@ public record Pathway
     /// </summary>
     public string Name
     {
-        get => name;
+        get => field;
         private init
         {
-            name = value;
+            field = value;
             pathAndName = null;
         }
     }
@@ -62,7 +60,7 @@ public record Pathway
     /// <summary>
     /// Gets the path and name of the field or property separated by dots.
     /// </summary>
-    public string PathAndName => pathAndName ??= path.Combine(name);
+    public string PathAndName => pathAndName ??= Path.Combine(Name);
 
     /// <summary>
     /// Gets the display representation of this path.

@@ -17,8 +17,6 @@ internal sealed class EqualityStrategyProvider
     [CanBeNull]
     private readonly Func<Type, EqualityStrategy> defaultStrategy;
 
-    private bool? compareRecordsByValue;
-
     public EqualityStrategyProvider()
     {
     }
@@ -30,10 +28,10 @@ internal sealed class EqualityStrategyProvider
 
     public bool? CompareRecordsByValue
     {
-        get => compareRecordsByValue;
+        get;
         set
         {
-            compareRecordsByValue = value;
+            field = value;
             typeCache.Clear();
         }
     }
@@ -65,9 +63,9 @@ internal sealed class EqualityStrategyProvider
                 return EqualityStrategy.ForceEquals;
             }
 
-            if ((compareRecordsByValue != null || defaultStrategy is null) && typeKey.IsRecord())
+            if ((CompareRecordsByValue != null || defaultStrategy is null) && typeKey.IsRecord())
             {
-                return compareRecordsByValue is true ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
+                return CompareRecordsByValue is true ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
             }
 
             if (defaultStrategy is not null)
@@ -107,7 +105,7 @@ internal sealed class EqualityStrategyProvider
     {
         var builder = new StringBuilder();
 
-        if (compareRecordsByValue is true)
+        if (CompareRecordsByValue is true)
         {
             builder.AppendLine("- Compare records by value");
         }

@@ -2,8 +2,6 @@ namespace FluentAssertions.Configuration;
 
 public class GlobalConfiguration
 {
-    private TestFramework? testFramework;
-
     /// <summary>
     /// Provides access to the formatting defaults for all assertions.
     /// </summary>
@@ -22,10 +20,10 @@ public class GlobalConfiguration
     /// </remarks>
     public TestFramework? TestFramework
     {
-        get => testFramework;
+        get;
         set
         {
-            testFramework = value;
+            field = value;
             AssertionEngine.TestFramework = null;
         }
     }

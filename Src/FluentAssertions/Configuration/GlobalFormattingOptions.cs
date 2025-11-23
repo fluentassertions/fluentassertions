@@ -6,14 +6,12 @@ namespace FluentAssertions.Configuration;
 
 public class GlobalFormattingOptions : FormattingOptions
 {
-    private string valueFormatterAssembly;
-
     public string ValueFormatterAssembly
     {
-        get => valueFormatterAssembly;
+        get;
         set
         {
-            valueFormatterAssembly = value;
+            field = value;
             ValueFormatterDetectionMode = ValueFormatterDetectionMode.Specific;
         }
     }

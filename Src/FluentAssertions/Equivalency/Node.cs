@@ -10,15 +10,12 @@ internal class Node : INode
 {
     private static readonly Regex MatchFirstIndex = new(@"^\[[0-9]+\]$");
 
-    private GetSubjectId subjectIdProvider;
-
     private string cachedSubjectId;
-    private Pathway subject;
 
     public GetSubjectId GetSubjectId
     {
-        get => () => cachedSubjectId ??= subjectIdProvider();
-        protected init => subjectIdProvider = value;
+        get => () => cachedSubjectId ??= field();
+        protected init => field = value;
     }
 
     public Type Type { get; protected set; }
@@ -27,10 +24,10 @@ internal class Node : INode
 
     public Pathway Subject
     {
-        get => subject;
+        get;
         set
         {
-            subject = value;
+            field = value;
 
             if (Expectation is null)
             {
@@ -78,7 +75,7 @@ internal class Node : INode
     {
         return new Node
         {
-            subjectIdProvider = () => getSubjectId() ?? "root",
+            GetSubjectId = () => getSubjectId() ?? "root",
             Subject = new Pathway(string.Empty, string.Empty, _ => getSubjectId()),
             Type = typeof(T),
             ParentType = null,

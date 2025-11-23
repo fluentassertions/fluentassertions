@@ -15,7 +15,6 @@ namespace FluentAssertions;
 public static class AssertionEngine
 {
     private static readonly object Lockable = new();
-    private static ITestFramework testFramework;
     private static bool isInitialized;
 
     static AssertionEngine()
@@ -30,24 +29,24 @@ public static class AssertionEngine
     {
         get
         {
-            if (testFramework is not null)
+            if (field is not null)
             {
-                return testFramework;
+                return field;
             }
 
             lock (Lockable)
             {
 #pragma warning disable CA1508
-                if (testFramework is null)
+                if (field is null)
 #pragma warning restore CA1508
                 {
-                    testFramework = TestFrameworkFactory.GetFramework(Configuration.TestFramework);
+                    field = TestFrameworkFactory.GetFramework(Configuration.TestFramework);
                 }
             }
 
-            return testFramework;
+            return field;
         }
-        set => testFramework = value;
+        set;
     }
 
     /// <summary>
@@ -63,7 +62,7 @@ public static class AssertionEngine
     {
         isInitialized = false;
         Configuration = new GlobalConfiguration();
-        testFramework = null;
+        TestFramework = null;
         EnsureInitialized();
     }
 
