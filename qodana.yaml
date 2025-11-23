@@ -7,7 +7,7 @@ profile:
   path: profile.yaml
 
 dotnet:
-  solution: FluentAssertions.sln
+  solution: FluentAssertions.slnx
   frameworks: "!netstandard2.0;!netstandard2.1"
 
 exclude:

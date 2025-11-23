@@ -48,8 +48,8 @@ jobs:
 
     - name: Build
       run: |
-        dotnet restore FluentAssertions.sln --configfile nuget.config
-        dotnet build FluentAssertions.sln --configuration CI --no-restore
+        dotnet restore FluentAssertions.slnx --configfile nuget.config
+        dotnet build FluentAssertions.slnx --configuration CI --no-restore
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v4
