@@ -95,11 +95,28 @@ public class PredicateLambdaExpressionValueFormatterSpecs
         int[] allowed = [1, 2, 3];
 
         // Act
-        string result = Format<int>(a => allowed.Contains(a));
+        string result = Format<int>(a => Enumerable.Contains(allowed, a));
 
         // Assert
         result.Should().Be("value(System.Int32[]).Contains(a)");
     }
+
+#if NET6_0_OR_GREATER
+#pragma warning disable RCS1196 // Do not call MemoryExtensions.Contains as extension method. This is to exercise first-class spans
+    [Fact]
+    public void Methods_using_ReadOnlySpan_can_be_formatted()
+    {
+        // Arrange
+        int[] allowed = [1, 2, 3];
+
+        // Act
+        string result = Format<int>(a => MemoryExtensions.Contains(allowed, a));
+
+        // Assert
+        result.Should().Match("*.Contains(a)");
+    }
+#pragma warning restore RCS1196
+#endif
 
     [Fact]
     public void Formatting_a_lifted_binary_operator()
