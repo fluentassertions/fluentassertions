@@ -65,7 +65,7 @@ internal sealed class EqualityStrategyProvider
 
             if ((CompareRecordsByValue != null || defaultStrategy is null) && typeKey.IsRecord())
             {
-                return CompareRecordsByValue is true ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
+                return CompareRecordsByValue == true ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
             }
 
             if (defaultStrategy is not null)
@@ -105,7 +105,7 @@ internal sealed class EqualityStrategyProvider
     {
         var builder = new StringBuilder();
 
-        if (CompareRecordsByValue is true)
+        if (CompareRecordsByValue == true)
         {
             builder.AppendLine("- Compare records by value");
         }
