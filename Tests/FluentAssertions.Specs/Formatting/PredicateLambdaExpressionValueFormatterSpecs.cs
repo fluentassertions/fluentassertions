@@ -88,6 +88,7 @@ public class PredicateLambdaExpressionValueFormatterSpecs
         result.Should().Be("a.TextIsNotBlank() AndAlso (a.Number >= 0) AndAlso (a.Number <= 1000)");
     }
 
+#pragma warning disable RCS1196 // Do not call Contains as extension method. This is to exercise first-class spans
     [Fact]
     public void When_condition_contains_linq_extension_method_then_extension_method_must_be_formatted()
     {
@@ -95,11 +96,27 @@ public class PredicateLambdaExpressionValueFormatterSpecs
         var allowed = new[] { 1, 2, 3 };
 
         // Act
-        string result = Format<int>(a => allowed.Contains(a));
+        string result = Format<int>(a => Enumerable.Contains(allowed, a));
 
         // Assert
         result.Should().Be("value(System.Int32[]).Contains(a)");
     }
+
+#if NET6_0_OR_GREATER
+    [Fact]
+    public void Methods_using_ReadOnlySpan_can_be_formatted()
+    {
+        // Arrange
+        int[] allowed = [1, 2, 3];
+
+        // Act
+        string result = Format<int>(a => MemoryExtensions.Contains(allowed, a));
+
+        // Assert
+        result.Should().Match("*.Contains(a)");
+    }
+#endif
+#pragma warning restore RCS1196
 
     [Fact]
     public void Formatting_a_lifted_binary_operator()
