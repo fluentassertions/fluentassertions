@@ -42,7 +42,7 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
         {
             return new ConstantSubExpressionReductionVisitor().Visit(expression);
         }
-        catch (InvalidOperationException)
+        catch (Exception e) when (e is InvalidOperationException or NotSupportedException)
         {
             // Fallback if we make an invalid rewrite of the expression.
             return expression;
