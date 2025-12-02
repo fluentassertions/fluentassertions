@@ -28,11 +28,7 @@ internal class Node : INode
         set
         {
             field = value;
-
-            if (Expectation is null)
-            {
-                Expectation = value;
-            }
+            Expectation ??= value;
         }
     }
 

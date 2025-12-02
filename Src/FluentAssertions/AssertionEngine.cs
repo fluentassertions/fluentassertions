@@ -37,11 +37,8 @@ public static class AssertionEngine
             lock (Lockable)
             {
 #pragma warning disable CA1508
-                if (field is null)
+                field ??= TestFrameworkFactory.GetFramework(Configuration.TestFramework);
 #pragma warning restore CA1508
-                {
-                    field = TestFrameworkFactory.GetFramework(Configuration.TestFramework);
-                }
             }
 
             return field;
