@@ -246,9 +246,9 @@ public sealed class AssertionChain
     {
         if (PreviousAssertionSucceeded)
         {
-            PreviousAssertionSucceeded = succeeded is true;
+            PreviousAssertionSucceeded = succeeded == true;
 
-            if (succeeded is not true)
+            if (succeeded != true)
             {
                 string failure = getFailureReason();
 
