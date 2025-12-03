@@ -265,6 +265,10 @@ dotnet_diagnostic.MA0006.severity = none
 # Rationale: See https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0009.md
 dotnet_diagnostic.MA0009.severity = suggestion
 
+# Purpose: Use string.Create instead of FormattableString.Invariant
+# Rationale: See https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0111.md
+dotnet_diagnostic.MA0111.severity = error
+
 # Purpose: Use an overload of 'System.ArgumentException' with the parameter name
 # Rationale: We don't want to force this
 dotnet_diagnostic.MA0015.severity = suggestion

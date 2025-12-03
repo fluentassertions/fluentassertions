@@ -1,7 +1,10 @@
+#if !NET6_0_OR_GREATER
+using System;
+#endif
+using System.Globalization;
 using FluentAssertions.Equivalency.Execution;
 using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
-using static System.FormattableString;
 
 namespace FluentAssertions.Equivalency;
 
@@ -98,6 +101,6 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
 
     public override string ToString()
     {
-        return Invariant($"{{Path=\"{CurrentNode.Subject.PathAndName}\"}}");
+        return string.Create(CultureInfo.InvariantCulture, $"{{Path=\"{CurrentNode.Subject.PathAndName}\"}}");
     }
 }

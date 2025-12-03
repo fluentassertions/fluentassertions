@@ -1,8 +1,8 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using FluentAssertions.Common;
-using static System.FormattableString;
 
 namespace FluentAssertions.Equivalency.Execution;
 
@@ -76,7 +76,7 @@ internal class ObjectReference
 
     public override string ToString()
     {
-        return Invariant($"{{\"{path}\", {@object}}}");
+        return string.Create(CultureInfo.InvariantCulture, $"{{\"{path}\", {@object}}}");
     }
 
     /// <summary>

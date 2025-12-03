@@ -1,5 +1,5 @@
 ﻿using System;
-using static System.FormattableString;
+using System.Globalization;
 
 namespace FluentAssertions.Formatting;
 
@@ -29,7 +29,7 @@ public class AggregateExceptionValueFormatter : IValueFormatter
         }
         else
         {
-            formattedGraph.AddLine(Invariant($"{exception.InnerExceptions.Count} (aggregated) exceptions:"));
+            formattedGraph.AddLine(string.Create(CultureInfo.InvariantCulture, $"{exception.InnerExceptions.Count} (aggregated) exceptions:"));
 
             foreach (Exception innerException in exception.InnerExceptions)
             {
