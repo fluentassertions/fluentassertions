@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Globalization;
 using FluentAssertions.Common;
-using static System.FormattableString;
 
 namespace FluentAssertions.Equivalency;
 
@@ -72,6 +72,6 @@ public class Comparands
 
     public override string ToString()
     {
-        return Invariant($"{{Subject={Subject}, Expectation={Expectation}}}");
+        return string.Create(CultureInfo.InvariantCulture, $"{{Subject={Subject}, Expectation={Expectation}}}");
     }
 }

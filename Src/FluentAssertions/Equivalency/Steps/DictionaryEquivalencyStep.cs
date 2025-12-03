@@ -1,8 +1,11 @@
+#if !NET6_0_OR_GREATER
+using System;
+#endif
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
-using static System.FormattableString;
 
 namespace FluentAssertions.Equivalency.Steps;
 
@@ -25,14 +28,14 @@ public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
                 if (context.Options.IsRecursive)
                 {
                     context.Tracer.WriteLine(member =>
-                        Invariant($"Recursing into dictionary item {key} at {member.Expectation}"));
+                        string.Create(CultureInfo.InvariantCulture, $"Recursing into dictionary item {key} at {member.Expectation}"));
 
                     nestedValidator.AssertEquivalencyOf(new Comparands(subject[key], expectation[key], typeof(object)), context.AsDictionaryItem<object, IDictionary>(key));
                 }
                 else
                 {
                     context.Tracer.WriteLine(member =>
-                        Invariant(
+                        string.Create(CultureInfo.InvariantCulture,
                             $"Comparing dictionary item {key} at {member.Expectation} between subject and expectation"));
 
                     assertionChain.WithCallerPostfix($"[{key.ToFormattedString()}]").ReuseOnce();

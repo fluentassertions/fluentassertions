@@ -1,7 +1,6 @@
 using System;
 using System.Globalization;
 using FluentAssertions.Common;
-using static System.FormattableString;
 
 namespace FluentAssertions.Equivalency.Steps;
 
@@ -37,14 +36,15 @@ public class AutoConversionStep : IEquivalencyStep
         if (TryChangeType(comparands.Subject, expectationType, out object convertedSubject))
         {
             context.Tracer.WriteLine(member =>
-                Invariant($"Converted subject {comparands.Subject} at {member.Subject} to {expectationType}"));
+                string.Create(CultureInfo.InvariantCulture, $"Converted subject {comparands.Subject} at {member.Subject} to {expectationType}"));
 
             comparands.Subject = convertedSubject;
         }
         else
         {
             context.Tracer.WriteLine(member =>
-                Invariant($"Subject {comparands.Subject} at {member.Subject} could not be converted to {expectationType}"));
+                string.Create(CultureInfo.InvariantCulture,
+                    $"Subject {comparands.Subject} at {member.Subject} could not be converted to {expectationType}"));
         }
 
         return EquivalencyResult.ContinueWithNext;
