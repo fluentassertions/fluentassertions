@@ -151,6 +151,14 @@ Notice the last argument to the `AndWhichConstraint` constructor.
 If you need to do so, please refer to [FluentAssertions.Web](https://github.com/adrianiftode/FluentAssertions.Web) which
 offers a bunch of extensions on the HTTP specific types.
 
+## AssertionOptions has become AssertionConfiguration
+Since the various configurations options in versions before v8 had become a bit messy, we consolidated all of those under the `AssertionConfiguration.Current` construct. For example, to the set the global equivalency behavior, you can use something like 
+
+```csharp
+AssertionConfiguration.Current.Equivalency.Modify(options => options.
+    ComparingByValue<DirectoryInfo>());
+```
+
 ## Other breaking changes
 
 Check out the [release notes](releases.md) for other changes that might affect the upgrade to v8.
