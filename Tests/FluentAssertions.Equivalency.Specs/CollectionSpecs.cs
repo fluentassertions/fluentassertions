@@ -197,18 +197,18 @@ public class CollectionSpecs
     public void When_the_expectation_has_fewer_dimensions_than_a_multi_dimensional_subject_it_should_fail()
     {
         // Arrange
-        object objectA = new();
-        object objectB = new();
+        string objectA = "A";
+        string objectB = "B";
 
-        object[][] actual = [[objectA, objectB]];
-        var expected = actual[0];
+        string[][] actual = [[objectA, objectB]];
+        string[] expected = actual[0];
 
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expected);
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("*be a collection with 2 item(s)*contains 1 item(s) less than*",
+            .WithMessage("*actual[0] to be of type System.String, but found {\"A\", \"B\"} of type System.String[]*",
                 "adding a `params object[]` overload cannot distinguish 'an array of objects' from 'an element which is an array of objects'");
     }
 
@@ -288,7 +288,7 @@ public class CollectionSpecs
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("Expected*but*{1, 2}*1 item(s) less than*{3, 2, 1}*");
+            .WithMessage("Expected subject to contain exactly 3 items in any order, but it misses {3}*");
     }
 
     [Fact]
@@ -300,10 +300,10 @@ public class CollectionSpecs
         var expectation = Enumerable.Repeat(20, subject.Length).ToArray();
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation);
+        var act = () => subject.Should().BeEquivalentTo(expectation);
 
         // Assert
-        action.Should().Throw<XunitException>().Which
+        act.Should().Throw<XunitException>().Which
             .Message.Should().Contain("[9]").And.NotContain("[10]");
     }
 
@@ -378,14 +378,20 @@ public class CollectionSpecs
         // Assert
         act.Should().Throw<XunitException>()
             .WithMessage(
-                "*Customers*to be a collection with 2 item(s), but*contains 1 item(s) less than*");
+                "*Expected property subject.Customers to contain exactly 2 items in any order, but it misses*");
     }
 
     [Fact]
     public void When_a_collection_contains_more_items_than_expected_it_should_throw()
     {
         // Arrange
-        var expected = new { Customers = new[] { new Customer { Age = 38, Birthdate = 20.September(1973), Name = "John" } } };
+        var expected = new
+        {
+            Customers = new[]
+            {
+                new Customer { Age = 38, Birthdate = 20.September(1973), Name = "John" }
+            }
+        };
 
         var subject = new
         {
@@ -402,7 +408,7 @@ public class CollectionSpecs
         // Assert
         act.Should().Throw<XunitException>()
             .WithMessage(
-                "*Customers*to be a collection with 1 item(s), but*contains 1 item(s) more than*");
+                "*Customers*to contain exactly one item, but found one extraneous*");
     }
 
     [Fact]
@@ -1385,7 +1391,7 @@ public class CollectionSpecs
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("*Expected*[0].UnorderedCollection*5 item(s)*empty collection*");
+            .WithMessage("*Expected subject[0].UnorderedCollection[4] to be 1, but found 5*");
     }
 
     [Fact]
@@ -1442,7 +1448,7 @@ public class CollectionSpecs
         // Assert
         action.Should().Throw<XunitException>()
             .WithMessage(
-                "*Expected*[0].UnorderedCollection*5 item(s)*empty collection*");
+                "*Expected subject[0].UnorderedCollection[4] to be 1, but found 5*");
     }
 
     [Fact]
@@ -1467,7 +1473,7 @@ public class CollectionSpecs
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("*Expected*[0].UnorderedCollection*5 item(s)*empty collection*");
+            .WithMessage("*Expected subject[0].UnorderedCollection[4] to be 1, but found 5*");
     }
 
     [Fact]
@@ -2191,7 +2197,7 @@ public class CollectionSpecs
         // Assert
         action.Should().Throw<XunitException>()
             .WithMessage(
-                "*subject*to be a collection with 2 item(s), but*contains 1 item(s) less than*");
+                "*Expected subject to contain exactly 2 items in any order, but it misses*Age = 24*");
     }
 
     [Fact]
@@ -2216,7 +2222,7 @@ public class CollectionSpecs
         // Assert
         action.Should().Throw<XunitException>()
             .WithMessage(
-                "Expected subject*to be a collection with 1 item(s), but*contains 1 item(s) more than*");
+                "*Expected subject to contain exactly one item, but found one extraneous item*Age = 24*");
     }
 
     [Fact]

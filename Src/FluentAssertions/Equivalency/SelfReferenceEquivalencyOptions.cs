@@ -93,6 +93,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         includedFields = defaults.IncludedFields;
         ignoreNonBrowsableOnSubject = defaults.IgnoreNonBrowsableOnSubject;
         excludeNonBrowsableOnExpectation = defaults.ExcludeNonBrowsableOnExpectation;
+        EnableFullDump = defaults.EnableFullDump;
         IgnoreLeadingWhitespace = defaults.IgnoreLeadingWhitespace;
         IgnoreTrailingWhitespace = defaults.IgnoreTrailingWhitespace;
         IgnoreCase = defaults.IgnoreCase;
@@ -211,6 +212,9 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     public bool IncludeFullStringsInDifference { get; private set; }
 
     public bool IgnoreJsonPropertyCasing { get; set; }
+
+    /// <inheritdoc />
+    public bool EnableFullDump { get; private set; }
 
     public ITraceWriter TraceWriter { get; private set; }
 
@@ -807,6 +811,15 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     public TSelf WithTracing(ITraceWriter writer = null)
     {
         TraceWriter = writer ?? new InternalTraceWriter();
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Configures the equivalency options to include the full representation of the subject in assertion failure messages.
+    /// </summary>
+    public TSelf WithFullDump()
+    {
+        EnableFullDump = true;
         return (TSelf)this;
     }
 

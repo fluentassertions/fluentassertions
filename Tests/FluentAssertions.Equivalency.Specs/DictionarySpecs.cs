@@ -1199,6 +1199,7 @@ public class DictionarySpecs
     [Fact]
     public void Passing_the_reason_to_the_inner_equivalency_assertion_works()
     {
+        // Arrange
         var subject = new Dictionary<string, object>
         {
             ["a"] = new List<int>()
@@ -1209,8 +1210,10 @@ public class DictionarySpecs
             ["a"] = new List<int> { 42 }
         };
 
+        // Act
         Action act = () => subject.Should().BeEquivalentTo(expected, "FOO {0}", "BAR");
 
+        // Assert
         act.Should().Throw<XunitException>().WithMessage("*FOO BAR*");
     }
 

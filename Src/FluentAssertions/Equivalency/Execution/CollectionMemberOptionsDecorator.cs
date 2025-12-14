@@ -92,6 +92,8 @@ internal class CollectionMemberOptionsDecorator : IEquivalencyOptions, IContainT
     /// <inheritdoc />
     public bool IgnoreJsonPropertyCasing => inner.IgnoreJsonPropertyCasing;
 
+    public bool EnableFullDump => inner.EnableFullDump;
+
     public ITraceWriter TraceWriter => inner.TraceWriter;
 }
 

@@ -1,12 +1,10 @@
-#if !NET6_0_OR_GREATER
-using System;
-#endif
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
+using System.Text;
 using FluentAssertions.Equivalency.Execution;
 using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
+using static FluentAssertions.Common.StringExtensions;
 
 namespace FluentAssertions.Equivalency.Steps;
 
@@ -14,208 +12,119 @@ namespace FluentAssertions.Equivalency.Steps;
 /// Executes a single equivalency assertion on two collections, optionally recursive and with or without strict ordering.
 /// </summary>
 [System.Diagnostics.StackTraceHidden]
-internal class EnumerableEquivalencyValidator
+internal class EnumerableEquivalencyValidator(
+    AssertionChain assertionChain,
+    IValidateChildNodeEquivalency parent,
+    IEquivalencyValidationContext context)
 {
-    private const int FailedItemsFastFailThreshold = 10;
-
-    #region Private Definitions
-
-    private readonly AssertionChain assertionChain;
-    private readonly IValidateChildNodeEquivalency parent;
-    private readonly IEquivalencyValidationContext context;
-
-    #endregion
-
-    public EnumerableEquivalencyValidator(AssertionChain assertionChain, IValidateChildNodeEquivalency parent,
-        IEquivalencyValidationContext context)
-    {
-        this.assertionChain = assertionChain;
-        this.parent = parent;
-        this.context = context;
-    }
+    private readonly Tracer tracer = context.Tracer;
 
     public required bool Recursive { get; init; }
 
     public required OrderingRuleCollection OrderingRules { get; init; }
 
-    public void Execute<T>(object[] subject, T[] expectation)
+    public void Execute<T>(object[] subjects, T[] expectations)
     {
-        if (AssertIsNotNull(expectation, subject) && AssertCollectionsHaveSameCount(subject, expectation))
+        if (AssertIsNotNull(expectations, subjects))
         {
             if (Recursive)
             {
-                using var _ = context.Tracer.WriteBlock(member =>
-                    string.Create(CultureInfo.InvariantCulture,
-                        $"Structurally comparing {subject} and expectation {expectation} at {member.Expectation}"));
+                using var _ = tracer.WriteBlock(member =>
+                    Invariant($"Structurally comparing {subjects} and expectation {expectations} at {member.Expectation}"));
 
-                AssertElementGraphEquivalency(subject, expectation, context.CurrentNode);
+                ExecuteRecursiveAssertion(subjects, expectations);
             }
             else
             {
-                using var _ = context.Tracer.WriteBlock(member =>
-                    string.Create(CultureInfo.InvariantCulture,
-                        $"Comparing subject {subject} and expectation {expectation} at {member.Expectation} using simple value equality"));
+                using var _ = tracer.WriteBlock(member =>
+                    Invariant(
+                        $"Comparing subject {subjects} and expectation {expectations} at {member.Expectation} using simple value equality"));
 
-                subject.Should().BeEquivalentTo(expectation);
+                subjects.Should().BeEquivalentTo(expectations);
             }
         }
     }
 
-    private bool AssertIsNotNull(object expectation, object[] subject)
+    private bool AssertIsNotNull<T>(T[] expectations, object[] subjects)
     {
         assertionChain
-            .ForCondition(expectation is not null)
-            .FailWith("Expected {context:subject} to be <null>, but found {0}.", [subject]);
+            .ForCondition(expectations is not null)
+            .FailWith("Expected {context:subject} to be <null>, but found {0}.", [subjects]);
 
         return assertionChain.Succeeded;
     }
 
-    private bool AssertCollectionsHaveSameCount<T>(ICollection<object> subject, ICollection<T> expectation)
+    private void ExecuteRecursiveAssertion<T>(object[] subjects, T[] expectation)
     {
-        assertionChain
-            .AssertEitherCollectionIsNotEmpty(subject, expectation)
-            .Then
-            .AssertCollectionHasEnoughItems(subject, expectation)
-            .Then
-            .AssertCollectionHasNotTooManyItems(subject, expectation);
+        List<object> remainingSubjects = new(subjects);
+        List<T> remainingExpectations = new(expectation);
 
-        return assertionChain.Succeeded;
-    }
-
-    private void AssertElementGraphEquivalency<T>(object[] subjects, T[] expectations, INode currentNode)
-    {
-        unmatchedSubjectIndexes = Enumerable.Range(0, subjects.Length).ToList();
-
-        if (OrderingRules.IsOrderingStrictFor(new ObjectInfo(new Comparands(subjects, expectations, typeof(T[])), currentNode)))
+        bool isOrderingStrict = IsOrderingStrictFor(remainingSubjects, remainingExpectations, context.CurrentNode);
+        if (isOrderingStrict)
         {
-            AssertElementGraphEquivalencyWithStrictOrdering(subjects, expectations);
+            new StrictlyOrderedEquivalencyStrategy<T>(parent, context)
+                .FindAndRemoveMatches(remainingSubjects, remainingExpectations);
         }
         else
         {
-            AssertElementGraphEquivalencyWithLooseOrdering(subjects, expectations);
+            new LooselyOrderedEquivalencyStrategy<T>(assertionChain, parent, context)
+                .FindAndRemoveMatches(remainingSubjects, remainingExpectations);
         }
+
+        ReportRemainingOrMissingItems(remainingSubjects, remainingExpectations, subjects, expectation.Length,
+            isOrderingStrict ? "in order" : "in any order");
     }
 
-    private void AssertElementGraphEquivalencyWithStrictOrdering<T>(object[] subjects, T[] expectations)
+    private bool IsOrderingStrictFor<T>(List<object> subjects, List<T> expectations, INode currentNode)
     {
-        int failedCount = 0;
+        return OrderingRules.IsOrderingStrictFor(new ObjectInfo(new Comparands(subjects, expectations, typeof(T[])),
+            currentNode));
+    }
 
-        foreach (int index in Enumerable.Range(0, expectations.Length))
+#pragma warning disable CA1305
+
+    private void ReportRemainingOrMissingItems<T>(List<object> remainingSubjects, List<T> remainingExpectations,
+        object[] allSubjects,
+        int expectationLength, string orderingDescription)
+    {
+        if (remainingSubjects.Count > 0 || remainingExpectations.Count > 0)
         {
-            T expectation = expectations[index];
-
-            using var _ = context.Tracer.WriteBlock(member =>
-                string.Create(CultureInfo.InvariantCulture,
-                    $"Strictly comparing expectation {expectation} at {member.Expectation} to item with index {index} in {subjects}"));
-
-            bool succeeded = StrictlyMatchAgainst(subjects, expectation, index);
-            if (!succeeded)
+            StringBuilder message = new();
+            string phrase = expectationLength switch
             {
-                failedCount++;
-                if (failedCount >= FailedItemsFastFailThreshold)
-                {
-                    context.Tracer.WriteLine(member =>
-                        $"Aborting strict order comparison of collections after {FailedItemsFastFailThreshold} items failed at {member.Expectation}");
+                0 => "be an empty collection",
+                1 => "contain exactly one item",
+                _ => $"contain exactly {expectationLength} items {orderingDescription}"
+            };
 
-                    break;
+            message.Append(
+                $"Expected {{context:collection}} to {phrase}{{reason}}, but ");
+
+            if (remainingExpectations.Count > 0)
+            {
+                message.Append("it misses {0}");
+                if (remainingSubjects.Count > 0)
+                {
+                    message.Append(" and ");
                 }
             }
-        }
-    }
 
-    private void AssertElementGraphEquivalencyWithLooseOrdering<T>(object[] subjects, T[] expectations)
-    {
-        int failedCount = 0;
-
-        foreach (int index in Enumerable.Range(0, expectations.Length))
-        {
-            T expectation = expectations[index];
-
-            using var _ = context.Tracer.WriteBlock(member =>
-                string.Create(CultureInfo.InvariantCulture,
-                    $"Finding the best match of {expectation} within all items in {subjects} at {member.Expectation}[{index}]"));
-
-            bool succeeded = LooselyMatchAgainst(subjects, expectation, index);
-
-            if (!succeeded)
+            if (remainingSubjects.Count > 0)
             {
-                failedCount++;
-
-                if (failedCount >= FailedItemsFastFailThreshold)
-                {
-                    context.Tracer.WriteLine(member =>
-                        $"Fail failing loose order comparison of collection after {FailedItemsFastFailThreshold} items failed at {member.Expectation}");
-
-                    break;
-                }
-            }
-        }
-    }
-
-    private List<int> unmatchedSubjectIndexes;
-
-    private bool LooselyMatchAgainst<T>(IList<object> subjects, T expectation, int expectationIndex)
-    {
-        var results = new AssertionResultSet();
-        int index = 0;
-
-        GetTraceMessage getMessage = member =>
-            $"Comparing subject at {member.Subject}[{index}] with the expectation at {member.Expectation}[{expectationIndex}]";
-
-        int indexToBeRemoved = -1;
-
-        for (var metaIndex = 0; metaIndex < unmatchedSubjectIndexes.Count; metaIndex++)
-        {
-            index = unmatchedSubjectIndexes[metaIndex];
-            object subject = subjects[index];
-
-            using var _ = context.Tracer.WriteBlock(getMessage);
-            string[] failures = TryToMatch(subject, expectation, expectationIndex);
-
-            results.AddSet(index, failures);
-
-            if (results.ContainsSuccessfulSet())
-            {
-                context.Tracer.WriteLine(_ => "It's a match");
-                indexToBeRemoved = metaIndex;
-                break;
+                phrase = remainingSubjects.Count > 1 ? "extraneous items" : "one extraneous item";
+                message.Append($"found {phrase} {{1}}");
             }
 
-            context.Tracer.WriteLine(_ => $"Contained {failures.Length} failures");
+            if (context.Options.EnableFullDump)
+            {
+                message.AppendLine();
+                message.AppendLine();
+                message.AppendLine("Full dump of {context:subject}: {2}");
+            }
+
+            assertionChain.FailWith(message.ToString(), remainingExpectations,
+                remainingSubjects.Count == 1 ? remainingSubjects.Single() : remainingSubjects, allSubjects);
         }
-
-        if (indexToBeRemoved != -1)
-        {
-            unmatchedSubjectIndexes.RemoveAt(indexToBeRemoved);
-        }
-
-        foreach (string failure in results.GetTheFailuresForTheSetWithTheFewestFailures(expectationIndex))
-        {
-            assertionChain.AddPreFormattedFailure(failure);
-        }
-
-        return indexToBeRemoved != -1;
-    }
-
-    private string[] TryToMatch<T>(object subject, T expectation, int expectationIndex)
-    {
-        using var scope = new AssertionScope();
-
-        parent.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(T)), context.AsCollectionItem<T>(expectationIndex));
-
-        return scope.Discard();
-    }
-
-    private bool StrictlyMatchAgainst<T>(object[] subjects, T expectation, int expectationIndex)
-    {
-        using var scope = new AssertionScope();
-        object subject = subjects[expectationIndex];
-        IEquivalencyValidationContext equivalencyValidationContext = context.AsCollectionItem<T>(expectationIndex);
-
-        parent.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(T)), equivalencyValidationContext);
-
-        bool failed = scope.HasFailures();
-        return !failed;
     }
 }
 

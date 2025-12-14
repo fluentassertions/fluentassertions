@@ -37,6 +37,60 @@ will fail with:
 
 > Expected numbers to have an item matching (item > 3) because at least 1 item should be larger than 3.
 
+Another example of the power of Fluent Assertions is how you can compare collections. For example, consider the following test:
+
+```csharp
+var actual = new[]
+{
+    new Customer
+    {
+        Age = 13,
+        Name = "John"
+    },
+    new Customer
+    {
+        Age = 16,
+        Name = "Frank"
+    }
+};
+
+actual.Should().BeEquivalentTo([
+    new Customer
+    {
+        Age = 52,
+        Name = "James"
+    }
+], opt => opt.Excluding(x => x.Id));
+```
+
+This test will fail with the following details:
+
+```
+Expected property actual[0].Name to be "James" with a length of 6, but "John" has a length of 4, differs near "Joh" (index 0).
+Expected property actual[0].Age to be 52, but found 13.
+Expected actual to contain exactly one item, but found one extraneous item FluentAssertions.Equivalency.Specs.Customer
+{
+    Age = 16,
+    Birthdate = <0001-01-01 00:00:00.000>,
+    Id = 0L,
+    Name = "Frank"
+}
+
+With configuration:
+- Prefer the declared type of the members
+- Compare enums by value
+- Compare tuples by their properties
+- Compare anonymous types by their properties
+- Compare records by their members
+- Include non-browsable members
+- Include all non-private properties
+- Include all non-private fields
+- Exclude member Id
+- Match (JSON) member by name (or throw)
+- Be strict about the order of items in byte arrays
+- Without automatic conversion
+```
+
 ## Supported Frameworks and Libraries
 
 Fluent Assertions cross-compiles to .NET Framework 4.7, as well as .NET 6, .NET Standard 2.0 and 2.1.
