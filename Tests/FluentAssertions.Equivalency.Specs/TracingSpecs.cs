@@ -31,4 +31,15 @@ public class TracingSpecs
             AssertionEngine.ResetToDefaults();
         }
     }
+
+    [Fact]
+    public void Can_trace_the_internals()
+    {
+        // Act
+        var act = () => new { A = "a" }.Should().BeEquivalentTo(new { A = "b" }, opt => opt.WithTracing());
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("*With trace:*");
+    }
 }

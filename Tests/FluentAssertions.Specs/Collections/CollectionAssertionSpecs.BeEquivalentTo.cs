@@ -58,7 +58,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected*collection*2 item(s)*we treat all alike, but *1 item(s) more than*");
+                "Expected collection1*2 items*we treat all alike, but*extraneous item 3*");
         }
 
         [Fact]
@@ -88,7 +88,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be a collection with 0 item(s), but*contains 3 item(s)*");
+                "Expected subject to be an empty collection, but found extraneous items*1*2*3*");
         }
 
         [Fact]

@@ -801,6 +801,7 @@ namespace FluentAssertions.Equivalency
         bool? CompareRecordsByValue { get; }
         FluentAssertions.Equivalency.ConversionSelector ConversionSelector { get; }
         FluentAssertions.Equivalency.CyclicReferenceHandling CyclicReferenceHandling { get; }
+        bool EnableFullDump { get; }
         FluentAssertions.Equivalency.EnumEquivalencyHandling EnumEquivalencyHandling { get; }
         bool ExcludeNonBrowsableOnExpectation { get; }
         bool IgnoreCase { get; }
@@ -954,6 +955,7 @@ namespace FluentAssertions.Equivalency
         protected SelfReferenceEquivalencyOptions(FluentAssertions.Equivalency.IEquivalencyOptions defaults) { }
         public bool? CompareRecordsByValue { get; }
         public FluentAssertions.Equivalency.ConversionSelector ConversionSelector { get; }
+        public bool EnableFullDump { get; }
         public bool IgnoreCase { get; }
         public bool IgnoreJsonPropertyCasing { get; set; }
         public bool IgnoreLeadingWhitespace { get; }
@@ -1014,6 +1016,7 @@ namespace FluentAssertions.Equivalency
             where TEqualityComparer : System.Collections.Generic.IEqualityComparer<T>, new () { }
         public TSelf WithAutoConversion() { }
         public TSelf WithAutoConversionFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
+        public TSelf WithFullDump() { }
         public TSelf WithStrictOrdering() { }
         public TSelf WithStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
         public TSelf WithStrictTyping() { }

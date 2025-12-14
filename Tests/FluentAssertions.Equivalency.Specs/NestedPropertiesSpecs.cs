@@ -125,7 +125,7 @@ public class NestedPropertiesSpecs
                 "- Compare records by their members*" +
                 "- Match (JSON) member by name (or throw)*" +
                 "- Be strict about the order of items in byte arrays*" +
-                "- Without automatic conversion.*");
+                "- Without automatic conversion*");
     }
 
     [Fact]
