@@ -101,8 +101,8 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
         }
 
         assertionChain.FailWith(
-            "Expected {0} to be {1}, but found {2}.", currentNode.AsNonFormattable(),
-            comparands.RuntimeType, comparands.Subject.GetType());
+            "Expected {0} to be of type {1}, but found {2} of type {3}.", currentNode.AsNonFormattable(),
+            comparands.RuntimeType, comparands.Subject, comparands.Subject.GetType());
 
         return assertionChain.Succeeded;
     }

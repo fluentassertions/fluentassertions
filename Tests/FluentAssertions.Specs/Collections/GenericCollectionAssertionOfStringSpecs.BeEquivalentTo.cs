@@ -53,7 +53,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject*to be a collection with 0 item(s), but*contains 3 item(s)*");
+                "Expected subject to be an empty collection, but found extraneous items*one*two*three*");
         }
 
         [Fact]

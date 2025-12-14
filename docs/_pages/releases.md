@@ -12,7 +12,10 @@ sidebar:
 ### What's new
 
 * Added `Excluding<T>()` and `Excluding(Type)` overloads to exclude all members of a certain type from equivalency comparisons - [#3115](https://github.com/fluentassertions/fluentassertions/pull/3115)
-* New overloads of `BeXmlSerializable` and `BeDataContractSerializable` that allow `EquivalencyOptions` to be configured, allowing the use of member selection rules. - [#3107](https://github.com/fluentassertions/fluentassertions/pull/3107)
+* `BeEquivalentTo` will now report the missing or extraneous items for differently sized collections - [#3133](https://github.com/fluentassertions/fluentassertions/pull/3133)
+
+### Enhancements
+* Added option `WithFullDump` to `BeEquivalentTo` to include the entire contents of the subject-under-test in the failure message - [#3133](https://github.com/fluentassertions/fluentassertions/pull/3133)
 
 ### Fixes
 
@@ -24,6 +27,7 @@ sidebar:
 
 * Added `WithoutMessage` to allow asserting an exception message does not contain a wildcard pattern - [#3100](https://github.com/fluentassertions/fluentassertions/pull/3100)
 * Added support for MSTest 4 - [#3111](https://github.com/fluentassertions/fluentassertions/pull/3111)
+* New overloads of `BeXmlSerializable` and `BeDataContractSerializable` that allow `EquivalencyOptions` to be configured, allowing the use of member selection rules. - [#3107](https://github.com/fluentassertions/fluentassertions/pull/3107)
 
 ### Enhancements
 

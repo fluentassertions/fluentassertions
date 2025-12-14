@@ -132,4 +132,9 @@ public interface IEquivalencyOptions
     /// When set to <c>true</c>, the comparison will ignore the casing of JSON property names when comparing objects to JSON trees.
     /// </summary>
     bool IgnoreJsonPropertyCasing { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether the full dump of the subject should be included in the failure message.
+    /// </summary>
+    bool EnableFullDump { get; }
 }

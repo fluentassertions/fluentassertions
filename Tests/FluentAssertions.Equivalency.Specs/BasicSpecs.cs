@@ -917,5 +917,134 @@ public class BasicSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*Full expectation*");
         }
+
+        [Fact]
+        public void Reports_all_relevant_details_to_understand_the_differences()
+        {
+            // Arrange
+            var actual = new[]
+            {
+                new Customer
+                {
+                    Age = 13,
+                    Name = "Jits"
+                },
+                new Customer
+                {
+                    Age = 16,
+                    Name = "Teddie"
+                }
+            };
+
+            // Act
+            var act = () => actual.Should().BeEquivalentTo([
+                new Customer
+                {
+                    Age = 52,
+                    Name = "Dennis"
+                }
+            ], opt => opt.Excluding(x => x.Id));
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                """
+                Expected property actual[0].Name to be "Dennis" with a length of 6, but "Jits" has a length of 4, differs near "Jit" (index 0).
+                Expected property actual[0].Age to be 52, but found 13.
+                Expected actual to contain exactly one item, but found one extraneous item FluentAssertions.Equivalency.Specs.Customer
+                {
+                    Age = 16,
+                    Birthdate = <0001-01-01 00:00:00.000>,
+                    Id = 0L,
+                    Name = "Teddie"
+                }
+
+                With configuration:
+                - Prefer the declared type of the members
+                - Compare enums by value
+                - Compare tuples by their properties
+                - Compare anonymous types by their properties
+                - Compare records by their members
+                - Include non-browsable members
+                - Include all non-private properties
+                - Include all non-private fields
+                - Exclude member Id
+                - Match (JSON) member by name (or throw)
+                - Be strict about the order of items in byte arrays
+                - Without automatic conversion
+                """);
+        }
+
+        [Fact]
+        public void Reports_all_relevant_details_to_understand_the_differences_including_the_full_dump()
+        {
+            // Arrange
+            var actual = new[]
+            {
+                new Customer
+                {
+                    Age = 13,
+                    Name = "Jits"
+                },
+                new Customer
+                {
+                    Age = 16,
+                    Name = "Teddie"
+                }
+            };
+
+            // Act
+            var act = () => actual.Should().BeEquivalentTo([
+                new Customer
+                {
+                    Age = 52,
+                    Name = "Dennis"
+                }
+            ], opt => opt.Excluding(x => x.Id).WithFullDump());
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                """
+                Expected property actual[0].Name to be "Dennis" with a length of 6, but "Jits" has a length of 4, differs near "Jit" (index 0).
+                Expected property actual[0].Age to be 52, but found 13.
+                Expected actual to contain exactly one item, but found one extraneous item FluentAssertions.Equivalency.Specs.Customer
+                {
+                    Age = 16,
+                    Birthdate = <0001-01-01 00:00:00.000>,
+                    Id = 0L,
+                    Name = "Teddie"
+                }
+
+                Full dump of actual: {
+                    FluentAssertions.Equivalency.Specs.Customer
+                    {
+                        Age = 13,
+                        Birthdate = <0001-01-01 00:00:00.000>,
+                        Id = 0L,
+                        Name = "Jits"
+                    },
+                    FluentAssertions.Equivalency.Specs.Customer
+                    {
+                        Age = 16,
+                        Birthdate = <0001-01-01 00:00:00.000>,
+                        Id = 0L,
+                        Name = "Teddie"
+                    }
+                }
+
+                With configuration:
+                - Prefer the declared type of the members
+                - Compare enums by value
+                - Compare tuples by their properties
+                - Compare anonymous types by their properties
+                - Compare records by their members
+                - Include non-browsable members
+                - Include all non-private properties
+                - Include all non-private fields
+                - Exclude member Id
+                - Match (JSON) member by name (or throw)
+                - Be strict about the order of items in byte arrays
+                - Without automatic conversion
+                """);
+        }
     }
 }
