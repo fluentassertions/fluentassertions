@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency.Selection;
 
@@ -10,26 +11,11 @@ namespace FluentAssertions.Equivalency.Selection;
 internal class ExcludeMemberByTypeSelectionRule : IMemberSelectionRule
 {
     private readonly Type targetType;
-    private readonly bool checkAssignability;
-    private readonly string description;
 
     public ExcludeMemberByTypeSelectionRule(Type targetType)
     {
-        this.targetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
-        checkAssignability = targetType.IsInterface || targetType.IsAbstract;
-
-        if (targetType.IsGenericTypeDefinition)
-        {
-            description = $"Exclude members of closed generic type {targetType}";
-        }
-        else if (checkAssignability)
-        {
-            description = $"Exclude members assignable to type {targetType}";
-        }
-        else
-        {
-            description = $"Exclude members of type {targetType}";
-        }
+        Guard.ThrowIfArgumentIsNull(targetType);
+        this.targetType = targetType;
     }
 
     public bool IncludesMembers => false;
@@ -44,24 +30,40 @@ internal class ExcludeMemberByTypeSelectionRule : IMemberSelectionRule
     {
         if (targetType.IsGenericTypeDefinition)
         {
-            // Handle open generic types (e.g., Nullable<>)
-            return memberType.IsGenericType && memberType.GetGenericTypeDefinition() == targetType;
+            // Check if memberType derives from the target open generic type
+            // e.g., class Derived : OpenGeneric<int> or class Derived<T> : OpenGeneric<T>
+            Type baseType = memberType;
+            do
+            {
+                if (baseType.IsGenericType && baseType.GetGenericTypeDefinition() == targetType)
+                {
+                    return true;
+                }
+
+                baseType = baseType.BaseType;
+            }
+            while (baseType is not null);
+
+            return false;
         }
 
-        if (checkAssignability)
-        {
-            // For interfaces and abstract types, check if the member type is assignable
-            return targetType.IsAssignableFrom(memberType);
-        }
-
-        // For concrete types, check exact match
-        return memberType == targetType;
+        return targetType.IsAssignableFrom(memberType);
     }
 
     /// <inheritdoc />
     /// <filterpriority>2</filterpriority>
     public override string ToString()
     {
-        return description;
+        if (targetType.IsGenericTypeDefinition)
+        {
+            return $"Exclude members whose type derives from/is a closed generic type of {targetType}";
+        }
+
+        if (targetType.IsSealed)
+        {
+            return $"Exclude members of type {targetType}";
+        }
+
+        return $"Exclude members whose type is/derives from {targetType}";
     }
 }

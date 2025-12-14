@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using FluentAssertions.Execution;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Sdk;
 
@@ -11,7 +11,7 @@ public partial class SelectionRulesSpecs
     public class ExcludingByType
     {
         [Fact]
-        public void Excluding_members_by_type_excludes_exact_type_matches()
+        public void Can_exclude_exact_type_using_a_type_parameter()
         {
             // Arrange
             var subject = new
@@ -36,7 +36,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void Excluding_members_by_type_using_Type_parameter_excludes_exact_type_matches()
+        public void Can_exclude_exact_type_using_a_type_instance()
         {
             // Arrange
             var subject = new
@@ -61,7 +61,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void Excluding_members_by_type_fails_if_non_excluded_members_differ()
+        public void Other_members_are_still_selected()
         {
             // Arrange
             var subject = new
@@ -84,11 +84,11 @@ public partial class SelectionRulesSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Name*Jack*John*");
+                .WithMessage("*Exclude members of type System.TimeSpan*");
         }
 
         [Fact]
-        public void Excluding_interface_type_excludes_all_members_assignable_to_that_interface()
+        public void Can_exclude_all_types_implementing_a_generic_interface()
         {
             // Arrange
             var subject = new
@@ -113,7 +113,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void Excluding_open_generic_type_excludes_all_closed_generics()
+        public void Can_exclude_all_closed_generic_types()
         {
             // Arrange
             var subject = new
@@ -140,34 +140,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void Excluding_by_type_is_described_in_the_failure_message()
-        {
-            // Arrange
-            var subject = new
-            {
-                Name = "John",
-                Age = 30,
-                Duration = TimeSpan.FromHours(5)
-            };
-
-            var expectation = new
-            {
-                Name = "Jack",
-                Age = 30,
-                Duration = TimeSpan.FromHours(10)
-            };
-
-            // Act
-            Action act = () => subject.Should().BeEquivalentTo(expectation, options => options
-                .Excluding<TimeSpan>());
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("*Exclude members of type System.TimeSpan*");
-        }
-
-        [Fact]
-        public void Excluding_nested_members_by_type_excludes_them_at_all_levels()
+        public void Excluding_applies_to_all_levels_in_a_nested_structure()
         {
             // Arrange
             var subject = new
@@ -198,7 +171,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void Excluding_members_by_type_in_collections_excludes_them()
+        public void Excluding_applies_to_collections_as_well()
         {
             // Arrange
             var subject = new[]
@@ -235,7 +208,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void Excluding_null_type_throws()
+        public void Null_is_not_a_valid_type()
         {
             // Arrange
             var subject = new { Name = "John" };
@@ -249,7 +222,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void Excluding_interface_type_description_mentions_assignability()
+        public void Reports_the_interface_type()
         {
             // Arrange
             var subject = new
@@ -270,11 +243,11 @@ public partial class SelectionRulesSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Exclude members assignable to type*");
+                .WithMessage("*Exclude members whose type is/derives from*");
         }
 
         [Fact]
-        public void Excluding_open_generic_type_description_mentions_closed_generic()
+        public void Reports_the_open_generic_type()
         {
             // Arrange
             var subject = new
@@ -295,11 +268,11 @@ public partial class SelectionRulesSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Exclude members of closed generic type*");
+                .WithMessage("*Exclude members whose type derives from/is a closed generic type of*");
         }
 
         [Fact]
-        public void Excluding_abstract_class_type_excludes_all_derived_types()
+        public void Can_exclude_all_types_deriving_from_an_abstract_type()
         {
             // Arrange
             var subject = new
@@ -394,7 +367,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void Excluding_value_types_works()
+        public void Can_exclude_value_types()
         {
             // Arrange
             var subject = new
@@ -418,13 +391,147 @@ public partial class SelectionRulesSpecs
                 .Excluding<int>());
         }
 
+        [Fact]
+        public void Excluding_non_abstract_base_type_excludes_derived_types()
+        {
+            // Arrange
+            var subject = new
+            {
+                Name = "John",
+                BaseObject = new DerivedFromNonAbstract { Value = 10 },
+                Age = 30
+            };
+
+            var expectation = new
+            {
+                Name = "John",
+                BaseObject = new DerivedFromNonAbstract { Value = 20 }, // Different value
+                Age = 30
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, options => options
+                .Excluding<NonAbstractBase>());
+        }
+
+        [Fact]
+        public void Excluding_open_generic_excludes_closed_generic_derived_type()
+        {
+            // Arrange
+            var subject = new
+            {
+                Name = "John",
+                ClosedGeneric = new ClosedGeneric { Value = 10 },
+                Age = 30
+            };
+
+            var expectation = new
+            {
+                Name = "John",
+                ClosedGeneric = new ClosedGeneric { Value = 20 }, // Different value
+                Age = 30
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, options => options
+                .Excluding(typeof(OpenGeneric<>)));
+        }
+
+        [Fact]
+        public void Excluding_open_generic_excludes_derived_open_generic_type()
+        {
+            // Arrange
+            var subject = new
+            {
+                Name = "John",
+                DerivedOpenGeneric = new DerivedOpenGeneric<int> { Value = 10 },
+                Age = 30
+            };
+
+            var expectation = new
+            {
+                Name = "John",
+                DerivedOpenGeneric = new DerivedOpenGeneric<int> { Value = 20 }, // Different value
+                Age = 30
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, options => options
+                .Excluding(typeof(OpenGeneric<>)));
+        }
+
+        [Fact]
+        public void Excluding_open_generic_excludes_closed_derived_generic_type()
+        {
+            // Arrange
+            var subject = new
+            {
+                Name = "John",
+                ClosedDerivedGeneric = new ClosedDerivedGeneric { Value = 10 },
+                Age = 30
+            };
+
+            var expectation = new
+            {
+                Name = "John",
+                ClosedDerivedGeneric = new ClosedDerivedGeneric { Value = 20 }, // Different value
+                Age = 30
+            };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, options => options
+                .Excluding(typeof(OpenGeneric<>)));
+        }
+
+        [Fact]
+        public void Excluding_sealed_type_excludes_only_exact_type()
+        {
+            // Arrange
+            var subject = new
+            {
+                Name = "John",
+                Text = "Test",
+                Age = 30
+            };
+
+            var expectation = new
+            {
+                Name = "John",
+                Text = "Different", // Different value - will be excluded
+                Age = 30
+            };
+
+            // Act / Assert - string is sealed, so only exact matches are excluded
+            subject.Should().BeEquivalentTo(expectation, options => options
+                .Excluding<string>());
+        }
+
+        [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
         private abstract class AbstractBaseClass
         {
             public int Value { get; set; }
         }
 
-        private class ConcreteClass : AbstractBaseClass
+        private class ConcreteClass : AbstractBaseClass;
+
+        [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+        private class NonAbstractBase
         {
+            public int Value { get; set; }
         }
+
+        private class DerivedFromNonAbstract : NonAbstractBase;
+
+        [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+        private class OpenGeneric<T>
+        {
+            public int Value { get; set; }
+        }
+
+        private class ClosedGeneric : OpenGeneric<int>;
+
+        private class DerivedOpenGeneric<T> : OpenGeneric<T>;
+
+        private class ClosedDerivedGeneric : DerivedOpenGeneric<int>;
     }
 }
