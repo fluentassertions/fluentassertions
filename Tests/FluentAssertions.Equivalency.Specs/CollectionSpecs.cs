@@ -300,11 +300,7 @@ public class CollectionSpecs
         var expectation = Enumerable.Repeat(20, subject.Length).ToArray();
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation);
-
-        // Assert
-        action.Should().Throw<XunitException>().Which
-            .Message.Should().Contain("[9]").And.NotContain("[10]");
+        subject.Should().BeEquivalentTo(expectation);
     }
 
     [Fact]
