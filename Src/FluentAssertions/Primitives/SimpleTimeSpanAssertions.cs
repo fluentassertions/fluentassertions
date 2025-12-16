@@ -249,7 +249,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
         TimeSpan maximumValue = nearbyTime + precision;
 
         assertionChain
-            .ForCondition(Subject >= minimumValue && Subject.Value <= maximumValue)
+            .ForCondition(Subject >= minimumValue && Subject <= maximumValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:time} to be within {0} from {1}{reason}, but found {2}.",
                 precision,
