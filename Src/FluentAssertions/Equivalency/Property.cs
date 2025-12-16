@@ -45,14 +45,6 @@ internal class Property : Node, IMember
 
     public CSharpAccessModifier SetterAccessibility => propertyInfo.GetSetMethod(nonPublic: true).GetCSharpAccessModifier();
 
-    public bool IsBrowsable
-    {
-        get
-        {
-            isBrowsable ??=
-                propertyInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
-
-            return isBrowsable.Value;
-        }
-    }
+    public bool IsBrowsable =>
+        isBrowsable ??= propertyInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
 }
