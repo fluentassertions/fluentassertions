@@ -24,7 +24,7 @@ internal class Property : Node, IMember
         ReflectedType = reflectedType;
         this.propertyInfo = propertyInfo;
         DeclaringType = propertyInfo.DeclaringType;
-        Subject = new Pathway(parent.Subject.PathAndName, propertyInfo.Name,  pathAndName => $"property {parent.GetSubjectId().Combine(pathAndName)}");
+        Subject = new Pathway(parent.Subject.PathAndName, propertyInfo.Name, pathAndName => $"property {parent.GetSubjectId().Combine(pathAndName)}");
         Expectation = new Pathway(parent.Expectation.PathAndName, propertyInfo.Name, pathAndName => $"property {pathAndName}");
         Type = propertyInfo.PropertyType;
         ParentType = propertyInfo.DeclaringType;
