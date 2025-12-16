@@ -263,8 +263,7 @@ public class DateTimeOffsetAssertions<TAssertions>
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         assertionChain
-            .ForCondition(!((Subject == null && unexpected == null) ||
-                (Subject != null && unexpected != null && Subject.Value.EqualsExact(unexpected.Value))))
+            .ForCondition(!(Subject.HasValue == unexpected.HasValue && Subject.GetValueOrDefault().EqualsExact(unexpected.GetValueOrDefault())))
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:the date and time} to be exactly {0}{reason}, but it was.", unexpected);
 
