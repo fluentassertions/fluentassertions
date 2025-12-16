@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
@@ -10,7 +10,8 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
 
     public EqualityComparerEquivalencyStep(IEqualityComparer<T> comparer)
     {
-        this.comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
+        Guard.ThrowIfArgumentIsNull(comparer);
+        this.comparer = comparer;
     }
 
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,

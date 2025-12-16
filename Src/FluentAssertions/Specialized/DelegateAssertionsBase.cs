@@ -26,9 +26,11 @@ public abstract class DelegateAssertionsBase<TDelegate, TAssertions>
         IClock clock)
         : base(@delegate, assertionChain)
     {
+        Guard.ThrowIfArgumentIsNull(extractor);
+        Guard.ThrowIfArgumentIsNull(clock);
         this.assertionChain = assertionChain;
-        Extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
-        Clock = clock ?? throw new ArgumentNullException(nameof(clock));
+        Extractor = extractor;
+        Clock = clock;
     }
 
     private protected IClock Clock { get; }
