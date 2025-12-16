@@ -1,5 +1,3 @@
 namespace FluentAssertions.Equivalency.Tracing;
 
-internal sealed class InternalTraceWriter : StringBuilderTraceWriter
-{
-}
+internal sealed class InternalTraceWriter : StringBuilderTraceWriter;
