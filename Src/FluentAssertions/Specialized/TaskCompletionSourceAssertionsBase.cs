@@ -14,7 +14,8 @@ public class TaskCompletionSourceAssertionsBase
 {
     protected TaskCompletionSourceAssertionsBase(IClock clock)
     {
-        Clock = clock ?? throw new ArgumentNullException(nameof(clock));
+        Guard.ThrowIfArgumentIsNull(clock);
+        Clock = clock;
     }
 
     private protected IClock Clock { get; }

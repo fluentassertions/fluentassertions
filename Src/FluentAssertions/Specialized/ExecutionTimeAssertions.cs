@@ -21,7 +21,8 @@ public class ExecutionTimeAssertions
     /// <param name="executionTime">The execution on which time must be asserted.</param>
     public ExecutionTimeAssertions(ExecutionTime executionTime, AssertionChain assertionChain)
     {
-        execution = executionTime ?? throw new ArgumentNullException(nameof(executionTime));
+        Guard.ThrowIfArgumentIsNull(executionTime);
+        execution = executionTime;
         this.assertionChain = assertionChain;
     }
 

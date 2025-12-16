@@ -69,11 +69,11 @@ public sealed class AssertionScope : IDisposable
     /// <exception cref="ArgumentNullException"><paramref name="assertionStrategy"/> is <see langword="null"/>.</exception>
     private AssertionScope(Func<string> name, IAssertionStrategy assertionStrategy)
     {
+        Guard.ThrowIfArgumentIsNull(assertionStrategy);
         parent = CurrentScope.Value;
         CurrentScope.Value = this;
 
-        this.assertionStrategy = assertionStrategy
-                                 ?? throw new ArgumentNullException(nameof(assertionStrategy));
+        this.assertionStrategy = assertionStrategy;
 
         if (parent is not null)
         {
