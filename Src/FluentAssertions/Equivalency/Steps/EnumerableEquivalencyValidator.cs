@@ -31,12 +31,11 @@ internal class EnumerableEquivalencyValidator
         this.assertionChain = assertionChain;
         this.parent = parent;
         this.context = context;
-        Recursive = false;
     }
 
-    public bool Recursive { get; init; }
+    public required bool Recursive { get; init; }
 
-    public OrderingRuleCollection OrderingRules { get; init; }
+    public required OrderingRuleCollection OrderingRules { get; init; }
 
     public void Execute<T>(object[] subject, T[] expectation)
     {
