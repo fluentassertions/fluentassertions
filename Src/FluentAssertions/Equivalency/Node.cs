@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
@@ -135,6 +136,7 @@ internal class Node : INode
 
     private bool Equals(Node other) => (Type, Subject.Name, Subject.Path) == (other.Type, other.Subject.Name, other.Subject.Path);
 
+    [SuppressMessage("ReSharper", "UnassignedGetOnlyAutoProperty")]
     public override int GetHashCode()
     {
         unchecked
