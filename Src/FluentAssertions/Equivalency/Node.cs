@@ -18,14 +18,14 @@ internal class Node : INode
         protected init => field = value;
     }
 
-    public Type Type { get; protected set; }
+    public Type Type { get; init; }
 
-    public Type ParentType { get; protected set; }
+    public Type ParentType { get; init; }
 
     public Pathway Subject
     {
         get;
-        set
+        protected set
         {
             field = value;
             Expectation ??= value;
@@ -46,7 +46,7 @@ internal class Node : INode
 
     private bool IsFirstIndex => MatchFirstIndex.IsMatch(Subject.PathAndName);
 
-    public bool RootIsCollection { get; protected set; }
+    public bool RootIsCollection { get; init; }
 
     public void AdjustForRemappedSubject(IMember subjectMember)
     {

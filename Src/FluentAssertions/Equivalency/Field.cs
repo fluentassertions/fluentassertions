@@ -33,7 +33,7 @@ internal class Field : Node, IMember
         return fieldInfo.GetValue(obj);
     }
 
-    public Type DeclaringType { get; set; }
+    public Type DeclaringType { get; }
 
     public CSharpAccessModifier GetterAccessibility => fieldInfo.GetCSharpAccessModifier();
 

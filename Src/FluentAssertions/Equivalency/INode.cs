@@ -30,7 +30,7 @@ public interface INode
     /// <summary>
     /// Gets the path from the root of the subject upto and including the current node.
     /// </summary>
-    Pathway Subject { get; internal set; }
+    Pathway Subject { get; }
 
     /// <summary>
     /// Gets the path from the root of the expectation upto and including the current node.

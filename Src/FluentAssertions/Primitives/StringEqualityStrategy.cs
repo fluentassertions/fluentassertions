@@ -23,7 +23,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
     /// Gets a value indicating whether the differences between string properties should
     /// include the full values of the subject and expectation instead of just the fragment that differs.
     /// </summary>
-    public bool IncludeFullDetails { get; set; } = true;
+    public bool IncludeFullDetails { get; init; } = true;
 
     public void AssertForEquality(AssertionChain assertionChain, string subject, string expected)
     {
