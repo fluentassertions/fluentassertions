@@ -136,7 +136,7 @@ internal class Node : INode
 
     private bool Equals(Node other) => (Type, Subject.Name, Subject.Path) == (other.Type, other.Subject.Name, other.Subject.Path);
 
-    [SuppressMessage("ReSharper", "UnassignedGetOnlyAutoProperty")]
+    [SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode")]
     public override int GetHashCode()
     {
         unchecked
