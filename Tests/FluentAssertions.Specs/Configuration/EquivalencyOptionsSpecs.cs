@@ -30,9 +30,7 @@ public class EquivalencyOptionsSpecs
         // Arrange / Act
         var action = () =>
         {
-#pragma warning disable CA1859 // https://github.com/dotnet/roslyn-analyzers/issues/6704
             IEquivalencyOptions equivalencyOptions = new EquivalencyOptions();
-#pragma warning restore CA1859
 
             return () => Parallel.For(0, 10_000, new ParallelOptions { MaxDegreeOfParallelism = 8 },
                 _ => equivalencyOptions.GetEqualityStrategy(typeof(IEnumerable))
