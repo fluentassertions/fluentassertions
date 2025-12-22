@@ -28,14 +28,11 @@ public class EquivalencyOptionsSpecs
     public void When_concurrently_getting_equality_strategy_it_should_not_throw()
     {
         // Arrange / Act
-        var action = () =>
-        {
-            IEquivalencyOptions equivalencyOptions = new EquivalencyOptions();
+        IEquivalencyOptions equivalencyOptions = new EquivalencyOptions();
 
-            return () => Parallel.For(0, 10_000, new ParallelOptions { MaxDegreeOfParallelism = 8 },
-                _ => equivalencyOptions.GetEqualityStrategy(typeof(IEnumerable))
-            );
-        };
+        var action = () => Parallel.For(0, 10_000, new ParallelOptions { MaxDegreeOfParallelism = 8 },
+            _ => equivalencyOptions.GetEqualityStrategy(typeof(IEnumerable))
+        );
 
         // Assert
         action.Should().NotThrow();
