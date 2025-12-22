@@ -367,8 +367,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     public AndConstraint<XElementAssertions> NotHaveAttributeWithValue(string unexpectedName, string unexpectedValue,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNullOrEmpty(unexpectedName, nameof(unexpectedName));
-        Guard.ThrowIfArgumentIsNull(unexpectedValue, nameof(unexpectedValue));
+        Guard.ThrowIfArgumentIsNullOrEmpty(unexpectedName);
+        Guard.ThrowIfArgumentIsNull(unexpectedValue);
 
         return NotHaveAttributeWithValue(XNamespace.None + unexpectedName, unexpectedValue, because, becauseArgs);
     }
@@ -390,8 +390,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     public AndConstraint<XElementAssertions> NotHaveAttributeWithValue(XName unexpectedName, string unexpectedValue,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(unexpectedName, nameof(unexpectedName));
-        Guard.ThrowIfArgumentIsNull(unexpectedValue, nameof(unexpectedValue));
+        Guard.ThrowIfArgumentIsNull(unexpectedName);
+        Guard.ThrowIfArgumentIsNull(unexpectedValue);
 
         string unexpectedText = unexpectedName.ToString();
 
@@ -574,7 +574,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     public AndConstraint<XElementAssertions> NotHaveElement(string unexpectedElement,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(unexpectedElement, nameof(unexpectedElement));
+        Guard.ThrowIfArgumentIsNull(unexpectedElement);
 
         return NotHaveElement(XNamespace.None + unexpectedElement, because, becauseArgs);
     }
@@ -595,7 +595,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     public AndConstraint<XElementAssertions> NotHaveElement(XName unexpectedElement,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(unexpectedElement, nameof(unexpectedElement));
+        Guard.ThrowIfArgumentIsNull(unexpectedElement);
 
         assertionChain
             .ForCondition(Subject is not null)
@@ -636,8 +636,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     public AndWhichConstraint<XElementAssertions, XElement> HaveElementWithValue(string expectedElement,
         string expectedValue, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expectedElement, nameof(expectedElement));
-        Guard.ThrowIfArgumentIsNull(expectedValue, nameof(expectedValue));
+        Guard.ThrowIfArgumentIsNull(expectedElement);
+        Guard.ThrowIfArgumentIsNull(expectedValue);
 
         return HaveElementWithValue(XNamespace.None + expectedElement, expectedValue, because, becauseArgs);
     }
@@ -662,8 +662,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     public AndWhichConstraint<XElementAssertions, XElement> HaveElementWithValue(XName expectedElement,
         string expectedValue, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expectedElement, nameof(expectedElement));
-        Guard.ThrowIfArgumentIsNull(expectedValue, nameof(expectedValue));
+        Guard.ThrowIfArgumentIsNull(expectedElement);
+        Guard.ThrowIfArgumentIsNull(expectedValue);
 
         IEnumerable<XElement> xElements = [];
 
@@ -713,8 +713,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     public AndConstraint<XElementAssertions> NotHaveElementWithValue(string unexpectedElement,
         string unexpectedValue, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(unexpectedElement, nameof(unexpectedElement));
-        Guard.ThrowIfArgumentIsNull(unexpectedValue, nameof(unexpectedValue));
+        Guard.ThrowIfArgumentIsNull(unexpectedElement);
+        Guard.ThrowIfArgumentIsNull(unexpectedValue);
 
         return NotHaveElementWithValue(XNamespace.None + unexpectedElement, unexpectedValue, because, becauseArgs);
     }
@@ -739,8 +739,8 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     public AndConstraint<XElementAssertions> NotHaveElementWithValue(XName unexpectedElement,
         string unexpectedValue, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(unexpectedElement, nameof(unexpectedElement));
-        Guard.ThrowIfArgumentIsNull(unexpectedValue, nameof(unexpectedValue));
+        Guard.ThrowIfArgumentIsNull(unexpectedElement);
+        Guard.ThrowIfArgumentIsNull(unexpectedValue);
 
         assertionChain
             .WithExpectation("Did not expect {context:subject} to have an element {0} with value {1}{reason}, ",

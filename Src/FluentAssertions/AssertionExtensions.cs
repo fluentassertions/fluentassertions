@@ -884,7 +884,7 @@ public static class AssertionExtensions
     /// <exception cref="ArgumentNullException"><paramref name="eventSource"/> is <see langword="null"/>.</exception>
     public static IMonitor<T> Monitor<T>(this T eventSource, Action<EventMonitorOptions> configureOptions)
     {
-        Guard.ThrowIfArgumentIsNull(configureOptions, nameof(configureOptions));
+        Guard.ThrowIfArgumentIsNull(configureOptions);
 
         var options = new EventMonitorOptions();
         configureOptions(options);
