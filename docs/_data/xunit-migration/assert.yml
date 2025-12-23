@@ -1,0 +1,225 @@
+- old: |
+    Assert.True(actual);
+
+  new: |
+    actual.Should().BeTrue();
+
+  old-message: |
+    Assert.True() Failure
+    Expected: True
+    Actual:   False
+
+  new-message: |
+    Expected actual to be True, but found False.
+
+- old: |
+    Assert.False(actual);
+
+  new: |
+    actual.Should().BeFalse();
+
+  old-message: |
+    Assert.False() Failure
+    Expected: False
+    Actual:   True
+
+  new-message: |
+    Expected actual to be False, but found True.
+
+- old: |
+    Assert.Equal(expected, actual);
+
+  new: |
+    actual.Should().Be(expected);
+
+  old-message: |
+    Assert.Equal() Failure: Values differ
+    Expected: 2
+    Actual:   1
+
+  new-message: |
+    Expected actual to be 2, but found 1.
+
+- old: |
+    Assert.NotEqual(expected, actual);
+
+  new: |
+    actual.Should().NotBe(expected);
+
+  old-message: |
+    Assert.NotEqual() Failure: Values are equal
+    Expected: Not 1
+    Actual:       1
+
+  new-message: |
+    Did not expect actual to be 1.
+
+- old: |
+    Assert.Null(actual);
+
+  new: |
+    actual.Should().BeNull();
+
+  old-message: |
+    Assert.Null() Failure: Value is not null
+    Expected: null
+    Actual:   Object { }
+
+  new-message: |
+    Expected actual to be <null>, but found System.Object (HashCode=33420276).
+
+- old: |
+    Assert.NotNull(actual);
+
+  new: |
+    actual.Should().NotBeNull();
+
+  old-message: |
+    Assert.NotNull() Failure: Value is null
+
+  new-message: |
+    Expected actual not to be <null>.
+
+- old: |
+    Assert.Same(expected, actual);
+
+  new: |
+    actual.Should().BeSameAs(expected);
+
+  old-message: |
+    Assert.Same() Failure: Values are not the same instance
+    Expected: { OtherProperty = "expected", SomeProperty = 2 }
+    Actual:   { OtherProperty = "actual", SomeProperty = 1 }
+
+  new-message: |
+    Expected actual to refer to {
+        OtherProperty = "expected",
+        SomeProperty = 2
+    }, but found {
+        OtherProperty = "actual",
+        SomeProperty = 1
+    }.
+
+- old: |
+    Assert.NotSame(expected, actual);
+
+  new: |
+    actual.Should().NotBeSameAs(expected);
+
+  old-message: |
+    Assert.NotSame() Failure: Values are the same instance
+
+  new-message: |
+    Did not expect actual to refer to {
+        OtherProperty = "expected",
+        SomeProperty = 1
+    }.
+
+- old: |
+    Assert.Contains(expected, actual);
+
+  new: |
+    actual.Should().Contain(expected);
+
+  old-message: |
+    Assert.Contains() Failure: Item not found in collection
+    Collection: [1, 2]
+    Not found:  3
+
+  new-message: |
+    Expected actual {1, 2} to contain 3.
+
+- old: |
+    Assert.DoesNotContain(unexpected, actual);
+
+  new: |
+    actual.Should().NotContain(unexpected);
+
+  old-message: |
+    Assert.DoesNotContain() Failure: Item found in collection
+                    ↓ (pos 1)
+    Collection: [1, 2]
+    Found:      2
+
+  new-message: |
+    Expected actual {1, 2} to not contain 2.
+
+- old: |
+    Assert.Empty(actual);
+
+  new: |
+    actual.Should().BeEmpty();
+
+  old-message: |
+    Assert.Empty() Failure: Collection was not empty
+    Collection: [1]
+
+  new-message: |
+    Expected actual to be empty, but found at least one item {1}.
+
+- old: |
+    Assert.NotEmpty(actual);
+
+  new: |
+    actual.Should().NotBeEmpty();
+
+  old-message: |
+    Assert.NotEmpty() Failure: Collection was empty
+
+  new-message: |
+    Expected actual not to be empty.
+
+- old: |
+    Assert.Single(actual);
+
+  new: |
+    actual.Should().ContainSingle();
+
+  old-message: |
+    Assert.Single() Failure: The collection contained 2 items
+    Collection: [1, 2]
+
+  new-message: |
+    Expected actual to contain a single item, but found {1, 2}.
+
+- old: |
+    Assert.IsType<T>(actual);
+
+  new: |
+    actual.Should().BeOfType<T>();
+
+  old-message: |
+    Assert.IsType() Failure: Value is not the exact type
+    Expected: typeof(string)
+    Actual:   typeof(int)
+
+  new-message: |
+    Expected type to be System.String, but found System.Int32.
+
+- old: |
+    Assert.IsAssignableFrom<T>(actual);
+
+  new: |
+    actual.Should().BeAssignableTo<T>();
+
+  old-message: |
+    Assert.IsAssignableFrom() Failure: Value is an incompatible type
+    Expected: typeof(string)
+    Actual:   typeof(int)
+
+  new-message: |
+    Expected actual to be assignable to System.String, but System.Int32 is not.
+
+- old: |
+    Assert.Throws<TException>(() => ...);
+
+  new: |
+    action.Should().ThrowExactly<TException>();
+
+  old-message: |
+    Assert.Throws() Failure: Exception type was not an exact match
+    Expected: typeof(System.InvalidOperationException)
+    Actual:   typeof(System.ArgumentException)
+
+  new-message: |
+    Expected type to be System.InvalidOperationException, but found System.ArgumentException.
