@@ -165,6 +165,29 @@ orderDto.Should().BeEquivalentTo(order, options => options
     .ExcludingMembersNamed("ID", "Version"));
 ```
 
+You can also exclude all members of a certain type from the comparison. This is useful when you want to ignore certain types throughout the entire object graph:
+
+```csharp
+orderDto.Should().BeEquivalentTo(order, options => options 
+    .Excluding<DateTime>());
+```
+
+This works for any type, including interfaces (which will exclude all types implementing that interface):
+
+```csharp
+orderDto.Should().BeEquivalentTo(order, options => options 
+    .Excluding<IEnumerable<int>>());
+```
+
+You can also exclude members of open generic types by passing the type definition:
+
+```csharp
+orderDto.Should().BeEquivalentTo(order, options => options 
+    .Excluding(typeof(Nullable<>)));
+```
+
+This will exclude all nullable value types like `int?`, `DateTime?`, etc. The exclusion also applies to derived types, so excluding a base class will also exclude all types that derive from it.
+
 Maybe far-fetched, but you may even decide to exclude a member on a particular nested object by its index.
 
 ```csharp

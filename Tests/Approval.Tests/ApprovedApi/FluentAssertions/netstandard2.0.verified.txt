@@ -916,6 +916,8 @@ namespace FluentAssertions.Equivalency
         public TSelf ComparingRecordsByMembers() { }
         public TSelf ComparingRecordsByValue() { }
         public TSelf Excluding(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
+        public TSelf Excluding(System.Type type) { }
+        public TSelf Excluding<TMember>() { }
         public TSelf ExcludingExplicitlyImplementedProperties() { }
         public TSelf ExcludingFields() { }
         public TSelf ExcludingMembersNamed(params string[] memberNames) { }
