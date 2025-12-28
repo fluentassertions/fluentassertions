@@ -917,5 +917,32 @@ public class BasicSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*Full expectation*");
         }
+
+        [Fact]
+        public void Foo()
+        {
+            // Arrange
+            var actual = new[]
+            {
+                new
+                {
+                    Name = "John"
+                },
+                new
+                {
+                    Name = "James"
+                }
+            };
+
+            // Act
+            actual.Should().BeEquivalentTo([
+                new
+                {
+                    Name = "John"
+                }
+            ]);
+
+            // Assert
+        }
     }
 }
