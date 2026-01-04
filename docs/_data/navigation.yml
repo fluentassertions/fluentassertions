@@ -101,6 +101,8 @@ sidebar:
         url: /tips/#improved-assertions
       - title: Migrating from MSTest
         url: /tips/#mstest-migration
+      - title: Migrating from xUnit
+        url: /tips/#xunit-migration
       - title: Serialization & Ignored Members
         url: /serializationignoredmembers
 
