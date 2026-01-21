@@ -217,8 +217,20 @@ public class FormattedObjectGraph
             }
             else
             {
-                parentGraph.lines[startingLineCount] = parentGraph.lines[startingLineCount]
-                    .Insert(startingLineBuilderIndex, InsertNewLineIntoFragment(fragment));
+                string currentLine = parentGraph.lines[startingLineCount];
+                string fragmentToInsert = InsertNewLineIntoFragment(fragment);
+                
+                // Prevent crash when startingLineBuilderIndex exceeds line length
+                // This can happen with nested collections where the first element is empty
+                if (startingLineBuilderIndex <= currentLine.Length)
+                {
+                    parentGraph.lines[startingLineCount] = currentLine.Insert(startingLineBuilderIndex, fragmentToInsert);
+                }
+                else
+                {
+                    // If the index is out of bounds, append to the end instead
+                    parentGraph.lines[startingLineCount] = currentLine + fragmentToInsert;
+                }
             }
         }
 

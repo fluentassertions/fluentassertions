@@ -1256,3 +1256,23 @@ internal class Node
 
     public List<Node> Children { get; set; }
 }
+
+public class NestedListFormattingSpecs
+{
+    [Fact]
+    public void When_formatting_nested_list_with_empty_first_element_it_should_not_crash()
+    {
+        // Arrange
+        IReadOnlyCollection<IReadOnlyCollection<int>> nestedList = new List<IReadOnlyCollection<int>>
+        {
+            new List<int>(),
+            new List<int> { 42 }
+        };
+
+        // Act
+        Action act = () => Formatter.ToString(nestedList, new FormattingOptions() { MaxDepth = 5, MaxLines = 100, UseLineBreaks = false });
+
+        // Assert
+        act.Should().NotThrow<ArgumentOutOfRangeException>();
+    }
+}

@@ -295,5 +295,25 @@ public partial class CollectionAssertionSpecs
             act.Should().Throw<ArgumentNullException>().WithMessage(
                 "Cannot verify absence of ordered containment against a <null> collection.*");
         }
+
+        [Fact]
+        public void When_collection_is_nested_with_empty_first_element_it_should_not_crash_during_formatting()
+        {
+            // Arrange
+            System.Collections.Generic.IReadOnlyCollection<System.Collections.Generic.IReadOnlyCollection<int>> nestedCollection =
+                new System.Collections.Generic.List<System.Collections.Generic.IReadOnlyCollection<int>>
+                {
+                    new System.Collections.Generic.List<int>(),
+                    new System.Collections.Generic.List<int> { 42 }
+                };
+
+            // Act - this should fail but should not crash with ArgumentOutOfRangeException during formatting
+            Action act = () => nestedCollection.Should().ContainInOrder(
+                new System.Collections.Generic.List<int> { 42 });
+
+            // Assert - should throw XunitException (the assertion failure), not ArgumentOutOfRangeException (the formatting crash)
+            act.Should().Throw<XunitException>()
+                .And.Message.Should().Contain("Expected nestedCollection");
+        }
     }
 }
