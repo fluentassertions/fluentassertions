@@ -395,8 +395,10 @@ public partial class StringAssertionSpecs
         [Fact]
         public void When_string_contains_opening_brace_it_should_not_throw_format_exception()
         {
-            // Arrange - create a string longer than 80 chars with opening brace to trigger the issue
-            var actual = "{" + new string('x', 80);
+            // Arrange - create a string longer than the default truncation length (80 chars) 
+            // with an opening brace to trigger the full details display which had the bug
+            const int lengthToTriggerFullDetails = 80;
+            var actual = "{" + new string('x', lengthToTriggerFullDetails);
             var expected = "";
 
             // Act

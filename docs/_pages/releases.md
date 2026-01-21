@@ -7,12 +7,16 @@ sidebar:
   nav: "sidebar"
 ---
 
-## Unreleased
+## 8.9.0
 
 ### What's new
 
 * Added `Excluding<T>()` and `Excluding(Type)` overloads to exclude all members of a certain type from equivalency comparisons - [#3115](https://github.com/fluentassertions/fluentassertions/pull/3115)
 * New overloads of `BeXmlSerializable` and `BeDataContractSerializable` that allow `EquivalencyOptions` to be configured, allowing the use of member selection rules. - [#3107](https://github.com/fluentassertions/fluentassertions/pull/3107)
+
+### Fixes
+
+* Fixed a formatting exception when comparing strings containing braces - [#3151](https://github.com/fluentassertions/fluentassertions/pull/3151)
 
 ## 8.8.0
 
