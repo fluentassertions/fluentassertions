@@ -367,7 +367,7 @@ public static class DataRowCollectionAssertionSpecs
 
                 // Assert
                 action.Should().Throw<XunitException>().WithMessage(
-                    "Expected nullDataRows to not have the same count as * because we care, but found <null>.");
+                    "Expected nullDataRows to not have the same count as*because we care, but found <null>.");
             }
 
             [Fact]
@@ -516,7 +516,7 @@ public static class DataRowCollectionAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected dataTable.Rows * to contain equivalent of System.Data.DataRow* because we care.*");
+                "Expected dataTable.Rows*to contain equivalent of System.Data.DataRow*because we care.*");
         }
     }
 
@@ -580,7 +580,7 @@ public static class DataRowCollectionAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected dataTable.Rows * not to contain equivalent of System.Data.DataRow* because we " +
+                .WithMessage("Expected dataTable.Rows*not to contain equivalent of System.Data.DataRow*because we " +
                     "care, but found one at index 1.*");
         }
 

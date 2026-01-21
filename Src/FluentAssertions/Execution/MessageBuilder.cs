@@ -41,6 +41,19 @@ internal class MessageBuilder
 
         message = FormatArgumentPlaceholders(message, messageArgs);
 
+        message = TrimLineEndings(message);
+
+        return message;
+    }
+
+    private static string TrimLineEndings(string message)
+    {
+        string[] lines = message.Split([Environment.NewLine], StringSplitOptions.None);
+        if (lines.Length > 1)
+        {
+            return string.Join(Environment.NewLine, lines.Select(line => line.TrimEnd()));
+        }
+
         return message;
     }
 
