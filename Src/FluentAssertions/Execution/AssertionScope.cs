@@ -210,7 +210,14 @@ public sealed class AssertionScope : IAssertionScope
             string actualReason = localReason?.Invoke() ?? string.Empty;
             string identifier = GetIdentifier();
 
-            return messageBuilder.Build(message, args, actualReason, contextData, identifier, fallbackIdentifier);
+            // As the message builder will aggressively remove trailing whitespace, we need to add it back if the message ends with a space
+            string padding = string.Empty;
+            if (message.EndsWith(" ", StringComparison.Ordinal))
+            {
+                padding = " ";
+            }
+
+            return messageBuilder.Build(message, args, actualReason, contextData, identifier, fallbackIdentifier).TrimEnd() + padding;
         };
 
         return this;

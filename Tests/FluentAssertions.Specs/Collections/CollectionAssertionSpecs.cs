@@ -71,7 +71,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection * to be ordered \"by Item2\"*");
+                .WithMessage("Expected collection*to be ordered \"by Item2\"*");
         }
 
         [Fact]
@@ -163,7 +163,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection * to be ordered \"by Item2\"*");
+                .WithMessage("Expected collection*to be ordered \"by Item2\"*");
         }
 
         [Fact]

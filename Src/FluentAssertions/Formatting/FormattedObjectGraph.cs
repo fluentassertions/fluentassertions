@@ -121,7 +121,7 @@ public class FormattedObjectGraph
             throw new MaxLinesExceededException();
         }
 
-        lines.Add(line);
+        lines.Add(line.TrimEnd());
     }
 
     /// <summary>
@@ -217,8 +217,10 @@ public class FormattedObjectGraph
             }
             else
             {
-                parentGraph.lines[startingLineCount] = parentGraph.lines[startingLineCount]
-                    .Insert(startingLineBuilderIndex, InsertNewLineIntoFragment(fragment));
+                string parentGraphLine = parentGraph.lines[startingLineCount];
+
+                parentGraph.lines[startingLineCount] = parentGraphLine
+                    .Insert(Math.Min(startingLineBuilderIndex, parentGraphLine.Length), InsertNewLineIntoFragment(fragment));
             }
         }
 
@@ -226,10 +228,10 @@ public class FormattedObjectGraph
         {
             if (StartingLineHasBeenAddedTo())
             {
-                return fragment + Environment.NewLine + MakeWhitespace(parentGraph.indentation + 1);
+                return fragment.TrimEnd() + Environment.NewLine + MakeWhitespace(parentGraph.indentation + 1);
             }
 
-            return fragment;
+            return fragment.TrimEnd();
         }
 
         private bool StartingLineHasBeenAddedTo() => parentGraph.lines[startingLineCount].Length > startingLineBuilderIndex;

@@ -7,6 +7,12 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 7.2.1
+
+### Fixes
+
+* Fixed a crash while formatting a collection with nested empty collections - [#3150](https://github.com/fluentassertions/fluentassertions/pull/3150)
+
 ## 7.2.0
 
 ### Fixes
