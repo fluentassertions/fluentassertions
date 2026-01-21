@@ -164,19 +164,20 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
 
         if (IncludeFullDetails && wasTruncated)
         {
-            sb.AppendFormat(CultureInfo.InvariantCulture,
+            string fullDetails = string.Create(CultureInfo.InvariantCulture,
                 $"""
 
 
                  Full expectation:
 
-                 {expected.RenderAsIndentedBlock().AsNonFormattable()},
+                 {expected.RenderAsIndentedBlock()},
 
                  Full subject:
 
-                 {subject.RenderAsIndentedBlock().AsNonFormattable()}
+                 {subject.RenderAsIndentedBlock()}
 
                  """);
+            sb.Append(fullDetails);
         }
 
         return sb.ToString();

@@ -391,6 +391,36 @@ public partial class StringAssertionSpecs
                     "The streets were quiet except for the faint hum of neon signs flickering in the night. A cat darted across the alley, chasing shadows only it could see. Somewhere, a radio whispered a half-forgotten song, mixing with the distant rumble of a train. The air carried the scent of rain on warm asphalt, heavy and restless. Each step felt like moving between moments—time stretching, folding, and twisting—while the city itself seemed to wait, holding its breath for what might come next."
                 """);
         }
+
+        [Fact]
+        public void When_string_contains_opening_brace_it_should_not_throw_format_exception()
+        {
+            // Arrange - create a string longer than 80 chars with opening brace to trigger the issue
+            var actual = "{" + new string('x', 80);
+            var expected = "";
+
+            // Act
+            Action act = () => actual.Should().Be(expected);
+
+            // Assert - should throw XunitException, not FormatException
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected*to be a match*");
+        }
+
+        [Fact]
+        public void When_long_string_contains_braces_it_should_display_properly()
+        {
+            // Arrange
+            const string subject = "public class Test { public void Method() { var x = 1; } }";
+            const string expected = "public class Test { public void Method() { var x = 2; } }";
+
+            // Act
+            Action act = () => subject.Should().Be(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected*to be a match*");
+        }
     }
 
     public class NotBe
