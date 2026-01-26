@@ -42,8 +42,8 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
 
             assertion.FailWith(
                 ExpectationDescription + "the same string{reason}, but they differ " + locationDescription + ":" +
-                Environment.NewLine
-                + GetMismatchSegmentForLongStrings(subject, expected, indexOfMismatch) + ".");
+                Environment.NewLine + "{0}.",
+                GetMismatchSegmentForLongStrings(subject, expected, indexOfMismatch).AsNonFormattable());
         }
         else if (ValidateAgainstLengthDifferences(assertion, subject, expected))
         {

@@ -351,6 +351,38 @@ public partial class StringAssertionSpecs
                              ↑ (expected).
                 """);
         }
+
+        [Fact]
+        public void When_string_contains_opening_brace_it_should_not_throw_format_exception()
+        {
+            // Arrange - create a string longer than the default truncation length (80 chars) 
+            // with an opening brace to trigger the full details display which had the bug
+            const int lengthToTriggerFullDetails = 80;
+            var actual = "{" + new string('x', lengthToTriggerFullDetails);
+            var expected = "";
+
+            // Act
+            Action act = () => actual.Should().Be(expected);
+
+            // Assert - should throw XunitException, not FormatException
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*to be the same string*");
+        }
+
+        [Fact]
+        public void When_long_string_contains_braces_it_should_display_properly()
+        {
+            // Arrange
+            const string subject = "public class Test { public void Method() { var x = 1; } }";
+            const string expected = "public class Test { public void Method() { var x = 2; } }";
+
+            // Act
+            Action act = () => subject.Should().Be(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*to be the same string*");
+        }
     }
 
     public class NotBe

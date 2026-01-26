@@ -13,6 +13,7 @@ sidebar:
 
 * Fix a formatting exception when {} is used as a dictionary key - [#3029](https://github.com/fluentassertions/fluentassertions/pull/3029)
 * Ensured `WithTracing` is safe when used with `BeEquivalentTo` globally - [#3067](https://github.com/fluentassertions/fluentassertions/pull/3067)
+* Fixed a formatting exception when comparing strings containing braces - [#3151](https://github.com/fluentassertions/fluentassertions/pull/3151)
 
 ## 7.2.1
 
