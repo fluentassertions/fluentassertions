@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,6 +7,7 @@ namespace FluentAssertions.Common;
 /// <summary>
 /// Default implementation for <see cref="IClock"/> for production use.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal class Clock : IClock
 {
     public void Delay(TimeSpan timeToDelay) => Task.Delay(timeToDelay).GetAwaiter().GetResult();

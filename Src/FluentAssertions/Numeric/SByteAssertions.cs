@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Globalization;
 using FluentAssertions.Execution;
 
@@ -21,3 +21,4 @@ internal class SByteAssertions : NumericAssertions<sbyte>
         return difference != 0 ? difference.ToString(CultureInfo.InvariantCulture) : null;
     }
 }
+

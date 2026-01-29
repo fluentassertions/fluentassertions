@@ -8,6 +8,7 @@ namespace FluentAssertions;
 /// <summary>
 /// Provides a fluent API for defining inline assertions.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public static class Value
 {
     /// <summary>
@@ -34,3 +35,4 @@ public static class Value
         return new ActionBasedInlineAssertion<T>(assertion);
     }
 }
+

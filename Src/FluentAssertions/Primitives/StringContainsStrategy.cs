@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
+[System.Diagnostics.StackTraceHidden]
 internal class StringContainsStrategy : IStringComparisonStrategy
 {
     private readonly IEqualityComparer<string> comparer;
@@ -34,3 +36,4 @@ internal class StringContainsStrategy : IStringComparisonStrategy
         }
     }
 }
+

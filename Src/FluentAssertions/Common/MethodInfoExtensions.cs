@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace FluentAssertions.Common;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class MethodInfoExtensions
 {
     /// <summary>
@@ -66,3 +67,4 @@ internal static class MethodInfoExtensions
         return (false, null);
     }
 }
+

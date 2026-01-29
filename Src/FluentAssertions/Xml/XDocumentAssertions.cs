@@ -543,3 +543,4 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     /// </summary>
     protected override string Identifier => "XML document";
 }
+

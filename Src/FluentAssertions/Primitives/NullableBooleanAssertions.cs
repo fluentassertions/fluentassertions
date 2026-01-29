@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Execution;
 
@@ -187,3 +187,4 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 }
+

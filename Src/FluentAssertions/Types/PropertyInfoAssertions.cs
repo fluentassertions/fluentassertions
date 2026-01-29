@@ -397,3 +397,4 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// </summary>
     protected override string Identifier => "property";
 }
+

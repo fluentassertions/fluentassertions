@@ -7,6 +7,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Is responsible for validating the equivalency of a subject with another object.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal class EquivalencyValidator : IValidateChildNodeEquivalency
 {
     private const int MaxDepth = 10;

@@ -1,7 +1,8 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 namespace FluentAssertions.Common;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class PropertyInfoExtensions
 {
     internal static bool IsVirtual(this PropertyInfo property)
@@ -22,3 +23,4 @@ internal static class PropertyInfoExtensions
         return methodInfo.IsAbstract;
     }
 }
+

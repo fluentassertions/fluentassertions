@@ -8,6 +8,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
+[System.Diagnostics.StackTraceHidden]
 internal class StringEqualityStrategy : IStringComparisonStrategy
 {
     private readonly IEqualityComparer<string> comparer;

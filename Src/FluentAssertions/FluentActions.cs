@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +10,7 @@ namespace FluentAssertions;
 /// <summary>
 /// Contains static methods to help with exception assertions on actions.
 /// </summary>
+[StackTraceHidden]
 [DebuggerNonUserCode]
 public static class FluentActions
 {

@@ -3,6 +3,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
+[System.Diagnostics.StackTraceHidden]
 public class StringEqualityEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
@@ -106,3 +107,4 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
         return assertionChain.Succeeded;
     }
 }
+

@@ -4,6 +4,7 @@ using Reflectify;
 
 namespace FluentAssertions.Equivalency;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class MemberVisibilityExtensions
 {
     private static readonly ConcurrentDictionary<MemberVisibility, MemberKind> Cache = new();
@@ -41,3 +42,4 @@ internal static class MemberVisibilityExtensions
         });
     }
 }
+

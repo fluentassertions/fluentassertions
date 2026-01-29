@@ -13,6 +13,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// <summary>
 /// Executes a single equivalency assertion on two collections, optionally recursive and with or without strict ordering.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal class EnumerableEquivalencyValidator
 {
     private const int FailedItemsFastFailThreshold = 10;
@@ -217,3 +218,4 @@ internal class EnumerableEquivalencyValidator
         return !failed;
     }
 }
+

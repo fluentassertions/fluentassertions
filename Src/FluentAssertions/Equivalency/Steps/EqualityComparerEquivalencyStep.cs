@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
+[System.Diagnostics.StackTraceHidden]
 public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
 {
     private readonly IEqualityComparer<T> comparer;
@@ -49,3 +51,4 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
         return $"Use {comparer} for objects of type {typeof(T)}";
     }
 }
+

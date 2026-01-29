@@ -11,6 +11,7 @@ namespace FluentAssertions.Types;
 /// .Should()<br />
 /// .BeDecoratedWith&lt;SomeAttribute&gt;()
 /// </example>
+[System.Diagnostics.StackTraceHidden]
 public static class AllTypes
 {
     /// <summary>
@@ -23,3 +24,4 @@ public static class AllTypes
         return assembly.Types();
     }
 }
+

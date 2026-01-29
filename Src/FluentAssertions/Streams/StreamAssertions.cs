@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -22,6 +22,7 @@ public class StreamAssertions : StreamAssertions<Stream, StreamAssertions>
 /// <summary>
 /// Contains a number of methods to assert that a <typeparamref name="TSubject"/> is in the expected state.
 /// </summary>
+[DebuggerNonUserCode]
 public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>
     where TSubject : Stream
     where TAssertions : StreamAssertions<TSubject, TAssertions>
@@ -516,3 +517,4 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 }
+

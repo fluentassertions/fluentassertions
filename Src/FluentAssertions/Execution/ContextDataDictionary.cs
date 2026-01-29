@@ -8,6 +8,7 @@ namespace FluentAssertions.Execution;
 /// <summary>
 /// Represents a collection of data items that are associated with an <see cref="AssertionScope"/>.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal class ContextDataDictionary
 {
     private readonly List<DataItem> items = [];
@@ -78,3 +79,4 @@ internal class ContextDataDictionary
         }
     }
 }
+

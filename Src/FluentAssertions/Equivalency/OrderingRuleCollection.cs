@@ -7,6 +7,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Collection of <see cref="PathBasedOrderingRule"/>s.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public class OrderingRuleCollection : IEnumerable<IOrderingRule>
 {
     private readonly List<IOrderingRule> rules = [];
@@ -70,3 +71,4 @@ public class OrderingRuleCollection : IEnumerable<IOrderingRule>
         return results.Contains(OrderStrictness.Strict) && !results.Contains(OrderStrictness.NotStrict);
     }
 }
+

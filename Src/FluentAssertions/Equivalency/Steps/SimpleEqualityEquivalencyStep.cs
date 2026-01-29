@@ -2,6 +2,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
+[System.Diagnostics.StackTraceHidden]
 public class SimpleEqualityEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
@@ -21,3 +22,4 @@ public class SimpleEqualityEquivalencyStep : IEquivalencyStep
         return EquivalencyResult.ContinueWithNext;
     }
 }
+

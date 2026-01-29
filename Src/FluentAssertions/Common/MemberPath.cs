@@ -9,6 +9,7 @@ namespace FluentAssertions.Common;
 /// Encapsulates a dotted candidate to a (nested) member of a type as well as the
 /// declaring type of the deepest member.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal class MemberPath
 {
     private readonly string dottedPath;
@@ -136,3 +137,4 @@ internal class MemberPath
         return dottedPath;
     }
 }
+

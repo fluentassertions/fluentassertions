@@ -1,5 +1,6 @@
-﻿namespace FluentAssertions;
+namespace FluentAssertions;
 
+[System.Diagnostics.StackTraceHidden]
 public static class LessThan
 {
     public static OccurrenceConstraint Twice() => new LessThanTimesConstraint(2);

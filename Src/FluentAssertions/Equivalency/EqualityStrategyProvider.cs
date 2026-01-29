@@ -8,6 +8,7 @@ using JetBrains.Annotations;
 
 namespace FluentAssertions.Equivalency;
 
+[System.Diagnostics.StackTraceHidden]
 internal sealed class EqualityStrategyProvider
 {
     private readonly List<Type> referenceTypes = [];
@@ -127,3 +128,4 @@ internal sealed class EqualityStrategyProvider
         return builder.ToString();
     }
 }
+

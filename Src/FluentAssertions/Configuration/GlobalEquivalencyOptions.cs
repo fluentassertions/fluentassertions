@@ -1,10 +1,12 @@
 using System;
+
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using JetBrains.Annotations;
 
 namespace FluentAssertions.Configuration;
 
+[System.Diagnostics.StackTraceHidden]
 public class GlobalEquivalencyOptions
 {
     private EquivalencyOptions defaults = new();
@@ -49,3 +51,4 @@ public class GlobalEquivalencyOptions
         return new EquivalencyOptions<T>(defaults);
     }
 }
+

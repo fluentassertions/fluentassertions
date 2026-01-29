@@ -1,5 +1,6 @@
-﻿namespace FluentAssertions.Execution;
+namespace FluentAssertions.Execution;
 
+[System.Diagnostics.StackTraceHidden]
 internal class TUnitFramework : LateBoundTestFramework
 {
     public TUnitFramework()

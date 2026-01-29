@@ -5,6 +5,7 @@ using System.Text;
 
 namespace FluentAssertions.Xml.Equivalency;
 
+[System.Diagnostics.StackTraceHidden]
 internal sealed class Node
 {
     private readonly List<Node> children = [];
@@ -78,3 +79,4 @@ internal sealed class Node
         return node;
     }
 }
+

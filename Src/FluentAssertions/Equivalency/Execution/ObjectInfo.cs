@@ -2,6 +2,7 @@ using System;
 
 namespace FluentAssertions.Equivalency.Execution;
 
+[System.Diagnostics.StackTraceHidden]
 internal class ObjectInfo : IObjectInfo
 {
     public ObjectInfo(Comparands comparands, INode currentNode)
@@ -23,3 +24,4 @@ internal class ObjectInfo : IObjectInfo
 
     public Type RuntimeType { get; }
 }
+

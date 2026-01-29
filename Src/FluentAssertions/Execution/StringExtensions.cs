@@ -1,5 +1,6 @@
 namespace FluentAssertions.Execution;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class StringExtensions
 {
     /// <summary>

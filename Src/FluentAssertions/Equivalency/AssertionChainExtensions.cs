@@ -2,6 +2,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class AssertionChainExtensions
 {
     /// <summary>
@@ -17,3 +18,4 @@ internal static class AssertionChainExtensions
             .BecauseOf(context.Reason);
     }
 }
+

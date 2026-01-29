@@ -6,6 +6,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Provides contextual information to an <see cref="IMemberSelectionRule"/>.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public class MemberSelectionContext
 {
     private readonly Type compileTimeType;
@@ -42,3 +43,4 @@ public class MemberSelectionContext
         }
     }
 }
+

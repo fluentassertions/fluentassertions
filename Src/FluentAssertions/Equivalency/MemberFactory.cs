@@ -1,9 +1,11 @@
 using System;
+
 using System.Reflection;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;
 
+[System.Diagnostics.StackTraceHidden]
 public static class MemberFactory
 {
     public static IMember Create(MemberInfo memberInfo, INode parent)
@@ -29,3 +31,4 @@ public static class MemberFactory
         return field is not null ? new Field(field, parent) : null;
     }
 }
+

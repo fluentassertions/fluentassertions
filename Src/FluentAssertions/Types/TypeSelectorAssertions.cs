@@ -489,3 +489,4 @@ public class TypeSelectorAssertions
         throw new NotSupportedException(
             "Equals is not part of Fluent Assertions. Did you mean BeInNamespace() or BeDecoratedWith() instead?");
 }
+

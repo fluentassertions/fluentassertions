@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
@@ -6,6 +6,7 @@ using FluentAssertions.Equivalency.Selection;
 
 namespace FluentAssertions.Equivalency;
 
+[System.Diagnostics.StackTraceHidden]
 public class NestedExclusionOptionBuilder<TExpectation, TCurrent>
 {
     /// <summary>
@@ -49,3 +50,4 @@ public class NestedExclusionOptionBuilder<TExpectation, TCurrent>
         return new NestedExclusionOptionBuilder<TExpectation, TNext>(capturedOptions, currentPathSelectionRule);
     }
 }
+

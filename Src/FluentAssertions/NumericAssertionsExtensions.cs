@@ -1796,3 +1796,4 @@ public static class NumericAssertionsExtensions
         return maxValue;
     }
 }
+

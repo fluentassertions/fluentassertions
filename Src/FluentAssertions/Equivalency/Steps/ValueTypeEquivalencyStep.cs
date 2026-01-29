@@ -6,6 +6,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// <summary>
 /// Ensures that types that are marked as value types are treated as such.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public class ValueTypeEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
@@ -39,3 +40,4 @@ public class ValueTypeEquivalencyStep : IEquivalencyStep
         return EquivalencyResult.ContinueWithNext;
     }
 }
+

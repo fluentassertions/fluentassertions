@@ -10,6 +10,7 @@ namespace FluentAssertions.Types;
 /// <summary>
 /// Allows for fluent selection of properties of a type through reflection.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public class PropertyInfoSelector : IEnumerable<PropertyInfo>
 {
     private IEnumerable<PropertyInfo> selectedProperties;
@@ -228,3 +229,4 @@ public class PropertyInfoSelector : IEnumerable<PropertyInfo>
         return GetEnumerator();
     }
 }
+

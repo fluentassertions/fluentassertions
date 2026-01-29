@@ -5,6 +5,7 @@ namespace FluentAssertions.Primitives;
 /// <summary>
 /// Provides the logic and the display text for a <see cref="TimeSpanCondition"/>.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal class TimeSpanPredicate
 {
     private readonly Func<TimeSpan, TimeSpan, bool> lambda;
@@ -22,3 +23,4 @@ internal class TimeSpanPredicate
         return lambda(actual, expected) && actual >= TimeSpan.Zero;
     }
 }
+

@@ -1,9 +1,10 @@
-﻿using System.Xml;
+using System.Xml;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Xml;
 
+[System.Diagnostics.StackTraceHidden]
 public class XmlNodeFormatter : IValueFormatter
 {
     public bool CanHandle(object value)
@@ -25,3 +26,4 @@ public class XmlNodeFormatter : IValueFormatter
         formattedGraph.AddLine(outerXml.EscapePlaceholders());
     }
 }
+

@@ -11,6 +11,7 @@ namespace FluentAssertions.Equivalency.Execution;
 /// <summary>
 /// Ensures that all the rules remove the collection index from the path before processing it further.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal class CollectionMemberOptionsDecorator : IEquivalencyOptions, IContainTypingRules
 {
     private readonly IEquivalencyOptions inner;
@@ -93,3 +94,4 @@ internal class CollectionMemberOptionsDecorator : IEquivalencyOptions, IContainT
 
     public ITraceWriter TraceWriter => inner.TraceWriter;
 }
+

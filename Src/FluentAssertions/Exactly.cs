@@ -1,5 +1,6 @@
-﻿namespace FluentAssertions;
+namespace FluentAssertions;
 
+[System.Diagnostics.StackTraceHidden]
 public static class Exactly
 {
     public static OccurrenceConstraint Once() => new ExactlyTimesConstraint(1);

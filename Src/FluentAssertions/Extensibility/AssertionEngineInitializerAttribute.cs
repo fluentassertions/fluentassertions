@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 
 namespace FluentAssertions.Extensibility;
@@ -7,6 +7,7 @@ namespace FluentAssertions.Extensibility;
 /// Can be added to an assembly so it gets a change to initialize Fluent Assertions before the first assertion happens.
 /// </summary>
 [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+[System.Diagnostics.StackTraceHidden]
 public sealed class AssertionEngineInitializerAttribute : Attribute
 {
     private readonly string methodName;
@@ -28,3 +29,4 @@ public sealed class AssertionEngineInitializerAttribute : Attribute
         type?.GetMethod(methodName, BindingFlags.Public | BindingFlags.Static)?.Invoke(obj: null, parameters: null);
     }
 }
+

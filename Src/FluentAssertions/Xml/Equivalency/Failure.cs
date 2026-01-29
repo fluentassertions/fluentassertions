@@ -1,5 +1,6 @@
 namespace FluentAssertions.Xml.Equivalency;
 
+[System.Diagnostics.StackTraceHidden]
 internal class Failure
 {
     public Failure(string formatString, params object[] formatParams)

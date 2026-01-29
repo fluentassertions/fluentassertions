@@ -8,6 +8,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// A specialized type of <see cref="INode"/> that represents a field of an object in a structural equivalency assertion.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal class Field : Node, IMember
 {
     private readonly FieldInfo fieldInfo;
@@ -42,3 +43,4 @@ internal class Field : Node, IMember
     public bool IsBrowsable =>
         isBrowsable ??= fieldInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
 }
+

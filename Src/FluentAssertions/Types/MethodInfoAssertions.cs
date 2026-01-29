@@ -311,3 +311,4 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
 
     protected override string Identifier => "method";
 }
+

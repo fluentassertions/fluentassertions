@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 
 namespace FluentAssertions.Events;
 
 /// <summary>
 /// Provides the metadata of a monitored event.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public class EventMetadata
 {
     /// <summary>
@@ -23,3 +24,4 @@ public class EventMetadata
         HandlerType = handlerType;
     }
 }
+

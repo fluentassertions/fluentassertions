@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 
 namespace FluentAssertions.Common;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class Guard
 {
     public static void ThrowIfArgumentIsNull<T>([ValidatedNotNull][NoEnumeration] T obj,

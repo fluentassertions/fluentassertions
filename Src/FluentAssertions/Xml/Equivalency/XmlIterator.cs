@@ -3,6 +3,7 @@ using System.Xml;
 
 namespace FluentAssertions.Xml.Equivalency;
 
+[System.Diagnostics.StackTraceHidden]
 internal class XmlIterator
 {
     private readonly XmlReader reader;
@@ -76,3 +77,4 @@ internal class XmlIterator
         return attributes;
     }
 }
+

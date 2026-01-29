@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Execution;
@@ -109,3 +109,4 @@ public class NullableDateTimeAssertions<TAssertions> : DateTimeAssertions<TAsser
         return NotHaveValue(because, becauseArgs);
     }
 }
+

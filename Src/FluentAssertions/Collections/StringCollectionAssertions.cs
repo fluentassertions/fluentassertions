@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -135,7 +135,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
             options = config(AssertionConfiguration.Current.Equivalency.CloneDefaults<string>()).AsCollection();
 
         var context =
-            new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => CurrentAssertionChain.CallerIdentifier), options)
+            new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => CurrentAssertionChain.CallerIdentifier),
+                options)
             {
                 Reason = new Reason(because, becauseArgs),
                 TraceWriter = options.TraceWriter

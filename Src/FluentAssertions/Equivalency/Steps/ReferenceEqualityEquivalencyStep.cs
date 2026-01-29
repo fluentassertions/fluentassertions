@@ -1,5 +1,6 @@
-﻿namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertions.Equivalency.Steps;
 
+[System.Diagnostics.StackTraceHidden]
 public class ReferenceEqualityEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,

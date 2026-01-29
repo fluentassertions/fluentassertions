@@ -8,6 +8,7 @@ namespace FluentAssertions.Equivalency.Typing;
 /// An implementation of <see cref="ITypingRule"/> that uses a predicate to determine
 /// whether strict typing should be applied during equivalency comparison.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal class PredicateBasedTypingRule : ITypingRule
 {
     private readonly Func<IObjectInfo, bool> predicate;
@@ -37,3 +38,4 @@ internal class PredicateBasedTypingRule : ITypingRule
         return $"Use strict typing when {description}";
     }
 }
+

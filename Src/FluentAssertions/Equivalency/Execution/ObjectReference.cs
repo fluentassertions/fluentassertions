@@ -9,6 +9,7 @@ namespace FluentAssertions.Equivalency.Execution;
 /// <summary>
 /// Represents  an object tracked by the <see cref="CyclicReferenceDetector"/> including it's location within an object graph.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal class ObjectReference
 {
     private readonly object @object;
@@ -90,3 +91,4 @@ internal class ObjectReference
     /// </remarks>
     public bool CompareByMembers { get; }
 }
+

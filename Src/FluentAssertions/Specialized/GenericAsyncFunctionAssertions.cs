@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace FluentAssertions.Specialized;
 /// Contains a number of methods to assert that an asynchronous method yields the expected result.
 /// </summary>
 /// <typeparam name="TResult">The type returned in the <see cref="Task{T}"/>.</typeparam>
+[DebuggerNonUserCode]
 public class GenericAsyncFunctionAssertions<TResult>
     : AsyncFunctionAssertions<Task<TResult>, GenericAsyncFunctionAssertions<TResult>>
 {

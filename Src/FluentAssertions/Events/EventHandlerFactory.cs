@@ -7,6 +7,7 @@ namespace FluentAssertions.Events;
 /// <summary>
 /// Static methods that aid in generic event subscription
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal static class EventHandlerFactory
 {
     /// <summary>
@@ -146,3 +147,4 @@ internal static class EventHandlerFactory
         return invoke;
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -762,3 +762,4 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// </summary>
     protected override string Identifier => "XML element";
 }
+

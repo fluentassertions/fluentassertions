@@ -5,6 +5,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
+[System.Diagnostics.StackTraceHidden]
 public class StructuralEqualityEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
@@ -108,3 +109,4 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
         return members;
     }
 }
+

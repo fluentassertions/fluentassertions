@@ -104,3 +104,4 @@ public class XAttributeAssertions : ReferenceTypeAssertions<XAttribute, XAttribu
     /// </summary>
     protected override string Identifier => "XML attribute";
 }
+

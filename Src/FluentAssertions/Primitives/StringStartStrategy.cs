@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
+[System.Diagnostics.StackTraceHidden]
 internal class StringStartStrategy : IStringComparisonStrategy
 {
     private readonly IEqualityComparer<string> comparer;
@@ -49,3 +51,4 @@ internal class StringStartStrategy : IStringComparisonStrategy
 
     private string ExpectationDescription => $"Expected {{context:string}} to {predicateDescription} ";
 }
+

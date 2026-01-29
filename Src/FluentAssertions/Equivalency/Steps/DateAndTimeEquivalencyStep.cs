@@ -10,6 +10,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// Specific equivalency step for handling date and time types where the types are different and the failure message
 /// should make that clear.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public class DateAndTimeEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
@@ -51,3 +52,4 @@ public class DateAndTimeEquivalencyStep : IEquivalencyStep
 }
 
 #pragma warning restore AV1000
+

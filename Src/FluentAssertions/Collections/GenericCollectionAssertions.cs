@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -36,7 +36,6 @@ public class GenericCollectionAssertions<TCollection, T>
 
 #pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
-
 [DebuggerNonUserCode]
 public class GenericCollectionAssertions<TCollection, T, TAssertions> : ReferenceTypeAssertions<TCollection, TAssertions>
     where TCollection : IEnumerable<T>
@@ -1186,28 +1185,28 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             switch (actualItems.Count)
             {
                 case 0: // Fail, Collection is empty
-                {
-                    assertionChain
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} to contain a single item{reason}, but the collection is empty.");
+                    {
+                        assertionChain
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} to contain a single item{reason}, but the collection is empty.");
 
-                    break;
-                }
+                        break;
+                    }
 
                 case 1: // Success Condition
-                {
-                    match = actualItems.Single();
-                    break;
-                }
+                    {
+                        match = actualItems.Single();
+                        break;
+                    }
 
                 default: // Fail, Collection contains more than a single item
-                {
-                    assertionChain
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} to contain a single item{reason}, but found {0}.", Subject);
+                    {
+                        assertionChain
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} to contain a single item{reason}, but found {0}.", Subject);
 
-                    break;
-                }
+                        break;
+                    }
             }
         }
 

@@ -1,8 +1,9 @@
-﻿using System.Xml.Linq;
+using System.Xml.Linq;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
+[System.Diagnostics.StackTraceHidden]
 public class XElementEquivalencyStep : EquivalencyStep<XElement>
 {
     protected override EquivalencyResult OnHandle(Comparands comparands,

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -10,6 +10,7 @@ namespace FluentAssertions.Execution;
 /// <summary>
 /// Encapsulates expanding the various placeholders supported in a failure message.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal class FailureMessageFormatter(FormattingOptions formattingOptions)
 {
     private static readonly char[] Blanks = ['\r', '\n', ' ', '\t'];
@@ -152,3 +153,4 @@ internal class FailureMessageFormatter(FormattingOptions formattingOptions)
         }
     }
 }
+

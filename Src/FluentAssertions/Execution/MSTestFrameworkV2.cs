@@ -1,5 +1,6 @@
-﻿namespace FluentAssertions.Execution;
+namespace FluentAssertions.Execution;
 
+[System.Diagnostics.StackTraceHidden]
 internal class MSTestFrameworkV2 : LateBoundTestFramework
 {
     protected override string ExceptionFullName => "Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException";

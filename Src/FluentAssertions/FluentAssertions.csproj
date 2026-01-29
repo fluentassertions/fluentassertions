@@ -47,11 +47,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Reflectify" Version="1.6.0">
+    <PackageReference Include="Reflectify" Version="1.7.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+
+  <PropertyGroup Label="PolySharp">
+    <PolySharpIncludeRuntimeSupportedAttributes>true</PolySharpIncludeRuntimeSupportedAttributes>
+  </PropertyGroup>
 
   <ItemGroup Label="Analyzers">
     <AdditionalFiles Include="BannedSymbols.txt" />

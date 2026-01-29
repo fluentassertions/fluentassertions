@@ -13,6 +13,7 @@ namespace FluentAssertions.Equivalency.Inlining;
 /// This step allows users to define custom equivalency behaviors inline during assertion
 /// execution.
 /// </remarks>
+[System.Diagnostics.StackTraceHidden]
 public class InlineEquivalencyStep : IEquivalencyStep
 {
     /// <inheritdoc />
@@ -31,3 +32,4 @@ public class InlineEquivalencyStep : IEquivalencyStep
         return EquivalencyResult.ContinueWithNext;
     }
 }
+

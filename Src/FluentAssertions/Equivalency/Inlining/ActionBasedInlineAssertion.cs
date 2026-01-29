@@ -9,6 +9,7 @@ namespace FluentAssertions.Equivalency.Inlining;
 /// of the assertion APIs provided by Fluent Assertions.
 /// </summary>
 /// <typeparam name="T">The expected type of the subject to which the assertion is applied.</typeparam>
+[System.Diagnostics.StackTraceHidden]
 internal class ActionBasedInlineAssertion<T>(Action<T> assertion) : IInlineEquivalencyAssertion
 {
     /// <inheritdoc />
@@ -24,3 +25,4 @@ internal class ActionBasedInlineAssertion<T>(Action<T> assertion) : IInlineEquiv
         }
     }
 }
+

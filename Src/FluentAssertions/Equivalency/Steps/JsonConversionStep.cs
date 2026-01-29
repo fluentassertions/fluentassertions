@@ -6,6 +6,7 @@ using System.Text.Json.Nodes;
 
 namespace FluentAssertions.Equivalency.Steps;
 
+[System.Diagnostics.StackTraceHidden]
 public class JsonConversionStep : IEquivalencyStep
 {
     /// <inheritdoc />
@@ -63,3 +64,4 @@ public class JsonConversionStep : IEquivalencyStep
 }
 
 #endif
+

@@ -1,9 +1,11 @@
-﻿using System;
+using System;
+
 using System.Threading.Tasks;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Specialized;
 
+[System.Diagnostics.StackTraceHidden]
 public class ExecutionTime
 {
     private ITimer timer;
@@ -114,3 +116,4 @@ public class ExecutionTime
 
     internal Exception Exception { get; private set; }
 }
+

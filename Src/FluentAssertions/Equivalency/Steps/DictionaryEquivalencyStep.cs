@@ -9,6 +9,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
+[System.Diagnostics.StackTraceHidden]
 public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
 {
     [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
@@ -28,9 +29,11 @@ public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
                 if (context.Options.IsRecursive)
                 {
                     context.Tracer.WriteLine(member =>
-                        string.Create(CultureInfo.InvariantCulture, $"Recursing into dictionary item {key} at {member.Expectation}"));
+                        string.Create(CultureInfo.InvariantCulture,
+                            $"Recursing into dictionary item {key} at {member.Expectation}"));
 
-                    nestedValidator.AssertEquivalencyOf(new Comparands(subject[key], expectation[key], typeof(object)), context.AsDictionaryItem<object, IDictionary>(key));
+                    nestedValidator.AssertEquivalencyOf(new Comparands(subject[key], expectation[key], typeof(object)),
+                        context.AsDictionaryItem<object, IDictionary>(key));
                 }
                 else
                 {
@@ -50,8 +53,8 @@ public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
     private static bool PreconditionsAreMet(IDictionary expectation, IDictionary subject, AssertionChain assertionChain)
     {
         return AssertIsDictionary(subject, assertionChain)
-            && AssertEitherIsNotNull(expectation, subject, assertionChain)
-            && AssertSameLength(expectation, subject, assertionChain);
+               && AssertEitherIsNotNull(expectation, subject, assertionChain)
+               && AssertSameLength(expectation, subject, assertionChain);
     }
 
     private static bool AssertEitherIsNotNull(IDictionary expectation, IDictionary subject, AssertionChain assertionChain)

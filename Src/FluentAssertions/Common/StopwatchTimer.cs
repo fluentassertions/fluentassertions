@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 
 namespace FluentAssertions.Common;
 
+[StackTraceHidden]
 internal sealed class StopwatchTimer : ITimer
 {
     private readonly Stopwatch stopwatch = Stopwatch.StartNew();
@@ -19,3 +20,4 @@ internal sealed class StopwatchTimer : ITimer
         }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Common;
@@ -302,3 +302,4 @@ public class SimpleTimeSpanAssertions<TAssertions>
     public override bool Equals(object obj) =>
         throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
 }
+

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -7,6 +7,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Xml.Equivalency;
 
+[System.Diagnostics.StackTraceHidden]
 internal class XmlReaderValidator
 {
     private readonly AssertionChain assertionChain;

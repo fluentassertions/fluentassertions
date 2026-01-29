@@ -1916,3 +1916,4 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         }
     }
 }
+

@@ -5,6 +5,7 @@ using System.Text.Json.Nodes;
 
 namespace FluentAssertions.Specialized;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class JsonValueExtensions
 {
     public static bool IsNumeric(this JsonValue value)
@@ -14,3 +15,4 @@ internal static class JsonValueExtensions
 }
 
 #endif
+

@@ -1,9 +1,11 @@
-﻿using System;
+using System;
+
 using System.Globalization;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;
 
+[System.Diagnostics.StackTraceHidden]
 public class Comparands
 {
     public Comparands()
@@ -75,3 +77,4 @@ public class Comparands
         return string.Create(CultureInfo.InvariantCulture, $"{{Subject={Subject}, Expectation={Expectation}}}");
     }
 }
+

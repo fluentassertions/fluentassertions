@@ -13,6 +13,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// This differs from the default equivalency assertion which states that two objects are equivalent if they have the
 /// same properties and values, regardless of their type.
 /// </remarks>
+[System.Diagnostics.StackTraceHidden]
 public class TypeEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
@@ -57,3 +58,4 @@ public class TypeEquivalencyStep : IEquivalencyStep
         return EquivalencyResult.ContinueWithNext;
     }
 }
+

@@ -28,3 +28,4 @@ public class ConstructorInfoAssertions : MethodBaseAssertions<ConstructorInfo, C
         return $"{constructorInfo.DeclaringType}({GetParameterString(constructorInfo)})";
     }
 }
+

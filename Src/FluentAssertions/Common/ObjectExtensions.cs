@@ -5,6 +5,7 @@ using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class ObjectExtensions
 {
     public static Func<T, T, bool> GetComparer<T>()
@@ -87,3 +88,4 @@ internal static class ObjectExtensions
         return Formatter.ToString(source);
     }
 }
+

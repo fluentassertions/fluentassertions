@@ -6,6 +6,7 @@ using System.Text;
 
 namespace FluentAssertions.Execution;
 
+[System.Diagnostics.StackTraceHidden]
 internal class CollectingAssertionStrategy : IAssertionStrategy
 {
     private readonly List<string> failureMessages = [];

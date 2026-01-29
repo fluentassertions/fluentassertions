@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Execution;
 using FluentAssertions.Formatting;
@@ -10,6 +11,8 @@ namespace FluentAssertions;
 /// Provides a <see cref="Which"/> property that can be used in chained assertions where the prior assertions returns a
 /// single object that the assertion continues on.
 /// </summary>
+[StackTraceHidden]
+[DebuggerNonUserCode]
 public class AndWhichConstraint<TParent, TSubject> : AndConstraint<TParent>
 {
     private readonly AssertionChain assertionChain;
@@ -98,7 +101,7 @@ public class AndWhichConstraint<TParent, TSubject> : AndConstraint<TParent>
                 matchedElements.Select(ele => "\t" + Formatter.ToString(ele)));
 
             string message = "More than one object found.  FluentAssertions cannot determine which object is meant."
-                + $"  Found objects:{Environment.NewLine}{foundObjects}";
+                             + $"  Found objects:{Environment.NewLine}{foundObjects}";
 
             AssertionEngine.TestFramework.Throw(message);
         }
