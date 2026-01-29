@@ -388,6 +388,21 @@ public class CustomConvertible : IConvertible
     }
 }
 
+public class ValueSemanticWithProperty
+{
+    public int Value { get; set; }
+
+    public override bool Equals(object obj)
+    {
+        return obj is ValueSemanticWithProperty other && other.Value == Value;
+    }
+
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
+    }
+}
+
 public abstract class Base
 {
     public abstract string AbstractProperty { get; }

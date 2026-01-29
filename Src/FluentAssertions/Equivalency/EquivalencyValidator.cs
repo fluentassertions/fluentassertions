@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Common;
 using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
 
@@ -16,7 +17,7 @@ internal class EquivalencyValidator : IValidateChildNodeEquivalency
         context.ResetTracing();
 
         using var scope = new AssertionScope();
-
+        
         RecursivelyAssertEquivalencyOf(comparands, context);
 
         if (context.TraceWriter is not null)
@@ -38,6 +39,50 @@ internal class EquivalencyValidator : IValidateChildNodeEquivalency
 
         if (ShouldContinueThisDeep(context.CurrentNode, context.Options, assertionChain))
         {
+            // Fail when a path-based ExcludeMemberByPathSelectionRule targets this node but its type is compared using value semantics.
+            foreach (var rule in context.Options.SelectionRules)
+            {
+                if (rule is FluentAssertions.Equivalency.Selection.ExcludeMemberByPathSelectionRule excludeRule)
+                {
+                    try
+                    {
+                        try
+                        {
+                            var nodePath = new MemberPath(context.CurrentNode.Subject.PathAndName);
+
+                            if (nodePath.IsParentOrChildOf(excludeRule.CurrentPath) || nodePath.IsSameAs(excludeRule.CurrentPath))
+                            {
+                                Type typeToCheck = context.CurrentNode.Type;
+
+                                // Ignore primitive/value types and strings — excluding these is harmless and expected.
+                                if (typeToCheck.IsValueType || typeToCheck == typeof(string))
+                                {
+                                    continue;
+                                }
+
+                                EqualityStrategy strategy = context.Options.GetEqualityStrategy(typeToCheck);
+
+                                if ((strategy is EqualityStrategy.Equals or EqualityStrategy.ForceEquals)
+                                    && (typeToCheck.OverridesEquals() || strategy == EqualityStrategy.ForceEquals))
+                                {
+                                    assertionChain.FailWith(
+                                        "Cannot apply member-level inclusion/exclusion to path {0} because the type {1} is compared using value semantics (Equals). Configure it to be compared by members instead (for example, using ComparingByMembers<{2}>()) before applying member-level rules.",
+                                        excludeRule.CurrentPath, typeToCheck, typeToCheck);
+                                }
+                            }
+                        }
+                        catch
+                        {
+                            // Swallow any unexpected errors during inspection to avoid changing behavior in unknown cases.
+                        }
+                    }
+                    catch
+                    {
+                        // Swallow any unexpected errors during inspection to avoid changing behavior in unknown cases.
+                    }
+                }
+            }
+
             if (!context.IsCyclicReference(comparands.Expectation))
             {
                 TryToProveNodesAreEquivalent(comparands, context);

@@ -1182,6 +1182,21 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
+        public void Excluding_a_member_on_a_type_with_value_semantics_should_throw()
+        {
+            // Arrange
+            var subject = new ValueSemanticWithProperty { Value = 1 };
+            var expectation = new ValueSemanticWithProperty { Value = 2 };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opts => opts
+                .Excluding(x => x.Value));
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*Cannot apply member-level inclusion/exclusion*");
+        }
+
+        [Fact]
         public void Can_exclude_properties_deeper_in_the_graph_by_name()
         {
             // Arrange
