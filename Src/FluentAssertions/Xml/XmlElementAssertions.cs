@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using FluentAssertions.Common;
@@ -172,3 +172,4 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
 
     protected override string Identifier => "XML element";
 }
+

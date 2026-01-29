@@ -21,6 +21,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Represents the run-time behavior of a structural equivalency assertion.
 /// </summary>
+[StackTraceHidden]
 public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptions, IContainTypingRules
     where TSelf : SelfReferenceEquivalencyOptions<TSelf>
 {
@@ -449,7 +450,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// <para>
     /// For open generic types, this excludes all closed generics and types deriving from them. For example,
     /// <c>Excluding(typeof(Nullable&lt;&gt;))</c> excludes all nullable value types like <c>int?</c>, <c>double?</c>, etc.
-    /// Similarly, <c>Excluding(typeof(List&lt;&gt;))</c> excludes <c>List&lt;int&gt;</c>, <c>List&lt;string&gt;</c>, 
+    /// Similarly, <c>Excluding(typeof(List&lt;&gt;))</c> excludes <c>List&lt;int&gt;</c>, <c>List&lt;string&gt;</c>,
     /// and any types deriving from those closed generics.
     /// </para>
     /// </remarks>
@@ -1066,3 +1067,4 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
 
     #endregion
 }
+

@@ -4,6 +4,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class EnumerableEquivalencyValidatorExtensions
 {
     public static Continuation AssertEitherCollectionIsNotEmpty<T>(this AssertionChain assertionChain,
@@ -49,3 +50,4 @@ internal static class EnumerableEquivalencyValidatorExtensions
                         expectation));
     }
 }
+

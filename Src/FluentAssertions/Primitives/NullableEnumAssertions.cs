@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Execution;
 
@@ -101,3 +101,4 @@ public class NullableEnumAssertions<TEnum, TAssertions> : EnumAssertions<TEnum, 
         return NotHaveValue(because, becauseArgs);
     }
 }
+

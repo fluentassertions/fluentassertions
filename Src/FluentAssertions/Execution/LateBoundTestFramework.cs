@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 
 namespace FluentAssertions.Execution;
 
+[System.Diagnostics.StackTraceHidden]
 internal abstract class LateBoundTestFramework : ITestFramework
 {
     private Func<string, Exception> exceptionFactory =

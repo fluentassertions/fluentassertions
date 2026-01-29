@@ -1,9 +1,10 @@
-﻿namespace FluentAssertions.Equivalency.Steps;
+namespace FluentAssertions.Equivalency.Steps;
 
 /// <summary>
 /// Represents a composite equivalency step that passes the execution to all user-supplied steps that can handle the
 /// current context.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public class RunAllUserStepsEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,

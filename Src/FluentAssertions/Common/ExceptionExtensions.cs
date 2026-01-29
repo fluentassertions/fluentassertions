@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
 
 namespace FluentAssertions.Common;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class ExceptionExtensions
 {
     public static ExceptionDispatchInfo Unwrap(this TargetInvocationException exception)
@@ -18,3 +19,4 @@ internal static class ExceptionExtensions
         return ExceptionDispatchInfo.Capture(result);
     }
 }
+

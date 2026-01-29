@@ -1,5 +1,6 @@
-﻿namespace FluentAssertions;
+namespace FluentAssertions;
 
+[System.Diagnostics.StackTraceHidden]
 public static class MoreThan
 {
     public static OccurrenceConstraint Once() => new MoreThanTimesConstraint(1);

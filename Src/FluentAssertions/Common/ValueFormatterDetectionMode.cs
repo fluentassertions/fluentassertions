@@ -1,4 +1,4 @@
-﻿using FluentAssertions.Configuration;
+using FluentAssertions.Configuration;
 
 namespace FluentAssertions.Common;
 

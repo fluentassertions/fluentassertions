@@ -6,6 +6,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
+[System.Diagnostics.StackTraceHidden]
 internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
 {
     public void AssertForEquality(AssertionChain assertionChain, string subject, string expected)
@@ -39,7 +40,7 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
         else
         {
             assertionChain.FailWith($"{ExpectationDescription} {{0}}{{reason}}, but {{1}} {OutcomeDescription}.", expected,
-                    subject);
+                subject);
         }
     }
 
@@ -67,10 +68,10 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
     private static string ConvertWildcardToRegEx(string wildcardExpression)
     {
         return "^"
-            + Regex.Escape(wildcardExpression)
-                .Replace("\\*", ".*", StringComparison.Ordinal)
-                .Replace("\\?", ".", StringComparison.Ordinal)
-            + "$";
+               + Regex.Escape(wildcardExpression)
+                   .Replace("\\*", ".*", StringComparison.Ordinal)
+                   .Replace("\\?", ".", StringComparison.Ordinal)
+               + "$";
     }
 
     private static bool IsLongOrMultiline(string message)

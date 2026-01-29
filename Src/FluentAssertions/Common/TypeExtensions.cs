@@ -11,6 +11,7 @@ using Reflectify;
 
 namespace FluentAssertions.Common;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class TypeExtensions
 {
     private const BindingFlags PublicInstanceMembersFlag =
@@ -482,3 +483,4 @@ internal static class TypeExtensions
         return type;
     }
 }
+

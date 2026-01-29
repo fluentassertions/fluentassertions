@@ -12,6 +12,7 @@ namespace FluentAssertions.Events;
 /// Records activity for a single event.
 /// </summary>
 [DebuggerNonUserCode]
+[StackTraceHidden]
 internal sealed class EventRecorder : IEventRecording, IDisposable
 {
     private readonly Func<DateTime> utcNow;

@@ -106,3 +106,4 @@ public class NullableTimeOnlyAssertions<TAssertions> : TimeOnlyAssertions<TAsser
 }
 
 #endif
+

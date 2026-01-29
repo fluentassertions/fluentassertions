@@ -3,6 +3,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
+[System.Diagnostics.StackTraceHidden]
 internal class StringValidator
 {
     private readonly IStringComparisonStrategy comparisonStrategy;

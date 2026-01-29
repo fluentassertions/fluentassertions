@@ -51,7 +51,6 @@ public class OuterExceptionSpecs
         {
             // Act
             testSubject
-
                 .Should().Throw<InvalidOperationException>()
                 .WithMessage(new string('#', 101));
 

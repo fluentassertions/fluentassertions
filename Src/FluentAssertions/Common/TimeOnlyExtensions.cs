@@ -3,6 +3,7 @@ using System;
 
 namespace FluentAssertions.Common;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class TimeOnlyExtensions
 {
     /// <summary>
@@ -27,3 +28,4 @@ internal static class TimeOnlyExtensions
 }
 
 #endif
+

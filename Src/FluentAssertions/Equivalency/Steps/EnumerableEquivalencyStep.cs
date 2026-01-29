@@ -1,10 +1,12 @@
 using System;
+
 using System.Collections;
 using System.Linq;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
+[System.Diagnostics.StackTraceHidden]
 public class EnumerableEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
@@ -77,3 +79,4 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
             (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ArraySegment<>));
     }
 }
+

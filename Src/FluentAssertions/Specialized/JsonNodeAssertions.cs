@@ -524,3 +524,4 @@ public class JsonNodeAssertions<T> : ReferenceTypeAssertions<T, JsonNodeAssertio
 }
 
 #endif
+

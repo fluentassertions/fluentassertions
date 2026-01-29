@@ -1,5 +1,6 @@
-﻿namespace FluentAssertions;
+namespace FluentAssertions;
 
+[System.Diagnostics.StackTraceHidden]
 public static class AtMost
 {
     public static OccurrenceConstraint Once() => new AtMostTimesConstraint(1);

@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Reflection;
 
 namespace FluentAssertions.Common;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class CSharpAccessModifierExtensions
 {
     internal static CSharpAccessModifier GetCSharpAccessModifier(this MethodBase methodBase)
@@ -105,3 +106,4 @@ internal static class CSharpAccessModifierExtensions
         return CSharpAccessModifier.InvalidForCSharp;
     }
 }
+

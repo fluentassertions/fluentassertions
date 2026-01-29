@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
@@ -10,6 +11,7 @@ namespace FluentAssertions.Numeric;
 
 #pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
+[DebuggerNonUserCode]
 public abstract class NumericAssertionsBase<T, TSubject, TAssertions>
     where T : struct, IComparable<T>
     where TAssertions : NumericAssertionsBase<T, TSubject, TAssertions>

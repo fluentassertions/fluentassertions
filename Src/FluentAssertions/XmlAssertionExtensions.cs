@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using FluentAssertions.Execution;
@@ -19,3 +19,4 @@ public static class XmlAssertionExtensions
         return new XmlElementAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 }
+

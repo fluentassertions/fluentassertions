@@ -4,17 +4,20 @@
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"FluentAssertions.Specs, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
 namespace FluentAssertions
 {
+    [System.Diagnostics.StackTraceHidden]
     public class AggregateExceptionExtractor : FluentAssertions.Specialized.IExtractExceptions
     {
         public AggregateExceptionExtractor() { }
         public System.Collections.Generic.IEnumerable<T> OfType<T>(System.Exception actualException)
             where T : System.Exception { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class AndConstraint<TParent>
     {
         public AndConstraint(TParent parent) { }
         public TParent And { get; }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class AndWhichConstraint<TParent, TSubject> : FluentAssertions.AndConstraint<TParent>
     {
         public AndWhichConstraint(TParent parent, System.Collections.Generic.IEnumerable<TSubject> subjects) { }
@@ -25,10 +28,12 @@ namespace FluentAssertions
         public TSubject Subject { get; }
         public TSubject Which { get; }
     }
+    [System.Diagnostics.StackTraceHidden]
     public static class AssertionConfiguration
     {
         public static FluentAssertions.Configuration.GlobalConfiguration Current { get; }
     }
+    [System.Diagnostics.StackTraceHidden]
     public static class AssertionEngine
     {
         public static FluentAssertions.Configuration.GlobalConfiguration Configuration { get; }
@@ -188,6 +193,7 @@ namespace FluentAssertions
         public static System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.GenericAsyncFunctionAssertions<T>, T>> WithResult<T>(this System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.GenericAsyncFunctionAssertions<T>, T>> task, T expected, string because = "", params object[] becauseArgs) { }
         public static System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.TaskCompletionSourceAssertions<T>, T>> WithResult<T>(this System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.TaskCompletionSourceAssertions<T>, T>> task, T expected, string because = "", params object[] becauseArgs) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public static class AtLeast
     {
         public static FluentAssertions.OccurrenceConstraint Once() { }
@@ -195,6 +201,7 @@ namespace FluentAssertions
         public static FluentAssertions.OccurrenceConstraint Times(int expected) { }
         public static FluentAssertions.OccurrenceConstraint Twice() { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public static class AtMost
     {
         public static FluentAssertions.OccurrenceConstraint Once() { }
@@ -202,6 +209,7 @@ namespace FluentAssertions
         public static FluentAssertions.OccurrenceConstraint Times(int expected) { }
         public static FluentAssertions.OccurrenceConstraint Twice() { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public static class CallerIdentifier
     {
         public static System.Action<string> Logger { get; set; }
@@ -209,11 +217,13 @@ namespace FluentAssertions
         public static string DetermineCallerIdentity() { }
     }
     [System.AttributeUsage(System.AttributeTargets.Method)]
+    [System.Diagnostics.StackTraceHidden]
     public class CustomAssertionAttribute : System.Attribute
     {
         public CustomAssertionAttribute() { }
     }
     [System.AttributeUsage(System.AttributeTargets.Assembly)]
+    [System.Diagnostics.StackTraceHidden]
     public sealed class CustomAssertionsAssemblyAttribute : System.Attribute
     {
         public CustomAssertionsAssemblyAttribute() { }
@@ -231,6 +241,7 @@ namespace FluentAssertions
         public static FluentAssertions.Events.IEventRecording WithArgs<T>(this FluentAssertions.Events.IEventRecording eventRecording, params System.Linq.Expressions.Expression<System.Func<T, bool>>[] predicates) { }
         public static FluentAssertions.Events.IEventRecording WithSender(this FluentAssertions.Events.IEventRecording eventRecording, object expectedSender) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public static class Exactly
     {
         public static FluentAssertions.OccurrenceConstraint Once() { }
@@ -261,6 +272,7 @@ namespace FluentAssertions
         public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> WithoutMessage<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string wildcardPattern, string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public static class FluentActions
     {
         public static System.Func<System.Threading.Tasks.Task> Awaiting(System.Func<System.Threading.Tasks.Task> action) { }
@@ -276,16 +288,19 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.JsonNodeAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this T jsonNode)
             where T : System.Text.Json.Nodes.JsonNode { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public static class LessThan
     {
         public static FluentAssertions.OccurrenceConstraint Thrice() { }
         public static FluentAssertions.OccurrenceConstraint Times(int expected) { }
         public static FluentAssertions.OccurrenceConstraint Twice() { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public static class License
     {
         public static bool Accepted { get; set; }
     }
+    [System.Diagnostics.StackTraceHidden]
     public static class MoreThan
     {
         public static FluentAssertions.OccurrenceConstraint Once() { }
@@ -347,6 +362,7 @@ namespace FluentAssertions
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeXmlSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<object>, FluentAssertions.Equivalency.EquivalencyOptions<object>> options, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeXmlSerializable<T>(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<T>, FluentAssertions.Equivalency.EquivalencyOptions<T>> options, string because = "", params object[] becauseArgs) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public abstract class OccurrenceConstraint
     {
         protected OccurrenceConstraint(int expectedCount) { }
@@ -383,6 +399,7 @@ namespace FluentAssertions
         public static FluentAssertions.Types.TypeSelector Types(this System.Reflection.Assembly assembly) { }
         public static FluentAssertions.Types.TypeSelector Types(this System.Type type) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public static class Value
     {
         public static FluentAssertions.Equivalency.Inlining.IInlineEquivalencyAssertion ThatMatches<T>(System.Linq.Expressions.Expression<System.Func<T, bool>> condition) { }
@@ -581,6 +598,7 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> ThenBeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> ThenBeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] becauseArgs) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class WhoseValueConstraint<TCollection, TKey, TValue, TAssertions> : FluentAssertions.AndConstraint<TAssertions>
         where TCollection : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>
         where TAssertions : FluentAssertions.Collections.GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
@@ -626,6 +644,7 @@ namespace FluentAssertions.Common
 }
 namespace FluentAssertions.Configuration
 {
+    [System.Diagnostics.StackTraceHidden]
     public class GlobalConfiguration
     {
         public GlobalConfiguration() { }
@@ -633,6 +652,7 @@ namespace FluentAssertions.Configuration
         public FluentAssertions.Configuration.GlobalFormattingOptions Formatting { get; set; }
         public FluentAssertions.Configuration.TestFramework? TestFramework { get; set; }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class GlobalEquivalencyOptions
     {
         public GlobalEquivalencyOptions() { }
@@ -640,6 +660,7 @@ namespace FluentAssertions.Configuration
         public FluentAssertions.Equivalency.EquivalencyOptions<T> CloneDefaults<T>() { }
         public void Modify(System.Func<FluentAssertions.Equivalency.EquivalencyOptions, FluentAssertions.Equivalency.EquivalencyOptions> configureOptions) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class GlobalFormattingOptions : FluentAssertions.Formatting.FormattingOptions
     {
         public GlobalFormattingOptions() { }
@@ -659,6 +680,7 @@ namespace FluentAssertions.Configuration
 }
 namespace FluentAssertions.Equivalency
 {
+    [System.Diagnostics.StackTraceHidden]
     public class Comparands
     {
         public Comparands() { }
@@ -670,6 +692,7 @@ namespace FluentAssertions.Equivalency
         public System.Type GetExpectedType(FluentAssertions.Equivalency.IEquivalencyOptions options) { }
         public override string ToString() { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class ConversionSelector
     {
         public ConversionSelector() { }
@@ -701,6 +724,7 @@ namespace FluentAssertions.Equivalency
     {
         public EquivalencyOptions() { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class EquivalencyOptions<TExpectation> : FluentAssertions.Equivalency.SelfReferenceEquivalencyOptions<FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>>
     {
         public EquivalencyOptions() { }
@@ -716,6 +740,7 @@ namespace FluentAssertions.Equivalency
         public FluentAssertions.Equivalency.EquivalencyOptions<TExpectation> WithStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
         public FluentAssertions.Equivalency.EquivalencyOptions<TExpectation> WithoutStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class EquivalencyPlan : System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IEquivalencyStep>, System.Collections.IEnumerable
     {
         public EquivalencyPlan() { }
@@ -738,12 +763,14 @@ namespace FluentAssertions.Equivalency
         ContinueWithNext = 0,
         EquivalencyProven = 1,
     }
+    [System.Diagnostics.StackTraceHidden]
     public abstract class EquivalencyStep<T> : FluentAssertions.Equivalency.IEquivalencyStep
     {
         protected EquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
         protected abstract FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator);
     }
+    [System.Diagnostics.StackTraceHidden]
     public class EquivalencyValidationContext : FluentAssertions.Equivalency.IEquivalencyValidationContext
     {
         public EquivalencyValidationContext(FluentAssertions.Equivalency.INode root, FluentAssertions.Equivalency.IEquivalencyOptions options) { }
@@ -866,10 +893,12 @@ namespace FluentAssertions.Equivalency
     {
         void AssertEquivalencyOf(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context);
     }
+    [System.Diagnostics.StackTraceHidden]
     public static class MemberFactory
     {
         public static FluentAssertions.Equivalency.IMember Create(System.Reflection.MemberInfo memberInfo, FluentAssertions.Equivalency.INode parent) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class MemberSelectionContext
     {
         public MemberSelectionContext(System.Type compileTimeType, System.Type runtimeType, FluentAssertions.Equivalency.IEquivalencyOptions options) { }
@@ -886,6 +915,7 @@ namespace FluentAssertions.Equivalency
         ExplicitlyImplemented = 4,
         DefaultInterfaceProperties = 8,
     }
+    [System.Diagnostics.StackTraceHidden]
     public class NestedExclusionOptionBuilder<TExpectation, TCurrent>
     {
         public FluentAssertions.Equivalency.EquivalencyOptions<TExpectation> Exclude(System.Linq.Expressions.Expression<System.Func<TCurrent, object>> expression) { }
@@ -897,6 +927,7 @@ namespace FluentAssertions.Equivalency
         NotStrict = 1,
         Irrelevant = 2,
     }
+    [System.Diagnostics.StackTraceHidden]
     public class OrderingRuleCollection : System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IOrderingRule>, System.Collections.IEnumerable
     {
         public OrderingRuleCollection() { }
@@ -916,6 +947,7 @@ namespace FluentAssertions.Equivalency
         public override string ToString() { }
         public delegate string GetDescription(string pathAndName);
     }
+    [System.Diagnostics.StackTraceHidden]
     public abstract class SelfReferenceEquivalencyOptions<TSelf> : FluentAssertions.Equivalency.IEquivalencyOptions
         where TSelf : FluentAssertions.Equivalency.SelfReferenceEquivalencyOptions<TSelf>
     {
@@ -1002,6 +1034,7 @@ namespace FluentAssertions.Equivalency
                 where TMemberType : TMember { }
         }
     }
+    [System.Diagnostics.StackTraceHidden]
     public static class SubjectInfoExtensions
     {
         public static bool WhichGetterDoesNotHave(this FluentAssertions.Equivalency.IMemberInfo memberInfo, FluentAssertions.Common.CSharpAccessModifier accessModifier) { }
@@ -1016,6 +1049,7 @@ namespace FluentAssertions.Equivalency.Inlining
     {
         void Execute(FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.Comparands comparands);
     }
+    [System.Diagnostics.StackTraceHidden]
     public class InlineEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public InlineEquivalencyStep() { }
@@ -1024,104 +1058,124 @@ namespace FluentAssertions.Equivalency.Inlining
 }
 namespace FluentAssertions.Equivalency.Steps
 {
+    [System.Diagnostics.StackTraceHidden]
     public class AssertionRuleEquivalencyStep<TSubject> : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public AssertionRuleEquivalencyStep(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate, System.Action<FluentAssertions.Equivalency.IAssertionContext<TSubject>> assertionAction) { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
         public override string ToString() { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class AutoConversionStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public AutoConversionStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
         public override string ToString() { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class DateAndTimeEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public DateAndTimeEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class DictionaryEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Collections.IDictionary>
     {
         public DictionaryEquivalencyStep() { }
         protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class EnumEqualityStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public EnumEqualityStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class EnumerableEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public EnumerableEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class EqualityComparerEquivalencyStep<T> : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public EqualityComparerEquivalencyStep(System.Collections.Generic.IEqualityComparer<T> comparer) { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
         public override string ToString() { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class GenericDictionaryEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public GenericDictionaryEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class GenericEnumerableEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public GenericEnumerableEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class JsonConversionStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public JsonConversionStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class ReferenceEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public ReferenceEqualityEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class RunAllUserStepsEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public RunAllUserStepsEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class SimpleEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public SimpleEqualityEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class StringEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public StringEqualityEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class StructuralEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public StructuralEqualityEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class TypeEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public TypeEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class ValueTypeEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public ValueTypeEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency valueChildNodes) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class XAttributeEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Xml.Linq.XAttribute>
     {
         public XAttributeEquivalencyStep() { }
         protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class XDocumentEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Xml.Linq.XDocument>
     {
         public XDocumentEquivalencyStep() { }
         protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class XElementEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Xml.Linq.XElement>
     {
         public XElementEquivalencyStep() { }
@@ -1163,12 +1217,14 @@ namespace FluentAssertions.Events
         public FluentAssertions.Events.IEventRecording Raise(string eventName, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.Events.IEventRecording RaisePropertyChangeFor(System.Linq.Expressions.Expression<System.Func<T, object>> propertyExpression, string because = "", params object[] becauseArgs) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class EventMetadata
     {
         public EventMetadata(string eventName, System.Type handlerType) { }
         public string EventName { get; }
         public System.Type HandlerType { get; }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class EventMonitorOptions
     {
         public EventMonitorOptions() { }
@@ -1190,6 +1246,7 @@ namespace FluentAssertions.Events
         FluentAssertions.Events.IEventRecording GetRecordingFor(string eventName);
         FluentAssertions.Events.EventAssertions<T> Should();
     }
+    [System.Diagnostics.StackTraceHidden]
     public class OccurredEvent
     {
         public OccurredEvent() { }
@@ -1201,6 +1258,7 @@ namespace FluentAssertions.Events
 }
 namespace FluentAssertions.Execution
 {
+    [System.Diagnostics.StackTraceHidden]
     public sealed class AssertionChain
     {
         public string CallerIdentifier { get; }
@@ -1228,10 +1286,12 @@ namespace FluentAssertions.Execution
         public FluentAssertions.Execution.AssertionChain WithReportable(string name, System.Func<string> content) { }
         public static FluentAssertions.Execution.AssertionChain GetOrCreate() { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class AssertionFailedException : System.Exception
     {
         public AssertionFailedException(string message) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public sealed class AssertionScope : System.IDisposable
     {
         public AssertionScope() { }
@@ -1247,21 +1307,25 @@ namespace FluentAssertions.Execution
         public void Dispose() { }
         public bool HasFailures() { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class Continuation
     {
         public FluentAssertions.Execution.AssertionChain Then { get; }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class ContinuationOfGiven<TSubject>
     {
         public bool Succeeded { get; }
         public FluentAssertions.Execution.GivenSelector<TSubject> Then { get; }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class FailReason
     {
         public FailReason(string message, params object[] args) { }
         public object[] Args { get; }
         public string Message { get; }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class GivenSelector<T>
     {
         public bool Succeeded { get; }
@@ -1288,6 +1352,7 @@ namespace FluentAssertions.Execution
         [System.Diagnostics.CodeAnalysis.DoesNotReturn]
         void Throw(string message);
     }
+    [System.Diagnostics.StackTraceHidden]
     public class Reason
     {
         public Reason(string formattedMessage, object[] arguments) { }
@@ -1298,6 +1363,7 @@ namespace FluentAssertions.Execution
 namespace FluentAssertions.Extensibility
 {
     [System.AttributeUsage(System.AttributeTargets.Assembly, AllowMultiple=true)]
+    [System.Diagnostics.StackTraceHidden]
     public sealed class AssertionEngineInitializerAttribute : System.Attribute
     {
         public AssertionEngineInitializerAttribute(System.Type type, string methodName) { }
@@ -2318,6 +2384,7 @@ namespace FluentAssertions.Specialized
         public virtual FluentAssertions.Specialized.ExceptionAssertions<TException> WithMessage(string expectedWildcardPattern, string because = "", params object[] becauseArgs) { }
         public virtual FluentAssertions.Specialized.ExceptionAssertions<TException> WithoutMessage(string wildcardPattern, string because = "", params object[] becauseArgs) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class ExecutionTime
     {
         public ExecutionTime(System.Action action, FluentAssertions.Common.StartTimer createTimer) { }
@@ -2382,6 +2449,7 @@ namespace FluentAssertions.Specialized
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>> NotBeUtcDate(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.JsonNodeAssertions<T>> NotHaveProperty(string code, string because = "", params object[] becauseArgs) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class MemberExecutionTime<T> : FluentAssertions.Specialized.ExecutionTime
     {
         public MemberExecutionTime(T subject, System.Linq.Expressions.Expression<System.Action<T>> action, FluentAssertions.Common.StartTimer createTimer) { }
@@ -2456,6 +2524,7 @@ namespace FluentAssertions.Streams
 }
 namespace FluentAssertions.Types
 {
+    [System.Diagnostics.StackTraceHidden]
     public static class AllTypes
     {
         public static FluentAssertions.Types.TypeSelector From(System.Reflection.Assembly assembly) { }
@@ -2513,6 +2582,7 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodBaseAssertions<System.Reflection.MethodInfo, FluentAssertions.Types.MethodInfoAssertions>> Return<TReturn>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodBaseAssertions<System.Reflection.MethodInfo, FluentAssertions.Types.MethodInfoAssertions>> ReturnVoid(string because = "", params object[] becauseArgs) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class MethodInfoSelector : System.Collections.Generic.IEnumerable<System.Reflection.MethodInfo>, System.Collections.IEnumerable
     {
         public MethodInfoSelector(System.Collections.Generic.IEnumerable<System.Type> types) { }
@@ -2580,6 +2650,7 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoAssertions> Return(System.Type propertyType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoAssertions> Return<TReturn>(string because = "", params object[] becauseArgs) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class PropertyInfoSelector : System.Collections.Generic.IEnumerable<System.Reflection.PropertyInfo>, System.Collections.IEnumerable
     {
         public PropertyInfoSelector(System.Collections.Generic.IEnumerable<System.Type> types) { }
@@ -2700,6 +2771,7 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotImplement<TInterface>(string because = "", params object[] becauseArgs)
             where TInterface :  class { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class TypeSelector : System.Collections.Generic.IEnumerable<System.Type>, System.Collections.IEnumerable
     {
         public TypeSelector(System.Collections.Generic.IEnumerable<System.Type> types) { }
@@ -2849,6 +2921,7 @@ namespace FluentAssertions.Xml
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(System.Xml.XmlNode expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(System.Xml.XmlNode unexpected, string because = "", params object[] becauseArgs) { }
     }
+    [System.Diagnostics.StackTraceHidden]
     public class XmlNodeFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public XmlNodeFormatter() { }

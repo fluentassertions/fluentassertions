@@ -4,6 +4,7 @@ using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Configuration;
 
+[System.Diagnostics.StackTraceHidden]
 public class GlobalFormattingOptions : FormattingOptions
 {
     public string ValueFormatterAssembly
@@ -32,3 +33,4 @@ public class GlobalFormattingOptions : FormattingOptions
         };
     }
 }
+

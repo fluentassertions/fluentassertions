@@ -7,6 +7,7 @@ using System.Reflection;
 
 namespace FluentAssertions.Common;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class ExpressionExtensions
 {
     /// <summary>
@@ -56,79 +57,79 @@ internal static class ExpressionExtensions
 #pragma warning restore IDE0010
             {
                 case ExpressionType.Lambda:
-                {
-                    node = ((LambdaExpression)node).Body;
-                    break;
-                }
+                    {
+                        node = ((LambdaExpression)node).Body;
+                        break;
+                    }
 
                 case ExpressionType.Convert:
                 case ExpressionType.ConvertChecked:
-                {
-                    var unaryExpression = (UnaryExpression)node;
-                    node = unaryExpression.Operand;
-                    break;
-                }
+                    {
+                        var unaryExpression = (UnaryExpression)node;
+                        node = unaryExpression.Operand;
+                        break;
+                    }
 
                 case ExpressionType.MemberAccess:
-                {
-                    var memberExpression = (MemberExpression)node;
-                    node = memberExpression.Expression;
+                    {
+                        var memberExpression = (MemberExpression)node;
+                        node = memberExpression.Expression;
 
-                    singlePath = $"{memberExpression.Member.Name}.{singlePath}";
-                    declaringTypes.Add(memberExpression.Member.DeclaringType);
-                    break;
-                }
+                        singlePath = $"{memberExpression.Member.Name}.{singlePath}";
+                        declaringTypes.Add(memberExpression.Member.DeclaringType);
+                        break;
+                    }
 
                 case ExpressionType.ArrayIndex:
-                {
-                    var binaryExpression = (BinaryExpression)node;
-                    var indexExpression = (ConstantExpression)binaryExpression.Right;
-                    node = binaryExpression.Left;
+                    {
+                        var binaryExpression = (BinaryExpression)node;
+                        var indexExpression = (ConstantExpression)binaryExpression.Right;
+                        node = binaryExpression.Left;
 
-                    singlePath = $"[{indexExpression.Value}].{singlePath}";
-                    break;
-                }
+                        singlePath = $"[{indexExpression.Value}].{singlePath}";
+                        break;
+                    }
 
                 case ExpressionType.Parameter:
-                {
-                    node = null;
-                    break;
-                }
+                    {
+                        node = null;
+                        break;
+                    }
 
                 case ExpressionType.Call:
-                {
-                    var methodCallExpression = (MethodCallExpression)node;
+                    {
+                        var methodCallExpression = (MethodCallExpression)node;
 
-                    if (methodCallExpression is not
-                        { Method.Name: "get_Item", Arguments: [ConstantExpression argumentExpression] })
+                        if (methodCallExpression is not
+                            { Method.Name: "get_Item", Arguments: [ConstantExpression argumentExpression] })
+                        {
+                            throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
+                        }
+
+                        node = methodCallExpression.Object;
+                        singlePath = $"[{argumentExpression.Value}].{singlePath}";
+                        break;
+                    }
+
+                case ExpressionType.New:
+                    {
+                        var newExpression = (NewExpression)node;
+
+                        foreach (Expression member in newExpression.Arguments)
+                        {
+                            var expr = member.ToString();
+                            selectors.Add(expr[expr.IndexOf('.', StringComparison.Ordinal)..]);
+                            declaringTypes.Add(((MemberExpression)member).Member.DeclaringType);
+                        }
+
+                        node = null;
+                        break;
+                    }
+
+                default:
                     {
                         throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
                     }
-
-                    node = methodCallExpression.Object;
-                    singlePath = $"[{argumentExpression.Value}].{singlePath}";
-                    break;
-                }
-
-                case ExpressionType.New:
-                {
-                    var newExpression = (NewExpression)node;
-
-                    foreach (Expression member in newExpression.Arguments)
-                    {
-                        var expr = member.ToString();
-                        selectors.Add(expr[expr.IndexOf('.', StringComparison.Ordinal)..]);
-                        declaringTypes.Add(((MemberExpression)member).Member.DeclaringType);
-                    }
-
-                    node = null;
-                    break;
-                }
-
-                default:
-                {
-                    throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
-                }
             }
         }
 
@@ -183,58 +184,58 @@ internal static class ExpressionExtensions
 #pragma warning restore IDE0010
             {
                 case ExpressionType.Lambda:
-                {
-                    node = ((LambdaExpression)node).Body;
-                    break;
-                }
+                    {
+                        node = ((LambdaExpression)node).Body;
+                        break;
+                    }
 
                 case ExpressionType.Convert:
                 case ExpressionType.ConvertChecked:
-                {
-                    var unaryExpression = (UnaryExpression)node;
-                    node = unaryExpression.Operand;
-                    break;
-                }
+                    {
+                        var unaryExpression = (UnaryExpression)node;
+                        node = unaryExpression.Operand;
+                        break;
+                    }
 
                 case ExpressionType.MemberAccess:
-                {
-                    var memberExpression = (MemberExpression)node;
-                    node = memberExpression.Expression;
+                    {
+                        var memberExpression = (MemberExpression)node;
+                        node = memberExpression.Expression;
 
-                    break;
-                }
+                        break;
+                    }
 
                 case ExpressionType.ArrayIndex:
-                {
-                    var binaryExpression = (BinaryExpression)node;
-                    node = binaryExpression.Left;
+                    {
+                        var binaryExpression = (BinaryExpression)node;
+                        node = binaryExpression.Left;
 
-                    break;
-                }
+                        break;
+                    }
 
                 case ExpressionType.Parameter:
-                {
-                    node = null;
-                    break;
-                }
+                    {
+                        node = null;
+                        break;
+                    }
 
                 case ExpressionType.Call:
-                {
-                    var methodCallExpression = (MethodCallExpression)node;
+                    {
+                        var methodCallExpression = (MethodCallExpression)node;
 
-                    if (methodCallExpression is not { Method.Name: "get_Item", Arguments: [ConstantExpression] })
+                        if (methodCallExpression is not { Method.Name: "get_Item", Arguments: [ConstantExpression] })
+                        {
+                            throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
+                        }
+
+                        node = methodCallExpression.Object;
+                        break;
+                    }
+
+                default:
                     {
                         throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
                     }
-
-                    node = methodCallExpression.Object;
-                    break;
-                }
-
-                default:
-                {
-                    throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
-                }
             }
         }
     }
@@ -242,3 +243,4 @@ internal static class ExpressionExtensions
     private static string GetUnsupportedExpressionMessage(Expression expression) =>
         $"Expression <{expression}> cannot be used to select a member.";
 }
+

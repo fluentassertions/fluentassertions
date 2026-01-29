@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -224,3 +225,4 @@ public static class ExceptionAssertionsExtensions
 
 #pragma warning restore AV1755
 }
+

@@ -9,6 +9,7 @@ namespace FluentAssertions.Equivalency;
 /// A specialized type of <see cref="INode  "/> that represents a property of an object in a structural equivalency assertion.
 /// </summary>
 #pragma warning disable CA1716
+[System.Diagnostics.StackTraceHidden]
 internal class Property : Node, IMember
 {
     private readonly PropertyInfo propertyInfo;
@@ -48,3 +49,4 @@ internal class Property : Node, IMember
     public bool IsBrowsable =>
         isBrowsable ??= propertyInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
 }
+

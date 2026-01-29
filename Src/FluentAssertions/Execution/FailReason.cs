@@ -19,6 +19,7 @@ namespace FluentAssertions.Execution;
 /// Note that only 10 <c>args</c> are supported in combination with a <em>{reason}</em>.
 /// </para>
 /// </remarks>
+[System.Diagnostics.StackTraceHidden]
 public class FailReason
 {
     /// <summary>

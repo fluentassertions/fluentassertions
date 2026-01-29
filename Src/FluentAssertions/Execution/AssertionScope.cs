@@ -15,6 +15,7 @@ namespace FluentAssertions.Execution;
 /// such as when using <see langword="async"/> or <see langword="await"/>.
 /// </remarks>
 // Remove all assertion logic from this class since it is superseded by the Assertion class
+[System.Diagnostics.StackTraceHidden]
 public sealed class AssertionScope : IDisposable
 {
     private readonly IAssertionStrategy assertionStrategy;

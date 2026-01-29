@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 
 namespace FluentAssertions;
 
+[System.Diagnostics.StackTraceHidden]
 internal sealed class Disposable : IDisposable
 {
     private readonly Action action;
@@ -16,3 +17,4 @@ internal sealed class Disposable : IDisposable
         action();
     }
 }
+

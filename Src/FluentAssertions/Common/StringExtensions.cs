@@ -7,6 +7,7 @@ using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class StringExtensions
 {
     /// <summary>
@@ -179,3 +180,4 @@ internal static class StringExtensions
         return "    \"" + string.Join(Environment.NewLine + "    ", wrappedLines) + "\"";
     }
 }
+

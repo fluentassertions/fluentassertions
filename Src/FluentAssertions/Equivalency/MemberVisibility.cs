@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 #pragma warning disable CA1714
 namespace FluentAssertions.Equivalency;

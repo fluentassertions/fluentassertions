@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Globalization;
 using FluentAssertions.Execution;
 
@@ -23,3 +23,4 @@ internal class SingleAssertions : NumericAssertions<float>
         return difference != 0 ? difference.ToString("R", CultureInfo.InvariantCulture) : null;
     }
 }
+

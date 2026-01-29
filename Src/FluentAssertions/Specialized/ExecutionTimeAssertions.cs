@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -10,6 +11,7 @@ namespace FluentAssertions.Specialized;
 /// <summary>
 /// Provides methods for asserting that the execution time of an <see cref="Action"/> satisfies certain conditions.
 /// </summary>
+[DebuggerNonUserCode]
 public class ExecutionTimeAssertions
 {
     private readonly ExecutionTime execution;

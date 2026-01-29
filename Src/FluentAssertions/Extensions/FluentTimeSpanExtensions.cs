@@ -248,3 +248,4 @@ public static class FluentTimeSpanExtensions
         return sourceTime.Add(offset);
     }
 }
+

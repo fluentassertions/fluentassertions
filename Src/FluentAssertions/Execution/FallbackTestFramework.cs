@@ -5,6 +5,7 @@ namespace FluentAssertions.Execution;
 /// <summary>
 /// Throws a generic exception in case no other test harness is detected.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal class FallbackTestFramework : ITestFramework
 {
     /// <summary>

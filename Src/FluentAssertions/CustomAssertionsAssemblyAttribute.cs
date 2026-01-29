@@ -7,4 +7,6 @@ namespace FluentAssertions;
 /// internally, or directly uses <c>AssertionChain</c>.
 /// </summary>
 [AttributeUsage(AttributeTargets.Assembly)]
+[System.Diagnostics.StackTraceHidden]
 public sealed class CustomAssertionsAssemblyAttribute : Attribute;
+

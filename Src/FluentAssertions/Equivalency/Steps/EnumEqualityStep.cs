@@ -8,6 +8,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
+[System.Diagnostics.StackTraceHidden]
 public class EnumEqualityStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
@@ -39,21 +40,21 @@ public class EnumEqualityStep : IEquivalencyStep
             switch (context.Options.EnumEquivalencyHandling)
             {
                 case EnumEquivalencyHandling.ByValue:
-                {
-                    HandleByValue(assertionChain, comparands, context.Reason);
-                    break;
-                }
+                    {
+                        HandleByValue(assertionChain, comparands, context.Reason);
+                        break;
+                    }
 
                 case EnumEquivalencyHandling.ByName:
-                {
-                    HandleByName(assertionChain, comparands, context.Reason);
-                    break;
-                }
+                    {
+                        HandleByName(assertionChain, comparands, context.Reason);
+                        break;
+                    }
 
                 default:
-                {
-                    throw new InvalidOperationException($"Do not know how to handle {context.Options.EnumEquivalencyHandling}");
-                }
+                    {
+                        throw new InvalidOperationException($"Do not know how to handle {context.Options.EnumEquivalencyHandling}");
+                    }
             }
         }
 
@@ -119,3 +120,4 @@ public class EnumEqualityStep : IEquivalencyStep
         return o is not null ? Convert.ToDecimal(o, CultureInfo.InvariantCulture) : null;
     }
 }
+

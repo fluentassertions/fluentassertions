@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -174,3 +174,4 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
 
     protected override string Identifier => "subject";
 }
+

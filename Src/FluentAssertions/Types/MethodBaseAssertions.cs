@@ -120,3 +120,4 @@ public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAs
         return string.Join(", ", parameterTypes.Select(p => p.FullName));
     }
 }
+

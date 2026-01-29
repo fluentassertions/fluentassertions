@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using FluentAssertions.Execution;
@@ -89,3 +89,4 @@ public class XmlNodeAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<
     /// </summary>
     protected override string Identifier => "XML node";
 }
+

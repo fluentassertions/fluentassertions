@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -8,6 +9,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
+[System.Diagnostics.StackTraceHidden]
 public class GenericEnumerableEquivalencyStep : IEquivalencyStep
 {
 #pragma warning disable SA1110 // Allow opening parenthesis on new line to reduce line length
@@ -125,3 +127,4 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
         }
     }
 }
+

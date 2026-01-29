@@ -12,6 +12,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Represents the run-time type-specific behavior of a structural equivalency assertion.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public class EquivalencyOptions<TExpectation>
     : SelfReferenceEquivalencyOptions<EquivalencyOptions<TExpectation>>
 {
@@ -208,3 +209,4 @@ public class EquivalencyOptions : SelfReferenceEquivalencyOptions<EquivalencyOpt
         PreferringDeclaredMemberTypes();
     }
 }
+

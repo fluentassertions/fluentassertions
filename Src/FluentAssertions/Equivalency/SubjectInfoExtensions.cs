@@ -1,7 +1,8 @@
-﻿using FluentAssertions.Common;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;
 
+[System.Diagnostics.StackTraceHidden]
 public static class SubjectInfoExtensions
 {
     /// <summary>
@@ -48,3 +49,4 @@ public static class SubjectInfoExtensions
         return memberInfo.GetterAccessibility != accessModifier;
     }
 }
+

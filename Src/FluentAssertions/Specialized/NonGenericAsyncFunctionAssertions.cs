@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace FluentAssertions.Specialized;
 /// <summary>
 /// Contains a number of methods to assert that an asynchronous method yields the expected result.
 /// </summary>
+[DebuggerNonUserCode]
 public class NonGenericAsyncFunctionAssertions : AsyncFunctionAssertions<Task, NonGenericAsyncFunctionAssertions>
 {
     private readonly AssertionChain assertionChain;

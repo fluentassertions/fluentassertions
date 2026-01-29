@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace FluentAssertions.Specialized;
 /// <summary>
 /// Implements base functionality for assertions on TaskCompletionSource.
 /// </summary>
+[DebuggerNonUserCode]
 public class TaskCompletionSourceAssertionsBase
 {
     protected TaskCompletionSourceAssertionsBase(IClock clock)

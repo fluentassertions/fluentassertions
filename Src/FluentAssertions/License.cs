@@ -3,6 +3,7 @@ namespace FluentAssertions;
 /// <summary>
 /// Provides access to the licensing state of Fluent Assertions
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public static class License
 {
     /// <summary>

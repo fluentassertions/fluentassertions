@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Linq;
 
@@ -7,6 +7,7 @@ namespace FluentAssertions.Events;
 /// <summary>
 /// Represents an occurrence of a particular event.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public class OccurredEvent
 {
     /// <summary>
@@ -44,3 +45,4 @@ public class OccurredEvent
                          .Any(e => string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName);
     }
 }
+

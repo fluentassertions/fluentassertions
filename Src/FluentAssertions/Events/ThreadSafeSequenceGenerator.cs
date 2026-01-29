@@ -5,6 +5,7 @@ namespace FluentAssertions.Events;
 /// <summary>
 /// Generates a sequence in a thread-safe manner.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal sealed class ThreadSafeSequenceGenerator
 {
     private int sequence = -1;
@@ -17,3 +18,4 @@ internal sealed class ThreadSafeSequenceGenerator
         return Interlocked.Increment(ref sequence);
     }
 }
+

@@ -1,4 +1,5 @@
 using System;
+
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency.Execution;
@@ -6,6 +7,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
+[System.Diagnostics.StackTraceHidden]
 public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
 {
     private readonly Func<IObjectInfo, bool> predicate;
@@ -115,3 +117,4 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
         return "Invoke Action<" + typeof(TSubject).Name + "> when " + description;
     }
 }
+

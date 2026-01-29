@@ -7,6 +7,7 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;
 
+[System.Diagnostics.StackTraceHidden]
 internal class Node : INode
 {
     private static readonly Regex MatchFirstIndex = new(@"^\[[0-9]+\]$");
@@ -151,3 +152,4 @@ internal class Node : INode
 
     public override string ToString() => Subject.Description;
 }
+

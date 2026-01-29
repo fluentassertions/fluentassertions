@@ -10,6 +10,7 @@ namespace FluentAssertions.Types;
 /// <summary>
 /// Allows for fluent filtering a list of types.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public class TypeSelector : IEnumerable<Type>
 {
     private List<Type> types;
@@ -368,3 +369,4 @@ public class TypeSelector : IEnumerable<Type>
         return GetEnumerator();
     }
 }
+

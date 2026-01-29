@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace FluentAssertions.Events;
 
+[System.Diagnostics.StackTraceHidden]
 internal class FilteredEventRecording : IEventRecording
 {
     private readonly OccurredEvent[] occurredEvents;
@@ -42,3 +43,4 @@ internal class FilteredEventRecording : IEventRecording
         }
     }
 }
+

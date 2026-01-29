@@ -8,6 +8,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// <summary>
 /// Represents a collection of assertion results obtained through a <see cref="AssertionScope"/>.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal class AssertionResultSet
 {
     private readonly Dictionary<object, string[]> set = [];
@@ -68,3 +69,4 @@ internal class AssertionResultSet
     /// </summary>
     public bool ContainsSuccessfulSet() => set.Values.Any(v => v.Length == 0);
 }
+

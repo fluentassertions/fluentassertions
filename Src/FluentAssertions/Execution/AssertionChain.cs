@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
@@ -14,6 +14,7 @@ namespace FluentAssertions.Execution;
 /// This is the core engine of many of the assertion APIs in this library. When combined with <see cref="AssertionScope"/>,
 /// you can run multiple assertions which failure messages will be collected until the scope is disposed.
 /// </remarks>
+[System.Diagnostics.StackTraceHidden]
 public sealed class AssertionChain
 {
     private readonly Func<AssertionScope> getCurrentScope;

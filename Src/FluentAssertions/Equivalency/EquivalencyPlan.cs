@@ -1,5 +1,3 @@
-﻿#region
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,14 +5,13 @@ using System.Linq;
 using FluentAssertions.Equivalency.Inlining;
 using FluentAssertions.Equivalency.Steps;
 
-#endregion
-
 namespace FluentAssertions.Equivalency;
 
 /// <summary>
 /// Represents a mutable collection of equivalency steps that can be reordered and/or amended with additional
 /// custom equivalency steps.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
 {
     private List<IEquivalencyStep> steps = GetDefaultSteps();
@@ -166,3 +163,4 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
         ];
     }
 }
+

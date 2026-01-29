@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace FluentAssertions.Equivalency.Steps;
 
+[System.Diagnostics.StackTraceHidden]
 internal sealed class AssertionContext<TSubject> : IAssertionContext<TSubject>
 {
     private AssertionContext(INode currentNode, TSubject subject, TSubject expectation,
@@ -34,3 +35,4 @@ internal sealed class AssertionContext<TSubject> : IAssertionContext<TSubject>
             context.Reason.Arguments);
     }
 }
+

@@ -7,6 +7,7 @@ namespace FluentAssertions.Equivalency.Execution;
 /// Keeps track of objects and their location within an object graph so that cyclic references can be detected
 /// and handled upon.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal class CyclicReferenceDetector : ICloneable2
 {
     #region Private Definitions
@@ -45,3 +46,4 @@ internal class CyclicReferenceDetector : ICloneable2
         };
     }
 }
+

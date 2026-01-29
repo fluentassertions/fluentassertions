@@ -5,6 +5,7 @@ namespace FluentAssertions.Events;
 /// <summary>
 /// Settings for the EventMonitor.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public class EventMonitorOptions
 {
     /// <summary>
@@ -54,3 +55,4 @@ public class EventMonitorOptions
         return this;
     }
 }
+

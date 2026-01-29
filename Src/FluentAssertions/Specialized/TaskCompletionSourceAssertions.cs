@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
@@ -10,6 +11,7 @@ namespace FluentAssertions.Specialized;
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 
 #if NET6_0_OR_GREATER
+[DebuggerNonUserCode]
 public class TaskCompletionSourceAssertions : TaskCompletionSourceAssertionsBase
 {
     private readonly AssertionChain assertionChain;
@@ -90,8 +92,10 @@ public class TaskCompletionSourceAssertions : TaskCompletionSourceAssertionsBase
         return new AndConstraint<TaskCompletionSourceAssertions>(this);
     }
 }
+
 #endif
 
+[DebuggerNonUserCode]
 public class TaskCompletionSourceAssertions<T> : TaskCompletionSourceAssertionsBase
 {
     private readonly AssertionChain assertionChain;

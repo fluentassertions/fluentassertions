@@ -12,6 +12,7 @@ namespace FluentAssertions;
 /// <summary>
 /// Represents the run-time configuration of the assertion library.
 /// </summary>
+[StackTraceHidden]
 public static class AssertionEngine
 {
     private static readonly object Lockable = new();
@@ -148,3 +149,4 @@ public static class AssertionEngine
 #endif
     }
 }
+

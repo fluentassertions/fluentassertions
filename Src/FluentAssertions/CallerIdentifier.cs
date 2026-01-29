@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -16,6 +16,7 @@ namespace FluentAssertions;
 /// Tries to extract the name of the variable or invocation on which the assertion is executed.
 /// </summary>
 // REFACTOR: Should be internal and treated as an implementation detail of the AssertionScope
+[StackTraceHidden]
 public static class CallerIdentifier
 {
     public static Action<string> Logger { get; set; } = _ => { };
@@ -290,3 +291,4 @@ public static class CallerIdentifier
             .ToArray();
     }
 }
+

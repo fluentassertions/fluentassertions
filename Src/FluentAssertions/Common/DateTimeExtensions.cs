@@ -18,3 +18,4 @@ public static class DateTimeExtensions
         return new DateTimeOffset(DateTime.SpecifyKind(dateTime, DateTimeKind.Unspecified), offset);
     }
 }
+

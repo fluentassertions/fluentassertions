@@ -1,6 +1,7 @@
 #if !NET6_0_OR_GREATER
 using System;
 #endif
+
 using System.Globalization;
 using FluentAssertions.Equivalency.Execution;
 using FluentAssertions.Equivalency.Tracing;
@@ -11,6 +12,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Provides information on a particular property during an assertion for structural equality of two object graphs.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public class EquivalencyValidationContext : IEquivalencyValidationContext
 {
     private Tracer tracer;
@@ -104,3 +106,4 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
         return string.Create(CultureInfo.InvariantCulture, $"{{Path=\"{CurrentNode.Subject.PathAndName}\"}}");
     }
 }
+

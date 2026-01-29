@@ -11,6 +11,7 @@ namespace FluentAssertions.Types;
 /// <summary>
 /// Allows for fluent selection of methods of a type through reflection.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 public class MethodInfoSelector : IEnumerable<MethodInfo>
 {
     private IEnumerable<MethodInfo> selectedMethods;
@@ -256,3 +257,4 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
         return GetEnumerator();
     }
 }
+

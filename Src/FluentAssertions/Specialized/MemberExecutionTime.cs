@@ -1,9 +1,11 @@
-﻿using System;
+using System;
+
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Specialized;
 
+[System.Diagnostics.StackTraceHidden]
 public class MemberExecutionTime<T> : ExecutionTime
 {
     /// <summary>
@@ -18,3 +20,4 @@ public class MemberExecutionTime<T> : ExecutionTime
     {
     }
 }
+

@@ -6,6 +6,7 @@ using FluentAssertions.Specialized;
 
 namespace FluentAssertions;
 
+[System.Diagnostics.StackTraceHidden]
 public class AggregateExceptionExtractor : IExtractExceptions
 {
     public IEnumerable<T> OfType<T>(Exception actualException)

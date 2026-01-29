@@ -8,6 +8,7 @@ namespace FluentAssertions.Equivalency.Inlining;
 /// Represents a condition-based inline equivalency assertion that evaluates a specified condition against a subject during object equivalency checks.
 /// </summary>
 /// <typeparam name="T">The expected type of the subject being asserted.</typeparam>
+[System.Diagnostics.StackTraceHidden]
 internal class ConditionBasedInlineAssertion<T>(Expression<Func<T, bool>> condition) : IInlineEquivalencyAssertion
 {
     /// <inheritdoc />
@@ -22,3 +23,4 @@ internal class ConditionBasedInlineAssertion<T>(Expression<Func<T, bool>> condit
             .FailWith("Expected {context:subject} to meet condition {0}, but it did not.", condition);
     }
 }
+

@@ -1,5 +1,6 @@
 namespace FluentAssertions.Configuration;
 
+[System.Diagnostics.StackTraceHidden]
 public class GlobalConfiguration
 {
     /// <summary>

@@ -12,6 +12,7 @@ namespace FluentAssertions.Execution;
 /// (nested) instances of <see cref="AssertionScope"/> and modifications made by the
 /// <see cref="AndWhichConstraint{TParent,TSubject}"/>.
 /// </remarks>
+[System.Diagnostics.StackTraceHidden]
 internal class SubjectIdentificationBuilder
 {
     private readonly Func<string> getScopeName;
@@ -100,3 +101,4 @@ internal class SubjectIdentificationBuilder
         return identifiersExtractedFromTheCode.Value.Length > index ? identifiersExtractedFromTheCode.Value[index] : null;
     }
 }
+

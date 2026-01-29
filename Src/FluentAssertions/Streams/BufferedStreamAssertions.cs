@@ -1,9 +1,9 @@
-﻿using System.Diagnostics;
-using System.IO;
-using FluentAssertions.Execution;
-#if NET6_0_OR_GREATER || NETSTANDARD2_1
+using System.Diagnostics;
+#if NETSTANDARD2_1 || NETCOREAPP2_1_OR_GREATER
 using System.Diagnostics.CodeAnalysis;
 #endif
+using System.IO;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Streams;
 
@@ -105,3 +105,4 @@ public class BufferedStreamAssertions<TAssertions> : StreamAssertions<BufferedSt
 
     protected override string Identifier => "buffered stream";
 }
+

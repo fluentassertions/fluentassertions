@@ -1,10 +1,12 @@
-﻿using System;
+using System;
+
 using System.Collections;
 using System.Collections.Generic;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class GivenSelectorExtensions
 {
     public static ContinuationOfGiven<IEnumerable<T>> AssertCollectionIsNotNull<T>(
@@ -104,3 +106,4 @@ internal static class GivenSelectorExtensions
         IEnumerator IEnumerable.GetEnumerator() => Items.GetEnumerator();
     }
 }
+

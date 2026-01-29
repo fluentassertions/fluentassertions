@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,6 +6,7 @@ using System.Reflection;
 
 namespace FluentAssertions.Common;
 
+[System.Diagnostics.StackTraceHidden]
 internal static class TypeReflector
 {
     public static IEnumerable<Type> GetAllTypesFromAppDomain(Func<Assembly, bool> predicate)
@@ -56,3 +57,4 @@ internal static class TypeReflector
         }
     }
 }
+

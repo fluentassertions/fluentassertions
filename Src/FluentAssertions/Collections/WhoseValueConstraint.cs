@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 namespace FluentAssertions.Collections;
 
+[System.Diagnostics.StackTraceHidden]
 public class WhoseValueConstraint<TCollection, TKey, TValue, TAssertions> : AndConstraint<TAssertions>
     where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
     where TAssertions : GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 
 namespace FluentAssertions.Events;
@@ -7,6 +7,7 @@ namespace FluentAssertions.Events;
 /// This class is used to store data about an intercepted event
 /// </summary>
 [DebuggerNonUserCode]
+[StackTraceHidden]
 internal class RecordedEvent
 {
     /// <summary>

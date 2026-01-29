@@ -1,4 +1,4 @@
-﻿#if !NETSTANDARD2_0
+#if !NETSTANDARD2_0
 
 using System;
 using System.Collections.Concurrent;
@@ -13,6 +13,7 @@ namespace FluentAssertions.Events;
 /// <summary>
 /// Tracks the events an object raises.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal sealed class EventMonitor<T> : IMonitor<T>
 {
     private readonly WeakReference subject;
@@ -165,3 +166,4 @@ internal sealed class EventMonitor<T> : IMonitor<T>
 }
 
 #endif
+

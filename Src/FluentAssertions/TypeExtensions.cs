@@ -78,3 +78,4 @@ public static class TypeExtensions
         return new PropertyInfoSelector(typeSelector.ToList());
     }
 }
+

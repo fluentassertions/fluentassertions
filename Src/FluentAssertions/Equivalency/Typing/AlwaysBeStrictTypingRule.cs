@@ -3,6 +3,7 @@ namespace FluentAssertions.Equivalency.Typing;
 /// <summary>
 /// An implementation of <see cref="ITypingRule"/> that applies strict typing to all objects.
 /// </summary>
+[System.Diagnostics.StackTraceHidden]
 internal class AlwaysBeStrictTypingRule : ITypingRule
 {
     /// <inheritdoc />

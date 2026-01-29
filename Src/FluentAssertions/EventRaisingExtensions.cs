@@ -177,3 +177,4 @@ public static class EventRaisingExtensions
         return new FilteredEventRecording(eventRecording, eventsForPropertyName);
     }
 }
+

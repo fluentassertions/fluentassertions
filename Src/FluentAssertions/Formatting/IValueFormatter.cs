@@ -1,4 +1,4 @@
-﻿namespace FluentAssertions.Formatting;
+namespace FluentAssertions.Formatting;
 
 /// <summary>
 /// Represents a strategy for formatting an arbitrary value into a human-readable string representation.

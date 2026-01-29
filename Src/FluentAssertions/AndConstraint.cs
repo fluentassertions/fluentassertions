@@ -2,6 +2,7 @@ using System.Diagnostics;
 
 namespace FluentAssertions;
 
+[StackTraceHidden]
 [DebuggerNonUserCode]
 public class AndConstraint<TParent>
 {

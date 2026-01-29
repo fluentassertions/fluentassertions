@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using FluentAssertions.Common;
 
 namespace FluentAssertions;
 
+[System.Diagnostics.StackTraceHidden]
 public abstract class OccurrenceConstraint
 {
     protected OccurrenceConstraint(int expectedCount)
@@ -26,3 +27,4 @@ public abstract class OccurrenceConstraint
         register("expectedOccurrence", $"{Mode} {ExpectedCount.Times()}");
     }
 }
+

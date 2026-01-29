@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 namespace FluentAssertions.Equivalency;
 
+[System.Diagnostics.StackTraceHidden]
 internal class Digit
 {
     private readonly int length;
@@ -49,3 +50,4 @@ internal class Digit
         return success;
     }
 }
+

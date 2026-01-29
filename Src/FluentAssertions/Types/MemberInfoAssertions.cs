@@ -155,3 +155,4 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
 
     private protected virtual string SubjectDescription => $"{Subject.DeclaringType}.{Subject.Name}";
 }
+

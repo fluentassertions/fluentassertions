@@ -4,6 +4,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
+[System.Diagnostics.StackTraceHidden]
 internal class StringValidatorSupportingNull
 {
     private readonly IStringComparisonStrategy comparisonStrategy;
@@ -27,3 +28,4 @@ internal class StringValidatorSupportingNull
         comparisonStrategy.AssertForEquality(assertionChain, subject, expected);
     }
 }
+
