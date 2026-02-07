@@ -71,7 +71,8 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
         bool subjectIsValidType =
             AssertionScope.Current
                 .ForCondition(subjectIsNull || comparands.Subject.GetType().IsSameOrInherits(typeof(TSubject)))
-                .FailWith("Expected " + context.CurrentNode.Description + " from subject to be a {0}{reason}, but found a {1}.",
+                .FailWith("Expected {0} from subject to be a {1}{reason}, but found a {2}.",
+                    context.CurrentNode.Description.AsNonFormattable(),
                     typeof(TSubject), comparands.Subject?.GetType());
 
         bool expectationIsNull = comparands.Expectation is null;
@@ -80,7 +81,8 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
             AssertionScope.Current
                 .ForCondition(expectationIsNull || comparands.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
                 .FailWith(
-                    "Expected " + context.CurrentNode.Description + " from expectation to be a {0}{reason}, but found a {1}.",
+                    "Expected {0} from expectation to be a {1}{reason}, but found a {2}.",
+                    context.CurrentNode.Description.AsNonFormattable(),
                     typeof(TSubject), comparands.Expectation?.GetType());
 
         if (subjectIsValidType && expectationIsValidType)
