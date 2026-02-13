@@ -30,7 +30,7 @@ public class StringBuilderTraceWriter : ITraceWriter
     {
         foreach (string traceLine in trace.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
         {
-            builder.Append(new string(' ', depth * 2)).AppendLine(traceLine);
+            builder.Append(' ', depth * 2).AppendLine(traceLine);
         }
     }
 
