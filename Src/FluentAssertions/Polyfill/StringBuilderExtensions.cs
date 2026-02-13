@@ -13,8 +13,11 @@ namespace System.Text;
 /// </summary>
 internal static class StringBuilderExtensions
 {
-    public static StringBuilder AppendLine(this StringBuilder stringBuilder, IFormatProvider _, string value) =>
-        stringBuilder.AppendLine(value);
+    public static StringBuilder Append(this StringBuilder stringBuilder, IFormatProvider provider, FormattableString formattable) =>
+        stringBuilder.Append(string.Create(provider, formattable));
+
+    public static StringBuilder AppendLine(this StringBuilder stringBuilder, IFormatProvider provider, FormattableString formattable) =>
+        stringBuilder.AppendLine(string.Create(provider, formattable));
 
 #if NET47 || NETSTANDARD2_0
     public static StringBuilder AppendJoin<T>(this StringBuilder stringBuilder, string separator, IEnumerable<T> values) =>
