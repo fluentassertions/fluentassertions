@@ -3,11 +3,13 @@ main:
   - title: "About"
     url: /about/
   - title: "Documentation"
-    url: /introduction
+    url: https://doc.xceed.com
   - title: "Releases"
     url: /releases/
   - title: "GitHub"
     url: https://github.com/fluentassertions/fluentassertions
+  - title: "Other Products"
+    url: https://www.xceed.com
 
 sidebar:
   - title: About
