@@ -165,7 +165,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
 
         if (IncludeFullDetails && wasTruncated)
         {
-            string fullDetails = string.Create(CultureInfo.InvariantCulture,
+            sb.Append(CultureInfo.InvariantCulture,
                 $"""
 
 
@@ -178,7 +178,6 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
                  {subject.RenderAsIndentedBlock()}
 
                  """);
-            sb.Append(fullDetails);
         }
 
         return sb.ToString();
