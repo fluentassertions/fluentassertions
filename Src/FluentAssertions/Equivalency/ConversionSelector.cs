@@ -90,7 +90,7 @@ public class ConversionSelector
     {
         if (inclusions.Count == 0 && exclusions.Count == 0)
         {
-            return "Without automatic conversion.";
+            return "Without automatic conversion";
         }
 
         var descriptionBuilder = new StringBuilder();
