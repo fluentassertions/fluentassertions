@@ -47,7 +47,6 @@ public class MiscellaneousExceptionSpecs
 
         // Act / Assert
         testSubject
-            
             .Should().Throw<InvalidOperationException>()
             .WithInnerException<ArgumentException>()
             .WithMessage("inner message");
@@ -198,5 +197,23 @@ public class MiscellaneousExceptionSpecs
         // Assert
         act.Should().Throw<XunitException>()
             .WithMessage("*with parameter name \"someParameter\"*we want to test the failure message*\"someOtherParameter\"*");
+    }
+
+    [Fact]
+    public void Reports_the_exception_type_for_chained_assertions()
+    {
+        // Arrange
+        Action throwingAction = () => throw new SomeException();
+
+        // Act
+        var act = () => throwingAction.Should().Throw<SomeException>().Which.Property.Should().Be("Value");
+
+        // Assert
+        act.Should().Throw<XunitException>().WithMessage("*SomeException*Value*");
+    }
+
+    private class SomeException : Exception
+    {
+        public string Property { get; } = "OtherValue";
     }
 }

@@ -368,7 +368,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
             // not "await action".
             using (CallerIdentifier.OnlyOneFluentAssertionScopeOnCallStack()
                        ? CallerIdentifier.OverrideStackSearchUsingCurrentScope()
-                       : default)
+                       : null)
             {
                 await action();
             }

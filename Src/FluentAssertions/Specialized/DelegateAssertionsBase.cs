@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -52,6 +52,11 @@ public abstract class DelegateAssertionsBase<TDelegate, TAssertions>
                 .FailWith("but found <{0}>:" + Environment.NewLine + "{1}.",
                     exception?.GetType(),
                     exception));
+
+        AssertionChain.GetOrCreate()
+            .ReuseOnce()
+            .AdvanceToNextIdentifier()
+            .WithCallerPrefix($"{typeof(TException).Name}.");
 
         return new ExceptionAssertions<TException>(expectedExceptions, assertionChain);
     }

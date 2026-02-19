@@ -1280,8 +1280,9 @@ namespace FluentAssertions.Execution
         public FluentAssertions.Execution.AssertionChain ForConstraint(FluentAssertions.OccurrenceConstraint constraint, int actualOccurrences) { }
         public FluentAssertions.Execution.GivenSelector<T> Given<T>(System.Func<T> selector) { }
         public void OverrideCallerIdentifier(System.Func<string> getCallerIdentifier) { }
-        public void ReuseOnce() { }
+        public FluentAssertions.Execution.AssertionChain ReuseOnce() { }
         public FluentAssertions.Execution.AssertionChain WithCallerPostfix(string postfix) { }
+        public FluentAssertions.Execution.AssertionChain WithCallerPrefix(string prefix) { }
         public FluentAssertions.Execution.AssertionChain WithDefaultIdentifier(string identifier) { }
         public FluentAssertions.Execution.Continuation WithExpectation(string message, System.Action<FluentAssertions.Execution.AssertionChain> chain) { }
         public FluentAssertions.Execution.Continuation WithExpectation(string message, object arg1, System.Action<FluentAssertions.Execution.AssertionChain> chain) { }

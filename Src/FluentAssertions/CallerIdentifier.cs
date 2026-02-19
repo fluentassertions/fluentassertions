@@ -92,6 +92,14 @@ public static class CallerIdentifier
         return callers;
     }
 
+    /// <summary>
+    /// Represents a specific point in the call stack to facilitate skipping over internal FluentAssertions
+    /// frames when analyzing stack traces for caller identification.
+    /// </summary>
+    /// <remarks>
+    /// Instances of this class are used to track and adjust starting points for stack trace searches,
+    /// ensuring that FluentAssertions internal frames are excluded from caller identification processes.
+    /// </remarks>
     private sealed class StackFrameReference : IDisposable
     {
         public int SkipStackFrameCount { get; }
@@ -126,11 +134,23 @@ public static class CallerIdentifier
 
     private static readonly AsyncLocal<StackFrameReference> StartStackSearchAfterStackFrame = new();
 
+    /// <summary>
+    /// Temporarily adjusts the stack trace search behavior to focus on the current scope during Fluent Assertions evaluations.
+    /// </summary>
+    /// <returns>An <see cref="IDisposable"/> object that reverts the stack trace search behavior upon disposal.</returns>
     internal static IDisposable OverrideStackSearchUsingCurrentScope()
     {
         return new StackFrameReference();
     }
 
+    /// <summary>
+    /// Determines whether there is only one Fluent Assertions scope present in the current call stack.
+    /// This is used to identify if a nested Fluent Assertions scope exists within the stack trace.
+    /// </summary>
+    /// <returns>
+    /// A boolean value indicating true if only one Fluent Assertions scope exists on the call stack;
+    /// otherwise, false.
+    /// </returns>
     internal static bool OnlyOneFluentAssertionScopeOnCallStack()
     {
         var allStackFrames = GetFrames(new StackTrace());

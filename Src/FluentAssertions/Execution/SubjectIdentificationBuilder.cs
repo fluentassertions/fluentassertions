@@ -60,6 +60,18 @@ internal class SubjectIdentificationBuilder
     }
 
     /// <summary>
+    /// Prepends the given prefix to the current subject and combines that with next subject.
+    /// </summary>
+    /// <param name="prefix">The prefix to prepend to the current subject.</param>
+    public void UsePrefix(string prefix)
+    {
+        var localIndex = identifierIndex;
+        getSubject = () => (prefix + GetIdentifier(localIndex)).Combine(GetIdentifier(localIndex + 1));
+
+        HasOverriddenIdentifier = true;
+    }
+
+    /// <summary>
     /// Appends the given postfix to the current subject and combines that with next subject.
     /// </summary>
     /// <remarks>
