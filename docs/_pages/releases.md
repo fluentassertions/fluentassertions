@@ -16,6 +16,8 @@ sidebar:
 
 ### Enhancements
 * Added option `WithFullDump` to `BeEquivalentTo` to include the entire contents of the subject-under-test in the failure message - [#3133](https://github.com/fluentassertions/fluentassertions/pull/3133)
+* Remove FluentAssertions code from the stack trace when an assertion fails - [#3152](https://github.com/fluentassertions/fluentassertions/pull/3152)
+* Improve reporting the subject when chaining `Throw` with `Which` - [#3160](https://github.com/fluentassertions/fluentassertions/pull/3160)
 
 ### Fixes
 
