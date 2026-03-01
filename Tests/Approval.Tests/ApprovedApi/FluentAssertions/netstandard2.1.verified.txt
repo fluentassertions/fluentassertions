@@ -82,10 +82,12 @@ namespace FluentAssertions
         public static FluentAssertions.Primitives.NullableGuidAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Guid? actualValue) { }
         public static FluentAssertions.Streams.BufferedStreamAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.IO.BufferedStream actualValue) { }
         public static FluentAssertions.Streams.StreamAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.IO.Stream actualValue) { }
+        public static FluentAssertions.Collections.StringCollectionAssertions Should(this System.ReadOnlySpan<string> actualValue) { }
         public static FluentAssertions.Types.AssemblyAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.Assembly assembly) { }
         public static FluentAssertions.Types.ConstructorInfoAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.ConstructorInfo constructorInfo) { }
         public static FluentAssertions.Types.MethodInfoAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.MethodInfo methodInfo) { }
         public static FluentAssertions.Types.PropertyInfoAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.PropertyInfo propertyInfo) { }
+        public static FluentAssertions.Collections.StringCollectionAssertions Should(this System.Span<string> actualValue) { }
         public static FluentAssertions.Primitives.SimpleTimeSpanAssertions Should(this System.TimeSpan actualValue) { }
         public static FluentAssertions.Primitives.NullableSimpleTimeSpanAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.TimeSpan? actualValue) { }
         public static FluentAssertions.Types.TypeAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Type subject) { }
@@ -150,6 +152,10 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.GenericAsyncFunctionAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this System.Func<System.Threading.Tasks.Task<T>> action) { }
         public static FluentAssertions.Specialized.FunctionAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this System.Func<T> func) { }
         public static FluentAssertions.Numeric.ComparableTypeAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this System.IComparable<T> comparableValue) { }
+        public static FluentAssertions.Collections.GenericCollectionAssertions<T> Should<T>(this System.Memory<T> actualValue) { }
+        public static FluentAssertions.Collections.GenericCollectionAssertions<T> Should<T>(this System.ReadOnlyMemory<T> actualValue) { }
+        public static FluentAssertions.Collections.SpanAssertions<T> Should<T>(this System.ReadOnlySpan<T> actualValue) { }
+        public static FluentAssertions.Collections.SpanAssertions<T> Should<T>(this System.Span<T> actualValue) { }
         public static FluentAssertions.Specialized.TaskCompletionSourceAssertions<T> Should<T>(this System.Threading.Tasks.TaskCompletionSource<T> tcs) { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
@@ -331,6 +337,10 @@ namespace FluentAssertions
     public abstract class OccurrenceConstraint
     {
         protected OccurrenceConstraint(int expectedCount) { }
+    }
+    public static class SpanAssertionsExtensions
+    {
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.SpanAssertions<char>> Be([System.Diagnostics.CodeAnalysis.NotNull] this FluentAssertions.Collections.SpanAssertions<char> assertions, string expected, string because = "", params object[] becauseArgs) { }
     }
     public static class TypeEnumerableExtensions
     {
@@ -529,6 +539,12 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> NotContainValues(System.Collections.Generic.IEnumerable<TValue> unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotEqual<T>(T unexpected, string because = "", params object[] becauseArgs)
             where T : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> { }
+    }
+    public class SpanAssertions<T> : FluentAssertions.Collections.GenericCollectionAssertions<T[], T, FluentAssertions.Collections.SpanAssertions<T>>
+    {
+        public SpanAssertions(T[] actualValue, FluentAssertions.Execution.AssertionChain assertionChain) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Collections.SpanAssertions<T>> BeEqualTo(System.ReadOnlySpan<T> expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Collections.SpanAssertions<T>> BeEqualTo(System.Span<T> expected, string because = "", params object[] becauseArgs) { }
     }
     public class StringCollectionAssertions : FluentAssertions.Collections.StringCollectionAssertions<System.Collections.Generic.IEnumerable<string>>
     {

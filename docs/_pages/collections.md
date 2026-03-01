@@ -90,6 +90,35 @@ singleEquivalent.Should().ContainSingle()
     .Which.Should().BeEquivalentTo(new { Size = 42 });
 ```
 
+You can use the same collection assertions on `Span<T>`, `ReadOnlySpan<T>`, `Memory<T>`, and `ReadOnlyMemory<T>`.
+For spans, `BeEqualTo` is available as a readability alias for `Equal`.
+
+```csharp
+Span<int> span = [1, 2, 3];
+ReadOnlySpan<int> readOnlySpan = [1, 2, 3];
+Memory<int> memory = new[] { 1, 2, 3 };
+ReadOnlyMemory<int> readOnlyMemory = new[] { 1, 2, 3 };
+
+span.Should().Equal([1, 2, 3]);
+span.Should().BeEqualTo([1, 2, 3]);
+
+readOnlySpan.Should().Equal([1, 2, 3]);
+readOnlySpan.Should().BeEqualTo([1, 2, 3]);
+
+memory.Should().Contain(2).And.HaveCount(3);
+readOnlyMemory.Should().Contain(2).And.HaveCount(3);
+```
+
+For character spans, you can assert exact string equality with `Be`.
+
+```csharp
+Span<char> chars = ['a', 'b', 'c'];
+ReadOnlySpan<char> readOnlyChars = ['a', 'b', 'c'];
+
+chars.Should().Be("abc");
+readOnlyChars.Should().Be("abc");
+```
+
 Asserting that a collection contains items in a certain order is as easy as using one of the several overloads of `BeInAscendingOrder` or `BeInDescendingOrder`. The default overload will use the default `Comparer` for the specified type, but overloads also exist that take an `IComparer<T>`, a property expression to sort by an object's property, or a lambda expression to avoid the need for `IComparer<T>` implementations.
 
 ```csharp
@@ -108,7 +137,7 @@ collection.Should().BeInDescendingOrder(item => item.SomeProp, StringComparer.Cu
 collection.Should().NotBeInAscendingOrder(item => item.SomeProp, StringComparer.CurrentCulture);
 collection.Should().NotBeInDescendingOrder(item => item.SomeProp, StringComparer.CurrentCulture);
 ```
- 
+
 For `String` collections there are specific methods to assert the items. For the `ContainMatch` and `NotContainMatch` methods we support wildcards.
 
 The pattern can be a combination of literal and wildcard characters, but it doesn't support regular expressions.
