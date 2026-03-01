@@ -1404,6 +1404,50 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     }
 
     /// <summary>
+    /// Asserts that the current collection contains all the same elements in the same order as the collection identified by
+    /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" /> method.
+    /// </summary>
+    /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> BeEqualTo(IEnumerable<T> expected,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+    {
+        return Equal(expected, because, becauseArgs);
+    }
+
+    /// <summary>
+    /// Asserts that two collections contain the same items in the same order, where equality is determined using a
+    /// <paramref name="equalityComparison"/>.
+    /// </summary>
+    /// <param name="expectation">
+    /// The collection to compare the subject with.
+    /// </param>
+    /// <param name="equalityComparison">
+    /// An equality comparison that is used to determine whether two objects should be treated as equal.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> BeEqualTo<TExpectation>(
+        IEnumerable<TExpectation> expectation, Func<T, TExpectation, bool> equalityComparison,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+    {
+        return Equal(expectation, equalityComparison, because, becauseArgs);
+    }
+
+    /// <summary>
     /// Asserts that the number of items in the collection matches the supplied <paramref name="expected" /> amount.
     /// </summary>
     /// <param name="expected">The expected number of items in the collection.</param>
@@ -2758,6 +2802,26 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                 actualItems => actualItems);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that the current collection does not contain all the same elements in the same order as the collection
+    /// identified by <paramref name="unexpected" />. Elements are compared using their <see cref="object.Equals(object)" />.
+    /// </summary>
+    /// <param name="unexpected">An <see cref="IEnumerable{T}"/> with the elements that are not expected.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> NotBeEqualTo(IEnumerable<T> unexpected,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+    {
+        return NotEqual(unexpected, because, becauseArgs);
     }
 
     /// <summary>
