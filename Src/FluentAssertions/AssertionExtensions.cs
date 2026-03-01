@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
@@ -229,6 +230,75 @@ public static class AssertionExtensions
         return new BufferedStreamAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+    /// <summary>
+    /// Returns a <see cref="SpanAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="Span{T}"/>.
+    /// </summary>
+    [Pure]
+    [OverloadResolutionPriority(-1)]
+    public static SpanAssertions<T> Should<T>(this Span<T> actualValue)
+    {
+        return new SpanAssertions<T>(actualValue.ToArray(), AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns a <see cref="SpanAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="ReadOnlySpan{T}"/>.
+    /// </summary>
+    [Pure]
+    [OverloadResolutionPriority(-1)]
+    public static SpanAssertions<T> Should<T>(this ReadOnlySpan<T> actualValue)
+    {
+        return new SpanAssertions<T>(actualValue.ToArray(), AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns a <see cref="StringCollectionAssertions"/> object that can be used to assert the
+    /// current <see cref="Span{T}"/> of strings.
+    /// </summary>
+    [Pure]
+    [OverloadResolutionPriority(-1)]
+    public static StringCollectionAssertions Should(this Span<string> actualValue)
+    {
+        return new StringCollectionAssertions(actualValue.ToArray(), AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns a <see cref="StringCollectionAssertions"/> object that can be used to assert the
+    /// current <see cref="ReadOnlySpan{T}"/> of strings.
+    /// </summary>
+    [Pure]
+    [OverloadResolutionPriority(-1)]
+    public static StringCollectionAssertions Should(this ReadOnlySpan<string> actualValue)
+    {
+        return new StringCollectionAssertions(actualValue.ToArray(), AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns a <see cref="GenericCollectionAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="Memory{T}"/>.
+    /// </summary>
+    [Pure]
+    [OverloadResolutionPriority(-1)]
+    public static GenericCollectionAssertions<T> Should<T>(this Memory<T> actualValue)
+    {
+        return new GenericCollectionAssertions<T>(actualValue.ToArray(), AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns a <see cref="GenericCollectionAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="ReadOnlyMemory{T}"/>.
+    /// </summary>
+    [Pure]
+    [OverloadResolutionPriority(-1)]
+    public static GenericCollectionAssertions<T> Should<T>(this ReadOnlyMemory<T> actualValue)
+    {
+        return new GenericCollectionAssertions<T>(actualValue.ToArray(), AssertionChain.GetOrCreate());
+    }
+
+#endif
+
     /// <summary>
     /// Forces enumerating a collection. Should be used to assert that a method that uses the
     /// <see langword="yield"/> keyword throws a particular exception.
@@ -281,6 +351,7 @@ public static class AssertionExtensions
     /// current <see cref="object"/>.
     /// </summary>
     [Pure]
+    [OverloadResolutionPriority(-2)]
     public static ObjectAssertions Should([NotNull] this object actualValue)
     {
         return new ObjectAssertions(actualValue, AssertionChain.GetOrCreate());

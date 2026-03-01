@@ -9,6 +9,7 @@ using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Specialized;
 using FluentAssertions.Types;
+using Reflectify;
 using Xunit;
 
 namespace FluentAssertions.Specs;
@@ -162,8 +163,13 @@ public class AssertionExtensionsSpecs
     [MemberData(nameof(GetShouldMethods), true)]
     public void Should_methods_returning_reference_or_nullable_type_assertions_are_annotated_with_not_null_attribute(MethodInfo method)
     {
-        var notNullAttribute = method.GetParameters().Single().GetCustomAttribute<NotNullAttribute>();
-        notNullAttribute.Should().NotBeNull();
+        ParameterInfo parameter = method.GetParameters().Single();
+
+        Type type = parameter.ParameterType;
+
+        AssertionChain.GetOrCreate()
+            .ForCondition(type.IsRefStruct() || type.IsStruct() || parameter.HasAttribute<NotNullAttribute>())
+            .FailWith($"Should method '{method}' should have [NotNull] attribute for parameter '{parameter.Name}'");
     }
 
     [Theory]
