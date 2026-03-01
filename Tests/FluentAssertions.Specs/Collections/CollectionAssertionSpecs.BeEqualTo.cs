@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -14,7 +13,7 @@ public partial class CollectionAssertionSpecs
     public class BeEqualTo
     {
         [Fact]
-        public void Should_succeed_when_asserting_collection_is_equal_to_the_same_collection()
+        public void Succeeds_for_collections_with_same_elements_in_same_order()
         {
             // Arrange
             int[] collection1 = [1, 2, 3];
@@ -25,7 +24,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_both_collections_are_null_it_should_succeed()
+        public void Succeeds_for_two_null_collections()
         {
             // Arrange
             int[] nullColl = null;
@@ -38,7 +37,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_two_collections_are_not_equal_because_one_item_differs_it_should_throw_using_the_reason()
+        public void Fails_with_a_descriptive_message_when_a_collection_item_differs()
         {
             // Arrange
             int[] collection1 = [1, 2, 3];
@@ -53,7 +52,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_collections_to_be_equal_but_subject_collection_is_null_it_should_throw()
+        public void Fails_when_the_subject_collection_is_null()
         {
             // Arrange
             int[] collection = null;
@@ -69,7 +68,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_collections_to_be_equal_but_expected_collection_is_null_it_should_throw()
+        public void Throws_when_the_expected_collection_is_null()
         {
             // Arrange
             int[] collection = [1, 2, 3];
@@ -86,7 +85,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_all_items_match_according_to_a_predicate_it_should_succeed()
+        public void Succeeds_using_custom_equality_comparison()
         {
             // Arrange
             var actual = new List<string> { "ONE", "TWO", "THREE", "FOUR" };
@@ -108,7 +107,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_any_item_does_not_match_according_to_a_predicate_it_should_throw()
+        public void Fails_using_custom_equality_comparison_when_an_item_differs()
         {
             // Arrange
             var actual = new List<string> { "ONE", "TWO", "THREE", "FOUR" };
@@ -135,7 +134,7 @@ public partial class CollectionAssertionSpecs
     public class NotBeEqualTo
     {
         [Fact]
-        public void Should_succeed_when_asserting_collection_is_not_equal_to_a_different_collection()
+        public void Succeeds_for_collections_with_different_elements()
         {
             // Arrange
             int[] collection1 = [1, 2, 3];
@@ -146,7 +145,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_two_equal_collections_are_not_expected_to_be_equal_it_should_throw()
+        public void Fails_for_collections_with_the_same_elements_in_the_same_order()
         {
             // Arrange
             int[] collection1 = [1, 2, 3];
@@ -161,7 +160,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_collections_not_to_be_equal_subject_but_both_collections_are_null_it_should_throw()
+        public void Throws_when_the_unexpected_collection_is_null()
         {
             // Arrange
             int[] collection1 = null;
