@@ -13,7 +13,7 @@ public partial class CollectionAssertionSpecs
     public class BeEqualTo
     {
         [Fact]
-        public void Succeeds_for_collections_with_same_elements_in_same_order()
+        public void Two_collections_with_the_same_elements_in_the_same_order_are_okay()
         {
             // Arrange
             int[] collection1 = [1, 2, 3];
@@ -24,7 +24,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void Succeeds_for_two_null_collections()
+        public void Two_null_collections_are_okay()
         {
             // Arrange
             int[] nullColl = null;
@@ -37,7 +37,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void Fails_with_a_descriptive_message_when_a_collection_item_differs()
+        public void Fails_with_a_descriptive_message_for_a_differing_item()
         {
             // Arrange
             int[] collection1 = [1, 2, 3];
@@ -52,7 +52,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void Fails_when_the_subject_collection_is_null()
+        public void Fails_for_a_null_subject_collection()
         {
             // Arrange
             int[] collection = null;
@@ -68,7 +68,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void Throws_when_the_expected_collection_is_null()
+        public void Throws_for_a_null_expected_collection()
         {
             // Arrange
             int[] collection = [1, 2, 3];
@@ -107,7 +107,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void Fails_using_custom_equality_comparison_when_an_item_differs()
+        public void Fails_using_custom_equality_comparison_for_a_differing_item()
         {
             // Arrange
             var actual = new List<string> { "ONE", "TWO", "THREE", "FOUR" };
@@ -160,7 +160,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void Throws_when_the_unexpected_collection_is_null()
+        public void Throws_for_a_null_unexpected_collection()
         {
             // Arrange
             int[] collection1 = null;
