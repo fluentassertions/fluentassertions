@@ -19,6 +19,8 @@ internal class IncludeMemberByPathSelectionRule : SelectMemberByPathSelectionRul
 
     public override bool IncludesMembers => true;
 
+    public override MemberPath MemberPath => memberToInclude;
+
     protected override void AddOrRemoveMembersFrom(List<IMember> selectedMembers, INode parent, string parentPath,
         MemberSelectionContext context)
     {
