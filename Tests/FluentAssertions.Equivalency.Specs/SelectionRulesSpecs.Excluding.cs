@@ -1279,7 +1279,7 @@ public partial class SelectionRulesSpecs
         }
 
         [Fact]
-        public void Excluding_a_member_by_path_on_a_type_with_forced_value_semantics_should_also_fail()
+        public void Excluding_a_member_by_path_when_forcing_value_semantics_explicitly_should_not_fail()
         {
             // Arrange
             var actual = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "x" };
@@ -1290,7 +1290,8 @@ public partial class SelectionRulesSpecs
                 opt => opt.Excluding(o => o.NestedProperty).ComparingByValue<ClassWithValueSemanticsOnSingleProperty>());
 
             // Assert
-            // ForceEquals is used explicitly, so our check does not trigger and value semantics applies
+            // When ForceEquals is explicitly set by the user, the conflict check does not trigger
+            // and value semantics are applied directly (same Key means Equals returns true)
             act.Should().NotThrow();
         }
 
