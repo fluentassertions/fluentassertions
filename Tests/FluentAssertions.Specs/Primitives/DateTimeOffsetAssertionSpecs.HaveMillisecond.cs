@@ -9,28 +9,23 @@ public partial class DateTimeOffsetAssertionSpecs
     public class HaveMillisecond
     {
         [Fact]
-        public void When_asserting_subject_datetimeoffset_should_have_milliseconds_with_the_same_value_it_should_succeed()
+        public void Milliseconds_are_asserted_when_values_match()
         {
             // Arrange
             DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 123), TimeSpan.Zero);
-            int expectation = 123;
 
-            // Act
-            Action act = () => subject.Should().HaveMillisecond(expectation);
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            subject.Should().HaveMillisecond(123);
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_should_have_milliseconds_with_different_value_it_should_throw()
+        public void Should_fail_when_asserting_different_millisecond_value()
         {
             // Arrange
             DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 123), TimeSpan.Zero);
-            int expectation = 124;
 
             // Act
-            Action act = () => subject.Should().HaveMillisecond(expectation);
+            Action act = () => subject.Should().HaveMillisecond(124);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -38,14 +33,13 @@ public partial class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_null_datetimeoffset_should_have_millisecond_should_throw()
+        public void Should_fail_with_descriptive_message_when_asserting_null_datetimeoffset()
         {
             // Arrange
             DateTimeOffset? subject = null;
-            int expectation = 22;
 
             // Act
-            Action act = () => subject.Should().HaveMillisecond(expectation);
+            Action act = () => subject.Should().HaveMillisecond(22);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -56,14 +50,13 @@ public partial class DateTimeOffsetAssertionSpecs
     public class NotHaveMillisecond
     {
         [Fact]
-        public void When_asserting_subject_datetimeoffset_should_not_have_milliseconds_with_the_same_value_it_should_throw()
+        public void Should_fail_when_asserting_same_millisecond_value()
         {
             // Arrange
             DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 123), TimeSpan.Zero);
-            int expectation = 123;
 
             // Act
-            Action act = () => subject.Should().NotHaveMillisecond(expectation);
+            Action act = () => subject.Should().NotHaveMillisecond(123);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -71,28 +64,23 @@ public partial class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_should_not_have_milliseconds_with_different_value_it_should_succeed()
+        public void Milliseconds_are_not_asserted_when_values_differ()
         {
             // Arrange
             DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 123), TimeSpan.Zero);
-            int expectation = 124;
 
-            // Act
-            Action act = () => subject.Should().NotHaveMillisecond(expectation);
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            subject.Should().NotHaveMillisecond(124);
         }
 
         [Fact]
-        public void When_asserting_subject_null_datetimeoffset_should_not_have_millisecond_should_throw()
+        public void Should_fail_with_descriptive_message_when_asserting_null_datetimeoffset()
         {
             // Arrange
             DateTimeOffset? subject = null;
-            int expectation = 22;
 
             // Act
-            Action act = () => subject.Should().NotHaveMillisecond(expectation);
+            Action act = () => subject.Should().NotHaveMillisecond(22);
 
             // Assert
             act.Should().Throw<XunitException>()
