@@ -9,7 +9,7 @@ public partial class DateTimeOffsetAssertionSpecs
     public class HaveMillisecond
     {
         [Fact]
-        public void Milliseconds_are_asserted_when_values_match()
+        public void Succeeds_for_datetimeoffset_with_the_same_milliseconds()
         {
             // Arrange
             DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 123), TimeSpan.Zero);
@@ -19,7 +19,7 @@ public partial class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void Should_fail_when_asserting_different_millisecond_value()
+        public void Fails_for_datetimeoffset_with_different_milliseconds()
         {
             // Arrange
             DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 123), TimeSpan.Zero);
@@ -33,7 +33,7 @@ public partial class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_null_datetimeoffset()
+        public void Fails_for_null_datetimeoffset()
         {
             // Arrange
             DateTimeOffset? subject = null;
@@ -50,7 +50,7 @@ public partial class DateTimeOffsetAssertionSpecs
     public class NotHaveMillisecond
     {
         [Fact]
-        public void Should_fail_when_asserting_same_millisecond_value()
+        public void Fails_for_datetimeoffset_with_the_same_milliseconds()
         {
             // Arrange
             DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 123), TimeSpan.Zero);
@@ -64,7 +64,7 @@ public partial class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void Milliseconds_are_not_asserted_when_values_differ()
+        public void Succeeds_for_datetimeoffset_with_different_milliseconds()
         {
             // Arrange
             DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00, 123), TimeSpan.Zero);
@@ -74,7 +74,7 @@ public partial class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_null_datetimeoffset()
+        public void Fails_for_null_datetimeoffset()
         {
             // Arrange
             DateTimeOffset? subject = null;
