@@ -30,7 +30,7 @@ public interface IObjectInfo
 
     /// <summary>
     /// Gets the compile-time type of the current object. If the current object is not the root object and the type is not <see cref="object"/>,
-    /// then it returns the same <see cref="System.Type"/> as the <see cref="IObjectInfo.RuntimeType"/> property does.
+    /// then it returns the same <see cref="System.Type"/> as the <see cref="RuntimeType"/> property does.
     /// </summary>
     Type CompileTimeType { get; }
 

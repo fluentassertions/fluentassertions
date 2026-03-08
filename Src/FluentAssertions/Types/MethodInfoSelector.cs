@@ -237,7 +237,7 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
     /// Returns an enumerator that iterates through the collection.
     /// </summary>
     /// <returns>
-    /// A <see cref="System.Collections.Generic.IEnumerator{T}"/> that can be used to iterate through the collection.
+    /// A <see cref="IEnumerator{T}"/> that can be used to iterate through the collection.
     /// </returns>
     /// <filterpriority>1</filterpriority>
     public IEnumerator<MethodInfo> GetEnumerator()
@@ -249,7 +249,7 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
     /// Returns an enumerator that iterates through a collection.
     /// </summary>
     /// <returns>
-    /// An <see cref="System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+    /// An <see cref="IEnumerator"/> object that can be used to iterate through the collection.
     /// </returns>
     /// <filterpriority>2</filterpriority>
     IEnumerator IEnumerable.GetEnumerator()

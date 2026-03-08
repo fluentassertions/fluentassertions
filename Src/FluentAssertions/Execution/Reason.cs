@@ -21,7 +21,7 @@ public class Reason
     public string FormattedMessage { get; set; }
 
     /// <summary>
-    /// Zero or more objects to format using the placeholders in <see cref="Reason.FormattedMessage" />.
+    /// Zero or more objects to format using the placeholders in <see cref="FormattedMessage" />.
     /// </summary>
     public object[] Arguments { get; set; }
 }

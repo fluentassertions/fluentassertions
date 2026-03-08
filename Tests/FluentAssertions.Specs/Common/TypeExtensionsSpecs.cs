@@ -210,7 +210,9 @@ public class TypeExtensionsSpecs
     private record struct MyRecordStructWithCustomPrintMembers(int Value)
     {
         // ReSharper disable once RedundantNameQualifier
+#pragma warning disable IDE0001
         private bool PrintMembers(System.Text.StringBuilder builder)
+#pragma warning restore IDE0001
         {
             builder.Append(Value);
             return true;

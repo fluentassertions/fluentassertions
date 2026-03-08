@@ -31,7 +31,7 @@ public static class TypeExtensions
     }
 
     /// <summary>
-    /// Returns a type selector for the current <see cref="System.Type"/>.
+    /// Returns a type selector for the current <see cref="Type"/>.
     /// </summary>
     public static TypeSelector Types(this IEnumerable<Type> types)
     {

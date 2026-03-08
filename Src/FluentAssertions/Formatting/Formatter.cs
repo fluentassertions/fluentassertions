@@ -168,7 +168,7 @@ public static class Formatter
     }
 
     /// <summary>
-    /// Removes a custom formatter that was previously added through <see cref="Formatter.AddFormatter"/>.
+    /// Removes a custom formatter that was previously added through <see cref="AddFormatter"/>.
     /// </summary>
     /// <remarks>
     /// This method is not thread-safe and should not be invoked from within a unit test.

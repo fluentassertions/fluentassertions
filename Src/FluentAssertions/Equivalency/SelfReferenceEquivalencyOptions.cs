@@ -917,7 +917,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
 
     /// <summary>
     /// Returns the comparer for strings, which is either an explicitly specified comparer via
-    /// <see cref="Using{T}(System.Collections.Generic.IEqualityComparer{T})"/> or an ordinal
+    /// <see cref="Using{T}(IEqualityComparer{T})"/> or an ordinal
     /// comparer depending on <see cref="IgnoringCase()" />.
     /// </summary>
     internal IEqualityComparer<string> GetStringComparerOrDefault()
