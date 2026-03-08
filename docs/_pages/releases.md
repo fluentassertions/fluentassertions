@@ -13,6 +13,7 @@ sidebar:
 
 * Added `Excluding<T>()` and `Excluding(Type)` overloads to exclude all members of a certain type from equivalency comparisons - [#3115](https://github.com/fluentassertions/fluentassertions/pull/3115)
 * `BeEquivalentTo` will now report the missing or extraneous items for differently sized collections - [#3133](https://github.com/fluentassertions/fluentassertions/pull/3133)
+* Added `HaveMillisecond` and `NotHaveMillisecond` assertion methods for `DateTime` and `DateTimeOffset` - [#3164](https://github.com/fluentassertions/fluentassertions/pull/3164)
 
 ### Enhancements
 * Added option `WithFullDump` to `BeEquivalentTo` to include the entire contents of the subject-under-test in the failure message - [#3133](https://github.com/fluentassertions/fluentassertions/pull/3133)
