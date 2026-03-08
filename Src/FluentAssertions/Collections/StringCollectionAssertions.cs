@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions.Common;
@@ -54,6 +55,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// </summary>
     /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
     [SuppressMessage("Class Design", "AV1010:Member hides inherited member")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public new AndConstraint<TAssertions> Equal(params string[] expected)
     {
         return base.Equal(expected.AsEnumerable());
@@ -65,6 +67,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// the element order, use <see cref="BeEquivalentTo(IEnumerable{string}, string, object[])"/> instead.
     /// </summary>
     /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public AndConstraint<TAssertions> Equal(IEnumerable<string> expected)
     {
         return base.Equal(expected);
