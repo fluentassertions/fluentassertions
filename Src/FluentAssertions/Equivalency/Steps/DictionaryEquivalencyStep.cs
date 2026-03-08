@@ -22,7 +22,7 @@ public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
 
         var assertionChain = AssertionChain.GetOrCreate().For(context);
 
-        if (PreconditionsAreMet(expectation, subject, assertionChain) && expectation is not null)
+        if (PreconditionsAreMet(expectation, subject, assertionChain))
         {
             foreach (object key in expectation.Keys)
             {
@@ -52,21 +52,21 @@ public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
 
     private static bool PreconditionsAreMet(IDictionary expectation, IDictionary subject, AssertionChain assertionChain)
     {
-        return AssertIsDictionary(subject, assertionChain)
-               && AssertEitherIsNotNull(expectation, subject, assertionChain)
+        return AssertSubjectIsNotNull(subject, assertionChain)
+               && AssertExpectationIsNotNull(expectation, subject, assertionChain)
                && AssertSameLength(expectation, subject, assertionChain);
     }
 
-    private static bool AssertEitherIsNotNull(IDictionary expectation, IDictionary subject, AssertionChain assertionChain)
+    private static bool AssertExpectationIsNotNull(IDictionary expectation, IDictionary subject, AssertionChain assertionChain)
     {
         assertionChain
-            .ForCondition((expectation is null && subject is null) || expectation is not null)
+            .ForCondition(expectation is not null)
             .FailWith("Expected {context:subject} to be {0}{reason}, but found {1}.", null, subject);
 
         return assertionChain.Succeeded;
     }
 
-    private static bool AssertIsDictionary(IDictionary subject, AssertionChain assertionChain)
+    private static bool AssertSubjectIsNotNull(IDictionary subject, AssertionChain assertionChain)
     {
         assertionChain
             .ForCondition(subject is not null)
@@ -78,9 +78,9 @@ public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
     private static bool AssertSameLength(IDictionary expectation, IDictionary subject, AssertionChain assertionChain)
     {
         assertionChain
-            .ForCondition(expectation is null || subject.Keys.Count == expectation.Keys.Count)
+            .ForCondition(subject.Keys.Count == expectation.Keys.Count)
             .FailWith("Expected {context:subject} to be a dictionary with {0} item(s), but it only contains {1} item(s).",
-                expectation?.Keys.Count, subject?.Keys.Count);
+                expectation.Keys.Count, subject.Keys.Count);
 
         return assertionChain.Succeeded;
     }
