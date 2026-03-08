@@ -975,30 +975,30 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
 
         foreach (IMemberSelectionRule rule in selectionRules)
         {
-            builder.Append("- ").AppendLine(rule.ToString());
+            builder.Append("- ").Append(rule).AppendLine();
         }
 
         foreach (ITypingRule rule in typingRules)
         {
-            builder.Append("- ").AppendLine(rule.ToString());
+            builder.Append("- ").Append(rule).AppendLine();
         }
 
         foreach (IMemberMatchingRule rule in matchingRules)
         {
-            builder.Append("- ").AppendLine(rule.ToString());
+            builder.Append("- ").Append(rule).AppendLine();
         }
 
         foreach (IEquivalencyStep step in userEquivalencySteps)
         {
-            builder.Append("- ").AppendLine(step.ToString());
+            builder.Append("- ").Append(step).AppendLine();
         }
 
         foreach (IOrderingRule rule in OrderingRules)
         {
-            builder.Append("- ").AppendLine(rule.ToString());
+            builder.Append("- ").Append(rule).AppendLine();
         }
 
-        builder.Append("- ").AppendLine(ConversionSelector.ToString());
+        builder.Append("- ").Append(ConversionSelector).AppendLine();
 
         return builder.ToString();
     }
