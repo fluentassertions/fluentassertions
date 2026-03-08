@@ -24,7 +24,6 @@ exclude:
       - Tests/AssemblyA
       - Tests/AssemblyB
       - Tests/Benchmarks
-      - Tests/UWP.Specs
       - Src/FluentAssertions/Polyfill
   - name: UnusedMember.Global
   - name: ArrangeTrailingCommaInMultilineLists
