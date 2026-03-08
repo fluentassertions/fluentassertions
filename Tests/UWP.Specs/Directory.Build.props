@@ -1,7 +1,0 @@
-<Project>
-  <PropertyGroup>
-    <LangVersion>13.0</LangVersion>
-    <CheckEolTargetFramework>false</CheckEolTargetFramework>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-</Project>
