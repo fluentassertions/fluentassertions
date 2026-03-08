@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -1349,7 +1350,20 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <paramref name="elements" />. Elements are compared using their <see cref="object.Equals(object)" /> method.
     /// </summary>
     /// <param name="elements">A params array with the expected elements.</param>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public AndConstraint<TAssertions> Equal(params T[] elements)
+    {
+        AssertSubjectEquality(elements, ObjectExtensions.GetComparer<T>(), string.Empty);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that the current collection contains all the same elements in the same order as the collection identified by
+    /// <paramref name="elements" />. Elements are compared using their <see cref="object.Equals(object)" /> method.
+    /// </summary>
+    /// <param name="elements">A params array with the expected elements.</param>
+    public AndConstraint<TAssertions> BeEqualTo(params T[] elements)
     {
         AssertSubjectEquality(elements, ObjectExtensions.GetComparer<T>(), string.Empty);
 
@@ -1373,6 +1387,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public AndConstraint<TAssertions> Equal<TExpectation>(
         IEnumerable<TExpectation> expectation, Func<T, TExpectation, bool> equalityComparison,
         [StringSyntax("CompositeFormat")] string because = "",
@@ -1395,6 +1410,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public AndConstraint<TAssertions> Equal(IEnumerable<T> expected, [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
@@ -2781,6 +2797,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public AndConstraint<TAssertions> NotEqual(IEnumerable<T> unexpected, [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {

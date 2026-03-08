@@ -129,6 +129,30 @@ public partial class CollectionAssertionSpecs
                 .Should().Throw<XunitException>()
                 .WithMessage("*Expected*equal to*, but*differs at index 3.*");
         }
+
+        [Fact]
+        public void Succeeds_for_params_with_same_elements_in_same_order()
+        {
+            // Arrange
+            int[] collection = [1, 2, 3];
+
+            // Act / Assert
+            collection.Should().BeEqualTo(1, 2, 3);
+        }
+
+        [Fact]
+        public void Fails_for_params_with_a_differing_element()
+        {
+            // Arrange
+            int[] collection = [1, 2, 3];
+
+            // Act
+            Action act = () => collection.Should().BeEqualTo(1, 2, 5);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection to be equal to {1, 2, 5}, but {1, 2, 3} differs at index 2.");
+        }
     }
 
     public class NotBeEqualTo
