@@ -216,7 +216,7 @@ dotnet_diagnostic.RCS1213.severity = none
 # Implement IComparable when implementing IComparable<T><T>. Disabled since we don't want to be so strict in tests.
 dotnet_diagnostic.RCS1241.severity = none
 
-# Purpose: Use an overload that has a IEqualityComparer<string> or IComparer<string> parameter
+# Purpose: Use an overload that has an IEqualityComparer<string> or IComparer<string> parameter
 # Reason: Not important in tests
 dotnet_diagnostic.MA0002.severity = none
 

@@ -5,7 +5,7 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Numeric;
 
 /// <summary>
-/// Contains a number of methods to assert that a <see cref="int"/> is in the expected state.
+/// Contains a number of methods to assert that an <see cref="int"/> is in the expected state.
 /// </summary>
 [DebuggerNonUserCode]
 internal class Int32Assertions : NumericAssertions<int>

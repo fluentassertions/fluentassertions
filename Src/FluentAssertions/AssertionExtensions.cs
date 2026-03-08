@@ -211,7 +211,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="StreamAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="StreamAssertions"/> object that can be used to assert the
     /// current <see cref="Stream"/>.
     /// </summary>
     [Pure]
@@ -221,7 +221,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="BufferedStreamAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="BufferedStreamAssertions"/> object that can be used to assert the
     /// current <see cref="BufferedStream"/>.
     /// </summary>
     [Pure]
@@ -360,7 +360,7 @@ public static class AssertionExtensions
 #pragma warning disable AV1564 // Avoid signatures that take a bool parameter
 
     /// <summary>
-    /// Returns an <see cref="BooleanAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="BooleanAssertions"/> object that can be used to assert the
     /// current <see cref="bool"/>.
     /// </summary>
     [Pure]
@@ -370,7 +370,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableBooleanAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="NullableBooleanAssertions"/> object that can be used to assert the
     /// current nullable <see cref="bool"/>.
     /// </summary>
     [Pure]
@@ -382,7 +382,7 @@ public static class AssertionExtensions
 #pragma warning restore AV1564
 
     /// <summary>
-    /// Returns an <see cref="GuidAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="GuidAssertions"/> object that can be used to assert the
     /// current <see cref="Guid"/>.
     /// </summary>
     [Pure]
@@ -392,7 +392,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableGuidAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="NullableGuidAssertions"/> object that can be used to assert the
     /// current nullable <see cref="Guid"/>.
     /// </summary>
     [Pure]
@@ -402,7 +402,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="GenericCollectionAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="GenericCollectionAssertions{T}"/> object that can be used to assert the
     /// current <see cref="IEnumerable{T}"/>.
     /// </summary>
     [Pure]
@@ -412,7 +412,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="StringCollectionAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="StringCollectionAssertions"/> object that can be used to assert the
     /// current <see cref="IEnumerable{T}"/>.
     /// </summary>
     [Pure]
@@ -422,7 +422,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="GenericDictionaryAssertions{TCollection, TKey, TValue}"/> object that can be used to assert the
+    /// Returns a <see cref="GenericDictionaryAssertions{TCollection, TKey, TValue}"/> object that can be used to assert the
     /// current <see cref="IDictionary{TKey, TValue}"/>.
     /// </summary>
     [Pure]
@@ -434,7 +434,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="GenericDictionaryAssertions{TCollection, TKey, TValue}"/> object that can be used to assert the
+    /// Returns a <see cref="GenericDictionaryAssertions{TCollection, TKey, TValue}"/> object that can be used to assert the
     /// current <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/>.
     /// </summary>
     [Pure]
@@ -446,7 +446,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="GenericDictionaryAssertions{TCollection, TKey, TValue}"/> object that can be used to assert the
+    /// Returns a <see cref="GenericDictionaryAssertions{TCollection, TKey, TValue}"/> object that can be used to assert the
     /// current <typeparamref name="TCollection"/>.
     /// </summary>
     [Pure]
@@ -458,7 +458,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="DateTimeAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="DateTimeAssertions"/> object that can be used to assert the
     /// current <see cref="DateTime"/>.
     /// </summary>
     [Pure]
@@ -468,7 +468,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="DateTimeOffsetAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="DateTimeOffsetAssertions"/> object that can be used to assert the
     /// current <see cref="DateTimeOffset"/>.
     /// </summary>
     [Pure]
@@ -478,7 +478,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableDateTimeAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="NullableDateTimeAssertions"/> object that can be used to assert the
     /// current nullable <see cref="DateTime"/>.
     /// </summary>
     [Pure]
@@ -488,7 +488,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableDateTimeOffsetAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="NullableDateTimeOffsetAssertions"/> object that can be used to assert the
     /// current nullable <see cref="DateTimeOffset"/>.
     /// </summary>
     [Pure]
@@ -499,7 +499,7 @@ public static class AssertionExtensions
 
 #if NET6_0_OR_GREATER
     /// <summary>
-    /// Returns an <see cref="DateOnlyAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="DateOnlyAssertions"/> object that can be used to assert the
     /// current <see cref="DateOnly"/>.
     /// </summary>
     [Pure]
@@ -509,7 +509,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableDateOnlyAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="NullableDateOnlyAssertions"/> object that can be used to assert the
     /// current nullable <see cref="DateOnly"/>.
     /// </summary>
     [Pure]
@@ -519,7 +519,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="TimeOnlyAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="TimeOnlyAssertions"/> object that can be used to assert the
     /// current <see cref="TimeOnly"/>.
     /// </summary>
     [Pure]
@@ -529,7 +529,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableTimeOnlyAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="NullableTimeOnlyAssertions"/> object that can be used to assert the
     /// current nullable <see cref="TimeOnly"/>.
     /// </summary>
     [Pure]
@@ -541,7 +541,7 @@ public static class AssertionExtensions
 #endif
 
     /// <summary>
-    /// Returns an <see cref="ComparableTypeAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="ComparableTypeAssertions{T}"/> object that can be used to assert the
     /// current <see cref="IComparable{T}"/>.
     /// </summary>
     [Pure]
@@ -551,7 +551,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NumericAssertions{T}"/> object that can be used to assert the
     /// current <see cref="int"/>.
     /// </summary>
     [Pure]
@@ -561,7 +561,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
     /// current nullable <see cref="int"/>.
     /// </summary>
     [Pure]
@@ -571,7 +571,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NumericAssertions{T}"/> object that can be used to assert the
     /// current <see cref="uint"/>.
     /// </summary>
     [Pure]
@@ -581,7 +581,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
     /// current nullable <see cref="uint"/>.
     /// </summary>
     [Pure]
@@ -591,7 +591,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NumericAssertions{T}"/> object that can be used to assert the
     /// current <see cref="decimal"/>.
     /// </summary>
     [Pure]
@@ -601,7 +601,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
     /// current nullable <see cref="decimal"/>.
     /// </summary>
     [Pure]
@@ -611,7 +611,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NumericAssertions{T}"/> object that can be used to assert the
     /// current <see cref="byte"/>.
     /// </summary>
     [Pure]
@@ -621,7 +621,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
     /// current nullable <see cref="byte"/>.
     /// </summary>
     [Pure]
@@ -631,7 +631,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NumericAssertions{T}"/> object that can be used to assert the
     /// current <see cref="sbyte"/>.
     /// </summary>
     [Pure]
@@ -641,7 +641,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
     /// current nullable <see cref="sbyte"/>.
     /// </summary>
     [Pure]
@@ -651,7 +651,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NumericAssertions{T}"/> object that can be used to assert the
     /// current <see cref="short"/>.
     /// </summary>
     [Pure]
@@ -661,7 +661,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
     /// current nullable <see cref="short"/>.
     /// </summary>
     [Pure]
@@ -671,7 +671,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NumericAssertions{T}"/> object that can be used to assert the
     /// current <see cref="ushort"/>.
     /// </summary>
     [Pure]
@@ -681,7 +681,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
     /// current nullable <see cref="ushort"/>.
     /// </summary>
     [Pure]
@@ -691,7 +691,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NumericAssertions{T}"/> object that can be used to assert the
     /// current <see cref="long"/>.
     /// </summary>
     [Pure]
@@ -701,7 +701,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
     /// current nullable <see cref="long"/>.
     /// </summary>
     [Pure]
@@ -711,7 +711,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NumericAssertions{T}"/> object that can be used to assert the
     /// current <see cref="ulong"/>.
     /// </summary>
     [Pure]
@@ -721,7 +721,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
     /// current nullable <see cref="ulong"/>.
     /// </summary>
     [Pure]
@@ -731,7 +731,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NumericAssertions{T}"/> object that can be used to assert the
     /// current <see cref="float"/>.
     /// </summary>
     [Pure]
@@ -741,7 +741,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
     /// current nullable <see cref="float"/>.
     /// </summary>
     [Pure]
@@ -751,7 +751,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NumericAssertions{T}"/> object that can be used to assert the
     /// current <see cref="double"/>.
     /// </summary>
     [Pure]
@@ -761,7 +761,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+    /// Returns a <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
     /// current nullable <see cref="double"/>.
     /// </summary>
     [Pure]
@@ -771,7 +771,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="StringAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="StringAssertions"/> object that can be used to assert the
     /// current <see cref="string"/>.
     /// </summary>
     [Pure]
@@ -781,7 +781,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="SimpleTimeSpanAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="SimpleTimeSpanAssertions"/> object that can be used to assert the
     /// current <see cref="TimeSpan"/>.
     /// </summary>
     [Pure]
@@ -791,7 +791,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns an <see cref="NullableSimpleTimeSpanAssertions"/> object that can be used to assert the
+    /// Returns a <see cref="NullableSimpleTimeSpanAssertions"/> object that can be used to assert the
     /// current nullable <see cref="TimeSpan"/>.
     /// </summary>
     [Pure]
@@ -884,7 +884,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns a <see cref="ActionAssertions"/> object that can be used to assert the
+    /// Returns an <see cref="ActionAssertions"/> object that can be used to assert the
     /// current <see cref="Action"/>.
     /// </summary>
     [Pure]

@@ -13,7 +13,7 @@ internal class DefaultAssertionStrategy : IAssertionStrategy
     public IEnumerable<string> FailureMessages => [];
 
     /// <summary>
-    /// Instructs the strategy to handle a assertion failure.
+    /// Instructs the strategy to handle an assertion failure.
     /// </summary>
     public void HandleFailure(string message)
     {
