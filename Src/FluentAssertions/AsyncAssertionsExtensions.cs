@@ -21,7 +21,7 @@ public static class AsyncAssertionsExtensions
     /// </param>
     /// <remarks>
     /// Please note that this assertion cannot identify whether the previous assertion was successful or not.
-    /// In case it was not successful and it is running within an active <see cref="FluentAssertions.Execution.AssertionScope"/>
+    /// In case it was not successful and it is running within an active <see cref="Execution.AssertionScope"/>
     /// there is no current result to compare with.
     /// So, this extension will compare with the default value.
     /// </remarks>

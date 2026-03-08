@@ -292,7 +292,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="System.Type"/> is decorated with, or inherits from a parent class, the specified <typeparamref name="TAttribute"/>.
+    /// Asserts that the current <see cref="Type"/> is decorated with, or inherits from a parent class, the specified <typeparamref name="TAttribute"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -317,7 +317,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     }
 
     /// <summary>
-    /// Asserts that the current <see cref="System.Type"/> is decorated with, or inherits from a parent class, an attribute of type <typeparamref name="TAttribute"/>
+    /// Asserts that the current <see cref="Type"/> is decorated with, or inherits from a parent class, an attribute of type <typeparamref name="TAttribute"/>
     /// that matches the specified <paramref name="isMatchingAttributePredicate"/>.
     /// </summary>
     /// <param name="isMatchingAttributePredicate">

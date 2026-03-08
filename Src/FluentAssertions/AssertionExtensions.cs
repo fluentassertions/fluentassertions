@@ -161,7 +161,7 @@ public static class AssertionExtensions
 
     /// <summary>
     /// Returns an <see cref="ExecutionTimeAssertions"/> object that can be used to assert the
-    /// current <see cref="FluentAssertions.Specialized.ExecutionTime"/>.
+    /// current <see cref="Specialized.ExecutionTime"/>.
     /// </summary>
     [Pure]
     public static ExecutionTimeAssertions Should(this ExecutionTime executionTime)
@@ -731,7 +731,7 @@ public static class AssertionExtensions
 
     /// <summary>
     /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
-    /// current <see cref="System.Type"/>.
+    /// current <see cref="Type"/>.
     /// </summary>
     [Pure]
     public static TypeAssertions Should([NotNull] this Type subject)
@@ -753,7 +753,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Returns a <see cref="FluentAssertions.Types.MethodBaseAssertions{TSubject, TAssertions}"/> object
+    /// Returns a <see cref="MethodBaseAssertions{TSubject, TAssertions}"/> object
     /// that can be used to assert the current <see cref="MethodInfo"/>.
     /// </summary>
     /// <seealso cref="TypeAssertions"/>
@@ -814,7 +814,7 @@ public static class AssertionExtensions
 
     /// <summary>
     /// Returns a <see cref="ActionAssertions"/> object that can be used to assert the
-    /// current <see cref="System.Action"/>.
+    /// current <see cref="Action"/>.
     /// </summary>
     [Pure]
     public static ActionAssertions Should([NotNull] this Action action)
@@ -824,7 +824,7 @@ public static class AssertionExtensions
 
     /// <summary>
     /// Returns a <see cref="NonGenericAsyncFunctionAssertions"/> object that can be used to assert the
-    /// current <see cref="System.Func{Task}"/>.
+    /// current <see cref="Func{Task}"/>.
     /// </summary>
     [Pure]
     public static NonGenericAsyncFunctionAssertions Should([NotNull] this Func<Task> action)
@@ -844,7 +844,7 @@ public static class AssertionExtensions
 
     /// <summary>
     /// Returns a <see cref="FunctionAssertions{T}"/> object that can be used to assert the
-    /// current <see cref="System.Func{T}"/>.
+    /// current <see cref="Func{T}"/>.
     /// </summary>
     [Pure]
     public static FunctionAssertions<T> Should<T>([NotNull] this Func<T> func)

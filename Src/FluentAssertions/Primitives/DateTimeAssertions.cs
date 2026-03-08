@@ -12,7 +12,7 @@ namespace FluentAssertions.Primitives;
 /// Contains a number of methods to assert that a <see cref="DateTime"/> is in the expected state.
 /// </summary>
 /// <remarks>
-/// You can use the <see cref="FluentAssertions.Extensions.FluentDateTimeExtensions"/>
+/// You can use the <see cref="Extensions.FluentDateTimeExtensions"/>
 /// for a more fluent way of specifying a <see cref="DateTime"/>.
 /// </remarks>
 [DebuggerNonUserCode]
@@ -30,7 +30,7 @@ public class DateTimeAssertions : DateTimeAssertions<DateTimeAssertions>
 /// Contains a number of methods to assert that a <see cref="DateTime"/> is in the expected state.
 /// </summary>
 /// <remarks>
-/// You can use the <see cref="FluentAssertions.Extensions.FluentDateTimeExtensions"/>
+/// You can use the <see cref="Extensions.FluentDateTimeExtensions"/>
 /// for a more fluent way of specifying a <see cref="DateTime"/>.
 /// </remarks>
 [DebuggerNonUserCode]

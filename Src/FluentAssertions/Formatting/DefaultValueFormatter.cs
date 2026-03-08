@@ -45,7 +45,7 @@ public class DefaultValueFormatter : IValueFormatter
     /// <summary>
     /// Selects which members of <paramref name="type"/> to format.
     /// </summary>
-    /// <param name="type">The <see cref="System.Type"/> of the object being formatted.</param>
+    /// <param name="type">The <see cref="Type"/> of the object being formatted.</param>
     /// <returns>The members of <paramref name="type"/> that will be included when formatting this object.</returns>
     /// <remarks>The default is all non-private members.</remarks>
     protected virtual MemberInfo[] GetMembers(Type type)
@@ -115,9 +115,9 @@ public class DefaultValueFormatter : IValueFormatter
     /// <summary>
     /// Selects the name to display for <paramref name="type"/>.
     /// </summary>
-    /// <param name="type">The <see cref="System.Type"/> of the object being formatted.</param>
+    /// <param name="type">The <see cref="Type"/> of the object being formatted.</param>
     /// <returns>The name to be displayed for <paramref name="type"/>.</returns>
-    /// <remarks>The default is <see cref="System.Type.FullName"/>.</remarks>
+    /// <remarks>The default is <see cref="Type.FullName"/>.</remarks>
     protected virtual string TypeDisplayName(Type type) => type.FullName;
 
     private static void WriteMemberValueTextFor(object value, MemberInfo member, FormattedObjectGraph formattedGraph,
