@@ -385,7 +385,7 @@ public class FormatterSpecs : IDisposable
         int maxDepth = 10;
         int iterations = (maxDepth / 2) + 1; // Each iteration adds two levels of depth to the graph
 
-        foreach (int i in Enumerable.Range(0, iterations))
+        for (var i = 0; i < iterations; i++)
         {
             var newHead = new Node();
             node.Children.Add(newHead);
@@ -410,8 +410,9 @@ public class FormatterSpecs : IDisposable
         var node = head;
 
         int iterations = 10;
+        int maxDepth = (iterations * 2) + 1; // Each iteration adds two levels of depth to the graph
 
-        foreach (int i in Enumerable.Range(0, iterations))
+        for (var i = 0; i < iterations; i++)
         {
             var newHead = new Node();
             node.Children.Add(newHead);
@@ -421,8 +422,7 @@ public class FormatterSpecs : IDisposable
         // Act
         string result = Formatter.ToString(head, new FormattingOptions
         {
-            // Each iteration adds two levels of depth to the graph
-            MaxDepth = (iterations * 2) + 1
+            MaxDepth = maxDepth
         });
 
         // Assert
