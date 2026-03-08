@@ -205,8 +205,8 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
 
         stringBuilder.Append(text
             .Substring(indexOfStartingPhrase, subjectLength)
-            .Replace("\r", "\\r", StringComparison.OrdinalIgnoreCase)
-            .Replace("\n", "\\n", StringComparison.OrdinalIgnoreCase));
+            .Replace("\r", "\\r", StringComparison.Ordinal)
+            .Replace("\n", "\\n", StringComparison.Ordinal));
 
         bool wasTruncated = false;
 
