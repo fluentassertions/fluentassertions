@@ -162,7 +162,7 @@ public partial class FooAssertionSpecs
         }
 
         [Fact]
-        public void Fails_for_foo_with_a_different_value()
+        public void The_foo_must_satisfy_some_condition()
         {
             // Arrange
             var subject = new Foo(unexpectedValue);
@@ -192,6 +192,5 @@ public partial class FooAssertionSpecs
 ```
 
 Naming rules:
-- Test method names use `Succeeds_for_*` and `Fails_for_*`
-- Do **not** use "Should", "When", or "Asserting" in test method names
+- Use fact-based test method names (e.g. `Succeeds_for_*`, `The_X_must_be_Y`, `An_X_is_required`) – avoid "Should", "When", and "Asserting"
 - Separate the "Act" and "Assert" steps only when testing failure paths; success-path tests can combine them as `// Act / Assert`

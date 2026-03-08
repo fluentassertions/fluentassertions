@@ -93,7 +93,7 @@ public partial class FooAssertionSpecs
     public class BeSomething  // Nested class per assertion method
     {
         [Fact]
-        public void Succeeds_for_foo_with_expected_value()
+        public void Succeeds_for_foo_with_the_expected_value()
         {
             // Arrange
             var subject = new Foo(expectedValue);
@@ -103,7 +103,7 @@ public partial class FooAssertionSpecs
         }
 
         [Fact]
-        public void Fails_for_foo_with_unexpected_value()
+        public void The_foo_must_satisfy_some_condition()
         {
             // Arrange
             var subject = new Foo(unexpectedValue);
@@ -119,7 +119,7 @@ public partial class FooAssertionSpecs
 }
 ```
 
-- Test method names use `Succeeds_for_*` and `Fails_for_*` – avoid "Should", "When", and "Asserting"
+- Use fact-based test method names (e.g. `Succeeds_for_*`, `The_X_must_be_Y`, `An_X_is_required`) – avoid "Should", "When", and "Asserting"
 - Each assertion method gets its own nested class within the spec class
 - Spec files are split using partial classes: one file per assertion method (e.g., `FooAssertionSpecs.BeSomething.cs`)
 - Test projects target `net47`, `net6.0`, and `net8.0`
