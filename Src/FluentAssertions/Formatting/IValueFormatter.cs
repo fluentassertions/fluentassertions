@@ -35,7 +35,7 @@ public interface IValueFormatter
     /// DO NOT CALL <see cref="Formatter.ToString(object,FormattingOptions)"/> directly, but use <paramref name="formatChild"/>
     /// instead. This will ensure cyclic dependencies are properly detected.
     /// Also, the <see cref="FormattedObjectGraph"/> may throw
-    /// an <see cref="MaxLinesExceededException"/> that must be ignored by implementations of this interface.
+    /// a <see cref="MaxLinesExceededException"/> that must be ignored by implementations of this interface.
     /// </remarks>
     void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild);
 }

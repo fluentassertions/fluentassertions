@@ -95,7 +95,7 @@ public class EquivalencyOptions<TExpectation>
     }
 
     /// <summary>
-    /// Creates a new set of options based on the current instance which acts on a a collection of the <typeparamref name="TExpectation"/>.
+    /// Creates a new set of options based on the current instance which acts on a collection of the <typeparamref name="TExpectation"/>.
     /// </summary>
     public EquivalencyOptions<IEnumerable<TExpectation>> AsCollection()
     {

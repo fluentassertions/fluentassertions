@@ -6,7 +6,7 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Equivalency.Steps;
 
 /// <summary>
-/// Represents a collection of assertion results obtained through a <see cref="AssertionScope"/>.
+/// Represents a collection of assertion results obtained through an <see cref="AssertionScope"/>.
 /// </summary>
 [System.Diagnostics.StackTraceHidden]
 internal class AssertionResultSet

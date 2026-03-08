@@ -18,7 +18,7 @@ public interface IAssertionContext<TSubject>
     TSubject Subject { get; }
 
     /// <summary>
-    /// Gets the value of the expectation object that was matched with the subject using a <see cref="IMemberMatchingRule"/>.
+    /// Gets the value of the expectation object that was matched with the subject using an <see cref="IMemberMatchingRule"/>.
     /// </summary>
     TSubject Expectation { get; }
 

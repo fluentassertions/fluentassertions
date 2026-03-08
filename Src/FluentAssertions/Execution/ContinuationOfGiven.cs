@@ -1,7 +1,7 @@
 namespace FluentAssertions.Execution;
 
 /// <summary>
-/// Enables chaining multiple assertions from a <see cref="AssertionChain.Given{T}"/> call.
+/// Enables chaining multiple assertions from an <see cref="AssertionChain.Given{T}"/> call.
 /// </summary>
 [System.Diagnostics.StackTraceHidden]
 public class ContinuationOfGiven<TSubject>

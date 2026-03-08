@@ -349,7 +349,7 @@ public class TypeSelector : IEnumerable<Type>
     /// Returns an enumerator that iterates through the collection.
     /// </summary>
     /// <returns>
-    /// A <see cref="IEnumerator{T}"/> that can be used to iterate through the collection.
+    /// An <see cref="IEnumerator{T}"/> that can be used to iterate through the collection.
     /// </returns>
     /// <filterpriority>1</filterpriority>
     public IEnumerator<Type> GetEnumerator()

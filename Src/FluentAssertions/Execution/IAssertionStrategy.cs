@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace FluentAssertions.Execution;
 
 /// <summary>
-/// Defines a strategy for handling failures in a <see cref="AssertionScope"/>.
+/// Defines a strategy for handling failures in an <see cref="AssertionScope"/>.
 /// </summary>
 public interface IAssertionStrategy
 {
@@ -13,7 +13,7 @@ public interface IAssertionStrategy
     IEnumerable<string> FailureMessages { get; }
 
     /// <summary>
-    /// Instructs the strategy to handle a assertion failure.
+    /// Instructs the strategy to handle an assertion failure.
     /// </summary>
     void HandleFailure(string message);
 

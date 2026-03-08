@@ -1303,7 +1303,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// A collection of expected elements.
     /// </param>
     /// <param name="equalityComparison">
-    /// A equality comparison the is used to determine whether two objects should be treated as equal.
+    /// An equality comparison the is used to determine whether two objects should be treated as equal.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -1364,7 +1364,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// The collection to compare the subject with.
     /// </param>
     /// <param name="equalityComparison">
-    /// A equality comparison the is used to determine whether two objects should be treated as equal.
+    /// An equality comparison the is used to determine whether two objects should be treated as equal.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -3275,7 +3275,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// A collection of expected elements.
     /// </param>
     /// <param name="equalityComparison">
-    /// A equality comparison the is used to determine whether two objects should be treated as equal.
+    /// An equality comparison the is used to determine whether two objects should be treated as equal.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
