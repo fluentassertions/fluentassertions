@@ -1,18 +1,35 @@
-using System.Linq;
-using Xunit;
+﻿using System.Linq;
+using BenchmarkDotNet.Attributes;
+using FluentAssertions;
 
-namespace FluentAssertions.Equivalency.Specs;
+namespace Benchmarks;
 
-public class PerformanceSpecs
+[MemoryDiagnoser]
+public class PR_3133_Benchmarks
 {
-    [Fact(Skip = "Performance test")]
-    public void Compare_complex_collection()
-    {
-        int n = 500;
-        var subject = Enumerable.Range(0, n).Select(index => Create(index)).ToArray();
-        var expected = Enumerable.Range(n, n).Select(index => Create(index)).ToArray();
+    private object[] subject;
+    private object[] expected;
 
-        subject.Should().BeEquivalentTo(expected, e => e.WithoutStrictOrdering());
+    [Params(10, 100, 200)]
+    public int N { get; set; }
+
+    [GlobalSetup]
+    public void GlobalSetup()
+    {
+        subject = Enumerable.Range(0, N).Select(index => Create(index)).ToArray();
+        expected = Enumerable.Range(N, N).Select(index => Create(index)).ToArray();
+    }
+
+    [Benchmark]
+    public void BeEquivalentTo()
+    {
+        try
+        {
+            subject.Should().BeEquivalentTo(expected, e => e.WithoutStrictOrdering());
+        }
+        catch
+        {
+        }
     }
 
     private object Create(int index) => new
