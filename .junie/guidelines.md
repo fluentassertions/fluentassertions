@@ -4,7 +4,7 @@
 
 Fluent Assertions is a .NET library providing a rich set of fluent extension methods that allow developers to more naturally specify the expected outcome of test assertions. It supports multiple .NET test frameworks (xUnit, NUnit, MSTest, MSpec, TUnit, etc.) and targets `net47`, `net6.0`, and `net8.0`.
 
-The source lives in `Src/FluentAssertions/` and the tests in `Tests/FluentAssertions.Specs/`.
+The source lives in `Src/FluentAssertions/` and the tests in `Tests/FluentAssertions.Specs/` and `Tests/FluentAssertions.Equivalency.Specs/`.
 
 ## Build & Test Commands
 
@@ -31,7 +31,7 @@ The project uses a [Nuke](https://nuke.build/)-based build system. The build scr
 
 ## Contributing Workflow
 
-- Always target the `develop` branch for pull requests
+- Always target the `main` branch for pull requests
 - Prefer rebase over merge when updating a local branch
 - **Any change to the public API requires prior approval**: open a GitHub issue, get it labeled `api-approved`, then open the PR
 - After intentional public API changes, run `AcceptApiChanges.sh` / `AcceptApiChanges.ps1` to update the API approval baselines in `Tests/Approval.Tests/`
@@ -127,7 +127,7 @@ Key points:
 - All assertion classes must have `[DebuggerNonUserCode]`
 - Generic parameter is `TAssertions` constrained to the class itself
 - `Subject` property exposes the value under test
-- Assertion methods return `AndConstraint<TAssertions>` to support chaining (`.And`)
+- Assertion methods return `AndConstraint<TAssertions>` or `AndWhichConstraint<TAssertions, T>` to support chaining (`.And`)
 - `because` / `becauseArgs` parameters are required on every assertion method
 - `because` is decorated with `[StringSyntax("CompositeFormat")]`
 - Failure messages use `{context:typename}` for the subject reference and `{reason}` for the `because` clause

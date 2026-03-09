@@ -76,7 +76,7 @@ public class FooAssertions<TAssertions>
 ```
 
 - All assertion classes must have the `[DebuggerNonUserCode]` attribute
-- Assertion methods always return `AndConstraint<TAssertions>` to enable chaining
+- Assertion methods always return `AndConstraint<TAssertions>` or `AndWhichConstraint<TAssertions, T>` to enable chaining
 - Use `{context:typename}` in failure messages to reference the subject
 - `because` parameter must be decorated with `[StringSyntax("CompositeFormat")]`
 - `Should()` extension methods live in `AssertionExtensions.cs`
@@ -126,7 +126,7 @@ public partial class FooAssertionSpecs
 
 ## Contributing
 
-- Target PRs at the `develop` branch
+- Target PRs at the `main` branch
 - Any public API change requires prior approval via a GitHub issue labeled `api-approved`
 - Update `docs/_pages/releases.md` when adding features or fixing bugs
 - Update documentation in `docs/_pages/` if assertions are added or changed
