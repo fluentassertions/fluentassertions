@@ -138,7 +138,22 @@ public sealed class AssertionScope : IDisposable
     /// </summary>
     public void AddPreFormattedFailure(string formattedFailureMessage)
     {
-        assertionStrategy.HandleFailure(formattedFailureMessage);
+        AddFailure(new AssertionFailure(formattedFailureMessage));
+    }
+
+    /// <summary>
+    /// Adds an <see cref="AssertionFailure"/> to the current scope with deferred rendering.
+    /// </summary>
+    internal void AddFailure(AssertionFailure failure)
+    {
+        if (assertionStrategy is IAssertionStrategy2 strategy2)
+        {
+            strategy2.HandleFailure(failure);
+        }
+        else
+        {
+            assertionStrategy.HandleFailure(failure.ToString());
+        }
     }
 
     /// <summary>
@@ -179,11 +194,21 @@ public sealed class AssertionScope : IDisposable
     /// </summary>
     public string[] Discard()
     {
+        if (assertionStrategy is IAssertionStrategy2 strategy2)
+        {
+            return strategy2.DiscardFailures().Select(f => f.ToString()).ToArray();
+        }
+
         return assertionStrategy.DiscardFailures().ToArray();
     }
 
     public bool HasFailures()
     {
+        if (assertionStrategy is IAssertionStrategy2 strategy2)
+        {
+            return strategy2.FailureCount > 0;
+        }
+
         return assertionStrategy.FailureMessages.Any();
     }
 
@@ -194,9 +219,19 @@ public sealed class AssertionScope : IDisposable
 
         if (parent is not null)
         {
-            foreach (string failureMessage in assertionStrategy.FailureMessages)
+            if (assertionStrategy is IAssertionStrategy2 strategy2)
             {
-                parent.assertionStrategy.HandleFailure(failureMessage);
+                foreach (AssertionFailure failure in strategy2.Failures)
+                {
+                    parent.AddFailure(failure);
+                }
+            }
+            else
+            {
+                foreach (string failureMessage in assertionStrategy.FailureMessages)
+                {
+                    parent.AddFailure(new AssertionFailure(failureMessage));
+                }
             }
 
             parent.reportableData.Add(reportableData);

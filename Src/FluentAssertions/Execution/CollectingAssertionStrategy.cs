@@ -7,22 +7,42 @@ using System.Text;
 namespace FluentAssertions.Execution;
 
 [System.Diagnostics.StackTraceHidden]
-internal class CollectingAssertionStrategy : IAssertionStrategy
+internal class CollectingAssertionStrategy : IAssertionStrategy, IAssertionStrategy2
 {
-    private readonly List<string> failureMessages = [];
+    private readonly List<AssertionFailure> failures = [];
 
     /// <summary>
     /// Returns the messages for the assertion failures that happened until now.
     /// </summary>
-    public IEnumerable<string> FailureMessages => failureMessages;
+    public IEnumerable<string> FailureMessages => failures.Select(f => f.ToString());
+
+    /// <summary>
+    /// Returns the assertion failures that happened until now.
+    /// </summary>
+    public IEnumerable<AssertionFailure> Failures => failures;
+
+    /// <summary>
+    /// Gets the number of assertion failures that have been collected.
+    /// </summary>
+    public int FailureCount => failures.Count;
 
     /// <summary>
     /// Discards and returns the failure messages that happened up to now.
     /// </summary>
-    public IEnumerable<string> DiscardFailures()
+    IEnumerable<string> IAssertionStrategy.DiscardFailures()
     {
-        var discardedFailures = failureMessages.ToArray();
-        failureMessages.Clear();
+        var discardedFailures = failures.Select(f => f.ToString()).ToArray();
+        failures.Clear();
+        return discardedFailures;
+    }
+
+    /// <summary>
+    /// Discards and returns the failures that happened up to now.
+    /// </summary>
+    IEnumerable<AssertionFailure> IAssertionStrategy2.DiscardFailures()
+    {
+        var discardedFailures = failures.ToArray();
+        failures.Clear();
         return discardedFailures;
     }
 
@@ -31,10 +51,10 @@ internal class CollectingAssertionStrategy : IAssertionStrategy
     /// </summary>
     public void ThrowIfAny(IDictionary<string, object> context)
     {
-        if (failureMessages.Count > 0)
+        if (failures.Count > 0)
         {
             var builder = new StringBuilder();
-            builder.AppendJoin(Environment.NewLine, failureMessages).AppendLine();
+            builder.AppendJoin(Environment.NewLine, failures.Select(f => f.ToString())).AppendLine();
 
             if (context.Any())
             {
@@ -49,10 +69,18 @@ internal class CollectingAssertionStrategy : IAssertionStrategy
     }
 
     /// <summary>
-    /// Instructs the strategy to handle an assertion failure.
+    /// Instructs the strategy to handle a pre-formatted assertion failure.
     /// </summary>
     public void HandleFailure(string message)
     {
-        failureMessages.Add(message);
+        failures.Add(new AssertionFailure(message));
+    }
+
+    /// <summary>
+    /// Instructs the strategy to handle a deferred assertion failure.
+    /// </summary>
+    public void HandleFailure(AssertionFailure failure)
+    {
+        failures.Add(failure);
     }
 }

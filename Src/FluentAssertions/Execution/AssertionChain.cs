@@ -176,13 +176,20 @@ public sealed class AssertionChain
     {
         if (PreviousAssertionSucceeded)
         {
+            // Capture scope-dependent values eagerly so they remain correct
+            // even when the expectation message is rendered later (deferred rendering).
+            var capturedFormattingOptions = getCurrentScope().FormattingOptions;
+            var capturedReason = reason;
+            var capturedIdentifier = CallerIdentifier;
+            var capturedFallbackIdentifier = fallbackIdentifier;
+
             expectation = () =>
             {
-                var formatter = new FailureMessageFormatter(getCurrentScope().FormattingOptions)
-                    .WithReason(reason?.Invoke() ?? string.Empty)
+                var formatter = new FailureMessageFormatter(capturedFormattingOptions)
+                    .WithReason(capturedReason?.Invoke() ?? string.Empty)
                     .WithContext(contextData)
-                    .WithIdentifier(CallerIdentifier)
-                    .WithFallbackIdentifier(fallbackIdentifier);
+                    .WithIdentifier(capturedIdentifier)
+                    .WithFallbackIdentifier(capturedFallbackIdentifier);
 
                 return formatter.Format(message, args);
             };
@@ -230,18 +237,47 @@ public sealed class AssertionChain
 
     public Continuation FailWith(Func<FailReason> getFailureReason)
     {
-        return FailWith(() =>
+        if (PreviousAssertionSucceeded)
         {
-            var formatter = new FailureMessageFormatter(getCurrentScope().FormattingOptions)
-                .WithReason(reason?.Invoke() ?? string.Empty)
-                .WithContext(contextData)
-                .WithIdentifier(CallerIdentifier)
-                .WithFallbackIdentifier(fallbackIdentifier);
+            PreviousAssertionSucceeded = succeeded == true;
 
-            FailReason failReason = getFailureReason();
+            if (succeeded != true)
+            {
+                // Capture scope-dependent values at failure time so they remain correct
+                // even when the failure message is rendered later (deferred rendering).
+                var capturedFormattingOptions = getCurrentScope().FormattingOptions;
+                var capturedReason = reason;
+                var capturedIdentifier = CallerIdentifier;
+                var capturedFallbackIdentifier = fallbackIdentifier;
+                Func<string> capturedExpectation = expectation;
 
-            return formatter.Format(failReason.Message, failReason.Args);
-        });
+                var failure = new AssertionFailure(() =>
+                {
+                    var formatter = new FailureMessageFormatter(capturedFormattingOptions)
+                        .WithReason(capturedReason?.Invoke() ?? string.Empty)
+                        .WithContext(contextData)
+                        .WithIdentifier(capturedIdentifier)
+                        .WithFallbackIdentifier(capturedFallbackIdentifier);
+
+                    FailReason failReason = getFailureReason();
+                    string message = formatter.Format(failReason.Message, failReason.Args);
+
+                    if (capturedExpectation is not null)
+                    {
+                        message = capturedExpectation() + message;
+                    }
+
+                    return message.Capitalize().RemoveTrailingWhitespaceFromLines();
+                });
+
+                getCurrentScope().AddFailure(failure);
+            }
+        }
+
+        // Reset the state for successive assertions on this object
+        succeeded = null;
+
+        return new Continuation(this);
     }
 
     private Continuation FailWith(Func<string> getFailureReason)
@@ -252,14 +288,21 @@ public sealed class AssertionChain
 
             if (succeeded != true)
             {
-                string failure = getFailureReason();
+                Func<string> capturedExpectation = expectation;
 
-                if (expectation is not null)
+                var failure = new AssertionFailure(() =>
                 {
-                    failure = expectation() + failure;
-                }
+                    string message = getFailureReason();
 
-                getCurrentScope().AddPreFormattedFailure(failure.Capitalize().RemoveTrailingWhitespaceFromLines());
+                    if (capturedExpectation is not null)
+                    {
+                        message = capturedExpectation() + message;
+                    }
+
+                    return message.Capitalize().RemoveTrailingWhitespaceFromLines();
+                });
+
+                getCurrentScope().AddFailure(failure);
             }
         }
 
@@ -345,7 +388,7 @@ public sealed class AssertionChain
     /// </summary>
     internal void AddPreFormattedFailure(string failure)
     {
-        getCurrentScope().AddPreFormattedFailure(failure);
+        getCurrentScope().AddFailure(new AssertionFailure(failure));
     }
 
     /// <summary>
