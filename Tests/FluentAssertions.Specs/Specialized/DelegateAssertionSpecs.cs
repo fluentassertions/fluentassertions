@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions.Execution;
 using Xunit;
 
@@ -48,7 +49,7 @@ public class DelegateAssertionSpecs
             a.Should().ThrowExactly<InvalidOperationException>();
 
             // Assert
-            scope.Discard().Should().ContainSingle()
+            scope.Discard().Select(f => f.ToString()).Should().ContainSingle()
                 .Which.Should().Match("*InvalidOperationException*no exception*");
         }
     }

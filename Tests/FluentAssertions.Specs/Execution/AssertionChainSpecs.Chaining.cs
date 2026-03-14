@@ -186,11 +186,11 @@ public partial class AssertionChainSpecs
                 .ForCondition(false)
                 .FailWith("Second assertion");
 
-            string[] failures = scope.Discard();
+            AssertionFailure[] failures = scope.Discard();
             scope.Dispose();
 
             Assert.Single(failures);
-            Assert.Contains("First assertion", failures);
+            Assert.Contains(failures, f => f.ToString().Contains("First assertion"));
         }
 
         [Fact]
@@ -553,11 +553,11 @@ public partial class AssertionChainSpecs
                 .ForConstraint(Exactly.Once(), 2)
                 .FailWith("Second {0}", "assertion");
 
-            string[] failures = scope.Discard();
+            AssertionFailure[] failures = scope.Discard();
 
             // Assert
             Assert.Single(failures);
-            Assert.Contains("First \"assertion\"", failures);
+            Assert.Contains(failures, f => f.ToString().Contains("First \"assertion\""));
         }
 
         [Fact]
@@ -575,7 +575,7 @@ public partial class AssertionChainSpecs
 
             // Assert
             Assert.Single(failures);
-            Assert.Contains("First \"assertion\"", failures);
+            Assert.Contains(failures, f => f.ToString().Contains("First \"assertion\""));
         }
 
         [Fact]

@@ -18,7 +18,7 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
     private const int MaximumFailuresToReport = 10;
 
     private readonly Tracer tracer = context.Tracer;
-    private Dictionary<(object Subject, object Expectation, int ExpectationIndex), string[]> failuresCache = new();
+    private Dictionary<(object Subject, object Expectation, int ExpectationIndex), AssertionFailure[]> failuresCache = new();
 
     public void FindAndRemoveMatches(List<object> subjects, List<TExpectation> expectations)
     {
@@ -66,7 +66,7 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
             using var _ = tracer.WriteBlock(member =>
                 $"Comparing subject at {member.Subject}[{index}] with the expectation at {member.Expectation}[{expectationIndex}]");
 
-            string[] failures = TryToMatch(expectation, subject, expectationIndex);
+            AssertionFailure[] failures = TryToMatch(expectation, subject, expectationIndex);
 
             if (failures.Length == 0)
             {
@@ -113,16 +113,16 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
         int nrFailures = 0;
         if (expectationsWithIndexes.Count > 0 && remainingSubjects.Count > 0)
         {
-            IReadOnlyList<(IndexedItem<TExpectation>, object, string[])> bestMatches =
+            IReadOnlyList<(IndexedItem<TExpectation>, object, AssertionFailure[])> bestMatches =
                 FindClosestMismatches(remainingSubjects, expectationsWithIndexes, TryToMatch);
 
             foreach (var (expectation, subject, failures) in bestMatches)
             {
-                foreach (string failure in failures)
+                foreach (AssertionFailure failure in failures)
                 {
                     if (nrFailures < MaximumFailuresToReport)
                     {
-                        assertionChain.AddPreFormattedFailure(failure);
+                        assertionChain.AddPreFormattedFailure(failure.ToString());
                         nrFailures++;
                     }
                 }
@@ -133,12 +133,12 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
         }
     }
 
-    private static IReadOnlyList<(IndexedItem<TExpectation> Expectation, object Actual, string[] Failures)> FindClosestMismatches(
+    private static IReadOnlyList<(IndexedItem<TExpectation> Expectation, object Actual, AssertionFailure[] Failures)> FindClosestMismatches(
         List<object> remainingSubjects, IndexedItemCollection<TExpectation> expectationsWithIndexes,
-        Func<TExpectation, object, int, string[]> getFailures)
+        Func<TExpectation, object, int, AssertionFailure[]> getFailures)
     {
         var bestScore = int.MaxValue;
-        List<(IndexedItem<TExpectation> ExpectationWithIndex, object, string[] Failures)> bestSet = null;
+        List<(IndexedItem<TExpectation> ExpectationWithIndex, object, AssertionFailure[] Failures)> bestSet = null;
 
         const int maxPermutations = 200_000;
         int seen = 0;
@@ -151,13 +151,13 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
             }
 
             int score = 0;
-            var currentSet = new List<(IndexedItem<TExpectation> ExpectationWithIndex, object, string[] Failures)>();
+            var currentSet = new List<(IndexedItem<TExpectation> ExpectationWithIndex, object, AssertionFailure[] Failures)>();
 
             for (int index = 0; index < expectationsWithIndexes.Count && index < assignment.Count; index++)
             {
                 IndexedItem<TExpectation> expectationWithIndex = expectationsWithIndexes[index];
 
-                string[] failures = getFailures(expectationWithIndex.Item, assignment[index], expectationWithIndex.Index);
+                AssertionFailure[] failures = getFailures(expectationWithIndex.Item, assignment[index], expectationWithIndex.Index);
 
                 int distance = failures.Length;
                 score += distance;
@@ -178,15 +178,15 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
             }
         }
 
-        return bestSet is not null ? bestSet : Array.Empty<(IndexedItem<TExpectation>, object, string[])>();
+        return bestSet is not null ? bestSet : Array.Empty<(IndexedItem<TExpectation>, object, AssertionFailure[])>();
     }
 
-    private string[] TryToMatch(TExpectation expectation, object subject, int expectationIndex)
+    private AssertionFailure[] TryToMatch(TExpectation expectation, object subject, int expectationIndex)
     {
         // Create a cache key based on the subject and expectation instances
         var cacheKey = (subject, (object)expectation, expectationIndex);
 
-        if (failuresCache.TryGetValue(cacheKey, out string[] cachedResult))
+        if (failuresCache.TryGetValue(cacheKey, out AssertionFailure[] cachedResult))
         {
             return cachedResult;
         }
@@ -196,7 +196,7 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
         parent.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(TExpectation)),
             context.AsCollectionItem<TExpectation>(expectationIndex));
 
-        string[] failures = scope.Discard();
+        AssertionFailure[] failures = scope.Discard();
         failuresCache[cacheKey] = failures;
 
         return failures;

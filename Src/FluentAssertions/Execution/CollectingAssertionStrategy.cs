@@ -7,14 +7,9 @@ using System.Text;
 namespace FluentAssertions.Execution;
 
 [System.Diagnostics.StackTraceHidden]
-internal class CollectingAssertionStrategy : IAssertionStrategy, IAssertionStrategy2
+internal class CollectingAssertionStrategy : IAssertionStrategy2
 {
     private readonly List<AssertionFailure> failures = [];
-
-    /// <summary>
-    /// Returns the messages for the assertion failures that happened until now.
-    /// </summary>
-    public IEnumerable<string> FailureMessages => failures.Select(f => f.ToString());
 
     /// <summary>
     /// Returns the assertion failures that happened until now.
@@ -27,19 +22,9 @@ internal class CollectingAssertionStrategy : IAssertionStrategy, IAssertionStrat
     public int FailureCount => failures.Count;
 
     /// <summary>
-    /// Discards and returns the failure messages that happened up to now.
-    /// </summary>
-    IEnumerable<string> IAssertionStrategy.DiscardFailures()
-    {
-        var discardedFailures = failures.Select(f => f.ToString()).ToArray();
-        failures.Clear();
-        return discardedFailures;
-    }
-
-    /// <summary>
     /// Discards and returns the failures that happened up to now.
     /// </summary>
-    IEnumerable<AssertionFailure> IAssertionStrategy2.DiscardFailures()
+    public IEnumerable<AssertionFailure> DiscardFailures()
     {
         var discardedFailures = failures.ToArray();
         failures.Clear();
@@ -66,14 +51,6 @@ internal class CollectingAssertionStrategy : IAssertionStrategy, IAssertionStrat
 
             AssertionEngine.TestFramework.Throw(builder.ToString());
         }
-    }
-
-    /// <summary>
-    /// Instructs the strategy to handle a pre-formatted assertion failure.
-    /// </summary>
-    public void HandleFailure(string message)
-    {
-        failures.Add(new AssertionFailure(message));
     }
 
     /// <summary>

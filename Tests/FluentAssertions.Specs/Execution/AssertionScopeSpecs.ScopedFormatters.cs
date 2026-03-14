@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FluentAssertions.Execution;
 using FluentAssertions.Formatting;
 using Xunit;
@@ -60,14 +61,14 @@ public partial class AssertionScopeSpecs
         1.Should().Be(2);
 
         // Assert 1
-        outerScope.Discard().Should().ContainSingle().Which.Should().Match($"*{nameof(OuterFormatter)}*");
+        outerScope.Discard().Select(f => f.ToString()).Should().ContainSingle().Which.Should().Match($"*{nameof(OuterFormatter)}*");
 
         // Act 2
         outerScope.FormattingOptions.RemoveFormatter(outerFormatter);
         1.Should().Be(2);
 
         // Assert2
-        outerScope.Discard().Should().ContainSingle().Which.Should().NotMatch($"*{nameof(OuterFormatter)}*");
+        outerScope.Discard().Select(f => f.ToString()).Should().ContainSingle().Which.Should().NotMatch($"*{nameof(OuterFormatter)}*");
         outerScope.FormattingOptions.ScopedFormatters.Should().BeEmpty();
     }
 
@@ -85,7 +86,7 @@ public partial class AssertionScopeSpecs
         1.Should().Be(2);
 
         // Assert 1 / Test if outer scope contains OuterFormatter
-        outerScope.Discard().Should().ContainSingle().Which.Should().Match($"*{nameof(OuterFormatter)}*");
+        outerScope.Discard().Select(f => f.ToString()).Should().ContainSingle().Which.Should().Match($"*{nameof(OuterFormatter)}*");
 
         using (var innerScope = new AssertionScope("inside"))
         {
@@ -95,7 +96,7 @@ public partial class AssertionScopeSpecs
             1.Should().Be(2); // OuterFormatter
 
             // Assert 2
-            innerScope.Discard().Should()
+            innerScope.Discard().Select(f => f.ToString()).Should()
                 .SatisfyRespectively(
                     failure1 => failure1.Should().Match($"*{nameof(InnerFormatter)}*"),
                     failure2 => failure2.Should().Match($"*{nameof(OuterFormatter)}*"));
@@ -105,7 +106,7 @@ public partial class AssertionScopeSpecs
         1.Should().Be(2);
 
         // Assert 3
-        outerScope.Discard().Should().ContainSingle().Which.Should().Match($"*{nameof(OuterFormatter)}*");
+        outerScope.Discard().Select(f => f.ToString()).Should().ContainSingle().Which.Should().Match($"*{nameof(OuterFormatter)}*");
     }
 
     [Fact]
@@ -126,7 +127,7 @@ public partial class AssertionScopeSpecs
         "1".Should().Be("2");
 
         // Assert
-        innerScope.Discard().Should().SatisfyRespectively(
+        innerScope.Discard().Select(f => f.ToString()).Should().SatisfyRespectively(
             failure1 => failure1.Should().Match("*2, but found 1*"),
             failure2 => failure2.Should().NotMatch($"*{nameof(OuterFormatter)}*")
                 .And.Match($"*{nameof(InnerFormatter)}*"));

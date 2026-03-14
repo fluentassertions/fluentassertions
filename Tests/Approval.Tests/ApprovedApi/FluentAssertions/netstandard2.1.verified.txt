@@ -1246,7 +1246,7 @@ namespace FluentAssertions.Execution
         public static FluentAssertions.Execution.AssertionScope Current { get; }
         public void AddPreFormattedFailure(string formattedFailureMessage) { }
         public void AppendTracing(string tracingBlock) { }
-        public string[] Discard() { }
+        public FluentAssertions.Execution.AssertionFailure[] Discard() { }
         public void Dispose() { }
         public bool HasFailures() { }
     }

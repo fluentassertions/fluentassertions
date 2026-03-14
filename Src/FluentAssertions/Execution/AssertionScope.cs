@@ -18,7 +18,7 @@ namespace FluentAssertions.Execution;
 [System.Diagnostics.StackTraceHidden]
 public sealed class AssertionScope : IDisposable
 {
-    private readonly IAssertionStrategy assertionStrategy;
+    private readonly IAssertionStrategy2 assertionStrategy;
     private static readonly AsyncLocal<AssertionScope> CurrentScope = new();
     private readonly Func<string> callerIdentityProvider = () => CallerIdentifier.DetermineCallerIdentity();
     private readonly ContextDataDictionary reportableData = new();
@@ -50,8 +50,9 @@ public sealed class AssertionScope : IDisposable
     /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
     /// <exception cref="ArgumentNullException"><paramref name="assertionStrategy"/> is <see langword="null"/>.</exception>
     public AssertionScope(IAssertionStrategy assertionStrategy)
-        : this(() => null, assertionStrategy)
+        : this(() => null, new AssertionStrategyAdapter(assertionStrategy))
     {
+        Guard.ThrowIfArgumentIsNull(assertionStrategy);
     }
 
     /// <summary>
@@ -68,7 +69,7 @@ public sealed class AssertionScope : IDisposable
     /// </summary>
     /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
     /// <exception cref="ArgumentNullException"><paramref name="assertionStrategy"/> is <see langword="null"/>.</exception>
-    private AssertionScope(Func<string> name, IAssertionStrategy assertionStrategy)
+    private AssertionScope(Func<string> name, IAssertionStrategy2 assertionStrategy)
     {
         Guard.ThrowIfArgumentIsNull(assertionStrategy);
         parent = CurrentScope.Value;
@@ -146,14 +147,7 @@ public sealed class AssertionScope : IDisposable
     /// </summary>
     internal void AddFailure(AssertionFailure failure)
     {
-        if (assertionStrategy is IAssertionStrategy2 strategy2)
-        {
-            strategy2.HandleFailure(failure);
-        }
-        else
-        {
-            assertionStrategy.HandleFailure(failure.ToString());
-        }
+        assertionStrategy.HandleFailure(failure);
     }
 
     /// <summary>
@@ -192,24 +186,14 @@ public sealed class AssertionScope : IDisposable
     /// Returns all failures that happened up to this point and ensures they will not cause
     /// <see cref="Dispose"/> to fail the assertion.
     /// </summary>
-    public string[] Discard()
+    public AssertionFailure[] Discard()
     {
-        if (assertionStrategy is IAssertionStrategy2 strategy2)
-        {
-            return strategy2.DiscardFailures().Select(f => f.ToString()).ToArray();
-        }
-
         return assertionStrategy.DiscardFailures().ToArray();
     }
 
     public bool HasFailures()
     {
-        if (assertionStrategy is IAssertionStrategy2 strategy2)
-        {
-            return strategy2.FailureCount > 0;
-        }
-
-        return assertionStrategy.FailureMessages.Any();
+        return assertionStrategy.FailureCount > 0;
     }
 
     /// <inheritdoc/>
@@ -219,19 +203,9 @@ public sealed class AssertionScope : IDisposable
 
         if (parent is not null)
         {
-            if (assertionStrategy is IAssertionStrategy2 strategy2)
+            foreach (AssertionFailure failure in assertionStrategy.Failures)
             {
-                foreach (AssertionFailure failure in strategy2.Failures)
-                {
-                    parent.AddFailure(failure);
-                }
-            }
-            else
-            {
-                foreach (string failureMessage in assertionStrategy.FailureMessages)
-                {
-                    parent.AddFailure(new AssertionFailure(failureMessage));
-                }
+                parent.AddFailure(failure);
             }
 
             parent.reportableData.Add(reportableData);
