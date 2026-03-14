@@ -176,20 +176,13 @@ public sealed class AssertionChain
     {
         if (PreviousAssertionSucceeded)
         {
-            // Capture scope-dependent values eagerly so they remain correct
-            // even when the expectation message is rendered later (deferred rendering).
-            var capturedFormattingOptions = getCurrentScope().FormattingOptions;
-            var capturedReason = reason;
-            var capturedIdentifier = CallerIdentifier;
-            var capturedFallbackIdentifier = fallbackIdentifier;
-
             expectation = () =>
             {
-                var formatter = new FailureMessageFormatter(capturedFormattingOptions)
-                    .WithReason(capturedReason?.Invoke() ?? string.Empty)
+                var formatter = new FailureMessageFormatter(getCurrentScope().FormattingOptions)
+                    .WithReason(reason?.Invoke() ?? string.Empty)
                     .WithContext(contextData)
-                    .WithIdentifier(capturedIdentifier)
-                    .WithFallbackIdentifier(capturedFallbackIdentifier);
+                    .WithIdentifier(CallerIdentifier)
+                    .WithFallbackIdentifier(fallbackIdentifier);
 
                 return formatter.Format(message, args);
             };
@@ -249,7 +242,10 @@ public sealed class AssertionChain
                 var capturedReason = reason;
                 var capturedIdentifier = CallerIdentifier;
                 var capturedFallbackIdentifier = fallbackIdentifier;
-                Func<string> capturedExpectation = expectation;
+
+                // Eagerly evaluate the expectation string since it depends on current scope state
+                // (reason, identifier, formatting options) that may change after this point.
+                string capturedExpectationString = expectation?.Invoke();
 
                 var failure = new AssertionFailure(() =>
                 {
@@ -262,9 +258,9 @@ public sealed class AssertionChain
                     FailReason failReason = getFailureReason();
                     string message = formatter.Format(failReason.Message, failReason.Args);
 
-                    if (capturedExpectation is not null)
+                    if (capturedExpectationString is not null)
                     {
-                        message = capturedExpectation() + message;
+                        message = capturedExpectationString + message;
                     }
 
                     return message.Capitalize().RemoveTrailingWhitespaceFromLines();
@@ -288,15 +284,17 @@ public sealed class AssertionChain
 
             if (succeeded != true)
             {
-                Func<string> capturedExpectation = expectation;
+                // Eagerly evaluate the expectation string since it depends on current scope state
+                // (reason, identifier, formatting options) that may change after this point.
+                string capturedExpectationString = expectation?.Invoke();
 
                 var failure = new AssertionFailure(() =>
                 {
                     string message = getFailureReason();
 
-                    if (capturedExpectation is not null)
+                    if (capturedExpectationString is not null)
                     {
-                        message = capturedExpectation() + message;
+                        message = capturedExpectationString + message;
                     }
 
                     return message.Capitalize().RemoveTrailingWhitespaceFromLines();
