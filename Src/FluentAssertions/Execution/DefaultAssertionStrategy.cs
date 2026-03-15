@@ -5,25 +5,30 @@ namespace FluentAssertions.Execution;
 
 [ExcludeFromCodeCoverage]
 [System.Diagnostics.StackTraceHidden]
-internal class DefaultAssertionStrategy : IAssertionStrategy
+internal class DefaultAssertionStrategy : IAssertionStrategy2
 {
     /// <summary>
-    /// Returns the messages for the assertion failures that happened until now.
+    /// Returns the assertion failures that happened until now.
     /// </summary>
-    public IEnumerable<string> FailureMessages => [];
+    public IEnumerable<AssertionFailure> Failures => [];
 
     /// <summary>
-    /// Instructs the strategy to handle an assertion failure.
+    /// Gets the number of assertion failures that have been collected.
     /// </summary>
-    public void HandleFailure(string message)
+    public int FailureCount => 0;
+
+    /// <summary>
+    /// Instructs the strategy to handle a deferred assertion failure.
+    /// </summary>
+    public void HandleFailure(AssertionFailure failure)
     {
-        AssertionEngine.TestFramework.Throw(message);
+        AssertionEngine.TestFramework.Throw(failure.ToString());
     }
 
     /// <summary>
-    /// Discards and returns the failure messages that happened up to now.
+    /// Discards and returns the failures that happened up to now.
     /// </summary>
-    public IEnumerable<string> DiscardFailures() => [];
+    public IEnumerable<AssertionFailure> DiscardFailures() => [];
 
     /// <summary>
     /// Will throw a combined exception for any failures have been collected.

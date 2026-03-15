@@ -7,22 +7,27 @@ using System.Text;
 namespace FluentAssertions.Execution;
 
 [System.Diagnostics.StackTraceHidden]
-internal class CollectingAssertionStrategy : IAssertionStrategy
+internal class CollectingAssertionStrategy : IAssertionStrategy2
 {
-    private readonly List<string> failureMessages = [];
+    private readonly List<AssertionFailure> failures = [];
 
     /// <summary>
-    /// Returns the messages for the assertion failures that happened until now.
+    /// Returns the assertion failures that happened until now.
     /// </summary>
-    public IEnumerable<string> FailureMessages => failureMessages;
+    public IEnumerable<AssertionFailure> Failures => failures;
 
     /// <summary>
-    /// Discards and returns the failure messages that happened up to now.
+    /// Gets the number of assertion failures that have been collected.
     /// </summary>
-    public IEnumerable<string> DiscardFailures()
+    public int FailureCount => failures.Count;
+
+    /// <summary>
+    /// Discards and returns the failures that happened up to now.
+    /// </summary>
+    public IEnumerable<AssertionFailure> DiscardFailures()
     {
-        var discardedFailures = failureMessages.ToArray();
-        failureMessages.Clear();
+        var discardedFailures = failures.ToArray();
+        failures.Clear();
         return discardedFailures;
     }
 
@@ -31,10 +36,10 @@ internal class CollectingAssertionStrategy : IAssertionStrategy
     /// </summary>
     public void ThrowIfAny(IDictionary<string, object> context)
     {
-        if (failureMessages.Count > 0)
+        if (failures.Count > 0)
         {
             var builder = new StringBuilder();
-            builder.AppendJoin(Environment.NewLine, failureMessages).AppendLine();
+            builder.AppendJoin(Environment.NewLine, failures.Select(f => f.ToString())).AppendLine();
 
             if (context.Any())
             {
@@ -49,10 +54,10 @@ internal class CollectingAssertionStrategy : IAssertionStrategy
     }
 
     /// <summary>
-    /// Instructs the strategy to handle an assertion failure.
+    /// Instructs the strategy to handle a deferred assertion failure.
     /// </summary>
-    public void HandleFailure(string message)
+    public void HandleFailure(AssertionFailure failure)
     {
-        failureMessages.Add(message);
+        failures.Add(failure);
     }
 }

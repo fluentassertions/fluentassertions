@@ -928,7 +928,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
                 new EquivalencyValidator().AssertEquality(comparands, context);
 
-                string[] failures = scope.Discard();
+                AssertionFailure[] failures = scope.Discard();
 
                 if (failures.Length == 0)
                 {
@@ -1939,7 +1939,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                 .FailWith("Expected {context:collection} not to be equivalent{reason}, but found <null>.");
         }
 
-        string[] failures;
+        AssertionFailure[] failures;
 
         using (var scope = new AssertionScope())
         {
@@ -2501,7 +2501,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
                     new EquivalencyValidator().AssertEquality(comparands, context);
 
-                    string[] failures = scope.Discard();
+                    AssertionFailure[] failures = scope.Discard();
 
                     if (failures.Length == 0)
                     {
@@ -3121,7 +3121,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         if (assertionChain.Succeeded)
         {
-            string[] failuresFromInspectors;
+            AssertionFailure[] failuresFromInspectors;
 
             using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
             {
@@ -3132,7 +3132,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             if (failuresFromInspectors.Length > 0)
             {
                 string failureMessage = Environment.NewLine
-                                        + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+                                        + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.ToString().IndentLines()));
 
                 assertionChain
                     .BecauseOf(because, becauseArgs)
@@ -3206,7 +3206,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         if (assertionChain.Succeeded)
         {
-            string[] failuresFromInspectors;
+            AssertionFailure[] failuresFromInspectors;
 
             using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
             {
@@ -3216,7 +3216,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             if (failuresFromInspectors.Length > 0)
             {
                 string failureMessage = Environment.NewLine
-                                        + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+                                        + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.ToString().IndentLines()));
 
                 assertionChain
                     .BecauseOf(because, becauseArgs)
@@ -3571,9 +3571,9 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return index < collection.Count - 1 ? collection[index + 1] : default;
     }
 
-    private string[] CollectFailuresFromInspectors(IEnumerable<Action<T>> elementInspectors)
+    private AssertionFailure[] CollectFailuresFromInspectors(IEnumerable<Action<T>> elementInspectors)
     {
-        string[] collectionFailures;
+        AssertionFailure[] collectionFailures;
 
         using (var collectionScope = new AssertionScope())
         {
@@ -3582,7 +3582,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             foreach ((T element, Action<T> inspector) in Subject.Zip(elementInspectors,
                          (element, inspector) => (element, inspector)))
             {
-                string[] inspectorFailures;
+                AssertionFailure[] inspectorFailures;
 
                 using (var itemScope = new AssertionScope())
                 {
@@ -3594,7 +3594,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                 {
                     // Adding one tab and removing trailing dot to allow nested SatisfyRespectively
                     string failures = string.Join(Environment.NewLine,
-                        inspectorFailures.Select(x => x.IndentLines().TrimEnd('.')));
+                        inspectorFailures.Select(x => x.ToString().IndentLines().TrimEnd('.')));
 
                     collectionScope.AddPreFormattedFailure($"At index {index}:{Environment.NewLine}{failures}");
                 }

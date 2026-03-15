@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
@@ -642,7 +643,7 @@ public static class TaskAssertionSpecs
             await a.Should().ThrowExactlyAsync<InvalidOperationException>();
 
             // Assert
-            scope.Discard().Should().ContainSingle()
+            scope.Discard().Select(f => f.ToString()).Should().ContainSingle()
                 .Which.Should().Match("*InvalidOperationException*no exception*");
         }
     }

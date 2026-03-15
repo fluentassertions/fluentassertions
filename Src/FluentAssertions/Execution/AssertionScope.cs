@@ -18,7 +18,7 @@ namespace FluentAssertions.Execution;
 [System.Diagnostics.StackTraceHidden]
 public sealed class AssertionScope : IDisposable
 {
-    private readonly IAssertionStrategy assertionStrategy;
+    private readonly IAssertionStrategy2 assertionStrategy;
     private static readonly AsyncLocal<AssertionScope> CurrentScope = new();
     private readonly Func<string> callerIdentityProvider = () => CallerIdentifier.DetermineCallerIdentity();
     private readonly ContextDataDictionary reportableData = new();
@@ -50,8 +50,9 @@ public sealed class AssertionScope : IDisposable
     /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
     /// <exception cref="ArgumentNullException"><paramref name="assertionStrategy"/> is <see langword="null"/>.</exception>
     public AssertionScope(IAssertionStrategy assertionStrategy)
-        : this(() => null, assertionStrategy)
+        : this(() => null, new AssertionStrategyAdapter(assertionStrategy))
     {
+        Guard.ThrowIfArgumentIsNull(assertionStrategy);
     }
 
     /// <summary>
@@ -68,7 +69,7 @@ public sealed class AssertionScope : IDisposable
     /// </summary>
     /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
     /// <exception cref="ArgumentNullException"><paramref name="assertionStrategy"/> is <see langword="null"/>.</exception>
-    private AssertionScope(Func<string> name, IAssertionStrategy assertionStrategy)
+    private AssertionScope(Func<string> name, IAssertionStrategy2 assertionStrategy)
     {
         Guard.ThrowIfArgumentIsNull(assertionStrategy);
         parent = CurrentScope.Value;
@@ -138,7 +139,15 @@ public sealed class AssertionScope : IDisposable
     /// </summary>
     public void AddPreFormattedFailure(string formattedFailureMessage)
     {
-        assertionStrategy.HandleFailure(formattedFailureMessage);
+        AddFailure(new AssertionFailure(formattedFailureMessage));
+    }
+
+    /// <summary>
+    /// Adds an <see cref="AssertionFailure"/> to the current scope with deferred rendering.
+    /// </summary>
+    internal void AddFailure(AssertionFailure failure)
+    {
+        assertionStrategy.HandleFailure(failure);
     }
 
     /// <summary>
@@ -177,14 +186,14 @@ public sealed class AssertionScope : IDisposable
     /// Returns all failures that happened up to this point and ensures they will not cause
     /// <see cref="Dispose"/> to fail the assertion.
     /// </summary>
-    public string[] Discard()
+    public AssertionFailure[] Discard()
     {
         return assertionStrategy.DiscardFailures().ToArray();
     }
 
     public bool HasFailures()
     {
-        return assertionStrategy.FailureMessages.Any();
+        return assertionStrategy.FailureCount > 0;
     }
 
     /// <inheritdoc/>
@@ -194,9 +203,9 @@ public sealed class AssertionScope : IDisposable
 
         if (parent is not null)
         {
-            foreach (string failureMessage in assertionStrategy.FailureMessages)
+            foreach (AssertionFailure failure in assertionStrategy.Failures)
             {
-                parent.assertionStrategy.HandleFailure(failureMessage);
+                parent.AddFailure(failure);
             }
 
             parent.reportableData.Add(reportableData);

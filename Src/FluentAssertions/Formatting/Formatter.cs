@@ -115,7 +115,8 @@ public static class Formatter
             {
                 Format(value, output, context,
                     (path, childValue, childOutput)
-                        => FormatChild(path, childValue, childOutput, context, options, graph));
+                        => FormatChild(path, childValue, childOutput, context, options, graph),
+                    options.ScopedFormatters);
             }
             catch (MaxLinesExceededException)
             {
@@ -151,7 +152,8 @@ public static class Formatter
                 using (output.WithIndentation())
                 {
                     Format(value, output, context, (childPath, childValue, nestedOutput) =>
-                        FormatChild(childPath, childValue, nestedOutput, context, options, graph));
+                        FormatChild(childPath, childValue, nestedOutput, context, options, graph),
+                        options.ScopedFormatters);
                 }
             }
         }
@@ -161,9 +163,14 @@ public static class Formatter
         }
     }
 
-    private static void Format(object value, FormattedObjectGraph output, FormattingContext context, FormatChild formatChild)
+    private static void Format(object value, FormattedObjectGraph output, FormattingContext context, FormatChild formatChild,
+        IEnumerable<IValueFormatter> scopedFormatters)
     {
-        IValueFormatter firstFormatterThatCanHandleValue = Formatters.First(f => f.CanHandle(value));
+        var allFormatters = scopedFormatters
+            .Concat(CustomFormatters)
+            .Concat(DefaultFormatters);
+
+        IValueFormatter firstFormatterThatCanHandleValue = allFormatters.First(f => f.CanHandle(value));
         firstFormatterThatCanHandleValue.Format(value, output, context, formatChild);
     }
 

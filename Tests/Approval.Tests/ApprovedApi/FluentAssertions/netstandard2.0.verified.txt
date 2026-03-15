@@ -1159,6 +1159,10 @@ namespace FluentAssertions.Execution
     {
         public AssertionFailedException(string message) { }
     }
+    public class AssertionFailure
+    {
+        public override string ToString() { }
+    }
     public sealed class AssertionScope : System.IDisposable
     {
         public AssertionScope() { }
@@ -1170,7 +1174,7 @@ namespace FluentAssertions.Execution
         public static FluentAssertions.Execution.AssertionScope Current { get; }
         public void AddPreFormattedFailure(string formattedFailureMessage) { }
         public void AppendTracing(string tracingBlock) { }
-        public string[] Discard() { }
+        public FluentAssertions.Execution.AssertionFailure[] Discard() { }
         public void Dispose() { }
         public bool HasFailures() { }
     }
@@ -1203,6 +1207,14 @@ namespace FluentAssertions.Execution
         System.Collections.Generic.IEnumerable<string> FailureMessages { get; }
         System.Collections.Generic.IEnumerable<string> DiscardFailures();
         void HandleFailure(string message);
+        void ThrowIfAny(System.Collections.Generic.IDictionary<string, object> context);
+    }
+    public interface IAssertionStrategy2
+    {
+        int FailureCount { get; }
+        System.Collections.Generic.IEnumerable<FluentAssertions.Execution.AssertionFailure> Failures { get; }
+        System.Collections.Generic.IEnumerable<FluentAssertions.Execution.AssertionFailure> DiscardFailures();
+        void HandleFailure(FluentAssertions.Execution.AssertionFailure failure);
         void ThrowIfAny(System.Collections.Generic.IDictionary<string, object> context);
     }
     public interface ICloneable2

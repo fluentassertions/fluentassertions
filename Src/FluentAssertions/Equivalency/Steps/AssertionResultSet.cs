@@ -11,13 +11,13 @@ namespace FluentAssertions.Equivalency.Steps;
 [System.Diagnostics.StackTraceHidden]
 internal class AssertionResultSet
 {
-    private readonly Dictionary<object, string[]> set = [];
+    private readonly Dictionary<object, AssertionFailure[]> set = [];
 
     /// <summary>
     /// Adds the failures (if any) resulting from executing an assertion within a
     /// <see cref="AssertionScope"/> identified by a key.
     /// </summary>
-    public void AddSet(object key, string[] failures)
+    public void AddSet(object key, AssertionFailure[] failures)
     {
         set[key] = failures;
     }
@@ -37,23 +37,29 @@ internal class AssertionResultSet
             return [];
         }
 
-        KeyValuePair<object, string[]>[] bestResultSets = GetBestResultSets();
+        KeyValuePair<object, AssertionFailure[]>[] bestResultSets = GetBestResultSets();
         if (bestResultSets.Length == 0)
         {
             return [];
         }
 
-        KeyValuePair<object, string[]> bestMatch = Array.Find(bestResultSets, r => r.Key.Equals(key));
+        KeyValuePair<object, AssertionFailure[]> bestMatch = Array.Find(bestResultSets, r => r.Key.Equals(key));
+
+        AssertionFailure[] bestFailures;
 
         if ((bestMatch.Key, bestMatch.Value) == default)
         {
-            return bestResultSets[0].Value;
+            bestFailures = bestResultSets[0].Value;
+        }
+        else
+        {
+            bestFailures = bestMatch.Value;
         }
 
-        return bestMatch.Value;
+        return bestFailures.Select(f => f.ToString()).ToArray();
     }
 
-    private KeyValuePair<object, string[]>[] GetBestResultSets()
+    private KeyValuePair<object, AssertionFailure[]>[] GetBestResultSets()
     {
         if (set.Values.Count == 0)
         {

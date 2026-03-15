@@ -452,7 +452,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
 
         if (CurrentAssertionChain.Succeeded)
         {
-            string[] failuresFromInspector;
+            AssertionFailure[] failuresFromInspector;
 
             using (var assertionScope = new AssertionScope())
             {
@@ -463,7 +463,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
             if (failuresFromInspector.Length > 0)
             {
                 string failureMessage = Environment.NewLine
-                    + string.Join(Environment.NewLine, failuresFromInspector.Select(x => x.IndentLines()));
+                    + string.Join(Environment.NewLine, failuresFromInspector.Select(x => x.ToString().IndentLines()));
 
                 CurrentAssertionChain
                     .WithDefaultIdentifier(Identifier)

@@ -312,7 +312,7 @@ public class StringComparisonSpecs
         };
 
         var strategy = new CollectingAssertionStrategy();
-        strategy.HandleFailure(string.Empty);
+        strategy.HandleFailure(new AssertionFailure(string.Empty));
 
         // Act
         Action act = () => strategy.ThrowIfAny(context);

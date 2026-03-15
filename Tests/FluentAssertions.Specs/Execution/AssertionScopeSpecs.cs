@@ -288,7 +288,7 @@ namespace FluentAssertions.Specs.Execution
             subject.Should().BeEquivalentTo(expected);
 
             // Assert
-            scope.Discard().Should().ContainSingle()
+            scope.Discard().Select(f => f.ToString()).Should().ContainSingle()
                 .Which.Should().Contain("Maximum recursion depth of 1 was reached");
         }
 
