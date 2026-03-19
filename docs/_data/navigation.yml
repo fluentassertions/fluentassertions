@@ -3,7 +3,7 @@ main:
   - title: "About"
     url: /about/
   - title: "Documentation"
-    url: https://doc.xceed.com
+    url: https://xceed.com/documentation/xceed-fluent-assertions-for-net/
   - title: "Releases"
     url: /releases/
   - title: "GitHub"
