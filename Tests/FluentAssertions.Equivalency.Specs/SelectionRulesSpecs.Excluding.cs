@@ -1259,5 +1259,65 @@ public partial class SelectionRulesSpecs
             act.Should().Throw<ArgumentException>()
                 .WithMessage("*Member names cannot be null*");
         }
+
+        [Fact]
+        public void Excluding_a_member_by_path_on_a_type_with_value_semantics_should_fail_with_a_descriptive_error()
+        {
+            // Arrange
+            var actual = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "x" };
+            var expected = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "y" };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected,
+                opt => opt.Excluding(o => o.NestedProperty));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "*ClassWithValueSemanticsOnSingleProperty*compared by value*overrides Equals*" +
+                    "*ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>*");
+        }
+
+        [Fact]
+        public void Excluding_a_member_by_path_when_forcing_value_semantics_explicitly_should_not_fail()
+        {
+            // Arrange
+            var actual = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "x" };
+            var expected = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "y" };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected,
+                opt => opt.Excluding(o => o.NestedProperty).ComparingByValue<ClassWithValueSemanticsOnSingleProperty>());
+
+            // Assert
+            // When ForceEquals is explicitly set by the user, the conflict check does not trigger
+            // and value semantics are applied directly (same Key means Equals returns true)
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Excluding_a_member_by_path_and_then_forcing_member_comparison_should_not_fail()
+        {
+            // Arrange
+            var actual = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "x" };
+            var expected = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "y" };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expected, opt => opt
+                .ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>()
+                .Excluding(o => o.NestedProperty));
+        }
+
+        [Fact]
+        public void Excluding_a_member_by_predicate_on_a_type_with_value_semantics_should_not_fail()
+        {
+            // Arrange - same Key means Equals returns true despite different NestedProperty
+            var actual = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "x" };
+            var expected = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "y" };
+
+            // Act / Assert - predicate-based exclusions do not trigger the new check
+            actual.Should().BeEquivalentTo(expected,
+                opt => opt.Excluding(m => m.Name == "NestedProperty"));
+        }
     }
 }

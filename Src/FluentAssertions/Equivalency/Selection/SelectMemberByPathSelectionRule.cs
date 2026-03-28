@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency.Selection;
 
 internal abstract class SelectMemberByPathSelectionRule : IMemberSelectionRule
 {
     public virtual bool IncludesMembers => false;
+
+    public abstract MemberPath MemberPath { get; }
 
     public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
         MemberSelectionContext context)

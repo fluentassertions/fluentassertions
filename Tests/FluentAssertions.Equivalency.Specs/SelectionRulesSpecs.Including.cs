@@ -506,5 +506,23 @@ public partial class SelectionRulesSpecs
                 .Match("*Expected*subject.NestedField.FieldB*").And
                 .NotMatch("*Expected*FieldC*FieldD*FieldE*");
         }
+
+        [Fact]
+        public void Including_a_member_by_path_on_a_type_with_value_semantics_should_fail_with_a_descriptive_error()
+        {
+            // Arrange
+            var actual = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "x" };
+            var expected = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "y" };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected,
+                opt => opt.Including(o => o.Key));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "*ClassWithValueSemanticsOnSingleProperty*compared by value*overrides Equals*" +
+                    "*ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>*");
+        }
     }
 }
