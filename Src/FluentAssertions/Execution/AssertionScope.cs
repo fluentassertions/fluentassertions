@@ -26,6 +26,9 @@ public sealed class AssertionScope : IDisposable
 
     private AssertionScope parent;
 
+    // Tracks failure count when SkipFormattingForFailures is enabled (no string storage needed).
+    private int failureCount;
+
     /// <summary>
     /// Starts an unnamed scope within which multiple assertions can be executed
     /// and which will not throw until the scope is disposed.
@@ -132,6 +135,25 @@ public sealed class AssertionScope : IDisposable
     /// Exposes the options the scope will use for formatting objects in case an assertion fails.
     /// </summary>
     public FormattingOptions FormattingOptions { get; } = AssertionConfiguration.Current.Formatting.Clone();
+
+    /// <summary>
+    /// When set to <c>true</c>, <see cref="AssertionChain"/> will skip building failure message
+    /// strings and only track the number of failures. Use this for dry-run comparisons (e.g. collection
+    /// matching) where the actual formatted messages are not needed and would be discarded anyway.
+    /// </summary>
+    internal bool UseDryRun { get; set; }
+
+    /// <summary>
+    /// Returns the number of failures recorded while <see cref="UseDryRun"/> is enabled.
+    /// Only counts direct failures tracked via <see cref="RegisterFailure"/>.
+    /// </summary>
+    internal int GetFailureCount() => failureCount;
+
+    /// <summary>
+    /// Increments the failure counter without storing or formatting a failure message.
+    /// Only called from <see cref="AssertionChain"/> when <see cref="UseDryRun"/> is active.
+    /// </summary>
+    internal void RegisterFailure() => failureCount++;
 
     /// <summary>
     /// Adds a pre-formatted failure message to the current scope.
