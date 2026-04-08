@@ -24,6 +24,6 @@ internal static class Program
 
         var config = ManualConfig.CreateMinimumViable().AddExporter(exporter);
 
-        _ = BenchmarkRunner.Run<CheckIfMemberIsBrowsableBenchmarks>(config);
+        _ = BenchmarkRunner.Run<BeEquivalentToWithDeeplyNestedStructures>(config);
     }
 }
