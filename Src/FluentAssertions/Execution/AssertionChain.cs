@@ -252,14 +252,24 @@ public sealed class AssertionChain
 
             if (succeeded != true)
             {
-                string failure = getFailureReason();
+                AssertionScope scope = getCurrentScope();
 
-                if (expectation is not null)
+                if (scope.UseDryRun)
                 {
-                    failure = expectation() + failure;
+                    // Dry-run mode: skip all string formatting and only count the failure.
+                    scope.RegisterFailure();
                 }
+                else
+                {
+                    string failure = getFailureReason();
 
-                getCurrentScope().AddPreFormattedFailure(failure.Capitalize().RemoveTrailingWhitespaceFromLines());
+                    if (expectation is not null)
+                    {
+                        failure = expectation() + failure;
+                    }
+
+                    scope.AddPreFormattedFailure(failure.Capitalize().RemoveTrailingWhitespaceFromLines());
+                }
             }
         }
 
