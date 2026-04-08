@@ -32,7 +32,7 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
 
     public IEquivalencyOptions Options { get; }
 
-    private CyclicReferenceDetector CyclicReferenceDetector { get; set; }
+    internal CyclicReferenceDetector CyclicReferenceDetector { get; set; }
 
     public IEquivalencyValidationContext AsNestedMember(IMember expectationMember)
     {
