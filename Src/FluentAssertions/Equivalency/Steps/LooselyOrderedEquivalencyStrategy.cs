@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions.Common;
+using FluentAssertions.Equivalency.Execution;
 using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
 
@@ -295,7 +296,8 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
 
         using var scope = new AssertionScope { UseDryRun = true };
 
-        IEquivalencyValidationContext itemContext = context.AsCollectionItem<TExpectation>(expectationIndex);
+        var itemContext = (EquivalencyValidationContext)context.AsCollectionItem<TExpectation>(expectationIndex);
+        itemContext.CyclicReferenceDetector = (CyclicReferenceDetector)((EquivalencyValidationContext)context).CyclicReferenceDetector.Clone();
 
         parent.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(TExpectation)), itemContext);
 
@@ -316,7 +318,8 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
 
         using var scope = new AssertionScope();
 
-        IEquivalencyValidationContext itemContext = context.AsCollectionItem<TExpectation>(expectationIndex);
+        var itemContext = (EquivalencyValidationContext)context.AsCollectionItem<TExpectation>(expectationIndex);
+        itemContext.CyclicReferenceDetector = (CyclicReferenceDetector)((EquivalencyValidationContext)context).CyclicReferenceDetector.Clone();
 
         parent.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(TExpectation)), itemContext);
 
