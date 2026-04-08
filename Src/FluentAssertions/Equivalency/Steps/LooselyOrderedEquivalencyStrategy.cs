@@ -302,6 +302,7 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
         parent.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(TExpectation)), itemContext);
 
         int count = scope.GetFailureCount();
+        scope.Discard();
         countCache[cacheKey] = count;
 
         return count;

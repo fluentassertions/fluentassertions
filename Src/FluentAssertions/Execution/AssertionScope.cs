@@ -147,7 +147,7 @@ public sealed class AssertionScope : IDisposable
     /// Returns the number of failures recorded while <see cref="UseDryRun"/> is enabled.
     /// Only counts direct failures tracked via <see cref="RegisterFailure"/>.
     /// </summary>
-    internal int GetFailureCount() => failureCount;
+    internal int GetFailureCount() => failureCount + assertionStrategy.FailureMessages.Count();
 
     /// <summary>
     /// Increments the failure counter without storing or formatting a failure message.
