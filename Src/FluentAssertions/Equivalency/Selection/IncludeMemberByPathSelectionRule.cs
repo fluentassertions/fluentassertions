@@ -8,16 +8,11 @@ namespace FluentAssertions.Equivalency.Selection;
 /// <summary>
 /// Selection rule that includes a particular property in the structural comparison.
 /// </summary>
-internal class IncludeMemberByPathSelectionRule : SelectMemberByPathSelectionRule
+internal class IncludeMemberByPathSelectionRule(MemberPath pathToInclude) : SelectMemberByPathSelectionRule
 {
-    private readonly MemberPath memberToInclude;
-
-    public IncludeMemberByPathSelectionRule(MemberPath pathToInclude)
-    {
-        memberToInclude = pathToInclude;
-    }
-
     public override bool IncludesMembers => true;
+
+    protected override MemberPath MemberPath => pathToInclude;
 
     protected override void AddOrRemoveMembersFrom(List<IMember> selectedMembers, INode parent, string parentPath,
         MemberSelectionContext context)
@@ -26,7 +21,7 @@ internal class IncludeMemberByPathSelectionRule : SelectMemberByPathSelectionRul
         {
             var memberPath = new MemberPath(context.Type, memberInfo.DeclaringType, parentPath.Combine(memberInfo.Name));
 
-            if (memberToInclude.IsSameAs(memberPath) || memberToInclude.IsParentOrChildOf(memberPath))
+            if (pathToInclude.IsSameAs(memberPath) || pathToInclude.IsParentOrChildOf(memberPath))
             {
                 selectedMembers.Add(MemberFactory.Create(memberInfo, parent));
             }
@@ -35,6 +30,6 @@ internal class IncludeMemberByPathSelectionRule : SelectMemberByPathSelectionRul
 
     public override string ToString()
     {
-        return "Include member root." + memberToInclude;
+        return "Include member root." + pathToInclude;
     }
 }

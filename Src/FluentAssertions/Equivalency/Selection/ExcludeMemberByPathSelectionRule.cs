@@ -6,14 +6,9 @@ namespace FluentAssertions.Equivalency.Selection;
 /// <summary>
 /// Selection rule that removes a particular property from the structural comparison.
 /// </summary>
-internal class ExcludeMemberByPathSelectionRule : SelectMemberByPathSelectionRule
+internal class ExcludeMemberByPathSelectionRule(MemberPath pathToExclude) : SelectMemberByPathSelectionRule
 {
-    private MemberPath memberToExclude;
-
-    public ExcludeMemberByPathSelectionRule(MemberPath pathToExclude)
-    {
-        memberToExclude = pathToExclude;
-    }
+    private MemberPath memberToExclude = pathToExclude;
 
     protected override void AddOrRemoveMembersFrom(List<IMember> selectedMembers, INode parent, string parentPath,
         MemberSelectionContext context)
@@ -26,6 +21,8 @@ internal class ExcludeMemberByPathSelectionRule : SelectMemberByPathSelectionRul
     {
         memberToExclude = memberToExclude.AsParentCollectionOf(nextPath);
     }
+
+    protected override MemberPath MemberPath => memberToExclude;
 
     public MemberPath CurrentPath => memberToExclude;
 
