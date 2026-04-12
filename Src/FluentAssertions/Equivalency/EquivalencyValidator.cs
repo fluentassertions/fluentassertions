@@ -34,8 +34,7 @@ internal class EquivalencyValidator : IValidateChildNodeEquivalency
     public void AssertEquivalencyOf(Comparands comparands, IEquivalencyValidationContext context)
     {
         var assertionChain = AssertionChain.GetOrCreate()
-            .For(context)
-            .BecauseOf(context.Reason);
+            .For(context);
 
         if (ShouldContinueThisDeep(context.CurrentNode, context.Options, assertionChain))
         {
