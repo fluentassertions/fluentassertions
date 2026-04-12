@@ -84,7 +84,15 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
             return false;
         }
 
-        EqualityStrategy strategy = Options.GetEqualityStrategy(expectation.GetType());
+        var type = expectation.GetType();
+
+        // Value types cannot form reference cycles, so skip the strategy lookup entirely.
+        if (type.IsValueType)
+        {
+            return false;
+        }
+
+        EqualityStrategy strategy = Options.GetEqualityStrategy(type);
 
         if (strategy is not (EqualityStrategy.Members or EqualityStrategy.ForceMembers))
         {

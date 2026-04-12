@@ -101,16 +101,13 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
 
     private static Type[] GetIEnumerableInterfaces(Type type)
     {
-        return IEnumerableInterfacesCache.GetOrAdd(type, static t =>
+        // Avoid expensive calculation when the type in question can't possibly implement IEnumerable<>.
+        if (Type.GetTypeCode(type) != TypeCode.Object)
         {
-            // Avoid expensive calculation when the type in question can't possibly implement IEnumerable<>.
-            if (Type.GetTypeCode(t) != TypeCode.Object)
-            {
-                return [];
-            }
+            return [];
+        }
 
-            return t.GetClosedGenericInterfaces(typeof(IEnumerable<>));
-        });
+        return IEnumerableInterfacesCache.GetOrAdd(type, static t => t.GetClosedGenericInterfaces(typeof(IEnumerable<>)));
     }
 
     private static Type GetTypeOfEnumeration(Type enumerableType)
