@@ -13,6 +13,7 @@ internal class Node : INode
     private static readonly Regex MatchFirstIndex = new(@"^\[[0-9]+\]$");
 
     private string cachedSubjectId;
+    private int cachedDepth = -1;
 
     public GetSubjectId GetSubjectId
     {
@@ -53,14 +54,20 @@ internal class Node : INode
     public void AdjustForRemappedSubject(IMember subjectMember)
     {
         Subject = subjectMember.Subject;
+        cachedDepth = -1;
     }
 
     public int Depth
     {
         get
         {
-            const char memberSeparator = '.';
-            return Subject.PathAndName.Count(chr => chr == memberSeparator);
+            if (cachedDepth == -1)
+            {
+                const char memberSeparator = '.';
+                cachedDepth = Subject.PathAndName.Count(chr => chr == memberSeparator);
+            }
+
+            return cachedDepth;
         }
     }
 
