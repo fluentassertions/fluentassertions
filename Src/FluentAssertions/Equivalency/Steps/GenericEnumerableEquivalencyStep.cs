@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -16,6 +17,10 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
     private static readonly MethodInfo HandleMethod = new Action<EnumerableEquivalencyValidator, object[], IEnumerable<object>>
         (HandleImpl).GetMethodInfo().GetGenericMethodDefinition();
 #pragma warning restore SA1110
+
+    private static readonly ConcurrentDictionary<Type, MethodInfo> HandleMethodCache = new();
+
+    private static readonly ConcurrentDictionary<Type, Type[]> IEnumerableInterfacesCache = new();
 
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
         IValidateChildNodeEquivalency valueChildNodes)
@@ -51,7 +56,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
 
             try
             {
-                HandleMethod.MakeGenericMethod(typeOfEnumeration)
+                HandleMethodCache.GetOrAdd(typeOfEnumeration, t => HandleMethod.MakeGenericMethod(t))
                     .Invoke(null, [validator, subjectAsArray, comparands.Expectation]);
             }
             catch (TargetInvocationException e)
@@ -96,15 +101,16 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
 
     private static Type[] GetIEnumerableInterfaces(Type type)
     {
-        // Avoid expensive calculation when the type in question can't possibly implement IEnumerable<>.
-        if (Type.GetTypeCode(type) != TypeCode.Object)
+        return IEnumerableInterfacesCache.GetOrAdd(type, static t =>
         {
-            return [];
-        }
+            // Avoid expensive calculation when the type in question can't possibly implement IEnumerable<>.
+            if (Type.GetTypeCode(t) != TypeCode.Object)
+            {
+                return [];
+            }
 
-        Type soughtType = typeof(IEnumerable<>);
-
-        return type.GetClosedGenericInterfaces(soughtType);
+            return t.GetClosedGenericInterfaces(typeof(IEnumerable<>));
+        });
     }
 
     private static Type GetTypeOfEnumeration(Type enumerableType)
