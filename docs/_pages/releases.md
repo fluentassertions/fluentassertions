@@ -25,6 +25,7 @@ sidebar:
 ### Fixes
 
 * Fixed a formatting exception when comparing strings containing braces - [#3151](https://github.com/fluentassertions/fluentassertions/pull/3151)
+* Path-based `Excluding()` and `Including()` rules on types that use value semantics (i.e. override `Equals`) now fail with a descriptive error instead of being silently ignored - [#3187](https://github.com/fluentassertions/fluentassertions/pull/3187)
 
 ## 8.8.0
 

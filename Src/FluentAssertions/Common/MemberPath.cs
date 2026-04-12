@@ -70,7 +70,11 @@ internal class MemberPath
         return false;
     }
 
-    private bool IsParentOf(MemberPath candidate)
+    /// <summary>
+    /// Determines whether the current path is the prefix of <paramref name="candidate"/>
+    /// (i.e., the current path "owns" the candidate), treating numeric indices and wildcards as interchangeable.
+    /// </summary>
+    public bool IsParentOf(MemberPath candidate)
     {
         string[] candidateSegments = candidate.Segments;
 

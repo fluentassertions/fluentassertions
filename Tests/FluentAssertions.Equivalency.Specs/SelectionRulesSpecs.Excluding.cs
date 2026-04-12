@@ -1259,5 +1259,213 @@ public partial class SelectionRulesSpecs
             act.Should().Throw<ArgumentException>()
                 .WithMessage("*Member names cannot be null*");
         }
+
+        [Fact]
+        public void Excluding_a_member_by_path_on_a_type_with_value_semantics_fails_with_a_descriptive_error()
+        {
+            // Arrange
+            var actual = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "x" };
+            var expected = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "y" };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected,
+                opt => opt.Excluding(o => o.NestedProperty));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "*ClassWithValueSemanticsOnSingleProperty*compared by value*overrides Equals*" +
+                    "*ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>*");
+        }
+
+        [Fact]
+        public void Excluding_a_member_by_path_when_forcing_value_semantics_explicitly_fails_with_a_descriptive_error()
+        {
+            // Arrange
+            var actual = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "x" };
+            var expected = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "y" };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected,
+                opt => opt.Excluding(o => o.NestedProperty).ComparingByValue<ClassWithValueSemanticsOnSingleProperty>());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "*ClassWithValueSemanticsOnSingleProperty*compared by value*ComparingByValue was configured*" +
+                    "*remove the ComparingByValue configuration*");
+        }
+
+        [Fact]
+        public void Including_a_member_by_path_when_forcing_value_semantics_explicitly_fails_with_a_descriptive_error()
+        {
+            // Arrange
+            var actual = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "x" };
+            var expected = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "y" };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected,
+                opt => opt.Including(o => o.Key).ComparingByValue<ClassWithValueSemanticsOnSingleProperty>());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "*ClassWithValueSemanticsOnSingleProperty*compared by value*ComparingByValue was configured*" +
+                    "*remove the ComparingByValue configuration*");
+        }
+
+        [Fact]
+        public void Excluding_a_member_by_predicate_when_forcing_value_semantics_explicitly_fails_with_a_descriptive_error()
+        {
+            // Arrange
+            var actual = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "x" };
+            var expected = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "y" };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected,
+                opt => opt
+                    .Excluding(m => m.Name == nameof(ClassWithValueSemanticsOnSingleProperty.NestedProperty))
+                    .ComparingByValue<ClassWithValueSemanticsOnSingleProperty>());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "*ClassWithValueSemanticsOnSingleProperty*compared by value*ComparingByValue was configured*" +
+                    "*remove the ComparingByValue configuration*");
+        }
+
+        [Fact]
+        public void Excluding_a_member_by_path_and_then_forcing_member_comparison_does_not_fail()
+        {
+            // Arrange
+            var actual = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "x" };
+            var expected = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "y" };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expected, opt => opt
+                .ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>()
+                .Excluding(o => o.NestedProperty));
+        }
+
+        [Fact]
+        public void Excluding_a_nested_member_by_path_on_a_type_with_value_semantics_fails_with_a_descriptive_error()
+        {
+            // Arrange
+            var actual = new ClassWithValueSemanticsAndNestedObject { Key = "same", Child = new NestedObjectWithProperty { Text = "x" } };
+            var expected = new ClassWithValueSemanticsAndNestedObject { Key = "same", Child = new NestedObjectWithProperty { Text = "y" } };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected,
+                opt => opt.Excluding(o => o.Child.Text));
+
+            // Assert - multi-segment path at root should also be detected as conflicting
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "*ClassWithValueSemanticsAndNestedObject*compared by value*overrides Equals*" +
+                    "*ComparingByMembers<ClassWithValueSemanticsAndNestedObject>*");
+        }
+
+        [Fact]
+        public void Excluding_a_member_by_predicate_on_a_type_with_value_semantics_fails_with_a_descriptive_error()
+        {
+            // Arrange
+            var actual = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "x" };
+            var expected = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "y" };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected,
+                opt => opt.Excluding(m => m.Name == nameof(ClassWithValueSemanticsOnSingleProperty.NestedProperty)));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "*ClassWithValueSemanticsOnSingleProperty*compared by value*overrides Equals*" +
+                    "*ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>*");
+        }
+
+        [Fact]
+        public void Including_members_by_predicate_on_a_type_with_value_semantics_fails_with_a_descriptive_error()
+        {
+            // Arrange
+            var actual = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "x" };
+            var expected = new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "y" };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected,
+                opt => opt.Including(m => m.Name == nameof(ClassWithValueSemanticsOnSingleProperty.Key)));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "*ClassWithValueSemanticsOnSingleProperty*compared by value*overrides Equals*" +
+                    "*ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>*");
+        }
+
+        [Fact]
+        public void Excluding_a_member_of_a_collection_element_with_value_semantics_via_For_and_Exclude_fails_with_a_descriptive_error()
+        {
+            // Arrange
+            var actual = new ClassWithCollectionOfValueSemantics
+            {
+                Items = [new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "x" }]
+            };
+
+            var expected = new ClassWithCollectionOfValueSemantics
+            {
+                Items = [new ClassWithValueSemanticsOnSingleProperty { Key = "same", NestedProperty = "y" }]
+            };
+
+            // Act
+            // .For(o => o.Items).Exclude(c => c.NestedProperty) creates path "Items[].NestedProperty" (wildcard),
+            // which should be detected as conflicting when processing the value-semantic item at Items[0].
+            Action act = () => actual.Should().BeEquivalentTo(expected,
+                opt => opt.For(o => o.Items).Exclude(c => c.NestedProperty));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "*ClassWithValueSemanticsOnSingleProperty*compared by value*overrides Equals*");
+        }
     }
+}
+
+public class ClassWithCollectionOfValueSemantics
+{
+    public List<ClassWithValueSemanticsOnSingleProperty> Items { get; set; }
+}
+
+public class ClassWithValueSemanticsAndNestedObject
+{
+    public string Key { get; set; }
+
+    public NestedObjectWithProperty Child { get; set; }
+
+    protected bool Equals(ClassWithValueSemanticsAndNestedObject other) => Key == other.Key;
+
+    public override bool Equals(object obj)
+    {
+        if (obj is null)
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, obj))
+        {
+            return true;
+        }
+
+        if (obj.GetType() != GetType())
+        {
+            return false;
+        }
+
+        return Equals((ClassWithValueSemanticsAndNestedObject)obj);
+    }
+
+    public override int GetHashCode() => Key?.GetHashCode() ?? 0;
+}
+
+public class NestedObjectWithProperty
+{
+    public string Text { get; set; }
 }
