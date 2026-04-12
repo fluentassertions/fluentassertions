@@ -21,7 +21,6 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
     {
         Options = options;
         CurrentNode = root;
-        CyclicReferenceDetector = new CyclicReferenceDetector();
     }
 
     public INode CurrentNode { get; }
@@ -32,7 +31,11 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
 
     public IEquivalencyOptions Options { get; }
 
-    internal CyclicReferenceDetector CyclicReferenceDetector { get; set; }
+    internal CyclicReferenceDetector CyclicReferenceDetector
+    {
+        get => field ??= new CyclicReferenceDetector();
+        set;
+    }
 
     public IEquivalencyValidationContext AsNestedMember(IMember expectationMember)
     {
@@ -76,9 +79,17 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
 
     public bool IsCyclicReference(object expectation)
     {
-        EqualityStrategy strategy = expectation is not null
-            ? Options.GetEqualityStrategy(expectation.GetType())
-            : EqualityStrategy.Equals;
+        if (expectation is null)
+        {
+            return false;
+        }
+
+        EqualityStrategy strategy = Options.GetEqualityStrategy(expectation.GetType());
+
+        if (strategy is not (EqualityStrategy.Members or EqualityStrategy.ForceMembers))
+        {
+            return false;
+        }
 
         var reference = new ObjectReference(expectation, CurrentNode.Subject.PathAndName, strategy);
 
