@@ -1436,9 +1436,9 @@ public class ClassWithCollectionOfValueSemantics
 
 public class ClassWithValueSemanticsAndNestedObject
 {
-    public string Key { get; set; }
+    public string Key { get; init; }
 
-    public NestedObjectWithProperty Child { get; set; }
+    public NestedObjectWithProperty Child { get; init; }
 
     protected bool Equals(ClassWithValueSemanticsAndNestedObject other) => Key == other.Key;
 
