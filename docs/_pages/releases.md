@@ -57,7 +57,7 @@ sidebar:
 
 ### What's new
 
-* Add `Value.ThatMatches` and `Value.ThatSatifies` to build inline assertions when using `BeEquivalentTo` - [#3076](https://github.com/fluentassertions/fluentassertions/pull/3076)
+* Add `Value.ThatMatches` and `Value.ThatSatisfies` to build inline assertions when using `BeEquivalentTo` - [#3076](https://github.com/fluentassertions/fluentassertions/pull/3076)
 
 ## 8.5.0
 
