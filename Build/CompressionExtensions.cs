@@ -9,7 +9,7 @@ public static class CompressionExtensions
     {
         using Stream stream = File.OpenRead(archive);
 
-        using var reader = ReaderFactory.Open(stream);
+        using var reader = ReaderFactory.OpenReader(stream);
 
         while (reader.MoveToNextEntry())
         {
