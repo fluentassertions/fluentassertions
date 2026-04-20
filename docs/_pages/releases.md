@@ -51,7 +51,6 @@ sidebar:
 ### What's new
 
 * Added support for `System.Text.Json.JsonNode` and `JsonArray` through new assertions as well as the `BeEquivalentTo` API - [#3094](https://github.com/fluentassertions/fluentassertions/pull/3094)
-* Added `WithoutMessage` to allow asserting an exception message does not contain a wildcard pattern - [#3100](https://github.com/fluentassertions/fluentassertions/pull/3100)
 
 ## 8.6.0
 
@@ -238,12 +237,12 @@ Version 7 will remain fully open-source indefinitely and receive bugfixes and ot
 
 ### Fixes
 
-* The expectation node identified as a cyclic reference is still compared to the subject node using simple equality - [2819](https://github.com/fluentassertions/fluentassertions/pull/2819)
+* The expectation node identified as a cyclic reference is still compared to the subject node using simple equality - [#2819](https://github.com/fluentassertions/fluentassertions/pull/2819)
 
 ## 6.12.2
 
 ### Fixes
-* Better handling of normal vs explicitly implemented vs default interface properties - [2794](https://github.com/fluentassertions/fluentassertions/pull/2794)
+* Better handling of normal vs explicitly implemented vs default interface properties - [#2794](https://github.com/fluentassertions/fluentassertions/pull/2794)
 
 ## 6.12.1
 
@@ -422,7 +421,7 @@ Version 7 will remain fully open-source indefinitely and receive bugfixes and ot
 ### Fixes
 * Prevent multiple enumeration of `IEnumerable`s in parameter-less `ContainSingle()` - [#1753](https://github.com/fluentassertions/fluentassertions/pull/1753)
 * Changed `HaveCount()` assertion message order to state expected and actual collection count before dumping its content` - [#1760](https://github.com/fluentassertions/fluentassertions/pull/1760)
-* `CompleteWithinAsync` did not take initial sync computation into account when measuring execution time - [1762](https://github.com/fluentassertions/fluentassertions/pull/1762).
+* `CompleteWithinAsync` did not take initial sync computation into account when measuring execution time - [#1762](https://github.com/fluentassertions/fluentassertions/pull/1762).
 
 ## 6.2.0
 
