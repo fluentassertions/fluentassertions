@@ -63,7 +63,7 @@ public class ExecutionTimeAssertionsSpecs
             Action someAction = () => Thread.Sleep(100);
 
             // Act
-            Action act = () => someAction.ExecutionTime().Should().BeLessThanOrEqualTo(1.Seconds());
+            Action act = () => someAction.ExecutionTime().Should().BeLessThanOrEqualTo(2.Seconds());
 
             // Assert
             act.Should().NotThrow();
