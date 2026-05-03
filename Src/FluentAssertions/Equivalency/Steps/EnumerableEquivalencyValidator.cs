@@ -152,7 +152,7 @@ internal class EnumerableEquivalencyValidator(
 
             object subjectsArg = remainingSubjects.Count == 1
                 ? remainingSubjects.Single().Item
-                : remainingSubjects.Select(s => s.Item).ToList<object>();
+                : remainingSubjects.Select(s => s.Item).ToList();
 
             assertionChain.FailWith(message.ToString(), remainingExpectations, subjectsArg, allSubjects);
         }
