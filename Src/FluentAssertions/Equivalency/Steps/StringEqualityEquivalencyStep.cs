@@ -18,7 +18,7 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
 
         var assertionChain = AssertionChain.GetOrCreate().For(context);
 
-        if (!ValidateAgainstNulls(assertionChain, comparands, context.CurrentNode))
+        if (!ValidateAgainstNulls(assertionChain, comparands, context.CurrentNode, context.Options.TreatNullStringsAsEmpty))
         {
             return EquivalencyResult.EquivalencyProven;
         }
@@ -74,7 +74,8 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
         return o;
     };
 
-    private static bool ValidateAgainstNulls(AssertionChain assertionChain, Comparands comparands, INode currentNode)
+    private static bool ValidateAgainstNulls(AssertionChain assertionChain, Comparands comparands, INode currentNode,
+        bool treatNullAsEmpty)
     {
         object expected = comparands.Expectation;
         object subject = comparands.Subject;
@@ -83,6 +84,16 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
 
         if (onlyOneNull)
         {
+            if (treatNullAsEmpty)
+            {
+                string nonNullValue = (string)(expected ?? subject);
+
+                if (nonNullValue.Length == 0)
+                {
+                    return false;
+                }
+            }
+
             assertionChain.FailWith(
                 "Expected {0} to be {1}{reason}, but found {2}.", currentNode.Subject.Description.AsNonFormattable(), expected,
                 subject);

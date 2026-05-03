@@ -768,6 +768,8 @@ namespace FluentAssertions.Equivalency
         FluentAssertions.Equivalency.OrderingRuleCollection OrderingRules { get; }
         System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IMemberSelectionRule> SelectionRules { get; }
         FluentAssertions.Equivalency.Tracing.ITraceWriter TraceWriter { get; }
+        bool TreatNullCollectionsAsEmpty { get; }
+        bool TreatNullStringsAsEmpty { get; }
         bool UseRuntimeTyping { get; }
         System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IEquivalencyStep> UserEquivalencySteps { get; }
         FluentAssertions.Equivalency.EqualityStrategy GetEqualityStrategy(System.Type type);
@@ -910,6 +912,8 @@ namespace FluentAssertions.Equivalency
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         protected FluentAssertions.Equivalency.OrderingRuleCollection OrderingRules { get; }
         public FluentAssertions.Equivalency.Tracing.ITraceWriter TraceWriter { get; }
+        public bool TreatNullCollectionsAsEmpty { get; }
+        public bool TreatNullStringsAsEmpty { get; }
         protected TSelf AddMatchingRule(FluentAssertions.Equivalency.IMemberMatchingRule matchingRule) { }
         protected TSelf AddSelectionRule(FluentAssertions.Equivalency.IMemberSelectionRule selectionRule) { }
         public TSelf AllowingInfiniteRecursion() { }
@@ -919,6 +923,8 @@ namespace FluentAssertions.Equivalency
         public TSelf ComparingByValue<T>() { }
         public TSelf ComparingEnumsByName() { }
         public TSelf ComparingEnumsByValue() { }
+        public TSelf ComparingNullCollectionsAsEmpty() { }
+        public TSelf ComparingNullStringsAsEmpty() { }
         public TSelf ComparingRecordsByMembers() { }
         public TSelf ComparingRecordsByValue() { }
         public TSelf Excluding(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }

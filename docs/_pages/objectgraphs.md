@@ -396,7 +396,13 @@ string expect = "A\r\nB\nC";
 actual.Should().BeEquivalentTo(expect, o => o.IgnoringNewlineStyle());
 ```
 
-Next to that, when two long strings differ, by default the reporting will only include the relevant fragments needed to highlight the differences. If you want to see the full text of both strings, use the `IncludingFullStringsInDifference()` option. 
+Next to that, when two long strings differ, by default the reporting will only include the relevant fragments needed to highlight the differences. If you want to see the full text of both strings, use the `IncludingFullStringsInDifference()` option.
+
+You can also treat `null` strings as equivalent to empty strings using `ComparingNullStringsAsEmpty()`:
+
+```csharp
+((string)null).Should().BeEquivalentTo("", o => o.ComparingNullStringsAsEmpty());
+```
 
 ### Enums
 
@@ -422,6 +428,12 @@ You can also assert that all instances of `OrderDto` are structurally equal to a
 
 ```csharp
 orderDtos.Should().AllBeEquivalentTo(singleOrder);
+```
+
+If you want to treat `null` collections as equivalent to empty collections, use `ComparingNullCollectionsAsEmpty()`:
+
+```csharp
+((int[])null).Should().BeEquivalentTo([], o => o.ComparingNullCollectionsAsEmpty());
 ```
 
 ### JSON

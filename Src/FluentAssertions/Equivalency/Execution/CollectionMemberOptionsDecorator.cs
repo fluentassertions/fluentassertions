@@ -94,6 +94,12 @@ internal class CollectionMemberOptionsDecorator : IEquivalencyOptions, IContainT
 
     public bool EnableFullDump => inner.EnableFullDump;
 
+    /// <inheritdoc />
+    public bool TreatNullCollectionsAsEmpty => inner.TreatNullCollectionsAsEmpty;
+
+    /// <inheritdoc />
+    public bool TreatNullStringsAsEmpty => inner.TreatNullStringsAsEmpty;
+
     public ITraceWriter TraceWriter => inner.TraceWriter;
 }
 
