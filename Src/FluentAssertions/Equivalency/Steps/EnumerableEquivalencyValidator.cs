@@ -122,7 +122,7 @@ internal class EnumerableEquivalencyValidator(
                     // Show each extraneous item with its original index to help pinpoint the divergence.
                     if (remainingSubjects.Count == 1)
                     {
-                        message.Append($"found one extraneous item at index {remainingSubjects[0].Index} {{1}}");
+                        message.Append($"found one extraneous item at index {remainingSubjects[0].Index}: {{1}}");
                     }
                     else
                     {
@@ -130,10 +130,8 @@ internal class EnumerableEquivalencyValidator(
                             remainingSubjects.Select(s =>
                                 $"{Formatter.ToString(s.Item).Replace("{", "{{", StringComparison.Ordinal).Replace("}", "}}", StringComparison.Ordinal)} (at index {s.Index})"));
 
-                        // Use {{ and }} so that string.Format treats them as literal braces, not placeholders.
-                        message.Append("found extraneous items {{");
+                        message.Append("found extraneous items ");
                         message.Append(formattedItems);
-                        message.Append("}}");
                     }
                 }
                 else
