@@ -19,6 +19,7 @@ sidebar:
 
 ### Enhancements
 * Added `ComparingNullCollectionsAsEmpty()` and `ComparingNullStringsAsEmpty()` options to `BeEquivalentTo` to treat `null` collections and strings as equivalent to empty ones - [#3202](https://github.com/fluentassertions/fluentassertions/pull/3202)
+* `BeEquivalentTo` now includes the original index of each extraneous item in the failure message - [#985](https://github.com/fluentassertions/fluentassertions/issues/985)
 * Added option `WithFullDump` to `BeEquivalentTo` to include the entire contents of the subject-under-test in the failure message - [#3133](https://github.com/fluentassertions/fluentassertions/pull/3133)
 * Remove FluentAssertions code from the stack trace when an assertion fails - [#3152](https://github.com/fluentassertions/fluentassertions/pull/3152)
 * Improve reporting the subject when chaining `Throw` with `Which` - [#3160](https://github.com/fluentassertions/fluentassertions/pull/3160)

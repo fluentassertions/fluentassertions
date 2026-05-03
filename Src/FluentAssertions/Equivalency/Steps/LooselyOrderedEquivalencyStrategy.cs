@@ -25,7 +25,7 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
     // Populated lazily during Phase 3 for the ~n selected pairs with full formatting.
     private Dictionary<(object Subject, object Expectation, int ExpectationIndex), string[]> fullFailuresCache = new();
 
-    public void FindAndRemoveMatches(List<object> subjects, List<TExpectation> expectations)
+    public void FindAndRemoveMatches(List<IndexedItem<object>> subjects, List<TExpectation> expectations)
     {
         countCache = new(new ReferentialComparer());
         fullFailuresCache = new(new ReferentialComparer());
@@ -45,7 +45,7 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
         expectationsWithIndexes.RemoveMatchedItemFrom(expectations);
     }
 
-    private void FindAndRemoveExactMatches(List<object> subjects, IndexedItemCollection<TExpectation> expectationsWithIndexes)
+    private void FindAndRemoveExactMatches(List<IndexedItem<object>> subjects, IndexedItemCollection<TExpectation> expectationsWithIndexes)
     {
         int expectationIndex = 0;
         while (expectationsWithIndexes.Count > expectationIndex)
@@ -65,14 +65,14 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
     }
 
     [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope")]
-    private bool StrictlyMatchAgainst(List<object> remainingSubjects, TExpectation expectation, int expectationIndex)
+    private bool StrictlyMatchAgainst(List<IndexedItem<object>> remainingSubjects, TExpectation expectation, int expectationIndex)
     {
-        foreach ((int index, object subject) in remainingSubjects.Index())
+        foreach ((int index, IndexedItem<object> subject) in remainingSubjects.Index())
         {
             using var _ = tracer.WriteBlock(member =>
                 $"Comparing subject at {member.Subject}[{index}] with the expectation at {member.Expectation}[{expectationIndex}]");
 
-            int failures = TryToMatchCount(expectation, subject, expectationIndex);
+            int failures = TryToMatchCount(expectation, subject.Item, expectationIndex);
             if (failures == 0)
             {
                 tracer.WriteLine(_ => "It's a match");
@@ -91,7 +91,7 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
     /// that are most similar to remaining subjects first, the algorithm is more likely
     /// to find the correct pairings earlier, leading to better error messages when mismatches occur.
     /// </summary>
-    private IndexedItemCollection<TExpectation> SortExpectationsByMinDistance(List<object> remainingSubjects,
+    private IndexedItemCollection<TExpectation> SortExpectationsByMinDistance(List<IndexedItem<object>> remainingSubjects,
         IndexedItemCollection<TExpectation> expectationsWithIndexes)
     {
         if (remainingSubjects.Count > 0)
@@ -100,7 +100,7 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
                 .Select(e => new
                 {
                     Expectation = e,
-                    MinDistance = remainingSubjects.Min(a => TryToMatchCount(e.Item, a, e.Index))
+                    MinDistance = remainingSubjects.Min(a => TryToMatchCount(e.Item, a.Item, e.Index))
                 })
                 .OrderBy(x => x.MinDistance)
                 .Select(x => x.Expectation)
@@ -112,13 +112,13 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
         }
     }
 
-    private void FindAndRemoveClosestMatches(List<object> remainingSubjects,
+    private void FindAndRemoveClosestMatches(List<IndexedItem<object>> remainingSubjects,
         IndexedItemCollection<TExpectation> expectationsWithIndexes)
     {
         int nrFailures = 0;
         if (expectationsWithIndexes.Count > 0 && remainingSubjects.Count > 0)
         {
-            IReadOnlyList<(IndexedItem<TExpectation>, object, string[])> bestMatches =
+            IReadOnlyList<(IndexedItem<TExpectation>, IndexedItem<object>, string[])> bestMatches =
                 FindClosestMismatches(remainingSubjects, expectationsWithIndexes);
 
             foreach (var (expectation, subject, failures) in bestMatches)
@@ -138,8 +138,8 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
         }
     }
 
-    private IReadOnlyList<(IndexedItem<TExpectation> Expectation, object Actual, string[] Failures)> FindClosestMismatches(
-        List<object> remainingSubjects, IndexedItemCollection<TExpectation> expectationsWithIndexes)
+    private IReadOnlyList<(IndexedItem<TExpectation> Expectation, IndexedItem<object> Actual, string[] Failures)> FindClosestMismatches(
+        List<IndexedItem<object>> remainingSubjects, IndexedItemCollection<TExpectation> expectationsWithIndexes)
     {
         // For small collections, use exact permutation search to find the globally optimal assignment.
         // factorial(8) = 40,320 which is well within reason.
@@ -155,13 +155,13 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
     /// Uses failure counts for scoring (no string formatting) and only fetches full failure strings for the
     /// winning assignment.
     /// </summary>
-    private IReadOnlyList<(IndexedItem<TExpectation> Expectation, object Actual, string[] Failures)> FindClosestMismatchesByPermutation(
-        List<object> remainingSubjects, IndexedItemCollection<TExpectation> expectationsWithIndexes)
+    private IReadOnlyList<(IndexedItem<TExpectation> Expectation, IndexedItem<object> Actual, string[] Failures)> FindClosestMismatchesByPermutation(
+        List<IndexedItem<object>> remainingSubjects, IndexedItemCollection<TExpectation> expectationsWithIndexes)
     {
         var bestScore = int.MaxValue;
-        IReadOnlyList<object> bestAssignment = null;
+        IReadOnlyList<IndexedItem<object>> bestAssignment = null;
 
-        foreach (IReadOnlyList<object> assignment in remainingSubjects.Permute())
+        foreach (IReadOnlyList<IndexedItem<object>> assignment in remainingSubjects.Permute())
         {
             int score = 0;
             bool tooHigh = false;
@@ -169,7 +169,7 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
             for (int index = 0; index < expectationsWithIndexes.Count && index < assignment.Count; index++)
             {
                 IndexedItem<TExpectation> expectationWithIndex = expectationsWithIndexes[index];
-                score += TryToMatchCount(expectationWithIndex.Item, assignment[index], expectationWithIndex.Index);
+                score += TryToMatchCount(expectationWithIndex.Item, assignment[index].Item, expectationWithIndex.Index);
 
                 if (score >= bestScore)
                 {
@@ -187,17 +187,17 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
 
         if (bestAssignment is null)
         {
-            return Array.Empty<(IndexedItem<TExpectation>, object, string[])>();
+            return Array.Empty<(IndexedItem<TExpectation>, IndexedItem<object>, string[])>();
         }
 
         // Fetch full failure strings only for the winning assignment.
         int pairCount = Math.Min(expectationsWithIndexes.Count, bestAssignment.Count);
-        var result = new List<(IndexedItem<TExpectation>, object, string[])>(pairCount);
+        var result = new List<(IndexedItem<TExpectation>, IndexedItem<object>, string[])>(pairCount);
 
         for (int index = 0; index < pairCount; index++)
         {
             IndexedItem<TExpectation> expectationWithIndex = expectationsWithIndexes[index];
-            string[] failures = TryToMatch(expectationWithIndex.Item, bestAssignment[index], expectationWithIndex.Index);
+            string[] failures = TryToMatch(expectationWithIndex.Item, bestAssignment[index].Item, expectationWithIndex.Index);
             result.Add((expectationWithIndex, bestAssignment[index], failures));
         }
 
@@ -209,8 +209,8 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
     /// permutation search would be prohibitively expensive. All distances are already cached from Phase 1, so
     /// this is O(n² log n) rather than O(n! × n).
     /// </summary>
-    private IReadOnlyList<(IndexedItem<TExpectation> Expectation, object Actual, string[] Failures)> FindClosestMismatchesByGreedyAssignment(
-        List<object> remainingSubjects, IndexedItemCollection<TExpectation> expectationsWithIndexes)
+    private IReadOnlyList<(IndexedItem<TExpectation> Expectation, IndexedItem<object> Actual, string[] Failures)> FindClosestMismatchesByGreedyAssignment(
+        List<IndexedItem<object>> remainingSubjects, IndexedItemCollection<TExpectation> expectationsWithIndexes)
     {
         int subjectCount = remainingSubjects.Count;
         int expectationCount = expectationsWithIndexes.Count;
@@ -225,7 +225,7 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
 
             for (int subjectIndex = 0; subjectIndex < subjectCount; subjectIndex++)
             {
-                int count = TryToMatchCount(exp.Item, remainingSubjects[subjectIndex], exp.Index);
+                int count = TryToMatchCount(exp.Item, remainingSubjects[subjectIndex].Item, exp.Index);
                 allPairs.Add((expectationIndex, subjectIndex, count));
             }
         }
@@ -248,7 +248,7 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
         var assignedSubjectIndexes = new bool[subjectCount];
         int totalToAssign = Math.Min(expectationCount, subjectCount);
 
-        var result = new List<(IndexedItem<TExpectation>, object, string[])>(totalToAssign);
+        var result = new List<(IndexedItem<TExpectation>, IndexedItem<object>, string[])>(totalToAssign);
 
         // First checks candidate matches from best to worst, then picks the first unused expectation/subject pair it finds,
         // computes detailed failures only for that chosen pair, and then repeats until all possible matches are assigned.
@@ -258,7 +258,7 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
             {
                 // Fetch full failure strings only for the selected pairs (~n total).
                 string[] failures = TryToMatch(expectationsWithIndexes[expectationIndex].Item,
-                    remainingSubjects[subjectIndex], expectationsWithIndexes[expectationIndex].Index);
+                    remainingSubjects[subjectIndex].Item, expectationsWithIndexes[expectationIndex].Index);
 
                 result.Add((expectationsWithIndexes[expectationIndex], remainingSubjects[subjectIndex], failures));
                 assignedExpectationIndexes[expectationIndex] = true;

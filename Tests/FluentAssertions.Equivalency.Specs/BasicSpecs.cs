@@ -950,7 +950,7 @@ public class BasicSpecs
                 """
                 Expected property actual[0].Name to be "Dennis" with a length of 6, but "Jits" has a length of 4, differs near "Jit" (index 0).
                 Expected property actual[0].Age to be 52, but found 13.
-                Expected actual to contain exactly one item, but found one extraneous item FluentAssertions.Equivalency.Specs.Customer
+                Expected actual to contain exactly one item, but found one extraneous item at index 1 FluentAssertions.Equivalency.Specs.Customer
                 {
                     Age = 16,
                     Birthdate = <0001-01-01 00:00:00.000>,
@@ -1006,7 +1006,7 @@ public class BasicSpecs
                 """
                 Expected property actual[0].Name to be "Dennis" with a length of 6, but "Jits" has a length of 4, differs near "Jit" (index 0).
                 Expected property actual[0].Age to be 52, but found 13.
-                Expected actual to contain exactly one item, but found one extraneous item FluentAssertions.Equivalency.Specs.Customer
+                Expected actual to contain exactly one item, but found one extraneous item at index 1 FluentAssertions.Equivalency.Specs.Customer
                 {
                     Age = 16,
                     Birthdate = <0001-01-01 00:00:00.000>,

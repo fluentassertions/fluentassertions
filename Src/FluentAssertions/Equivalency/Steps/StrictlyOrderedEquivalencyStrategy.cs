@@ -13,7 +13,7 @@ internal class StrictlyOrderedEquivalencyStrategy<TExpectation>(
     private const int FailedItemsFastFailThreshold = 10;
     private readonly Tracer tracer = context.Tracer;
 
-    public void FindAndRemoveMatches(List<object> subjects, List<TExpectation> expectations)
+    public void FindAndRemoveMatches(List<IndexedItem<object>> subjects, List<TExpectation> expectations)
     {
         int failedCount = 0;
 
@@ -44,11 +44,11 @@ internal class StrictlyOrderedEquivalencyStrategy<TExpectation>(
         expectations.RemoveRange(0, index);
     }
 
-    private bool StrictlyMatchAgainst<T>(List<object> subjects, T expectation, int expectationIndex)
+    private bool StrictlyMatchAgainst<T>(List<IndexedItem<object>> subjects, T expectation, int expectationIndex)
     {
         using var scope = new AssertionScope();
 
-        object subject = subjects[expectationIndex];
+        object subject = subjects[expectationIndex].Item;
         IEquivalencyValidationContext equivalencyValidationContext = context.AsCollectionItem<T>(expectationIndex);
 
         parent.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(T)), equivalencyValidationContext);

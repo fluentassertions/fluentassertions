@@ -4,6 +4,7 @@ using System.Text;
 using FluentAssertions.Equivalency.Execution;
 using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
+using FluentAssertions.Formatting;
 using static FluentAssertions.Common.StringExtensions;
 
 namespace FluentAssertions.Equivalency.Steps;
@@ -56,10 +57,13 @@ internal class EnumerableEquivalencyValidator(
 
     private void ExecuteRecursiveAssertion<T>(object[] subjects, T[] expectation)
     {
-        List<object> remainingSubjects = new(subjects);
+        List<IndexedItem<object>> remainingSubjects = subjects
+            .Select((item, index) => new IndexedItem<object>(item, index))
+            .ToList();
+
         List<T> remainingExpectations = new(expectation);
 
-        bool isOrderingStrict = IsOrderingStrictFor(remainingSubjects, remainingExpectations, context.CurrentNode);
+        bool isOrderingStrict = IsOrderingStrictFor(subjects, remainingExpectations, context.CurrentNode);
         if (isOrderingStrict)
         {
             new StrictlyOrderedEquivalencyStrategy<T>(parent, context)
@@ -75,7 +79,7 @@ internal class EnumerableEquivalencyValidator(
             isOrderingStrict ? "in order" : "in any order");
     }
 
-    private bool IsOrderingStrictFor<T>(List<object> subjects, List<T> expectations, INode currentNode)
+    private bool IsOrderingStrictFor<T>(object[] subjects, List<T> expectations, INode currentNode)
     {
         return OrderingRules.IsOrderingStrictFor(new ObjectInfo(new Comparands(subjects, expectations, typeof(T[])),
             currentNode));
@@ -83,7 +87,7 @@ internal class EnumerableEquivalencyValidator(
 
 #pragma warning disable CA1305
 
-    private void ReportRemainingOrMissingItems<T>(List<object> remainingSubjects, List<T> remainingExpectations,
+    private void ReportRemainingOrMissingItems<T>(List<IndexedItem<object>> remainingSubjects, List<T> remainingExpectations,
         object[] allSubjects,
         int expectationLength, string orderingDescription)
     {
@@ -111,8 +115,32 @@ internal class EnumerableEquivalencyValidator(
 
             if (remainingSubjects.Count > 0)
             {
-                phrase = remainingSubjects.Count > 1 ? "extraneous items" : "one extraneous item";
-                message.Append($"found {phrase} {{1}}");
+                if (remainingExpectations.Count == 0)
+                {
+                    // Subjects are truly extra (the subject collection has more items than expected).
+                    // Show each extraneous item with its original index to help pinpoint the divergence.
+                    if (remainingSubjects.Count == 1)
+                    {
+                        message.Append($"found one extraneous item at index {remainingSubjects[0].Index} {{1}}");
+                    }
+                    else
+                    {
+                        string formattedItems = string.Join(", ",
+                            remainingSubjects.Select(s => $"{Formatter.ToString(s.Item)} (at index {s.Index})"));
+
+                        // Use {{ and }} so that string.Format treats them as literal braces, not placeholders.
+                        message.Append("found extraneous items {{");
+                        message.Append(formattedItems);
+                        message.Append("}}");
+                    }
+                }
+                else
+                {
+                    // Both missing and extra subjects exist (same-size collections with pairwise mismatches).
+                    // Fall back to the compact list format without per-item indices.
+                    phrase = remainingSubjects.Count > 1 ? "extraneous items" : "one extraneous item";
+                    message.Append($"found {phrase} {{1}}");
+                }
             }
 
             if (context.Options.EnableFullDump)
@@ -122,8 +150,11 @@ internal class EnumerableEquivalencyValidator(
                 message.AppendLine("Full dump of {context:subject}: {2}");
             }
 
-            assertionChain.FailWith(message.ToString(), remainingExpectations,
-                remainingSubjects.Count == 1 ? remainingSubjects.Single() : remainingSubjects, allSubjects);
+            object subjectsArg = remainingExpectations.Count == 0 && remainingSubjects.Count == 1
+                ? remainingSubjects.Single().Item
+                : remainingSubjects.Select(s => s.Item).ToList<object>();
+
+            assertionChain.FailWith(message.ToString(), remainingExpectations, subjectsArg, allSubjects);
         }
     }
 }

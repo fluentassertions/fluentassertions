@@ -2222,7 +2222,32 @@ public class CollectionSpecs
         // Assert
         action.Should().Throw<XunitException>()
             .WithMessage(
-                "*Expected subject to contain exactly one item, but found one extraneous item*Age = 24*");
+                "*Expected subject to contain exactly one item, but found one extraneous item at index 1*Age = 24*");
+    }
+
+    [Fact]
+    public void When_the_subject_contains_multiple_extra_items_it_should_include_the_index_of_each()
+    {
+        // Arrange
+        var subject = new List<Customer>
+        {
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "Jane", Age = 24, Id = 2 },
+            new() { Name = "Bob", Age = 32, Id = 3 }
+        };
+
+        var expectation = new List<Customer>
+        {
+            new() { Name = "John", Age = 27, Id = 1 }
+        };
+
+        // Act
+        Action action =
+            () => subject.Should().BeEquivalentTo(expectation);
+
+        // Assert
+        action.Should().Throw<XunitException>()
+            .WithMessage("*extraneous items*at index 1*at index 2*");
     }
 
     [Fact]
