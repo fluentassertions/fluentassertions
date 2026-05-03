@@ -156,7 +156,10 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringEqualityStrategy(options.GetStringComparerOrDefault(), "be equivalent to"),
             because, becauseArgs);
 
-        var subject = ApplyStringSettings(Subject, options);
+        string subject = options.TreatNullStringsAsEmpty ? Subject ?? "" : Subject;
+        expected = options.TreatNullStringsAsEmpty ? expected ?? "" : expected;
+
+        subject = ApplyStringSettings(subject, options);
         expected = ApplyStringSettings(expected, options);
 
         expectation.Validate(subject, expected);

@@ -19,7 +19,13 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
 
         var assertionChain = AssertionChain.GetOrCreate().For(context);
 
-        if (AssertSubjectIsCollection(assertionChain, comparands.Subject))
+        bool treatNullAsEmpty = context.Options.TreatNullCollectionsAsEmpty;
+
+        bool subjectIsUsable = treatNullAsEmpty
+            ? comparands.Subject is null || AssertSubjectIsCollection(assertionChain, comparands.Subject)
+            : AssertSubjectIsCollection(assertionChain, comparands.Subject);
+
+        if (subjectIsUsable)
         {
             var validator = new EnumerableEquivalencyValidator(assertionChain, valueChildNodes, context)
             {
@@ -27,7 +33,9 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
                 OrderingRules = context.Options.OrderingRules
             };
 
-            validator.Execute(ToArray(comparands.Subject), ToArray(comparands.Expectation));
+            validator.Execute(
+                treatNullAsEmpty && comparands.Subject is null ? [] : ToArray(comparands.Subject),
+                treatNullAsEmpty && comparands.Expectation is null ? [] : ToArray(comparands.Expectation));
         }
 
         return EquivalencyResult.EquivalencyProven;

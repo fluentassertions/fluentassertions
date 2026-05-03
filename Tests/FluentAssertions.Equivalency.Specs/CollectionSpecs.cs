@@ -2824,6 +2824,142 @@ public class CollectionSpecs
         act.ExecutionTime().Should().BeLessThan(20.Seconds());
     }
 
+    public class ComparingNullCollectionsAsEmpty
+    {
+        [Fact]
+        public void A_null_subject_collection_is_equivalent_to_an_empty_expectation()
+        {
+            // Arrange
+            int[] subject = null;
+            int[] expectation = [];
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+        }
+
+        [Fact]
+        public void An_empty_subject_collection_is_equivalent_to_a_null_expectation()
+        {
+            // Arrange
+            int[] subject = [];
+            int[] expectation = null;
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+        }
+
+        [Fact]
+        public void A_null_subject_collection_fails_when_the_expectation_is_non_empty()
+        {
+            // Arrange
+            int[] subject = null;
+            int[] expectation = [1, 2, 3];
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void A_non_empty_subject_collection_fails_when_the_expectation_is_null()
+        {
+            // Arrange
+            int[] subject = [1, 2, 3];
+            int[] expectation = null;
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Without_the_option_a_null_subject_collection_is_not_equivalent_to_an_empty_expectation()
+        {
+            // Arrange
+            int[] subject = null;
+            int[] expectation = [];
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Without_the_option_an_empty_subject_collection_is_not_equivalent_to_a_null_expectation()
+        {
+            // Arrange
+            int[] subject = [];
+            int[] expectation = null;
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void A_null_generic_list_subject_is_equivalent_to_an_empty_generic_list_expectation()
+        {
+            // Arrange
+            List<int> subject = null;
+            var expectation = new List<int>();
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+        }
+
+        [Fact]
+        public void An_empty_generic_list_subject_is_equivalent_to_a_null_generic_list_expectation()
+        {
+            // Arrange
+            var subject = new List<int>();
+            List<int> expectation = null;
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+        }
+
+        [Fact]
+        public void A_null_nested_collection_is_equivalent_to_an_empty_nested_collection()
+        {
+            // Arrange
+            var subject = new { Items = (int[])null };
+            var expectation = new { Items = Array.Empty<int>() };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+        }
+
+        [Fact]
+        public void An_empty_nested_collection_is_equivalent_to_a_null_nested_collection()
+        {
+            // Arrange
+            var subject = new { Items = Array.Empty<int>() };
+            var expectation = new { Items = (int[])null };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+        }
+
+        [Fact]
+        public void Two_null_collections_are_equivalent()
+        {
+            // Arrange
+            int[] subject = null;
+            int[] expectation = null;
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+        }
+    }
+
     private class ClassWithLotsOfProperties
     {
         public string Id { get; set; }

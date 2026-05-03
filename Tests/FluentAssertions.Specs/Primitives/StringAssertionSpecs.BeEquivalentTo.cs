@@ -375,4 +375,118 @@ public partial class StringAssertionSpecs
             act.Should().NotThrow();
         }
     }
+
+    public class ComparingNullStringsAsEmpty
+    {
+        [Fact]
+        public void A_null_subject_string_is_equivalent_to_an_empty_expectation_string()
+        {
+            // Arrange
+            string subject = null;
+            string expectation = "";
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullStringsAsEmpty());
+        }
+
+        [Fact]
+        public void An_empty_subject_string_is_equivalent_to_a_null_expectation_string()
+        {
+            // Arrange
+            string subject = "";
+            string expectation = null;
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullStringsAsEmpty());
+        }
+
+        [Fact]
+        public void Two_null_strings_are_equivalent()
+        {
+            // Arrange
+            string subject = null;
+            string expectation = null;
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullStringsAsEmpty());
+        }
+
+        [Fact]
+        public void A_null_subject_string_fails_when_the_expectation_is_non_empty()
+        {
+            // Arrange
+            string subject = null;
+            string expectation = "hello";
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullStringsAsEmpty());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void A_non_empty_subject_string_fails_when_the_expectation_is_null()
+        {
+            // Arrange
+            string subject = "hello";
+            string expectation = null;
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullStringsAsEmpty());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Without_the_option_a_null_subject_string_is_not_equivalent_to_an_empty_expectation_string()
+        {
+            // Arrange
+            string subject = null;
+            string expectation = "";
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Without_the_option_an_empty_subject_string_is_not_equivalent_to_a_null_expectation_string()
+        {
+            // Arrange
+            string subject = "";
+            string expectation = null;
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void A_null_nested_string_is_equivalent_to_an_empty_nested_string()
+        {
+            // Arrange
+            var subject = new { Name = (string)null };
+            var expectation = new { Name = "" };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullStringsAsEmpty());
+        }
+
+        [Fact]
+        public void An_empty_nested_string_is_equivalent_to_a_null_nested_string()
+        {
+            // Arrange
+            var subject = new { Name = "" };
+            var expectation = new { Name = (string)null };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullStringsAsEmpty());
+        }
+    }
 }

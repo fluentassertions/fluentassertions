@@ -18,6 +18,7 @@ sidebar:
 * Added `HaveMillisecond` and `NotHaveMillisecond` assertion methods for `DateTime` and `DateTimeOffset` - [#3164](https://github.com/fluentassertions/fluentassertions/pull/3164)
 
 ### Enhancements
+* Added `ComparingNullCollectionsAsEmpty()` and `ComparingNullStringsAsEmpty()` options to `BeEquivalentTo` to treat `null` collections and strings as equivalent to empty ones - [#3202](https://github.com/fluentassertions/fluentassertions/pull/3202)
 * Added option `WithFullDump` to `BeEquivalentTo` to include the entire contents of the subject-under-test in the failure message - [#3133](https://github.com/fluentassertions/fluentassertions/pull/3133)
 * Remove FluentAssertions code from the stack trace when an assertion fails - [#3152](https://github.com/fluentassertions/fluentassertions/pull/3152)
 * Improve reporting the subject when chaining `Throw` with `Which` - [#3160](https://github.com/fluentassertions/fluentassertions/pull/3160)

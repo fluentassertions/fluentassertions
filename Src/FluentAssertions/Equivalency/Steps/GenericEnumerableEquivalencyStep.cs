@@ -22,7 +22,12 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
     {
         Type expectedType = comparands.GetExpectedType(context.Options);
 
-        if (comparands.Expectation is null || !IsGenericCollection(expectedType))
+        if (!IsGenericCollection(expectedType))
+        {
+            return EquivalencyResult.ContinueWithNext;
+        }
+
+        if (comparands.Expectation is null && !context.Options.TreatNullCollectionsAsEmpty)
         {
             return EquivalencyResult.ContinueWithNext;
         }
@@ -37,7 +42,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
                 "to use for asserting the equivalency of the collection. ",
                 interfaceTypes.Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">")));
 
-        if (AssertSubjectIsCollection(assertionChain, comparands.Subject))
+        if (AssertSubjectIsCollection(assertionChain, comparands.Subject, context.Options.TreatNullCollectionsAsEmpty))
         {
             var validator = new EnumerableEquivalencyValidator(assertionChain, valueChildNodes, context)
             {
@@ -47,12 +52,13 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
 
             Type typeOfEnumeration = GetTypeOfEnumeration(expectedType);
 
-            var subjectAsArray = EnumerableEquivalencyStep.ToArray(comparands.Subject);
+            var subjectAsArray = comparands.Subject is null ? [] : EnumerableEquivalencyStep.ToArray(comparands.Subject);
+            object expectation = comparands.Expectation ?? Array.CreateInstance(typeOfEnumeration, 0);
 
             try
             {
                 HandleMethod.MakeGenericMethod(typeOfEnumeration)
-                    .Invoke(null, [validator, subjectAsArray, comparands.Expectation]);
+                    .Invoke(null, [validator, subjectAsArray, expectation]);
             }
             catch (TargetInvocationException e)
             {
@@ -66,8 +72,13 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
     private static void HandleImpl<T>(EnumerableEquivalencyValidator validator, object[] subject, IEnumerable<T> expectation) =>
         validator.Execute(subject, ToArray(expectation));
 
-    private static bool AssertSubjectIsCollection(AssertionChain assertionChain, object subject)
+    private static bool AssertSubjectIsCollection(AssertionChain assertionChain, object subject, bool treatNullAsEmpty)
     {
+        if (treatNullAsEmpty && subject is null)
+        {
+            return true;
+        }
+
         assertionChain
             .ForCondition(subject is not null)
             .FailWith("Expected {context:subject} not to be {0}.", new object[] { null });
