@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -126,7 +127,8 @@ internal class EnumerableEquivalencyValidator(
                     else
                     {
                         string formattedItems = string.Join(", ",
-                            remainingSubjects.Select(s => $"{Formatter.ToString(s.Item)} (at index {s.Index})"));
+                            remainingSubjects.Select(s =>
+                                $"{Formatter.ToString(s.Item).Replace("{", "{{", StringComparison.Ordinal).Replace("}", "}}", StringComparison.Ordinal)} (at index {s.Index})"));
 
                         // Use {{ and }} so that string.Format treats them as literal braces, not placeholders.
                         message.Append("found extraneous items {{");
@@ -150,7 +152,7 @@ internal class EnumerableEquivalencyValidator(
                 message.AppendLine("Full dump of {context:subject}: {2}");
             }
 
-            object subjectsArg = remainingExpectations.Count == 0 && remainingSubjects.Count == 1
+            object subjectsArg = remainingSubjects.Count == 1
                 ? remainingSubjects.Single().Item
                 : remainingSubjects.Select(s => s.Item).ToList<object>();
 
