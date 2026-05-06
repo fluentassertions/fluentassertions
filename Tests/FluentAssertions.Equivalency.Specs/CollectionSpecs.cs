@@ -2275,7 +2275,7 @@ public class CollectionSpecs
         // Assert
         action.Should().Throw<XunitException>()
             .WithMessage("*extraneous items*Age = 24*at index 1*Age = 32*at index 2*")
-            .And.Message.Should().NotContain("**WARNING**");
+            .WithoutMessage("**WARNING**");
     }
 
     [Fact]
