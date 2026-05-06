@@ -2251,6 +2251,34 @@ public class CollectionSpecs
     }
 
     [Fact]
+    public void When_the_subject_contains_multiple_extra_items_the_failure_message_should_include_their_formatted_properties()
+    {
+        // Arrange - Customer objects produce formatted output containing curly braces (e.g. "Customer\r\n{\r\n    Age = 24\r\n}")
+        // which must be escaped before embedding into the FailWith format string to prevent string.Format from
+        // interpreting them as placeholders and producing a **WARNING** instead of the actual failure message.
+        var subject = new List<Customer>
+        {
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "Jane", Age = 24, Id = 2 },
+            new() { Name = "Bob", Age = 32, Id = 3 }
+        };
+
+        var expectation = new List<Customer>
+        {
+            new() { Name = "John", Age = 27, Id = 1 }
+        };
+
+        // Act
+        Action action =
+            () => subject.Should().BeEquivalentTo(expectation);
+
+        // Assert
+        action.Should().Throw<XunitException>()
+            .WithMessage("*extraneous items*Age = 24*at index 1*Age = 32*at index 2*")
+            .And.Message.Should().NotContain("**WARNING**");
+    }
+
+    [Fact]
     public void When_the_subject_contains_same_number_of_items_and_both_contain_duplicates_it_should_succeed()
     {
         // Arrange
