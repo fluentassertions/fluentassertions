@@ -128,7 +128,7 @@ internal class EnumerableEquivalencyValidator(
                     {
                         string formattedItems = string.Join(", ",
                             remainingSubjects.Select(s =>
-                                $"{Formatter.ToString(s.Item).Replace("{", "{{", StringComparison.Ordinal).Replace("}", "}}", StringComparison.Ordinal)} (at index {s.Index})"));
+                                $"{Formatter.ToString(s.Item).EscapePlaceholders()} (at index {s.Index})"));
 
                         message.Append("found extraneous items ");
                         message.Append(formattedItems);
