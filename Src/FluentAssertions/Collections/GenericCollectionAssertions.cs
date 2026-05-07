@@ -295,7 +295,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                 .FailWith("but found <null>.")
                 .Then
                 .ForCondition(subject => subject.Length == 0)
-                .FailWith("but found at least {0}.", tenItemArray));
+                .FailWith("but found at least these items {0}.", tenItemArray));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
