@@ -146,6 +146,7 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("*to be empty, but found at least {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}.");
+            collection.GetEnumeratorCallCount.Should().Be(1);
         }
 
         [Fact]
