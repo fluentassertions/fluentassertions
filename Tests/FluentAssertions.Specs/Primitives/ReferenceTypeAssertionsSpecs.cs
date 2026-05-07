@@ -59,7 +59,7 @@ public partial class ReferenceTypeAssertionsSpecs
         act.Should().Throw<XunitException>()
             .WithMessage(
             """
-            Expected subject to be empty, but found at least {
+            Expected subject to be empty, but found at least these items {
                 FluentAssertions.Specs.Primitives.Complex
                 {
                     Statement = "goodbye"

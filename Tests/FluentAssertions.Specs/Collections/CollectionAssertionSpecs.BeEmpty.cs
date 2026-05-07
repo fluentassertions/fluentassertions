@@ -35,7 +35,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*to be empty because that's what we expect, but found at least {1, 2, 3}.");
+                .WithMessage("*to be empty because that's what we expect, but found at least these items {1, 2, 3}.");
         }
 
         [Fact]
@@ -130,7 +130,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*to be empty, but found at least {1, 2, 3}.");
+                .WithMessage("*to be empty, but found at least these items {1, 2, 3}.");
             collection.GetEnumeratorCallCount.Should().Be(1);
         }
 
@@ -145,7 +145,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*to be empty, but found at least {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}.");
+                .WithMessage("*to be empty, but found at least these items {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}.");
             collection.GetEnumeratorCallCount.Should().Be(1);
         }
 
