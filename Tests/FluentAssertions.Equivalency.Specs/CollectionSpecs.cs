@@ -2222,7 +2222,60 @@ public class CollectionSpecs
         // Assert
         action.Should().Throw<XunitException>()
             .WithMessage(
-                "*Expected subject to contain exactly one item, but found one extraneous item*Age = 24*");
+                "*Expected subject to contain exactly one item, but found one extraneous item at index 1:*Age = 24*");
+    }
+
+    [Fact]
+    public void When_the_subject_contains_multiple_extra_items_it_should_include_the_index_of_each()
+    {
+        // Arrange
+        var subject = new List<Customer>
+        {
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "Jane", Age = 24, Id = 2 },
+            new() { Name = "Bob", Age = 32, Id = 3 }
+        };
+
+        var expectation = new List<Customer>
+        {
+            new() { Name = "John", Age = 27, Id = 1 }
+        };
+
+        // Act
+        Action action =
+            () => subject.Should().BeEquivalentTo(expectation);
+
+        // Assert
+        action.Should().Throw<XunitException>()
+            .WithMessage("*extraneous items *at index 1*at index 2*");
+    }
+
+    [Fact]
+    public void When_the_subject_contains_multiple_extra_items_the_failure_message_should_include_their_formatted_properties()
+    {
+        // Arrange - Customer objects produce formatted output containing curly braces (e.g. "Customer\r\n{\r\n    Age = 24\r\n}")
+        // which must be escaped before embedding into the FailWith format string to prevent string.Format from
+        // interpreting them as placeholders and producing a **WARNING** instead of the actual failure message.
+        var subject = new List<Customer>
+        {
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "Jane", Age = 24, Id = 2 },
+            new() { Name = "Bob", Age = 32, Id = 3 }
+        };
+
+        var expectation = new List<Customer>
+        {
+            new() { Name = "John", Age = 27, Id = 1 }
+        };
+
+        // Act
+        Action action =
+            () => subject.Should().BeEquivalentTo(expectation);
+
+        // Assert
+        action.Should().Throw<XunitException>()
+            .WithMessage("*extraneous items*Age = 24*at index 1*Age = 32*at index 2*")
+            .WithoutMessage("**WARNING**");
     }
 
     [Fact]
@@ -2822,6 +2875,142 @@ public class CollectionSpecs
 
         // Assert
         act.ExecutionTime().Should().BeLessThan(20.Seconds());
+    }
+
+    public class ComparingNullCollectionsAsEmpty
+    {
+        [Fact]
+        public void A_null_subject_collection_is_equivalent_to_an_empty_expectation()
+        {
+            // Arrange
+            int[] subject = null;
+            int[] expectation = [];
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+        }
+
+        [Fact]
+        public void An_empty_subject_collection_is_equivalent_to_a_null_expectation()
+        {
+            // Arrange
+            int[] subject = [];
+            int[] expectation = null;
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+        }
+
+        [Fact]
+        public void A_null_subject_collection_fails_when_the_expectation_is_non_empty()
+        {
+            // Arrange
+            int[] subject = null;
+            int[] expectation = [1, 2, 3];
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void A_non_empty_subject_collection_fails_when_the_expectation_is_null()
+        {
+            // Arrange
+            int[] subject = [1, 2, 3];
+            int[] expectation = null;
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Without_the_option_a_null_subject_collection_is_not_equivalent_to_an_empty_expectation()
+        {
+            // Arrange
+            int[] subject = null;
+            int[] expectation = [];
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Without_the_option_an_empty_subject_collection_is_not_equivalent_to_a_null_expectation()
+        {
+            // Arrange
+            int[] subject = [];
+            int[] expectation = null;
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void A_null_generic_list_subject_is_equivalent_to_an_empty_generic_list_expectation()
+        {
+            // Arrange
+            List<int> subject = null;
+            var expectation = new List<int>();
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+        }
+
+        [Fact]
+        public void An_empty_generic_list_subject_is_equivalent_to_a_null_generic_list_expectation()
+        {
+            // Arrange
+            var subject = new List<int>();
+            List<int> expectation = null;
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+        }
+
+        [Fact]
+        public void A_null_nested_collection_is_equivalent_to_an_empty_nested_collection()
+        {
+            // Arrange
+            var subject = new { Items = (int[])null };
+            var expectation = new { Items = Array.Empty<int>() };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+        }
+
+        [Fact]
+        public void An_empty_nested_collection_is_equivalent_to_a_null_nested_collection()
+        {
+            // Arrange
+            var subject = new { Items = Array.Empty<int>() };
+            var expectation = new { Items = (int[])null };
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+        }
+
+        [Fact]
+        public void Two_null_collections_are_equivalent()
+        {
+            // Arrange
+            int[] subject = null;
+            int[] expectation = null;
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, opt => opt.ComparingNullCollectionsAsEmpty());
+        }
     }
 
     private class ClassWithLotsOfProperties

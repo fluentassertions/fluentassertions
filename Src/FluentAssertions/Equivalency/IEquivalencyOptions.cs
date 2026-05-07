@@ -137,4 +137,14 @@ public interface IEquivalencyOptions
     /// Gets a value indicating whether the full dump of the subject should be included in the failure message.
     /// </summary>
     bool EnableFullDump { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether <c>null</c> collections should be treated as equivalent to empty collections.
+    /// </summary>
+    bool TreatNullCollectionsAsEmpty { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether <c>null</c> strings should be treated as equivalent to empty strings.
+    /// </summary>
+    bool TreatNullStringsAsEmpty { get; }
 }

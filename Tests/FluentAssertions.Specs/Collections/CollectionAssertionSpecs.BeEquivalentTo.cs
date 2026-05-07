@@ -58,7 +58,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection1*2 items*we treat all alike, but*extraneous item 3*");
+                "Expected collection1*2 items*we treat all alike, but*extraneous item*3*");
         }
 
         [Fact]

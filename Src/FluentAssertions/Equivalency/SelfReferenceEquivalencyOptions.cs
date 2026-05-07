@@ -100,6 +100,8 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         IgnoreNewlineStyle = defaults.IgnoreNewlineStyle;
         IncludeFullStringsInDifference = defaults.IncludeFullStringsInDifference;
         IgnoreJsonPropertyCasing = defaults.IgnoreJsonPropertyCasing;
+        TreatNullCollectionsAsEmpty = defaults.TreatNullCollectionsAsEmpty;
+        TreatNullStringsAsEmpty = defaults.TreatNullStringsAsEmpty;
 
         ConversionSelector = defaults.ConversionSelector.Clone();
 
@@ -215,6 +217,10 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
 
     /// <inheritdoc />
     public bool EnableFullDump { get; private set; }
+
+    public bool TreatNullCollectionsAsEmpty { get; private set; }
+
+    public bool TreatNullStringsAsEmpty { get; private set; }
 
     public ITraceWriter TraceWriter { get; private set; }
 
@@ -901,6 +907,26 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     public TSelf IncludingFullStringsInDifference()
     {
         IncludeFullStringsInDifference = true;
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Instructs the comparison to treat <c>null</c> collections as equivalent to empty collections,
+    /// regardless of whether the subject or the expectation is <c>null</c>.
+    /// </summary>
+    public TSelf ComparingNullCollectionsAsEmpty()
+    {
+        TreatNullCollectionsAsEmpty = true;
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Instructs the comparison to treat <c>null</c> strings as equivalent to empty strings,
+    /// regardless of whether the subject or the expectation is <c>null</c>.
+    /// </summary>
+    public TSelf ComparingNullStringsAsEmpty()
+    {
+        TreatNullStringsAsEmpty = true;
         return (TSelf)this;
     }
 
