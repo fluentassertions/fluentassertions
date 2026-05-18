@@ -42,6 +42,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     where TCollection : IEnumerable<T>
     where TAssertions : GenericCollectionAssertions<TCollection, T, TAssertions>
 {
+    private const int MaxItemsShownOnBeEmptyFailure = 10;
     private readonly AssertionChain assertionChain;
 
     public GenericCollectionAssertions(TCollection actualValue, AssertionChain assertionChain)
@@ -285,17 +286,17 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     public AndConstraint<TAssertions> BeEmpty([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        var tenItemArray = Subject?.Take(10).ToArray();
+        var firstItems = Subject?.Take(MaxItemsShownOnBeEmptyFailure).ToArray();
 
         assertionChain
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Expected {context:collection} to be empty{reason}, ", chain => chain
-                .Given(() => tenItemArray)
+                .Given(() => firstItems)
                 .ForCondition(subject => subject is not null)
                 .FailWith("but found <null>.")
                 .Then
                 .ForCondition(subject => subject.Length == 0)
-                .FailWith("but found at least these items {0}.", tenItemArray));
+                .FailWith("but found at least these items {0}.", firstItems));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
