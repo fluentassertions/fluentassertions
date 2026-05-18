@@ -1748,52 +1748,26 @@ public static class NumericAssertionsExtensions
 
     private static long GetMinValue(long value, ulong delta)
     {
-        long minValue;
+        decimal minValue = ((decimal)value) - delta;
 
-        if (delta <= (ulong.MaxValue / 2))
+        if (minValue < long.MinValue)
         {
-            minValue = value - (long)delta;
-        }
-        else if (value < 0)
-        {
-            minValue = long.MinValue;
-        }
-        else
-        {
-            minValue = -(long)(delta - (ulong)value);
+            return long.MinValue;
         }
 
-        if (minValue > value)
-        {
-            minValue = long.MinValue;
-        }
-
-        return minValue;
+        return (long)minValue;
     }
 
     private static long GetMaxValue(long value, ulong delta)
     {
-        long maxValue;
+        decimal maxValue = ((decimal)value) + delta;
 
-        if (delta <= (ulong.MaxValue / 2))
+        if (maxValue > long.MaxValue)
         {
-            maxValue = value + (long)delta;
-        }
-        else if (value >= 0)
-        {
-            maxValue = long.MaxValue;
-        }
-        else
-        {
-            maxValue = (long)((ulong)value + delta);
+            return long.MaxValue;
         }
 
-        if (maxValue < value)
-        {
-            maxValue = long.MaxValue;
-        }
-
-        return maxValue;
+        return (long)maxValue;
     }
 }
 

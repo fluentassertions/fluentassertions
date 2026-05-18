@@ -18,7 +18,7 @@
     <PackageReference Include="NuGet.Packaging" Version="[6.14.3,7.0.0)" />
     <PackageReference Include="Nuke.Common" Version="$(NukeVersion)" />
     <PackageReference Include="Nuke.Components" Version="$(NukeVersion)" />
-    <PackageReference Include="SharpCompress" Version="0.47.4" />
+    <PackageReference Include="SharpCompress" Version="0.48.0" />
     <PackageReference Include="System.Security.Cryptography.Xml" Version="[9.0.15,10.0.0)" />
   </ItemGroup>
 </Project>

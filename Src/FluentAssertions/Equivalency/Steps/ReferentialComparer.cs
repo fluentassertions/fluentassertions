@@ -20,9 +20,9 @@ internal sealed class ReferentialComparer : IEqualityComparer<(object Subject, o
 
     public int GetHashCode((object Subject, object Expectation, int ExpectationIndex) obj)
     {
-        long hashCode = RuntimeHelpers.GetHashCode(obj.Subject);
+        int hashCode = RuntimeHelpers.GetHashCode(obj.Subject);
         hashCode = (hashCode * 397) + RuntimeHelpers.GetHashCode(obj.Expectation);
         hashCode = (hashCode * 397) + obj.ExpectationIndex;
-        return (int)hashCode;
+        return hashCode;
     }
 }
