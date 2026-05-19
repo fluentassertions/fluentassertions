@@ -1,0 +1,36 @@
+name: Qodana (Upload)
+
+# Triggered only after the "Qodana (PR)" workflow completes successfully.
+# workflow_run always executes on the default branch of the base repository,
+# so QODANA_TOKEN is available here — but crucially NO PR contributor code is
+# ever checked out or executed in this job. This is the safe half of the
+# two-workflow "pwn-request" mitigation pattern.
+on:
+  workflow_run:
+    workflows: ["Qodana (PR)"]
+    types:
+      - completed
+
+jobs:
+  upload:
+    name: Upload to Qodana Cloud
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Download Qodana results artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: qodana-results
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+          path: qodana-results
+
+      - name: Install Qodana CLI
+        run: |
+          curl -fsSL https://jb.gg/qodana-cli/install | bash
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Upload results to Qodana Cloud
+        run: qodana send --report-dir qodana-results
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}

@@ -1,0 +1,38 @@
+name: Qodana (PR)
+
+# Triggered by pull_request (NOT pull_request_target) so this job runs with
+# the PR contributor's code but WITHOUT access to repository secrets. That is
+# the safe half of the two-workflow "pwn-request" mitigation pattern.
+on:
+  pull_request:
+
+jobs:
+  qodana-scan:
+    name: Qodana Scan
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@v2026.1
+        with:
+          # Do not upload here — no token is available in pull_request context.
+          upload-result: false
+          args: --baseline qodana.sarif.json --linter qodana-dotnet --within-docker false
+          pr-mode: true
+          results-dir: ${{ runner.temp }}/qodana-results
+
+      # Persist the PR number alongside the results so the upload workflow can
+      # associate the report with the correct pull request.
+      - name: Save PR number
+        shell: bash
+        run: echo "${{ github.event.pull_request.number }}" > "${{ runner.temp }}/qodana-results/pr-number.txt"
+
+      - name: Upload Qodana results artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: qodana-results
+          path: ${{ runner.temp }}/qodana-results
