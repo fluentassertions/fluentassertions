@@ -10,7 +10,7 @@ sidebar:
 ## Unreleased
 
 ### Enhancements
-* `BeEmpty` for `IEnumerable<T>` assertions now lists the first 10 items in the collection instead of only the first one - [#2782](https://github.com/fluentassertions/fluentassertions/issues/2782)
+* `BeEmpty` for `IEnumerable<T>` assertions now lists the first 10 items in the collection instead of only the first one - [#3198](https://github.com/fluentassertions/fluentassertions/pull/3198)
 
 ## 8.9.0
 
