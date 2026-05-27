@@ -10,7 +10,7 @@ SCRIPT_DIR=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
 ###########################################################################
 
 BUILD_PROJECT_FILE="$SCRIPT_DIR/Build/_build.csproj"
-TEMP_DIRECTORY="$SCRIPT_DIR/.nuke/temp"
+TEMP_DIRECTORY="$SCRIPT_DIR/.fallout/temp"
 
 DOTNET_GLOBAL_FILE="$SCRIPT_DIR/global.json"
 DOTNET_INSTALL_URL="https://dot.net/v1/dotnet-install.sh"
@@ -20,7 +20,7 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 export DOTNET_MULTILEVEL_LOOKUP=0
 export DOTNET_ROLL_FORWARD="Major"
-export NUKE_TELEMETRY_OPTOUT=1
+export FALLOUT_TELEMETRY_OPTOUT=1
 export DOTNET_CLI_UI_LANGUAGE="en-US"
 
 ###########################################################################

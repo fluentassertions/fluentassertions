@@ -53,7 +53,7 @@
         "Quiet"
       ]
     },
-    "NukeBuild": {
+    "FalloutBuild": {
       "properties": {
         "Continue": {
           "type": "boolean",
@@ -107,6 +107,13 @@
         "Verbosity": {
           "description": "Logging verbosity during build execution. Default is 'Normal'",
           "$ref": "#/definitions/Verbosity"
+        },
+        "BuildProjectFile": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Path to the build project (.csproj) relative to the repository root. Defaults to 'build/_build.csproj' when unset. Read by the Fallout global tool's in-tool runner."
         }
       }
     }
@@ -116,11 +123,11 @@
       "properties": {
         "Configuration": {
           "type": "string",
-          "description": "The solution configuration to build. Default is 'Debug' (local) or 'CI' (server)",
           "enum": [
             "CI",
             "Debug"
-          ]
+          ],
+          "description": "The solution configuration to build. Default is 'Debug' (local) or 'CI' (server)"
         },
         "GenerateBinLog": {
           "type": [
@@ -146,7 +153,7 @@
       }
     },
     {
-      "$ref": "#/definitions/NukeBuild"
+      "$ref": "#/definitions/FalloutBuild"
     }
   ]
 }
