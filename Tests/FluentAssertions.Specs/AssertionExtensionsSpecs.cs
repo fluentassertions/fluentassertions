@@ -194,6 +194,21 @@ public class AssertionExtensionsSpecs
             .Select(m => new object[] { m });
     }
 
+    [Fact]
+    public void Calling_should_on_a_reference_type_without_a_specific_overload_returns_object_assertions()
+    {
+        // Arrange
+        var subject = new MyCustomClass();
+
+        // Act
+        ObjectAssertions assertions = subject.Should();
+
+        // Assert
+        assertions.Subject.Should().BeSameAs(subject);
+    }
+
+    private sealed class MyCustomClass;
+
     private static bool ReturnsReferenceTypeAssertions(MethodInfo m) =>
         m.ReturnType.IsAssignableToOpenGeneric(typeof(ReferenceTypeAssertions<,>));
 

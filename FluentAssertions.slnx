@@ -41,6 +41,7 @@
     <Project Path="Tests/FluentAssertions.Extensibility.Specs/FluentAssertions.Extensibility.Specs.csproj">
       <BuildType Solution="CI|*" Project="Debug" />
     </Project>
+
     <Project Path="Tests/FluentAssertions.Specs/FluentAssertions.Specs.csproj">
       <BuildType Solution="CI|*" Project="Debug" />
     </Project>

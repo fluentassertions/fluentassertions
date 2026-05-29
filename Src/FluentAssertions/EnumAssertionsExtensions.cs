@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
@@ -18,6 +19,7 @@ public static class EnumAssertionsExtensions
     /// current <typeparamref name="TEnum"/>.
     /// </summary>
     [Pure]
+    [OverloadResolutionPriority(-2)]
     public static EnumAssertions<TEnum> Should<TEnum>(this TEnum @enum)
         where TEnum : struct, Enum
     {
@@ -29,6 +31,7 @@ public static class EnumAssertionsExtensions
     /// current <typeparamref name="TEnum"/>.
     /// </summary>
     [Pure]
+    [OverloadResolutionPriority(-2)]
     public static NullableEnumAssertions<TEnum> Should<TEnum>([NotNull] this TEnum? @enum)
         where TEnum : struct, Enum
     {
