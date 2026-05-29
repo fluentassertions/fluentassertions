@@ -12,6 +12,9 @@ sidebar:
 ### Enhancements
 * `BeEmpty` for `IEnumerable<T>` assertions now lists the first 10 items in the collection instead of only the first one - [#3198](https://github.com/fluentassertions/fluentassertions/pull/3198)
 
+### Fixes
+* Fixed a regression introduced in 8.9.0 where calling `.Should()` on a reference type without a dedicated overload would cause a CS0453 compile error when using the .NET 9 SDK - [#3224](https://github.com/fluentassertions/fluentassertions/issues/3224)
+
 ## 8.9.0
 
 ### What's new
