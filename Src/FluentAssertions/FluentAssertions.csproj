@@ -55,12 +55,13 @@
 
   <PropertyGroup Label="PolySharp">
     <PolySharpIncludeRuntimeSupportedAttributes>true</PolySharpIncludeRuntimeSupportedAttributes>
+    <PolySharpUseEmbeddedAttributeForGeneratedTypes>false</PolySharpUseEmbeddedAttributeForGeneratedTypes>
   </PropertyGroup>
 
   <ItemGroup Label="Analyzers">
     <AdditionalFiles Include="BannedSymbols.txt" />
     <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" PrivateAssets="all" />
-    <PackageReference Include="PolySharp" Version="1.15.0" PrivateAssets="all" />
+    <PackageReference Include="PolySharp" Version="1.16.0" PrivateAssets="all" />
   </ItemGroup>
 
   <!-- Target framework dependent configuration -->
