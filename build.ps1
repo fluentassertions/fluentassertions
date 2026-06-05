@@ -14,7 +14,7 @@ $PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
 ###########################################################################
 
 $BuildProjectFile = "$PSScriptRoot\build\_build.csproj"
-$TempDirectory = "$PSScriptRoot\.nuke\temp"
+$TempDirectory = "$PSScriptRoot\.fallout\temp"
 
 $DotNetGlobalFile = "$PSScriptRoot\global.json"
 $DotNetInstallUrl = "https://dot.net/v1/dotnet-install.ps1"
@@ -24,7 +24,7 @@ $env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE = 1
 $env:DOTNET_CLI_TELEMETRY_OPTOUT = 1
 $env:DOTNET_MULTILEVEL_LOOKUP = 0
 $env:DOTNET_ROLL_FORWARD = "Major"
-$env:NUKE_TELEMETRY_OPTOUT = 1
+$env:FALLOUT_TELEMETRY_OPTOUT = 1
 $env:DOTNET_CLI_UI_LANGUAGE = "en-US"
 
 ###########################################################################
