@@ -1,13 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace></RootNamespace>
     <NoWarn>CS0649;CS0169</NoWarn>
-    <NukeRootDirectory>..\</NukeRootDirectory>
-    <NukeScriptDirectory>..\</NukeScriptDirectory>
-    <NukeVersion>10.1.0</NukeVersion>
-    <NukeTelemetryVersion>1</NukeTelemetryVersion>
+    <FalloutRootDirectory>..\</FalloutRootDirectory>
+    <FalloutScriptDirectory>..\</FalloutScriptDirectory>
+    <FalloutVersion>10.3.49</FalloutVersion>
+    <FalloutTelemetryVersion>1</FalloutTelemetryVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageDownload Include="GitVersion.Tool" Version="[6.5.1]" />
@@ -15,10 +15,8 @@
     <PackageDownload Include="xunit.runner.console" Version="[2.9.3]" />
     <PackageDownload Include="PackageGuard" Version="[1.6.1]" />
     <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
-    <PackageReference Include="NuGet.Packaging" Version="[6.14.3,7.0.0)" />
-    <PackageReference Include="Nuke.Common" Version="$(NukeVersion)" />
-    <PackageReference Include="Nuke.Components" Version="$(NukeVersion)" />
+    <PackageReference Include="Fallout.Common" Version="$(FalloutVersion)" />
+    <PackageReference Include="Fallout.Components" Version="$(FalloutVersion)" />
     <PackageReference Include="SharpCompress" Version="0.49.1" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="[9.0.15,10.0.0)" />
   </ItemGroup>
 </Project>

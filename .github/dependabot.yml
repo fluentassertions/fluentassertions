@@ -42,9 +42,9 @@ updates:
       mstest:
         patterns:
           - "MSTest*"
-      nuke:
+      fallout:
         patterns:
-          - "Nuke*"
+          - "Fallout*"
       nunit:
         patterns:
           - "NUnit*"

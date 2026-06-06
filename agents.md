@@ -27,7 +27,7 @@ dotnet test Tests/FluentAssertions.Specs/FluentAssertions.Specs.csproj
 .\AcceptApiChanges.ps1                  # Windows
 ```
 
-The project uses a [Nuke](https://nuke.build/)-based build system. The build scripts `build.sh` / `build.ps1` / `build.cmd` are thin wrappers around Nuke and support all standard Nuke targets.
+The project uses a [Fallout](https://fallout.build/)-based build system. The build scripts `build.sh` / `build.ps1` / `build.cmd` are thin wrappers around Fallout and support all standard Fallout targets.
 
 ## Contributing Workflow
 

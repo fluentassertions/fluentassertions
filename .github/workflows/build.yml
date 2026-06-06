@@ -28,14 +28,14 @@ jobs:
           8.0.x
           10.0.x
 
-    - name: Cache .nuke/temp
+    - name: Cache .fallout/temp
       uses: actions/cache@v5
       with:
         path: |
-          .nuke/temp
+          .fallout/temp
         key: ${{ runner.os }}-${{ hashFiles('NodeVersion') }}
 
-    - name: Run NUKE
+    - name: Run Fallout
       run: ./build.ps1
       env:
         NuGetApiKey: ${{ secrets.NUGETAPIKEY }}
@@ -97,7 +97,7 @@ jobs:
           8.0.x
           10.0.x
 
-    - name: Run NUKE
+    - name: Run Fallout
       run: ./build.sh UnitTests
 
     - name: Upload artifacts
