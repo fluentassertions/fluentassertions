@@ -15,7 +15,6 @@
     <PackageDownload Include="xunit.runner.console" Version="[2.9.3]" />
     <PackageDownload Include="PackageGuard" Version="[1.6.1]" />
     <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
-    <PackageReference Include="NuGet.Packaging" Version="7.6.0" />
     <PackageReference Include="Fallout.Common" Version="$(FalloutVersion)" />
     <PackageReference Include="Fallout.Components" Version="$(FalloutVersion)" />
     <PackageReference Include="SharpCompress" Version="0.49.1" />
