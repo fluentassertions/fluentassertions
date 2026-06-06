@@ -18,6 +18,5 @@
     <PackageReference Include="Fallout.Common" Version="$(FalloutVersion)" />
     <PackageReference Include="Fallout.Components" Version="$(FalloutVersion)" />
     <PackageReference Include="SharpCompress" Version="0.49.1" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.8" />
   </ItemGroup>
 </Project>
