@@ -26,10 +26,10 @@ using static CustomNpmTasks;
 class Build : FalloutBuild
 {
     /* Support plugins are available for:
-       - JetBrains ReSharper        https://nuke.build/resharper
-       - JetBrains Rider            https://nuke.build/rider
-       - Microsoft VisualStudio     https://nuke.build/visualstudio
-       - Microsoft VSCode           https://nuke.build/vscode
+       - JetBrains ReSharper        https://fallout.build/resharper
+       - JetBrains Rider            https://fallout.build/rider
+       - Microsoft VisualStudio     https://fallout.build/visualstudio
+       - Microsoft VSCode           https://fallout.build/vscode
     */
 
     public static int Main() => Execute<Build>(x => x.SpellCheck, x => x.Push);

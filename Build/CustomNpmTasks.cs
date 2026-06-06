@@ -6,7 +6,7 @@ using Fallout.Common.IO;
 using Fallout.Common.Tooling;
 using Fallout.Common.Utilities;
 using Fallout.Common.Utilities.Collections;
-using NukeDictionaryExtensions = Fallout.Common.Utilities.Collections.DictionaryExtensions;
+using FalloutDictionaryExtensions = Fallout.Common.Utilities.Collections.DictionaryExtensions;
 using static Serilog.Log;
 
 public static class CustomNpmTasks
@@ -30,7 +30,7 @@ public static class CustomNpmTasks
     public static void Initialize(AbsolutePath root)
     {
         RootDirectory = root;
-        NodeDir = RootDirectory / ".nuke" / "temp";
+        NodeDir = RootDirectory / ".fallout" / "temp";
 
         Version = (RootDirectory / "NodeVersion").ReadAllText().Trim();
         GetCachedNodeModules = os => NodeDir.GlobFiles($"node*{Version}-{os}*/**/node*", $"node*{Version}-{os}*/**/npm*").Count != 0;
