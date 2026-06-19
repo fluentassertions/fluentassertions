@@ -34,6 +34,11 @@ public interface IEquivalencyValidationContext
     bool IsCyclicReference(object expectation);
 
     /// <summary>
+    /// Determines whether a cyclic reference should cause an exception to be thrown.
+    /// </summary>
+    bool ShouldThrowOnCyclicReference { get; }
+
+    /// <summary>
     /// Creates a context from the current object intended to assert the equivalency of a nested member.
     /// </summary>
     IEquivalencyValidationContext AsNestedMember(IMember expectationMember);

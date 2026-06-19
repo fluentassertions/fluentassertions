@@ -74,6 +74,9 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
         };
     }
 
+    public bool ShouldThrowOnCyclicReference =>
+        Options.CyclicReferenceHandling == CyclicReferenceHandling.ThrowException;
+
     public bool IsCyclicReference(object expectation)
     {
         EqualityStrategy strategy = expectation is not null

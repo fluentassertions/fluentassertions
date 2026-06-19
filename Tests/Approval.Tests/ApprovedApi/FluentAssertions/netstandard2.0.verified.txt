@@ -727,6 +727,7 @@ namespace FluentAssertions.Equivalency
         public FluentAssertions.Equivalency.INode CurrentNode { get; }
         public FluentAssertions.Equivalency.IEquivalencyOptions Options { get; }
         public FluentAssertions.Execution.Reason Reason { get; set; }
+        public bool ShouldThrowOnCyclicReference { get; }
         public FluentAssertions.Equivalency.Tracing.ITraceWriter TraceWriter { get; set; }
         public FluentAssertions.Equivalency.Tracing.Tracer Tracer { get; }
         public FluentAssertions.Equivalency.IEquivalencyValidationContext AsCollectionItem<TItem>(string index) { }
@@ -783,6 +784,7 @@ namespace FluentAssertions.Equivalency
         FluentAssertions.Equivalency.INode CurrentNode { get; }
         FluentAssertions.Equivalency.IEquivalencyOptions Options { get; }
         FluentAssertions.Execution.Reason Reason { get; }
+        bool ShouldThrowOnCyclicReference { get; }
         FluentAssertions.Equivalency.Tracing.Tracer Tracer { get; }
         FluentAssertions.Equivalency.IEquivalencyValidationContext AsCollectionItem<TItem>(string index);
         FluentAssertions.Equivalency.IEquivalencyValidationContext AsDictionaryItem<TKey, TExpectation>(TKey key);

@@ -192,3 +192,6 @@ Tests/Benchmarks/BenchmarkDotNet.Artifacts/
 
 # Documentation spell check
 node_modules/
+
+# JetBrains Junie AI agent memory
+.junie/memory/
