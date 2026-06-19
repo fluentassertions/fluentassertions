@@ -10,8 +10,6 @@ namespace FluentAssertions.Equivalency;
 [System.Diagnostics.StackTraceHidden]
 internal class EquivalencyValidator : IValidateChildNodeEquivalency
 {
-    private const int MaxDepth = 10;
-
     public void AssertEquality(Comparands comparands, EquivalencyValidationContext context)
     {
         context.ResetTracing();
@@ -43,7 +41,7 @@ internal class EquivalencyValidator : IValidateChildNodeEquivalency
             {
                 TryToProveNodesAreEquivalent(comparands, context);
             }
-            else if (context.Options.CyclicReferenceHandling == CyclicReferenceHandling.ThrowException)
+            else if (context.ShouldThrowOnCyclicReference)
             {
                 assertionChain.FailWith("Expected {context:subject} to be {0}{reason}, but it contains a cyclic reference.", comparands.Expectation);
             }
@@ -57,12 +55,13 @@ internal class EquivalencyValidator : IValidateChildNodeEquivalency
     private static bool ShouldContinueThisDeep(INode currentNode, IEquivalencyOptions options,
         AssertionChain assertionChain)
     {
-        bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth <= MaxDepth;
+        const int maxDepth = 10;
 
+        bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth <= maxDepth;
         if (!shouldRecurse)
         {
             // This will throw, unless we're inside an AssertionScope
-            assertionChain.FailWith($"The maximum recursion depth of {MaxDepth} was reached.  ");
+            assertionChain.FailWith($"The maximum recursion depth of {maxDepth} was reached.  ");
         }
 
         return shouldRecurse;
@@ -97,7 +96,7 @@ internal class EquivalencyValidator : IValidateChildNodeEquivalency
 
         foreach (IEquivalencyStep step in AssertionConfiguration.Current.Equivalency.Plan)
         {
-            var result = step.Handle(comparands, context, this);
+            EquivalencyResult result = step.Handle(comparands, context, this);
 
             if (result == EquivalencyResult.EquivalencyProven)
             {
