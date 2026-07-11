@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FluentAssertions.Execution;
@@ -5,7 +6,7 @@ namespace FluentAssertions.Execution;
 /// <summary>
 /// Represents the reason for a structural equivalency assertion.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class Reason
 {
     public Reason([StringSyntax("CompositeFormat")] string formattedMessage, object[] arguments)

@@ -1,9 +1,10 @@
 #if NET6_0_OR_GREATER
 using System;
+using System.Diagnostics;
 
 namespace FluentAssertions.Common;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal static class TimeOnlyExtensions
 {
     /// <summary>

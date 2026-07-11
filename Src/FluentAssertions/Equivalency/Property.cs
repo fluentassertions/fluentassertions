@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Reflection;
 using FluentAssertions.Common;
 
@@ -9,7 +10,7 @@ namespace FluentAssertions.Equivalency;
 /// A specialized type of <see cref="INode  "/> that represents a property of an object in a structural equivalency assertion.
 /// </summary>
 #pragma warning disable CA1716
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class Property : Node, IMember
 {
     private readonly PropertyInfo propertyInfo;

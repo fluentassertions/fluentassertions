@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using FluentAssertions.Equivalency.Ordering;
 
 namespace FluentAssertions.Equivalency;
@@ -7,7 +8,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Collection of <see cref="PathBasedOrderingRule"/>s.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class OrderingRuleCollection : IEnumerable<IOrderingRule>
 {
     private readonly List<IOrderingRule> rules = [];

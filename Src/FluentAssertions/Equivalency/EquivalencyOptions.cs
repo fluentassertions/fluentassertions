@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency.Execution;
@@ -12,7 +13,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Represents the run-time type-specific behavior of a structural equivalency assertion.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class EquivalencyOptions<TExpectation>
     : SelfReferenceEquivalencyOptions<EquivalencyOptions<TExpectation>>
 {

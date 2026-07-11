@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
@@ -10,7 +11,7 @@ namespace FluentAssertions.Types;
 /// <summary>
 /// Allows for fluent filtering a list of types.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class TypeSelector : IEnumerable<Type>
 {
     private List<Type> types;

@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace FluentAssertions.Equivalency.Steps;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal static class EnumerableExtensions
 {
     /// <summary>

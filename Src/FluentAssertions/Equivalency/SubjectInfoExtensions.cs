@@ -1,8 +1,9 @@
+using System.Diagnostics;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public static class SubjectInfoExtensions
 {
     /// <summary>

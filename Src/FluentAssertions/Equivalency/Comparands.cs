@@ -1,11 +1,11 @@
 using System;
-
+using System.Diagnostics;
 using System.Globalization;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class Comparands
 {
     public Comparands()

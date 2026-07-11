@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace FluentAssertions.Collections;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class WhoseValueConstraint<TCollection, TKey, TValue, TAssertions> : AndConstraint<TAssertions>
     where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
     where TAssertions : GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
 
@@ -7,7 +8,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Is responsible for validating the equivalency of a subject with another object.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class EquivalencyValidator : IValidateChildNodeEquivalency
 {
     public void AssertEquality(Comparands comparands, EquivalencyValidationContext context)

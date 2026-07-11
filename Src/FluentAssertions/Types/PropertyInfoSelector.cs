@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
@@ -10,7 +11,7 @@ namespace FluentAssertions.Types;
 /// <summary>
 /// Allows for fluent selection of properties of a type through reflection.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class PropertyInfoSelector : IEnumerable<PropertyInfo>
 {
     private IEnumerable<PropertyInfo> selectedProperties;

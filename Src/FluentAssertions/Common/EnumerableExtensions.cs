@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace FluentAssertions.Common;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal static class EnumerableExtensions
 {
     public static ICollection<T> ConvertOrCastToCollection<T>(this IEnumerable<T> source)

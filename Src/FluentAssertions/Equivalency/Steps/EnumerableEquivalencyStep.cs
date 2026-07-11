@@ -1,12 +1,13 @@
 using System;
 
 using System.Collections;
+using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class EnumerableEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,

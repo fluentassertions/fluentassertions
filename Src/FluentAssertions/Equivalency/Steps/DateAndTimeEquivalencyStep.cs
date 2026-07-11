@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
@@ -10,7 +11,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// Specific equivalency step for handling date and time types where the types are different and the failure message
 /// should make that clear.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class DateAndTimeEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
