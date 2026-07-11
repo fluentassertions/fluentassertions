@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
@@ -444,12 +445,14 @@ public class EnumAssertions<TEnum, TAssertions>
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
+    [StackTraceHidden]
     private static decimal GetValue<T>(T @enum)
         where T : struct, Enum
     {
         return Convert.ToDecimal(@enum, CultureInfo.InvariantCulture);
     }
 
+    [StackTraceHidden]
     private static string GetName<T>(T @enum)
         where T : struct, Enum
     {

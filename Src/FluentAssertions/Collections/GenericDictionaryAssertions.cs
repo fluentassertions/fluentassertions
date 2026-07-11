@@ -955,25 +955,32 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// </summary>
     protected override string Identifier => "dictionary";
 
+    [StackTraceHidden]
     private static IEnumerable<TKey> GetKeys(TCollection collection) =>
         collection.GetKeys<TCollection, TKey, TValue>();
 
+    [StackTraceHidden]
     private static IEnumerable<TKey> GetKeys<T>(T collection)
         where T : IEnumerable<KeyValuePair<TKey, TValue>> =>
         collection.GetKeys<T, TKey, TValue>();
 
+    [StackTraceHidden]
     private static IEnumerable<TValue> GetValues(TCollection collection) =>
         collection.GetValues<TCollection, TKey, TValue>();
 
+    [StackTraceHidden]
     private static bool ContainsKey(TCollection collection, TKey key) =>
         collection.ContainsKey<TCollection, TKey, TValue>(key);
 
+    [StackTraceHidden]
     private static bool TryGetValue(TCollection collection, TKey key, out TValue value) =>
         collection.TryGetValue(key, out value);
 
+    [StackTraceHidden]
     private static TValue GetValue(TCollection collection, TKey key) =>
         collection.GetValue<TCollection, TKey, TValue>(key);
 
+    [StackTraceHidden]
     private static TValue GetValue<T>(T collection, TKey key)
         where T : IEnumerable<KeyValuePair<TKey, TValue>> =>
         collection.GetValue<T, TKey, TValue>(key);

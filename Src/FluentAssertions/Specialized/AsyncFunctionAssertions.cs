@@ -209,6 +209,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
         return new ExceptionAssertions<TException>([], assertionChain);
     }
 
+    [StackTraceHidden]
     private ExceptionAssertions<TException> AssertThrows<TException>(
         Exception exception, TimeSpan timeSpan,
         [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
@@ -229,7 +230,8 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
 
         return new ExceptionAssertions<TException>(expectedExceptions, assertionChain);
     }
-
+    
+    [StackTraceHidden]
     private async Task<Exception> InvokeWithInterceptionAsync(TimeSpan timeout)
     {
         try
@@ -313,6 +315,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <summary>
     ///     Invokes the subject and measures the sync execution time.
     /// </summary>
+    [StackTraceHidden]
     private protected (TTask Result, TimeSpan RemainingTime) InvokeWithTimer(TimeSpan timeSpan)
     {
         ITimer timer = Clock.StartTimer();
@@ -325,6 +328,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <summary>
     ///     Monitors the specified task whether it completes withing the remaining time span.
     /// </summary>
+    [StackTraceHidden]
     private protected async Task<bool> CompletesWithinTimeoutAsync(Task target, TimeSpan remainingTime, Func<Task, Task> onTaskCanceled)
     {
         using var delayCancellationTokenSource = new CancellationTokenSource();
@@ -354,6 +358,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
         return true;
     }
 
+    [StackTraceHidden]
     private protected static async Task<Exception> InvokeWithInterceptionAsync(Func<Task> action)
     {
         try

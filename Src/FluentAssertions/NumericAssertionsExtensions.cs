@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -355,6 +356,7 @@ public static class NumericAssertionsExtensions
     }
 
     [SuppressMessage("Maintainability", "AV1561:Signature contains too many parameters")]
+    [StackTraceHidden]
     private static void FailIfValueOutsideBounds<TValue, TDelta>(AssertionChain assertionChain, bool valueWithinBounds,
         TValue nearbyValue, TDelta delta, TValue actualValue,
         [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
@@ -717,6 +719,7 @@ public static class NumericAssertionsExtensions
     }
 
     [SuppressMessage("Maintainability", "AV1561:Signature contains too many parameters")]
+    [StackTraceHidden]
     private static void FailIfValueInsideBounds<TValue, TDelta>(
         AssertionChain assertionChain,
         bool valueOutsideBounds,
@@ -1133,6 +1136,7 @@ public static class NumericAssertionsExtensions
     }
 
     [SuppressMessage("Maintainability", "AV1561:Signature contains too many parameters")]
+    [StackTraceHidden]
     private static void FailIfDifferenceOutsidePrecision<T>(
         bool differenceWithinPrecision,
         NumericAssertions<T> parent, T expectedValue, T precision, T actualDifference,
@@ -1529,6 +1533,7 @@ public static class NumericAssertionsExtensions
     }
 
     [SuppressMessage("Maintainability", "AV1561:Signature contains too many parameters")]
+    [StackTraceHidden]
     private static void FailIfDifferenceWithinPrecision<T>(
         NumericAssertions<T> parent, bool differenceOutsidePrecision,
         T unexpectedValue, T precision, T actualDifference,
@@ -1746,6 +1751,7 @@ public static class NumericAssertionsExtensions
 
     #endregion
 
+    [StackTraceHidden]
     private static long GetMinValue(long value, ulong delta)
     {
         decimal minValue = ((decimal)value) - delta;
@@ -1758,6 +1764,7 @@ public static class NumericAssertionsExtensions
         return (long)minValue;
     }
 
+    [StackTraceHidden]
     private static long GetMaxValue(long value, ulong delta)
     {
         decimal maxValue = ((decimal)value) + delta;

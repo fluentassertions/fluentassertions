@@ -131,6 +131,7 @@ public class DateTimeRangeAssertions<TAssertions>
         return new AndConstraint<TAssertions>(parentAssertions);
     }
 
+    [StackTraceHidden]
     private static string PositionRelativeToTarget(DateTime actual, DateTime target)
     {
         return (actual - target) >= TimeSpan.Zero ? "ahead" : "behind";

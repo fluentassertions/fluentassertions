@@ -132,6 +132,7 @@ public class SubsequentOrderingAssertions<T>
         return ThenBeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
     }
 
+    [StackTraceHidden]
     private AndConstraint<SubsequentOrderingAssertions<T>> ThenBeOrderedBy<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
@@ -143,6 +144,7 @@ public class SubsequentOrderingAssertions<T>
         return BeOrderedBy(propertyExpression, comparer, direction, because, becauseArgs);
     }
 
+    [StackTraceHidden]
     internal sealed override IOrderedEnumerable<T> GetOrderedEnumerable<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,

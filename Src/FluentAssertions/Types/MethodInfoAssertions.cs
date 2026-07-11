@@ -295,6 +295,7 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
         return NotReturn(typeof(TReturn), because, becauseArgs);
     }
 
+    [StackTraceHidden]
     internal static string GetDescriptionFor(MethodInfo method)
     {
         if (method is null)

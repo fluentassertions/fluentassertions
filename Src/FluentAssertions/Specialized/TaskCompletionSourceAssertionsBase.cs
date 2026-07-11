@@ -30,6 +30,7 @@ public class TaskCompletionSourceAssertionsBase
     /// <summary>
     ///     Monitors the specified task whether it completes withing the remaining time span.
     /// </summary>
+    [StackTraceHidden]
     private protected async Task<bool> CompletesWithinTimeoutAsync(Task target, TimeSpan remainingTime)
     {
         using var timeoutCancellationTokenSource = new CancellationTokenSource();
