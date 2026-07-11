@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace FluentAssertions.Collections.MaximumMatching;
@@ -50,6 +51,7 @@ internal class MaximumMatchingSolver<TValue>
     /// and end at an unmatched element.<br />
     /// - Breadth first search used to traverse the graph.<br />
     /// </summary>
+    [StackTraceHidden]
     private IEnumerable<Match> FindMatchForPredicate(Predicate<TValue> predicate, MatchCollection currentMatches)
     {
         var visitedElements = new HashSet<Element<TValue>>();
@@ -79,6 +81,7 @@ internal class MaximumMatchingSolver<TValue>
         return [];
     }
 
+    [StackTraceHidden]
     private List<Element<TValue>> GetMatchingElements(Predicate<TValue> predicate)
     {
         if (!matchingElementsByPredicate.TryGetValue(predicate, out var matchingElements))

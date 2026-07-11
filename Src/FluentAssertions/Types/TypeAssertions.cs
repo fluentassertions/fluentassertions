@@ -171,6 +171,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// An empty <see cref="string"/> if the two specified types are the same, or an error message that describes that
     /// the two specified types are not the same.
     /// </returns>
+    [StackTraceHidden]
     private static string GetFailureMessageIfTypesAreDifferent(Type actual, Type expected)
     {
         if (actual == expected)
@@ -486,6 +487,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         return new AndConstraint<TypeAssertions>(this);
     }
 
+    [StackTraceHidden]
     private bool AssertSubjectImplements(Type interfaceType,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
@@ -1573,6 +1575,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         return NotHaveConstructor([], because, becauseArgs);
     }
 
+    [StackTraceHidden]
     private static string GetParameterString(IEnumerable<Type> parameterTypes)
     {
         return string.Join(", ", parameterTypes.Select(p => p.FullName));
@@ -1908,6 +1911,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// </summary>
     protected override string Identifier => "type";
 
+    [StackTraceHidden]
     private void AssertThatSubjectIsClass()
     {
         if (Subject.IsInterface || Subject.IsValueType || typeof(Delegate).IsAssignableFrom(Subject.BaseType))

@@ -15,8 +15,10 @@ internal class DoubleAssertions : NumericAssertions<double>
     {
     }
 
+    [StackTraceHidden]
     private protected override bool IsNaN(double value) => double.IsNaN(value);
 
+    [StackTraceHidden]
     private protected override string CalculateDifferenceForFailureMessage(double subject, double expected)
     {
         var difference = subject - expected;

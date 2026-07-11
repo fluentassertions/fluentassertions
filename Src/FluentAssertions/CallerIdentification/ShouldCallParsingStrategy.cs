@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 
 namespace FluentAssertions.CallerIdentification;
@@ -22,8 +23,10 @@ internal class ShouldCallParsingStrategy : IParsingStrategy
         return ParsingState.InProgress;
     }
 
+    [StackTraceHidden]
     private static bool IsLongEnough(StringBuilder statement) => statement.Length >= ExpectedPhrase.Length + 1;
 
+    [StackTraceHidden]
     private static bool EndsWithExpectedPhrase(StringBuilder statement)
     {
         // Start from the index on the character just before the last ( or .
@@ -43,6 +46,7 @@ internal class ShouldCallParsingStrategy : IParsingStrategy
         return true;
     }
 
+    [StackTraceHidden]
     private static bool EndsWithInvocation(StringBuilder statement) => statement[^1] is '(' or '.';
 
     public bool IsWaitingForContextEnd()

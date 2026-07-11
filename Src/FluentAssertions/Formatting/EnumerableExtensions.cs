@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace FluentAssertions.Formatting;
 
 internal static class EnumerableExtensions
 {
+    [StackTraceHidden]
     internal static string JoinUsingWritingStyle<T>(this IEnumerable<T> items)
     {
         var buffer = new StringBuilder();
