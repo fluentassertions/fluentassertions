@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Reflection;
 
 namespace FluentAssertions.Types;
@@ -11,7 +12,7 @@ namespace FluentAssertions.Types;
 /// .Should()<br />
 /// .BeDecoratedWith&lt;SomeAttribute&gt;()
 /// </example>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public static class AllTypes
 {
     /// <summary>

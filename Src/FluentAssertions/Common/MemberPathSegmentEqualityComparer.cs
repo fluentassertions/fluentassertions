@@ -2,6 +2,7 @@
 using System;
 #endif
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace FluentAssertions.Common;
@@ -11,7 +12,7 @@ namespace FluentAssertions.Common;
 /// Sets the <see cref="AnyIndexQualifier"/> equal with any numeric index qualifier.
 /// All other comparisons are default string equality.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class MemberPathSegmentEqualityComparer : IEqualityComparer<string>
 {
     private const string AnyIndexQualifier = "*";

@@ -1,12 +1,13 @@
 #if NET6_0_OR_GREATER
 
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text.Json.Nodes;
 
 namespace FluentAssertions.Equivalency.Steps;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class JsonConversionStep : IEquivalencyStep
 {
     /// <inheritdoc />

@@ -1,11 +1,12 @@
 #if NET6_0_OR_GREATER
 
+using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace FluentAssertions.Specialized;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal static class JsonValueExtensions
 {
     public static bool IsNumeric(this JsonValue value)

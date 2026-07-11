@@ -1,11 +1,11 @@
 using System;
-
+using System.Diagnostics;
 using System.Reflection;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public static class MemberFactory
 {
     public static IMember Create(MemberInfo memberInfo, INode parent)

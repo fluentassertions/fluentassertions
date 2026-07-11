@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Execution;
 
@@ -8,7 +9,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// <summary>
 /// Represents a collection of assertion results obtained through an <see cref="AssertionScope"/>.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class AssertionResultSet
 {
     private readonly Dictionary<object, string[]> set = [];

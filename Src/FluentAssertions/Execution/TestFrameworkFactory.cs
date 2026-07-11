@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Configuration;
 
@@ -9,7 +10,7 @@ namespace FluentAssertions.Execution;
 /// Determines the test framework, either by scanning the current app domain for known test framework assemblies or by
 /// passing the framework name directly.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal static class TestFrameworkFactory
 {
     private static readonly Dictionary<TestFramework, ITestFramework> Frameworks = new()

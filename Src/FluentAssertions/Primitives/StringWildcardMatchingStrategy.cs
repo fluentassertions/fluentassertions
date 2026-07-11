@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
@@ -6,7 +7,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
 {
     public void AssertForEquality(AssertionChain assertionChain, string subject, string expected)

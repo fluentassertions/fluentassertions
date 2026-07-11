@@ -1,10 +1,11 @@
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Configuration;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class GlobalFormattingOptions : FormattingOptions
 {
     public string ValueFormatterAssembly

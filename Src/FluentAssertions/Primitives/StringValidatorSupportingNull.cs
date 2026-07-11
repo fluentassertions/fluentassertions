@@ -1,10 +1,11 @@
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class StringValidatorSupportingNull
 {
     private readonly IStringComparisonStrategy comparisonStrategy;

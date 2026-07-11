@@ -2,6 +2,7 @@
 using System;
 #endif
 
+using System.Diagnostics;
 using System.Globalization;
 using FluentAssertions.Equivalency.Execution;
 using FluentAssertions.Equivalency.Tracing;
@@ -12,7 +13,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Provides information on a particular property during an assertion for structural equality of two object graphs.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class EquivalencyValidationContext : IEquivalencyValidationContext
 {
     private Tracer tracer;

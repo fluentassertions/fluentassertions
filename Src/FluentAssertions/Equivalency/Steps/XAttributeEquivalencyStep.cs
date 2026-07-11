@@ -1,9 +1,10 @@
+using System.Diagnostics;
 using System.Xml.Linq;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class XAttributeEquivalencyStep : EquivalencyStep<XAttribute>
 {
     protected override EquivalencyResult OnHandle(Comparands comparands,

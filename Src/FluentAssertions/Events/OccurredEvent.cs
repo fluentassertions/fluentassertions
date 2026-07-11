@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 
 namespace FluentAssertions.Events;
@@ -7,7 +8,7 @@ namespace FluentAssertions.Events;
 /// <summary>
 /// Represents an occurrence of a particular event.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class OccurredEvent
 {
     /// <summary>

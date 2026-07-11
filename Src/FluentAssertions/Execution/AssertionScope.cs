@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -15,7 +16,7 @@ namespace FluentAssertions.Execution;
 /// such as when using <see langword="async"/> or <see langword="await"/>.
 /// </remarks>
 // Remove all assertion logic from this class since it is superseded by the Assertion class
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public sealed class AssertionScope : IDisposable
 {
     private readonly IAssertionStrategy assertionStrategy;
