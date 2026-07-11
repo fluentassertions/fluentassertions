@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Equivalency.Ordering;
 using FluentAssertions.Equivalency.Selection;
@@ -11,7 +12,7 @@ namespace FluentAssertions.Equivalency.Execution;
 /// <summary>
 /// Ensures that all the rules remove the collection index from the path before processing it further.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class CollectionMemberOptionsDecorator : IEquivalencyOptions, IContainTypingRules
 {
     private readonly IEquivalencyOptions inner;

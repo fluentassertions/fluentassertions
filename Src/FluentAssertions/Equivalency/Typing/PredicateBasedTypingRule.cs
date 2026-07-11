@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using FluentAssertions.Equivalency.Execution;
 
@@ -8,7 +9,7 @@ namespace FluentAssertions.Equivalency.Typing;
 /// An implementation of <see cref="ITypingRule"/> that uses a predicate to determine
 /// whether strict typing should be applied during equivalency comparison.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class PredicateBasedTypingRule : ITypingRule
 {
     private readonly Func<IObjectInfo, bool> predicate;

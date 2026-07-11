@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Common;
 
@@ -8,7 +9,7 @@ namespace FluentAssertions.Execution;
 /// Represents a chaining object returned from <see cref="AssertionChain"/> to continue the assertion using
 /// an object returned by a selector.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class GivenSelector<T>
 {
     private readonly AssertionChain assertionChain;

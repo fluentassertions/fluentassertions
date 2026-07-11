@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -7,7 +8,7 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class Node : INode
 {
     private static readonly Regex MatchFirstIndex = new(@"^\[[0-9]+\]$");

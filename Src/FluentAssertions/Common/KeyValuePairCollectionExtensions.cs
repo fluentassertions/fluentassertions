@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace FluentAssertions.Common;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal static class KeyValuePairCollectionExtensions
 {
     public static IEnumerable<TKey> GetKeys<TCollection, TKey, TValue>(this TCollection collection)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace FluentAssertions.Equivalency.Steps;
@@ -7,7 +8,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// Provides a mechanism for comparing tuples that consist of a subject, an expectation,
 /// and an expectation index. The comparison is based on object references and the expectation index.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal sealed class ReferentialComparer : IEqualityComparer<(object Subject, object Expectation, int ExpectationIndex)>
 {
     public bool Equals((object Subject, object Expectation, int ExpectationIndex) x,

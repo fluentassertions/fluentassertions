@@ -2,6 +2,7 @@
 using System;
 #endif
 using System.Collections;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using FluentAssertions.Common;
@@ -9,7 +10,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
 {
     [SuppressMessage("ReSharper", "PossibleNullReferenceException")]

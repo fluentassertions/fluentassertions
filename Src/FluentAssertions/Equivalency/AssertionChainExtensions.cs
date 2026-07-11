@@ -1,8 +1,9 @@
+using System.Diagnostics;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal static class AssertionChainExtensions
 {
     /// <summary>

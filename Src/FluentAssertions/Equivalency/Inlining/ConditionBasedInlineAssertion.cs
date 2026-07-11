@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using FluentAssertions.Execution;
 
@@ -8,7 +9,7 @@ namespace FluentAssertions.Equivalency.Inlining;
 /// Represents a condition-based inline equivalency assertion that evaluates a specified condition against a subject during object equivalency checks.
 /// </summary>
 /// <typeparam name="T">The expected type of the subject being asserted.</typeparam>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class ConditionBasedInlineAssertion<T>(Expression<Func<T, bool>> condition) : IInlineEquivalencyAssertion
 {
     /// <inheritdoc />

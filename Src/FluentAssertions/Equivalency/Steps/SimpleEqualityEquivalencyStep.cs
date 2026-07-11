@@ -1,8 +1,9 @@
+using System.Diagnostics;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class SimpleEqualityEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,

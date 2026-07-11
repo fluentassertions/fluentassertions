@@ -1,8 +1,9 @@
+using System.Diagnostics;
 using System.Reflection;
 
 namespace FluentAssertions.Common;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal static class PropertyInfoExtensions
 {
     internal static bool IsVirtual(this PropertyInfo property)

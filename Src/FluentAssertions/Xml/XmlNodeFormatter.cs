@@ -1,10 +1,11 @@
+using System.Diagnostics;
 using System.Xml;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Xml;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class XmlNodeFormatter : IValueFormatter
 {
     public bool CanHandle(object value)

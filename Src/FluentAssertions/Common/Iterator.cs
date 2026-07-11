@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace FluentAssertions.Common;
 
@@ -8,7 +9,7 @@ namespace FluentAssertions.Common;
 /// A smarter enumerator that can provide information about the relative location (current, first, last)
 /// of the current item within the collection without unnecessarily iterating the collection.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal sealed class Iterator<T> : IEnumerator<T>
 {
     private const int InitialIndex = -1;

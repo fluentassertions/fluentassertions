@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Equivalency.Typing;
 using FluentAssertions.Execution;
@@ -13,7 +14,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// This differs from the default equivalency assertion which states that two objects are equivalent if they have the
 /// same properties and values, regardless of their type.
 /// </remarks>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class TypeEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,

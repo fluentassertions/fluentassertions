@@ -1,11 +1,11 @@
 using System;
-
+using System.Diagnostics;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Specialized;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class ExecutionTime
 {
     private ITimer timer;

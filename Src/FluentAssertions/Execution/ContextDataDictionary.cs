@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Formatting;
 
@@ -8,7 +9,7 @@ namespace FluentAssertions.Execution;
 /// <summary>
 /// Represents a collection of data items that are associated with an <see cref="AssertionScope"/>.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class ContextDataDictionary
 {
     private readonly List<DataItem> items = [];

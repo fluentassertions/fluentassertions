@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
 using static FluentAssertions.Common.StringExtensions;
 
 namespace FluentAssertions.Equivalency.Steps;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class StrictlyOrderedEquivalencyStrategy<TExpectation>(
     IValidateChildNodeEquivalency parent,
     IEquivalencyValidationContext context)

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;
@@ -6,7 +7,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Provides contextual information to an <see cref="IMemberSelectionRule"/>.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class MemberSelectionContext
 {
     private readonly Type compileTimeType;
