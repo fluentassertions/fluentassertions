@@ -2405,6 +2405,7 @@ namespace FluentAssertions.Types
         public FluentAssertions.Types.MethodInfoSelector ThatAreVirtual() { }
         public FluentAssertions.Types.MethodInfoSelector ThatDoNotReturn<TReturn>() { }
         public FluentAssertions.Types.MethodInfoSelector ThatReturn<TReturn>() { }
+        public FluentAssertions.Types.MethodInfoSelector ThatSatisfy(System.Func<System.Reflection.MethodInfo, bool> predicate) { }
         public System.Reflection.MethodInfo[] ToArray() { }
     }
     public class MethodInfoSelectorAssertions
@@ -2468,6 +2469,7 @@ namespace FluentAssertions.Types
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.PropertyInfoSelector ThatAreNotDecoratedWithOrInherit<TAttribute>()
             where TAttribute : System.Attribute { }
+        public FluentAssertions.Types.PropertyInfoSelector ThatSatisfy(System.Func<System.Reflection.PropertyInfo, bool> predicate) { }
         public System.Reflection.PropertyInfo[] ToArray() { }
     }
     public class PropertyInfoSelectorAssertions

@@ -208,6 +208,15 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
     }
 
     /// <summary>
+    /// Allows to filter the methods with the <paramref name="predicate"/> passed
+    /// </summary>
+    public MethodInfoSelector ThatSatisfy(Func<MethodInfo, bool> predicate)
+    {
+        selectedMethods = selectedMethods.Where(predicate);
+        return this;
+    }
+
+    /// <summary>
     /// Select return types of the methods
     /// </summary>
     public TypeSelector ReturnTypes()

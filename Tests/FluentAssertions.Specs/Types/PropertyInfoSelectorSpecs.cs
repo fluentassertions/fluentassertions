@@ -418,6 +418,26 @@ public class PropertyInfoSelectorSpecs
             internal bool InternalBoolPrivateSet { get; private set; }
         }
     }
+
+    [Fact]
+    public void When_selecting_types_with_predicate_it_should_return_the_correct_type()
+    {
+        // Arrange
+        Type type = typeof(TestClassForThatSatisfy);
+
+        // Act
+        var properties = type.Properties().ThatSatisfy(e => e.Name == nameof(TestClassForThatSatisfy.SomeValue)).ToArray();
+
+        // Assert
+        properties.Should().ContainSingle();
+    }
+
+    private class TestClassForThatSatisfy
+    {
+        public int SomeValue { get; set; }
+
+        public int SomeOtherValue { get; set; }
+    }
 }
 
 #region Internal classes used in unit tests
