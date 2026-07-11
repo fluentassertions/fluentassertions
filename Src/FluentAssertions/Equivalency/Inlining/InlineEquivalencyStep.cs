@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Inlining;
@@ -13,7 +14,7 @@ namespace FluentAssertions.Equivalency.Inlining;
 /// This step allows users to define custom equivalency behaviors inline during assertion
 /// execution.
 /// </remarks>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class InlineEquivalencyStep : IEquivalencyStep
 {
     /// <inheritdoc />

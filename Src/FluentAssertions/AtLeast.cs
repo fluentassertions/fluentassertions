@@ -1,6 +1,8 @@
+using System.Diagnostics;
+
 namespace FluentAssertions;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public static class AtLeast
 {
     public static OccurrenceConstraint Once() => new AtLeastTimesConstraint(1);

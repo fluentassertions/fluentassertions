@@ -1,6 +1,8 @@
+using System.Diagnostics;
+
 namespace FluentAssertions.Execution;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class NUnitTestFramework : LateBoundTestFramework
 {
     protected internal override string AssemblyName => "nunit.framework";

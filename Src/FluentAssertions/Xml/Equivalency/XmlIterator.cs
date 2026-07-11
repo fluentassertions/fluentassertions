@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Xml;
 
 namespace FluentAssertions.Xml.Equivalency;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class XmlIterator
 {
     private readonly XmlReader reader;

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -9,7 +10,7 @@ namespace FluentAssertions.Equivalency.Execution;
 /// <summary>
 /// Represents  an object tracked by the <see cref="CyclicReferenceDetector"/> including it's location within an object graph.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class ObjectReference
 {
     private readonly object @object;

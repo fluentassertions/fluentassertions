@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution;
@@ -12,7 +13,7 @@ namespace FluentAssertions.Execution;
 /// (nested) instances of <see cref="AssertionScope"/> and modifications made by the
 /// <see cref="AndWhichConstraint{TParent,TSubject}"/>.
 /// </remarks>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class SubjectIdentificationBuilder
 {
     private readonly Func<string> getScopeName;

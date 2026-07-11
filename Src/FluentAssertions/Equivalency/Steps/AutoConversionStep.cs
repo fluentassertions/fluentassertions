@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using FluentAssertions.Common;
 
@@ -10,7 +11,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// <remarks>
 /// Whether or not the conversion is attempted depends on the <see cref="ConversionSelector"/>.
 /// </remarks>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class AutoConversionStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,

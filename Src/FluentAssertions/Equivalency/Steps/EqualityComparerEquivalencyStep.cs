@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-
+using System.Diagnostics;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
 {
     private readonly IEqualityComparer<T> comparer;

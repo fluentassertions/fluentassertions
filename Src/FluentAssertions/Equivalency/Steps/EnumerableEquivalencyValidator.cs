@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using FluentAssertions.Equivalency.Execution;
@@ -12,7 +13,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// <summary>
 /// Executes a single equivalency assertion on two collections, optionally recursive and with or without strict ordering.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class EnumerableEquivalencyValidator(
     AssertionChain assertionChain,
     IValidateChildNodeEquivalency parent,

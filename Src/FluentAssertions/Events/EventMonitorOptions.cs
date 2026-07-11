@@ -1,11 +1,12 @@
 using System;
+using System.Diagnostics;
 
 namespace FluentAssertions.Events;
 
 /// <summary>
 /// Settings for the EventMonitor.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class EventMonitorOptions
 {
     /// <summary>

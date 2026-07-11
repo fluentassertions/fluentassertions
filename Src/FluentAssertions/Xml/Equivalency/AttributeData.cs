@@ -1,6 +1,8 @@
+using System.Diagnostics;
+
 namespace FluentAssertions.Xml.Equivalency;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class AttributeData
 {
     public AttributeData(string namespaceUri, string localName, string value, string prefix)

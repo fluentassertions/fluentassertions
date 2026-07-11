@@ -1,8 +1,9 @@
 using System;
+using System.Diagnostics;
 
 namespace FluentAssertions.Equivalency.Execution;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class ObjectInfo : IObjectInfo
 {
     public ObjectInfo(Comparands comparands, INode currentNode)

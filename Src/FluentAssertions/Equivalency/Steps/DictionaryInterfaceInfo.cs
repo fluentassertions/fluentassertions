@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
@@ -10,7 +11,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// <summary>
 /// Provides Reflection-backed meta-data information about a type implementing the <see cref="IDictionary{TKey,TValue}"/> interface.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal sealed class DictionaryInterfaceInfo
 {
     // ReSharper disable once PossibleNullReferenceException

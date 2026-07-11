@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 
 namespace FluentAssertions.Xml.Equivalency;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal sealed class Node
 {
     private readonly List<Node> children = [];

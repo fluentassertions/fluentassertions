@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using Reflectify;
 
 namespace FluentAssertions.Equivalency;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal static class MemberVisibilityExtensions
 {
     private static readonly ConcurrentDictionary<MemberVisibility, MemberKind> Cache = new();

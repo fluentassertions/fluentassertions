@@ -1,9 +1,11 @@
+using System.Diagnostics;
+
 namespace FluentAssertions.Equivalency;
 
 /// <summary>
 ///  Convenient implementation of <see cref="IEquivalencyStep"/> that will only invoke
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public abstract class EquivalencyStep<T> : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,

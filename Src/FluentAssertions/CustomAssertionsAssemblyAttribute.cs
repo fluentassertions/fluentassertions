@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace FluentAssertions;
 
@@ -7,6 +8,6 @@ namespace FluentAssertions;
 /// internally, or directly uses <c>AssertionChain</c>.
 /// </summary>
 [AttributeUsage(AttributeTargets.Assembly)]
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public sealed class CustomAssertionsAssemblyAttribute : Attribute;
 

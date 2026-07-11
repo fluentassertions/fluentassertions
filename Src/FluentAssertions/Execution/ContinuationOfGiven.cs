@@ -1,9 +1,11 @@
+using System.Diagnostics;
+
 namespace FluentAssertions.Execution;
 
 /// <summary>
 /// Enables chaining multiple assertions from an <see cref="AssertionChain.Given{T}"/> call.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class ContinuationOfGiven<TSubject>
 {
     internal ContinuationOfGiven(GivenSelector<TSubject> parent)

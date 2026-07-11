@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-
+using System.Diagnostics;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class StringEndStrategy : IStringComparisonStrategy
 {
     private readonly IEqualityComparer<string> comparer;

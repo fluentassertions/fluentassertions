@@ -1,9 +1,11 @@
+using System.Diagnostics;
+
 namespace FluentAssertions.Execution;
 
 /// <summary>
 /// Implements the xUnit (version 2 and 3) test framework adapter.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class XUnitTestFramework : LateBoundTestFramework
 {
     private readonly string assemblyName;

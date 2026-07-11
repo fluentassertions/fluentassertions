@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using FluentAssertions.Common;
@@ -8,7 +9,7 @@ using JetBrains.Annotations;
 
 namespace FluentAssertions.Equivalency;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal sealed class EqualityStrategyProvider
 {
     private readonly List<Type> referenceTypes = [];

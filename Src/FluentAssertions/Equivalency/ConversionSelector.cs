@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Text;
 using FluentAssertions.Common;
@@ -11,7 +12,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Collects the members that need to be converted by the <see cref="AutoConversionStep"/>.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class ConversionSelector
 {
     private sealed class ConversionSelectorRule

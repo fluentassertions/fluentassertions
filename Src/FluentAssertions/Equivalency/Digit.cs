@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace FluentAssertions.Equivalency;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class Digit
 {
     private readonly int length;
