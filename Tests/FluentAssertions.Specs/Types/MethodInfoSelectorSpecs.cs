@@ -439,6 +439,26 @@ public class MethodInfoSelectorSpecs
         action.Should().Throw<NotSupportedException>()
             .WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
     }
+
+    [Fact]
+    public void When_selecting_types_with_predicate_it_should_return_the_correct_type()
+    {
+        // Arrange
+        Type type = typeof(TestClassForThatSatisfy);
+
+        // Act
+        var methods = type.Methods().ThatSatisfy(e => e.Name == nameof(TestClassForThatSatisfy.SomeMethod)).ToArray();
+
+        // Assert
+        methods.Should().ContainSingle();
+    }
+
+    private class TestClassForThatSatisfy
+    {
+        public void SomeMethod() { }
+
+        public void SomeOtherMethod() { }
+    }
 }
 
 #region Internal classes used in unit tests

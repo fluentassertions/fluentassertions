@@ -170,6 +170,15 @@ public class PropertyInfoSelector : IEnumerable<PropertyInfo>
     }
 
     /// <summary>
+    /// Allows to filter the properties with the <paramref name="predicate"/> passed
+    /// </summary>
+    public PropertyInfoSelector ThatSatisfy(Func<PropertyInfo, bool> predicate)
+    {
+        selectedProperties = selectedProperties.Where(predicate);
+        return this;
+    }
+
+    /// <summary>
     /// Only select the properties that return the specified type
     /// </summary>
     public PropertyInfoSelector OfType<TReturn>()
