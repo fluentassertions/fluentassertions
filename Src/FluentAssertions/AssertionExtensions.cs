@@ -330,6 +330,7 @@ public static class AssertionExtensions
         return () => ForceEnumeration(subject, enumerable);
     }
 
+    [StackTraceHidden]
     private static void ForceEnumeration(Func<IEnumerable> enumerable)
     {
         foreach (object _ in enumerable())
@@ -338,6 +339,7 @@ public static class AssertionExtensions
         }
     }
 
+    [StackTraceHidden]
     private static void ForceEnumeration<T>(T subject, Func<T, IEnumerable> enumerable)
     {
         foreach (object _ in enumerable(subject))
@@ -1131,6 +1133,7 @@ public static class AssertionExtensions
     }
 
     [DoesNotReturn]
+    [StackTraceHidden]
     private static void InvalidShouldCall()
     {
         throw new InvalidOperationException(

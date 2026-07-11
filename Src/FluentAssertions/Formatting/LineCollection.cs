@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Formatting;
@@ -63,6 +64,7 @@ internal class LineCollection(int maxLines) : IEnumerable<Line>
         }
     }
 
+    [StackTraceHidden]
     private void Insert(int index, Line item)
     {
         lines.Insert(index, item);
@@ -74,6 +76,7 @@ internal class LineCollection(int maxLines) : IEnumerable<Line>
         }
     }
 
+    [StackTraceHidden]
     private void OnCollectionIsModified()
     {
         if (lines.Count > maxLines)
@@ -90,5 +93,6 @@ internal class LineCollection(int maxLines) : IEnumerable<Line>
 
     public IEnumerator<Line> GetEnumerator() => lines.GetEnumerator();
 
+    [StackTraceHidden]
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

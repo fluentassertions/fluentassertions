@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 using System.IO;
@@ -100,6 +101,7 @@ public static class ObjectAssertionsExtensions
         return new AndConstraint<ObjectAssertions>(assertions);
     }
 
+    [StackTraceHidden]
     private static object CreateCloneUsingDataContractSerializer(object subject)
     {
         using var stream = new MemoryStream();
@@ -190,6 +192,7 @@ public static class ObjectAssertionsExtensions
     }
 
     [SuppressMessage("Security", "CA5369:Use XmlReader for \'XmlSerializer.Deserialize()\'")]
+    [StackTraceHidden]
     private static object CreateCloneUsingXmlSerializer(object subject)
     {
         using var stream = new MemoryStream();

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions.Common;
@@ -278,6 +279,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
         return new AndWhichConstraint<TAssertions, string>((TAssertions)this, matches, assertionChain, "[" + firstMatch + "]");
     }
 
+    [StackTraceHidden]
     private (string[] MatchingItems, int? FirstMatchingIndex) AllThatMatch(string wildcardPattern)
     {
         int? firstMatchingIndex = null;
@@ -361,6 +363,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
+    [StackTraceHidden]
     private bool NotContainsMatch(string wildcardPattern)
     {
         using var scope = new AssertionScope();

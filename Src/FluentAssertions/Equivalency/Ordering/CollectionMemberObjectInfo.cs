@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace FluentAssertions.Equivalency.Ordering;
 
@@ -17,6 +18,7 @@ internal class CollectionMemberObjectInfo : IObjectInfo
         CompileTimeType = context.CompileTimeType;
     }
 
+    [StackTraceHidden]
     private static string GetAdjustedPropertyPath(string propertyPath)
     {
         return propertyPath.Substring(propertyPath.IndexOf('.', StringComparison.Ordinal) + 1);

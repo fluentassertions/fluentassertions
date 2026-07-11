@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using FluentAssertions.Common;
@@ -98,6 +99,7 @@ public class DateTimeOffsetValueFormatter : IValueFormatter
         formattedGraph.AddFragment(">");
     }
 
+    [StackTraceHidden]
     private static bool HasTime(DateTimeOffset dateTime)
     {
         return dateTime.Hour != 0
@@ -108,21 +110,25 @@ public class DateTimeOffsetValueFormatter : IValueFormatter
             || HasNanoSeconds(dateTime);
     }
 
+    [StackTraceHidden]
     private static bool HasDate(DateTimeOffset dateTime)
     {
         return dateTime.Day != 1 || dateTime.Month != 1 || dateTime.Year != 1;
     }
 
+    [StackTraceHidden]
     private static bool HasMilliSeconds(DateTimeOffset dateTime)
     {
         return dateTime.Millisecond > 0;
     }
 
+    [StackTraceHidden]
     private static bool HasMicroSeconds(DateTimeOffset dateTime)
     {
         return (dateTime.Ticks % TimeSpan.FromMilliseconds(1).Ticks) > 0;
     }
 
+    [StackTraceHidden]
     private static bool HasNanoSeconds(DateTimeOffset dateTime)
     {
         return (dateTime.Ticks % (TimeSpan.FromMilliseconds(1).Ticks / 1000)) > 0;

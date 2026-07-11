@@ -15,6 +15,7 @@ internal class UInt16Assertions : NumericAssertions<ushort>
     {
     }
 
+    [StackTraceHidden]
     private protected override string CalculateDifferenceForFailureMessage(ushort subject, ushort expected)
     {
         if (subject < 10 && expected < 10)

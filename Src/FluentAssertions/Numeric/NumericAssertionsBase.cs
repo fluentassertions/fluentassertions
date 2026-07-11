@@ -464,6 +464,7 @@ public abstract class NumericAssertionsBase<T, TSubject, TAssertions>
     public override bool Equals(object obj) =>
         throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
 
+    [StackTraceHidden]
     private protected virtual bool IsNaN(T value) => false;
 
     /// <summary>
@@ -475,8 +476,10 @@ public abstract class NumericAssertionsBase<T, TSubject, TAssertions>
     /// Returns the difference between a number value and the <paramref name="expected" /> value.
     /// Returns `null` if the compared numbers are small enough that a difference message is irrelevant.
     /// </returns>
+    [StackTraceHidden]
     private protected virtual string CalculateDifferenceForFailureMessage(T subject, T expected) => null;
 
+    [StackTraceHidden]
     private string GenerateDifferenceMessage(T? expected)
     {
         const string noDifferenceMessage = ".";

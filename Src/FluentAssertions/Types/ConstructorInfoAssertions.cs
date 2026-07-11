@@ -23,6 +23,7 @@ public class ConstructorInfoAssertions : MethodBaseAssertions<ConstructorInfo, C
 
     protected override string Identifier => "constructor";
 
+    [StackTraceHidden]
     private static string GetDescriptionFor(ConstructorInfo constructorInfo)
     {
         return $"{constructorInfo.DeclaringType}({GetParameterString(constructorInfo)})";

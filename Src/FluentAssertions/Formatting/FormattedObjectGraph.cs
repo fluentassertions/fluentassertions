@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace FluentAssertions.Formatting;
@@ -102,6 +103,7 @@ public class FormattedObjectGraph
         GetCurrentLine().Append(fragment);
     }
 
+    [StackTraceHidden]
     private void FlushCurrentLine()
     {
         // We only need to flush the line if there's something to flush.
@@ -112,6 +114,7 @@ public class FormattedObjectGraph
         }
     }
 
+    [StackTraceHidden]
     private Line GetCurrentLine()
     {
         // We prefer to lazily initialize the current line so we don't waste memory.
@@ -154,6 +157,7 @@ public class FormattedObjectGraph
     /// Get a reference to the current line (or the last line if there is no active line), so that we can
     /// insert fragments and lines at that specific point.
     /// </summary>
+    [StackTraceHidden]
     internal Anchor GetAnchor()
     {
         if (lines.Count == 0)
@@ -164,25 +168,31 @@ public class FormattedObjectGraph
         return new Anchor(this, currentLine ?? lines.Last());
     }
 
+    [StackTraceHidden]
     internal static string MakeWhitespace(int indent) => new(' ', indent * SpacesPerIndentation);
-
+    
+    [StackTraceHidden]
     internal bool HasLinesBeyond(Line line) => lines.HasLinesBeyond(line);
 
+    [StackTraceHidden]
     internal void AddLineAfter(Line line, string content)
     {
         lines.AddLineAfter(line, new Line(content));
     }
 
+    [StackTraceHidden]
     internal void InsertAtTop(string content)
     {
         lines.InsertAtTop(new Line(content));
     }
 
+    [StackTraceHidden]
     internal void InsertAtLineStartOrTop(string fragment)
     {
         lines.InsertAtLineStartOrTop(fragment);
     }
 
+    [StackTraceHidden]
     internal void SplitLine(Line line, int characterIndex)
     {
         lines.SplitLine(line, characterIndex);

@@ -473,12 +473,14 @@ public class TypeSelectorAssertions
         return new AndConstraint<TypeSelectorAssertions>(this);
     }
 
+    [StackTraceHidden]
     private static string GetDescriptionsFor(IEnumerable<Type> types)
     {
         IEnumerable<string> descriptions = types.Select(type => GetDescriptionFor(type));
         return string.Join(Environment.NewLine, descriptions);
     }
 
+    [StackTraceHidden]
     private static string GetDescriptionFor(Type type)
     {
         return type.ToString();

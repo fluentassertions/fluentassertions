@@ -174,6 +174,7 @@ public class TimeOnlyAssertions<TAssertions>
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
+    [StackTraceHidden]
     private static TimeSpan? MinimumDifference(TimeOnly a, TimeOnly b)
     {
         var diff1 = a - b;

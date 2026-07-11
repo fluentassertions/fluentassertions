@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using FluentAssertions.Common;
@@ -72,6 +73,7 @@ public class DictionaryValueFormatter : IValueFormatter
         }
     }
 
+    [StackTraceHidden]
     private static void AddLineOrFragment(FormattedObjectGraph formattedGraph, int startCount, string fragment)
     {
         if (formattedGraph.LineCount > (startCount + 1))
@@ -84,6 +86,7 @@ public class DictionaryValueFormatter : IValueFormatter
         }
     }
 
+    [StackTraceHidden]
     private static IEnumerable<KeyValuePair<object, object>> AsEnumerable(IDictionary dictionary)
     {
         IDictionaryEnumerator iterator = dictionary.GetEnumerator();

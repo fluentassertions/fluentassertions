@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
@@ -56,6 +57,7 @@ internal abstract class SelectMemberByPathSelectionRule : IPathBasedSelectionRul
     /// selection rules are expressed relative to the collection item type (for example <c>Name</c>).
     /// This method removes that root-item index so both sides use the same coordinate system.
     /// </summary>
+    [StackTraceHidden]
     private static string GetPathRelativeToSelectionRoot(INode currentNode)
     {
         if (currentNode.IsRoot)
@@ -73,6 +75,7 @@ internal abstract class SelectMemberByPathSelectionRule : IPathBasedSelectionRul
     /// Nested collection indices are intentionally left in place; they are handled later by
     /// <see cref="MemberPath"/> comparison, which treats <c>[]</c> and concrete indices as equivalent.
     /// </summary>
+    [StackTraceHidden]
     private static string RemoveLeadingCollectionIndex(string path)
     {
         Match match = LeadingCollectionIndexRegex.Match(path);

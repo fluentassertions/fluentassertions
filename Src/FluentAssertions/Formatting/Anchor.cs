@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace FluentAssertions.Formatting;
 
 /// <summary>
@@ -73,6 +75,7 @@ internal class Anchor
         }
     }
 
+    [StackTraceHidden]
     internal void AddLineOrFragment(string fragment)
     {
         if (line is null)

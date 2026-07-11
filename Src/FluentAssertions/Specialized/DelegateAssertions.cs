@@ -152,6 +152,7 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
 
     protected abstract void InvokeSubject();
 
+    [StackTraceHidden]
     private protected Exception InvokeSubjectWithInterception()
     {
         Exception actualException = null;
@@ -181,6 +182,7 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
         return actualException;
     }
 
+    [StackTraceHidden]
     private protected void FailIfSubjectIsAsyncVoid()
     {
         if (Subject.GetMethodInfo().IsDecoratedWithOrInherit<AsyncStateMachineAttribute>())

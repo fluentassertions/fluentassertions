@@ -113,6 +113,7 @@ public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAs
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
+    [StackTraceHidden]
     internal static string GetParameterString(MethodBase methodBase)
     {
         IEnumerable<Type> parameterTypes = methodBase.GetParameters().Select(p => p.ParameterType);

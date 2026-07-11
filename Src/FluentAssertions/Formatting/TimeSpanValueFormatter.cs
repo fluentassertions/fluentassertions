@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 
@@ -54,6 +55,7 @@ public class TimeSpanValueFormatter : IValueFormatter
         }
     }
 
+    [StackTraceHidden]
     private static List<string> GetNonZeroFragments(TimeSpan timeSpan)
     {
         TimeSpan absoluteTimespan = timeSpan.Duration();
@@ -70,6 +72,7 @@ public class TimeSpanValueFormatter : IValueFormatter
         return fragments;
     }
 
+    [StackTraceHidden]
     private static void AddMicrosecondsIfNotZero(TimeSpan timeSpan, List<string> fragments)
     {
         var ticks = timeSpan.Ticks % TimeSpan.TicksPerMillisecond;
@@ -81,6 +84,7 @@ public class TimeSpanValueFormatter : IValueFormatter
         }
     }
 
+    [StackTraceHidden]
     private static void AddSecondsIfNotZero(TimeSpan timeSpan, List<string> fragments)
     {
         if (timeSpan.Seconds > 0)
@@ -91,6 +95,7 @@ public class TimeSpanValueFormatter : IValueFormatter
         }
     }
 
+    [StackTraceHidden]
     private static void AddMilliSecondsIfNotZero(TimeSpan timeSpan, List<string> fragments)
     {
         if (timeSpan.Milliseconds > 0)
@@ -101,6 +106,7 @@ public class TimeSpanValueFormatter : IValueFormatter
         }
     }
 
+    [StackTraceHidden]
     private static void AddMinutesIfNotZero(TimeSpan timeSpan, List<string> fragments)
     {
         if (timeSpan.Minutes > 0)
@@ -109,6 +115,7 @@ public class TimeSpanValueFormatter : IValueFormatter
         }
     }
 
+    [StackTraceHidden]
     private static void AddHoursIfNotZero(TimeSpan timeSpan, List<string> fragments)
     {
         if (timeSpan.Hours > 0)
@@ -117,6 +124,7 @@ public class TimeSpanValueFormatter : IValueFormatter
         }
     }
 
+    [StackTraceHidden]
     private static void AddDaysIfNotZero(TimeSpan timeSpan, List<string> fragments)
     {
         if (timeSpan.Days > 0)

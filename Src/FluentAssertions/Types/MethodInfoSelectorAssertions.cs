@@ -92,11 +92,13 @@ public class MethodInfoSelectorAssertions
         return new AndConstraint<MethodInfoSelectorAssertions>(this);
     }
 
+    [StackTraceHidden]
     private MethodInfo[] GetAllNonVirtualMethodsFromSelection()
     {
         return SubjectMethods.Where(method => method.IsNonVirtual()).ToArray();
     }
 
+    [StackTraceHidden]
     private MethodInfo[] GetAllVirtualMethodsFromSelection()
     {
         return SubjectMethods.Where(method => !method.IsNonVirtual()).ToArray();
@@ -318,18 +320,21 @@ public class MethodInfoSelectorAssertions
         return new AndConstraint<MethodInfoSelectorAssertions>(this);
     }
 
+    [StackTraceHidden]
     private MethodInfo[] GetMethodsWithout<TAttribute>(Expression<Func<TAttribute, bool>> isMatchingPredicate)
         where TAttribute : Attribute
     {
         return SubjectMethods.Where(method => !method.IsDecoratedWith(isMatchingPredicate)).ToArray();
     }
 
+    [StackTraceHidden]
     private MethodInfo[] GetMethodsWith<TAttribute>(Expression<Func<TAttribute, bool>> isMatchingPredicate)
         where TAttribute : Attribute
     {
         return SubjectMethods.Where(method => method.IsDecoratedWith(isMatchingPredicate)).ToArray();
     }
 
+    [StackTraceHidden]
     private static string GetDescriptionsFor(IEnumerable<MethodInfo> methods)
     {
         IEnumerable<string> descriptions = methods.Select(method => MethodInfoAssertions.GetDescriptionFor(method));

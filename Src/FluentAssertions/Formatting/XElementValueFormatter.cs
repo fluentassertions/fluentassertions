@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Xml.Linq;
 using FluentAssertions.Common;
 
@@ -27,11 +28,13 @@ public class XElementValueFormatter : IValueFormatter
             : FormatElementWithoutChildren(element));
     }
 
+    [StackTraceHidden]
     private static string FormatElementWithoutChildren(XElement element)
     {
         return element.ToString().EscapePlaceholders();
     }
-
+    
+    [StackTraceHidden]
     private static string FormatElementWithChildren(XElement element)
     {
         string[] lines = SplitIntoSeparateLines(element);
@@ -45,6 +48,7 @@ public class XElementValueFormatter : IValueFormatter
         return formattedElement.EscapePlaceholders();
     }
 
+    [StackTraceHidden]
     private static string[] SplitIntoSeparateLines(XElement element)
     {
         string formattedXml = element.ToString();

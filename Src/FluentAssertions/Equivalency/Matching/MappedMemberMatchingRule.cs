@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -29,6 +30,7 @@ internal class MappedMemberMatchingRule<TExpectation, TSubject> : IMemberMatchin
         this.subjectMemberName = subjectMemberName;
     }
 
+    [StackTraceHidden]
     private static bool IsNestedPath(string path) =>
         path.Contains('.', StringComparison.Ordinal) || path.Contains('[', StringComparison.Ordinal) || path.Contains(']', StringComparison.Ordinal);
 
