@@ -15,6 +15,7 @@ internal class Int32Assertions : NumericAssertions<int>
     {
     }
 
+    [StackTraceHidden]
     private protected override string CalculateDifferenceForFailureMessage(int subject, int expected)
     {
         if (subject is > 0 and < 10 && expected is > 0 and < 10)

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 
 namespace FluentAssertions.CallerIdentification;
@@ -52,6 +53,7 @@ internal class QuotesParsingStrategy : IParsingStrategy
     {
     }
 
+    [StackTraceHidden]
     private bool IsVerbatim(StringBuilder statement)
     {
         return (previousChar is '@' && statement is [.., '$', '@'])

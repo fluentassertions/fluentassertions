@@ -15,8 +15,10 @@ internal class SingleAssertions : NumericAssertions<float>
     {
     }
 
+    [StackTraceHidden]
     private protected override bool IsNaN(float value) => float.IsNaN(value);
 
+    [StackTraceHidden]
     private protected override string CalculateDifferenceForFailureMessage(float subject, float expected)
     {
         float difference = subject - expected;

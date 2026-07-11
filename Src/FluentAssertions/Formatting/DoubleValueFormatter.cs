@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace FluentAssertions.Formatting;
@@ -22,6 +23,7 @@ public class DoubleValueFormatter : IValueFormatter
         formattedGraph.AddFragment(Format(value));
     }
 
+    [StackTraceHidden]
     private static string Format(object value)
     {
         double doubleValue = (double)value;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
@@ -39,6 +40,7 @@ public class AttributeBasedFormatter : IValueFormatter
         method.Invoke(null, parameters);
     }
 
+    [StackTraceHidden]
     private MethodInfo GetFormatter(object value)
     {
         Type valueType = value.GetType();
@@ -67,6 +69,7 @@ public class AttributeBasedFormatter : IValueFormatter
         }
     }
 
+    [StackTraceHidden]
     private void HandleValueFormatterDetectionModeChanges()
     {
         ValueFormatterDetectionMode configuredDetectionMode =
@@ -79,6 +82,7 @@ public class AttributeBasedFormatter : IValueFormatter
         }
     }
 
+    [StackTraceHidden]
     private static Dictionary<Type, MethodInfo> FindCustomFormatters()
     {
         var query =
@@ -99,6 +103,7 @@ public class AttributeBasedFormatter : IValueFormatter
         return query.ToDictionary(f => f.Type, f => f.Method);
     }
 
+    [StackTraceHidden]
     private static bool Applicable(Assembly assembly)
     {
         GlobalFormattingOptions options = AssertionEngine.Configuration.Formatting;

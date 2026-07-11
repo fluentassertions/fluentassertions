@@ -15,6 +15,7 @@ internal class NullableUInt32Assertions : NullableNumericAssertions<uint>
     {
     }
 
+    [StackTraceHidden]
     private protected override string CalculateDifferenceForFailureMessage(uint subject, uint expected)
     {
         if (subject < 10 && expected < 10)

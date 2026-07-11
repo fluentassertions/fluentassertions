@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace FluentAssertions.Equivalency.Ordering;
@@ -38,11 +39,13 @@ internal class PathBasedOrderingRule : IOrderingRule
         return OrderStrictness.Irrelevant;
     }
 
+    [StackTraceHidden]
     private static bool ContainsIndexingQualifiers(string path)
     {
         return path.Contains('[', StringComparison.Ordinal) && path.Contains(']', StringComparison.Ordinal);
     }
 
+    [StackTraceHidden]
     private string RemoveInitialIndexQualifier(string sourcePath)
     {
         var indexQualifierRegex = new Regex(@"^\[[0-9]+]\.");

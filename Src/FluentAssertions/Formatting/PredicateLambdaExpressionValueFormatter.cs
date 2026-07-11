@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -36,6 +37,7 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     /// E.g. "(_.Text == "two") AndAlso (_.Number == 3)"
     /// Instead of "(_.Text == value(FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+c__DisplayClass122_0).twoText) AndAlso (_.Number == 3)".
     /// </summary>
+    [StackTraceHidden]
     private static Expression ReduceConstantSubExpressions(Expression expression)
     {
         try
@@ -56,6 +58,7 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     /// This simplification is only implemented for the chain of AND operators because this is the most common predicate scenario.
     /// Similar logic can be implemented in the future for other operators.
     /// </summary>
+    [StackTraceHidden]
     private static List<Expression> ExtractChainOfExpressionsJoinedWithAndOperator(BinaryExpression binaryExpression)
     {
         var visitor = new AndOperatorChainExtractor();
