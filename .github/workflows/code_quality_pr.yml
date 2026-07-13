@@ -1,0 +1,38 @@
+name: Qodana (PR)
+
+# Triggered by pull_request (NOT pull_request_target), so this job runs with
+# the PR contributor's untrusted code. It still needs QODANA_TOKEN to run the
+# cloud linter, so that secret is scoped to the "qodana-pr" GitHub Environment
+# instead of being a repo/org-wide secret. That keeps this job's blast radius
+# limited to QODANA_TOKEN only: no other repository or organization secret is
+# exposed to code checked out from a pull request, no matter how the job
+# steps are edited later. Add required reviewers on the "qodana-pr"
+# environment to also gate first-time/fork contributors behind manual
+# approval before their code runs with the token.
+on:
+  pull_request:
+
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  qodana-scan:
+    name: Qodana Scan
+    runs-on: windows-latest
+    environment: qodana-pr
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@v2026.1
+        with:
+          upload-result: true
+          args: --baseline qodana.sarif.json --linter qodana-dotnet --within-docker false
+          pr-mode: true
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}

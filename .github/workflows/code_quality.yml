@@ -2,7 +2,6 @@ name: Qodana
 
 on:
   workflow_dispatch:
-  pull_request_target:
   push:
     branches:
       - main
@@ -15,13 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2026.1
         with:
-          upload-result: ${{ github.ref_name == 'main' || github.ref_name == 'develop' }}
+          upload-result: true
           args: --baseline qodana.sarif.json --linter qodana-dotnet --within-docker false
-          pr-mode: ${{ github.event_name == 'pull_request_target' }}
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
