@@ -11,7 +11,7 @@ sidebar:
 
 ### What's new
 * Added `ThatSatisfy` to `MethodInfoSelector` and `PropertyInfoSelector` - [#3257](https://github.com/fluentassertions/fluentassertions/pull/3257)
-* Introduced new collection assertions methods `BeSupersetOf`, `BeProperSubsetOf` and `BeProperSupersetOf` - [#2432](https://github.com/fluentassertions/fluentassertions/pull/2432)
+* Introduced new collection assertions methods `BeSupersetOf`, `BeProperSubsetOf` and `BeProperSupersetOf` - [#3271](https://github.com/fluentassertions/fluentassertions/pull/3271)
 
 ### Enhancements
 * `BeEmpty` for `IEnumerable<T>` assertions now lists the first 10 items in the collection instead of only the first one - [#3198](https://github.com/fluentassertions/fluentassertions/pull/3198)
