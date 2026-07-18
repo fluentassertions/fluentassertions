@@ -676,21 +676,126 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
+        AssertSubsetOf(expectedSuperset, "subset", because, becauseArgs);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that the collection is a superset of the <paramref name="expectedSubset" />.
+    /// If <paramref name="expectedSubset" /> is equivalent to the subject then it's still a valid superset since all of
+    /// its items are contained in the subject.
+    /// </summary>
+    /// <param name="expectedSubset">An <see cref="IEnumerable{T}"/> with the expected subset.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expectedSubset"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expectedSubset"/> is empty.</exception>
+    /// <remarks>This method is an alias for <see cref="Contain(IEnumerable{T}, string, object[])"/></remarks>
+    public AndConstraint<TAssertions> BeSupersetOf(IEnumerable<T> expectedSubset,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+    {
+        AssertContainment(expectedSubset, "be a superset of", because, becauseArgs);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that the collection is a proper subset of the <paramref name="expectedProperSuperset" />.
+    /// If <paramref name="expectedProperSuperset" /> is equivalent to the subject then the subject is not a proper
+    /// subset. <paramref name="expectedProperSuperset" /> must contain at least one element that is not present in the
+    /// subject.
+    /// </summary>
+    /// <param name="expectedProperSuperset">An <see cref="IEnumerable{T}"/> with the expected superset.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expectedProperSuperset"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> BeProperSubsetOf(IEnumerable<T> expectedProperSuperset,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+    {
+        AssertSubsetOf(expectedProperSuperset, "proper subset", because, becauseArgs);
+
+        if (assertionChain.Succeeded)
+        {
+            ISet<T> expectedItems = expectedProperSuperset.ConvertOrCastToSet();
+
+            assertionChain
+                .ForCondition(expectedItems.Intersect(Subject!).Count() != expectedItems.Count)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:collection} to be a proper subset of {0}{reason}, but items {1} are equivalent to the superset {2}",
+                    expectedItems, Subject, expectedProperSuperset);
+        }
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that the collection is a proper superset of the <paramref name="expectedProperSubset" />.
+    /// If <paramref name="expectedProperSubset" /> is equivalent to the subject then the subject is not a proper
+    /// superset. The subject must contain at least one element that is not present in
+    /// <paramref name="expectedProperSubset" />.
+    /// </summary>
+    /// <param name="expectedProperSubset">An <see cref="IEnumerable{T}"/> with the expected subset.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expectedProperSubset"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expectedProperSubset"/> is empty.</exception>
+    public AndConstraint<TAssertions> BeProperSupersetOf(IEnumerable<T> expectedProperSubset,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+    {
+        AssertContainment(expectedProperSubset, "be a proper superset of", because, becauseArgs);
+
+        if (assertionChain.Succeeded)
+        {
+            ISet<T> actualItems = Subject!.ConvertOrCastToSet();
+
+            assertionChain
+                .ForCondition(actualItems.Intersect(expectedProperSubset).Count() != actualItems.Count)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:collection} to be a proper superset of {0}{reason}, but items {1} are equivalent to the superset",
+                    actualItems, expectedProperSubset);
+        }
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    private void AssertSubsetOf(IEnumerable<T> expectedSuperset, string subsetType,
+        string because, object[] becauseArgs)
+    {
         Guard.ThrowIfArgumentIsNull(expectedSuperset, nameof(expectedSuperset),
-            "Cannot verify a subset against a <null> collection.");
+            "Cannot verify a " + subsetType + " against a <null> collection.");
 
         assertionChain
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {context:collection} to be a subset of {0}{reason}, ", expectedSuperset, chain => chain
-                .Given(() => Subject)
-                .ForCondition(subject => subject is not null)
-                .FailWith("but found <null>.")
-                .Then
-                .Given(subject => subject.Except(expectedSuperset))
-                .ForCondition(excessItems => !excessItems.Any())
-                .FailWith("but items {0} are not part of the superset.", excessItems => excessItems));
-
-        return new AndConstraint<TAssertions>((TAssertions)this);
+            .WithExpectation("Expected {context:collection} to be a " + subsetType + " of {0}{reason}, ", expectedSuperset,
+                chain => chain
+                    .Given(() => Subject)
+                    .ForCondition(subject => subject is not null)
+                    .FailWith("but found <null>.")
+                    .Then
+                    .Given(subject => subject.Except(expectedSuperset))
+                    .ForCondition(excessItems => !excessItems.Any())
+                    .FailWith("but items {0} are not part of the superset.", excessItems => excessItems));
     }
 
     /// <summary>
@@ -796,6 +901,13 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     public AndConstraint<TAssertions> Contain(IEnumerable<T> expected, [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
+        AssertContainment(expected, "contain", because, becauseArgs);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    private void AssertContainment(IEnumerable<T> expected, string containmentType, string because, object[] becauseArgs)
+    {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify containment against a <null> collection");
 
         ICollection<T> expectedObjects = expected.ConvertOrCastToCollection();
@@ -804,7 +916,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", expectedObjects);
+            .FailWith("Expected {context:collection} to " + containmentType + " {0}{reason}, but found <null>.", expectedObjects);
 
         if (assertionChain.Succeeded)
         {
@@ -816,20 +928,19 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                 {
                     assertionChain
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} {0} to contain {1}{reason}, but could not find {2}.",
+                        .FailWith(
+                            "Expected {context:collection} {0} to " + containmentType + " {1}{reason}, but could not find {2}.",
                             Subject, expectedObjects, missingItems);
                 }
                 else
                 {
                     assertionChain
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} {0} to contain {1}{reason}.",
+                        .FailWith("Expected {context:collection} {0} to " + containmentType + " {1}{reason}.",
                             Subject, expectedObjects.Single());
                 }
             }
         }
-
-        return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     /// <summary>
