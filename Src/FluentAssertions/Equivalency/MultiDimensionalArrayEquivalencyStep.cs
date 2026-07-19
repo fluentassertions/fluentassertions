@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Execution;
 
@@ -8,7 +9,7 @@ namespace FluentAssertions.Equivalency;
 /// Supports recursively comparing two multi-dimensional arrays for equivalency using strict order for the array items
 /// themselves.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions.Common;
@@ -130,6 +131,7 @@ public static class Formatter
     }
 
     [SuppressMessage("Maintainability", "AV1561:Signature contains too many parameters")]
+    [StackTraceHidden]
     private static void FormatChild(string path, object value, FormattedObjectGraph output, FormattingContext context,
         FormattingOptions options, ObjectGraph graph)
     {
@@ -161,6 +163,7 @@ public static class Formatter
         }
     }
 
+    [StackTraceHidden]
     private static void Format(object value, FormattedObjectGraph output, FormattingContext context, FormatChild formatChild)
     {
         IValueFormatter firstFormatterThatCanHandleValue = Formatters.First(f => f.CanHandle(value));

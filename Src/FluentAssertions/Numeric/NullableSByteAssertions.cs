@@ -15,6 +15,7 @@ internal class NullableSByteAssertions : NullableNumericAssertions<sbyte>
     {
     }
 
+    [StackTraceHidden]
     private protected override string CalculateDifferenceForFailureMessage(sbyte subject, sbyte expected)
     {
         int difference = subject - expected;

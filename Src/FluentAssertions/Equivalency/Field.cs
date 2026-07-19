@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Reflection;
 using FluentAssertions.Common;
 
@@ -8,7 +9,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// A specialized type of <see cref="INode"/> that represents a field of an object in a structural equivalency assertion.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class Field : Node, IMember
 {
     private readonly FieldInfo fieldInfo;

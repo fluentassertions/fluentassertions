@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 
 namespace FluentAssertions.CallerIdentification;
@@ -22,8 +23,10 @@ internal class WhichParsingStrategy : IParsingStrategy
         return ParsingState.InProgress;
     }
 
+    [StackTraceHidden]
     private static bool IsLongEnough(StringBuilder statement) => statement.Length >= ExpectedPhrase.Length;
 
+    [StackTraceHidden]
     private static bool EndsWithExpectedPhrase(StringBuilder statement)
     {
         // Start from the index of the last character

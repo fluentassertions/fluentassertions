@@ -1,11 +1,12 @@
 using System;
+using System.Diagnostics;
 
 namespace FluentAssertions.Primitives;
 
 /// <summary>
 /// Provides the logic and the display text for a <see cref="TimeSpanCondition"/>.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class TimeSpanPredicate
 {
     private readonly Func<TimeSpan, TimeSpan, bool> lambda;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
@@ -91,16 +92,19 @@ public class MultidimensionalArrayFormatter : IValueFormatter
         }
     }
 
+    [StackTraceHidden]
     private static bool IsFirstIteration(Array arr, int index, int dimension)
     {
         return index == arr.GetLowerBound(dimension);
     }
-
+    
+    [StackTraceHidden]
     private static bool IsInnerMostLoop(Array arr, int index)
     {
         return index == (arr.Rank - 1);
     }
 
+    [StackTraceHidden]
     private static bool IsLastIteration(Array arr, int index, int dimension)
     {
         return index >= arr.GetUpperBound(dimension);

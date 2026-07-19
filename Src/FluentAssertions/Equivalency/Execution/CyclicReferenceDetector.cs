@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Execution;
@@ -7,7 +8,7 @@ namespace FluentAssertions.Equivalency.Execution;
 /// Keeps track of objects and their location within an object graph so that cyclic references can be detected
 /// and handled upon.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class CyclicReferenceDetector : ICloneable2
 {
     #region Private Definitions

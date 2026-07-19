@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions.Common;
@@ -9,7 +10,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
     AssertionChain assertionChain,
     IValidateChildNodeEquivalency parent,

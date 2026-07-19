@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Formatting;
@@ -64,6 +65,7 @@ public class FormattingOptions
         }
     }
 
+    [StackTraceHidden]
     internal FormattingOptions Clone()
     {
         return new FormattingOptions

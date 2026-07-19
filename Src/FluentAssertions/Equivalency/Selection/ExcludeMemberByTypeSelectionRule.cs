@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Common;
 
@@ -26,6 +27,7 @@ internal class ExcludeMemberByTypeSelectionRule : IMemberSelectionRule
         return selectedMembers.Where(p => !ShouldExclude(p.Type)).ToArray();
     }
 
+    [StackTraceHidden]
     private bool ShouldExclude(Type memberType)
     {
         if (targetType.IsGenericTypeDefinition)

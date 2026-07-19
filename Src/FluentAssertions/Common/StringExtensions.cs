@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
@@ -11,7 +12,7 @@ using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal static class StringExtensions
 {
     /// <summary>

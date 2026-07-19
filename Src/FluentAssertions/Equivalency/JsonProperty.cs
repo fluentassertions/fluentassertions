@@ -1,6 +1,7 @@
 #if NET6_0_OR_GREATER
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.Json.Nodes;
 using FluentAssertions.Common;
@@ -12,7 +13,7 @@ namespace FluentAssertions.Equivalency;
 /// information about a specific JSON property, its parent object, and its counterpart in an expectation object
 /// when performing comparisons.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class JsonProperty(JsonNode property, JsonObject parent, INode expectationParent) : IMember
 {
     // SMELL: A lot of properties are required by the IMember interface, but they are not used. In the future

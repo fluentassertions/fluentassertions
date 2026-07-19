@@ -1,6 +1,8 @@
+using System.Diagnostics;
+
 namespace FluentAssertions.Execution;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class MSpecFramework : LateBoundTestFramework
 {
     protected internal override string AssemblyName => "Machine.Specifications";

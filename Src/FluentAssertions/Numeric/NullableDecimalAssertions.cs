@@ -16,6 +16,7 @@ internal class NullableDecimalAssertions : NullableNumericAssertions<decimal>
     {
     }
 
+    [StackTraceHidden]
     private protected override string CalculateDifferenceForFailureMessage(decimal subject, decimal expected)
     {
         try

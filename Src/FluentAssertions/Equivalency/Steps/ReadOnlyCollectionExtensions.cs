@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace FluentAssertions.Equivalency.Steps;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal static class ReadOnlyCollectionExtensions
 {
     /// <summary>

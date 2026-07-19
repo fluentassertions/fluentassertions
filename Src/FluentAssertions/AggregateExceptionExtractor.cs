@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Specialized;
 
 namespace FluentAssertions;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class AggregateExceptionExtractor : IExtractExceptions
 {
     public IEnumerable<T> OfType<T>(Exception actualException)

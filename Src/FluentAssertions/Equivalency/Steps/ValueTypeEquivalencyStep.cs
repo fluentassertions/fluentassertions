@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Equivalency.Selection;
 using FluentAssertions.Execution;
@@ -9,7 +10,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// <summary>
 /// Ensures that types that are marked as value types are treated as such.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class ValueTypeEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,

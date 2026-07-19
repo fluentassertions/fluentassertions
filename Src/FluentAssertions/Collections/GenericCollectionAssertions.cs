@@ -3398,6 +3398,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return StartWith([element], ObjectExtensions.GetComparer<T>(), because, becauseArgs);
     }
 
+    [StackTraceHidden]
     internal AndConstraint<SubsequentOrderingAssertions<T>> BeOrderedBy<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
@@ -3429,6 +3430,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             new SubsequentOrderingAssertions<T>(Subject, Enumerable.Empty<T>().OrderBy(x => x), assertionChain));
     }
 
+    [StackTraceHidden]
     internal virtual IOrderedEnumerable<T> GetOrderedEnumerable<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
@@ -3526,6 +3528,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                 .AssertCollectionsHaveSameItems(expectedItems, (a, e) => a.IndexOfFirstDifferenceWith(e, equalityComparison)));
     }
 
+    [StackTraceHidden]
     private static string GetExpressionOrderString<TSelector>(Expression<Func<T, TSelector>> propertyExpression)
     {
         string orderString = propertyExpression.GetMemberPath().ToString();
@@ -3533,21 +3536,25 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return orderString is "\"\"" ? string.Empty : "by " + orderString;
     }
 
+    [StackTraceHidden]
     private static Type GetType<TType>(TType o)
     {
         return o is Type t ? t : o.GetType();
     }
 
+    [StackTraceHidden]
     private static bool HasPredecessor(T successor, TCollection subject)
     {
         return !ReferenceEquals(subject.First(), successor);
     }
 
+    [StackTraceHidden]
     private static bool HasSuccessor(T predecessor, TCollection subject)
     {
         return !ReferenceEquals(subject.Last(), predecessor);
     }
-
+    
+    [StackTraceHidden]
     private static T PredecessorOf(T successor, TCollection subject)
     {
         IList<T> collection = subject.ConvertOrCastToList();
@@ -3555,6 +3562,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return index > 0 ? collection[index - 1] : default;
     }
 
+    [StackTraceHidden]
     private static IEnumerable<TExpectation> RepeatAsManyAsIterator<TExpectation>(TExpectation value, IEnumerable<T> enumerable)
     {
         using IEnumerator<T> enumerator = enumerable.GetEnumerator();
@@ -3565,6 +3573,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         }
     }
 
+    [StackTraceHidden]
     private static T SuccessorOf(T predecessor, TCollection subject)
     {
         IList<T> collection = subject.ConvertOrCastToList();
@@ -3572,6 +3581,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return index < collection.Count - 1 ? collection[index + 1] : default;
     }
 
+    [StackTraceHidden]
     private string[] CollectFailuresFromInspectors(IEnumerable<Action<T>> elementInspectors)
     {
         string[] collectionFailures;
@@ -3609,6 +3619,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return collectionFailures;
     }
 
+    [StackTraceHidden]
     private bool IsValidProperty<TSelector>(Expression<Func<T, TSelector>> propertyExpression,
         [StringSyntax("CompositeFormat")] string because,
         object[] becauseArgs)
@@ -3627,6 +3638,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return assertionChain.Succeeded;
     }
 
+    [StackTraceHidden]
     private AndConstraint<TAssertions> NotBeOrderedBy<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
@@ -3658,6 +3670,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// Expects the current collection to have all elements in the specified <paramref name="expectedOrder"/>.
     /// Elements are compared using their <see cref="object.Equals(object)" /> implementation.
     /// </summary>
+    [StackTraceHidden]
     private AndConstraint<SubsequentOrderingAssertions<T>> BeInOrder(
         IComparer<T> comparer, SortOrder expectedOrder, [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
@@ -3706,6 +3719,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// Asserts the current collection does not have all elements in ascending order. Elements are compared
     /// using their <see cref="object.Equals(object)" /> implementation.
     /// </summary>
+    [StackTraceHidden]
     private AndConstraint<TAssertions> NotBeInOrder(IComparer<T> comparer, SortOrder order,
         [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
@@ -3747,6 +3761,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         throw new NotSupportedException(
             "Equals is not part of Fluent Assertions. Did you mean BeSameAs(), Equal(), or BeEquivalentTo() instead?");
 
+    [StackTraceHidden]
     private static int IndexOf(IList<T> items, T item, int startIndex)
     {
         Func<T, T, bool> comparer = ObjectExtensions.GetComparer<T>();
@@ -3763,6 +3778,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return -1;
     }
 
+    [StackTraceHidden]
     private static int ConsecutiveItemCount(IList<T> actualItems, IList<T> expectedItems, int startIndex)
     {
         for (var index = 1; index < expectedItems.Count; index++)
@@ -3781,6 +3797,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return expectedItems.Count;
     }
 
+    [StackTraceHidden]
     private protected static IComparer<TItem> GetComparer<TItem>() =>
         typeof(TItem) == typeof(string) ? (IComparer<TItem>)StringComparer.Ordinal : Comparer<TItem>.Default;
 }

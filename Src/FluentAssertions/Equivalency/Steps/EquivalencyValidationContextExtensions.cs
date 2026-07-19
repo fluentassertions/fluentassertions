@@ -1,8 +1,9 @@
+using System.Diagnostics;
 using System.Globalization;
 
 namespace FluentAssertions.Equivalency.Steps;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal static class EquivalencyValidationContextExtensions
 {
     // Pre-cached string representations of common collection indices to avoid repeated allocations.

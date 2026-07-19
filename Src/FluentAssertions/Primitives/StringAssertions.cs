@@ -1988,6 +1988,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
+    [StackTraceHidden]
     private static bool HasMixedOrNoCase(string value)
     {
         var hasUpperCase = false;
@@ -2014,6 +2015,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <remarks>
     /// Is used by <see cref="StringAssertions{TAssertions}"/>.
     /// </remarks>
+    [StackTraceHidden]
     internal void Be(string expected, Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
@@ -2034,11 +2036,13 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         expectation.Validate(subject, expected);
     }
 
+    [StackTraceHidden]
     private static bool Contains(string actual, string expected, StringComparison comparison)
     {
         return (actual ?? string.Empty).Contains(expected ?? string.Empty, comparison);
     }
 
+    [StackTraceHidden]
     private static void ThrowIfValuesNullOrEmpty(IEnumerable<string> values)
     {
         Guard.ThrowIfArgumentIsNull(values, nameof(values), "Cannot assert string containment of values in null collection");
@@ -2057,6 +2061,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// When <see cref="IEquivalencyOptions.IgnoreTrailingWhitespace"/> is set, whitespace is removed from the end of the <paramref name="value"/>.<br />
     /// When <see cref="IEquivalencyOptions.IgnoreNewlineStyle"/> is set, all newlines (<c>\r\n</c> and <c>\r</c>) are replaced with <c>\n</c> in the <paramref name="value"/>.<br />
     /// </remarks>
+    [StackTraceHidden]
     private static string ApplyStringSettings(string value, IEquivalencyOptions options)
     {
         if (options.IgnoreLeadingWhitespace)

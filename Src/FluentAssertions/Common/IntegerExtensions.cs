@@ -1,6 +1,8 @@
+using System.Diagnostics;
+
 namespace FluentAssertions.Common;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal static class IntegerExtensions
 {
     public static string Times(this int count) => count == 1 ? "1 time" : $"{count} times";

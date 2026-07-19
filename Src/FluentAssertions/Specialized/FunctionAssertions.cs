@@ -113,6 +113,7 @@ public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAsserti
     }
 
     [SuppressMessage("Maintainability", "AV1561:Signature contains too many parameters")]
+    [StackTraceHidden]
     internal TResult NotThrowAfter<TResult>(Func<TResult> subject, IClock clock, TimeSpan waitTime, TimeSpan pollInterval,
         [StringSyntax("CompositeFormat")] string because, object[] becauseArgs)
     {

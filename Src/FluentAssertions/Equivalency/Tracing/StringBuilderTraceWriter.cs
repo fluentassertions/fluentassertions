@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Text;
 
 namespace FluentAssertions.Equivalency.Tracing;
@@ -26,6 +27,7 @@ public class StringBuilderTraceWriter : ITraceWriter
         });
     }
 
+    [StackTraceHidden]
     private void WriteLine(string trace)
     {
         foreach (string traceLine in trace.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))

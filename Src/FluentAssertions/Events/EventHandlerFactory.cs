@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -7,7 +8,7 @@ namespace FluentAssertions.Events;
 /// <summary>
 /// Static methods that aid in generic event subscription
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal static class EventHandlerFactory
 {
     /// <summary>

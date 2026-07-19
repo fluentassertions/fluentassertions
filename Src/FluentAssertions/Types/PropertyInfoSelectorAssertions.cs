@@ -134,21 +134,25 @@ public class PropertyInfoSelectorAssertions
         return new AndConstraint<PropertyInfoSelectorAssertions>(this);
     }
 
+    [StackTraceHidden]
     private PropertyInfo[] GetAllReadOnlyPropertiesFromSelection()
     {
         return SubjectProperties.Where(property => !property.CanWrite).ToArray();
     }
 
+    [StackTraceHidden]
     private PropertyInfo[] GetAllWritablePropertiesFromSelection()
     {
         return SubjectProperties.Where(property => property.CanWrite).ToArray();
     }
 
+    [StackTraceHidden]
     private PropertyInfo[] GetAllNonVirtualPropertiesFromSelection()
     {
         return SubjectProperties.Where(property => !property.IsVirtual()).ToArray();
     }
 
+    [StackTraceHidden]
     private PropertyInfo[] GetAllVirtualPropertiesFromSelection()
     {
         return SubjectProperties.Where(property => property.IsVirtual()).ToArray();
@@ -208,18 +212,21 @@ public class PropertyInfoSelectorAssertions
         return new AndConstraint<PropertyInfoSelectorAssertions>(this);
     }
 
+    [StackTraceHidden]
     private PropertyInfo[] GetPropertiesWithout<TAttribute>()
         where TAttribute : Attribute
     {
         return SubjectProperties.Where(property => !property.IsDecoratedWith<TAttribute>()).ToArray();
     }
 
+    [StackTraceHidden]
     private PropertyInfo[] GetPropertiesWith<TAttribute>()
         where TAttribute : Attribute
     {
         return SubjectProperties.Where(property => property.IsDecoratedWith<TAttribute>()).ToArray();
     }
 
+    [StackTraceHidden]
     private static string GetDescriptionsFor(IEnumerable<PropertyInfo> properties)
     {
         IEnumerable<string> descriptions = properties.Select(property => Formatter.ToString(property));

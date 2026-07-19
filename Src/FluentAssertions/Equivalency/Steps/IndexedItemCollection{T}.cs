@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace FluentAssertions.Equivalency.Steps;
@@ -8,7 +9,7 @@ namespace FluentAssertions.Equivalency.Steps;
 /// Represents a collection of indexed items of type <typeparamref name="T"/> that implements <see cref="IReadOnlyList{T}"/>.
 /// </summary>
 /// <typeparam name="T">The type of elements in the collection.</typeparam>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class IndexedItemCollection<T> : IReadOnlyList<IndexedItem<T>>
 {
     private readonly List<IndexedItem<T>> items = new();

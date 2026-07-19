@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 
 namespace FluentAssertions.CallerIdentification;
 
@@ -16,6 +17,7 @@ internal class AwaitParsingStrategy : IParsingStrategy
         return ParsingState.InProgress;
     }
 
+    [StackTraceHidden]
     private static bool EndsWithOurKeyword(StringBuilder statement)
     {
         var leftIndex = statement.Length - 1;
@@ -32,6 +34,7 @@ internal class AwaitParsingStrategy : IParsingStrategy
         return true;
     }
 
+    [StackTraceHidden]
     private static bool IsLongEnoughToContainOurKeyword(StringBuilder statement) => statement.Length >= KeywordToSkip.Length;
 
     public bool IsWaitingForContextEnd()

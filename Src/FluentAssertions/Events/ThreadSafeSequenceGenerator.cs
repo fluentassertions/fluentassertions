@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Threading;
 
 namespace FluentAssertions.Events;
@@ -5,7 +6,7 @@ namespace FluentAssertions.Events;
 /// <summary>
 /// Generates a sequence in a thread-safe manner.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal sealed class ThreadSafeSequenceGenerator
 {
     private int sequence = -1;

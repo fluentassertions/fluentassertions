@@ -15,6 +15,7 @@ internal class NullableUInt16Assertions : NullableNumericAssertions<ushort>
     {
     }
 
+    [StackTraceHidden]
     private protected override string CalculateDifferenceForFailureMessage(ushort subject, ushort expected)
     {
         if (subject < 10 && expected < 10)

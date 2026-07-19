@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FluentAssertions.Execution;
@@ -5,7 +6,7 @@ namespace FluentAssertions.Execution;
 /// <summary>
 /// Throws a generic exception in case no other test harness is detected.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class FallbackTestFramework : ITestFramework
 {
     /// <summary>

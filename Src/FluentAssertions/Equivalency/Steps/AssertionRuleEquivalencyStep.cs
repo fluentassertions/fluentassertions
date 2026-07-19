@@ -1,5 +1,5 @@
 using System;
-
+using System.Diagnostics;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency.Execution;
@@ -7,7 +7,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
 {
     private readonly Func<IObjectInfo, bool> predicate;

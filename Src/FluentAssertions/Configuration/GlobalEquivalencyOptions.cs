@@ -1,12 +1,12 @@
 using System;
-
+using System.Diagnostics;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using JetBrains.Annotations;
 
 namespace FluentAssertions.Configuration;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public class GlobalEquivalencyOptions
 {
     private EquivalencyOptions defaults = new();

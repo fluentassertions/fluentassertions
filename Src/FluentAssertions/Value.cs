@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency.Inlining;
@@ -8,7 +9,7 @@ namespace FluentAssertions;
 /// <summary>
 /// Provides a fluent API for defining inline assertions.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 public static class Value
 {
     /// <summary>

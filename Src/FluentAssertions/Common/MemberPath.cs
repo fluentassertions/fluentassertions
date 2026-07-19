@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Equivalency;
 
@@ -9,7 +10,7 @@ namespace FluentAssertions.Common;
 /// Encapsulates a dotted candidate to a (nested) member of a type as well as the
 /// declaring type of the deepest member.
 /// </summary>
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class MemberPath
 {
     private readonly string dottedPath;

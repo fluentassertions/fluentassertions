@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FluentAssertions.Execution;
 
 [ExcludeFromCodeCoverage]
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class DefaultAssertionStrategy : IAssertionStrategy
 {
     /// <summary>

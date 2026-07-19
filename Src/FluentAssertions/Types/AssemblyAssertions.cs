@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
@@ -212,6 +213,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
         return new AndConstraint<AssemblyAssertions>(this);
     }
 
+    [StackTraceHidden]
     private static string ToHexString(byte[] bytes) =>
 #if NET6_0_OR_GREATER
         Convert.ToHexString(bytes);

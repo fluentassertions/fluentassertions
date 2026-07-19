@@ -138,6 +138,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
         return this;
     }
 
+    [StackTraceHidden]
     private void AssertExceptionMessage(Action<string> messageAssertion)
     {
         var results = new AssertionResultSet();
@@ -280,6 +281,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
         return this;
     }
 
+    [StackTraceHidden]
     private IEnumerable<Exception> AssertInnerExceptionExactly(Type innerException,
         [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
@@ -301,6 +303,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
         return expectedExceptions;
     }
 
+    [StackTraceHidden]
     private IEnumerable<Exception> AssertInnerExceptions(Type innerException,
         [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
@@ -339,6 +342,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
         }
     }
 
+    [StackTraceHidden]
     private static string BuildExceptionsString(IEnumerable<TException> exceptions)
     {
         return string.Join(Environment.NewLine, exceptions.Select(exception => "\t" + Formatter.ToString(exception)));

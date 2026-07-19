@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
-[System.Diagnostics.StackTraceHidden]
+[StackTraceHidden]
 internal class StringEqualityStrategy : IStringComparisonStrategy
 {
     private readonly IEqualityComparer<string> comparer;

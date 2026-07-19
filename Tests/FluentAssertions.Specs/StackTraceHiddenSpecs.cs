@@ -2,8 +2,10 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using FluentAssertions.Equivalency;
+using FluentAssertions.Execution;
 using FluentAssertions.Types;
 using Reflectify;
 using Xunit;
@@ -84,5 +86,33 @@ public class StackTraceHiddenSpecs
               );
     }
 
+    [Fact]
+    public void Non_public_methods_in_annotable_classes_are_hidden()
+    {
+        // Arrange / Act
+        var methods = ShouldNotBeAnnotated()
+            .Methods()
+            .ThatSatisfy(m => ShouldBeHidden(m));
+
+        // Assert
+        methods.Should().BeDecoratedWith<StackTraceHiddenAttribute>(
+            "because all \"internal\" code should be hidden from the stacktrace to improve the debugging experience");
+    }
+
+    [Fact]
+    public void Public_methods_in_annotable_classes_are_not_hidden()
+    {
+        // Arrange / Act
+        var methods = ShouldNotBeAnnotated()
+            .Methods()
+            .ThatSatisfy(m => !ShouldBeHidden(m));
+
+        // Assert
+        methods.Should().NotBeDecoratedWith<StackTraceHiddenAttribute>(
+            "because all \"non-internal\" code should be hidden from the stacktrace to improve the debugging experience");
+    }
+
+    private static bool ShouldBeHidden(MethodInfo m) =>
+        !(m.IsPublic || m.IsFamily || m.IsFamilyOrAssembly) && !m.HasAttribute<CompilerGeneratedAttribute>();
 }
 #endif
