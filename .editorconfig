@@ -417,3 +417,12 @@ dotnet_diagnostic.MA0051.severity = none # duplicate of AV1500
 dotnet_diagnostic.MA0011.severity = none # duplicate of CA1305
 dotnet_diagnostic.CA1050.severity = none # duplicate of MA0047 (which is more explanatory)
 
+# Verify settings
+[*.{received,verified}.txt]
+charset = utf-8-bom
+end_of_line = lf
+indent_size = unset
+indent_style = unset
+insert_final_newline = false
+tab_width = unset
+trim_trailing_whitespace = false
