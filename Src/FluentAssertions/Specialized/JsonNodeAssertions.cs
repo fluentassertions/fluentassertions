@@ -42,12 +42,14 @@ public class JsonNodeAssertions<T> : ReferenceTypeAssertions<T, JsonNodeAssertio
     public AndWhichConstraint<JsonNodeAssertions<T>, JsonNode> HaveProperty(string code,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
+        bool hasProperty = Subject is JsonObject obj && obj.TryGetPropertyValue(code, out _);
+
         CurrentAssertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Cannot assert the existence of a property on a <null> JSON node{reason}.")
             .Then
-            .ForCondition(Subject?[code] != null)
+            .ForCondition(hasProperty)
             .FailWith("Expected {context:JSON node} to have property {0}{reason}.", code);
 
         return new AndWhichConstraint<JsonNodeAssertions<T>, JsonNode>(this, Subject?[code]);
@@ -67,12 +69,14 @@ public class JsonNodeAssertions<T> : ReferenceTypeAssertions<T, JsonNodeAssertio
     public AndConstraint<JsonNodeAssertions<T>> NotHaveProperty(string code,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
+        bool hasProperty = Subject is JsonObject obj && obj.TryGetPropertyValue(code, out _);
+
         CurrentAssertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Cannot assert the existence of a property on a <null> JSON node{reason}.")
             .Then
-            .ForCondition(Subject?[code] is null)
+            .ForCondition(!hasProperty)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:JSON node} to have property {0}{reason}.", code);
 
