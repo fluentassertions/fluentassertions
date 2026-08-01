@@ -64,6 +64,30 @@ public class JsonNodeSpecs
         }
 
         [Fact]
+        public void A_property_with_an_explicit_null_value_is_considered_present()
+        {
+            // Arrange
+            var jsonNode = JsonNode.Parse("{ \"name\": null }");
+
+            // Act & Assert
+            jsonNode.Should().HaveProperty("name");
+        }
+
+        [Fact]
+        public void A_property_with_an_explicit_null_value_is_not_considered_absent()
+        {
+            // Arrange
+            var jsonNode = JsonNode.Parse("{ \"name\": null }");
+
+            // Act
+            var act = () => jsonNode.Should().NotHaveProperty("name");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect jsonNode to have property \"name\"*");
+        }
+
+        [Fact]
         public void Cannot_check_for_a_property_on_a_null_node()
         {
             // Arrange
