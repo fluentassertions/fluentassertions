@@ -17,7 +17,7 @@
     <PackageReference Include="LibGit2Sharp" Version="0.32.0" />
     <PackageReference Include="Fallout.Common" Version="$(FalloutVersion)" />
     <PackageReference Include="Fallout.Components" Version="$(FalloutVersion)" />
-    <PackageReference Include="SharpCompress" Version="0.50.1" />
+    <PackageReference Include="SharpCompress" Version="0.50.3" />
     <!-- Pin transitive dependency to a patched version to avoid the NU1903 audit error for
          System.Security.Cryptography.Xml 10.0.6 (GHSA-23rf-6693-g89p and related advisories). -->
     <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.10" />
