@@ -29,7 +29,7 @@ jobs:
           fetch-depth: 0
 
       - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@v2026.1
+        uses: JetBrains/qodana-action@v2026.2
         with:
           upload-result: true
           args: --baseline qodana.sarif.json --linter qodana-dotnet --within-docker false
