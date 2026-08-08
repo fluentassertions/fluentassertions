@@ -786,6 +786,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
+    [StackTraceHidden]
     private void AssertSubsetOf(IEnumerable<T> expectedSuperset, string subsetType,
         string because, object[] becauseArgs)
     {
@@ -913,6 +914,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
+    [StackTraceHidden]
     private void AssertContainment(IEnumerable<T> expected, string containmentType, string because, object[] becauseArgs,
         bool allowEmptyExpectation)
     {
