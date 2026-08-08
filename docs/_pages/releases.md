@@ -11,6 +11,7 @@ sidebar:
 
 ### What's new
 * Added `ThatSatisfy` to `MethodInfoSelector` and `PropertyInfoSelector` - [#3257](https://github.com/fluentassertions/fluentassertions/pull/3257)
+* Added `BeJsonSerializable<T>()` to assert `System.Text.Json` round-tripping, with overloads for equivalency options and `JsonSerializerOptions` - [#3264](https://github.com/fluentassertions/fluentassertions/issues/3264)
 
 ### Enhancements
 * `BeEmpty` for `IEnumerable<T>` assertions now lists the first 10 items in the collection instead of only the first one - [#3198](https://github.com/fluentassertions/fluentassertions/pull/3198)
