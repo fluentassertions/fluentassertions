@@ -116,6 +116,21 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void An_empty_collection_is_not_a_proper_subset_of_an_empty_collection()
+        {
+            // Arrange
+            var subset = new int[0];
+            var superset = new int[0];
+
+            // Act
+            Action act = () => subset.Should().BeProperSubsetOf(superset);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected subset to be a proper subset of {empty}, but items {empty} are equivalent to the superset {empty}*");
+        }
+
+        [Fact]
         public void A_non_empty_subset_tested_against_a_null_superset()
         {
             // Arrange

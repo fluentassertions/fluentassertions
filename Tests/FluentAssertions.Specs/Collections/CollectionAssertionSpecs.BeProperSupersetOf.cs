@@ -105,7 +105,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection {1, 2, 3} to be a proper superset of 4 because we do.");
+                "Expected collection {1, 2, 3} to be a proper superset of {4} because we do, but could not find {4}.");
         }
 
         [Fact]
@@ -124,21 +124,45 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*to be a proper superset of 4*to be a proper superset of {5, 6}*");
+                "*to be a proper superset of {4}*to be a proper superset of {5, 6}*");
         }
 
         [Fact]
-        public void A_collection_is_not_a_proper_superset_of_an_empty_collection()
+        public void A_non_empty_collection_is_a_proper_superset_of_an_empty_collection()
         {
             // Arrange
             var collection = new[] { 1, 2, 3 };
+
+            // Act / Assert
+            collection.Should().BeProperSupersetOf(new int[0]);
+        }
+
+        [Fact]
+        public void An_empty_collection_is_not_a_proper_superset_of_an_empty_collection()
+        {
+            // Arrange
+            var collection = new int[0];
 
             // Act
             Action act = () => collection.Should().BeProperSupersetOf(new int[0]);
 
             // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify containment against an empty collection*");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection to be a proper superset of {empty}, but items {empty} are equivalent to the subset {empty}*");
+        }
+
+        [Fact]
+        public void A_collection_is_not_a_proper_superset_of_an_equal_collection()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
+
+            // Act
+            Action act = () => collection.Should().BeProperSupersetOf(new[] { 1, 2, 3 });
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection to be a proper superset of {1, 2, 3}, but items {1, 2, 3} are equivalent to the subset {1, 2, 3}*");
         }
 
         [Fact]
@@ -157,6 +181,20 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected collection to be a proper superset of {1, 2} *failure message*, but found <null>.");
+        }
+
+        [Fact]
+        public void A_collection_cannot_be_a_proper_superset_of_a_null_collection()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
+
+            // Act
+            Action act = () => collection.Should().BeProperSupersetOf(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot verify containment against a <null> collection*");
         }
     }
 }

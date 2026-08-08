@@ -47,9 +47,11 @@ collection.Should().BeSubsetOf(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, });
 collection.Should().BeProperSubsetOf(new[] { 1, 2, 5, 6, 7, 8 });
 
 // The collection must contain every item of the given subset. The two collections may be equivalent.
+// An empty subset always satisfies this assertion.
 collection.Should().BeSupersetOf(new[] { 1, 2, 5, 8 });
 
 // The collection must contain every item of the given subset, and must itself contain at least one item that is not in the subset.
+// If the subset is empty, this passes as long as the collection has any items at all.
 collection.Should().BeProperSupersetOf(new[] { 1, 5, 2 });
 
 collection.Should().ContainSingle();

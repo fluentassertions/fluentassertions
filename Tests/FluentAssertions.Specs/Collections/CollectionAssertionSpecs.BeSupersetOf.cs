@@ -47,7 +47,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection {1, 2, 3} to be a superset of 4 because we do.");
+                "Expected collection {1, 2, 3} to be a superset of {4} because we do, but could not find {4}.");
         }
 
         [Fact]
@@ -66,21 +66,37 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*to be a superset of 4*to be a superset of {5, 6}*");
+                "*to be a superset of {4}*to be a superset of {5, 6}*");
         }
 
         [Fact]
-        public void A_collection_is_not_a_superset_of_an_empty_collection()
+        public void A_collection_is_a_superset_of_an_empty_collection()
         {
             // Arrange
             var collection = new[] { 1, 2, 3 };
 
-            // Act
-            Action act = () => collection.Should().BeSupersetOf(new int[0]);
+            // Act / Assert
+            collection.Should().BeSupersetOf(new int[0]);
+        }
 
-            // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify containment against an empty collection*");
+        [Fact]
+        public void An_empty_collection_is_a_superset_of_an_empty_collection()
+        {
+            // Arrange
+            var collection = new int[0];
+
+            // Act / Assert
+            collection.Should().BeSupersetOf(new int[0]);
+        }
+
+        [Fact]
+        public void A_collection_is_a_superset_of_an_equal_collection()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
+
+            // Act / Assert
+            collection.Should().BeSupersetOf(new[] { 1, 2, 3 });
         }
 
         [Fact]
@@ -99,6 +115,20 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected collection to be a superset of {1, 2} *failure message*, but found <null>.");
+        }
+
+        [Fact]
+        public void A_collection_cannot_be_a_superset_of_a_null_collection()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
+
+            // Act
+            Action act = () => collection.Should().BeSupersetOf(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot verify containment against a <null> collection*");
         }
     }
 }
