@@ -104,11 +104,12 @@ Some users requested the ability to easily downcast an object to one of its deri
 customer.Animals.First().As<Human>().Height.Should().Be(178);
 ```
 
-We’ve also added the possibility to assert that an object can be serialized and deserialized using the XML or data contract formatters.
+We’ve also added the possibility to assert that an object can be serialized and deserialized using the XML or data contract formatters. On .NET 6 and later, you can also assert round-tripping through `System.Text.Json`.
 
 ```csharp
 theObject.Should().BeXmlSerializable();
+theObject.Should().BeJsonSerializable();
 theObject.Should().BeDataContractSerializable();
 ```
 
-See [Tips & Tricks - Serialization & Ignored Members](serializationignoredmembers.md) for additional information about the `BeXmlSerializable` and `BeDataContractSerializable` assertions and ignored members.
+See [Tips & Tricks - Serialization & Ignored Members](serializationignoredmembers.md) for additional information about the `BeXmlSerializable`, `BeJsonSerializable`, and `BeDataContractSerializable` assertions and ignored members.
