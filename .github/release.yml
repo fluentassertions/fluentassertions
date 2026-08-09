@@ -2,7 +2,10 @@ changelog:
   exclude:
     labels:
       - changelog-ignore
-    authors: [ ]
+      - dependencies
+    authors:
+      - dependabot
+      - "app/dependabot"
   categories:
     - title: Breaking Changes
       labels:
