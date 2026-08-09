@@ -205,12 +205,13 @@ public class JsonNodeAssertions<T> : ReferenceTypeAssertions<T, JsonNodeAssertio
     public AndWhichConstraint<JsonNodeAssertions<T>, DateTime> BeLocalDate(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
+        DateTime actualValue = default;
+
         CurrentAssertionChain
-            .ForCondition(Subject is JsonValue value && value.TryGetValue<DateTime>(out _) && !Subject.ToString().EndsWith('Z'))
+            .ForCondition(Subject is JsonValue value && value.TryGetValue(out actualValue) && !Subject.ToString().EndsWith('Z'))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:JSON node} to be a local date{reason}, but {0} is not.", Subject);
 
-        var actualValue = Subject is JsonValue jsonValue && jsonValue.TryGetValue<DateTime>(out var result) ? result : default;
         return new AndWhichConstraint<JsonNodeAssertions<T>, DateTime>(this, actualValue);
     }
 
@@ -249,12 +250,13 @@ public class JsonNodeAssertions<T> : ReferenceTypeAssertions<T, JsonNodeAssertio
     public AndWhichConstraint<JsonNodeAssertions<T>, DateTime> BeUtcDate(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
+        DateTime actualValue = default;
+
         CurrentAssertionChain
-            .ForCondition(Subject is JsonValue value && value.TryGetValue<DateTime>(out _) && Subject.ToString().EndsWith('Z'))
+            .ForCondition(Subject is JsonValue value && value.TryGetValue(out actualValue) && Subject.ToString().EndsWith('Z'))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to be a UTC date{reason}, but {0} is not.", Subject);
 
-        var actualValue = Subject is JsonValue jsonValue && jsonValue.TryGetValue<DateTime>(out var result) ? result : default;
         return new AndWhichConstraint<JsonNodeAssertions<T>, DateTime>(this, actualValue);
     }
 
@@ -293,12 +295,13 @@ public class JsonNodeAssertions<T> : ReferenceTypeAssertions<T, JsonNodeAssertio
     public AndWhichConstraint<JsonNodeAssertions<T>, bool> BeBool(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
+        bool actualValue = default;
+
         CurrentAssertionChain
-            .ForCondition(Subject is JsonValue value && value.TryGetValue(out bool _))
+            .ForCondition(Subject is JsonValue value && value.TryGetValue(out actualValue))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to be a boolean{reason}, but {0} is not.", Subject);
 
-        var actualValue = Subject is JsonValue jsonValue && jsonValue.TryGetValue<bool>(out var result) && result;
         return new AndWhichConstraint<JsonNodeAssertions<T>, bool>(this, actualValue);
     }
 
@@ -336,12 +339,13 @@ public class JsonNodeAssertions<T> : ReferenceTypeAssertions<T, JsonNodeAssertio
     public AndWhichConstraint<JsonNodeAssertions<T>, string> BeString(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
+        string actualValue = null;
+
         CurrentAssertionChain
-            .ForCondition(Subject is JsonValue value && value.TryGetValue(out string _))
+            .ForCondition(Subject is JsonValue value && value.TryGetValue(out actualValue))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:JSON node} to be a string{reason}, but {0} is not.", Subject);
 
-        var actualValue = Subject is JsonValue jsonValue && jsonValue.TryGetValue<string>(out var result) ? result : null;
         return new AndWhichConstraint<JsonNodeAssertions<T>, string>(this, actualValue);
     }
 
