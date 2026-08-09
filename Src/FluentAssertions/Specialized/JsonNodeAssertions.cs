@@ -42,7 +42,8 @@ public class JsonNodeAssertions<T> : ReferenceTypeAssertions<T, JsonNodeAssertio
     public AndWhichConstraint<JsonNodeAssertions<T>, JsonNode> HaveProperty(string code,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        bool hasProperty = Subject is JsonObject obj && obj.TryGetPropertyValue(code, out _);
+        JsonNode property = null;
+        bool hasProperty = Subject is JsonObject obj && obj.TryGetPropertyValue(code, out property);
 
         CurrentAssertionChain
             .BecauseOf(because, becauseArgs)
@@ -52,7 +53,7 @@ public class JsonNodeAssertions<T> : ReferenceTypeAssertions<T, JsonNodeAssertio
             .ForCondition(hasProperty)
             .FailWith("Expected {context:JSON node} to have property {0}{reason}.", code);
 
-        return new AndWhichConstraint<JsonNodeAssertions<T>, JsonNode>(this, Subject?[code]);
+        return new AndWhichConstraint<JsonNodeAssertions<T>, JsonNode>(this, property);
     }
 
     /// <summary>

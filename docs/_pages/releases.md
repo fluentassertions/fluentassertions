@@ -18,6 +18,7 @@ sidebar:
 
 ### Fixes
 * `JsonNodeAssertions.HaveProperty`/`NotHaveProperty` now correctly distinguish an absent property from one with an explicit `null` value - [#3282](https://github.com/fluentassertions/fluentassertions/pull/3282)
+* `JsonNodeAssertions.HaveProperty` no longer throws an `InvalidOperationException` when wrapped in an `AssertionScope` and invoked on a non-`JsonObject` subject - [#3295](https://github.com/fluentassertions/fluentassertions/pull/3295)
 
 ## 8.9.0
 
