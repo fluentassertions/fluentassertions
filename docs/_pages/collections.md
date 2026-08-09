@@ -40,7 +40,19 @@ collection.Should().StartWith(new[] { 1, 2 });
 collection.Should().EndWith(8);
 collection.Should().EndWith(new[] { 5, 8 });
 
+// Every item in the collection must be part of the given superset. The two collections may be equivalent.
 collection.Should().BeSubsetOf(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, });
+
+// Every item in the collection must be part of the given superset, which must contain at least one item that is not in the collection.
+collection.Should().BeProperSubsetOf(new[] { 1, 2, 5, 6, 7, 8 });
+
+// The collection must contain every item of the given subset. The two collections may be equivalent.
+// An empty subset always satisfies this assertion.
+collection.Should().BeSupersetOf(new[] { 1, 2, 5, 8 });
+
+// The collection must contain every item of the given subset, and must itself contain at least one item that is not in the subset.
+// If the subset is empty, this passes as long as the collection has any items at all.
+collection.Should().BeProperSupersetOf(new[] { 1, 5, 2 });
 
 collection.Should().ContainSingle();
 collection.Should().ContainSingle(x => x > 3);
