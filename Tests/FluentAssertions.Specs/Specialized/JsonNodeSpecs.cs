@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.Json.Nodes;
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
@@ -37,6 +38,23 @@ public class JsonNodeSpecs
 
             // Assert
             subject.ToString().Should().Be("John");
+        }
+
+        [Fact]
+        public void Arrays_do_not_have_properties()
+        {
+            // Arrange
+            var jsonNode = JsonNode.Parse("[1, 2, 3]");
+
+            // Act
+            var act = () =>
+            {
+                using var _ = new AssertionScope();
+                return jsonNode.Should().HaveProperty("code", "that is what we expect");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
