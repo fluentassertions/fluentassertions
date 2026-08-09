@@ -1580,6 +1580,68 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     }
 
     /// <summary>
+    /// Asserts that a string contains the specified <paramref name="expectedLine"/> as one of its lines.
+    /// </summary>
+    /// <remarks>
+    /// A line is considered to be terminated by <c>\r\n</c>, <c>\n</c>, or <c>\r</c>, matching the same line-ending
+    /// rules used elsewhere by <see cref="StringAssertions{TAssertions}"/>.
+    /// </remarks>
+    /// <param name="expectedLine">The line that the subject is expected to contain.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expectedLine"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> ContainLine(string expectedLine,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(expectedLine, nameof(expectedLine), "Cannot assert string line containment against <null>.");
+
+        bool containsLine = Subject is not null && SplitLines(Subject).Contains(expectedLine, StringComparer.Ordinal);
+
+        assertionChain
+            .ForCondition(containsLine)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:string} {0} to contain line {1}{reason}.", Subject, expectedLine);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string does not contain the specified <paramref name="unexpectedLine"/> as one of its lines.
+    /// </summary>
+    /// <remarks>
+    /// A line is considered to be terminated by <c>\r\n</c>, <c>\n</c>, or <c>\r</c>, matching the same line-ending
+    /// rules used elsewhere by <see cref="StringAssertions{TAssertions}"/>.
+    /// </remarks>
+    /// <param name="unexpectedLine">The line that the subject is not expected to contain.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpectedLine"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> NotContainLine(string unexpectedLine,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(unexpectedLine, nameof(unexpectedLine), "Cannot assert string line containment against <null>.");
+
+        bool containsLine = Subject is not null && SplitLines(Subject).Contains(unexpectedLine, StringComparer.Ordinal);
+
+        assertionChain
+            .ForCondition(!containsLine)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:string} {0} to contain line {1}{reason}.", Subject, unexpectedLine);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
     /// Asserts that a string does not contain all of the strings provided in <paramref name="values"/>. The string
     /// may contain some subset of the provided values.
     /// </summary>
@@ -1803,6 +1865,78 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
                 .ForCondition(Subject!.Length == expected)
                 .FailWith("Expected {context:string} with length {0}{reason}, but found string {1} with length {2}.",
                     expected, Subject, Subject.Length);
+        }
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string has the specified <paramref name="expected"/> number of lines.
+    /// </summary>
+    /// <remarks>
+    /// A line is considered to be terminated by <c>\r\n</c>, <c>\n</c>, or <c>\r</c>, matching the same line-ending
+    /// rules used elsewhere by <see cref="StringAssertions{TAssertions}"/>.
+    /// </remarks>
+    /// <param name="expected">The expected number of lines in the string.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> HaveLineCount(int expected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        assertionChain
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject is not null)
+            .FailWith("Expected {context:string} to have {0} line(s){reason}, but found <null>.", expected);
+
+        if (assertionChain.Succeeded)
+        {
+            int actual = SplitLines(Subject!).Length;
+
+            assertionChain
+                .ForCondition(actual == expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} to have {0} line(s){reason}, but found {1}.", expected, actual);
+        }
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string does not have the specified <paramref name="unexpected"/> number of lines.
+    /// </summary>
+    /// <remarks>
+    /// A line is considered to be terminated by <c>\r\n</c>, <c>\n</c>, or <c>\r</c>, matching the same line-ending
+    /// rules used elsewhere by <see cref="StringAssertions{TAssertions}"/>.
+    /// </remarks>
+    /// <param name="unexpected">The number of lines that the string is not expected to have.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotHaveLineCount(int unexpected,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        assertionChain
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject is not null)
+            .FailWith("Expected {context:string} to not have {0} line(s){reason}, but found <null>.", unexpected);
+
+        if (assertionChain.Succeeded)
+        {
+            int actual = SplitLines(Subject!).Length;
+
+            assertionChain
+                .ForCondition(actual != unexpected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} to not have {0} line(s){reason}, but found {1}.", unexpected, actual);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -2041,6 +2175,12 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         return (actual ?? string.Empty).Contains(expected ?? string.Empty, comparison);
     }
+
+    /// <summary>
+    /// Splits a string into its lines, treating <c>\r\n</c>, <c>\n</c>, and <c>\r</c> as line separators.
+    /// </summary>
+    [StackTraceHidden]
+    private static string[] SplitLines(string value) => value.Split(["\r\n", "\n", "\r"], StringSplitOptions.None);
 
     [StackTraceHidden]
     private static void ThrowIfValuesNullOrEmpty(IEnumerable<string> values)

@@ -12,6 +12,7 @@ sidebar:
 ### What's new
 * Added `ThatSatisfy` to `MethodInfoSelector` and `PropertyInfoSelector` - [#3257](https://github.com/fluentassertions/fluentassertions/pull/3257)
 * Introduced new collection assertion methods `BeSupersetOf`, `BeProperSubsetOf` and `BeProperSupersetOf`, where an empty expected subset is treated as a valid (trivially satisfied) case for `BeSupersetOf` and `BeProperSupersetOf` instead of throwing - [#3271](https://github.com/fluentassertions/fluentassertions/pull/3271)
+* Added `HaveLineCount`/`NotHaveLineCount` and `ContainLine`/`NotContainLine` to `StringAssertions` for asserting on the number of lines in a string and whether it contains a specific line, normalizing `\r\n`, `\n` and `\r` line endings - [#3291](https://github.com/fluentassertions/fluentassertions/issues/3291)
 
 ### Enhancements
 * `BeEmpty` for `IEnumerable<T>` assertions now lists the first 10 items in the collection instead of only the first one - [#3198](https://github.com/fluentassertions/fluentassertions/pull/3198)
