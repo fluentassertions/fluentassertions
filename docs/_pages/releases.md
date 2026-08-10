@@ -13,6 +13,7 @@ sidebar:
 * Added `ThatSatisfy` to `MethodInfoSelector` and `PropertyInfoSelector` - [#3257](https://github.com/fluentassertions/fluentassertions/pull/3257)
 * Introduced new collection assertion methods `BeSupersetOf`, `BeProperSubsetOf` and `BeProperSupersetOf`, where an empty expected subset is treated as a valid (trivially satisfied) case for `BeSupersetOf` and `BeProperSupersetOf` instead of throwing - [#3271](https://github.com/fluentassertions/fluentassertions/pull/3271)
 * Added `BeJsonSerializable<T>()` for .NET 6+ to assert `System.Text.Json` round-tripping, with overloads for equivalency options and `JsonSerializerOptions` - [#3293](https://github.com/fluentassertions/fluentassertions/pull/3293)
+* Added `HaveLineCount`/`NotHaveLineCount` and `ContainLine`/`NotContainLine` to `StringAssertions` for asserting on the number of lines in a string and whether it contains a specific line, normalizing `\r\n`, `\n` and `\r` line endings. `ContainLine` returns an `AndWhichConstraint` exposing the matched line for further chaining - [#3297](https://github.com/fluentassertions/fluentassertions/pull/3297)
 
 ### Enhancements
 * `BeEmpty` for `IEnumerable<T>` assertions now lists the first 10 items in the collection instead of only the first one - [#3198](https://github.com/fluentassertions/fluentassertions/pull/3198)
