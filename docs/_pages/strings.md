@@ -67,6 +67,11 @@ theString.Should().ContainAny("any", "of", "these", "will", "do");
 theString.Should().NotContain("is a");
 theString.Should().NotContainAll("can", "contain", "some", "but", "not", "all");
 theString.Should().NotContainAny("can't", "contain", "any", "of", "these");
+theString.Should().ContainLine("this is one of the lines")
+    .Which.Should().Be("this is one of the lines");
+theString.Should().NotContainLine("this line does not exist");
+theString.Should().HaveLineCount(3);
+theString.Should().NotHaveLineCount(5);
 theString.Should().ContainEquivalentOf("WE DONT CARE ABOUT THE CASING");
 theString.Should().ContainEquivalentOf("WE DONT CARE ABOUT THE CASING", Exactly.Once());
 theString.Should().ContainEquivalentOf("WE DONT CARE ABOUT THE CASING", AtLeast.Twice());
