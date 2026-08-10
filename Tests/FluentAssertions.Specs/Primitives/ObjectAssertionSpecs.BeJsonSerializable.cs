@@ -173,6 +173,7 @@ public partial class ObjectAssertionSpecs
         [UsedImplicitly]
         public string Name { get; set; }
 
+        [UsedImplicitly]
         public int Id { get; set; }
     }
 
@@ -181,24 +182,29 @@ public partial class ObjectAssertionSpecs
         [UsedImplicitly]
         public string Name { get; } = unboundName;
 
+        [UsedImplicitly]
         public DateTime BirthDay { get; set; }
     }
 
     public class JsonSerializableClassWithIgnoredProperty
     {
+        [UsedImplicitly]
         public string Name { get; set; }
 
         [JsonIgnore]
+        [UsedImplicitly]
         public decimal CachedSum { get; set; }
     }
 
     public class ClassWithIntPtr
     {
+        [UsedImplicitly]
         public IntPtr Pointer { get; set; }
     }
 
     public class JsonSerializableWithCustomConverter
     {
+        [UsedImplicitly]
         public CustomValue Value { get; set; }
     }
 

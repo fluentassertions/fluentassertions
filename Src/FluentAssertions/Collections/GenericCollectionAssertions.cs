@@ -730,18 +730,23 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
-        AssertSubsetOf(expectedProperSuperset, "proper subset", because, becauseArgs);
+        Guard.ThrowIfArgumentIsNull(expectedProperSuperset, nameof(expectedProperSuperset),
+            "Cannot verify a proper subset against a <null> collection.");
+
+        ICollection<T> expectedItems = expectedProperSuperset.ConvertOrCastToCollection();
+
+        AssertSubsetOf(expectedItems, "proper subset", because, becauseArgs);
 
         if (assertionChain.Succeeded)
         {
-            ISet<T> expectedItems = expectedProperSuperset.ConvertOrCastToSet();
+            ISet<T> distinctExpectedItems = expectedItems.ConvertOrCastToSet();
 
             assertionChain
-                .ForCondition(expectedItems.Intersect(Subject!).Count() != expectedItems.Count)
+                .ForCondition(distinctExpectedItems.Intersect(Subject!).Count() != distinctExpectedItems.Count)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:collection} to be a proper subset of {0}{reason}, but items {1} are equivalent to the superset {2}",
-                    expectedProperSuperset, Subject, expectedProperSuperset);
+                    expectedItems, Subject, expectedItems);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -769,18 +774,23 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
-        AssertContainment(expectedProperSubset, "be a proper superset of", because, becauseArgs, allowEmptyExpectation: true);
+        Guard.ThrowIfArgumentIsNull(expectedProperSubset, nameof(expectedProperSubset),
+            "Cannot verify containment against a <null> collection");
+
+        ICollection<T> expectedItems = expectedProperSubset.ConvertOrCastToCollection();
+
+        AssertContainment(expectedItems, "be a proper superset of", because, becauseArgs, allowEmptyExpectation: true);
 
         if (assertionChain.Succeeded)
         {
             ISet<T> actualItems = Subject!.ConvertOrCastToSet();
 
             assertionChain
-                .ForCondition(actualItems.Intersect(expectedProperSubset).Count() != actualItems.Count)
+                .ForCondition(actualItems.Intersect(expectedItems).Count() != actualItems.Count)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:collection} to be a proper superset of {0}{reason}, but items {1} are equivalent to the subset {2}",
-                    expectedProperSubset, Subject, expectedProperSubset);
+                    expectedItems, Subject, expectedItems);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
