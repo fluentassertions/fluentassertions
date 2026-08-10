@@ -916,6 +916,40 @@ public static class AssertionExtensions
     }
 
     /// <summary>
+    /// Returns a <see cref="NonGenericAsyncFunctionAssertions"/> object that can be used to assert the
+    /// current <see><cref>System.Func{ValueTask}</cref></see>.
+    /// </summary>
+    /// <remarks>
+    /// Because the assertions operate on tasks, the delegate is wrapped in a <see cref="Func{Task}"/> that converts the
+    /// value task returned by every invocation into a task. The <c>Subject</c> property therefore exposes that wrapper
+    /// instead of the original delegate.
+    /// </remarks>
+    [Pure]
+    public static NonGenericAsyncFunctionAssertions Should([NotNull] this Func<ValueTask> action)
+    {
+        Func<Task> taskFunc = action is null ? null : () => action().AsTask();
+
+        return new NonGenericAsyncFunctionAssertions(taskFunc, Extractor, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns a <see cref="GenericAsyncFunctionAssertions{T}"/> object that can be used to assert the
+    /// current <see><cref>System.Func{ValueTask{T}}</cref></see>.
+    /// </summary>
+    /// <remarks>
+    /// Because the assertions operate on tasks, the delegate is wrapped in a <see cref="Func{Task}"/> that converts the
+    /// value task returned by every invocation into a task. The <c>Subject</c> property therefore exposes that wrapper
+    /// instead of the original delegate.
+    /// </remarks>
+    [Pure]
+    public static GenericAsyncFunctionAssertions<T> Should<T>([NotNull] this Func<ValueTask<T>> action)
+    {
+        Func<Task<T>> taskFunc = action is null ? null : () => action().AsTask();
+
+        return new GenericAsyncFunctionAssertions<T>(taskFunc, Extractor, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
     /// Returns a <see cref="FunctionAssertions{T}"/> object that can be used to assert the
     /// current <see cref="Func{T}"/>.
     /// </summary>

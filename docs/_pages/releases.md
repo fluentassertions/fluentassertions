@@ -14,6 +14,7 @@ sidebar:
 * Introduced new collection assertion methods `BeSupersetOf`, `BeProperSubsetOf` and `BeProperSupersetOf`, where an empty expected subset is treated as a valid (trivially satisfied) case for `BeSupersetOf` and `BeProperSupersetOf` instead of throwing - [#3271](https://github.com/fluentassertions/fluentassertions/pull/3271)
 * Added `BeJsonSerializable<T>()` for .NET 6+ to assert `System.Text.Json` round-tripping, with overloads for equivalency options and `JsonSerializerOptions` - [#3293](https://github.com/fluentassertions/fluentassertions/pull/3293)
 * Added `HaveLineCount`/`NotHaveLineCount` and `ContainLine`/`NotContainLine` to `StringAssertions` for asserting on the number of lines in a string and whether it contains a specific line, normalizing `\r\n`, `\n` and `\r` line endings. `ContainLine` returns an `AndWhichConstraint` exposing the matched line for further chaining - [#3297](https://github.com/fluentassertions/fluentassertions/pull/3297)
+* Added `Should()` overloads for `Func<ValueTask>` and `Func<ValueTask<T>>`, so `ValueTask`-returning delegates support the same assertions as `Task`-returning ones - [#3301](https://github.com/fluentassertions/fluentassertions/pull/3301)
 
 ### Enhancements
 * `BeEmpty` for `IEnumerable<T>` assertions now lists the first 10 items in the collection instead of only the first one - [#3198](https://github.com/fluentassertions/fluentassertions/pull/3198)
@@ -21,6 +22,21 @@ sidebar:
 ### Fixes
 * `JsonNodeAssertions.HaveProperty`/`NotHaveProperty` now correctly distinguish an absent property from one with an explicit `null` value - [#3282](https://github.com/fluentassertions/fluentassertions/pull/3282)
 * `JsonNodeAssertions.HaveProperty` no longer throws an `InvalidOperationException` when wrapped in an `AssertionScope` and invoked on a non-`JsonObject` subject - [#3295](https://github.com/fluentassertions/fluentassertions/pull/3295)
+
+### Breaking Changes (for users)
+* `Func<ValueTask>` and `Func<ValueTask<T>>` used to bind to the synchronous `Should<T>(Func<T>)` overload, which treated the value task as an ordinary return value. They now bind to the new asynchronous overloads instead. Replace `Throw`, `ThrowExactly`, `NotThrow` and `NotThrowAfter` with their `ThrowAsync`, `ThrowExactlyAsync`, `NotThrowAsync` and `NotThrowAfterAsync` counterparts, and note that `Subject` now exposes a task-based adapter rather than the original delegate - [#3301](https://github.com/fluentassertions/fluentassertions/pull/3301)
+
+## 8.10.0
+
+### What's new
+
+* Add `ComparingNullCollectionsAsEmpty` and `ComparingNullStringsAsEmpty` options to `BeEquivalentTo` - [#3202](https://github.com/fluentassertions/fluentassertions/pull/3202)
+
+### Enhancements
+
+* Fail with a descriptive error when path-based rules are used on value-semantic types - [#3187](https://github.com/fluentassertions/fluentassertions/pull/3187)
+* Significantly speed up `BeEquivalentTo` for large unordered collections - [#3189](https://github.com/fluentassertions/fluentassertions/pull/3188)
+* Include original index in extraneous item failure messages - [#3203](https://github.com/fluentassertions/fluentassertions/pull/3203)
 
 ## 8.9.0
 

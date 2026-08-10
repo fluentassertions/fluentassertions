@@ -78,6 +78,7 @@ namespace FluentAssertions
         public static FluentAssertions.Primitives.DateTimeOffsetAssertions Should(this System.DateTimeOffset actualValue) { }
         public static FluentAssertions.Primitives.NullableDateTimeOffsetAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.DateTimeOffset? actualValue) { }
         public static FluentAssertions.Specialized.NonGenericAsyncFunctionAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Func<System.Threading.Tasks.Task> action) { }
+        public static FluentAssertions.Specialized.NonGenericAsyncFunctionAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Func<System.Threading.Tasks.ValueTask> action) { }
         public static FluentAssertions.Primitives.GuidAssertions Should(this System.Guid actualValue) { }
         public static FluentAssertions.Primitives.NullableGuidAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Guid? actualValue) { }
         public static FluentAssertions.Streams.BufferedStreamAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.IO.BufferedStream actualValue) { }
@@ -148,6 +149,7 @@ namespace FluentAssertions
             where TAssertions : FluentAssertions.Primitives.SimpleTimeSpanAssertions<TAssertions> { }
         public static FluentAssertions.Collections.GenericCollectionAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this System.Collections.Generic.IEnumerable<T> actualValue) { }
         public static FluentAssertions.Specialized.GenericAsyncFunctionAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this System.Func<System.Threading.Tasks.Task<T>> action) { }
+        public static FluentAssertions.Specialized.GenericAsyncFunctionAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this System.Func<System.Threading.Tasks.ValueTask<T>> action) { }
         public static FluentAssertions.Specialized.FunctionAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this System.Func<T> func) { }
         public static FluentAssertions.Numeric.ComparableTypeAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this System.IComparable<T> comparableValue) { }
         public static FluentAssertions.Specialized.TaskCompletionSourceAssertions<T> Should<T>(this System.Threading.Tasks.TaskCompletionSource<T> tcs) { }
