@@ -121,6 +121,13 @@ await act.Should().ThrowAsync<ArgumentException>();
 
 Both give you the same results, so it's just a matter of personal preference.
 
+Delegates that return a `ValueTask` or `ValueTask<T>` are supported in the same way:
+
+```csharp
+Func<ValueTask> act = () => asyncObject.ThrowValueTaskAsync<ArgumentException>();
+await act.Should().ThrowAsync<ArgumentException>();
+```
+
 As for synchronous methods, you can also check that an asynchronously executed method executes successfully after a given wait time using `NotThrowAfter`:
 
 ```csharp
