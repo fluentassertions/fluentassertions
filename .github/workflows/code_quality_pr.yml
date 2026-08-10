@@ -1,16 +1,24 @@
 name: Qodana (PR)
 
-# Triggered by pull_request (NOT pull_request_target), so this job runs with
-# the PR contributor's untrusted code. It still needs QODANA_TOKEN to run the
-# cloud linter, so that secret is scoped to the "qodana-pr" GitHub Environment
-# instead of being a repo/org-wide secret. That keeps this job's blast radius
-# limited to QODANA_TOKEN only: no other repository or organization secret is
-# exposed to code checked out from a pull request, no matter how the job
-# steps are edited later. Add required reviewers on the "qodana-pr"
-# environment to also gate first-time/fork contributors behind manual
-# approval before their code runs with the token.
+# Qodana needs QODANA_TOKEN to run the cloud linter, and GitHub withholds every
+# secret from a `pull_request` run that originates from a fork. So this workflow
+# uses `pull_request_target`, which runs in the trusted base-branch context and
+# therefore does receive secrets.
+#
+# The trade-off is that the job checks out and analyses the contributor's
+# untrusted code while a secret is in scope. Two things contain that:
+#
+#  1. QODANA_TOKEN is scoped to the "qodana-pr" GitHub Environment rather than
+#     being a repo/org-wide secret, so no other repository or organization
+#     secret is ever exposed to code checked out from a pull request, no matter
+#     how the job steps are edited later.
+#  2. The "qodana-pr" environment has required reviewers, so a maintainer must
+#     approve each run before the contributor's code executes with the token.
+#
+# Keep both in place. Dropping the environment, or removing its reviewers, would
+# hand QODANA_TOKEN to arbitrary fork code without human review.
 on:
-  pull_request:
+  pull_request_target:
 
 permissions:
   checks: write
@@ -23,9 +31,12 @@ jobs:
     runs-on: windows-latest
     environment: qodana-pr
     steps:
+      # `pull_request_target` defaults to the base branch, so check out the PR
+      # head explicitly. refs/pull/<n>/head lives in this repository and points
+      # at the contributor's commit, which works for forks too.
       - uses: actions/checkout@v7
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: refs/pull/${{ github.event.pull_request.number }}/head
           fetch-depth: 0
 
       - name: 'Qodana Scan'
