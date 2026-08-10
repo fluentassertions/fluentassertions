@@ -37,6 +37,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: refs/pull/${{ github.event.pull_request.number }}/head
+          allow-unsafe-pr-checkout: true
           fetch-depth: 0
 
       - name: 'Qodana Scan'
