@@ -29,6 +29,10 @@ dotnet test Tests/FluentAssertions.Specs/FluentAssertions.Specs.csproj
 
 The project uses a [Fallout](https://fallout.build/)-based build system. The build scripts `build.sh` / `build.ps1` / `build.cmd` are thin wrappers around Fallout and support all standard Fallout targets.
 
+Known environment quirks:
+- `dotnet build -f net8.0` (or any single-framework filter) can fail with `NETSDK1005` in a freshly cloned worktree because the restored assets don't yet target that framework alone. Run a full `dotnet build` (all frameworks) first, or `dotnet restore`, before filtering by framework.
+- `build.ps1` / `build.sh --target spellcheck` can fail in git-worktree-based checkouts because the underlying Fallout/GitVersion tooling can't locate the parent `.git` directory. This is a pre-existing environment limitation, not a sign of broken docs — don't block on it in a worktree; verify spelling by other means (e.g. re-run from the main checkout) when possible.
+
 ## Contributing Workflow
 
 - Always target the `main` branch for pull requests
@@ -38,6 +42,8 @@ The project uses a [Fallout](https://fallout.build/)-based build system. The bui
 - Update `docs/_pages/releases.md` when adding features or fixing bugs
 - Update `docs/_pages/` documentation when assertions are added or changed
 - Run the spell checker before pushing: `./build.sh --target spellcheck`
+- **Fork-based workflow**: create feature branches on your own fork, not on `fluentassertions/fluentassertions` directly. Open the pull request from `your-fork:branch` targeting `fluentassertions/fluentassertions:main` (e.g. `gh pr create --repo fluentassertions/fluentassertions --head your-github-user:branch --base main`).
+- Each `docs/_pages/releases.md` entry must link to the **pull request that implements the change**, not the originating issue — this is a strict, unbroken convention across the whole file (e.g. `[#1234](https://github.com/fluentassertions/fluentassertions/pull/1234)`).
 
 ## Code Style
 
@@ -133,6 +139,7 @@ Key points:
 - Failure messages use `{context:typename}` for the subject reference and `{reason}` for the `because` clause
 - The `Should()` extension method for new types is added to `Src/FluentAssertions/AssertionExtensions.cs`
 - XML doc comments on `Should()` extension methods follow the pattern: `Returns an <see cref="ReturnType"/> object that can be used to assert the current <see cref="ParameterType"/>.`
+- Every non-public (`private`/`private static`) helper method in an assertions class must be decorated with `[StackTraceHidden]` (`System.Diagnostics.StackTraceHidden`), so it doesn't pollute a caller's stack trace on failure. This is enforced by `StackTraceHiddenSpecs`, which fails the build if any non-public method in an annotable assertions class is missing the attribute.
 
 ## Test Conventions
 
