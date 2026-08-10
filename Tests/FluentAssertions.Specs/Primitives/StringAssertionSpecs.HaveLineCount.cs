@@ -8,44 +8,17 @@ public partial class StringAssertionSpecs
 {
     public class HaveLineCount
     {
-        [Fact]
-        public void Succeeds_for_a_string_with_the_expected_number_of_lines()
+        [Theory]
+        [InlineData("Starting up\nConnected to database\nReady", 3)]
+        [InlineData("just one line", 1)]
+        [InlineData("one\r\ntwo\nthree\rfour", 4)]
+        [InlineData("one\ntwo\n", 3)]
+        [InlineData("", 1)]
+        [InlineData("\n", 2)]
+        public void Succeeds_for_a_string_with_the_expected_number_of_lines(string actual, int expectedLineCount)
         {
-            // Arrange
-            string actual = "Starting up\nConnected to database\nReady";
-
             // Act / Assert
-            actual.Should().HaveLineCount(3);
-        }
-
-        [Fact]
-        public void Succeeds_for_a_single_line_string()
-        {
-            // Arrange
-            string actual = "just one line";
-
-            // Act / Assert
-            actual.Should().HaveLineCount(1);
-        }
-
-        [Fact]
-        public void Treats_different_line_endings_as_equivalent()
-        {
-            // Arrange
-            string actual = "one\r\ntwo\nthree\rfour";
-
-            // Act / Assert
-            actual.Should().HaveLineCount(4);
-        }
-
-        [Fact]
-        public void A_trailing_line_terminator_introduces_an_additional_empty_line()
-        {
-            // Arrange
-            string actual = "one\ntwo\n";
-
-            // Act / Assert
-            actual.Should().HaveLineCount(3);
+            actual.Should().HaveLineCount(expectedLineCount);
         }
 
         [Fact]
