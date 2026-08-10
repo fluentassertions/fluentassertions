@@ -8,17 +8,18 @@ sidebar:
 
 ---
 
-The `BeXmlSerializable` and `BeDataContractSerializable` assertions exist to verify that a particular instance can round-trip through serialization. This is done by serializing the object, deserializing the result, and then comparing the objects for equivalency.
+The `BeXmlSerializable`, `BeJsonSerializable`, and `BeDataContractSerializable` assertions exist to verify that a particular instance can round-trip through serialization. This is done by serializing the object, deserializing the result, and then comparing the objects for equivalency.
 
 The XML serialization infrastructure supports marking fields and properties with the `[XmlIgnore]` attribute. Similarly, members in a `[DataContract]` can be marked `[IgnoreDataMember]`. With legacy binary serialization, fields can be marked `[NonSerialized]`, and the DataContract serializer will respect this when serializing classes marked `[Serializable]`.
 
-When members are marked in this way, the serialized form produced omits the specified members. When deserializing it, the members are not populated with anything. This is the case even if the serialized form is XML that contains elements matching ignored members. By default, Fluent Assertions will include these fields in comparisons, causing `BeXmlSerializable`/`BeDataContractSerializable` assertions to fail.
+When members are marked in this way, the serialized form produced omits the specified members. When deserializing it, the members are not populated with anything. This is the case even if the serialized form is XML that contains elements matching ignored members. By default, Fluent Assertions will include these fields in comparisons, causing `BeXmlSerializable`/`BeJsonSerializable`/`BeDataContractSerializable` assertions to fail.
 
-You can specify that these members should be ignored using a custom implementation of `IMemberSelectionRule`. This can then be configured via the `EquivalencyOptions` object, using an overload that `BeXmlSerializable` or `BeDataContractSerializable` that takes a configuration functor.
+You can specify that these members should be ignored using a custom implementation of `IMemberSelectionRule`. This can then be configured via the `EquivalencyOptions` object, using an overload that `BeXmlSerializable`, `BeJsonSerializable`, or `BeDataContractSerializable` takes a configuration functor.
 
-The following implementations exclude members marked with `[XmlIgnore]` (`ExcludeXmlIgnoredMembersRule`), `[IgnoreDataMember]` (`ExcludeIgnoredDataMembersRule`), and `[NonSerialized]` (`ExcludeNonSerializedFieldsRule`). If you are encountering assertion failures in `BeXmlSerializable`/`BeDataContractSerializable` assertions due to ignored members, you can include these in your project.
+The following implementations exclude members marked with `[XmlIgnore]` (`ExcludeXmlIgnoredMembersRule`), `[JsonIgnore]` (`ExcludeJsonIgnoredMembersRule`), `[IgnoreDataMember]` (`ExcludeIgnoredDataMembersRule`), and `[NonSerialized]` (`ExcludeNonSerializedFieldsRule`). If you are encountering assertion failures in `BeXmlSerializable`/`BeJsonSerializable`/`BeDataContractSerializable` assertions due to ignored members, you can include these in your project.
 
 - Use `ExcludeXmlIgnoredMembers` for `BeXmlSerializable` assertions.
+- Use `ExcludeJsonIgnoredMembers` for `BeJsonSerializable` assertions.
 - The DataContract serializer respects the `[NonSerialized]` attribute from legacy formatter-based serialization. For full compatibility, use both `ExcludeIgnoredDataMembersRule` and `ExcludeNonSerializedFieldsRule` with `BeDataContractSerializable` assertions.
 
 These rules can also be used when calling `BeEquivalentTo` on object graphs produced explicitly via serialization.
@@ -123,6 +124,23 @@ XmlRecord subject = XmlGetRecord();
 
 subject.Should().BeXmlSerializable(options => options
     .Using(new ExcludeXmlIgnoredMembersRule()));
+```
+
+### JSON Serialization
+
+```csharp
+public class Record
+{
+    public string Name { get; }
+
+    [JsonIgnore]
+    public int CachedValue { get; }
+}
+
+Record subject = GetRecord();
+
+subject.Should().BeJsonSerializable(options => options
+    .Using(new ExcludeJsonIgnoredMembersRule()));
 ```
 
 ### DataContract
