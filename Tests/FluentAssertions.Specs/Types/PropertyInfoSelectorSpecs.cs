@@ -420,7 +420,7 @@ public class PropertyInfoSelectorSpecs
     }
 
     [Fact]
-    public void When_selecting_types_with_predicate_it_should_return_the_correct_type()
+    public void When_selecting_properties_with_predicate_it_should_return_the_correct_type()
     {
         // Arrange
         Type type = typeof(TestClassForThatSatisfy);
