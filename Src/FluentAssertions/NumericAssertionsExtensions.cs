@@ -377,7 +377,7 @@ public static class NumericAssertionsExtensions
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="distantValue">
-    /// The nearby value to compare the actual value with.
+    /// The distant value to compare the actual value with.
     /// </param>
     /// <param name="delta">
     /// The maximum amount of which the two values may differ.
@@ -421,7 +421,7 @@ public static class NumericAssertionsExtensions
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="distantValue">
-    /// The nearby value to compare the actual value with.
+    /// The distant value to compare the actual value with.
     /// </param>
     /// <param name="delta">
     /// The maximum amount of which the two values may differ.
@@ -466,7 +466,7 @@ public static class NumericAssertionsExtensions
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="distantValue">
-    /// The nearby value to compare the actual value with.
+    /// The distant value to compare the actual value with.
     /// </param>
     /// <param name="delta">
     /// The maximum amount of which the two values may differ.
@@ -511,7 +511,7 @@ public static class NumericAssertionsExtensions
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="distantValue">
-    /// The nearby value to compare the actual value with.
+    /// The distant value to compare the actual value with.
     /// </param>
     /// <param name="delta">
     /// The maximum amount of which the two values may differ.
@@ -555,7 +555,7 @@ public static class NumericAssertionsExtensions
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="distantValue">
-    /// The nearby value to compare the actual value with.
+    /// The distant value to compare the actual value with.
     /// </param>
     /// <param name="delta">
     /// The maximum amount of which the two values may differ.
@@ -600,7 +600,7 @@ public static class NumericAssertionsExtensions
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="distantValue">
-    /// The nearby value to compare the actual value with.
+    /// The distant value to compare the actual value with.
     /// </param>
     /// <param name="delta">
     /// The maximum amount of which the two values may differ.
@@ -644,7 +644,7 @@ public static class NumericAssertionsExtensions
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="distantValue">
-    /// The nearby value to compare the actual value with.
+    /// The distant value to compare the actual value with.
     /// </param>
     /// <param name="delta">
     /// The maximum amount of which the two values may differ.
@@ -677,7 +677,7 @@ public static class NumericAssertionsExtensions
     /// </summary>
     /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
     /// <param name="distantValue">
-    /// The nearby value to compare the actual value with.
+    /// The distant value to compare the actual value with.
     /// </param>
     /// <param name="delta">
     /// The maximum amount of which the two values may differ.
