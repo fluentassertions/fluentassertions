@@ -27,6 +27,8 @@ It's the returned assertions class that provides the actual assertion methods. T
 
 You don't need to, but if you sub-class the self-referencing generic class `ReferenceTypeAssertions<TSubject, TSelf>`, you'll already get methods like `BeNull`, `BeSameAs` and `Match` for free. Assuming you did, and you provided an override of the `Identifier` property so that these methods know that we're dealing with a directory, it's time for the the next step. 
 
+If your subject is a value type (a `struct`) instead of a reference type, use `ValueTypeAssertions<TSubject, TSelf>` (when the subject is never `null`) or `NullableValueTypeAssertions<TSubject, TSelf>` (when it is `TSubject?`) instead. Both derive from `ValueTypeAssertionsBase<TSubject, TSubjectResult, TSelf>`, which provides `Be` and `NotBe` (with overloads for both `TSubject` and `TSubject?`) and a `Match` method, again driven off an `Identifier` override. `NullableValueTypeAssertions<TSubject, TSelf>` additionally provides `BeNull`, `NotBeNull`, `HaveValue`, `NotHaveValue`, and a `Match` overload that accepts a predicate over `TSubject?`.
+
 Let's add an extension that allows you to assert that the involved directory contains a particular file.
 
 ```csharp
