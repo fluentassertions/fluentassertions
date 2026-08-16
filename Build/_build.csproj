@@ -6,7 +6,7 @@
     <NoWarn>CS0649;CS0169</NoWarn>
     <FalloutRootDirectory>..\</FalloutRootDirectory>
     <FalloutScriptDirectory>..\</FalloutScriptDirectory>
-    <FalloutVersion>10.3.49</FalloutVersion>
+    <FalloutVersion>10.4.0</FalloutVersion>
     <FalloutTelemetryVersion>1</FalloutTelemetryVersion>
   </PropertyGroup>
   <ItemGroup>
