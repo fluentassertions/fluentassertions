@@ -145,16 +145,19 @@ class Build : FalloutBuild
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
+            // xunit.v3 4.0.0 and later refuse to run through the classic VSTest pipeline (`dotnet test`)
+            // on the .NET 10 SDK. Run through the native `Test` MSBuild target instead; see MTPTestFrameworks.
             Project project = Solution.Specs.Approval_Tests;
 
-            DotNetTest(s => s
+            DotNetBuild(s => s
+                .SetProjectFile(project)
                 .SetConfiguration(Configuration == Configuration.Debug ? "Debug" : "Release")
                 .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
-                .EnableNoBuild()
-                .SetResultsDirectory(TestResultsDirectory)
-                .CombineWith(cc => cc
-                    .SetProjectFile(project)
-                    .AddLoggers($"trx;LogFileName={project.Name}.trx")), completeOnFailure: true);
+                .EnableNoRestore()
+                .SetProperty(
+                    "TestingPlatformCommandLineArguments",
+                    $"--report-xunit-trx --report-xunit-trx-filename {project.Name}.trx --results-directory {TestResultsDirectory}")
+                .AddProcessAdditionalArguments("-t:Test"));
         });
 
     Project[] Projects =>
@@ -255,8 +258,6 @@ class Build : FalloutBuild
                 Solution.TestFrameworks.NUnit3_Specs,
                 Solution.TestFrameworks.NUnit4_Specs,
                 Solution.TestFrameworks.XUnit2_Specs,
-                Solution.TestFrameworks.XUnit3_Specs,
-                Solution.TestFrameworks.XUnit3Core_Specs,
             ];
 
             var testCombinations =
@@ -319,9 +320,51 @@ class Build : FalloutBuild
                 );
         });
 
+    // xunit.v3 4.0.0 and later pull in Microsoft.Testing.Platform.MSBuild, which refuses to be driven
+    // through the classic VSTest pipeline (`dotnet test`) on the .NET 10 SDK. These projects are run
+    // through the native `Test`/`InvokeTestingPlatform` MSBuild targets instead, bypassing `dotnet test`
+    // entirely. Unlike TUnit's Microsoft.Testing.Platform-native CLI, xunit.v3's in-process console
+    // runner only understands its own command line when launched directly (e.g. via `dotnet run`), so
+    // the platform-native arguments below (`--report-xunit-trx`, `--coverage`, ...) must be passed
+    // through the `TestingPlatformCommandLineArguments` MSBuild property instead.
+    Target MTPTestFrameworks => _ => _
+        .DependsOn(Compile)
+        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
+        .Executes(() =>
+        {
+            Project[] projects =
+            [
+                Solution.TestFrameworks.XUnit3_Specs,
+                Solution.TestFrameworks.XUnit3Core_Specs,
+            ];
+
+            var testCombinations =
+                from project in projects
+                let frameworks = project.GetTargetFrameworks()
+                from framework in frameworks
+                select new { project, framework };
+
+            DotNetBuild(s => s
+                .SetConfiguration(Configuration.Debug)
+                .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
+                .EnableNoRestore()
+                .CombineWith(
+                    testCombinations,
+                    (settings, v) => settings
+                        .SetProjectFile(v.project)
+                        .SetProperty("TargetFramework", v.framework)
+                        .SetProperty(
+                            "TestingPlatformCommandLineArguments",
+                            $"--report-xunit-trx --report-xunit-trx-filename {v.project.Name}_{v.framework}.trx " +
+                            $"--results-directory {TestResultsDirectory} --coverage --coverage-output-format cobertura " +
+                            $"--coverage-output {v.project.Name}_{v.framework}/coverage.cobertura.xml")
+                        .AddProcessAdditionalArguments("-t:Build;InvokeTestingPlatform")), completeOnFailure: true);
+        });
+
     Target TestFrameworks => _ => _
         .DependsOn(VSTestFrameworks)
-        .DependsOn(TestingPlatformFrameworks);
+        .DependsOn(TestingPlatformFrameworks)
+        .DependsOn(MTPTestFrameworks);
 
     Target ScanPackages => _ => _
         .DependsOn(Restore)
