@@ -151,19 +151,10 @@ public abstract class ValueTypeAssertionsBase<TSubject, TSubjectResult, TAsserti
         Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate), "Cannot match a value against a <null> predicate.");
 
         CurrentAssertionChain
-            .ForCondition(Subject is TSubject)
+            .ForCondition(Subject is TSubject subject && predicate.Compile()(subject))
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
             .FailWith("Expected {context} to match {1}{reason}, but found {0}.", Subject, predicate);
-
-        if (CurrentAssertionChain.Succeeded)
-        {
-            CurrentAssertionChain
-                .ForCondition(Subject is TSubject subject && predicate.Compile()(subject))
-                .BecauseOf(because, becauseArgs)
-                .WithDefaultIdentifier(Identifier)
-                .FailWith("Expected {context} to match {1}{reason}, but found {0}.", Subject, predicate);
-        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }

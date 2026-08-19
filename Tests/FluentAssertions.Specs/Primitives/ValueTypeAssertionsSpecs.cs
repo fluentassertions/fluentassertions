@@ -196,7 +196,17 @@ public class NullableValueTypeAssertionsSpecs
         var subject = new NullableCoordinatesAssertions(new Coordinates(1, 2));
 
         // Act / Assert
-        subject.NotBeNull();
+        subject.NotBeNull().Which.Should().Be(new Coordinates(1, 2));
+    }
+
+    [Fact]
+    public void HaveValue_exposes_the_underlying_value_through_which()
+    {
+        // Arrange
+        var subject = new NullableCoordinatesAssertions(new Coordinates(1, 2));
+
+        // Act / Assert
+        subject.HaveValue().Which.Should().Be(new Coordinates(1, 2));
     }
 
     [Fact]
@@ -315,6 +325,20 @@ public class NullableValueTypeAssertionsSpecs
     }
 
     [Fact]
+    public void An_initialized_value_never_equals_a_null_expected_value()
+    {
+        // Arrange
+        var subject = new NullableCoordinatesAssertions(new Coordinates(1, 2));
+
+        // Act
+        Action act = () => subject.Be(null);
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("Expected subject to be <null>, but found Coordinates(1, 2).");
+    }
+
+    [Fact]
     public void Succeeds_for_an_unexpected_value()
     {
         // Arrange
@@ -346,6 +370,16 @@ public class NullableValueTypeAssertionsSpecs
 
         // Act / Assert
         subject.NotBe(new Coordinates(3, 4));
+    }
+
+    [Fact]
+    public void An_initialized_value_is_always_different_from_a_null_unexpected_value()
+    {
+        // Arrange
+        var subject = new NullableCoordinatesAssertions(new Coordinates(1, 2));
+
+        // Act / Assert
+        subject.NotBe(null);
     }
 
     [Fact]

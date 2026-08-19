@@ -51,7 +51,7 @@ public abstract class NullableValueTypeAssertions<TSubject, TAssertions>(TSubjec
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeNull([StringSyntax("CompositeFormat")] string because = "",
+    public AndWhichConstraint<TAssertions, TSubject> NotBeNull([StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
         CurrentAssertionChain
@@ -60,7 +60,7 @@ public abstract class NullableValueTypeAssertions<TSubject, TAssertions>(TSubjec
             .WithDefaultIdentifier(Identifier)
             .FailWith("Expected {context} not to be <null>{reason}.");
 
-        return new AndConstraint<TAssertions>((TAssertions)this);
+        return new AndWhichConstraint<TAssertions, TSubject>((TAssertions)this, Subject.GetValueOrDefault());
     }
 
     /// <summary>
@@ -73,7 +73,7 @@ public abstract class NullableValueTypeAssertions<TSubject, TAssertions>(TSubjec
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveValue([StringSyntax("CompositeFormat")] string because = "",
+    public AndWhichConstraint<TAssertions, TSubject> HaveValue([StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
         return NotBeNull(because, becauseArgs);
