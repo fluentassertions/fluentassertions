@@ -1927,6 +1927,18 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
     }
+    public abstract class NullableValueTypeAssertions<TSubject, TAssertions> : FluentAssertions.Primitives.ValueTypeAssertionsBase<TSubject, TSubject?, TAssertions>
+        where TSubject :  struct
+        where TAssertions : FluentAssertions.Primitives.NullableValueTypeAssertions<TSubject, TAssertions>
+    {
+        protected NullableValueTypeAssertions(TSubject? subject, FluentAssertions.Execution.AssertionChain assertionChain) { }
+        public override TSubject? Subject { get; }
+        public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, TSubject> HaveValue(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Match(System.Linq.Expressions.Expression<System.Func<TSubject?, bool>> predicate, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, TSubject> NotBeNull(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
+    }
     public class ObjectAssertions : FluentAssertions.Primitives.ObjectAssertions<object, FluentAssertions.Primitives.ObjectAssertions>
     {
         public ObjectAssertions(object value, FluentAssertions.Execution.AssertionChain assertionChain) { }
@@ -2080,6 +2092,28 @@ namespace FluentAssertions.Primitives
         Exactly = 2,
         Within = 3,
         LessThan = 4,
+    }
+    public abstract class ValueTypeAssertionsBase<TSubject, TSubjectResult, TAssertions>
+        where TSubject :  struct
+        where TAssertions : FluentAssertions.Primitives.ValueTypeAssertionsBase<TSubject, TSubjectResult, TAssertions>
+    {
+        protected ValueTypeAssertionsBase(FluentAssertions.Execution.AssertionChain assertionChain) { }
+        public FluentAssertions.Execution.AssertionChain CurrentAssertionChain { get; }
+        protected abstract string Identifier { get; }
+        public abstract TSubjectResult Subject { get; }
+        public FluentAssertions.AndConstraint<TAssertions> Be(TSubject expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Be(TSubject? expected, string because = "", params object[] becauseArgs) { }
+        public override bool Equals(object obj) { }
+        public FluentAssertions.AndConstraint<TAssertions> Match(System.Linq.Expressions.Expression<System.Func<TSubject, bool>> predicate, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBe(TSubject unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBe(TSubject? unexpected, string because = "", params object[] becauseArgs) { }
+    }
+    public abstract class ValueTypeAssertions<TSubject, TAssertions> : FluentAssertions.Primitives.ValueTypeAssertionsBase<TSubject, TSubject, TAssertions>
+        where TSubject :  struct
+        where TAssertions : FluentAssertions.Primitives.ValueTypeAssertions<TSubject, TAssertions>
+    {
+        protected ValueTypeAssertions(TSubject subject, FluentAssertions.Execution.AssertionChain assertionChain) { }
+        public override TSubject Subject { get; }
     }
 }
 namespace FluentAssertions.Specialized
