@@ -2720,7 +2720,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         IList<T> unexpectedItems = unexpected.ConvertOrCastToList();
 
-        if (unexpectedItems.Any())
+        if (unexpectedItems.Count > 0)
         {
             IList<T> actualItems = Subject.ConvertOrCastToList();
             int subjectIndex = 0;
@@ -2792,7 +2792,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         IList<T> unexpectedItems = unexpected.ConvertOrCastToList();
 
-        if (unexpectedItems.Any())
+        if (unexpectedItems.Count > 0)
         {
             IList<T> actualItems = Subject.ConvertOrCastToList();
 
@@ -3688,7 +3688,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     {
         return !ReferenceEquals(subject.Last(), predecessor);
     }
-    
+
     [StackTraceHidden]
     private static T PredecessorOf(T successor, TCollection subject)
     {

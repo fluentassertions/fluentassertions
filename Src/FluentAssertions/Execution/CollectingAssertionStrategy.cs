@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 
 namespace FluentAssertions.Execution;
@@ -37,7 +36,7 @@ internal class CollectingAssertionStrategy : IAssertionStrategy
             var builder = new StringBuilder();
             builder.AppendJoin(Environment.NewLine, failureMessages).AppendLine();
 
-            if (context.Any())
+            if (context.Count > 0)
             {
                 foreach (KeyValuePair<string, object> pair in context)
                 {
