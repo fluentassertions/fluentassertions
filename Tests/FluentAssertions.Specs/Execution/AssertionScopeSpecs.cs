@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -331,7 +330,7 @@ namespace FluentAssertions.Specs.Execution
                     var builder = new StringBuilder();
                     builder.AppendJoin(Environment.NewLine, failureMessages).AppendLine();
 
-                    if (context.Any())
+                    if (context.Count > 0)
                     {
                         foreach (KeyValuePair<string, object> pair in context)
                         {
