@@ -40,7 +40,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
             .ForCondition(Subject is not null)
             .FailWith("Expected property to be virtual{reason}, but {context:property} is <null>.")
             .Then
-            .ForCondition(Subject.IsVirtual())
+            .ForCondition(Subject?.IsVirtual() == true)
             .BecauseOf(because, becauseArgs)
             .FailWith(() =>
             {
@@ -72,7 +72,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
             .ForCondition(Subject is not null)
             .FailWith("Expected property not to be virtual{reason}, but {context:property} is <null>.")
             .Then
-            .ForCondition(!Subject.IsVirtual())
+            .ForCondition(Subject?.IsVirtual() == false)
             .BecauseOf(because, becauseArgs)
             .FailWith(() =>
             {
@@ -104,7 +104,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
             .ForCondition(Subject is not null)
             .FailWith("Expected property to have a setter{reason}, but {context:property} is <null>.")
             .Then
-            .ForCondition(Subject!.CanWrite)
+            .ForCondition(Subject?.CanWrite == true)
             .BecauseOf(because, becauseArgs)
             .FailWith(() =>
             {
@@ -145,7 +145,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
             .ForCondition(Subject is not null)
             .FailWith($"Expected {{context:project}} to be {accessModifier}{{reason}}, but it is <null>.")
             .Then
-            .ForCondition(Subject!.CanWrite)
+            .ForCondition(Subject?.CanWrite == true)
             .BecauseOf(because, becauseArgs)
             .FailWith($"Expected {subjectDescription} to have a setter{{reason}}.");
 
@@ -178,7 +178,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:property} not to have a setter{reason}, but it is <null>.")
             .Then
-            .ForCondition(!Subject!.CanWrite)
+            .ForCondition(Subject?.CanWrite == false)
             .BecauseOf(because, becauseArgs)
             .FailWith(() =>
             {
@@ -210,7 +210,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
             .ForCondition(Subject is not null)
             .FailWith("Expected property to have a getter{reason}, but {context:property} is <null>.")
             .Then
-            .ForCondition(Subject!.CanRead)
+            .ForCondition(Subject?.CanRead == true)
             .BecauseOf(because, becauseArgs)
             .FailWith(() =>
             {
@@ -251,7 +251,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
             .ForCondition(Subject is not null)
             .FailWith($"Expected {{context:property}} to be {accessModifier}{{reason}}, but it is <null>.")
             .Then
-            .ForCondition(Subject!.CanRead)
+            .ForCondition(Subject?.CanRead == true)
             .BecauseOf(because, becauseArgs)
             .FailWith($"Expected {subjectDescription} to have a getter{{reason}}, but it does not.");
 
@@ -284,7 +284,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
             .ForCondition(Subject is not null)
             .FailWith("Expected property not to have a getter{reason}, but {context:property} is <null>.")
             .Then
-            .ForCondition(!Subject!.CanRead)
+            .ForCondition(Subject?.CanRead == false)
             .BecauseOf(because, becauseArgs)
             .FailWith(() =>
             {
@@ -319,10 +319,10 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected type of property to be {0}{reason}, but {context:property} is <null>.", propertyType)
-            .Then.ForCondition(Subject!.PropertyType == propertyType)
+            .Then.ForCondition(Subject?.PropertyType == propertyType)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected type of property {2} to be {0}{reason}, but it is {1}.",
-                propertyType, Subject.PropertyType, Subject);
+                propertyType, Subject?.PropertyType, Subject);
 
         return new AndConstraint<PropertyInfoAssertions>(this);
     }
@@ -366,7 +366,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
             .ForCondition(Subject is not null)
             .FailWith("Expected type of property not to be {0}{reason}, but {context:property} is <null>.", propertyType)
             .Then
-            .ForCondition(Subject!.PropertyType != propertyType)
+            .ForCondition(Subject?.PropertyType != propertyType)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected type of property {1} not to be {0}{reason}, but it is.", propertyType, Subject);
 

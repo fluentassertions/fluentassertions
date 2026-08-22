@@ -920,9 +920,10 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                         $"Expected {subjectDescription} to have a property {name} of type {propertyType.Name}{{reason}}, but it does not.");
                 })
                 .Then
-                .ForCondition(propertyInfo.PropertyType == propertyType)
-                .FailWith($"Expected property {propertyInfo.Name} to be of type {propertyType}{{reason}}, but it is not.",
-                    propertyInfo);
+                .ForCondition(propertyInfo?.PropertyType == propertyType)
+                .FailWith(() => new FailReason(
+                    $"Expected property {propertyInfo.Name} to be of type {propertyType}{{reason}}, but it is not.",
+                    propertyInfo));
         }
 
         return new AndWhichConstraint<TypeAssertions, PropertyInfo>(this, propertyInfo);
@@ -1317,7 +1318,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                     $"Expected {indexerType.Name} {Subject}[{parameterString}] to exist{{reason}}" +
                     ", but it does not.")
                 .Then
-                .ForCondition(propertyInfo.PropertyType == indexerType)
+                .ForCondition(propertyInfo?.PropertyType == indexerType)
                 .FailWith("Expected {0} to be of type {1}{reason}, but it is not.", propertyInfo, indexerType);
         }
 

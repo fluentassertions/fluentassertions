@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -54,6 +55,25 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 type.Should().HaveProperty(typeof(string), "PublicProperty", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected ClassWithNoMembers to have a property PublicProperty of type String because we want to test the failure message, but it does not.");
+        }
+
+        [Fact]
+        public void
+            When_asserting_a_type_has_a_property_which_it_does_not_it_fails_and_does_not_throw_a_NullReferenceException_inside_an_assertion_scope()
+        {
+            // Arrange
+            var type = typeof(ClassWithNoMembers);
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                type.Should().HaveProperty(typeof(string), "PublicProperty", "we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
