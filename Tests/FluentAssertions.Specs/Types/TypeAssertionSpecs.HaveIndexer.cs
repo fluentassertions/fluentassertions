@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -46,6 +47,26 @@ public partial class TypeAssertionSpecs
                 .WithMessage(
                     "Expected String *ClassWithNoMembers[System.Int32, System.Type] to exist *failure message*" +
                     ", but it does not.");
+        }
+
+        [Fact]
+        public void
+            When_asserting_a_type_has_an_indexer_which_it_does_not_it_fails_and_does_not_throw_a_NullReferenceException_inside_an_assertion_scope()
+        {
+            // Arrange
+            var type = typeof(ClassWithNoMembers);
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+
+                type.Should().HaveIndexer(
+                    typeof(string), [typeof(int), typeof(Type)], "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]

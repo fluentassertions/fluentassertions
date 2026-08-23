@@ -57,6 +57,23 @@ public class PropertyInfoAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected property to be virtual *failure message*, but propertyInfo is <null>.");
         }
+
+        [Fact]
+        public void When_subject_is_null_be_virtual_should_fail_and_not_throw_a_NullReferenceException_inside_an_assertion_scope()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                propertyInfo.Should().BeVirtual("we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
     }
 
     public class NotBeVirtual
@@ -107,6 +124,23 @@ public class PropertyInfoAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected property not to be virtual *failure message*, but propertyInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_be_virtual_should_fail_and_not_throw_a_NullReferenceException_inside_an_assertion_scope()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                propertyInfo.Should().NotBeVirtual("we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>();
         }
     }
 
@@ -336,6 +370,23 @@ public class PropertyInfoAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected property to have a setter *failure message*, but propertyInfo is <null>.");
         }
+
+        [Fact]
+        public void When_subject_is_null_be_writable_should_fail_and_not_throw_a_NullReferenceException_inside_an_assertion_scope()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                propertyInfo.Should().BeWritable("we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
     }
 
     public class BeReadable
@@ -395,6 +446,23 @@ public class PropertyInfoAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected property to have a getter *failure message*, but propertyInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_be_readable_should_fail_and_not_throw_a_NullReferenceException_inside_an_assertion_scope()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                propertyInfo.Should().BeReadable("we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>();
         }
     }
 
@@ -459,6 +527,23 @@ public class PropertyInfoAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected propertyInfo not to have a setter *failure message*, but it is <null>.");
         }
+
+        [Fact]
+        public void When_subject_is_null_not_be_writable_should_fail_and_not_throw_a_NullReferenceException_inside_an_assertion_scope()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                propertyInfo.Should().NotBeWritable("we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
     }
 
     public class NotBeReadable
@@ -521,6 +606,23 @@ public class PropertyInfoAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected property not to have a getter *failure message*, but propertyInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_be_readable_should_fail_and_not_throw_a_NullReferenceException_inside_an_assertion_scope()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                propertyInfo.Should().NotBeReadable("we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>();
         }
     }
 
@@ -586,6 +688,24 @@ public class PropertyInfoAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected propertyInfo to be Public *failure message*, but it is <null>.");
+        }
+
+        [Fact]
+        public void
+            When_subject_is_null_be_readable_with_accessmodifier_should_fail_and_not_throw_a_NullReferenceException_inside_an_assertion_scope()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                propertyInfo.Should().BeReadable(CSharpAccessModifier.Public, "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -669,6 +789,24 @@ public class PropertyInfoAssertionSpecs
         }
 
         [Fact]
+        public void
+            When_subject_is_null_be_writable_with_accessmodifier_should_fail_and_not_throw_a_NullReferenceException_inside_an_assertion_scope()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                propertyInfo.Should().BeWritable(CSharpAccessModifier.Public, "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
         public void When_asserting_is_writable_with_an_invalid_enum_value_it_should_throw()
         {
             // Arrange
@@ -727,6 +865,23 @@ public class PropertyInfoAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected type of property to be *.Int32 *failure message*, but propertyInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_return_should_fail_and_not_throw_a_NullReferenceException_inside_an_assertion_scope()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                propertyInfo.Should().Return(typeof(int), "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -819,6 +974,23 @@ public class PropertyInfoAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected type of property not to be *.Int32 *failure message*, but propertyInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_return_should_fail_and_not_throw_a_NullReferenceException_inside_an_assertion_scope()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                propertyInfo.Should().NotReturn(typeof(int), "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
