@@ -83,10 +83,19 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v7
       with:
-        name: windows-artifacts
+        name: artifacts
         path: |
-          ./Artifacts/*
+          ./Artifacts/*.nupkg
           ./TestResults/*.trx
+          ./Artifacts/sbom.json
+          ./Artifacts/risk-report.html
+
+    - name: Upload PackageGuard SARIF file
+      if: always()
+      uses: github/codeql-action/upload-sarif@v4
+      with:
+        sarif_file: Artifacts/risk-report.sarif
+        category: packageguard-risk
 
   only-unit-tests:
     name: "Run Unit Tests Only"

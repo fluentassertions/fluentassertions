@@ -379,7 +379,7 @@ class Build : FalloutBuild
         .Executes(() =>
         {
             Environment.SetEnvironmentVariable("GITHUB_API_KEY", GitHubApiKey);
-            PackageGuard($"--config-path={RootDirectory / ".packageguard" / "config.json"} --use-caching {RootDirectory}");
+            PackageGuard($"--config-path={RootDirectory / ".packageguard" / "config.json"} --use-caching {RootDirectory} --report-risk {ArtifactsDirectory / "risk-report.html"} --sbom=spdx --sbom-output {ArtifactsDirectory / "sbom.json"}");
         });
 
     Target Pack => _ => _
