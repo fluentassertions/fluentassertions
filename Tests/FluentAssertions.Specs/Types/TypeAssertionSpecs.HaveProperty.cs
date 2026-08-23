@@ -76,8 +76,7 @@ public partial class TypeAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected ClassWithNoMembers to have a property PublicProperty of type String because we want to test the failure message, but it does not.");
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]

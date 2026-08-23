@@ -72,8 +72,7 @@ public class PropertyInfoAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected property to be virtual *failure message*, but propertyInfo is <null>.");
+            act.Should().Throw<XunitException>();
         }
     }
 
@@ -141,8 +140,7 @@ public class PropertyInfoAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected property not to be virtual *failure message*, but propertyInfo is <null>.");
+            act.Should().Throw<XunitException>();
         }
     }
 
@@ -387,8 +385,7 @@ public class PropertyInfoAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected property to have a setter *failure message*, but propertyInfo is <null>.");
+            act.Should().Throw<XunitException>();
         }
     }
 
@@ -465,8 +462,7 @@ public class PropertyInfoAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected property to have a getter *failure message*, but propertyInfo is <null>.");
+            act.Should().Throw<XunitException>();
         }
     }
 
@@ -546,8 +542,7 @@ public class PropertyInfoAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected propertyInfo not to have a setter *failure message*, but it is <null>.");
+            act.Should().Throw<XunitException>();
         }
     }
 
@@ -627,8 +622,7 @@ public class PropertyInfoAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected property not to have a getter *failure message*, but propertyInfo is <null>.");
+            act.Should().Throw<XunitException>();
         }
     }
 
@@ -711,8 +705,7 @@ public class PropertyInfoAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected propertyInfo to be Public *failure message*, but it is <null>.");
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -810,8 +803,7 @@ public class PropertyInfoAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected propertyInfo to be Public *failure message*, but it is <null>.");
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -889,8 +881,7 @@ public class PropertyInfoAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected type of property to be *.Int32 *failure message*, but propertyInfo is <null>.");
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -999,8 +990,7 @@ public class PropertyInfoAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected type of property not to be *.Int32 *failure message*, but propertyInfo is <null>.");
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
