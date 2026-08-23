@@ -426,8 +426,7 @@ public class TimeOnlyAssertions<TAssertions>
                 unexpected)
             .Then
             .ForCondition(Subject.Value.Hour != unexpected)
-            .FailWith("Did not expect the hours part of {context:the time} to be {0}{reason}, but it was.", unexpected,
-                Subject.Value.Hour);
+            .FailWith("Did not expect the hours part of {context:the time} to be {0}{reason}, but it was.", unexpected);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }

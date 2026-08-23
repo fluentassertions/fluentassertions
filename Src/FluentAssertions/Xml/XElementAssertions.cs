@@ -264,9 +264,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
                 chain => chain
                     .BecauseOf(because, becauseArgs)
                     .ForCondition(Subject is not null)
-                    .FailWith(
-                        "but {context:member} is <null>.",
-                        unexpectedText))
+                    .FailWith("but {context:member} is <null>."))
             .Then
             .WithExpectation("Did not expect {context:subject} to have attribute {0}{reason}, ", unexpectedText,
                 chain => chain

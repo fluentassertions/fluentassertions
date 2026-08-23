@@ -340,8 +340,7 @@ public class DateOnlyAssertions<TAssertions>
                 unexpected)
             .Then
             .ForCondition(Subject.Value.Year != unexpected)
-            .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but it was.", unexpected,
-                Subject.Value.Year);
+            .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but it was.", unexpected);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }

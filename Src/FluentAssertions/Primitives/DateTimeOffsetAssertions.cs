@@ -1028,7 +1028,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .WithExpectation("Expected the date part of {context:the date and time} to be {0}{reason}, ", expectedDate,
                 chain => chain
                     .ForCondition(Subject.HasValue)
-                    .FailWith("but found a <null> DateTimeOffset.", expectedDate)
+                    .FailWith("but found a <null> DateTimeOffset.")
                     .Then
                     .ForCondition(Subject.Value.Date == expectedDate)
                     .FailWith("but it was {0}.", Subject.Value.Date));
