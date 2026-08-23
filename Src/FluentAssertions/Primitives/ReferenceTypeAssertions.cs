@@ -468,7 +468,6 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
                 CurrentAssertionChain
                     .WithDefaultIdentifier(Identifier)
                     .WithExpectation("Expected {context:object} to match inspector, but the inspector was not satisfied:",
-                        Subject,
                         chain => chain.FailWithPreFormatted(failureMessage));
             }
         }

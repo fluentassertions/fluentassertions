@@ -549,7 +549,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .FailWith(", but {0} is not an interface.", interfaceType)
                 .Then
                 .ForCondition(!containsInterface)
-                .FailWith(", but it does.", interfaceType));
+                .FailWith(", but it does."));
 
         return new AndConstraint<TypeAssertions>(this);
     }
@@ -922,8 +922,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .Then
                 .ForCondition(propertyInfo?.PropertyType == propertyType)
                 .FailWith(() => new FailReason(
-                    $"Expected property {propertyInfo.Name} to be of type {propertyType}{{reason}}, but it is not.",
-                    propertyInfo));
+                    $"Expected property {propertyInfo.Name} to be of type {propertyType}{{reason}}, but it is not."));
         }
 
         return new AndWhichConstraint<TypeAssertions, PropertyInfo>(this, propertyInfo);

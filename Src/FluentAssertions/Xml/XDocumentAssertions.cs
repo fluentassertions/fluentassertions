@@ -456,9 +456,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
                 expectedElement.ToString(), expectedValue, chain => chain
                     .ForCondition(Subject is not null)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(
-                        "but the element itself is <null>.",
-                        expectedElement.ToString(), expectedValue)
+                    .FailWith("but the element itself is <null>.")
                     .Then
                     .Given(() =>
                     {

@@ -439,8 +439,7 @@ public class DateTimeAssertions<TAssertions>
                 unexpected)
             .Then
             .ForCondition(Subject.Value.Year != unexpected)
-            .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but it was.", unexpected,
-                Subject.Value.Year);
+            .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but it was.", unexpected);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -593,10 +592,10 @@ public class DateTimeAssertions<TAssertions>
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Did not expect the hour part of {context:the time} to be {0}{reason}", unexpected, chain => chain
                 .ForCondition(Subject.HasValue)
-                .FailWith(", but found a <null> DateTime.", unexpected)
+                .FailWith(", but found a <null> DateTime.")
                 .Then
                 .ForCondition(Subject.Value.Hour != unexpected)
-                .FailWith(", but it was.", unexpected, Subject.Value.Hour));
+                .FailWith(", but it was."));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -645,10 +644,10 @@ public class DateTimeAssertions<TAssertions>
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Did not expect the minute part of {context:the time} to be {0}{reason}", unexpected, chain => chain
                 .ForCondition(Subject.HasValue)
-                .FailWith(", but found a <null> DateTime.", unexpected)
+                .FailWith(", but found a <null> DateTime.")
                 .Then
                 .ForCondition(Subject.Value.Minute != unexpected)
-                .FailWith(", but it was.", unexpected, Subject.Value.Minute));
+                .FailWith(", but it was."));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -844,10 +843,10 @@ public class DateTimeAssertions<TAssertions>
             .WithExpectation("Expected the date part of {context:the date and time} to be {0}{reason}", expectedDate,
                 chain => chain
                     .ForCondition(Subject.HasValue)
-                    .FailWith(", but found a <null> DateTime.", expectedDate)
+                    .FailWith(", but found a <null> DateTime.")
                     .Then
                     .ForCondition(Subject.Value.Date == expectedDate)
-                    .FailWith(", but found {1}.", expectedDate, Subject.Value));
+                    .FailWith(", but found {0}.", Subject.Value));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
