@@ -7,7 +7,9 @@
                 "BSD-3-Clause",
                 "BSD-2-Clause",
                 "Microsoft .NET Library License",
-                "MS-PL"
+                "MS-PL",
+                "CC BY-SA 4.0",
+                "ISC"
             ],
             "Packages": [
                 "NETStandard.Library",

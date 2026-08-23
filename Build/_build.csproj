@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
@@ -10,10 +10,10 @@
     <FalloutTelemetryVersion>1</FalloutTelemetryVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageDownload Include="GitVersion.Tool" Version="[6.5.1]" />
+    <PackageDownload Include="GitVersion.Tool" Version="[6.8.2]" />
     <PackageDownload Include="ReportGenerator" Version="[5.5.10]" />
     <PackageDownload Include="xunit.runner.console" Version="[2.9.3]" />
-    <PackageDownload Include="PackageGuard" Version="[1.6.1]" />
+    <PackageDownload Include="PackageGuard" Version="[2.5.1]" />
     <PackageReference Include="LibGit2Sharp" Version="0.32.0" />
     <PackageReference Include="Fallout.Common" Version="$(FalloutVersion)" />
     <PackageReference Include="Fallout.Components" Version="$(FalloutVersion)" />
