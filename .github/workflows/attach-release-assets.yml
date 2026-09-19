@@ -1,0 +1,53 @@
+name: Attach Release Assets
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  attach-assets:
+    name: "Attach SBOM and risk report to the release"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Find matching build run
+        id: find-run
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RUN_ID=$(gh run list --repo "${{ github.repository }}" \
+            --workflow=build.yml --branch="${{ github.event.release.tag_name }}" \
+            --json databaseId,status --jq '[.[] | select(.status=="completed")][0].databaseId')
+
+          if [ -z "$RUN_ID" ]; then
+            echo "::error::No completed build.yml run found for tag ${{ github.event.release.tag_name }}"
+            exit 1
+          fi
+
+          echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Download build artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh run download ${{ steps.find-run.outputs.run_id }} \
+            --repo "${{ github.repository }}" -n artifacts -D ./release-assets
+
+          for f in sbom.json risk-report.html; do
+            if [ ! -f "./release-assets/$f" ]; then
+              echo "::error::$f missing from build run ${{ steps.find-run.outputs.run_id }}"
+              exit 1
+            fi
+          done
+
+      - name: Upload assets to the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" \
+            ./release-assets/sbom.json ./release-assets/risk-report.html \
+            --repo "${{ github.repository }}" --clobber
