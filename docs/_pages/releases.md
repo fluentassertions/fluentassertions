@@ -14,6 +14,7 @@ sidebar:
 ### Enhancements
 
 ### Fixes
+* `JsonNodeAssertions.BeNumeric`/`NotBeNumeric` no longer throw on manually constructed `JsonNode` - [#3354](https://github.com/fluentassertions/fluentassertions/pull/3354)
 
 ## 8.11.0
 
