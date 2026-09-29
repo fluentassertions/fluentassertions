@@ -264,6 +264,42 @@ public class JsonNodeSpecs
         }
 
         [Fact]
+        public void A_manually_constructed_numeric_value_is_numeric()
+        {
+            // Arrange
+            JsonNode @int = 42;
+            JsonNode @double = 42.0;
+
+            // Act & Assert
+            @int.Should().BeNumeric();
+            @double.Should().BeNumeric();
+        }
+
+        [Fact]
+        public void A_manually_constructed_numeric_value_can_return_the_actual_value()
+        {
+            // Arrange
+            JsonNode @int = 42;
+            JsonNode @double = 42.0;
+
+            // Act & Assert
+            @int.Should().BeNumeric<int>().Which.Should().Be(42);
+            @double.Should().BeNumeric<double>().Which.Should().Be(42.0);
+        }
+
+        [Fact]
+        public void A_manually_constructed_non_numeric_value_is_not_numeric()
+        {
+            // Arrange
+            JsonNode @string = "42";
+            JsonNode @bool = true;
+
+            // Act & Assert
+            @string.Should().NotBeNumeric();
+            @bool.Should().NotBeNumeric();
+        }
+
+        [Fact]
         public void Can_return_the_actual_value()
         {
             // Arrange
