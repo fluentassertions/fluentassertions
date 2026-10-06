@@ -18,7 +18,7 @@ internal class Node : INode
     public GetSubjectId GetSubjectId
     {
         get => () => cachedSubjectId ??= field();
-        protected init => field = value;
+        protected init;
     }
 
     public Type Type { get; init; }
