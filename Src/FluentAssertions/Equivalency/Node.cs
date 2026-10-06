@@ -11,7 +11,7 @@ namespace FluentAssertions.Equivalency;
 [StackTraceHidden]
 internal class Node : INode
 {
-    private static readonly Regex MatchFirstIndex = new(@"^\[[0-9]+\]$");
+    private static readonly Regex MatchFirstIndex = new(@"^\[[0-9]+\]\z");
 
     private string cachedSubjectId;
 
