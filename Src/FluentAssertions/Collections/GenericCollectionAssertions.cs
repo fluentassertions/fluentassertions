@@ -636,6 +636,34 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     }
 
     /// <summary>
+    /// Asserts that a collection is ordered in the specified <paramref name="direction"/> according to the value
+    /// of the specified <paramref name="propertyExpression"/>.
+    /// </summary>
+    /// <param name="propertyExpression">
+    /// A lambda expression that references the property that should be used to determine the expected ordering.
+    /// </param>
+    /// <param name="direction">
+    /// The direction in which the collection is expected to be ordered.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <remarks>
+    /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+    /// </remarks>
+    public AndConstraint<SubsequentOrderingAssertions<T>> BeOrderedBy<TSelector>(
+        Expression<Func<T, TSelector>> propertyExpression,
+        SortOrder direction,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    {
+        return BeOrderedBy(propertyExpression, GetComparer<TSelector>(), direction, because, becauseArgs);
+    }
+
+    /// <summary>
     /// Asserts that the collection is null or does not contain any items.
     /// </summary>
     /// <param name="because">
@@ -3533,14 +3561,41 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return StartWith([element], ObjectExtensions.GetComparer<T>(), because, becauseArgs);
     }
 
+    /// <summary>
+    /// Asserts that a collection is ordered in the specified <paramref name="direction"/> according to the value
+    /// of the specified <paramref name="propertyExpression"/> and <see cref="IComparer{T}"/> implementation.
+    /// </summary>
+    /// <param name="propertyExpression">
+    /// A lambda expression that references the property that should be used to determine the expected ordering.
+    /// </param>
+    /// <param name="comparer">
+    /// The object that should be used to determine the expected ordering.
+    /// </param>
+    /// <param name="direction">
+    /// The direction in which the collection is expected to be ordered.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <remarks>
+    /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
     [StackTraceHidden]
-    internal AndConstraint<SubsequentOrderingAssertions<T>> BeOrderedBy<TSelector>(
+    public AndConstraint<SubsequentOrderingAssertions<T>> BeOrderedBy<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
         SortOrder direction,
-        [StringSyntax("CompositeFormat")] string because,
-        object[] becauseArgs)
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
+            "Cannot assert collection ordering without specifying a comparer.");
+
         if (IsValidProperty(propertyExpression, because, becauseArgs))
         {
             ICollection<T> unordered = Subject.ConvertOrCastToCollection();
