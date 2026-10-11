@@ -23,6 +23,7 @@ jobs:
       id-token: write
       attestations: write
       contents: read
+      security-events: read
 
     env:
       DOTNET_NOLOGO: true
