@@ -215,13 +215,11 @@ class EnumerableCustomClassFormatter : EnumerableValueFormatter
 }
 ```
 
-### Writing a custom value formatter: a complete guide
+### Writing a custom value formatter
 
-If the built-in formatters don't render your type the way you want, you can write your own. Here's everything you need to know.
+If the built-in formatters don't render your type the way you want, you can write your own. The [section above](#rendering-objects-with-beauty) explains the `IValueFormatter` interface; the steps below cover the practical details.
 
 #### 1. Implement `IValueFormatter`
-
-A value formatter has two methods:
 
 ```csharp
 public class OrderValueFormatter : IValueFormatter
@@ -257,7 +255,7 @@ Custom formatters are consulted **before** the built-in ones, in the reverse ord
 
 #### 3. Rendering child objects with `formatChild`
 
-When your type contains nested objects, **do not** call `Formatter.ToString()` yourself and **do not** call `.ToString()` on the child. Use the `formatChild` delegate instead:
+When your type contains nested objects, do not call `Formatter.ToString()` on the child yourself. Use the `formatChild` delegate instead:
 
 ```csharp
 public void Format(object value, FormattedObjectGraph formattedGraph,
@@ -292,7 +290,7 @@ The graph offers three ways to add text:
 |---|---|
 | `AddFragment(text)` | Appends text to the **current** line. |
 | `AddLine(text)` | Writes text as a **complete line**; nothing else can be appended to it. |
-| `AddLineOrFragment(text)` | Adds as a fragment if the output is still a single line, otherwise as a new line. Useful for closing brackets. |
+| `AddFragmentOnNewLine(text)` | Starts a new line that still accepts further fragments via `AddFragment`. |
 
 A common pattern is to respect `context.UseLineBreaks`, which some assertions set to force multi-line output:
 

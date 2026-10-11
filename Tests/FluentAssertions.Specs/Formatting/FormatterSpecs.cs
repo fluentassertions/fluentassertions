@@ -872,7 +872,9 @@ public class FormatterSpecs : IDisposable
     [Fact]
     public void When_defining_a_custom_value_formatter_it_should_be_used_for_dictionary_values()
     {
-        // Arrange - regression test for https://github.com/fluentassertions/fluentassertions/issues/1527
+        // Regression test for https://github.com/fluentassertions/fluentassertions/issues/1527
+
+        // Arrange
         var values = new Dictionary<string, CustomClass>
         {
             ["key"] = new() { IntProperty = 42 }
@@ -884,9 +886,10 @@ public class FormatterSpecs : IDisposable
         // Act
         string str = Formatter.ToString(values);
 
-        // Assert - the custom formatter must be invoked for the dictionary value,
-        // not just for top-level values
-        str.Should().Contain("CustomClass");
+        // Assert
+        // The custom formatter filters out string members, so StringProperty must not
+        // appear. The default formatter would include it.
+        str.Should().Contain("IntProperty").And.NotContain("StringProperty");
     }
 
     private class CustomClass
