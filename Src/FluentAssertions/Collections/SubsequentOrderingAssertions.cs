@@ -74,7 +74,7 @@ public class SubsequentOrderingAssertions<T>
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
 
-        return ThenBeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, becauseArgs);
+        return ThenBeOrderedBy(propertyExpression, comparer, CollectionSortOrder.Ascending, because, becauseArgs);
     }
 
     /// <summary>
@@ -129,14 +129,14 @@ public class SubsequentOrderingAssertions<T>
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
 
-        return ThenBeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
+        return ThenBeOrderedBy(propertyExpression, comparer, CollectionSortOrder.Descending, because, becauseArgs);
     }
 
     [StackTraceHidden]
     private AndConstraint<SubsequentOrderingAssertions<T>> ThenBeOrderedBy<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
-        SortOrder direction,
+        CollectionSortOrder direction,
         [StringSyntax("CompositeFormat")] string because,
         object[] becauseArgs)
     {
@@ -148,14 +148,14 @@ public class SubsequentOrderingAssertions<T>
     internal sealed override IOrderedEnumerable<T> GetOrderedEnumerable<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
-        SortOrder direction,
+        CollectionSortOrder direction,
         ICollection<T> unordered)
     {
         if (subsequentOrdering)
         {
             Func<T, TSelector> keySelector = propertyExpression.Compile();
 
-            IOrderedEnumerable<T> expectation = direction == SortOrder.Ascending
+            IOrderedEnumerable<T> expectation = direction == CollectionSortOrder.Ascending
                 ? previousOrderedEnumerable.ThenBy(keySelector, comparer)
                 : previousOrderedEnumerable.ThenByDescending(keySelector, comparer);
 

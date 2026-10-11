@@ -3,7 +3,7 @@ namespace FluentAssertions.Collections;
 /// <summary>
 /// Defines the direction in which a collection is expected to be ordered.
 /// </summary>
-public enum SortOrder
+public enum CollectionSortOrder
 {
     /// <summary>
     /// The collection is expected to be ordered from the smallest to the largest value.

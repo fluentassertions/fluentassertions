@@ -431,7 +431,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
 
-        return BeInOrder(comparer, SortOrder.Ascending, because, becauseArgs);
+        return BeInOrder(comparer, CollectionSortOrder.Ascending, because, becauseArgs);
     }
 
     /// <summary>
@@ -463,7 +463,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
 
-        return BeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, becauseArgs);
+        return BeOrderedBy(propertyExpression, comparer, CollectionSortOrder.Ascending, because, becauseArgs);
     }
 
     /// <summary>
@@ -507,7 +507,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
-        return BeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), SortOrder.Ascending, because, becauseArgs);
+        return BeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), CollectionSortOrder.Ascending, because, becauseArgs);
     }
 
     /// <summary>
@@ -558,7 +558,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
 
-        return BeInOrder(comparer, SortOrder.Descending, because, becauseArgs);
+        return BeInOrder(comparer, CollectionSortOrder.Descending, because, becauseArgs);
     }
 
     /// <summary>
@@ -589,7 +589,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
 
-        return BeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
+        return BeOrderedBy(propertyExpression, comparer, CollectionSortOrder.Descending, because, becauseArgs);
     }
 
     /// <summary>
@@ -632,7 +632,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     public AndConstraint<SubsequentOrderingAssertions<T>> BeInDescendingOrder(Func<T, T, int> comparison,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        return BeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), SortOrder.Descending, because, becauseArgs);
+        return BeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), CollectionSortOrder.Descending, because, becauseArgs);
     }
 
     /// <summary>
@@ -657,10 +657,73 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </remarks>
     public AndConstraint<SubsequentOrderingAssertions<T>> BeOrderedBy<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression,
-        SortOrder direction,
+        CollectionSortOrder direction,
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsOutOfRange(direction);
+
         return BeOrderedBy(propertyExpression, GetComparer<TSelector>(), direction, because, becauseArgs);
+    }
+
+    /// <summary>
+    /// Asserts that a collection is ordered in the specified <paramref name="direction"/> according to the value
+    /// of the specified <paramref name="propertyExpression"/> and <see cref="IComparer{T}"/> implementation.
+    /// </summary>
+    /// <param name="propertyExpression">
+    /// A lambda expression that references the property that should be used to determine the expected ordering.
+    /// </param>
+    /// <param name="comparer">
+    /// The object that should be used to determine the expected ordering.
+    /// </param>
+    /// <param name="direction">
+    /// The direction in which the collection is expected to be ordered.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <remarks>
+    /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="direction"/> is not a defined <see cref="CollectionSortOrder"/> value.</exception>
+    public AndConstraint<SubsequentOrderingAssertions<T>> BeOrderedBy<TSelector>(
+        Expression<Func<T, TSelector>> propertyExpression,
+        IComparer<TSelector> comparer,
+        CollectionSortOrder direction,
+        [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
+            "Cannot assert collection ordering without specifying a comparer.");
+
+        Guard.ThrowIfArgumentIsOutOfRange(direction);
+
+        if (IsValidProperty(propertyExpression, because, becauseArgs))
+        {
+            ICollection<T> unordered = Subject.ConvertOrCastToCollection();
+
+            IOrderedEnumerable<T> expectation = GetOrderedEnumerable(
+                propertyExpression,
+                comparer,
+                direction,
+                unordered);
+
+            assertionChain
+                .ForCondition(unordered.SequenceEqual(expectation))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} {0} to be ordered {1}{reason} and result in {2}.",
+                    () => Subject, () => GetExpressionOrderString(propertyExpression), () => expectation);
+
+            return new AndConstraint<SubsequentOrderingAssertions<T>>(
+                new SubsequentOrderingAssertions<T>(Subject, expectation, assertionChain));
+        }
+
+        return new AndConstraint<SubsequentOrderingAssertions<T>>(
+            new SubsequentOrderingAssertions<T>(Subject, Enumerable.Empty<T>().OrderBy(x => x), assertionChain));
     }
 
     /// <summary>
@@ -2169,7 +2232,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
 
-        return NotBeInOrder(comparer, SortOrder.Ascending, because, becauseArgs);
+        return NotBeInOrder(comparer, CollectionSortOrder.Ascending, because, becauseArgs);
     }
 
     /// <summary>
@@ -2201,7 +2264,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
 
-        return NotBeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, becauseArgs);
+        return NotBeOrderedBy(propertyExpression, comparer, CollectionSortOrder.Ascending, because, becauseArgs);
     }
 
     /// <summary>
@@ -2244,7 +2307,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
-        return NotBeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), SortOrder.Ascending, because, becauseArgs);
+        return NotBeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), CollectionSortOrder.Ascending, because, becauseArgs);
     }
 
     /// <summary>
@@ -2295,7 +2358,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
 
-        return NotBeInOrder(comparer, SortOrder.Descending, because, becauseArgs);
+        return NotBeInOrder(comparer, CollectionSortOrder.Descending, because, becauseArgs);
     }
 
     /// <summary>
@@ -2327,7 +2390,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
             "Cannot assert collection ordering without specifying a comparer.");
 
-        return NotBeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
+        return NotBeOrderedBy(propertyExpression, comparer, CollectionSortOrder.Descending, because, becauseArgs);
     }
 
     /// <summary>
@@ -2370,7 +2433,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
-        return NotBeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), SortOrder.Descending, because, becauseArgs);
+        return NotBeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), CollectionSortOrder.Descending, because, becauseArgs);
     }
 
     /// <summary>
@@ -3561,75 +3624,17 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return StartWith([element], ObjectExtensions.GetComparer<T>(), because, becauseArgs);
     }
 
-    /// <summary>
-    /// Asserts that a collection is ordered in the specified <paramref name="direction"/> according to the value
-    /// of the specified <paramref name="propertyExpression"/> and <see cref="IComparer{T}"/> implementation.
-    /// </summary>
-    /// <param name="propertyExpression">
-    /// A lambda expression that references the property that should be used to determine the expected ordering.
-    /// </param>
-    /// <param name="comparer">
-    /// The object that should be used to determine the expected ordering.
-    /// </param>
-    /// <param name="direction">
-    /// The direction in which the collection is expected to be ordered.
-    /// </param>
-    /// <param name="because">
-    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-    /// </param>
-    /// <param name="becauseArgs">
-    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-    /// </param>
-    /// <remarks>
-    /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
-    /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
-    [StackTraceHidden]
-    public AndConstraint<SubsequentOrderingAssertions<T>> BeOrderedBy<TSelector>(
-        Expression<Func<T, TSelector>> propertyExpression,
-        IComparer<TSelector> comparer,
-        SortOrder direction,
-        [StringSyntax("CompositeFormat")] string because = "",
-        params object[] becauseArgs)
-    {
-        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
-            "Cannot assert collection ordering without specifying a comparer.");
-
-        if (IsValidProperty(propertyExpression, because, becauseArgs))
-        {
-            ICollection<T> unordered = Subject.ConvertOrCastToCollection();
-
-            IOrderedEnumerable<T> expectation = GetOrderedEnumerable(
-                propertyExpression,
-                comparer,
-                direction,
-                unordered);
-
-            assertionChain
-                .ForCondition(unordered.SequenceEqual(expectation))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} {0} to be ordered {1}{reason} and result in {2}.",
-                    () => Subject, () => GetExpressionOrderString(propertyExpression), () => expectation);
-
-            return new AndConstraint<SubsequentOrderingAssertions<T>>(
-                new SubsequentOrderingAssertions<T>(Subject, expectation, assertionChain));
-        }
-
-        return new AndConstraint<SubsequentOrderingAssertions<T>>(
-            new SubsequentOrderingAssertions<T>(Subject, Enumerable.Empty<T>().OrderBy(x => x), assertionChain));
-    }
 
     [StackTraceHidden]
     internal virtual IOrderedEnumerable<T> GetOrderedEnumerable<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
-        SortOrder direction,
+        CollectionSortOrder direction,
         ICollection<T> unordered)
     {
         Func<T, TSelector> keySelector = propertyExpression.Compile();
 
-        IOrderedEnumerable<T> expectation = direction == SortOrder.Ascending
+        IOrderedEnumerable<T> expectation = direction == CollectionSortOrder.Ascending
             ? unordered.OrderBy(keySelector, comparer)
             : unordered.OrderByDescending(keySelector, comparer);
 
@@ -3832,7 +3837,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     private AndConstraint<TAssertions> NotBeOrderedBy<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
-        SortOrder direction,
+        CollectionSortOrder direction,
         [StringSyntax("CompositeFormat")] string because,
         object[] becauseArgs)
     {
@@ -3862,10 +3867,10 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </summary>
     [StackTraceHidden]
     private AndConstraint<SubsequentOrderingAssertions<T>> BeInOrder(
-        IComparer<T> comparer, SortOrder expectedOrder, [StringSyntax("CompositeFormat")] string because = "",
+        IComparer<T> comparer, CollectionSortOrder expectedOrder, [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
-        string sortOrder = expectedOrder == SortOrder.Ascending ? "ascending" : "descending";
+        string sortOrder = expectedOrder == CollectionSortOrder.Ascending ? "ascending" : "descending";
 
         assertionChain
             .BecauseOf(because, becauseArgs)
@@ -3878,7 +3883,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         {
             IList<T> actualItems = Subject.ConvertOrCastToList();
 
-            ordering = expectedOrder == SortOrder.Ascending
+            ordering = expectedOrder == CollectionSortOrder.Ascending
                 ? actualItems.OrderBy(item => item, comparer)
                 : actualItems.OrderByDescending(item => item, comparer);
 
@@ -3910,11 +3915,11 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// using their <see cref="object.Equals(object)" /> implementation.
     /// </summary>
     [StackTraceHidden]
-    private AndConstraint<TAssertions> NotBeInOrder(IComparer<T> comparer, SortOrder order,
+    private AndConstraint<TAssertions> NotBeInOrder(IComparer<T> comparer, CollectionSortOrder order,
         [StringSyntax("CompositeFormat")] string because = "",
         params object[] becauseArgs)
     {
-        string sortOrder = order == SortOrder.Ascending ? "ascending" : "descending";
+        string sortOrder = order == CollectionSortOrder.Ascending ? "ascending" : "descending";
 
         assertionChain
             .BecauseOf(because, becauseArgs)
@@ -3925,7 +3930,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         {
             IList<T> actualItems = Subject.ConvertOrCastToList();
 
-            T[] orderedItems = order == SortOrder.Ascending
+            T[] orderedItems = order == CollectionSortOrder.Ascending
                 ? actualItems.OrderBy(item => item, comparer).ToArray()
                 : actualItems.OrderByDescending(item => item, comparer).ToArray();
 
