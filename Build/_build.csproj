@@ -19,6 +19,6 @@
     <PackageReference Include="Fallout.Components" Version="$(FalloutVersion)" />
     <!-- Upstream issue: https://github.com/Fallout-build/Fallout/issues/638 -->
     <PackageReference Include="NuGet.Frameworks" Version="7.9.0" />
-    <PackageReference Include="SharpCompress" Version="0.50.4" />
+    <PackageReference Include="SharpCompress" Version="0.50.5" />
   </ItemGroup>
 </Project>
