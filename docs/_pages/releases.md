@@ -10,7 +10,7 @@ sidebar:
 ## Unreleased
 
 ### What's new
-* Added a `BeOrderedBy(expression, SortOrder)` overload for collections so callers can pass a sort expression plus a direction enum (`SortOrder.Ascending`/`SortOrder.Descending`) instead of branching on direction - [#3363](https://github.com/fluentassertions/fluentassertions/pull/3363)
+* Added a `BeOrderedBy(expression, CollectionSortOrder)` overload for collections so callers can pass a sort expression plus a direction enum (`CollectionSortOrder.Ascending`/`CollectionSortOrder.Descending`) instead of branching on direction - [#3363](https://github.com/fluentassertions/fluentassertions/pull/3363)
 
 ### Enhancements
 

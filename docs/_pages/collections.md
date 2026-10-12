@@ -150,11 +150,11 @@ collection.Should().NotBeInAscendingOrder(item => item.SomeProp, StringComparer.
 collection.Should().NotBeInDescendingOrder(item => item.SomeProp, StringComparer.CurrentCulture);
 ```
 
-If the sort direction is only known at runtime, use the `BeOrderedBy` overload that takes a `SortOrder` direction enum (`SortOrder.Ascending` or `SortOrder.Descending`) instead of branching between the ascending and descending variants.
+If the sort direction is only known at runtime, use the `BeOrderedBy` overload that takes a `CollectionSortOrder` direction enum (`CollectionSortOrder.Ascending` or `CollectionSortOrder.Descending`) instead of branching between the ascending and descending variants.
 
 ```csharp
-collection.Should().BeOrderedBy(item => item.SomeProp, SortOrder.Ascending);
-collection.Should().BeOrderedBy(item => item.SomeProp, SortOrder.Descending);
+collection.Should().BeOrderedBy(item => item.SomeProp, CollectionSortOrder.Ascending);
+collection.Should().BeOrderedBy(item => item.SomeProp, CollectionSortOrder.Descending);
 ```
 
 For `String` collections there are specific methods to assert the items. For the `ContainMatch` and `NotContainMatch` methods we support wildcards.
