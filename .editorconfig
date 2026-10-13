@@ -319,13 +319,17 @@ dotnet_diagnostic.SA1122.severity = none
 # Rationale: Is up to the developer to decide if they want to use regions or not.
 dotnet_diagnostic.SA1124.severity = none
 
-# Purpose: Variable '_' should begin with lower-case lette
+# Purpose: Variable '_' should begin with lower-case letter
 # Rationale: Does not understand discard parameters
 dotnet_diagnostic.SA1312.severity = none
 
-# Purpose: Parameter '_' should begin with lower-case lette
+# Purpose: Parameter '_' should begin with lower-case letter
 # Rationale: Does not understand discard parameters
 dotnet_diagnostic.SA1313.severity = none
+
+# Purpose: Element names within a tuple type should have the correct casing.
+# Rationale: We don't want to force this
+dotnet_diagnostic.SA1316.severity = none
 
 # Purpose: File may only contain a single type
 # Rationale: Although we prefer to have one type per file, we don't want to force this.
