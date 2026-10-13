@@ -9,7 +9,8 @@
                 "Microsoft .NET Library License",
                 "MS-PL",
                 "CC BY-SA 4.0",
-                "ISC"
+                "ISC",
+                "WTFPL"
             ],
             "Packages": [
                 "NETStandard.Library",
