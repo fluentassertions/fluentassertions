@@ -51,8 +51,7 @@
         "Verbose",
         "Normal",
         "Minimal",
-        "Quiet",
-        "Information"
+        "Quiet"
       ]
     },
     "FalloutBuild": {
@@ -71,7 +70,7 @@
         },
         "NoLogo": {
           "type": "boolean",
-          "description": "Disables displaying the Fallout logo"
+          "description": "Disables displaying the NUKE logo"
         },
         "Partition": {
           "type": "string",
