@@ -253,68 +253,7 @@ Custom formatters are consulted **before** the built-in ones, in the reverse ord
 
 > **Note:** `Formatter.AddFormatter` mutates global static state. See [Thread Safety](#thread-safety) below for how to configure it safely.
 
-#### 3. Rendering child objects with `formatChild`
-
-When your type contains nested objects, do not call `Formatter.ToString()` on the child yourself. Use the `formatChild` delegate instead:
-
-```csharp
-public void Format(object value, FormattedObjectGraph formattedGraph,
-    FormattingContext context, FormatChild formatChild)
-{
-    var order = (Order)value;
-
-    formattedGraph.AddFragment($"Order #{order.Id} {{");
-
-    // formatChild renders the child using the full formatter pipeline,
-    // so custom formatters, cyclic-reference detection and max-depth
-    // protection all keep working for nested values.
-    formatChild("lines", order.Lines, formattedGraph);
-
-    formattedGraph.AddFragment("}");
-}
-```
-
-The `formatChild` delegate takes three arguments:
-
-* `childPath` – a dotted path identifying the child (e.g. `"lines"`, `"customer.address"`). Used for cyclic-reference detection and in diagnostic messages. Must not be null or empty.
-* `value` – the child value to format.
-* `formattedGraph` – the same graph you received; pass it through unchanged.
-
-Why not call `Formatter.ToString()` directly? It would bypass cyclic-reference detection (infinite recursion on circular graphs) and re-enter the formatter in an unsupported way — you'll get an `InvalidOperationException` telling you to use `formatChild`.
-
-#### 4. Writing to the `FormattedObjectGraph`
-
-The graph offers three ways to add text:
-
-| Method | Behavior |
-|---|---|
-| `AddFragment(text)` | Appends text to the **current** line. |
-| `AddLine(text)` | Writes text as a **complete line**; nothing else can be appended to it. |
-| `AddFragmentOnNewLine(text)` | Starts a new line that still accepts further fragments via `AddFragment`. |
-
-A common pattern is to respect `context.UseLineBreaks`, which some assertions set to force multi-line output:
-
-```csharp
-public void Format(object value, FormattedObjectGraph formattedGraph,
-    FormattingContext context, FormatChild formatChild)
-{
-    var order = (Order)value;
-    string result = $"Order #{order.Id}";
-
-    if (context.UseLineBreaks)
-    {
-        formattedGraph.AddLine(result);      // separate line in the final output
-    }
-    else
-    {
-        formattedGraph.AddFragment(result);  // appended to the current line
-    }
-}
-```
-
-If your rendering could produce a lot of text, the graph throws `MaxLinesExceededException` once the configured maximum is reached. **Do not catch it** — let it propagate; the formatter pipeline handles it.
-
-#### 5. Custom formatters apply to nested values
+#### 3. Custom formatters apply to nested values
 
 Custom formatters are invoked for **every** value in the object graph, including values nested inside collections and dictionaries. For example, if you register a formatter for `ProfileData` and then assert on a `Dictionary<string, ProfileData>`, your formatter's `CanHandle` will be called for each `ProfileData` value in the dictionary:
 
