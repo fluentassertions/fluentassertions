@@ -9,9 +9,9 @@ public record Pathway
 {
     public delegate string GetDescription(string pathAndName);
 
-    private string pathAndName;
-
     private readonly GetDescription getDescription;
+
+    private string pathAndName;
 
     public Pathway(string path, string name, GetDescription getDescription)
     {
