@@ -13,12 +13,15 @@
     <PackageDownload Include="GitVersion.Tool" Version="[6.8.2]" />
     <PackageDownload Include="ReportGenerator" Version="[5.5.11]" />
     <PackageDownload Include="xunit.runner.console" Version="[2.9.3]" />
-    <PackageDownload Include="PackageGuard" Version="[2.9.1]" />
+    <PackageDownload Include="PackageGuard" Version="[2.10.1]" />
     <PackageReference Include="LibGit2Sharp" Version="0.32.0" />
     <PackageReference Include="Fallout.Common" Version="$(FalloutVersion)" />
     <PackageReference Include="Fallout.Components" Version="$(FalloutVersion)" />
     <!-- Upstream issue: https://github.com/Fallout-build/Fallout/issues/638 -->
     <PackageReference Include="NuGet.Frameworks" Version="7.9.0" />
     <PackageReference Include="SharpCompress" Version="0.50.5" />
+    <!-- Transitive via Fallout; 10.0.10 has known vulnerabilities -->
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.13" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
   </ItemGroup>
 </Project>
