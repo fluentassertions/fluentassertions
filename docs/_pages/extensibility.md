@@ -215,6 +215,56 @@ class EnumerableCustomClassFormatter : EnumerableValueFormatter
 }
 ```
 
+### Writing a custom value formatter
+
+If the built-in formatters don't render your type the way you want, you can write your own. The [section above](#rendering-objects-with-beauty) explains the `IValueFormatter` interface; the steps below cover the practical details.
+
+#### 1. Implement `IValueFormatter`
+
+```csharp
+public class OrderValueFormatter : IValueFormatter
+{
+    // Tells Fluent Assertions whether this formatter applies to a given value.
+    // Called for every value being formatted, so keep it fast and side-effect free.
+    public bool CanHandle(object value)
+    {
+        return value is Order;
+    }
+
+    // Renders the value into the formattedGraph.
+    public void Format(object value, FormattedObjectGraph formattedGraph,
+        FormattingContext context, FormatChild formatChild)
+    {
+        var order = (Order)value;
+        formattedGraph.AddFragment($"Order #{order.Id} ({order.Lines.Count} lines)");
+    }
+}
+```
+
+#### 2. Register the formatter
+
+Register it once at startup (e.g. in a module initializer or test setup):
+
+```csharp
+Formatter.AddFormatter(new OrderValueFormatter());
+```
+
+Custom formatters are consulted **before** the built-in ones, in the reverse order they were added (last added wins). To remove one, call `Formatter.RemoveFormatter(formatter)`.
+
+> **Note:** `Formatter.AddFormatter` mutates global static state. See [Thread Safety](#thread-safety) below for how to configure it safely.
+
+#### 3. Custom formatters apply to nested values
+
+Custom formatters are invoked for **every** value in the object graph, including values nested inside collections and dictionaries. For example, if you register a formatter for `ProfileData` and then assert on a `Dictionary<string, ProfileData>`, your formatter's `CanHandle` will be called for each `ProfileData` value in the dictionary:
+
+```csharp
+Formatter.AddFormatter(new ProfileDataValueFormatter());
+
+var dict = new Dictionary<string, ProfileData> { ["key"] = new ProfileData() };
+dict.Should().Equal(expected); // ProfileDataValueFormatter is used for the values
+```
+
+
 ## Scoped `IValueFormatter`s
 
 You can add a custom value formatter inside a scope to selectively customize formatting of an object based on the context of the test.
