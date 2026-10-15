@@ -120,6 +120,8 @@ So although you are free to go through the many examples here, please consider t
 
 My name is [Dennis Doomen](https://twitter.com/ddoomen) and I work for [Aviva Solutions](https://www.avivasolutions.nl/) in The Netherlands. I maintain a [blog](https://www.continuousimprover.com/) on my everlasting quest for knowledge that significantly improves the way you build your key systems in an agile world. Fluent Assertions is one of those aspects of that. Since 2018, [Jonas Nyrup](https://github.com/jnyrup) has joined to project and help bring it forward.
 
+Fluent Assertions is now an official partner of [Xceed Software](https://xceed.com/), a long-standing vendor of .NET components. Xceed supports the project's ongoing development and offers [commercial licensing](https://xceed.com/products/unit-testing/fluent-assertions/) for teams that use Fluent Assertions in closed-source products, while the project remains free for open-source and non-commercial use.
+
 ## Versioning
 
 The version numbers of Fluent Assertions releases comply to the [Semantic Versioning](http://semver.org/) scheme. In other words, release 1.4.0 only adds backwards-compatible functionality and bug fixes compared to 1.3.0. Release 1.4.1 should only include bug fixes. And if we ever introduce breaking changes, the number increased to 2.0.0.
