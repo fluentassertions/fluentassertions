@@ -3624,7 +3624,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return StartWith([element], ObjectExtensions.GetComparer<T>(), because, becauseArgs);
     }
 
-
     [StackTraceHidden]
     internal virtual IOrderedEnumerable<T> GetOrderedEnumerable<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression,
