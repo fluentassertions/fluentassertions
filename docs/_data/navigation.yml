@@ -79,6 +79,8 @@ sidebar:
         url: /httpresponsemessages
       - title: F# usage
         url: /fsharp
+      - title: Uris
+        url: /uris
 
   - title: Extensibility
     url: /extensibility

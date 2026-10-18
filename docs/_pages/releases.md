@@ -10,6 +10,7 @@ sidebar:
 ## Unreleased
 
 ### What's new
+* Added `Should()` assertions for `System.Uri`, such as `BeAbsolute`, `HaveScheme`, `HaveHost`, `HavePath` and `HaveQueryParameter` - [#3390](https://github.com/fluentassertions/fluentassertions/pull/3390)
 * Added a `BeOrderedBy(expression, CollectionSortOrder)` overload for collections so callers can pass a sort expression plus a direction enum (`CollectionSortOrder.Ascending`/`CollectionSortOrder.Descending`) instead of branching on direction - [#3363](https://github.com/fluentassertions/fluentassertions/pull/3363)
 
 ### Enhancements
