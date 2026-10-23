@@ -23,7 +23,7 @@ jobs:
       id-token: write
       attestations: write
       contents: read
-      security-events: read
+      security-events: write
 
     env:
       DOTNET_NOLOGO: true
@@ -92,7 +92,7 @@ jobs:
           ./Artifacts/risk-report.html
 
     - name: Upload PackageGuard SARIF file
-      if: always()
+      if: always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
       uses: github/codeql-action/upload-sarif@v4
       with:
         sarif_file: Artifacts/risk-report.sarif

@@ -11,7 +11,7 @@
     <ProjectReference Include="..\..\..\Src\FluentAssertions\FluentAssertions.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="TUnit" Version="1.73.19" />
+    <PackageReference Include="TUnit" Version="1.75.0" />
   </ItemGroup>
 
 </Project>
