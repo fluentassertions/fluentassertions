@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
@@ -1858,13 +1857,12 @@ public static class NumericAssertionsExtensions
     }
 
     [StackTraceHidden]
-    private static void ThrowIfPrecisionIsNegative<T>(T precision,
-        [CallerArgumentExpression(nameof(precision))] string paramName = "")
+    private static void ThrowIfPrecisionIsNegative<T>(T precision)
         where T : struct, System.Numerics.IFloatingPoint<T>
     {
         if (precision < T.Zero)
         {
-            throw new ArgumentOutOfRangeException(paramName, "The value must be non-negative.");
+            throw new ArgumentOutOfRangeException(nameof(precision), "The value must be non-negative.");
         }
     }
 
