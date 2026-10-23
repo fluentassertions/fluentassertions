@@ -10,6 +10,7 @@ sidebar:
 ## Unreleased
 
 ### What's new
+* Added generic-math support on `net8.0`: `Should()` now works for any `INumber<T>` type that had no dedicated overload (such as `Half`, `NFloat`, `Int128` and `BigInteger`), and `BeApproximately`/`NotBeApproximately` work for any `IFloatingPoint<T>` - [#3391](https://github.com/fluentassertions/fluentassertions/pull/3391)
 
 ### Enhancements
 

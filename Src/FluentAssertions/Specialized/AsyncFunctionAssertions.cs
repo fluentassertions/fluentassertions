@@ -318,7 +318,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     [StackTraceHidden]
     private protected (TTask Result, TimeSpan RemainingTime) InvokeWithTimer(TimeSpan timeSpan)
     {
-        ITimer timer = Clock.StartTimer();
+        var timer = Clock.StartTimer();
         TTask result = Subject.Invoke();
         TimeSpan remainingTime = timeSpan - timer.Elapsed;
 

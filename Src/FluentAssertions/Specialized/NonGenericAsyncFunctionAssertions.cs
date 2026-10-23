@@ -151,7 +151,7 @@ public class NonGenericAsyncFunctionAssertions : AsyncFunctionAssertions<Task, N
             {
                 TimeSpan? invocationEndTime = null;
                 Exception exception = null;
-                ITimer timer = Clock.StartTimer();
+                var timer = Clock.StartTimer();
 
                 while (invocationEndTime is null || invocationEndTime < waitTime)
                 {

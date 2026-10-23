@@ -772,6 +772,52 @@ public static class AssertionExtensions
         return new NullableDoubleAssertions(actualValue, AssertionChain.GetOrCreate());
     }
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Returns a <see cref="NumericAssertions{T}"/> object that can be used to assert the
+    /// current <typeparamref name="T"/>, for any type that implements <see cref="System.Numerics.INumber{TSelf}"/>.
+    /// </summary>
+    [Pure]
+    public static NumericAssertions<T> Should<T>(this T actualValue)
+        where T : struct, System.Numerics.INumber<T>
+    {
+        return new NumericAssertions<T>(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns a <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+    /// current nullable <typeparamref name="T"/>, for any type that implements <see cref="System.Numerics.INumber{TSelf}"/>.
+    /// </summary>
+    [Pure]
+    public static NullableNumericAssertions<T> Should<T>([NotNull] this T? actualValue)
+        where T : struct, System.Numerics.INumber<T>
+    {
+        return new NullableNumericAssertions<T>(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    // char implements INumber<char> on .NET 8, but it is not a number to us. These overloads keep its existing behavior.
+
+    /// <summary>
+    /// Returns a <see cref="ComparableTypeAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="char"/>.
+    /// </summary>
+    [Pure]
+    public static ComparableTypeAssertions<char> Should(this char actualValue)
+    {
+        return new ComparableTypeAssertions<char>(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns an <see cref="ObjectAssertions"/> object that can be used to assert the
+    /// current nullable <see cref="char"/>.
+    /// </summary>
+    [Pure]
+    public static ObjectAssertions Should(this char? actualValue)
+    {
+        return new ObjectAssertions(actualValue, AssertionChain.GetOrCreate());
+    }
+#endif
+
     /// <summary>
     /// Returns a <see cref="StringAssertions"/> object that can be used to assert the
     /// current <see cref="string"/>.

@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
@@ -1750,6 +1751,125 @@ public static class NumericAssertionsExtensions
     }
 
     #endregion
+
+#if NET8_0_OR_GREATER
+    #region Generic math
+
+    /// <summary>
+    /// Asserts a floating point value approximates another value as close as possible.
+    /// </summary>
+    /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
+    /// <param name="expectedValue">
+    /// The expected value to compare the actual value with.
+    /// </param>
+    /// <param name="precision">
+    /// The maximum amount of which the two values may differ.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
+    public static AndConstraint<NumericAssertions<T>> BeApproximately<T>(this NumericAssertions<T> parent,
+        T expectedValue, T precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+        where T : struct, System.Numerics.IFloatingPoint<T>
+    {
+        if (T.IsNaN(expectedValue))
+        {
+            throw new ArgumentException($"Cannot determine approximation of a {typeof(T).Name} to NaN", nameof(expectedValue));
+        }
+
+        ThrowIfPrecisionIsNegative(precision);
+
+        if (T.IsPositiveInfinity(expectedValue))
+        {
+            FailIfDifferenceOutsidePrecision(T.IsPositiveInfinity(parent.Subject), parent, expectedValue, precision,
+                expectedValue - expectedValue, because, becauseArgs);
+        }
+        else if (T.IsNegativeInfinity(expectedValue))
+        {
+            FailIfDifferenceOutsidePrecision(T.IsNegativeInfinity(parent.Subject), parent, expectedValue, precision,
+                expectedValue - expectedValue, because, becauseArgs);
+        }
+        else
+        {
+            T actualDifference = T.Abs(expectedValue - parent.Subject);
+
+            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference,
+                because, becauseArgs);
+        }
+
+        return new AndConstraint<NumericAssertions<T>>(parent);
+    }
+
+    /// <summary>
+    /// Asserts a floating point value does not approximate another value by a given amount.
+    /// </summary>
+    /// <param name="parent">The <see cref="NumericAssertions{T}"/> object that is being extended.</param>
+    /// <param name="unexpectedValue">
+    /// The unexpected value to compare the actual value with.
+    /// </param>
+    /// <param name="precision">
+    /// The minimum exclusive amount of which the two values should differ.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
+    public static AndConstraint<NumericAssertions<T>> NotBeApproximately<T>(this NumericAssertions<T> parent,
+        T unexpectedValue, T precision,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+        where T : struct, System.Numerics.IFloatingPoint<T>
+    {
+        if (T.IsNaN(unexpectedValue))
+        {
+            throw new ArgumentException($"Cannot determine approximation of a {typeof(T).Name} to NaN", nameof(unexpectedValue));
+        }
+
+        ThrowIfPrecisionIsNegative(precision);
+
+        if (T.IsPositiveInfinity(unexpectedValue))
+        {
+            FailIfDifferenceWithinPrecision(parent, !T.IsPositiveInfinity(parent.Subject), unexpectedValue, precision,
+                unexpectedValue - unexpectedValue, because, becauseArgs);
+        }
+        else if (T.IsNegativeInfinity(unexpectedValue))
+        {
+            FailIfDifferenceWithinPrecision(parent, !T.IsNegativeInfinity(parent.Subject), unexpectedValue, precision,
+                unexpectedValue - unexpectedValue, because, becauseArgs);
+        }
+        else
+        {
+            T actualDifference = T.Abs(unexpectedValue - parent.Subject);
+
+            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference,
+                because, becauseArgs);
+        }
+
+        return new AndConstraint<NumericAssertions<T>>(parent);
+    }
+
+    [StackTraceHidden]
+    private static void ThrowIfPrecisionIsNegative<T>(T precision,
+        [CallerArgumentExpression(nameof(precision))] string paramName = "")
+        where T : struct, System.Numerics.IFloatingPoint<T>
+    {
+        if (precision < T.Zero)
+        {
+            throw new ArgumentOutOfRangeException(paramName, "The value must be non-negative.");
+        }
+    }
+
+    #endregion
+#endif
 
     [StackTraceHidden]
     private static long GetMinValue(long value, ulong delta)
