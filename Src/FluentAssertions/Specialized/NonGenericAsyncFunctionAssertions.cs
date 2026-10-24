@@ -5,6 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+#if NET8_0_OR_GREATER
+using ITimer = FluentAssertions.Common.ITimer;
+#endif
 
 namespace FluentAssertions.Specialized;
 
@@ -151,7 +154,7 @@ public class NonGenericAsyncFunctionAssertions : AsyncFunctionAssertions<Task, N
             {
                 TimeSpan? invocationEndTime = null;
                 Exception exception = null;
-                var timer = Clock.StartTimer();
+                ITimer timer = Clock.StartTimer();
 
                 while (invocationEndTime is null || invocationEndTime < waitTime)
                 {

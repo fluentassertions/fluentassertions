@@ -90,6 +90,12 @@ namespace FluentAssertions
         public static FluentAssertions.Primitives.NullableGuidAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Guid? actualValue) { }
         public static FluentAssertions.Streams.BufferedStreamAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.IO.BufferedStream actualValue) { }
         public static FluentAssertions.Streams.StreamAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.IO.Stream actualValue) { }
+        public static FluentAssertions.Numeric.ComparableTypeAssertions<System.Int128> Should(this System.Int128 actualValue) { }
+        public static FluentAssertions.Primitives.ObjectAssertions Should(this System.Int128? actualValue) { }
+        public static FluentAssertions.Numeric.ComparableTypeAssertions<System.IntPtr> Should(this nint actualValue) { }
+        public static FluentAssertions.Primitives.ObjectAssertions Should(this System.IntPtr? actualValue) { }
+        public static FluentAssertions.Numeric.ComparableTypeAssertions<System.Numerics.BigInteger> Should(this System.Numerics.BigInteger actualValue) { }
+        public static FluentAssertions.Primitives.ObjectAssertions Should(this System.Numerics.BigInteger? actualValue) { }
         public static FluentAssertions.Collections.StringCollectionAssertions Should(this System.ReadOnlySpan<string> actualValue) { }
         public static FluentAssertions.Types.AssemblyAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.Assembly assembly) { }
         public static FluentAssertions.Types.ConstructorInfoAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.ConstructorInfo constructorInfo) { }
@@ -102,6 +108,10 @@ namespace FluentAssertions
         public static FluentAssertions.Primitives.SimpleTimeSpanAssertions Should(this System.TimeSpan actualValue) { }
         public static FluentAssertions.Primitives.NullableSimpleTimeSpanAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.TimeSpan? actualValue) { }
         public static FluentAssertions.Types.TypeAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Type subject) { }
+        public static FluentAssertions.Numeric.ComparableTypeAssertions<System.UInt128> Should(this System.UInt128 actualValue) { }
+        public static FluentAssertions.Primitives.ObjectAssertions Should(this System.UInt128? actualValue) { }
+        public static FluentAssertions.Numeric.ComparableTypeAssertions<System.UIntPtr> Should(this nuint actualValue) { }
+        public static FluentAssertions.Primitives.ObjectAssertions Should(this System.UIntPtr? actualValue) { }
         public static FluentAssertions.Primitives.UriAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Uri actualValue) { }
         public static FluentAssertions.Xml.XAttributeAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Xml.Linq.XAttribute actualValue) { }
         public static FluentAssertions.Xml.XDocumentAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Xml.Linq.XDocument actualValue) { }
@@ -334,6 +344,10 @@ namespace FluentAssertions
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<decimal>> BeApproximately(this FluentAssertions.Numeric.NumericAssertions<decimal> parent, decimal expectedValue, decimal precision, [System.Diagnostics.CodeAnalysis.StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<double>> BeApproximately(this FluentAssertions.Numeric.NumericAssertions<double> parent, double expectedValue, double precision, [System.Diagnostics.CodeAnalysis.StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<float>> BeApproximately(this FluentAssertions.Numeric.NumericAssertions<float> parent, float expectedValue, float precision, [System.Diagnostics.CodeAnalysis.StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<T>> BeApproximately<T>(this FluentAssertions.Numeric.NullableNumericAssertions<T> parent, T expectedValue, T precision, [System.Diagnostics.CodeAnalysis.StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+            where T :  struct, System.Numerics.IFloatingPoint<T> { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<T>> BeApproximately<T>(this FluentAssertions.Numeric.NullableNumericAssertions<T> parent, T? expectedValue, T precision, [System.Diagnostics.CodeAnalysis.StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+            where T :  struct, System.Numerics.IFloatingPoint<T> { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<T>> BeApproximately<T>(this FluentAssertions.Numeric.NumericAssertions<T> parent, T expectedValue, T precision, [System.Diagnostics.CodeAnalysis.StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
             where T :  struct, System.Numerics.IFloatingPoint<T> { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<byte>> BeCloseTo(this FluentAssertions.Numeric.NumericAssertions<byte> parent, byte nearbyValue, byte delta, [System.Diagnostics.CodeAnalysis.StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs) { }
@@ -357,6 +371,10 @@ namespace FluentAssertions
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<decimal>> NotBeApproximately(this FluentAssertions.Numeric.NumericAssertions<decimal> parent, decimal unexpectedValue, decimal precision, [System.Diagnostics.CodeAnalysis.StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<double>> NotBeApproximately(this FluentAssertions.Numeric.NumericAssertions<double> parent, double unexpectedValue, double precision, [System.Diagnostics.CodeAnalysis.StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<float>> NotBeApproximately(this FluentAssertions.Numeric.NumericAssertions<float> parent, float unexpectedValue, float precision, [System.Diagnostics.CodeAnalysis.StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<T>> NotBeApproximately<T>(this FluentAssertions.Numeric.NullableNumericAssertions<T> parent, T unexpectedValue, T precision, [System.Diagnostics.CodeAnalysis.StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+            where T :  struct, System.Numerics.IFloatingPoint<T> { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<T>> NotBeApproximately<T>(this FluentAssertions.Numeric.NullableNumericAssertions<T> parent, T? unexpectedValue, T precision, [System.Diagnostics.CodeAnalysis.StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+            where T :  struct, System.Numerics.IFloatingPoint<T> { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<T>> NotBeApproximately<T>(this FluentAssertions.Numeric.NumericAssertions<T> parent, T unexpectedValue, T precision, [System.Diagnostics.CodeAnalysis.StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
             where T :  struct, System.Numerics.IFloatingPoint<T> { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<byte>> NotBeCloseTo(this FluentAssertions.Numeric.NumericAssertions<byte> parent, byte distantValue, byte delta, [System.Diagnostics.CodeAnalysis.StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs) { }

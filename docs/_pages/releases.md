@@ -10,7 +10,7 @@ sidebar:
 ## Unreleased
 
 ### What's new
-* Added generic-math support on `net8.0`: `Should()` now works for any `INumber<T>` type that had no dedicated overload (such as `Half`, `NFloat`, `Int128` and `BigInteger`), and `BeApproximately`/`NotBeApproximately` work for any `IFloatingPoint<T>` - [#3391](https://github.com/fluentassertions/fluentassertions/pull/3395)
+* Added generic-math support on .NET 8 or later: `Should()` now returns numeric assertions for other `INumber<T>` types such as `Half` and `NFloat`, and `BeApproximately`/`NotBeApproximately` (including the nullable variants) work for any `IFloatingPoint<T>` - [#3395](https://github.com/fluentassertions/fluentassertions/pull/3395)
 * Added `Should()` assertions for `System.Uri`, such as `BeAbsolute`, `HaveScheme`, `HaveHost`, `HavePath` and `HaveQueryParameter` - [#3390](https://github.com/fluentassertions/fluentassertions/pull/3390)
 * Added a `BeOrderedBy(expression, CollectionSortOrder)` overload for collections so callers can pass a sort expression plus a direction enum (`CollectionSortOrder.Ascending`/`CollectionSortOrder.Descending`) instead of branching on direction - [#3363](https://github.com/fluentassertions/fluentassertions/pull/3363)
 
@@ -18,6 +18,9 @@ sidebar:
 
 ### Fixes
 * `JsonNodeAssertions.BeNumeric`/`NotBeNumeric` no longer throw on manually constructed `JsonNode` - [#3354](https://github.com/fluentassertions/fluentassertions/pull/3354)
+
+### Breaking Changes (for users)
+* On .NET 8 or later, `Half` and `NFloat` now get `NumericAssertions<T>` instead of `ComparableTypeAssertions<T>`, so members such as `BeRankedEquallyTo` and `BeSameAs` are no longer available for them - [#3395](https://github.com/fluentassertions/fluentassertions/pull/3395)
 
 ## 8.11.0
 

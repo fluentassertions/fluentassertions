@@ -74,7 +74,7 @@ To assert that a value matches one of the provided values, you can do this (work
 value.Should().BeOneOf(new[] { 3, 6 });
 ```
 
-On `net8.0`, the same assertions are also available for any other type that implements `System.Numerics.INumber<T>`, such as `Half`, `NFloat` or `BigInteger`. `BeApproximately` and `NotBeApproximately` work for every `IFloatingPoint<T>`.
+On .NET 8 or later, the same assertions are also available for any other type that implements `System.Numerics.INumber<T>`, such as `Half` or `NFloat`. `BeApproximately` and `NotBeApproximately` work for every `IFloatingPoint<T>`.
 
 ```csharp
 Half value = (Half)1.5;
