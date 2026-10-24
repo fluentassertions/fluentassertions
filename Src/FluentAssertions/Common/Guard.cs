@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+#if NET8_0_OR_GREATER
+using System.Numerics;
+#endif
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
@@ -116,6 +119,17 @@ internal static class Guard
             throw new ArgumentOutOfRangeException(paramName, "The value must be non-negative.");
         }
     }
+
+#if NET8_0_OR_GREATER
+    public static void ThrowIfArgumentIsNegative<T>(T value, [CallerArgumentExpression(nameof(value))] string paramName = "")
+        where T : struct, INumber<T>
+    {
+        if (value < T.Zero)
+        {
+            throw new ArgumentOutOfRangeException(paramName, "The value must be non-negative.");
+        }
+    }
+#endif
 
     /// <summary>
     /// Workaround to make dotnet_code_quality.null_check_validation_methods work
