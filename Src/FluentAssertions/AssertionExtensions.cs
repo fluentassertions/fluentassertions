@@ -384,6 +384,16 @@ public static class AssertionExtensions
 #pragma warning restore AV1564
 
     /// <summary>
+    /// Returns a <see cref="UriAssertions"/> object that can be used to assert the
+    /// current <see cref="Uri"/>.
+    /// </summary>
+    [Pure]
+    public static UriAssertions Should([NotNull] this Uri actualValue)
+    {
+        return new UriAssertions(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
     /// Returns a <see cref="GuidAssertions"/> object that can be used to assert the
     /// current <see cref="Guid"/>.
     /// </summary>
