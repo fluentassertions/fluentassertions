@@ -6,6 +6,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+#if NET8_0_OR_GREATER
+using ITimer = FluentAssertions.Common.ITimer;
+#endif
 
 namespace FluentAssertions.Specialized;
 
@@ -354,7 +357,11 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
         }
 
         // The monitored task is completed, we shall cancel the clock.
+#if NET8_0_OR_GREATER
+        await delayCancellationTokenSource.CancelAsync();
+#else
         delayCancellationTokenSource.Cancel();
+#endif
         return true;
     }
 

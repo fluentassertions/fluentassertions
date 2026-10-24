@@ -19,6 +19,9 @@ using FluentAssertions.Streams;
 using FluentAssertions.Types;
 using FluentAssertions.Xml;
 using JetBrains.Annotations;
+#if NET8_0_OR_GREATER
+using System.Numerics;
+#endif
 using NotNullAttribute = System.Diagnostics.CodeAnalysis.NotNullAttribute;
 #if !NETSTANDARD2_0
 using FluentAssertions.Events;
@@ -781,6 +784,155 @@ public static class AssertionExtensions
     {
         return new NullableDoubleAssertions(actualValue, AssertionChain.GetOrCreate());
     }
+
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Returns a <see cref="NumericAssertions{T}"/> object that can be used to assert the
+    /// current <typeparamref name="T"/>, for any type that implements <see cref="INumber{TSelf}"/>.
+    /// </summary>
+    [Pure]
+    public static NumericAssertions<T> Should<T>(this T actualValue)
+        where T : struct, INumber<T>
+    {
+        return new NumericAssertions<T>(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns a <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+    /// current nullable <typeparamref name="T"/>, for any type that implements <see cref="INumber{TSelf}"/>.
+    /// </summary>
+    [Pure]
+    public static NullableNumericAssertions<T> Should<T>([NotNull] this T? actualValue)
+        where T : struct, INumber<T>
+    {
+        return new NullableNumericAssertions<T>(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    // These types implement INumber<T> on .NET 8, but did not get numeric assertions before. The overloads below keep
+    // their existing behavior, which includes members such as BeRankedEquallyTo and BeSameAs.
+
+    /// <summary>
+    /// Returns a <see cref="ComparableTypeAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="char"/>.
+    /// </summary>
+    [Pure]
+    public static ComparableTypeAssertions<char> Should(this char actualValue)
+    {
+        return new ComparableTypeAssertions<char>(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns an <see cref="ObjectAssertions"/> object that can be used to assert the
+    /// current nullable <see cref="char"/>.
+    /// </summary>
+    [Pure]
+    public static ObjectAssertions Should(this char? actualValue)
+    {
+        return new ObjectAssertions(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns a <see cref="ComparableTypeAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="BigInteger"/>.
+    /// </summary>
+    [Pure]
+    public static ComparableTypeAssertions<BigInteger> Should(this BigInteger actualValue)
+    {
+        return new ComparableTypeAssertions<BigInteger>(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns an <see cref="ObjectAssertions"/> object that can be used to assert the
+    /// current nullable <see cref="BigInteger"/>.
+    /// </summary>
+    [Pure]
+    public static ObjectAssertions Should(this BigInteger? actualValue)
+    {
+        return new ObjectAssertions(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns a <see cref="ComparableTypeAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="Int128"/>.
+    /// </summary>
+    [Pure]
+    public static ComparableTypeAssertions<Int128> Should(this Int128 actualValue)
+    {
+        return new ComparableTypeAssertions<Int128>(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns an <see cref="ObjectAssertions"/> object that can be used to assert the
+    /// current nullable <see cref="Int128"/>.
+    /// </summary>
+    [Pure]
+    public static ObjectAssertions Should(this Int128? actualValue)
+    {
+        return new ObjectAssertions(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns a <see cref="ComparableTypeAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="UInt128"/>.
+    /// </summary>
+    [Pure]
+    public static ComparableTypeAssertions<UInt128> Should(this UInt128 actualValue)
+    {
+        return new ComparableTypeAssertions<UInt128>(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns an <see cref="ObjectAssertions"/> object that can be used to assert the
+    /// current nullable <see cref="UInt128"/>.
+    /// </summary>
+    [Pure]
+    public static ObjectAssertions Should(this UInt128? actualValue)
+    {
+        return new ObjectAssertions(actualValue, AssertionChain.GetOrCreate());
+    }
+
+#pragma warning disable SA1121 // StyleCop does not know about nint and nuint yet
+    /// <summary>
+    /// Returns a <see cref="ComparableTypeAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="IntPtr"/>.
+    /// </summary>
+    [Pure]
+    public static ComparableTypeAssertions<nint> Should(this nint actualValue)
+    {
+        return new ComparableTypeAssertions<nint>(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns an <see cref="ObjectAssertions"/> object that can be used to assert the
+    /// current nullable <see cref="IntPtr"/>.
+    /// </summary>
+    [Pure]
+    public static ObjectAssertions Should(this nint? actualValue)
+    {
+        return new ObjectAssertions(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns a <see cref="ComparableTypeAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="UIntPtr"/>.
+    /// </summary>
+    [Pure]
+    public static ComparableTypeAssertions<nuint> Should(this nuint actualValue)
+    {
+        return new ComparableTypeAssertions<nuint>(actualValue, AssertionChain.GetOrCreate());
+    }
+
+    /// <summary>
+    /// Returns an <see cref="ObjectAssertions"/> object that can be used to assert the
+    /// current nullable <see cref="UIntPtr"/>.
+    /// </summary>
+    [Pure]
+    public static ObjectAssertions Should(this nuint? actualValue)
+    {
+        return new ObjectAssertions(actualValue, AssertionChain.GetOrCreate());
+    }
+#pragma warning restore SA1121
+#endif
 
     /// <summary>
     /// Returns a <see cref="StringAssertions"/> object that can be used to assert the

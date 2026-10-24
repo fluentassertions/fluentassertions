@@ -93,7 +93,7 @@ With configuration:
 
 ## Supported Frameworks and Libraries
 
-Fluent Assertions cross-compiles to .NET Framework 4.7, as well as .NET 6, .NET Standard 2.0 and 2.1.
+Fluent Assertions cross-compiles to .NET Framework 4.7, as well as .NET 6, .NET 8, .NET Standard 2.0 and 2.1.
 
 Because of that Fluent Assertions supports the following minimum platforms.
 
