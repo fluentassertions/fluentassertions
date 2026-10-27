@@ -1946,6 +1946,7 @@ public static class NumericAssertionsExtensions
 
         if (assertion.Succeeded)
         {
+            // ReSharper disable once PossibleInvalidOperationException
             parent.BeApproximately(expectedValue.Value, precision, because, becauseArgs);
         }
 
@@ -2029,6 +2030,7 @@ public static class NumericAssertionsExtensions
 
         if (assertion.Succeeded)
         {
+            // ReSharper disable once PossibleInvalidOperationException
             parent.NotBeApproximately(unexpectedValue.Value, precision, because, becauseArgs);
         }
 

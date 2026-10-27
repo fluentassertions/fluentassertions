@@ -802,7 +802,7 @@ public static class AssertionExtensions
     /// current nullable <typeparamref name="T"/>, for any type that implements <see cref="INumber{TSelf}"/>.
     /// </summary>
     [Pure]
-    public static NullableNumericAssertions<T> Should<T>([NotNull] this T? actualValue)
+    public static NullableNumericAssertions<T> Should<T>(this T? actualValue)
         where T : struct, INumber<T>
     {
         return new NullableNumericAssertions<T>(actualValue, AssertionChain.GetOrCreate());

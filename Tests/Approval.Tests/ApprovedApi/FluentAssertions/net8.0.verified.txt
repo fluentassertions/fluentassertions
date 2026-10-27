@@ -192,7 +192,7 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.TaskCompletionSourceAssertions<T> Should<T>(this System.Threading.Tasks.TaskCompletionSource<T> tcs) { }
         public static FluentAssertions.Numeric.NumericAssertions<T> Should<T>(this T actualValue)
             where T :  struct, System.Numerics.INumber<T> { }
-        public static FluentAssertions.Numeric.NullableNumericAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this T? actualValue)
+        public static FluentAssertions.Numeric.NullableNumericAssertions<T> Should<T>(this T? actualValue)
             where T :  struct, System.Numerics.INumber<T> { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
