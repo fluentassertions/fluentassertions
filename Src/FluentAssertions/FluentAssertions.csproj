@@ -64,6 +64,10 @@
     <PackageReference Include="PolySharp" Version="1.16.0" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <Using Include="FluentAssertions.Common.ITimer" Alias="ITimer" />
+  </ItemGroup>
+
   <!-- Target framework dependent configuration -->
   <Choose>
     <When Condition="'$(TargetFramework)' == 'netstandard2.0'">

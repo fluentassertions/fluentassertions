@@ -741,11 +741,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
 
         if (assertionChain.Succeeded)
         {
-#if NET8_0_OR_GREATER
             int actual = regularExpression.Count(Subject!);
-#else
-            int actual = regularExpression.Matches(Subject!).Count;
-#endif
 
             assertionChain
                 .ForConstraint(occurrenceConstraint, actual)

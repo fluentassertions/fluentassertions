@@ -5,9 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
-#if NET8_0_OR_GREATER
-using ITimer = FluentAssertions.Common.ITimer;
-#endif
 
 namespace FluentAssertions.Specialized;
 
