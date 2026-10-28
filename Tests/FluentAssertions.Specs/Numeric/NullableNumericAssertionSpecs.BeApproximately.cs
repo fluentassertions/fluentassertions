@@ -1,3 +1,4 @@
+// ReSharper disable ExpressionIsAlwaysNull
 using System;
 using FluentAssertions.Execution;
 using Xunit;
