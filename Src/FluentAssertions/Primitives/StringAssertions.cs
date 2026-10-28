@@ -741,7 +741,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
 
         if (assertionChain.Succeeded)
         {
-            int actual = regularExpression.Matches(Subject!).Count;
+            int actual = regularExpression.Count(Subject!);
 
             assertionChain
                 .ForConstraint(occurrenceConstraint, actual)

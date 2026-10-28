@@ -1,3 +1,4 @@
+// ReSharper disable ExpressionIsAlwaysNull
 using System;
 using Xunit;
 using Xunit.Sdk;
@@ -434,6 +435,117 @@ public partial class NumericAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>();
         }
+
+#if NET8_0_OR_GREATER
+        [Fact]
+        public void Succeeds_for_a_half_within_the_precision()
+        {
+            // Arrange
+            var subject = (Half)1.5;
+
+            // Act / Assert
+            subject.Should().BeApproximately((Half)1.55, (Half)0.1);
+        }
+
+        [Fact]
+        public void The_half_must_be_within_the_precision()
+        {
+            // Arrange
+            var subject = (Half)1.5;
+
+            // Act
+            Action act = () => subject.Should().BeApproximately((Half)2, (Half)0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected subject to approximate 2 +/- *, but * differed by *");
+        }
+
+        [Fact]
+        public void Succeeds_for_positive_infinity_when_the_expected_value_is_positive_infinity()
+        {
+            // Arrange
+            var subject = Half.PositiveInfinity;
+
+            // Act / Assert
+            subject.Should().BeApproximately(Half.PositiveInfinity, (Half)0.1);
+        }
+
+        [Fact]
+        public void Succeeds_for_negative_infinity_when_the_expected_value_is_negative_infinity()
+        {
+            // Arrange
+            var subject = Half.NegativeInfinity;
+
+            // Act / Assert
+            subject.Should().BeApproximately(Half.NegativeInfinity, (Half)0.1);
+        }
+
+        [Fact]
+        public void A_finite_half_does_not_approximate_positive_infinity()
+        {
+            // Arrange
+            var subject = (Half)1;
+
+            // Act
+            Action act = () => subject.Should().BeApproximately(Half.PositiveInfinity, (Half)0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*differed by NaN*");
+        }
+
+        [Fact]
+        public void A_finite_half_does_not_approximate_negative_infinity()
+        {
+            // Arrange
+            var subject = (Half)1;
+
+            // Act
+            Action act = () => subject.Should().BeApproximately(Half.NegativeInfinity, (Half)0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*differed by NaN*");
+        }
+
+        [Fact]
+        public void Positive_infinity_does_not_approximate_a_finite_half()
+        {
+            // Arrange
+            var subject = Half.PositiveInfinity;
+
+            // Act
+            Action act = () => subject.Should().BeApproximately((Half)1, (Half)0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void A_half_cannot_approximate_NaN()
+        {
+            // Arrange
+            var subject = (Half)1;
+
+            // Act
+            Action act = () => subject.Should().BeApproximately(Half.NaN, (Half)0.1);
+
+            // Assert
+            act.Should().Throw<ArgumentException>().WithParameterName("expectedValue");
+        }
+
+        [Fact]
+        public void A_negative_precision_is_not_allowed_for_a_half()
+        {
+            // Arrange
+            var subject = (Half)1;
+
+            // Act
+            Action act = () => subject.Should().BeApproximately((Half)1, (Half)(-0.1));
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>().WithParameterName("precision");
+        }
+#endif
     }
 
     public class NotBeApproximately
@@ -894,5 +1006,103 @@ public partial class NumericAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>();
         }
+
+#if NET8_0_OR_GREATER
+        [Fact]
+        public void Succeeds_for_a_half_outside_the_precision()
+        {
+            // Arrange
+            var subject = (Half)1.5;
+
+            // Act / Assert
+            subject.Should().NotBeApproximately((Half)2, (Half)0.1);
+        }
+
+        [Fact]
+        public void The_half_must_not_be_within_the_precision()
+        {
+            // Arrange
+            var subject = (Half)1.5;
+
+            // Act
+            Action act = () => subject.Should().NotBeApproximately((Half)1.5, (Half)0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected subject to not approximate * +/- *, but * only differed by *");
+        }
+
+        [Fact]
+        public void Succeeds_for_a_finite_half_when_the_unexpected_value_is_positive_infinity()
+        {
+            // Arrange
+            var subject = (Half)1;
+
+            // Act / Assert
+            subject.Should().NotBeApproximately(Half.PositiveInfinity, (Half)0.1);
+        }
+
+        [Fact]
+        public void Succeeds_for_a_finite_half_when_the_unexpected_value_is_negative_infinity()
+        {
+            // Arrange
+            var subject = (Half)1;
+
+            // Act / Assert
+            subject.Should().NotBeApproximately(Half.NegativeInfinity, (Half)0.1);
+        }
+
+        [Fact]
+        public void Positive_infinity_is_not_allowed_when_the_unexpected_value_is_positive_infinity()
+        {
+            // Arrange
+            var subject = Half.PositiveInfinity;
+
+            // Act
+            Action act = () => subject.Should().NotBeApproximately(Half.PositiveInfinity, (Half)0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*only differed by NaN*");
+        }
+
+        [Fact]
+        public void Negative_infinity_is_not_allowed_when_the_unexpected_value_is_negative_infinity()
+        {
+            // Arrange
+            var subject = Half.NegativeInfinity;
+
+            // Act
+            Action act = () => subject.Should().NotBeApproximately(Half.NegativeInfinity, (Half)0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*only differed by NaN*");
+        }
+
+        [Fact]
+        public void A_half_cannot_be_compared_to_an_unexpected_NaN()
+        {
+            // Arrange
+            var subject = (Half)1;
+
+            // Act
+            Action act = () => subject.Should().NotBeApproximately(Half.NaN, (Half)0.1);
+
+            // Assert
+            act.Should().Throw<ArgumentException>().WithParameterName("unexpectedValue");
+        }
+
+        [Fact]
+        public void A_negative_precision_is_not_allowed_for_an_unexpected_half()
+        {
+            // Arrange
+            var subject = (Half)1;
+
+            // Act
+            Action act = () => subject.Should().NotBeApproximately((Half)1, (Half)(-0.1));
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>().WithParameterName("precision");
+        }
+#endif
     }
 }

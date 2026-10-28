@@ -44,7 +44,11 @@ public class TaskCompletionSourceAssertionsBase
         }
 
         // cancel the clock
+#if NET8_0_OR_GREATER
+        await timeoutCancellationTokenSource.CancelAsync();
+#else
         timeoutCancellationTokenSource.Cancel();
+#endif
         return true;
     }
 }

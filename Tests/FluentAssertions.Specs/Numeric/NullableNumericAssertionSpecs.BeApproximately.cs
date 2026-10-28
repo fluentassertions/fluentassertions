@@ -1,3 +1,4 @@
+// ReSharper disable ExpressionIsAlwaysNull
 using System;
 using FluentAssertions.Execution;
 using Xunit;
@@ -486,6 +487,84 @@ public partial class NullableNumericAssertionSpecs
                 .Should().Throw<XunitException>()
                 .WithMessage("Expected value to approximate*1.0* +/-*0.1*, but 3.14* differed by*");
         }
+
+#if NET8_0_OR_GREATER
+        [Fact]
+        public void Succeeds_for_a_nullable_half_within_the_precision()
+        {
+            // Arrange
+            Half? subject = (Half)1.5;
+
+            // Act / Assert
+            subject.Should().BeApproximately((Half)1.55, (Half)0.1);
+        }
+
+        [Fact]
+        public void The_nullable_half_must_be_within_the_precision()
+        {
+            // Arrange
+            Half? subject = (Half)1.5;
+
+            // Act
+            Action act = () => subject.Should().BeApproximately((Half)2, (Half)0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected subject to approximate 2 +/- *, but * differed by *");
+        }
+
+        [Fact]
+        public void A_null_half_does_not_approximate_a_value()
+        {
+            // Arrange
+            Half? subject = null;
+
+            // Act
+            Action act = () => subject.Should().BeApproximately((Half)1, (Half)0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected subject to approximate 1 +/- *, but it was <null>.");
+        }
+
+        [Fact]
+        public void Succeeds_when_both_the_subject_and_the_expected_half_are_null()
+        {
+            // Arrange
+            Half? subject = null;
+            Half? expected = null;
+
+            // Act / Assert
+            subject.Should().BeApproximately(expected, (Half)0.1);
+        }
+
+        [Fact]
+        public void A_half_does_not_approximate_a_null_expected_value()
+        {
+            // Arrange
+            Half? subject = (Half)1;
+            Half? expected = null;
+
+            // Act
+            Action act = () => subject.Should().BeApproximately(expected, (Half)0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*but it was 1*");
+        }
+
+        [Fact]
+        public void A_negative_precision_is_not_allowed_for_a_nullable_half()
+        {
+            // Arrange
+            Half? subject = (Half)1;
+
+            // Act
+            Action act = () => subject.Should().BeApproximately((Half)1, (Half)(-0.1));
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>().WithParameterName("precision");
+        }
+#endif
     }
 
     public class NotBeApproximately
@@ -953,5 +1032,80 @@ public partial class NullableNumericAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>();
         }
+
+#if NET8_0_OR_GREATER
+        [Fact]
+        public void Succeeds_for_a_nullable_half_outside_the_precision()
+        {
+            // Arrange
+            Half? subject = (Half)1.5;
+
+            // Act / Assert
+            subject.Should().NotBeApproximately((Half)2, (Half)0.1);
+        }
+
+        [Fact]
+        public void The_nullable_half_must_not_be_within_the_precision()
+        {
+            // Arrange
+            Half? subject = (Half)1.5;
+
+            // Act
+            Action act = () => subject.Should().NotBeApproximately((Half)1.5, (Half)0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected subject to not approximate * +/- *, but * only differed by *");
+        }
+
+        [Fact]
+        public void Succeeds_for_a_null_half_when_the_unexpected_value_is_not_null()
+        {
+            // Arrange
+            Half? subject = null;
+            Half? unexpected = (Half)1;
+
+            // Act / Assert
+            subject.Should().NotBeApproximately(unexpected, (Half)0.1);
+        }
+
+        [Fact]
+        public void Succeeds_for_a_half_when_the_unexpected_value_is_null()
+        {
+            // Arrange
+            Half? subject = (Half)1;
+            Half? unexpected = null;
+
+            // Act / Assert
+            subject.Should().NotBeApproximately(unexpected, (Half)0.1);
+        }
+
+        [Fact]
+        public void A_null_half_is_not_allowed_when_the_unexpected_value_is_null()
+        {
+            // Arrange
+            Half? subject = null;
+            Half? unexpected = null;
+
+            // Act
+            Action act = () => subject.Should().NotBeApproximately(unexpected, (Half)0.1);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*but it was <null>*");
+        }
+
+        [Fact]
+        public void A_negative_precision_is_not_allowed_for_an_unexpected_nullable_half()
+        {
+            // Arrange
+            Half? subject = (Half)1;
+
+            // Act
+            Action act = () => subject.Should().NotBeApproximately((Half)1, (Half)(-0.1));
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>().WithParameterName("precision");
+        }
+#endif
     }
 }

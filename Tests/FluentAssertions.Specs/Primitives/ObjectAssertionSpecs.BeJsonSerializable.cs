@@ -33,7 +33,7 @@ public partial class ObjectAssertionSpecs
             // Arrange
             ClassWithIntPtr subject = new()
             {
-                Pointer = new IntPtr(123)
+                Pointer = 123
             };
 
             // Act
@@ -199,7 +199,7 @@ public partial class ObjectAssertionSpecs
     public class ClassWithIntPtr
     {
         [UsedImplicitly]
-        public IntPtr Pointer { get; set; }
+        public nint Pointer { get; set; }
     }
 
     public class JsonSerializableWithCustomConverter
