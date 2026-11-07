@@ -13,6 +13,7 @@ sidebar:
 * Added generic-math support on .NET 8 or later: `Should()` now returns numeric assertions for other `INumber<T>` types such as `Half` and `NFloat`, and `BeApproximately`/`NotBeApproximately` (including the nullable variants) work for any `IFloatingPoint<T>` - [#3395](https://github.com/fluentassertions/fluentassertions/pull/3395)
 * Added `Should()` assertions for `System.Uri`, such as `BeAbsolute`, `HaveScheme`, `HaveHost`, `HavePath` and `HaveQueryParameter` - [#3390](https://github.com/fluentassertions/fluentassertions/pull/3390)
 * Added a `BeOrderedBy(expression, CollectionSortOrder)` overload for collections so callers can pass a sort expression plus a direction enum (`CollectionSortOrder.Ascending`/`CollectionSortOrder.Descending`) instead of branching on direction - [#3363](https://github.com/fluentassertions/fluentassertions/pull/3363)
+* The NuGet package now includes an AI agent skill that is copied to `.agents/skills/fluentassertions` in your repository during build. Set `FluentAssertionsSkill` to `false` to opt out - [#3402](https://github.com/fluentassertions/fluentassertions/pull/3402)
 
 ### Enhancements
 
