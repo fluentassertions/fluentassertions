@@ -24,6 +24,8 @@ jobs:
       attestations: write
       contents: read
       security-events: write
+      actions: write
+      pull-requests: write
 
     env:
       DOTNET_NOLOGO: true
@@ -60,12 +62,9 @@ jobs:
       with:
         files: "TestResults/reports/lcov.info"
 
-    - name: coveralls
-      uses: coverallsapp/github-action@v2
+    - name: Report code coverage
+      uses: k1LoW/octocov-action@v1
       if: steps.check_files.outputs.files_exists == 'true'
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        file: TestResults/reports/lcov.info
 
     - name: Check for NuGet package existence
       id: check_nupkg
