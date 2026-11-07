@@ -1,0 +1,47 @@
+<Project>
+
+  <!--
+    Copies SKILL.md and .gitignore from this package to .agents/skills/fluentassertions/ in the consuming repo root.
+    Uses InitializeSourceControlInformation (SourceLink) to locate the repo root.
+    Falls back to SolutionDir if the git root cannot be determined.
+    Falls back to the directory containing the nearest AGENTS.md file found above the project file.
+    Silently skips if the base directory cannot be determined.
+    Opt-out: set <FluentAssertionsSkill>false</FluentAssertionsSkill> in your project or Directory.Build.props.
+  -->
+  <Target Name="CopyFluentAssertionsSkill"
+          BeforeTargets="PrepareForBuild"
+          DependsOnTargets="InitializeSourceControlInformation"
+          Condition="'$(FluentAssertionsSkill)' != 'false'">
+
+    <ItemGroup>
+      <_FluentAssertionsSkillSourceRoot Include="@(SourceRoot -> WithMetadataValue('SourceControl', 'git'))" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <_FluentAssertionsSkillRepoRoot>@(_FluentAssertionsSkillSourceRoot)</_FluentAssertionsSkillRepoRoot>
+      <_FluentAssertionsSkillRepoRoot Condition="'$(_FluentAssertionsSkillRepoRoot)' == '' and '$(SolutionDir)' != '' and '$(SolutionDir)' != '*Undefined*'">$(SolutionDir)</_FluentAssertionsSkillRepoRoot>
+      <_FluentAssertionsSkillAgentsMd Condition="'$(_FluentAssertionsSkillRepoRoot)' == ''">$([MSBuild]::GetPathOfFileAbove('AGENTS.md', '$(MSBuildProjectDirectory)'))</_FluentAssertionsSkillAgentsMd>
+      <_FluentAssertionsSkillRepoRoot Condition="'$(_FluentAssertionsSkillRepoRoot)' == '' and '$(_FluentAssertionsSkillAgentsMd)' != ''">$([System.IO.Path]::GetDirectoryName('$(_FluentAssertionsSkillAgentsMd)'))\</_FluentAssertionsSkillRepoRoot>
+      <_FluentAssertionsSkillSource>$(MSBuildThisFileDirectory)..\skills\fluentassertions\</_FluentAssertionsSkillSource>
+      <_FluentAssertionsSkillTarget>$(_FluentAssertionsSkillRepoRoot).agents\skills\fluentassertions\</_FluentAssertionsSkillTarget>
+    </PropertyGroup>
+
+    <MakeDir Directories="$(_FluentAssertionsSkillTarget)"
+             Condition="'$(_FluentAssertionsSkillRepoRoot)' != '' and Exists('$(_FluentAssertionsSkillSource)SKILL.md')"
+             ContinueOnError="true" />
+
+    <Copy SourceFiles="$(_FluentAssertionsSkillSource)SKILL.md"
+          DestinationFiles="$(_FluentAssertionsSkillTarget)SKILL.md"
+          SkipUnchangedFiles="true"
+          Condition="'$(_FluentAssertionsSkillRepoRoot)' != '' and Exists('$(_FluentAssertionsSkillSource)SKILL.md')"
+          ContinueOnError="true" />
+
+    <Copy SourceFiles="$(_FluentAssertionsSkillSource).gitignore"
+          DestinationFiles="$(_FluentAssertionsSkillTarget).gitignore"
+          SkipUnchangedFiles="true"
+          Condition="'$(_FluentAssertionsSkillRepoRoot)' != '' and Exists('$(_FluentAssertionsSkillSource).gitignore')"
+          ContinueOnError="true" />
+
+  </Target>
+
+</Project>

@@ -44,6 +44,9 @@
   <ItemGroup Label="Package files">
     <None Include="..\FluentAssertions.png" Pack="true" Visible="false" PackagePath="" />
     <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+    <None Include="..\..\SKILL.md" Pack="true" Visible="false" PackagePath="skills/fluentassertions/SKILL.md" CopyToOutputDirectory="Never" />
+    <None Include="skill.gitignore" Pack="true" Visible="false" PackagePath="skills/fluentassertions/.gitignore" CopyToOutputDirectory="Never" />
+    <None Include="FluentAssertions.targets" Pack="true" Visible="false" PackagePath="buildTransitive/FluentAssertions.targets" CopyToOutputDirectory="Never" />
   </ItemGroup>
 
   <ItemGroup>
