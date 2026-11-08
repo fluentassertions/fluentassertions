@@ -253,6 +253,7 @@ using (var innerScope = new AssertionScope())
 The NuGet package includes an [agent skill](https://agentskills.io) that teaches AI coding agents (such as Claude Code, GitHub Copilot or Codex) how to write good assertions with Fluent Assertions.
 When you build a project that references Fluent Assertions, the skill is copied to `.agents/skills/fluentassertions/SKILL.md` in the root of your repository.
 That folder also gets a `.gitignore` file, so the generated `SKILL.md` stays out of source control and updates of Fluent Assertions don't change your repository.
+If projects in your repository reference different versions of Fluent Assertions, the skill of the newest version is used.
 
 To turn this off, add the following property to your project file or `Directory.Build.props`:
 
