@@ -64,5 +64,5 @@
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
 
-# Verify settings
+# Approval.Tests settings
 *.verified.txt text eol=lf working-tree-encoding=UTF-8

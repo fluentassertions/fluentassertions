@@ -77,9 +77,9 @@ Or, if you have, the [Fallout tool installed](https://fallout.build/docs/getting
 Also try using `--help` to see all the available options or `--plan` to see what the scripts does.
 
 ## What are these Approval.Tests?
-This is a special set of tests that use the [Verify](https://github.com/VerifyTests/Verify) project to verify whether you've introduced any breaking changes in the public API of the library.
+This is a special set of tests that use the [PublicApiGenerator](https://github.com/PublicApiGenerator/PublicApiGenerator) and [DiffPlex](https://github.com/mmanela/diffplex) projects to verify whether you've introduced any breaking changes in the public API of the library.
 
-If you've verified the changes and decided they are valid, you can accept them  using `AcceptApiChanges.ps1` or `AcceptApiChanges.sh`. Alternatively, you can use the [Verify Support](https://plugins.jetbrains.com/plugin/17240-verify-support) plug-in to compare the changes and accept them right from inside Rider. See also the [Contribution Guidelines](CONTRIBUTING.md).
+If you've verified the changes and decided they are valid, you can accept them  using `AcceptApiChanges.ps1` or `AcceptApiChanges.sh`. See also the [Contribution Guidelines](CONTRIBUTING.md).
 
 # Contributing
 Your contributions are always welcome! Please have a look at the [contribution guidelines](CONTRIBUTING.md) first.
@@ -99,7 +99,6 @@ This library wouldn't have been possible without the following tools, packages a
 * [Roslynator](https://github.com/dotnet/roslynator) - A set of code analysis tools for C# by [Josef Pihrt](https://github.com/josefpihrt)
 * [CSharpCodingGuidelines](https://github.com/bkoelman/CSharpGuidelinesAnalyzer) - Roslyn analyzers by [Bart Koelman](https://github.com/bkoelman) to go with the [C# Coding Guidelines](https://csharpcodingguidelines.com/)
 * [Meziantou](https://github.com/meziantou/Meziantou.Framework) - Another set of awesome Roslyn analyzers by [Gérald Barré](https://github.com/meziantou)
-* [Verify](https://github.com/VerifyTests/Verify) - Snapshot testing by [Simon Cropp](https://github.com/SimonCropp)
 
 # Powered By
 <a href="https://www.xceed.com"><img src="docs/assets/images/xceed_logo_whiteB.png" style="width:192px"/></a>
