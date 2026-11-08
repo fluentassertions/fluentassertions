@@ -30,7 +30,10 @@ Version 8 targets .NET Standard 2.0/2.1, .NET Framework 4.7+ and .NET 6+, and wo
 5. **Chain with `.And`, drill down with `.Which`.** `ContainSingle()`, `ContainKey()`, `BeOfType<T>()`, `Throw<T>()`,
    `HaveElement()` and many others return the matched value through `.Which` (or `.Subject` / `.And` for exceptions).
 6. **Use `AssertionScope` to report all failures at once** instead of stopping at the first one.
-7. **Never compare `float`/`double` with `Be`**: use `BeApproximately(expected, precision)` or `BeInRange`.
+   Inside a scope a failing assertion does not stop the test, so only use it for assertions that can all run
+   independently (see [Assertion scopes](#assertion-scopes)).
+7. **Prefer `BeApproximately(expected, precision)` or `BeInRange` for computed `float`/`double` values.**
+   Rounding errors can make an exact comparison fail. An exact comparison is fine for values that are not the result of a calculation.
 8. **Use FA's date/time helpers** (`1.March(2024).At(14, 30)`, `5.Seconds()`) for readable values.
 
 ## Rewrite table: from weak to expressive
@@ -343,6 +346,21 @@ using (new AssertionScope())
 
 using var scope = new AssertionScope("order");   // prefixes subject names: "Expected order/..."
 string[] failures = scope.Discard();             // collect failures without throwing
+```
+
+Inside a scope, a failing assertion does not throw, so the code after it still runs.
+Only put assertions in a scope when each one can run even if an earlier one failed.
+Code that depends on an earlier assertion passing can throw an unrelated exception, which hides the real failure:
+
+```csharp
+using (new AssertionScope())
+{
+    list.Should().NotBeEmpty();
+    list[0].Should().Be(0);   // throws ArgumentOutOfRangeException when the list is empty
+}
+
+// Better: one assertion that does not depend on another
+list.Should().HaveElementAt(0, 0);
 ```
 
 ## Global configuration
