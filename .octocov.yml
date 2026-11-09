@@ -1,0 +1,17 @@
+# Configuration for octocov (https://github.com/k1LoW/octocov), which reports code coverage without an external service.
+# The coverage report of the default branch is stored as a GitHub Actions artifact, so that pull requests can show the difference.
+coverage:
+  paths:
+    - TestResults/reports/lcov.info
+comment:
+  if: is_pull_request
+  deletePrevious: true
+summary:
+  if: true
+report:
+  if: is_default_branch
+  datastores:
+    - artifact://${GITHUB_REPOSITORY}
+diff:
+  datastores:
+    - artifact://${GITHUB_REPOSITORY}
