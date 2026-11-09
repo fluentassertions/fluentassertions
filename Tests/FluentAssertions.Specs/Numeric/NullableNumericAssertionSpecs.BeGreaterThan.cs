@@ -122,7 +122,7 @@ public partial class NullableNumericAssertionSpecs
         public void To_test_the_null_path_for_difference_on_nullable_decimal()
         {
             // Arrange
-            var value = (decimal?)11.0;
+            var value = (decimal?)11M;
 
             // Act
             Action act = () => value.Should().BeGreaterThan(11M);
