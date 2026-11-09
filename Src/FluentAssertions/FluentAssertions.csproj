@@ -64,7 +64,7 @@
   <ItemGroup Label="Analyzers">
     <AdditionalFiles Include="BannedSymbols.txt" />
     <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" PrivateAssets="all" />
-    <PackageReference Include="PolySharp" Version="1.16.0" PrivateAssets="all" />
+    <PackageReference Include="PolySharp" Version="1.17.0" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
