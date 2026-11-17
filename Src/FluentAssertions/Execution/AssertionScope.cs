@@ -124,10 +124,7 @@ public sealed class AssertionScope : IDisposable
     public static AssertionScope Current
     {
 #pragma warning disable CA2000 // AssertionScope should not be disposed here
-        get
-        {
-            return CurrentScope.Value ?? new AssertionScope(() => null, new DefaultAssertionStrategy());
-        }
+        get => CurrentScope.Value ?? new AssertionScope(() => null, new DefaultAssertionStrategy());
 #pragma warning restore CA2000
         private set => CurrentScope.Value = value;
     }

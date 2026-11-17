@@ -49,7 +49,7 @@ public record Pathway
     /// </summary>
     public string Name
     {
-        get => field;
+        get;
         private init
         {
             field = value;

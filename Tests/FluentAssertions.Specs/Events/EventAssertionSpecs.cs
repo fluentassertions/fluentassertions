@@ -1181,7 +1181,10 @@ public class EventAssertionSpecs
                 throw new InvalidOperationException("Add is failing");
             }
 
-            remove => OkEvent -= value;
+            remove
+            {
+                OkEvent -= value;
+            }
         }
 
         public event EventHandler OkEvent;
