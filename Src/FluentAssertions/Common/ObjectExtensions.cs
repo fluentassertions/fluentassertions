@@ -28,7 +28,7 @@ internal static class ObjectExtensions
         return (actual, expected) => actual is null
             ? expected is null
             : expected is not null
-            && (EqualityComparer<T>.Default.Equals(actual, expected) || CompareNumerics(actual, expected));
+                && (EqualityComparer<T>.Default.Equals(actual, expected) || CompareNumerics(actual, expected));
     }
 
     private static bool CompareNumerics(object actual, object expected)

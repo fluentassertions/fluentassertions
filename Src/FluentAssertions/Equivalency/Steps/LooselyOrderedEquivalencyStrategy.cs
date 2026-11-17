@@ -146,9 +146,9 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
         // factorial(8) = 40,320 which is well within reason.
         const int maxSizeForExactSearch = 8;
 
-        return remainingSubjects.Count <= maxSizeForExactSearch ?
-            FindClosestMismatchesByPermutation(remainingSubjects, expectationsWithIndexes) :
-            FindClosestMismatchesByGreedyAssignment(remainingSubjects, expectationsWithIndexes);
+        return remainingSubjects.Count <= maxSizeForExactSearch
+            ? FindClosestMismatchesByPermutation(remainingSubjects, expectationsWithIndexes)
+            : FindClosestMismatchesByGreedyAssignment(remainingSubjects, expectationsWithIndexes);
     }
 
     /// <summary>
