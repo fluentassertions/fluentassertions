@@ -230,7 +230,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
 
         return new ExceptionAssertions<TException>(expectedExceptions, assertionChain);
     }
-    
+
     [StackTraceHidden]
     private async Task<Exception> InvokeWithInterceptionAsync(TimeSpan timeout)
     {
