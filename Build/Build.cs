@@ -231,7 +231,7 @@ class Build : FalloutBuild
         {
             ReportGenerator(s => s
                 .SetProcessToolPath(NuGetToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.dll",
-                    framework: "net10.0"))
+                    framework: "net11.0"))
                 .SetTargetDirectory(TestResultsDirectory / "reports")
                 .AddReports(TestResultsDirectory / "**/coverage.cobertura.xml")
                 .AddReportTypes(

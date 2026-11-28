@@ -33,7 +33,7 @@ public class XElementValueFormatter : IValueFormatter
     {
         return element.ToString().EscapePlaceholders();
     }
-    
+
     [StackTraceHidden]
     private static string FormatElementWithChildren(XElement element)
     {

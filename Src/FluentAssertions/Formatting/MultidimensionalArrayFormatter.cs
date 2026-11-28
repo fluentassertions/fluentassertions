@@ -97,7 +97,7 @@ public class MultidimensionalArrayFormatter : IValueFormatter
     {
         return index == arr.GetLowerBound(dimension);
     }
-    
+
     [StackTraceHidden]
     private static bool IsInnerMostLoop(Array arr, int index)
     {

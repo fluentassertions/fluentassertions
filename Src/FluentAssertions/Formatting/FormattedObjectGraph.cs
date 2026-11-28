@@ -170,7 +170,7 @@ public class FormattedObjectGraph
 
     [StackTraceHidden]
     internal static string MakeWhitespace(int indent) => new(' ', indent * SpacesPerIndentation);
-    
+
     [StackTraceHidden]
     internal bool HasLinesBeyond(Line line) => lines.HasLinesBeyond(line);
 
