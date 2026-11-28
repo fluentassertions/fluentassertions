@@ -188,7 +188,7 @@ internal class LooselyOrderedEquivalencyStrategy<TExpectation>(
 
         if (bestAssignment is null)
         {
-            return Array.Empty<(IndexedItem<TExpectation>, IndexedItem<object>, string[])>();
+            return [];
         }
 
         // Fetch full failure strings only for the winning assignment.
